@@ -11,7 +11,17 @@ and SEO is possible.
 Getting started
 ===============
 
-Read list:
- - [alt.js](http://alt.js.org/)
+```bash
+git clone git@bitbucket.org:ascribe/onion.git
+cd onion
+npm install
+npm run build
+```
+
+
+
+Reading list
+============
+- [alt.js](http://alt.js.org/)
 
 
