@@ -8,11 +8,17 @@
         "react": "^0.12.2"
     },
     "devDependencies": {
-        "browserify": "^8.0.3",
-        "reactify": "^0.17.1"
+        "browserify": "^6.2.0",
+        "envify": "^3.0.0",
+        "jest-cli": "^0.4.3",
+        "reactify": "^0.15.2",
+        "uglify-js": "~2.4.15",
+        "watchify": "^2.1.1"
     },
     "scripts": {
-        "build": "browserify -t [reactify --es6] src/app.jsx > build/app.js"
+        "start": "watchify -o js/bundle.js -v -d js/app.jsx",
+        "build": "browserify -t [reactify --es6] src/app.jsx > build/app.js",
+        "test": "jest"
     },
     "author": "Alberto Granzotto <alberto@ascribe.io>"
 }

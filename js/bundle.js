@@ -1,0 +1,1 @@
+console.error("\n/home/alberto/ascribe/repos/onion/js/app.jsx:3\nimport React from 'react';\n^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");
