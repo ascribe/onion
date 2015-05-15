@@ -1,24 +1,42 @@
 {
-    "name": "onion",
-    "version": "0.0.0",
-    "description": "Web client for ascribe",
-    "main": "server.js",
-    "dependencies": {
-        "alt": "^0.16.0",
-        "react": "^0.12.2"
-    },
-    "devDependencies": {
-        "browserify": "^6.2.0",
-        "envify": "^3.0.0",
-        "jest-cli": "^0.4.3",
-        "reactify": "^0.15.2",
-        "uglify-js": "~2.4.15",
-        "watchify": "^2.1.1"
-    },
-    "scripts": {
-        "start": "watchify -o js/bundle.js -v -d js/app.jsx",
-        "build": "browserify -t [reactify --es6] src/app.jsx > build/app.js",
-        "test": "jest"
-    },
-    "author": "Alberto Granzotto <alberto@ascribe.io>"
+  "name": "Onion",
+  "version": "0.0.1",
+  "description": "Das neue web client for Ascribe",
+  "main": "js/app.js",
+  "scripts": {
+    "start": "watchify -o js/bundle.js -v -d js/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+    "test": "jest"
+  },
+  "author": "Ascribe",
+  "license": "Copyright",
+  "browserify": {
+    "transform": [
+      "babelify",
+      "envify"
+    ]
+  },
+  "devDependencies": {
+    "babel-jest": "^4.0.0",
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
+    "envify": "^3.4.0",
+    "jest-cli": "^0.4.0",
+    "reactify": "^1.1.0",
+    "watchify": "^3.1.2"
+  },
+  "dependencies": {
+    "alt": "^0.15.6",
+    "classnames": "^1.2.2",
+    "object-assign": "^2.0.0",
+    "react": "^0.13.2"
+  },
+  "jest": {
+    "scriptPreprocessor": "node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/alt",
+      "<rootDir>/js/alt.js"
+    ]
+  }
 }
