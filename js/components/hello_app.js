@@ -1,6 +1,6 @@
 import React from 'react';
 
-class TodoApp extends React.Component {
+class HelloApp extends React.Component {
     render () {
         return (
             <h1>ascribe all the things!</h1>
@@ -8,4 +8,4 @@ class TodoApp extends React.Component {
     }
 };
 
-export default HelloreactApp;
+export default HelloApp;
