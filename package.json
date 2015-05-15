@@ -4,8 +4,13 @@
   "description": "Das neue web client for Ascribe",
   "main": "js/app.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "watchify -o js/bundle.js -v -d js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+=======
+    "watch": "watchify -o build/app.js -v -d js/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > build/app.js",
+>>>>>>> b000ecd925e2e23febd47b088384cf6d5d155a9c
     "test": "jest"
   },
   "author": "Ascribe",
