@@ -30,7 +30,9 @@
     "classnames": "^1.2.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.2",
-    "react-router": "^0.13.3"
+    "react-router": "^0.13.3",
+    "superagent": "^1.2.0",
+    "uglifyjs": "^2.4.10"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",
