@@ -8,7 +8,7 @@ class HelloApp extends React.Component {
         return (
         	<div>
         		<h1>ascribe all the things!</h1>
-        		<RouteHandler/>
+        		<RouteHandler />
         	</div> 
         );
     }

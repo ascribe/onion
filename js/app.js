@@ -10,7 +10,7 @@ var Route = Router.Route;
 
 var routes = (
   <Route handler={HelloApp}>
-    <Route path="artworks" handler={ArtworkList}/>
+    <Route path="artworks" handler={ArtworkList} />
   </Route>
 );
 
