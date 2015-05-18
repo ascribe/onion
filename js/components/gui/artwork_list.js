@@ -1,13 +1,13 @@
 import React from 'react';
 
 class ArtworkList extends React.Component {
-	render () {
+	render() {
 		return (
-	  		<ul>
+	  	<ul>
 				<li>This is an artwork</li>
-	  		</ul>
+	  	</ul>
 		);
-  	}
+  }
 };
 
 export default ArtworkList;
