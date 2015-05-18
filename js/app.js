@@ -3,20 +3,20 @@
 import React from 'react';
 import Router from 'react-router';
 
-import HelloApp from './components/hello_app';
+import AscribeApp from './components/ascribe_app';
 import ArtworkList from './components/artwork_list';
 
 var Route = Router.Route;
 
 var routes = (
-  <Route handler={HelloApp}>
+  <Route handler={AscribeApp}>
     <Route path="artworks" handler={ArtworkList} />
   </Route>
 );
 
-Router.run(routes, Router.HashLocation, (HelloApp) => {
+Router.run(routes, Router.HashLocation, (AscribeApp) => {
   React.render(
-  	<HelloApp />,
+  	<AscribeApp />,
   	document.getElementById('main')
   );
 });

@@ -3,7 +3,7 @@ import Router from 'react-router';
 
 var RouteHandler = Router.RouteHandler;
 
-class HelloApp extends React.Component {
+class AscribeApp extends React.Component {
     render () {
         return (
         	<div>
@@ -14,4 +14,4 @@ class HelloApp extends React.Component {
     }
 };
 
-export default HelloApp;
+export default AscribeApp;
