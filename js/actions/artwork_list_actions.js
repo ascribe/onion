@@ -9,13 +9,17 @@ class ArtworkListActions {
     }
 
     fetchArtworkList() {
-        ArtworkFetcher.fetch().end((err, res) => {
-            if (err) {
-                console.error('OMG cannot retrieve the artworks');
-            } else {
-                this.actions.updateArtworkList(res.body['pieces']);
-            }
-        })
+        ArtworkFetcher.fetch()
+            /*.then((res) => {
+                return res.json();
+            })*/
+            .then((res) => {
+                this.actions.updateArtworkList(res.pieces);
+            })
+            .catch((err) => {
+                console.log(err);
+                console.error('OMG cannot retrieve the artworks');                
+            });
     }
 };
 

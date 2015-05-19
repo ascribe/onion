@@ -1,9 +1,20 @@
-import request from 'superagent';
+import fetch from 'isomorphic-fetch';
+
+import AppConstants from '../constants/application_constants';
+import FetchApiUtils from '../utils/fetch_api_utils';
 
 var ArtworkListFetcher = {
-    fetch() {
-        return request.get('http://staging.ascribe.io/api/pieces/?page=1&page_size=10')
-                      .auth('dimi@mailinator.com', '0000000000');
+    fetch(page=1, pageSize=10) {
+        let params = FetchApiUtils.argsToQueryParams({
+            page,
+            'page_size': pageSize // this is kind of a bummer...
+        });
+
+        return fetch(AppConstants.baseUrl + 'pieces/' + params, {
+            headers: {
+                'Authorization': 'Basic ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw'
+            }
+        }).then((res) => { return res.json(); });
     }
 };
 

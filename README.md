@@ -23,7 +23,8 @@ For this project, we're using:
 
 * 4 Spaces
 * We use ES6
-* We don't use ES6's class declaration because it does not support Mixins as well as Autobinding ([Blog post about it](http://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding))
+* We don't use ES6's class declaration for React components because it does not support Mixins as well as Autobinding ([Blog post about it](http://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding))
+* We don't use camel case for file naming but in everything Javascript related
 
 
 Reading list
