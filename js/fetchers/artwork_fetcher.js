@@ -7,14 +7,14 @@ var ArtworkListFetcher = {
     fetch(page=1, pageSize=10) {
         let params = FetchApiUtils.argsToQueryParams({
             page,
-            'page_size': pageSize // this is kind of a bummer...
+            pageSize
         });
 
         return fetch(AppConstants.baseUrl + 'pieces/' + params, {
             headers: {
                 'Authorization': 'Basic ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw'
             }
-        }).then((res) => { return res.json(); });
+        }).then((res) => res.json());
     }
 };
 

@@ -10,15 +10,11 @@ class ArtworkListActions {
 
     fetchArtworkList() {
         ArtworkFetcher.fetch()
-            /*.then((res) => {
-                return res.json();
-            })*/
             .then((res) => {
                 this.actions.updateArtworkList(res.pieces);
             })
             .catch((err) => {
-                console.log(err);
-                console.error('OMG cannot retrieve the artworks');                
+                console.log(err);           
             });
     }
 };

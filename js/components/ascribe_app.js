@@ -10,8 +10,11 @@ class AscribeApp extends React.Component {
     render() {
         return (
             <div>
-                <h1>ascribe all the things!</h1>
-                <Link to="artworks">artworks</Link>
+                <header>ascribe</header>
+                <navigation>
+                    <Link to="artworks">artworks</Link>
+                </navigation>
+                
                 <RouteHandler />
             </div> 
         );
