@@ -5,9 +5,9 @@ import AscribeApp from './components/ascribe_app';
 import PieceList from './components/piece_list';
 import Piece from './components/piece';
 
-var Route = Router.Route;
+let Route = Router.Route;
 
-var routes = (
+let routes = (
     <Route name="app" path="/" handler={AscribeApp}>
         <Route name="pieces" handler={PieceList} />
             <Route name="piece" path="/artworks/:bitcoin_ID_noPrefix" handler={Piece} />

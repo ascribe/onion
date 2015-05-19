@@ -6,7 +6,7 @@ import PieceListActions from '../actions/piece_list_actions';
 
 let Link = Router.Link;
 
-var PieceList = React.createClass({
+let PieceList = React.createClass({
     getInitialState() {
         return PieceListStore.getState();
     },
