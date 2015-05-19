@@ -1,7 +1,10 @@
 import React from 'react';
+import Router from 'react-router';
+
 import ArtworkListStore from '../stores/artwork_list_store';
 import ArtworkListActions from '../actions/artwork_list_actions';
 
+let Link = Router.Link;
 
 var ArtworkList = React.createClass({
     getInitialState() {
@@ -26,7 +29,7 @@ var ArtworkList = React.createClass({
             <ul>
                 {this.state.artworkList.map((artwork, i) => {
                     return (
-                        <li key={i}>{artwork.title}</li>
+                        <li key={i}><Link to="artwork" params={{'bitcoin_ID_noPrefix': artwork.bitcoin_ID_noPrefix}}>{artwork.title}</Link></li>
                     );
                 })}
             </ul>

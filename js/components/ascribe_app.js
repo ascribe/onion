@@ -14,7 +14,6 @@ class AscribeApp extends React.Component {
                 <navigation>
                     <Link to="artworks">artworks</Link>
                 </navigation>
-                
                 <RouteHandler />
             </div> 
         );

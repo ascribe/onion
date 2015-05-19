@@ -9,7 +9,7 @@ class ArtworkListActions {
     }
 
     fetchArtworkList() {
-        ArtworkFetcher.fetch()
+        ArtworkFetcher.fetch(1, 10)
             .then((res) => {
                 this.actions.updateArtworkList(res.pieces);
             })

@@ -4,15 +4,24 @@ import AppConstants from '../constants/application_constants';
 import FetchApiUtils from '../utils/fetch_api_utils';
 
 var ArtworkListFetcher = {
-    fetch(page=1, pageSize=10) {
+    /**
+     * Fetches a list of pieces from the API.
+     * Can be called with all supplied queryparams the API.
+     * 
+     * 
+     */
+    fetch(page, pageSize, search, ordering) {
+
         let params = FetchApiUtils.argsToQueryParams({
             page,
-            pageSize
+            pageSize,
+            search,
+            ordering
         });
 
         return fetch(AppConstants.baseUrl + 'pieces/' + params, {
             headers: {
-                'Authorization': 'Basic ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw'
+                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
             }
         }).then((res) => res.json());
     }
