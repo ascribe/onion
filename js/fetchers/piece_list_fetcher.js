@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 import AppConstants from '../constants/application_constants';
 import FetchApiUtils from '../utils/fetch_api_utils';
 
-var ArtworkListFetcher = {
+var PieceListFetcher = {
     /**
      * Fetches a list of pieces from the API.
      * Can be called with all supplied queryparams the API.
@@ -27,4 +27,4 @@ var ArtworkListFetcher = {
     }
 };
 
-export default ArtworkListFetcher;
+export default PieceListFetcher;

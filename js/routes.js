@@ -2,15 +2,15 @@ import React from 'react';
 import Router from 'react-router';
 
 import AscribeApp from './components/ascribe_app';
-import ArtworkList from './components/artwork_list';
-import Artwork from './components/artwork';
+import PieceList from './components/piece_list';
+import Piece from './components/piece';
 
 var Route = Router.Route;
 
 var routes = (
     <Route name="app" path="/" handler={AscribeApp}>
-        <Route name="artworks" handler={ArtworkList} />
-            <Route name="artwork" path="/artworks/:bitcoin_ID_noPrefix" handler={Artwork} />
+        <Route name="pieces" handler={PieceList} />
+            <Route name="piece" path="/artworks/:bitcoin_ID_noPrefix" handler={Piece} />
     </Route>
 );
 

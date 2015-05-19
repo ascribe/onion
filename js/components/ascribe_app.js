@@ -12,7 +12,7 @@ class AscribeApp extends React.Component {
             <div>
                 <header>ascribe</header>
                 <navigation>
-                    <Link to="artworks">artworks</Link>
+                    <Link to="pieces">pieces</Link>
                 </navigation>
                 <RouteHandler />
             </div> 
