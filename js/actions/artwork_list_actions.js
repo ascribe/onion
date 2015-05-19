@@ -8,4 +8,4 @@ class ArtworkListActions {
     };
 };
 
-//export default alt.createAction(ArtworkListActions);
+export default alt.createActions(ArtworkListActions);
