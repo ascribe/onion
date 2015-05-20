@@ -13,16 +13,20 @@
     
 .ascribe-table-header-column {
     display: table;
-    font-weight: bold;
     height:4em;
 }
 
 .ascribe-table-header-column > span {
     display:table-cell;
     vertical-align: middle;
-    font-family: 'mercury_light';
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
     color: rgba(2, 182, 163, 1);
-    font-size: 1.25em;
+    font-size: 1.4em;
+}
+
+.ascribe-table-header-column > span > .glyphicon {
+    font-size: .6em;
 }
 
 .ascribe-table-item:nth-child(even) {
@@ -35,6 +39,8 @@
 
 .ascribe-table-item-column {
     display: table;
+    font-family: 'Source Sans Pro';
+    font-size: 1.2em;
     height:4em;
 }
 

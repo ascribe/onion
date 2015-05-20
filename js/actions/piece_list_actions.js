@@ -9,8 +9,8 @@ class PieceListActions {
         );
     }
 
-    fetchPieceList() {
-        PieceListFetcher.fetch(1, 10)
+    fetchList(page, pageSize, search, ordering) {
+        PieceListFetcher.fetch(page, pageSize, search, ordering)
             .then((res) => {
                 this.actions.updatePieceList(res.pieces);
             })

@@ -14,7 +14,7 @@ let Table = React.createClass({
 
             return (
                 <div className="ascribe-table">
-                    <TableHeader columnMap={this.props.columnMap}/>
+                    <TableHeader columnMap={this.props.columnMap} itemList={this.props.itemList} fetchList={this.props.fetchList} />
                     {this.props.itemList.map((item, i) => {
                         return (
                             <TableItem columnMap={this.props.columnMap} columnContent={item} key={i} />

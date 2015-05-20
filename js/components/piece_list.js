@@ -15,7 +15,7 @@ let Link = Router.Link;
 let PieceList = React.createClass({
     
     componentDidMount() {
-        PieceListActions.fetchPieceList();
+        PieceListActions.fetchList(1, 10);
     },
 
     render() {
@@ -26,22 +26,26 @@ let PieceList = React.createClass({
             'thumbnail': {
                 'displayName': '',
                 'displayType': TableItemImg,
-                'rowWidth': 2
+                'rowWidth': 2,
+                'canBeOrdered': false
             },
             'artist_name': {
                 'displayName': 'Artist',
                 'displayType': TableItemText,
-                'rowWidth': 5
+                'rowWidth': 4,
+                'canBeOrdered': true
             },
             'title': {
                 'displayName': 'Title',
                 'displayType': TableItemText,
-                'rowWidth': 5
+                'rowWidth': 4,
+                'canBeOrdered': true
             }
         };
+
         return (
-            <AltContainer store={PieceListStore}>
-                <Table class="piecesTable" columnMap={columnMap} />
+            <AltContainer store={PieceListStore} actions={PieceListActions}>
+                <Table columnMap={columnMap} />
             </AltContainer>
         );
     }
