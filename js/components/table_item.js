@@ -10,8 +10,9 @@ let TableItem = React.createClass({
     // ToDo: Specify that every columnMap should look like this:
     // {
     //      'name-of-the-data-point': {
-    //          'display_name': String,
-    //          'display_type': ReactComponent
+    //          'displayName': String,
+    //          'displayType': ReactComponent,
+    //          'rowWidth': number
     //      }
     // 
     // }
@@ -22,7 +23,6 @@ let TableItem = React.createClass({
     render() {
         
         let columnContent = this.props.columnContent;
-        let columnClasses = this.calcColumnClasses(this.props.columnMap);
         let columnMapKeysList = Object.keys(this.props.columnMap);
 
         /**
@@ -32,10 +32,11 @@ let TableItem = React.createClass({
         let calcColumnElementContent = () => {
             return columnMapKeysList.map((key, i) => {
 
-                let TypeElement = this.props.columnMap[key].display_type;
+                let TypeElement = this.props.columnMap[key].displayType;
+                let columnClass = this.calcColumnClasses(this.props.columnMap, i);
 
                 return (
-                    <div className={columnClasses} key={i}>
+                    <div className={columnClass} key={i}>
                         <TypeElement content={this.props.columnContent[key]} width="50" />
                     </div>
                 );

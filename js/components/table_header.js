@@ -12,15 +12,17 @@ let TableHeader = React.createClass({
     render() {
 
         let columnMapValuesList = GeneralUtils.valuesOfObject(this.props.columnMap);
-        let columnClasses = this.calcColumnClasses(this.props.columnMap);
 
         return (
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div className="row">
                     {columnMapValuesList.map((val, i) => {
+
+                        let columnClass = this.calcColumnClasses(this.props.columnMap, i);
+
                         return (
-                            <div className={columnClasses + ' ascribe-table-header-column'} key={i}>
-                                {val.display_name}
+                            <div className={columnClass + ' ascribe-table-header-column'} key={i}>
+                                {val.displayName}
                             </div>
                         );
                     })}

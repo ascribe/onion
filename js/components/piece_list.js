@@ -23,19 +23,21 @@ let PieceList = React.createClass({
         // Specifiy how a TableItemX should look like
         let columnMap = {
             'thumbnail': {
-                'display_name': 'Thumbnail',
-                'display_type': TableItemImg
+                'displayName': 'Thumbnail',
+                'displayType': TableItemImg,
+                'rowWidth': 2
             },
             'artist_name': {
-                'display_name': 'Artist',
-                'display_type': TableItemText
+                'displayName': 'Artist',
+                'displayType': TableItemText,
+                'rowWidth': 3
             },
             'title': {
-                'display_name': 'Title',
-                'display_type': TableItemText
+                'displayName': 'Title',
+                'displayType': TableItemText,
+                'rowWidth': 6
             }
         };
-
         return (
             <AltContainer store={PieceListStore}>
                 <Table class="piecesTable" columnMap={columnMap} />
