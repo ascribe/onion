@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 import AppConstants from '../constants/application_constants';
 import FetchApiUtils from '../utils/fetch_api_utils';
 
+
 let PieceListFetcher = {
     /**
      * Fetches a list of pieces from the API.

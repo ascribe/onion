@@ -4,6 +4,7 @@ import TableColumnMixin from '../mixins/table_column_mixin';
 import TableItemImg from './table_item_img';
 import TableItemText from './table_item_text';
 
+
 let TableItem = React.createClass({
     mixins: [TableColumnMixin],
 

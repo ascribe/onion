@@ -11,6 +11,7 @@ import TableItemText from './table_item_text';
 
 let Link = Router.Link;
 
+
 let PieceList = React.createClass({
     
     componentDidMount() {
