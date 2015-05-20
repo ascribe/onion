@@ -36,3 +36,4 @@ Reading list
 - [Babel: Learn ES6](https://babeljs.io/docs/learn-es6/)
 - [ReactJS: Reusable Components](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
 - [egghead's awesome reactjs and flux tutorials](https://egghead.io/)
+- [Crockford's genious Javascript: The Good Parts](http://www.amazon.de/JavaScript-Parts-Working-Shallow-Grain/dp/0596517742)
