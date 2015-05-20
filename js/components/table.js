@@ -13,7 +13,7 @@ let Table = React.createClass({
 
             return (
                 <div>
-                    <TableHeader className="ascribe-table-header" columnMap={this.props.columnMap}/>
+                    <TableHeader columnMap={this.props.columnMap}/>
                     {this.props.itemList.map((item, i) => {
                         return (
                             <TableItem columnMap={this.props.columnMap} columnContent={item} key={i} />

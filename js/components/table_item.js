@@ -6,6 +6,15 @@ import TableItemText from './table_item_text';
 
 let TableItem = React.createClass({
     mixins: [TableColumnMixin],
+
+    // ToDo: Specify that every columnMap should look like this:
+    // {
+    //      'name-of-the-data-point': {
+    //          'display_name': String,
+    //          'display_type': ReactComponent
+    //      }
+    // 
+    // }
     propTypes: {
         columnMap: React.PropTypes.object.isRequired,
         columnContent: React.PropTypes.object.isRequired
@@ -18,24 +27,19 @@ let TableItem = React.createClass({
 
         /**
          * An element in the Table can have a certain display_type.
-         * For example it can be an Image or a text, or a button.
-         * This method is recognizing different types and injecting them into the DOM.
+         * A display_type is just 
          */
         let calcColumnElementContent = () => {
             return columnMapKeysList.map((key, i) => {
-                if(this.props.columnMap[key].display_type === TableItemImg) {
-                    return (
-                        <div className={columnClasses}>
-                            <TableItemImg src={this.props.columnContent[key]} width="50" key={i} />
-                        </div>
-                    );
-                } else if(this.props.columnMap[key].display_type === TableItemText) {
-                    return (
-                        <div className={columnClasses}>
-                            <TableItemText text={this.props.columnContent[key]} key={i} />
-                        </div>
-                    );
-                }
+
+                let TypeElement = this.props.columnMap[key].display_type;
+
+                return (
+                    <div className={columnClasses} key={i}>
+                        <TypeElement content={this.props.columnContent[key]} width="50" />
+                    </div>
+                );
+
             });
         };
 

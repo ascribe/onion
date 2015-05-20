@@ -5,14 +5,12 @@ import React from 'react';
  */
 let TableItemImg = React.createClass({
     propTypes: {
-        src: React.PropTypes.string.isRequired,
-        width: React.PropTypes.number,
-        height: React.PropTypes.number
+        content: React.PropTypes.string.isRequired,
     },
 
     render() {
         return (
-            <img src={this.props.src} width={this.props.width} height={this.props.height} />
+            <img src={this.props.content} width="50" />
         );
     }
 });

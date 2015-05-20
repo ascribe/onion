@@ -19,7 +19,7 @@ let TableHeader = React.createClass({
                 <div className="row">
                     {columnMapValuesList.map((val, i) => {
                         return (
-                            <div className={columnClasses} key={i}>
+                            <div className={columnClasses + ' ascribe-table-header-column'} key={i}>
                                 {val.display_name}
                             </div>
                         );

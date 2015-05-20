@@ -19,9 +19,11 @@ let PieceList = React.createClass({
 
     render() {
 
+        // TODO:
+        // Specifiy how a TableItemX should look like
         let columnMap = {
             'thumbnail': {
-                'display_name': 'thumbnail',
+                'display_name': 'Thumbnail',
                 'display_type': TableItemImg
             },
             'artist_name': {
