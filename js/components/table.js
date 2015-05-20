@@ -13,8 +13,6 @@ let Table = React.createClass({
                         </li> 
                     );
                 })}
-                
-                }
             </ul>
         );
     }
