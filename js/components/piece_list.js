@@ -17,7 +17,7 @@ let PieceList = React.createClass({
     render() {
         return (
             <AltContainer store={PieceListStore}>
-                <Table />
+                <Table class="piecesTable" />
             </AltContainer>
         );
     }

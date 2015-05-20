@@ -5,17 +5,13 @@ import TableItem from './table_item';
 let Table = React.createClass({
     render() {
         return (
-            <ul>
+            <div className="row as-pieces-table">
                 {this.props.pieceList.map((piece, i) => {
                     return (
-                        <li key={i}>
-                            <TableItem piece={piece} />
-                        </li> 
+                        <TableItem piece={piece} key={i}/>
                     );
                 })}
-                
-                }
-            </ul>
+            </div>
         );
     }
 });
