@@ -16,6 +16,24 @@ let GeneralUtils = {
             });
 
         return obj;
+    },
+
+    /**
+     * Returns the values of an object.
+     */
+    valuesOfObject(obj) {
+        return Object
+                .keys(obj)
+                .map(key => obj[key]);
+    },
+
+    /**
+     * Sums up a list of numbers. Like a Epsilon-math-kinda-sum...
+     */
+    sumNumList(l) {
+        let sum = 0;
+        l.forEach((num) => sum += parseFloat(num) || 0);
+        return sum;
     }
 };
 
