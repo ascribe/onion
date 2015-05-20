@@ -13,7 +13,7 @@ let Table = React.createClass({
         if(this.props.itemList && this.props.itemList.length > 0) {
 
             return (
-                <div>
+                <div className="ascribe-table">
                     <TableHeader columnMap={this.props.columnMap}/>
                     {this.props.itemList.map((item, i) => {
                         return (

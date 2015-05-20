@@ -30,7 +30,10 @@ let Header = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  <a className="navbar-brand" href="#">ascribe</a>
+                  <a className="navbar-brand" href="#">
+                       <span>ascribe</span> 
+                       <span className="glyph-ascribe-spool-chunked"></span>
+                  </a>
                 </div>
                 <div id="navbar" className="navbar-collapse collapse">
                   <ul className="nav navbar-nav navbar-right">
