@@ -35,3 +35,4 @@ Reading list
 - [24ways.org: JavaScript Modules the ES6 Way](http://24ways.org/2014/javascript-modules-the-es6-way/)
 - [Babel: Learn ES6](https://babeljs.io/docs/learn-es6/)
 - [ReactJS: Reusable Components](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
+- [egghead's awesome reactjs and flux tutorials](https://egghead.io/)
