@@ -11,9 +11,9 @@ let AscribeApp = React.createClass({
         return (
             <div>
                 <Header />
-                <navigation>
+                <nav>
                     <Link to="pieces">pieces</Link>
-                </navigation>
+                </nav>
                 <RouteHandler />
             </div> 
         );
