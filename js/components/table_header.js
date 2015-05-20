@@ -20,7 +20,7 @@ let TableHeader = React.createClass({
                     {columnMapValuesList.map((val, i) => {
                         return (
                             <div className={columnClasses} key={i}>
-                                {val}
+                                {val.display_name}
                             </div>
                         );
                     })}
