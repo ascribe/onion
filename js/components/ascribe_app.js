@@ -6,7 +6,7 @@ let Link = Router.Link;
 let RouteHandler = Router.RouteHandler;
 
 
-class AscribeApp extends React.Component {
+let AscribeApp = React.createClass({
     render() {
         return (
             <div>
@@ -18,6 +18,6 @@ class AscribeApp extends React.Component {
             </div> 
         );
     }
-};
+});
 
 export default AscribeApp;
