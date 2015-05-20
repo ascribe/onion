@@ -32,5 +32,6 @@ Reading list
 ============
 - [alt.js](http://alt.js.org/)
 - [alt.js readme](https://github.com/goatslacker/alt)
-- [JavaScript Modules the ES6 Way](http://24ways.org/2014/javascript-modules-the-es6-way/)
+- [24ways.org: JavaScript Modules the ES6 Way](http://24ways.org/2014/javascript-modules-the-es6-way/)
 - [Babel: Learn ES6](https://babeljs.io/docs/learn-es6/)
+- [ReactJS: Reusable Components](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
