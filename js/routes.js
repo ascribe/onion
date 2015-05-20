@@ -9,8 +9,9 @@ let Route = Router.Route;
 
 let routes = (
     <Route name="app" path="/" handler={AscribeApp}>
-        <Route name="pieces" handler={PieceList} />
+        <Route name="pieces" handler={<PieceList />}>
             <Route name="piece" path="/pieces/:bitcoin_ID_noPrefix" handler={Piece} />
+        </Route>
     </Route>
 );
 
