@@ -15,9 +15,16 @@ let PieceList = React.createClass({
     },
 
     render() {
+
+        let columnMap = {
+            'thumbnail': 'Thumbnail',
+            'artist_name': 'Artist',
+            'title': 'Title'
+        };
+
         return (
             <AltContainer store={PieceListStore}>
-                <Table class="piecesTable" />
+                <Table class="piecesTable" columnMap={columnMap} />
             </AltContainer>
         );
     }

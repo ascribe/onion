@@ -3,12 +3,12 @@ import PieceListActions from '../actions/piece_list_actions';
 
 class PieceListStore {
     constructor() {
-        this.pieceList = [];
+        this.itemList = []; // rename this to pieceList after figuring out AltContainer transform
         this.bindActions(PieceListActions);
     }
 
-    onUpdatePieceList(pieceList) {
-        this.pieceList = pieceList;
+    onUpdatePieceList(itemList) {
+        this.itemList = itemList;
     }
 };
 
