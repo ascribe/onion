@@ -1,5 +1,6 @@
 import GeneralUtils from '../utils/general_utils';
 
+
 let TableColumnMixin = {
     /**
      * Generates the bootstrap grid column declarations automatically using

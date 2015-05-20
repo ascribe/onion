@@ -3,6 +3,7 @@ import React from 'react';
 import TableItem from './table_item';
 import TableHeader from './table_header';
 
+
 let Table = React.createClass({
     propTypes: {
         columnMap: React.PropTypes.object.isRequired

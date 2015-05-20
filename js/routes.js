@@ -7,6 +7,7 @@ import Piece from './components/piece';
 
 let Route = Router.Route;
 
+
 let routes = (
     <Route name="app" path="/" handler={AscribeApp}>
         <Route name="pieces" handler={PieceList}>

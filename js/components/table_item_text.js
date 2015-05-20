@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 let TableItemText = React.createClass({
     propTypes: {
         content: React.PropTypes.string.isRequired

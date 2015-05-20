@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 let Piece = React.createClass({
     render() {
         return (
