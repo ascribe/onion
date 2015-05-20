@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
+import Header from '../components/header';
 
 
 let Link = Router.Link;
@@ -10,7 +11,7 @@ let AscribeApp = React.createClass({
     render() {
         return (
             <div>
-                <header>ascribe</header>
+                <Header />
                 <navigation>
                     <Link to="pieces">pieces</Link>
                 </navigation>
