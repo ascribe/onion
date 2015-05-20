@@ -23,19 +23,19 @@ let PieceList = React.createClass({
         // Specifiy how a TableItemX should look like
         let columnMap = {
             'thumbnail': {
-                'displayName': 'Thumbnail',
+                'displayName': '',
                 'displayType': TableItemImg,
                 'rowWidth': 2
             },
             'artist_name': {
                 'displayName': 'Artist',
                 'displayType': TableItemText,
-                'rowWidth': 3
+                'rowWidth': 5
             },
             'title': {
                 'displayName': 'Title',
                 'displayType': TableItemText,
-                'rowWidth': 6
+                'rowWidth': 5
             }
         };
         return (

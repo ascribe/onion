@@ -10,7 +10,9 @@ let TableItemImg = React.createClass({
 
     render() {
         return (
-            <img src={this.props.content} width="50" />
+            <span>
+                <img src={this.props.content} width="50" />
+            </span>
         );
     }
 });

@@ -36,7 +36,7 @@ let TableItem = React.createClass({
                 let columnClass = this.calcColumnClasses(this.props.columnMap, i);
 
                 return (
-                    <div className={columnClass} key={i}>
+                    <div className={columnClass + ' ascribe-table-item-column'} key={i}>
                         <TypeElement content={this.props.columnContent[key]} width="50" />
                     </div>
                 );
@@ -45,7 +45,7 @@ let TableItem = React.createClass({
         };
 
         return (
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-item">
                 <div className="row">
                     {calcColumnElementContent()}
                 </div>

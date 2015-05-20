@@ -14,7 +14,7 @@ let TableHeader = React.createClass({
         let columnMapValuesList = GeneralUtils.valuesOfObject(this.props.columnMap);
 
         return (
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-header-row">
                 <div className="row">
                     {columnMapValuesList.map((val, i) => {
 
@@ -22,7 +22,9 @@ let TableHeader = React.createClass({
 
                         return (
                             <div className={columnClass + ' ascribe-table-header-column'} key={i}>
-                                {val.displayName}
+                                <span>
+                                    {val.displayName}
+                                </span>
                             </div>
                         );
                     })}
