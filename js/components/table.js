@@ -6,7 +6,15 @@ let Table = React.createClass({
     render() {
         return (
             <ul>
-                <TableItem />
+                {this.props.pieceList.map((piece, i) => {
+                    return (
+                        <li key={i}>
+                            <TableItem piece={piece} />
+                        </li> 
+                    );
+                })}
+                
+                }
             </ul>
         );
     }

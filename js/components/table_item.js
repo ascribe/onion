@@ -4,7 +4,10 @@ let TableItem = React.createClass({
     render() {
         return (
             <ul>
-                <TableItem />
+                <li>something</li>
+                <li></li>
+                <li></li>
+                <li></li>
             </ul>
         );
     }
