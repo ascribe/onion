@@ -1,9 +1,11 @@
 import React from 'react';
+import Router from 'react-router';
 
 import AltContainer from 'alt/AltContainer';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
+let Link = Router.Link;
 
 let Header = React.createClass({
 
@@ -32,11 +34,17 @@ let Header = React.createClass({
                     <span className="icon-bar"></span>
                   </button>
                   <a className="navbar-brand" href="#">
-                       <span>ascribe</span> 
+                       <span>ascribe </span> 
                        <span className="glyph-ascribe-spool-chunked"></span>
                   </a>
                 </div>
+                
                 <div id="navbar" className="navbar-collapse collapse">
+                  <ul className="nav navbar-nav navbar-left">
+                    <li>
+                        <Link to="pieces">Pieces</Link>
+                    </li>
+                  </ul>
                   <ul className="nav navbar-nav navbar-right">
                     <li className="dropdown">
                       <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{this.state.currentUser.username} <span className="caret"></span></a>
