@@ -9,10 +9,14 @@ class PieceListActions {
         );
     }
 
-    fetchList(page, pageSize, search, ordering) {
-        PieceListFetcher.fetch(page, pageSize, search, ordering)
+    fetchList(page, pageSize, search, orderBy, orderAsc) {
+        PieceListFetcher.fetch(page, pageSize, search, orderBy, orderAsc)
             .then((res) => {
-                this.actions.updatePieceList(res.pieces);
+                this.actions.updatePieceList({
+                    'itemList': res.pieces, 
+                    'orderBy': orderBy,
+                    'orderAsc': orderAsc
+                });
             })
             .catch((err) => {
                 console.log(err);           

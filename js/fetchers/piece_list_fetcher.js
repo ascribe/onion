@@ -8,10 +8,10 @@ let PieceListFetcher = {
     /**
      * Fetches a list of pieces from the API.
      * Can be called with all supplied queryparams the API.
-     * 
-     * 
      */
-    fetch(page, pageSize, search, ordering) {
+    fetch(page, pageSize, search, orderBy, orderAsc) {
+
+        let ordering = FetchApiUtils.generateOrderingQueryParams(orderBy, orderAsc);
 
         let params = FetchApiUtils.argsToQueryParams({
             page,

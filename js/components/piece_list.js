@@ -14,8 +14,12 @@ let Link = Router.Link;
 
 let PieceList = React.createClass({
     
+    getInitialState() {
+        return PieceListStore.getState();
+    },
+
     componentDidMount() {
-        PieceListActions.fetchList(1, 10);
+        PieceListActions.fetchList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
     },
 
     render() {

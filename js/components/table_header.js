@@ -9,11 +9,21 @@ let TableHeader = React.createClass({
     propTypes: {
         columnMap: React.PropTypes.object.isRequired,
         itemList: React.PropTypes.array.isRequired,
-        fetchList: React.PropTypes.func.isRequired
+        fetchList: React.PropTypes.func.isRequired,
+        orderAsc: React.PropTypes.bool.isRequired
     },
 
     sortIndex(i) {
-        this.props.fetchList(1, 10, null, '-' + Object.keys(this.props.columnMap)[i]);
+
+        let orderAsc;
+
+        if(this.props.orderAsc) {
+            orderAsc = false;
+        } else {
+            orderAsc = true;
+        }
+
+        this.props.fetchList(1, 10, null, Object.keys(this.props.columnMap)[i], orderAsc);
     },
 
     render() {
@@ -25,12 +35,20 @@ let TableHeader = React.createClass({
 
             if(columnMapValuesList[i].canBeOrdered) {
 
-                let boundClick = this.sortIndex.bind(this, i)
+                let boundClick = this.sortIndex.bind(this, i);
+                let carretDirection = 'glyphicon-triangle-';
+
+                if(this.props.orderAsc) {
+                    carretDirection += 'top';
+                } else {
+                    carretDirection += 'bottom';
+                }
+
                 return (
                     <div className={columnClass + ' ascribe-table-header-column'} key={i} onClick={boundClick}>
                         <span>
-                            <span className="glyphicon glyphicon-chevron-down"></span>
                             {val.displayName}
+                            <span className={'glyphicon ' + carretDirection}></span>
                         </span>
                     </div>
                 );

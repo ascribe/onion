@@ -9,12 +9,11 @@ let Table = React.createClass({
         columnMap: React.PropTypes.object.isRequired
     },
     render() {
-
         if(this.props.itemList && this.props.itemList.length > 0) {
 
             return (
                 <div className="ascribe-table">
-                    <TableHeader columnMap={this.props.columnMap} itemList={this.props.itemList} fetchList={this.props.fetchList} />
+                    <TableHeader columnMap={this.props.columnMap} itemList={this.props.itemList} fetchList={this.props.fetchList} orderAsc={this.props.orderAsc} />
                     {this.props.itemList.map((item, i) => {
                         return (
                             <TableItem columnMap={this.props.columnMap} columnContent={item} key={i} />
