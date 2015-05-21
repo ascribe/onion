@@ -9,9 +9,9 @@ let TableHeaderItemCarret = React.createClass({
         let carretDirection = 'glyphicon-triangle-';
 
         if(this.props.orderAsc) {
-            carretDirection += 'top';
-        } else {
             carretDirection += 'bottom';
+        } else {
+            carretDirection += 'top';
         }
 
         return (

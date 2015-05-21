@@ -6,7 +6,6 @@ class TableColumnItem {
         this.rowWidth = rowWidth;
         this.canBeOrdered = canBeOrdered;
     }
-
 }
 
 export default TableColumnItem;
