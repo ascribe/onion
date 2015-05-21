@@ -30,10 +30,23 @@ For this project, we're using:
 
 Reading list
 ============
+
+
+Start here
+----------
+
+- [ReactJS for stupid people](http://blog.andrewray.me/reactjs-for-stupid-people/)
+- [Flux for stupid people](http://blog.andrewray.me/flux-for-stupid-people/)
+- [ReactJS](https://facebook.github.io/react/)
 - [alt.js](http://alt.js.org/)
 - [alt.js readme](https://github.com/goatslacker/alt)
+
+
+Moar stuff
+----------
+
+- [ReactJS: Reusable Components](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
 - [24ways.org: JavaScript Modules the ES6 Way](http://24ways.org/2014/javascript-modules-the-es6-way/)
 - [Babel: Learn ES6](https://babeljs.io/docs/learn-es6/)
-- [ReactJS: Reusable Components](https://facebook.github.io/react/docs/reusable-components.html#es6-classes)
 - [egghead's awesome reactjs and flux tutorials](https://egghead.io/)
 - [Crockford's genious Javascript: The Good Parts (Tim has a copy)](http://www.amazon.de/JavaScript-Parts-Working-Shallow-Grain/dp/0596517742)
