@@ -1,5 +1,4 @@
 import React from 'react';
-import Router from 'react-router';
 import AltContainer from 'alt/AltContainer';
 
 import PieceListStore from '../stores/piece_list_store';
@@ -10,8 +9,6 @@ import TableItemImg from './ascribe_table/table_item_img';
 import TableItemText from './ascribe_table/table_item_text';
 
 import TableColumnModel from '../models/table_column_model';
-
-let Link = Router.Link;
 
 
 let PieceList = React.createClass({

@@ -16,6 +16,7 @@ let TableItem = React.createClass({
     },
 
     render() {
+        
         /**
          * An element in the Table can have a certain display_type.
          * A display_type is just 
