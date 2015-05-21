@@ -13,15 +13,19 @@ class PieceListActions {
         PieceListFetcher.fetch(page, pageSize, search, orderBy, orderAsc)
             .then((res) => {
                 this.actions.updatePieceList({
-                    'itemList': res.pieces, 
-                    'orderBy': orderBy,
-                    'orderAsc': orderAsc
+                    page,
+                    pageSize,
+                    search,
+                    orderBy,
+                    orderAsc,
+                    'itemList': res.pieces
                 });
             })
             .catch((err) => {
                 console.log(err);           
             });
     }
+
 };
 
 export default alt.createActions(PieceListActions);

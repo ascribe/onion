@@ -13,7 +13,11 @@ class PieceListStore {
         this.bindActions(PieceListActions);
     }
 
-    onUpdatePieceList({ itemList, orderBy, orderAsc }) {
+    onUpdatePieceList({ page, pageSize, search, itemList, orderBy, orderAsc }) {
+        console.log('onUpdatePieceList', arguments);
+        this.page = page;
+        this.pageSize = pageSize;
+        this.search = search;
         this.orderAsc = orderAsc;
         this.orderBy = orderBy;
         this.itemList = itemList;
