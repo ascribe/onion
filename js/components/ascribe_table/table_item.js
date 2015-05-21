@@ -4,41 +4,31 @@ import TableColumnMixin from '../../mixins/table_column_mixin';
 import TableItemImg from './table_item_img';
 import TableItemText from './table_item_text';
 
+import TableColumnModel from '../../models/table_column_model';
+
 
 let TableItem = React.createClass({
     mixins: [TableColumnMixin],
 
-    // ToDo: Specify that every columnMap should look like this:
-    // {
-    //      'name-of-the-data-point': {
-    //          'displayName': String,
-    //          'displayType': ReactComponent,
-    //          'rowWidth': number
-    //      }
-    // 
-    // }
     propTypes: {
-        columnMap: React.PropTypes.object.isRequired,
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnModel)),
         columnContent: React.PropTypes.object.isRequired
     },
-    render() {
-        
-        let columnContent = this.props.columnContent;
-        let columnMapKeysList = Object.keys(this.props.columnMap);
 
+    render() {
         /**
          * An element in the Table can have a certain display_type.
          * A display_type is just 
          */
         let calcColumnElementContent = () => {
-            return columnMapKeysList.map((key, i) => {
+            return this.props.columnList.map((column, i) => {
 
-                let TypeElement = this.props.columnMap[key].displayType;
-                let columnClass = this.calcColumnClasses(this.props.columnMap, i);
+                let TypeElement = column.displayType;
+                let columnClass = this.calcColumnClasses(this.props.columnList, i);
 
                 return (
                     <div className={columnClass + ' ascribe-table-item-column'} key={i}>
-                        <TypeElement content={this.props.columnContent[key]} width="50" />
+                        <TypeElement content={this.props.columnContent[column.columnName]} width="50" />
                     </div>
                 );
 

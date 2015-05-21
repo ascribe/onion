@@ -9,6 +9,8 @@ import Table from './ascribe_table/table';
 import TableItemImg from './ascribe_table/table_item_img';
 import TableItemText from './ascribe_table/table_item_text';
 
+import TableColumnModel from '../models/table_column_model';
+
 let Link = Router.Link;
 
 
@@ -24,32 +26,15 @@ let PieceList = React.createClass({
 
     render() {
 
-        // TODO:
-        // Specifiy how a TableItemX should look like
-        let columnMap = {
-            'thumbnail': {
-                'displayName': '',
-                'displayType': TableItemImg,
-                'rowWidth': 2,
-                'canBeOrdered': false
-            },
-            'artist_name': {
-                'displayName': 'Artist',
-                'displayType': TableItemText,
-                'rowWidth': 4,
-                'canBeOrdered': true
-            },
-            'title': {
-                'displayName': 'Title',
-                'displayType': TableItemText,
-                'rowWidth': 4,
-                'canBeOrdered': true
-            }
-        };
+        let columnList = [
+            new TableColumnModel('thumbnail', '', TableItemImg, 2, false),
+            new TableColumnModel('artist_name', 'Artist', TableItemText, 4, true),
+            new TableColumnModel('title', 'Title', TableItemText, 4, true)
+        ];
 
         return (
             <AltContainer store={PieceListStore} actions={PieceListActions}>
-                <Table columnMap={columnMap} />
+                <Table columnList={columnList} />
             </AltContainer>
         );
     }
