@@ -10,19 +10,23 @@ import TableItemText from './ascribe_table/table_item_text';
 
 import TableColumnModel from '../models/table_column_model';
 
+import Pagination from './pagination'
+
 
 let PieceList = React.createClass({
     
+    // FIXME: this might be useless
     getInitialState() {
         return PieceListStore.getState();
     },
 
     componentDidMount() {
-        PieceListActions.fetchList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        let page = this.props.query.page || this.state.page;
+        PieceListActions.fetchList(page, this.state.pageSize, this.state.search,
+                                   this.state.orderBy, this.state.orderAsc);
     },
 
     render() {
-
         let columnList = [
             new TableColumnModel('thumbnail', '', TableItemImg, 2, false),
             new TableColumnModel('artist_name', 'Artist', TableItemText, 4, true),
@@ -32,6 +36,7 @@ let PieceList = React.createClass({
         return (
             <AltContainer store={PieceListStore} actions={PieceListActions}>
                 <Table columnList={columnList} />
+                <Pagination currentPage={this.props.query.page} />
             </AltContainer>
         );
     }
