@@ -10,7 +10,8 @@ let TableHeader = React.createClass({
         columnMap: React.PropTypes.object.isRequired,
         itemList: React.PropTypes.array.isRequired,
         fetchList: React.PropTypes.func.isRequired,
-        orderAsc: React.PropTypes.bool.isRequired
+        orderAsc: React.PropTypes.bool.isRequired,
+        orderBy: React.PropTypes.string.isRequired
     },
 
     sortIndex(i) {
@@ -31,9 +32,8 @@ let TableHeader = React.createClass({
         let columnMapValuesList = GeneralUtils.valuesOfObject(this.props.columnMap);
 
         let calcHeaderText = (val, i, columnClass) => {
-            let s = "";
 
-            if(columnMapValuesList[i].canBeOrdered) {
+            if(columnMapValuesList[i].canBeOrdered && Object.keys(this.props.columnMap)[i] === this.props.orderBy) {
 
                 let boundClick = this.sortIndex.bind(this, i);
                 let carretDirection = 'glyphicon-triangle-';

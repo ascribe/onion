@@ -10,10 +10,9 @@ let Table = React.createClass({
     },
     render() {
         if(this.props.itemList && this.props.itemList.length > 0) {
-
             return (
                 <div className="ascribe-table">
-                    <TableHeader columnMap={this.props.columnMap} itemList={this.props.itemList} fetchList={this.props.fetchList} orderAsc={this.props.orderAsc} />
+                    <TableHeader columnMap={this.props.columnMap} itemList={this.props.itemList} fetchList={this.props.fetchList} orderAsc={this.props.orderAsc} orderBy={this.props.orderBy} />
                     {this.props.itemList.map((item, i) => {
                         return (
                             <TableItem columnMap={this.props.columnMap} columnContent={item} key={i} />
