@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TableColumnMixin from '../mixins/table_column_mixin';
+import TableColumnMixin from '../../mixins/table_column_mixin';
 import TableItemImg from './table_item_img';
 import TableItemText from './table_item_text';
 

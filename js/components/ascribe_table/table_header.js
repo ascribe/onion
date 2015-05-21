@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TableColumnMixin from '../mixins/table_column_mixin';
-import GeneralUtils from '../utils/general_utils';
+import TableColumnMixin from '../../mixins/table_column_mixin';
+import GeneralUtils from '../../utils/general_utils';
 import TableHeaderItem from './table_header_item';
 
 

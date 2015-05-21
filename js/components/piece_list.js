@@ -5,9 +5,9 @@ import AltContainer from 'alt/AltContainer';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
-import Table from './table';
-import TableItemImg from './table_item_img';
-import TableItemText from './table_item_text';
+import Table from './ascribe_table/table';
+import TableItemImg from './ascribe_table/table_item_img';
+import TableItemText from './ascribe_table/table_item_text';
 
 let Link = Router.Link;
 

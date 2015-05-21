@@ -1,4 +1,5 @@
 import React from 'react';
+
 import AltContainer from 'alt/AltContainer';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
