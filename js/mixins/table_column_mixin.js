@@ -1,16 +1,16 @@
-import GeneralUtils from '../utils/general_utils';
+import React from 'react';
 
+import GeneralUtils from '../utils/general_utils';
 
 let TableColumnMixin = {
     /**
      * Generates the bootstrap grid column declarations automatically using
      * the columnMap.
      */
-    calcColumnClasses(obj, i) {
+    calcColumnClasses(list, i) {
         let bootstrapClasses = ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-'];
         
-        let rowData = GeneralUtils.valuesOfObject(obj);
-        let listOfRowValues = rowData.map((val) => val.rowWidth );
+        let listOfRowValues = list.map((column) => column.rowWidth );
         let numOfColumns = GeneralUtils.sumNumList(listOfRowValues);
 
         if(numOfColumns > 12) {
