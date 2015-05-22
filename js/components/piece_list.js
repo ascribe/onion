@@ -5,6 +5,7 @@ import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
 import Table from './ascribe_table/table';
+import TableItem from './ascribe_table/table_item';
 import TableItemImg from './ascribe_table/table_item_img';
 import TableItemText from './ascribe_table/table_item_text';
 
@@ -56,7 +57,8 @@ let PieceList = React.createClass({
                         'pageSize': props.pageSize
                     }
                 }}>
-                <Table columnList={columnList} changeOrder={this.tableChangeOrder} />
+                <Table columnList={columnList} changeOrder={this.tableChangeOrder} tableItem={TableItem}>
+                </Table>
                 <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
             </AltContainer>
         );

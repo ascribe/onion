@@ -1,17 +1,19 @@
 import React from 'react';
 
-import TableItem from './table_item';
 import TableHeader from './table_header';
-
 import TableColumnModel from '../../models/table_column_model';
 
 
 let Table = React.createClass({
+    
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnModel)),
-        changeOrder: React.PropTypes.func.isRequired
+        changeOrder: React.PropTypes.func.isRequired,
+        tableItem: React.PropTypes.any.isRequired // Optimally, this should check if tableItem is an instance of React.Component or something like that
     },
+
     render() {
+        let TableItem = this.props.tableItem;
 
         if(this.props.itemList && this.props.itemList.length > 0) {
             return (
