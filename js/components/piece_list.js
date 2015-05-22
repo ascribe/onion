@@ -61,7 +61,7 @@ let PieceList = React.createClass({
                     }
                 }}>
                 <Table columnList={columnList} changeOrder={this.tableChangeOrder}>
-                    <TableItemSubtable></TableItemSubtable>
+                    <TableItemSubtable store={EditionListStore} actions={EditionListActions}></TableItemSubtable>
                 </Table>
                 <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
             </AltContainer>

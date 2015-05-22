@@ -14,6 +14,25 @@ let TableItemSubtable = React.createClass({
         columnContent: React.PropTypes.object
     },
 
+    getInitialState() {
+        return {
+            'open': false
+        };
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
+    componentDidMount() {
+        this.props.store.listen(this.onChange);
+    },
+
+    loadEditionList() {
+        console.log(this.props);
+        //this.props.actions.actions.fetchEditionList();
+    },
+
     calcColumnClasses(list, i) {
         let bootstrapClasses = ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-'];
         
@@ -49,7 +68,7 @@ let TableItemSubtable = React.createClass({
                 <div className="row">
                     {calcColumnElementContent()}
                     <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2 ascribe-table-item-column">
-                        <TableItemSubtableButton content="Editions">
+                        <TableItemSubtableButton content="Editions" onClick={this.loadEditionList}>
                         </TableItemSubtableButton>
                     </div>
                 </div>

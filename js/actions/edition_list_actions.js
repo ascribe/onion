@@ -9,7 +9,7 @@ class EditionListActions {
         );
     }
 
-    fetchList(pieceId) {
+    fetchEditionList(pieceId) {
         EditionListFetcher
             .fetch(pieceId)
             .then((res) => {

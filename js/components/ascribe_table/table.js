@@ -9,7 +9,7 @@ let Table = React.createClass({
     
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        changeOrder: React.PropTypes.func.isRequired
+        changeOrder: React.PropTypes.func // turn isRequired on again after editions order implemented
     },
 
     renderChildren() {
