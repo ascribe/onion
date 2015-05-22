@@ -26,8 +26,11 @@ let PieceList = React.createClass({
     },
 
     paginationGoToPage(page) {
-        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                          this.state.orderBy, this.state.orderAsc);
+        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+    },
+
+    tableChangeOrder(orderBy, orderAsc) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, orderBy, orderAsc);
     },
 
     render() {
@@ -46,7 +49,6 @@ let PieceList = React.createClass({
                     return {
                         'itemList': props.pieceList,
                         'itemListCount': props.pieceListCount,
-                        'fetchList': props.fetchPieceList,
                         'orderBy': props.orderBy,
                         'orderAsc': props.orderAsc,
                         'search': props.search,
@@ -54,7 +56,7 @@ let PieceList = React.createClass({
                         'pageSize': props.pageSize
                     }
                 }}>
-                <Table columnList={columnList} />
+                <Table columnList={columnList} changeOrder={this.tableChangeOrder} />
                 <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
             </AltContainer>
         );

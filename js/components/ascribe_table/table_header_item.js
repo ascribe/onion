@@ -9,13 +9,13 @@ let TableHeaderItem = React.createClass({
         displayName: React.PropTypes.string.isRequired,
         columnName: React.PropTypes.string.isRequired,
         canBeOrdered: React.PropTypes.bool.isRequired,
+        changeOrder: React.PropTypes.func.isRequired,
         orderAsc: React.PropTypes.bool.isRequired,
-        orderBy: React.PropTypes.string.isRequired,
-        fetchList: React.PropTypes.func.isRequired
+        orderBy: React.PropTypes.string.isRequired
     },
 
     changeOrder() {
-        this.props.fetchList(1, 10, null, this.props.columnName, !this.props.orderAsc);
+        this.props.changeOrder(this.props.columnName, !this.props.orderAsc);
     },
 
     render() {

@@ -12,7 +12,7 @@ let TableHeader = React.createClass({
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnModel)),
         itemList: React.PropTypes.array.isRequired,
-        fetchList: React.PropTypes.func.isRequired,
+        changeOrder: React.PropTypes.func.isRequired,
         orderAsc: React.PropTypes.bool.isRequired,
         orderBy: React.PropTypes.string.isRequired
     },
@@ -36,7 +36,7 @@ let TableHeader = React.createClass({
                                 canBeOrdered={canBeOrdered} 
                                 orderAsc={this.props.orderAsc}
                                 orderBy={this.props.orderBy}
-                                fetchList={this.props.fetchList}>
+                                changeOrder={this.props.changeOrder}>
                             </TableHeaderItem>
                         );
                     })}
