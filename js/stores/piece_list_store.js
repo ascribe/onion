@@ -14,7 +14,6 @@ class PieceListStore {
     }
 
     onUpdatePieceList({ page, pageSize, search, itemList, orderBy, orderAsc }) {
-        console.log('onUpdatePieceList', arguments);
         this.page = page;
         this.pageSize = pageSize;
         this.search = search;

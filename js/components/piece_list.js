@@ -34,7 +34,13 @@ let PieceList = React.createClass({
         ];
 
         return (
-            <AltContainer store={PieceListStore} actions={PieceListActions}>
+            <AltContainer 
+                store={PieceListStore} 
+                actions={PieceListActions}
+                transform={(x) => {
+                  console.log('@@@@@@@', x);
+                  return { a: 1, b: 2 };
+                }}>
                 <Table columnList={columnList} />
                 <Pagination currentPage={this.props.query.page} />
             </AltContainer>

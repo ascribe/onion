@@ -22,7 +22,7 @@ let EditionList = React.createClass({
     render() {
         return (
             <AltContainer store={EditionListStore} actions={EditionListActions}>
-
+                <Table></Table>
             </AltContainer>
         );
     }
