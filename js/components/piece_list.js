@@ -21,16 +21,28 @@ let PieceList = React.createClass({
 
     componentDidMount() {
         let page = this.props.query.page || this.state.page;
+        PieceListStore.listen(this.onChange);
         PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                    this.state.orderBy, this.state.orderAsc);
     },
 
+    componentWillUnmount() {
+        PieceListStore.unlisten(this.onChange);
+    },
+
+    onChange() {
+        this.setState(this.getInitialState());
+    },
+
     paginationGoToPage(page) {
-        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        return (e) => PieceListActions.fetchPieceList(page, this.state.pageSize,
+                                                      this.state.search, this.state.orderBy,
+                                                      this.state.orderAsc);
     },
 
     tableChangeOrder(orderBy, orderAsc) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, orderBy, orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize,
+                                        this.state.search, orderBy, orderAsc);
     },
 
     render() {
@@ -39,6 +51,9 @@ let PieceList = React.createClass({
             new TableColumnModel('artist_name', 'Artist', TableItemText, 4, true),
             new TableColumnModel('title', 'Title', TableItemText, 4, true)
         ];
+
+        let currentPage = parseInt(this.props.query.page, 10);
+        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
 
         // Could wrap this altContainer potentially once again.
         return (
@@ -57,7 +72,9 @@ let PieceList = React.createClass({
                     }
                 }}>
                 <Table columnList={columnList} changeOrder={this.tableChangeOrder} />
-                <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
+                <Pagination currentPage={currentPage}
+                            totalPages={totalPages}
+                            goToPage={this.paginationGoToPage} />
             </AltContainer>
         );
     }

@@ -12,7 +12,6 @@ let Table = React.createClass({
         changeOrder: React.PropTypes.func.isRequired
     },
     render() {
-
         if(this.props.itemList && this.props.itemList.length > 0) {
             return (
                 <div className="ascribe-table">
