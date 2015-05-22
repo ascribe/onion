@@ -3,12 +3,12 @@ import EditionsListActions from '../actions/edition_list_actions';
 
 class EditionListStore {
     constructor() {
-        this.itemList = [];
+        this.editionList = [];
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList(itemList) {
-        this.itemList = itemList;
+    onUpdateEditionList(editionList) {
+        this.editionList = editionList;
     }
 };
 

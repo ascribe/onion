@@ -51,3 +51,8 @@
     display:table-cell;
     vertical-align: middle;
 }
+
+.btn-ascribe, .btn-ascribe:hover, .btn-ascribe:active, .btn-ascribe:focus {
+    background-color: rgba(2, 182, 163, 0.5);
+    border-color: rgba(2, 182, 163, 0.5);
+}
