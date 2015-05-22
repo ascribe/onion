@@ -22,7 +22,7 @@ let PieceList = React.createClass({
 
     componentDidMount() {
         let page = this.props.query.page || this.state.page;
-        PieceListActions.fetchList(page, this.state.pageSize, this.state.search,
+        PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                    this.state.orderBy, this.state.orderAsc);
     },
 
@@ -37,9 +37,16 @@ let PieceList = React.createClass({
             <AltContainer 
                 store={PieceListStore} 
                 actions={PieceListActions}
-                transform={(x) => {
-                  console.log('@@@@@@@', x);
-                  return { a: 1, b: 2 };
+                transform={(props) => {
+                    return {
+                        'itemList': props.pieceList,
+                        'fetchList': props.fetchPieceList,
+                        'orderBy': props.orderBy,
+                        'orderAsc': props.orderAsc,
+                        'search': props.search,
+                        'page': props.page,
+                        'pageSize': props.pageSize
+                    }
                 }}>
                 <Table columnList={columnList} />
                 <Pagination currentPage={this.props.query.page} />

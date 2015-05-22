@@ -12,8 +12,6 @@ let Table = React.createClass({
     },
     render() {
 
-        console.log(this.props);
-
         if(this.props.itemList && this.props.itemList.length > 0) {
             return (
                 <div className="ascribe-table">

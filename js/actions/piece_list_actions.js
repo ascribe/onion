@@ -10,7 +10,7 @@ class PieceListActions {
         );
     }
 
-    fetchList(page, pageSize, search, orderBy, orderAsc) {
+    fetchPieceList(page, pageSize, search, orderBy, orderAsc) {
         PieceListFetcher
             .fetch(page, pageSize, search, orderBy, orderAsc)
             .then((res) => {
@@ -20,7 +20,7 @@ class PieceListActions {
                     search,
                     orderBy,
                     orderAsc,
-                    'itemList': res.pieces
+                    'pieceList': res.pieces
                 });
             })
             .catch((err) => {
