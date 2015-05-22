@@ -20,7 +20,8 @@ class PieceListActions {
                     search,
                     orderBy,
                     orderAsc,
-                    'pieceList': res.pieces
+                    'pieceList': res.pieces,
+                    'pieceListCount': res.count
                 });
             })
             .catch((err) => {

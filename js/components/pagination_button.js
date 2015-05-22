@@ -6,12 +6,15 @@ let Link = Router.Link;
 let PaginationButton = React.createClass({
     propTypes: {
         direction: React.PropTypes.oneOf(['previous', 'next']),
-        goToPage: React.PropTypes.func.isRequired
+        goToPage: React.PropTypes.func.isRequired,
+        currentPage: React.PropTypes.number.isRequired
     },
 
     render() {
-        let page = parseInt(this.props.page, 10);
+        let page = parseInt(this.props.currentPage, 10);
         let directionDisplay;
+
+        let isDisabled = '';
 
         if(this.props.direction === 'previous') {
             page -= 1;
@@ -29,8 +32,12 @@ let PaginationButton = React.createClass({
                 );
         }
 
+        if(page === 0) {
+            isDisabled += ' disabled';
+        }
+
         return (
-            <li className={this.props.direction}>
+            <li className={this.props.direction + isDisabled }>
                 <Link to="pieces"
                       query={{page}}
                       onClick={this.props.goToPage(page)}>

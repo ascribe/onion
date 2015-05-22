@@ -15,7 +15,6 @@ import Pagination from './pagination'
 
 let PieceList = React.createClass({
     
-    // FIXME: this might be useless
     getInitialState() {
         return PieceListStore.getState();
     },
@@ -38,13 +37,15 @@ let PieceList = React.createClass({
             new TableColumnModel('title', 'Title', TableItemText, 4, true)
         ];
 
+        // Could wrap this altContainer potentially once again.
         return (
-            <AltContainer 
+            <AltContainer
                 store={PieceListStore} 
                 actions={PieceListActions}
                 transform={(props) => {
                     return {
                         'itemList': props.pieceList,
+                        'itemListCount': props.pieceListCount,
                         'fetchList': props.fetchPieceList,
                         'orderBy': props.orderBy,
                         'orderAsc': props.orderAsc,
