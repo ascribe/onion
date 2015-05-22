@@ -26,6 +26,11 @@ let PieceList = React.createClass({
                                    this.state.orderBy, this.state.orderAsc);
     },
 
+    paginationGoToPage(page) {
+        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
+                                          this.state.orderBy, this.state.orderAsc);
+    },
+
     render() {
         let columnList = [
             new TableColumnModel('thumbnail', '', TableItemImg, 2, false),
@@ -49,7 +54,7 @@ let PieceList = React.createClass({
                     }
                 }}>
                 <Table columnList={columnList} />
-                <Pagination currentPage={this.props.query.page} />
+                <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
             </AltContainer>
         );
     }

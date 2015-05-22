@@ -1,14 +1,10 @@
 import React from 'react';
-import Router from 'react-router';
 
-let Link = Router.Link;
-
+import PaginationButton from './pagination_button';
 
 let Pagination = React.createClass({
-
-    goToPage(page) {
-        return () => this.props.fetchList(page, this.props.pageSize, this.props.search,
-                                          this.props.orderBy, this.props.orderAsc);
+    propTypes: {
+        goToPage: React.PropTypes.func.isRequired
     },
 
     render() {
@@ -18,22 +14,14 @@ let Pagination = React.createClass({
         return(
             <nav>
                 <ul className="pager">
-                    <li className="previous">
-                        <Link to="pieces"
-                              query={{page: prev}}
-                              onClick={this.goToPage(prev)}>
-                            <span aria-hidden="true">&larr;</span>
-                            Previous
-                        </Link>
-                    </li>
-                    <li className="next">
-                        <Link to="pieces"
-                              query={{page: next}}
-                              onClick={this.goToPage(next)}>
-                            Next
-                            <span aria-hidden="true">&rarr;</span>
-                        </Link>
-                    </li>
+                    <PaginationButton 
+                        direction='previous'
+                        goToPage={this.props.goToPage}>
+                    </PaginationButton>
+                    <PaginationButton 
+                        direction='next'
+                        goToPage={this.props.goToPage}>
+                    </PaginationButton>
                 </ul>
             </nav>
         );
