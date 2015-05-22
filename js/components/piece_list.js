@@ -10,7 +10,7 @@ import TableItemText from './ascribe_table/table_item_text';
 
 import TableColumnModel from '../models/table_column_model';
 
-import Pagination from './pagination'
+import Pagination from './ascribe_pagination/pagination'
 
 
 let PieceList = React.createClass({
