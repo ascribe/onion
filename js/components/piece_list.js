@@ -16,7 +16,7 @@ import TableItemSubtableButton from './ascribe_table/table_item_subtable_button'
 
 import TableColumnContentModel from '../models/table_column_content_model';
 
-import Pagination from './pagination'
+import Pagination from './ascribe_pagination/pagination'
 
 
 let PieceList = React.createClass({
@@ -30,12 +30,23 @@ let PieceList = React.createClass({
         PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
     },
 
+    componentWillUnmount() {
+        PieceListStore.unlisten(this.onChange);
+    },
+
+    onChange() {
+        this.setState(this.getInitialState());
+    },
+
     paginationGoToPage(page) {
-        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        return (e) => PieceListActions.fetchPieceList(page, this.state.pageSize,
+                                                      this.state.search, this.state.orderBy,
+                                                      this.state.orderAsc);
     },
 
     tableChangeOrder(orderBy, orderAsc) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, orderBy, orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize,
+                                        this.state.search, orderBy, orderAsc);
     },
 
     render() {
@@ -44,6 +55,9 @@ let PieceList = React.createClass({
             new TableColumnContentModel('artist_name', 'Artist', TableItemText, 4, true),
             new TableColumnContentModel('title', 'Title', TableItemText, 4, true)
         ];
+
+        let currentPage = parseInt(this.props.query.page, 10);
+        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
 
         // Could wrap this altContainer potentially once again.
         return (
@@ -63,7 +77,9 @@ let PieceList = React.createClass({
                 <Table columnList={columnList} changeOrder={this.tableChangeOrder}>
                     <TableItemSubtable store={EditionListStore} actions={EditionListActions}></TableItemSubtable>
                 </Table>
-                <Pagination currentPage={this.props.query.page} goToPage={this.paginationGoToPage} />
+                <Pagination currentPage={currentPage}
+                            totalPages={totalPages}
+                            goToPage={this.paginationGoToPage} />
             </AltContainer>
         );
     }
