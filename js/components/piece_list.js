@@ -26,7 +26,7 @@ let PieceList = React.createClass({
     },
 
     componentDidMount() {
-        let page = this.props.query.page || this.state.page;
+        let page = this.props.query.page || 1;
         PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         PieceListStore.listen(this.onChange);
     },
@@ -57,7 +57,7 @@ let PieceList = React.createClass({
             new TableColumnContentModel('title', 'Title', TableItemText, 4, true)
         ];
 
-        let currentPage = parseInt(this.props.query.page, 10);
+        let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
 
         // Could wrap this altContainer potentially once again.
