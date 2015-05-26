@@ -11,7 +11,9 @@ let Route = Router.Route;
 let routes = (
     <Route name="app" path="/" handler={AscribeApp}>
         <Route name="pieces" path="/pieces" handler={PieceList}>
-            <Route name="piece" path="/pieces/:bitcoin_ID_noPrefix" handler={Piece} />
+            
+        </Route>
+        <Route name="piece" path="/pieces/:pieceId" handler={Piece}>
         </Route>
     </Route>
 );

@@ -6,6 +6,7 @@ import TableColumnContentModel from '../../models/table_column_content_model';
 import GeneralUtils from '../../utils/general_utils';
 
 import TableItemSubtableButton from './table_item_subtable_button';
+import Table from './table';
 
 
 let TableItemSubtable = React.createClass({
@@ -29,8 +30,12 @@ let TableItemSubtable = React.createClass({
     },
 
     loadEditionList() {
-        console.log(this.props);
-        //this.props.actions.actions.fetchEditionList();
+        this.props.actions.fetchEditionList(this.props.columnContent.id);
+
+        this.setState({
+            'open': true,
+            'editionList': this.props.store.getState()
+        });
     },
 
     calcColumnClasses(list, i) {
@@ -63,6 +68,26 @@ let TableItemSubtable = React.createClass({
             });
         };
 
+
+        let renderEditionListTable = () => {
+
+            // let columnList = [
+            //     new TableColumnContentModel('thumbnail', '', TableItemImg, 2, false),
+            //     new TableColumnContentModel('artist_name', 'Artist', TableItemText, 4, true),
+            //     new TableColumnContentModel('title', 'Title', TableItemText, 4, true)
+            // ];
+
+            if(this.state.open) {
+                return (
+                    <div className="row">
+                      <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <Table itemList={this.state.editionList}></Table>
+                      </div>  
+                    </div>
+                );
+            }
+        };
+
         return (
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-item">
                 <div className="row">
@@ -72,6 +97,7 @@ let TableItemSubtable = React.createClass({
                         </TableItemSubtableButton>
                     </div>
                 </div>
+                {renderEditionListTable()}
             </div> 
         );
     }

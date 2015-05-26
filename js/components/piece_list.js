@@ -16,7 +16,7 @@ import TableItemSubtableButton from './ascribe_table/table_item_subtable_button'
 
 import TableColumnContentModel from '../models/table_column_content_model';
 
-import Pagination from './ascribe_pagination/pagination'
+import Pagination from './ascribe_pagination/pagination';
 
 
 let PieceList = React.createClass({
