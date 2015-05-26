@@ -10,7 +10,9 @@ let TableItem = React.createClass({
 
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        columnContent: React.PropTypes.object
+        columnContent: React.PropTypes.object,
+        onClick: React.PropTypes.func, // See: https://facebook.github.io/react/tips/expose-component-functions.html
+        classNames: React.PropTypes.string
     },
 
     render() {
@@ -30,7 +32,9 @@ let TableItem = React.createClass({
         };
 
         return (
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-item">
+            <div 
+                className={this.props.classNames + ' col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-item'}
+                onClick={this.props.onClick}>
                 <div className="row">
                     {calcColumnElementContent()}
                 </div>

@@ -10,7 +10,7 @@ import EditionListActions from '../../actions/edition_list_actions';
 import GeneralUtils from '../../utils/general_utils';
 
 import Table from './table';
-import TableItem from './table_item';
+import TableItemSelectable from './table_item_selectable';
 import TableItemText from './table_item_text';
 import TableItemSubtableButton from './table_item_subtable_button';
 
@@ -50,6 +50,13 @@ let TableItemSubtable = React.createClass({
         }
     },
 
+    selectItem(parentId, itemId) {
+        EditionListActions.selectEdition({
+            'pieceId': parentId,
+            'editionId': itemId
+        });
+    },
+
     render() {
 
         let calcColumnElementContent = () => {
@@ -83,9 +90,11 @@ let TableItemSubtable = React.createClass({
                         <Table itemList={this.state.editionList[this.props.columnContent.id]} columnList={columnList}>
                             {this.state.editionList[this.props.columnContent.id].map((edition, i) => {
                                 return (
-                                    <TableItem
+                                    <TableItemSelectable
+                                        selectItem={this.selectItem}
+                                        parentId={this.props.columnContent.id}
                                         key={i}>
-                                    </TableItem>
+                                    </TableItemSelectable>
                                 );
                             })} 
                         </Table>

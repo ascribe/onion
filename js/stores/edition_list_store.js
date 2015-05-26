@@ -7,8 +7,22 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionList}) {
-        this.editionList[pieceId] = editionList;
+    onUpdateEditionList({pieceId, editionListOfPiece}) {
+        this.editionList[pieceId] = editionListOfPiece;
+    }
+
+    onSelectEdition({pieceId, editionId}) {
+
+        this.editionList[pieceId].forEach((edition) => {
+            if(edition.edition_number === editionId) {
+                if(edition.selected) {
+                    edition.selected = false;
+                } else {
+                    edition.selected = true;
+                }
+            }
+        });
+
     }
 };
 
