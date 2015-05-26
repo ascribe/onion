@@ -28,6 +28,7 @@ let PieceList = React.createClass({
     componentDidMount() {
         let page = this.props.query.page || this.state.page;
         PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
