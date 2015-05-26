@@ -18,7 +18,7 @@ let TableItem = React.createClass({
             return this.props.columnList.map((column, i) => {
 
                 let TypeElement = column.displayType;
-                let columnClass = this.calcColumnClasses(this.props.columnList, i);
+                let columnClass = this.calcColumnClasses(this.props.columnList, i, 12);
 
                 return (
                     <div className={columnClass + ' ascribe-table-item-column'} key={i}>
