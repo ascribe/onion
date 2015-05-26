@@ -4,9 +4,6 @@ import AltContainer from 'alt/AltContainer';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
-import EditionListStore from '../stores/edition_list_store';
-import EditionListActions from '../actions/edition_list_actions';
-
 import Table from './ascribe_table/table';
 import TableItem from './ascribe_table/table_item';
 import TableItemImg from './ascribe_table/table_item_img';
@@ -27,16 +24,16 @@ let PieceList = React.createClass({
 
     componentDidMount() {
         let page = this.props.query.page || 1;
-        PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         PieceListStore.listen(this.onChange);
+        PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
     },
 
-    onChange() {
-        this.setState(this.getInitialState());
+    onChange(state) {
+        this.setState(state);
     },
 
     paginationGoToPage(page) {
@@ -59,30 +56,40 @@ let PieceList = React.createClass({
 
         let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
-
-        // Could wrap this altContainer potentially once again.
-        return (
-            <AltContainer
-                store={PieceListStore}
-                transform={(props) => {
-                    return {
-                        'itemList': props.pieceList,
-                        'itemListCount': props.pieceListCount,
-                        'orderBy': props.orderBy,
-                        'orderAsc': props.orderAsc,
-                        'search': props.search,
-                        'page': props.page,
-                        'pageSize': props.pageSize,
-                    }
-                }}>
-                <Table columnList={columnList} changeOrder={this.tableChangeOrder}>
-                    <TableItemSubtable store={EditionListStore} actions={EditionListActions}></TableItemSubtable>
-                </Table>
-                <Pagination currentPage={currentPage}
-                            totalPages={totalPages}
-                            goToPage={this.paginationGoToPage} />
-            </AltContainer>
-        );
+        
+        if(this.state.pieceList && this.state.pieceList.length > 0) {
+            return (
+                <div>
+                    <Table 
+                        columnList={columnList} 
+                        changeOrder={this.tableChangeOrder}
+                        itemList={this.state.pieceList}
+                        itemListCount={this.state.pieceListCount}
+                        orderBy={this.state.orderBy}
+                        orderAsc={this.state.orderAsc}
+                        search={this.state.search}
+                        page={this.state.page}
+                        pageSize={this.state.pageSize}>
+                            {this.state.pieceList.map((item, i) => {
+                                return (
+                                    <TableItemSubtable
+                                        key={i}>
+                                    </TableItemSubtable>
+                                );
+                            })}
+                    </Table>
+                    <Pagination currentPage={currentPage}
+                                totalPages={totalPages}
+                                goToPage={this.paginationGoToPage}>
+                    </Pagination>
+                </div>
+            );
+        } else {
+            return (
+                <p>Loading</p>
+            );
+        }
+        
     }
 });
 

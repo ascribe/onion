@@ -14,14 +14,12 @@ let Table = React.createClass({
 
     renderChildren() {
         var that = this;
-        return ReactAddons.Children.map(this.props.children, (child) => {
-            return that.props.itemList.map((item, i) => {
-                 return ReactAddons.addons.cloneWithProps(child, {
-                    columnList: this.props.columnList,
-                    columnContent: item,
-                    key: i
-                });
-            });           
+        return ReactAddons.Children.map(this.props.children, (child, i) => {
+            return ReactAddons.addons.cloneWithProps(child, {
+                columnList: this.props.columnList,
+                columnContent: this.props.itemList[i],
+                key: i
+            });       
         });
     },
     
