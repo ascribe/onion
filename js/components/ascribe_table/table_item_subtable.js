@@ -10,8 +10,9 @@ import EditionListActions from '../../actions/edition_list_actions';
 import GeneralUtils from '../../utils/general_utils';
 
 import Table from './table';
-import TableItemSelectable from './table_item_selectable';
 import TableItemText from './table_item_text';
+import TableItemAcl from './table_item_acl';
+import TableItemSelectable from './table_item_selectable';
 import TableItemSubtableButton from './table_item_subtable_button';
 
 
@@ -81,7 +82,7 @@ let TableItemSubtable = React.createClass({
             let columnList = [
                 new TableColumnContentModel('edition_number', 'Edition Number', TableItemText, 2, false),
                 new TableColumnContentModel('user_registered', 'User', TableItemText, 4, true),
-                new TableColumnContentModel('bitcoin_id', 'Bitcoin Address', TableItemText, 4, true)
+                new TableColumnContentModel('acl', 'Actions', TableItemAcl, 4, true)
             ];
 
             if(this.state.open && this.state.editionList[this.props.columnContent.id] && this.state.editionList[this.props.columnContent.id].length) {
