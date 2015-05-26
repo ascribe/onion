@@ -1,18 +1,18 @@
 import alt from '../alt';
-import PieceFetcher from '../fetchers/piece_fetcher';
+import EditionFetcher from '../fetchers/edition_fetcher';
 
 
-class PieceActions {
+class EditionActions {
     constructor() {
         this.generateActions(
-            'updatePiece'
+            'updateEdition'
         );
     }
 
-    fetchOne(pieceId) {
-        PieceFetcher.fetchOne(pieceId)
+    fetchOne(editionId) {
+        EditionFetcher.fetchOne(editionId)
             .then((res) => {
-                this.actions.updatePiece(res.piece);
+                this.actions.updateEdition(res.edition);
             })
             .catch((err) => {
                 console.log(err);           
@@ -20,4 +20,4 @@ class PieceActions {
     }
 }
 
-export default alt.createActions(PieceActions);
+export default alt.createActions(EditionActions);

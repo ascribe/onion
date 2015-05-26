@@ -4,7 +4,7 @@ import ImageViewer from './ascribe_media/image_viewer';
 /**
  * This is the component that implements display-specific functionality
  */
-let Piece = React.createClass({
+let Edition = React.createClass({
     //propTypes: {
     //    title: React.PropTypes.string.isRequired
     //},
@@ -13,18 +13,18 @@ let Piece = React.createClass({
         return (
             <div>
                 <div className="col-md-7">
-                    <ImageViewer thumbnail={this.props.piece.thumbnail}/>
+                    <ImageViewer thumbnail={this.props.edition.thumbnail}/>
                 </div>
                 <div className="col-md-5">
-                    <PieceHeader piece={this.props.piece}/>
-                    <PieceEdition piece={this.props.piece}/>
+                    <EditionHeader piece={this.props.edition}/>
+                    <EditionDetails piece={this.props.edition}/>
                 </div>
             </div>
         );
     }
 });
 
-let PieceHeader = React.createClass({
+let EditionHeader = React.createClass({
     //propTypes: {
     //    title: React.PropTypes.string.isRequired
     //},
@@ -38,7 +38,7 @@ let PieceHeader = React.createClass({
                             <div>TITLE:</div>
                         </div>
                         <div className="col-md-10 col-xs-height col-bottom">
-                            <div className="ascribe-detail-title">{this.props.piece.title}</div>
+                            <div className="ascribe-detail-title">{this.props.edition.title}</div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@ let PieceHeader = React.createClass({
                         <div>BY:</div>
                     </div>
                     <div className="col-md-10">
-                        <div>{this.props.piece.artist_name}</div>
+                        <div>{this.props.edition.artist_name}</div>
                     </div>
                 </div>
                 <div className="row">
@@ -55,7 +55,7 @@ let PieceHeader = React.createClass({
                         <div>DATE:</div>
                     </div>
                     <div className="col-md-10">
-                        <div>{ this.props.piece.date_created.slice(0,4) }</div>
+                        <div>{ this.props.edition.date_created.slice(0,4) }</div>
                     </div>
                 </div>
                 <hr/>
@@ -64,7 +64,7 @@ let PieceHeader = React.createClass({
     }
 });
 
-let PieceEdition = React.createClass({
+let EditionDetails = React.createClass({
     //propTypes: {
     //    title: React.PropTypes.string.isRequired
     //},
@@ -77,7 +77,7 @@ let PieceEdition = React.createClass({
                         <div>EDITION:</div>
                     </div>
                     <div className="col-md-10">
-                        <div>{ this.props.piece.edition_number } of {this.props.piece.num_editions}</div>
+                        <div>{ this.props.edition.edition_number } of {this.props.edition.num_editions}</div>
                     </div>
                 </div>
                 <div className="row">
@@ -85,7 +85,7 @@ let PieceEdition = React.createClass({
                         <div>ID:</div>
                     </div>
                     <div className="col-md-10">
-                        <div>{ this.props.piece.bitcoin_id }</div>
+                        <div>{ this.props.edition.bitcoin_id }</div>
                     </div>
                 </div>
                 <div className="row">
@@ -93,7 +93,7 @@ let PieceEdition = React.createClass({
                         <div>OWNER:</div>
                     </div>
                     <div className="col-md-10">
-                        <div>{ this.props.piece.owner }</div>
+                        <div>{ this.props.edition.owner }</div>
                     </div>
                 </div>
                 <hr/>
@@ -103,4 +103,4 @@ let PieceEdition = React.createClass({
 });
 
 
-export default Piece;
+export default Edition;

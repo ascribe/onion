@@ -11,7 +11,7 @@ let PieceFetcher = {
      * 
      */
     fetchOne(pieceId) {
-        return fetch(AppConstants.baseUrl + 'editions/' + pieceId + '/', {
+        return fetch(AppConstants.baseUrl + 'pieces/' + pieceId + '/', {
             headers: {
                 'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
             }

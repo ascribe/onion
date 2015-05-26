@@ -1,16 +1,16 @@
 import alt from '../alt';
-import PieceAction from '../actions/piece_actions';
+import EditionAction from '../actions/edition_actions';
 
 
-class PieceStore {
+class EditionStore {
     constructor() {
-        this.piece = {};
-        this.bindActions(PieceAction);
+        this.edition = {};
+        this.bindActions(EditionAction);
     }
 
-    onUpdatePiece(piece) {
-        this.piece = piece;
+    onUpdateEdition(edition) {
+        this.edition = edition;
     }
 }
 
-export default alt.createStore(PieceStore);
+export default alt.createStore(EditionStore);

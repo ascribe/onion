@@ -1,17 +1,17 @@
 import React from 'react';
 
-import PieceActions from '../actions/piece_actions';
-import PieceStore from '../stores/piece_store';
+import EditionActions from '../actions/edition_actions';
+import EditionStore from '../stores/edition_store';
 
-import Piece from './piece';
+import Edition from './edition';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
-let PieceContainer = React.createClass({
+let EditionContainer = React.createClass({
 
     getInitialState() {
-        return PieceStore.getState();
+        return EditionStore.getState();
     },
 
     onChange(state) {
@@ -19,19 +19,19 @@ let PieceContainer = React.createClass({
     },
 
     componentDidMount() {
-        PieceActions.fetchOne(this.props.params.pieceId);
-        PieceStore.listen(this.onChange);
+        EditionActions.fetchOne(this.props.params.editionId);
+        EditionStore.listen(this.onChange);
     },
 
     componentDidUnmount() {
-        PieceStore.unlisten(this.onChange);
+        EditionStore.unlisten(this.onChange);
     },
 
     render() {
 
-        if('title' in this.state.piece) {
+        if('title' in this.state.edition) {
             return (
-                <Piece piece={this.state.piece}></Piece>
+                <Edition edition={this.state.edition}></Edition>
             );
         } else {
             return (
@@ -43,4 +43,4 @@ let PieceContainer = React.createClass({
     }
 });
 
-export default PieceContainer; 
+export default EditionContainer;
