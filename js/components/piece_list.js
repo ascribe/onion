@@ -23,11 +23,9 @@ let PieceList = React.createClass({
     },
 
     componentDidMount() {
+        let page = this.props.query.page || 1;
         PieceListStore.listen(this.onChange);
-
-        let page = this.props.query.page || this.state.page;
         PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
-        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -56,7 +54,7 @@ let PieceList = React.createClass({
             new TableColumnContentModel('title', 'Title', TableItemText, 4, true)
         ];
 
-        let currentPage = parseInt(this.props.query.page, 10);
+        let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
         
         if(this.state.pieceList && this.state.pieceList.length > 0) {
