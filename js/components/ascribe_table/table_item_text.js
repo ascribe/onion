@@ -3,7 +3,10 @@ import React from 'react';
 
 let TableItemText = React.createClass({
     propTypes: {
-        content: React.PropTypes.string.isRequired
+        content: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number
+        ]) 
     },
 
     render() {
