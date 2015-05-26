@@ -1,4 +1,5 @@
-class TableColumnItem {
+class TableColumnContentModel {
+    // ToDo: Add validation for all passed-in parameters
     constructor(columnName, displayName, displayType, rowWidth, canBeOrdered) {
         this.columnName = columnName;
         this.displayName = displayName;
@@ -8,4 +9,4 @@ class TableColumnItem {
     }
 }
 
-export default TableColumnItem;
+export default TableColumnContentModel;

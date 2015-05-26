@@ -1,26 +1,19 @@
 import React from 'react';
 
 import TableColumnMixin from '../../mixins/table_column_mixin';
-import TableItemImg from './table_item_img';
-import TableItemText from './table_item_text';
 
-import TableColumnModel from '../../models/table_column_model';
+import TableColumnContentModel from '../../models/table_column_content_model';
 
 
 let TableItem = React.createClass({
     mixins: [TableColumnMixin],
 
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnModel)),
-        columnContent: React.PropTypes.object.isRequired
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnContent: React.PropTypes.object
     },
 
     render() {
-        
-        /**
-         * An element in the Table can have a certain display_type.
-         * A display_type is just 
-         */
         let calcColumnElementContent = () => {
             return this.props.columnList.map((column, i) => {
 

@@ -7,9 +7,9 @@ let EditionListFetcher = {
     /**
      * Fetches a list of editions from the API.
      */
-    fetch() {
+    fetch(pieceId) {
 
-        return fetch(AppConstants.baseUrl + 'pieces/', {
+        return fetch(AppConstants.baseUrl + 'pieces/' + pieceId + '/editions/', {
             headers: {
                 'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
             }
