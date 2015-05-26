@@ -18,7 +18,7 @@ npm run watch
 ```
 
 Code Conventions
-============
+================
 For this project, we're using:
 
 * 4 Spaces
@@ -28,9 +28,15 @@ For this project, we're using:
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
 
 
+Troubleshooting
+===============
+
+Q: OMG nothing works
+A: try `npm install`. Someone may have updated some dependencies
+
+
 Reading list
 ============
-
 
 Start here
 ----------
