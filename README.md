@@ -9,16 +9,24 @@ The code is JavaScript ECMA 6.
 
 Getting started
 ===============
-
+Install some nice extensions for Chrom(e|ium):
+- [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi):
+  we need this to open connection to external hosts ([staging.ascribe.io](http://staging.ascribe.io/) in our case)
+- [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+  
 ```bash
 git clone git@bitbucket.org:ascribe/onion.git
 cd onion
 npm install
 npm run watch
+
+python -mSimpleHTTPServer
 ```
 
+
+
 Code Conventions
-============
+================
 For this project, we're using:
 
 * 4 Spaces
@@ -28,9 +36,15 @@ For this project, we're using:
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
 
 
+Troubleshooting
+===============
+
+Q: OMG nothing works
+A: try `npm install`. Someone may have updated some dependencies
+
+
 Reading list
 ============
-
 
 Start here
 ----------

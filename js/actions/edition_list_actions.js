@@ -13,7 +13,10 @@ class EditionListActions {
         EditionListFetcher
             .fetch(pieceId)
             .then((res) => {
-                this.actions.updateEditionList(res.editions);
+                this.actions.updateEditionList({
+                    'editionList': res.editions,
+                    pieceId
+                });
             })
             .catch((err) => {
                 console.log(err);
