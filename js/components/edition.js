@@ -78,17 +78,20 @@ let ShareModal = React.createClass({
 
     getInitialState: function() {
         return {
-            isModalOpen: true
+            isOpen: true
         };
     },
+    hide: function(){
+      this.setState({isOpen: false})
+    },
     renderOverlay: function() {
-        if (!this.state.isModalOpen) {
+        if (!this.state.isOpen) {
             return <span/>;
         }
     },
     render: function() {
         return (
-            <Modal title="Share artwork">
+            <Modal title="Share artwork" onRequestHide={this.hide}>
             </Modal>
         );
     }
