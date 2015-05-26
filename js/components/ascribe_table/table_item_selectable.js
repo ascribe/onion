@@ -17,17 +17,20 @@ let TableItemSelectable = React.createClass({
         columnContent: React.PropTypes.object
     },
 
+    selectItem() {
+        this.props.selectItem(this.props.parentId, this.props.columnContent.edition_number);
+    },
+
     render() {
         let tableItemClasses = classNames({
             'ascribe-table-item-selected': this.props.columnContent.selected
         });
-        let boundSelectItem = this.props.selectItem.bind(this, this.props.parentId, this.props.columnContent.edition_number);
 
         return (
             <TableItem classNames={tableItemClasses}
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
-                onClick={boundSelectItem}>
+                onClick={this.selectItem}>
             </TableItem>
         );
     }
