@@ -42,6 +42,7 @@ let TableItemSubtable = React.createClass({
                 'open': false
             });
         } else {
+
             EditionListActions.fetchEditionList(this.props.columnContent.id);
             this.setState({
                 'open': true,
