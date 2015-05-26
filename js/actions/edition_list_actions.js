@@ -19,6 +19,6 @@ class EditionListActions {
                 console.log(err);
             });
     }
-};
+}
 
 export default alt.createActions(EditionListActions);

@@ -31,7 +31,7 @@ let PieceContainer = React.createClass({
 
         if('title' in this.state.piece) {
             return (
-                <Piece title={this.state.piece.title}></Piece>
+                <Piece piece={this.state.piece}></Piece>
             );
         } else {
             return (

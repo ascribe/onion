@@ -18,6 +18,6 @@ class PieceActions {
                 console.log(err);           
             });
     }
-};
+}
 
 export default alt.createActions(PieceActions);
