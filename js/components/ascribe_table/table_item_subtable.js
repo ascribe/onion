@@ -1,15 +1,13 @@
 import React from 'react';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
-import TableColumnMixin from '../../mixins/table_column_mixin';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
-// ToDo: Create Table-specific Utils to not lock it to projects utilities
-import GeneralUtils from '../../utils/general_utils';
 
 import Table from './table';
+import TableItemWrapper from './table_item_wrapper';
 import TableItemText from './table_item_text';
 import TableItemAcl from './table_item_acl';
 import TableItemSelectable from './table_item_selectable';
@@ -17,7 +15,6 @@ import TableItemSubtableButton from './table_item_subtable_button';
 
 
 let TableItemSubtable = React.createClass({
-    mixins: [TableColumnMixin],
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
         columnContent: React.PropTypes.object
@@ -61,22 +58,6 @@ let TableItemSubtable = React.createClass({
 
     render() {
 
-        let calcColumnElementContent = () => {
-            return this.props.columnList.map((column, i) => {
-
-                let TypeElement = column.displayType;
-                let columnClass = this.calcColumnClasses(this.props.columnList, i, 12);
-
-                return (
-                    <div className={columnClass + ' ascribe-table-item-column'} key={i}>
-                        <TypeElement content={this.props.columnContent[column.columnName]} width="50" />
-                    </div>
-                );
-
-            });
-        };
-
-
         let renderEditionListTable = () => {
 
             let columnList = [
@@ -109,7 +90,10 @@ let TableItemSubtable = React.createClass({
         return (
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-item">
                 <div className="row">
-                    {calcColumnElementContent()}
+                    <TableItemWrapper
+                        columnList={this.props.columnList}
+                        columnContent={this.props.columnContent}
+                        columnWidth={10}></TableItemWrapper>
                     <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2 ascribe-table-item-column">
                         <TableItemSubtableButton content="Editions" onClick={this.loadEditionList}>
                         </TableItemSubtableButton>
