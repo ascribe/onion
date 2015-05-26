@@ -70,6 +70,10 @@
     margin-bottom: -0.2em;
 }
 
+.ascribe-detail-property > .row-same-height > .col-xs-2 {
+    text-transform: uppercase;
+}
+
 /* columns of same height styles */
 /* http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-columns-of-same-height */
 .row-full-height {

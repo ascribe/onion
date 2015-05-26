@@ -25,39 +25,13 @@ let Edition = React.createClass({
 });
 
 let EditionHeader = React.createClass({
-    //propTypes: {
-    //    title: React.PropTypes.string.isRequired
-    //},
-
     render() {
+        var title_html = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
         return (
             <div className="ascribe-detail-header">
-                <div className="row">
-                    <div className="row-same-height">
-                        <div className="col-xs-2 col-xs-height col-bottom">
-                            <div>TITLE:</div>
-                        </div>
-                        <div className="col-xs-10 col-xs-height col-bottom">
-                            <div className="ascribe-detail-title">{this.props.edition.title}</div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-2">
-                        <div>BY:</div>
-                    </div>
-                    <div className="col-xs-10">
-                        <div>{this.props.edition.artist_name}</div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-2">
-                        <div>DATE:</div>
-                    </div>
-                    <div className="col-xs-10">
-                        <div>{ this.props.edition.date_created.slice(0,4) }</div>
-                    </div>
-                </div>
+                <EditionDetailProperty label="title" value={title_html} />
+                <EditionDetailProperty label="by" value={this.props.edition.artist_name} />
+                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0,4) } />
                 <hr/>
             </div>
         );
@@ -65,38 +39,31 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
-    //propTypes: {
-    //    title: React.PropTypes.string.isRequired
-    //},
-
     render() {
         return (
             <div className="ascribe-detail-header">
-                <div className="row">
-                    <div className="col-xs-2">
-                        <div>EDITION:</div>
-                    </div>
-                    <div className="col-xs-10">
-                        <div>{ this.props.edition.edition_number } of {this.props.edition.num_editions}</div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-2">
-                        <div>ID:</div>
-                    </div>
-                    <div className="col-xs-10">
-                        <div>{ this.props.edition.bitcoin_id }</div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-2">
-                        <div>OWNER:</div>
-                    </div>
-                    <div className="col-xs-10">
-                        <div>{ this.props.edition.owner }</div>
-                    </div>
-                </div>
+                <EditionDetailProperty label="edition"
+                    value={this.props.edition.edition_number + " of " + this.props.edition.num_editions} />
+                <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
+                <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <hr/>
+            </div>
+        );
+    }
+});
+
+let EditionDetailProperty = React.createClass({
+    render() {
+        return (
+            <div className="row ascribe-detail-property">
+                <div className="row-same-height">
+                    <div className="col-xs-2 col-xs-height col-bottom">
+                        <div>{ this.props.label }:</div>
+                    </div>
+                    <div className="col-xs-10 col-xs-height col-bottom">
+                        <div>{ this.props.value }</div>
+                    </div>
+                </div>
             </div>
         );
     }
