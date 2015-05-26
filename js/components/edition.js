@@ -4,7 +4,6 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import OverlayMixin from 'react-bootstrap/lib/OverlayMixin';
 import Modal from 'react-bootstrap/lib/Modal';
 import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
-import Modal from 'react-modal';
 
 /**
  * This is the component that implements display-specific functionality
