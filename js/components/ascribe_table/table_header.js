@@ -12,9 +12,9 @@ let TableHeader = React.createClass({
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
         itemList: React.PropTypes.array.isRequired,
-        changeOrder: React.PropTypes.func.isRequired,
-        orderAsc: React.PropTypes.bool.isRequired,
-        orderBy: React.PropTypes.string.isRequired
+        changeOrder: React.PropTypes.func,
+        orderAsc: React.PropTypes.bool,
+        orderBy: React.PropTypes.string
     },
 
     render() {

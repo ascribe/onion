@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
+import TableColumnMixin from '../../mixins/table_column_mixin';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -15,6 +16,7 @@ import TableItemSubtableButton from './table_item_subtable_button';
 
 
 let TableItemSubtable = React.createClass({
+    mixins: [TableColumnMixin],
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
         columnContent: React.PropTypes.object
@@ -45,19 +47,6 @@ let TableItemSubtable = React.createClass({
                 'open': true,
                 'editionList': EditionListStore.getState()
             });
-        }
-    },
-
-    calcColumnClasses(list, i) {
-        let bootstrapClasses = ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-'];
-        
-        let listOfRowValues = list.map((column) => column.rowWidth );
-        let numOfColumns = GeneralUtils.sumNumList(listOfRowValues);
-
-        if(numOfColumns > 10) {
-            throw new Error('Bootstrap has only 12 columns to assign. You defined ' + numOfColumns + '. Change this in the columnMap you\'re passing to the table.')
-        } else {
-            return bootstrapClasses.join( listOfRowValues[i] + ' ') + listOfRowValues[i];
         }
     },
 

@@ -8,10 +8,10 @@ let TableHeaderItem = React.createClass({
         columnClasses: React.PropTypes.string.isRequired,
         displayName: React.PropTypes.string.isRequired,
         columnName: React.PropTypes.string.isRequired,
-        canBeOrdered: React.PropTypes.bool.isRequired,
-        changeOrder: React.PropTypes.func.isRequired,
-        orderAsc: React.PropTypes.bool.isRequired,
-        orderBy: React.PropTypes.string.isRequired
+        canBeOrdered: React.PropTypes.bool,
+        changeOrder: React.PropTypes.func,
+        orderAsc: React.PropTypes.bool,
+        orderBy: React.PropTypes.string
     },
 
     changeOrder() {
@@ -19,7 +19,7 @@ let TableHeaderItem = React.createClass({
     },
 
     render() {
-        if(this.props.canBeOrdered) {
+        if(this.props.canBeOrdered && this.props.changeOrder && this.props.orderAsc != null && this.props.orderBy) {
             if(this.props.columnName === this.props.orderBy) {
                 return (
                     <div 
