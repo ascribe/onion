@@ -10,12 +10,14 @@ let EditionFetcher = {
      * If no arg is supplied, load the current user
      * 
      */
-    fetchOne(pieceId) {
-        return fetch(AppConstants.baseUrl + 'editions/' + pieceId + '/', {
+    fetchOne(editionId) {
+        return fetch(AppConstants.baseUrl + 'editions/' + editionId + '/', {
             headers: {
                 'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
             }
-        }).then((res) => res.json());
+        }).then(
+            (res) => res.json()
+        );
     }
 };
 
