@@ -46,6 +46,7 @@ let EditionDetails = React.createClass({
                     value={this.props.edition.edition_number + " of " + this.props.edition.num_editions} />
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
+                <br/>
                 <ShareModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <hr/>
             </div>
