@@ -2,6 +2,8 @@ import React from 'react';
 
 import EditionListStore from '../../stores/edition_list_store';
 
+import AclButton from '../acl_button';
+
 let PieceListToolbar = React.createClass({
     getInitialState() {
         return EditionListStore.getState();
@@ -29,8 +31,7 @@ let PieceListToolbar = React.createClass({
         Object
             .keys(this.state.editionList)
             .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editionList[key]
-                    .filter(this.filterForSelected);
+                let filteredEditionsForPiece = this.state.editionList[key].filter(this.filterForSelected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -38,7 +39,6 @@ let PieceListToolbar = React.createClass({
     },
 
     intersectAcls(a, b) {
-        //console.log(a, b);
         return a.filter((val) => b.indexOf(val) > -1);
     },
 
@@ -48,6 +48,7 @@ let PieceListToolbar = React.createClass({
 
         // If no edition has been selected, availableActions is empty
         // If only one edition has been selected, their actions are available
+        // If more than one editions have been selected, their acl properties are intersected
         if(selectedEditionList.length >= 1) {
             availableAcls = selectedEditionList[0].acl;
         }
@@ -61,16 +62,16 @@ let PieceListToolbar = React.createClass({
     },
 
     render() {
-        this.getAvailableAcls();
+        let availableAcls = this.getAvailableAcls();
 
         return (
             <div className="row no-margin">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-toolbar">
                     <div className="pull-right">
-                        <button type="button" className="btn btn-default btn-sm">Transfer</button>
-                        <button type="button" className="btn btn-default btn-sm">Consign</button>
-                        <button type="button" className="btn btn-default btn-sm">Share</button>
-                        <button type="button" className="btn btn-default btn-sm">Loan</button>
+                        <AclButton availableAcls={availableAcls} action="transfer" />
+                        <AclButton availableAcls={availableAcls} action="consign" />
+                        <AclButton availableAcls={availableAcls} action="share" />
+                        <AclButton availableAcls={availableAcls} action="loan" />
                     </div>
                 </div>
             </div>
