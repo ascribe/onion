@@ -12,11 +12,13 @@
 .ascribe-table-header-row {
     border-bottom: 2px solid rgba(2, 182, 163, 0.5);
     border-top: 2px solid rgba(2, 182, 163, 0.5);
+    padding: 0;
 }
     
 .ascribe-table-header-column {
     display: table;
     height:3em;
+    padding: 0;
 }
 
 .ascribe-table-header-column > span {
@@ -58,4 +60,13 @@
 
 .ascribe-table-item-selectable {
     cursor: default;
+}
+
+.piece-list-toolbar {
+    height:3em;
+}
+
+.no-margin {
+    margin-right: 0;
+    margin-left: 0;
 }
