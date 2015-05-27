@@ -74,6 +74,7 @@ let TableItemSubtable = React.createClass({
                             {this.state.editionList[this.props.columnContent.id].map((edition, i) => {
                                 return (
                                     <TableItemSelectable
+                                        className="ascribe-table-item-selectable"
                                         selectItem={this.selectItem}
                                         parentId={this.props.columnContent.id}
                                         key={i}>
@@ -93,9 +94,10 @@ let TableItemSubtable = React.createClass({
                     <TableItemWrapper
                         columnList={this.props.columnList}
                         columnContent={this.props.columnContent}
-                        columnWidth={10}></TableItemWrapper>
-                    <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2 ascribe-table-item-column">
-                        <TableItemSubtableButton content="Editions" onClick={this.loadEditionList}>
+                        columnWidth={12}>
+                    </TableItemWrapper>
+                    <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 ascribe-table-item-column">
+                        <TableItemSubtableButton content="+" onClick={this.loadEditionList}>
                         </TableItemSubtableButton>
                     </div>
                 </div>

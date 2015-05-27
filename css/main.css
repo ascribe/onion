@@ -16,7 +16,7 @@
     
 .ascribe-table-header-column {
     display: table;
-    height:4em;
+    height:3em;
 }
 
 .ascribe-table-header-column > span {
@@ -44,7 +44,7 @@
     display: table;
     font-family: 'Source Sans Pro';
     font-size: 1.2em;
-    height:4em;
+    height:3em;
 }
 
 .ascribe-table-item-column > * {
@@ -52,11 +52,10 @@
     vertical-align: middle;
 }
 
-.btn-ascribe, .btn-ascribe:hover, .btn-ascribe:active, .btn-ascribe:focus {
-    background-color: rgba(2, 182, 163, 0.5);
-    border-color: rgba(2, 182, 163, 0.5);
-}
-
 .ascribe-table-item-selected {
     background-color: rgba(2, 182, 163, 0.5);
+}
+
+.ascribe-table-item-selectable {
+    cursor: default;
 }

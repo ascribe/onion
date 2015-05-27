@@ -11,7 +11,8 @@ let TableItemSelectable = React.createClass({
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
         columnContent: React.PropTypes.object,
-        parentId: React.PropTypes.number
+        parentId: React.PropTypes.number,
+        className: React.PropTypes.string
     },
 
     selectItem() {
@@ -25,7 +26,7 @@ let TableItemSelectable = React.createClass({
 
         return (
             <TableItem 
-                classNames={tableItemClasses}
+                classNames={tableItemClasses + ' ' + this.props.className}
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
                 onClick={this.selectItem}>
