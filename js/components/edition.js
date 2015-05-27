@@ -38,7 +38,6 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
-
     render() {
         return (
             <div className="ascribe-detail-header">

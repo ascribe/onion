@@ -39,6 +39,9 @@ let ShareModal = React.createClass({
 });
 
 let ShareForm = React.createClass({
+    getInitialState(){
+        return {errors: []}
+    },
     submit(e) {
         e.preventDefault();
         let url = "http://localhost:8000/api/ownership/shares/mail/";
@@ -51,6 +54,14 @@ let ShareForm = React.createClass({
             },
             body: JSON.stringify(this.getFormData())
         })
+        .then((response) => response.json())
+        .catch(function(error) {
+            this.setState({errors: error});
+            console.log('request failed', error);
+        }.bind(this));
+
+        //.then(FetchApiUtils.status)
+
     },
     getFormData() {
         return {
