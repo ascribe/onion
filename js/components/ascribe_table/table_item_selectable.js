@@ -5,7 +5,7 @@ import TableColumnContentModel from '../../models/table_column_content_model';
 
 import TableItem from './table_item';
 
-// This Component is implemented as recommended here: http://stackoverflow.com/a/25723635/1263876
+// This component is implemented as recommended here: http://stackoverflow.com/a/25723635/1263876
 let TableItemSelectable = React.createClass({
 
     propTypes: {
@@ -27,7 +27,8 @@ let TableItemSelectable = React.createClass({
         });
 
         return (
-            <TableItem classNames={tableItemClasses}
+            <TableItem 
+                classNames={tableItemClasses}
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
                 onClick={this.selectItem}>
