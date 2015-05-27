@@ -2,6 +2,8 @@ import React from 'react';
 
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
 
 import Edition from './edition';
 
@@ -11,7 +13,8 @@ import Edition from './edition';
 let EditionContainer = React.createClass({
 
     getInitialState() {
-        return EditionStore.getState();
+        return {'user': UserStore.getState(),
+                'edition': EditionStore.getState()}
     },
 
     onChange(state) {
@@ -21,17 +24,20 @@ let EditionContainer = React.createClass({
     componentDidMount() {
         EditionActions.fetchOne(this.props.params.editionId);
         EditionStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+        UserStore.listen(this.onChange);
     },
 
     componentDidUnmount() {
         EditionStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     render() {
 
         if('title' in this.state.edition) {
             return (
-                <Edition edition={this.state.edition}></Edition>
+                <Edition edition={this.state.edition } currentUser={this.state.currentUser}></Edition>
             );
         } else {
             return (
