@@ -2,6 +2,10 @@
     padding-top: 70px;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Taken from http://stackoverflow.com/a/20548578 */
 .vcenter {
     display: inline-block;
