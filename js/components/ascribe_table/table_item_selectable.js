@@ -9,12 +9,9 @@ import TableItem from './table_item';
 let TableItemSelectable = React.createClass({
 
     propTypes: {
-        parentId: React.PropTypes.number
-    },
-
-    propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        columnContent: React.PropTypes.object
+        columnContent: React.PropTypes.object,
+        parentId: React.PropTypes.number
     },
 
     selectItem() {
