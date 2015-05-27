@@ -57,14 +57,9 @@ let ShareForm = React.createClass({
         .then((response) => {
             if (response.status >= 200 && response.status < 300)
                 return response
-            throw new Error(response.statusText)
-        })
-        .then((response) => response.json())
-        .catch((error) => {
-            this.setState({errors: error});
-            console.log('request failed', error);
-        });
-
+            response.json().then((response) => this.setState({errors: response.errors}))
+            }
+        );
         //.then(FetchApiUtils.status)
 
     },
