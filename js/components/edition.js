@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageViewer from './ascribe_media/image_viewer';
+import ResourceViewer from './ascribe_media/resource_viewer';
 
 /**
  * This is the component that implements display-specific functionality
@@ -10,10 +10,15 @@ let Edition = React.createClass({
     //},
 
     render() {
+        let thumbnail = this.props.edition.thumbnail;
+        let mimetype = this.props.edition.digital_work.mime;
+
         return (
             <div>
                 <div className="col-md-7">
-                    <ImageViewer thumbnail={this.props.edition.thumbnail}/>
+                    <ResourceViewer thumbnail={thumbnail}
+                                    mimetype={mimetype}
+                                    />
                 </div>
                 <div className="col-md-5">
                     <EditionHeader edition={this.props.edition}/>

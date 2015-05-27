@@ -55,7 +55,7 @@ let TableItemSubtable = React.createClass({
         let numOfColumns = GeneralUtils.sumNumList(listOfRowValues);
 
         if(numOfColumns > 10) {
-            throw new Error('Bootstrap has only 12 columns to assign. You defined ' + numOfColumns + '. Change this in the columnMap you\'re passing to the table.')
+            throw new Error('Bootstrap has only 12 columns to assign. You defined ' + numOfColumns + '. Change this in the columnMap you\'re passing to the table.');
         } else {
             return bootstrapClasses.join( listOfRowValues[i] + ' ') + listOfRowValues[i];
         }
