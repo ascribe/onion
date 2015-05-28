@@ -13,7 +13,7 @@ let ShareModalButton = React.createClass({
         return (
             <OverlayTrigger delay={500} placement="left" overlay={<Tooltip>Share the artwork</Tooltip>}>
                 <ModalTrigger modal={<ShareModal edition={this.props.edition}
-                                                currentUser={this.props.currentUser}/>}>
+                                                 currentUser={this.props.currentUser}/>}>
                     <div className="btn btn-ascribe-inv btn-glyph-ascribe">
                         <span className="glyph-ascribe-share2"></span>
                     </div>
@@ -25,7 +25,8 @@ let ShareModalButton = React.createClass({
 
 let ShareModal = React.createClass({
     onRequestHide(e){
-        e.preventDefault();
+        if (e)
+            e.preventDefault();
         this.props.onRequestHide();
     },
     render() {
