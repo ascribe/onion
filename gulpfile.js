@@ -17,7 +17,7 @@ gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'sass'], function() {
+gulp.task('serve', ['browser-sync', 'sass', 'copy'], function() {
     bundle(true);
 });
 
@@ -36,6 +36,16 @@ gulp.task('sass', function () {
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('copy', function () {
+    var files = [
+        './fonts/**/*',
+        './img/**/*',
+    ];
+
+    gulp.src(files, {base: './'})
+        .pipe(gulp.dest('build'));
 });
 
 function bundle(watch) {
