@@ -14,15 +14,14 @@ var concat = require('gulp-concat');
 var _ = require('lodash');
 
 var config = {
-    bootstrapDir: './node_modules/bootstrap-sass',
-    buildDir: './build'
+    bootstrapDir: './node_modules/bootstrap-sass'
 };
 
 gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -35,7 +34,6 @@ gulp.task('browser-sync', function() {
     });
 });
 
-// Transforming .scss to .css
 gulp.task('sass', function () {
     gulp.src('./sass/**/main.scss')
         .pipe(sourcemaps.init())
@@ -45,7 +43,7 @@ gulp.task('sass', function () {
             ]
         }).on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest(config.buildDir + '/css'))
+        .pipe(gulp.dest('./build/css'))
         .pipe(browserSync.stream());;
 });
 
@@ -54,18 +52,16 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('copy', function () {
-    var filesToCopy = [
+    var files = [
         './fonts/**/*',
         './img/**/*'
     ];
 
-    // Copy other vendor fonts and images
-    gulp.src(filesToCopy, {base: './'})
-        .pipe(gulp.dest(config.buildDir));
+    gulp.src(files, {base: './'})
+        .pipe(gulp.dest('build'));
 
-    // Copy bootstrap fonts
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
-        .pipe(gulp.dest(config.buildDir + '/fonts'));
+        .pipe(gulp.dest('./build/fonts'));
 });
 
 function bundle(watch) {
@@ -99,7 +95,7 @@ function bundle(watch) {
                 loadMaps: true
             })) // loads map from browserify file
             .pipe(sourcemaps.write()) // writes .map file
-            .pipe(gulp.dest(config.buildDir))
+            .pipe(gulp.dest('./build'))
             .pipe(browserSync.stream());
     }
  
