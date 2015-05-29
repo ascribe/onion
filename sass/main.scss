@@ -1,14 +1,23 @@
+// If you import a new .scss file, make sure to restart gulp
+// otherwise it will not be included
 @import 'variables';
+@import 'ascribe-variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
-
-#main {
-    padding-top: 70px;
-}
+@import 'ascribe-accordion_list';
 
 .hidden {
     display: none;
+}
+
+.navbar-default {
+    border-left:0;
+    border-right:0;
+}
+
+.ascribe-color {
+    color: $ascribe-color;
 }
 
 /* Taken from http://stackoverflow.com/a/20548578 */
