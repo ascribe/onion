@@ -5,11 +5,10 @@ let AlertMixin = {
     setAlerts(errors){
         let alerts = errors.map(
                         function(error) {
-                            let key = error + this.state.retry;
-                            return <AlertDismissable error={error} key={key}/>;
+                            return <AlertDismissable error={error} key={error}/>;
                         }.bind(this)
                     );
-        this.setState({alerts: alerts, retry: this.state.retry + 1});
+        this.setState({alerts: alerts});
     },
     clearAlerts(){
         this.setState({alerts: null});

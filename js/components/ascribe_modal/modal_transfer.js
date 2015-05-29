@@ -5,7 +5,7 @@ import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import TransferForm from '../ascribe_forms/form_transfer'
-
+import ModalMixin from '../../mixins/modal_mixin'
 
 let TransferModalButton = React.createClass({
     render() {
@@ -24,10 +24,8 @@ let TransferModalButton = React.createClass({
 });
 
 let TransferModal = React.createClass({
-    onRequestHide(e){
-        e.preventDefault();
-        this.props.onRequestHide();
-    },
+    mixins : [ModalMixin],
+
     render() {
         return (
             <Modal {...this.props} title="Transfer artwork">

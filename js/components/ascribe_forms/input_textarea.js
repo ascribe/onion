@@ -8,8 +8,7 @@ let InputTextArea = React.createClass({
 
     getInitialState() {
         return {value: this.props.defaultValue,
-                alerts: null, // needed in AlertMixin
-                retry: 0 // needed in AlertMixin for generating unique alerts
+                alerts: null // needed in AlertMixin
         };
     },
     handleChange(event) {

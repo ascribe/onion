@@ -1,5 +1,6 @@
 import React from 'react';
 
+import EditionActions from '../actions/edition_actions'
 import AppConstants from '../constants/application_constants'
 import AlertDismissable from '../components/ascribe_forms/alert'
 
@@ -8,6 +9,7 @@ export const FormMixin = {
         return {
             submitted: false
             , status: null
+            , errors: []
         }
     },
     submit(e) {
@@ -15,7 +17,7 @@ export const FormMixin = {
         for (var ref in this.refs){
             this.refs[ref].clearAlerts();
         }
-        this.setState({submitted: true});
+        this.setState({submitted: true, errors: []});
         fetch(this.url(), {
             method: 'post',
             headers: {
@@ -30,15 +32,16 @@ export const FormMixin = {
         );
     },
     handleResponse(response){
+        let submitted = false;
         if (response.status >= 200 && response.status < 300){
+            EditionActions.fetchOne(this.props.edition.id);
             this.props.onRequestHide();
+            submitted = true;
         }
         else if (response.status >= 400 && response.status < 500) {
             this.handleError(response);
         }
-        else {
-            this.setState({submitted: false, status: response.status});
-        }
+        this.setState({submitted: submitted, status: response.status});
     },
     handleError(response){
         response.json().then((response) => this.dispatchErrors(response.errors));
@@ -49,13 +52,22 @@ export const FormMixin = {
             if (this.refs && this.refs[input] && this.refs[input].state){
                 this.refs[input].setAlerts(errors[input]);
             }
+            else{
+                this.setState({errors: this.state.errors.concat(errors[input])});
+            }
         }
-        this.setState({submitted: false});
     },
     render(){
         let alert = null;
         if (this.state.status >= 500){
             alert = <AlertDismissable error="Something went wrong, please try again later"/>;
+        }
+        if (this.state.errors.length > 0){
+            alert = this.state.errors.map(
+                        function(error) {
+                            return <AlertDismissable error={error} key={error}/>;
+                        }.bind(this)
+                    );
         }
         return (
             <div>
