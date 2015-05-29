@@ -15,6 +15,8 @@ import TableColumnContentModel from '../models/table_column_content_model';
 
 import Pagination from './ascribe_pagination/pagination';
 
+import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
+
 
 let PieceList = React.createClass({
     
@@ -60,6 +62,7 @@ let PieceList = React.createClass({
         if(this.state.pieceList && this.state.pieceList.length > 0) {
             return (
                 <div>
+                    <PieceListToolbar />
                     <Table 
                         columnList={columnList} 
                         changeOrder={this.tableChangeOrder}

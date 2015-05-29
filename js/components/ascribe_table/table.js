@@ -27,12 +27,13 @@ let Table = React.createClass({
         if(this.props.itemList && this.props.itemList.length > 0) {
             return (
                 <div className="ascribe-table">
-                    <TableHeader columnList={this.props.columnList}
-                                 itemList={this.props.itemList}
-                                 fetchList={this.props.fetchList}
-                                 changeOrder={this.props.changeOrder}
-                                 orderAsc={this.props.orderAsc}
-                                 orderBy={this.props.orderBy} />
+                    <TableHeader 
+                        columnList={this.props.columnList} 
+                        itemList={this.props.itemList} 
+                        fetchList={this.props.fetchList} 
+                        changeOrder={this.props.changeOrder} 
+                        orderAsc={this.props.orderAsc} 
+                        orderBy={this.props.orderBy} />
                     {this.renderChildren()}
                 </div>
             );
