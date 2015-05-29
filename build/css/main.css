@@ -1,0 +1,364 @@
+@font-face {
+  font-family: 'ascribe';
+  src: url("ascribe.eot?-6bb2dq");
+  src: url("ascribe.eot?#iefix-6bb2dq") format("embedded-opentype"), url("ascribe.woff?-6bb2dq") format("woff"), url("ascribe.ttf?-6bb2dq") format("truetype"), url("ascribe.svg?-6bb2dq#ascribe") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="glyph-ascribe-"], [class*=" glyph-ascribe-"] {
+  font-family: 'ascribe';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.glyph-ascribe-ascribe-spool:before {
+  content: "\e600"; }
+
+.glyph-ascribe-spool:before {
+  content: "\e601"; }
+
+.glyph-ascribe-ascribe-spool-chunked:before {
+  content: "\e602"; }
+
+.glyph-ascribe-spool-chunked:before {
+  content: "\e603"; }
+
+.glyph-ascribe-home:before {
+  content: "\e900"; }
+
+.glyph-ascribe-home2:before {
+  content: "\e901"; }
+
+.glyph-ascribe-home3:before {
+  content: "\e902"; }
+
+.glyph-ascribe-pencil:before {
+  content: "\e905"; }
+
+.glyph-ascribe-pencil2:before {
+  content: "\e906"; }
+
+.glyph-ascribe-quill:before {
+  content: "\e907"; }
+
+.glyph-ascribe-image:before {
+  content: "\e90d"; }
+
+.glyph-ascribe-camera:before {
+  content: "\e90f"; }
+
+.glyph-ascribe-music:before {
+  content: "\e911"; }
+
+.glyph-ascribe-play:before {
+  content: "\e912"; }
+
+.glyph-ascribe-film:before {
+  content: "\e913"; }
+
+.glyph-ascribe-credit-card:before {
+  content: "\e93f"; }
+
+.glyph-ascribe-pushpin:before {
+  content: "\e946"; }
+
+.glyph-ascribe-undo2:before {
+  content: "\e967"; }
+
+.glyph-ascribe-redo2:before {
+  content: "\e968"; }
+
+.glyph-ascribe-enlarge:before {
+  content: "\e989"; }
+
+.glyph-ascribe-shrink:before {
+  content: "\e98a"; }
+
+.glyph-ascribe-enlarge2:before {
+  content: "\e98b"; }
+
+.glyph-ascribe-shrink2:before {
+  content: "\e98c"; }
+
+.glyph-ascribe-share:before {
+  content: "\ea7d"; }
+
+.glyph-ascribe-new-tab:before {
+  content: "\ea7e"; }
+
+.glyph-ascribe-share2:before {
+  content: "\ea82"; }
+
+.glyph-ascribe-google:before {
+  content: "\ea87"; }
+
+.glyph-ascribe-google-plus:before {
+  content: "\ea88"; }
+
+.glyph-ascribe-google-plus2:before {
+  content: "\ea89"; }
+
+.glyph-ascribe-facebook:before {
+  content: "\ea8c"; }
+
+.glyph-ascribe-facebook2:before {
+  content: "\ea8d"; }
+
+.glyph-ascribe-twitter:before {
+  content: "\ea91"; }
+
+.glyph-ascribe-twitter2:before {
+  content: "\ea92"; }
+
+.glyph-ascribe-youtube3:before {
+  content: "\ea99"; }
+
+.glyph-ascribe-dropbox:before {
+  content: "\eaaf"; }
+
+.glyph-ascribe-file-pdf:before {
+  content: "\eada"; }
+
+.glyph-ascribe-chrome:before {
+  content: "\eae5"; }
+
+.glyph-ascribe-firefox:before {
+  content: "\eae6"; }
+
+.glyph-ascribe-IE:before {
+  content: "\eae7"; }
+
+.glyph-ascribe-opera:before {
+  content: "\eae8"; }
+
+.glyph-ascribe-safari:before {
+  content: "\eae9"; }
+
+.btn-glyph-ascribe {
+  font-size: 18px;
+  padding: 4px 12px 0 10px; }
+
+@font-face {
+  font-family: 'ascribe';
+  src: url("ascribe.eot?-oi6ttk");
+  src: url("ascribe.eot?#iefix-oi6ttk") format("embedded-opentype"), url("ascribe.woff?-oi6ttk") format("woff"), url("ascribe.ttf?-oi6ttk") format("truetype"), url("ascribe.svg?-oi6ttk#ascribe") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="glyph-ascribe-"], [class*=" glyph-ascribe-"] {
+  font-family: 'ascribe';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.glyph-ascribe-logo-spool:before {
+  content: "\e600"; }
+
+.glyph-ascribe-spool:before {
+  content: "\e601"; }
+
+.glyph-ascribe-logo-spool-chunked:before {
+  content: "\e602"; }
+
+.glyph-ascribe-spool-chunked:before {
+  content: "\e603"; }
+
+@font-face {
+  font-family: mercury_regular;
+  src: url(Mercury_Regular.otf); }
+
+@font-face {
+  font-family: mercury_medium;
+  src: url(Mercury_Medium.otf); }
+
+@font-face {
+  font-family: mercury_light;
+  src: url(Mercury_Light.otf); }
+
+#main {
+  padding-top: 70px; }
+
+.hidden {
+  display: none; }
+
+/* Taken from http://stackoverflow.com/a/20548578 */
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none; }
+
+.ascribe-table-header-row {
+  border-bottom: 2px solid rgba(2, 182, 163, 0.5);
+  border-top: 2px solid rgba(2, 182, 163, 0.5);
+  padding: 0; }
+
+.ascribe-table-header-column {
+  display: table;
+  height: 3em;
+  padding: 0; }
+
+.ascribe-table-header-column > span {
+  display: table-cell;
+  vertical-align: middle;
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  color: #02b6a3;
+  font-size: 1.4em; }
+
+.ascribe-table-header-column > span > .glyphicon {
+  font-size: .5em; }
+
+/*
+.ascribe-table-item:nth-child(even) {
+    background-color: #F5F5F5;
+}*/
+/*.ascribe-table-item:hover {
+    background-color: #EEEEEE; 
+}*/
+.ascribe-table-item-column {
+  display: table;
+  font-family: 'Source Sans Pro';
+  font-size: 1.2em;
+  height: 3em; }
+
+.ascribe-table-item-column > * {
+  display: table-cell;
+  vertical-align: middle; }
+
+.ascribe-table-item-selected {
+  background-color: rgba(2, 182, 163, 0.5); }
+
+.ascribe-table-item-selectable {
+  cursor: default; }
+
+.piece-list-toolbar {
+  height: 3em; }
+
+.no-margin {
+  margin-right: 0;
+  margin-left: 0; }
+
+.btn-ascribe, .btn-ascribe-inv {
+  border: 1px solid #444;
+  line-height: 2em;
+  margin-right: 1px;
+  margin-left: 0 !important;
+  font-family: sans-serif !important;
+  border-radius: 0 !important; }
+
+.btn-ascribe, .btn-ascribe-inv:active, .btn-ascribe-inv:hover {
+  color: #222 !important;
+  background-color: #FFF; }
+
+.btn-ascribe:active, .btn-ascribe:hover, .btn-ascribe-inv {
+  color: #FFF !important;
+  background-color: #444; }
+
+.btn-ascribe-inv:disabled, .btn-ascribe-inv:focus {
+  color: #444 !important;
+  background-color: #BBB !important;
+  border: 1px solid #444 !important; }
+
+.btn-ascribe-sm {
+  font-size: 12px;
+  line-height: 1.3em; }
+
+.btn-ascribe-green, .btn-ascribe-green-inv {
+  border: 1px solid #48DACB;
+  line-height: 2em;
+  margin-left: 0 !important;
+  font-family: sans-serif !important;
+  border-radius: 0 !important; }
+
+.btn-ascribe-green, .btn-ascribe-green-inv:active, .btn-ascribe-green-inv:hover {
+  background-color: #FFF;
+  border: 1px solid rgba(2, 182, 163, 0.5);
+  color: rgba(2, 182, 163, 0.5); }
+
+.btn-ascribe-green:active, .btn-ascribe-green:hover, .btn-ascribe-green-inv {
+  border: 1px solid rgba(2, 182, 163, 0.5);
+  color: white;
+  background-color: rgba(2, 182, 163, 0.5); }
+
+.ascribe-detail-header {
+  margin-top: 2em; }
+
+.ascribe-detail-title {
+  font-size: 2em;
+  margin-bottom: -0.2em; }
+
+.ascribe-detail-property {
+  padding-bottom: 0.4em; }
+
+.ascribe-detail-property > .row-same-height > .col-xs-2 {
+  text-transform: uppercase; }
+
+.input-text-ascribe {
+  border-bottom: 1px solid black;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  background: transparent;
+  border-radius: 0 !important;
+  box-shadow: none; }
+
+.textarea-ascribe-message {
+  height: 13em !important; }
+
+/* columns of same height styles */
+/* http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-columns-of-same-height */
+.row-full-height {
+  height: 100%; }
+
+.col-full-height {
+  height: 100%;
+  vertical-align: middle; }
+
+.row-same-height {
+  display: table;
+  width: 100%;
+  /* fix overflow */
+  table-layout: fixed; }
+
+.col-xs-height {
+  display: table-cell;
+  float: none !important; }
+
+@media (min-width: 768px) {
+  .col-sm-height {
+    display: table-cell;
+    float: none !important; } }
+
+@media (min-width: 992px) {
+  .col-md-height {
+    display: table-cell;
+    float: none !important; } }
+
+@media (min-width: 1200px) {
+  .col-lg-height {
+    display: table-cell;
+    float: none !important; } }
+
+/* vertical alignment styles */
+.col-top {
+  vertical-align: top; }
+
+.col-middle {
+  vertical-align: middle; }
+
+.col-bottom {
+  vertical-align: bottom; }
+
+/*# sourceMappingURL=maps/main.css.map */

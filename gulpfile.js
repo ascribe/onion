@@ -9,13 +9,15 @@ var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var babelify = require('babelify');
 var notify = require('gulp-notify');
+var sass = require('gulp-sass');
+var concat = require('gulp-concat');
 var _ = require('lodash');
  
 gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync'], function() {
+gulp.task('serve', ['browser-sync', 'sass'], function() {
     bundle(true);
 });
 
@@ -26,6 +28,14 @@ gulp.task('browser-sync', function() {
         },
         port: process.env.PORT || 3000
     });
+});
+
+gulp.task('sass', function () {
+    gulp.src('./sass/**/main.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest('./build/css'));
 });
 
 function bundle(watch) {
