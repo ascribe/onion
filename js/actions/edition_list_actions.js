@@ -5,7 +5,8 @@ import EditionListFetcher from '../fetchers/edition_list_fetcher.js';
 class EditionListActions {
     constructor() {
         this.generateActions(
-            'updateEditionList'
+            'updateEditionList',
+            'selectEdition'
         );
     }
 
@@ -14,7 +15,7 @@ class EditionListActions {
             .fetch(pieceId)
             .then((res) => {
                 this.actions.updateEditionList({
-                    'editionList': res.editions,
+                    'editionListOfPiece': res.editions,
                     pieceId
                 });
             })

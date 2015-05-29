@@ -3,26 +3,24 @@
   "version": "0.0.1",
   "description": "Das neue web client for Ascribe",
   "main": "js/app.js",
-  "scripts": {
-    "watch": "watchify -o build/app.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > build/app.js",
-    "test": "jest"
-  },
   "author": "Ascribe",
   "license": "Copyright",
-  "browserify": {
-    "transform": [
-      "babelify",
-      "envify"
-    ]
-  },
   "devDependencies": {
     "babel-jest": "^4.0.0",
-    "babelify": "^6.0.2",
+    "babelify": "^6.1.2",
+    "browser-sync": "^2.7.5",
     "browserify": "^9.0.8",
     "envify": "^3.4.0",
+    "gulp": "^3.8.11",
+    "gulp-if": "^1.2.5",
+    "gulp-notify": "^2.2.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-util": "^3.0.4",
     "jest-cli": "^0.4.0",
+    "lodash": "^3.9.3",
     "reactify": "^1.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.2"
   },
   "dependencies": {
