@@ -8,17 +8,16 @@ import InputText from './input_text';
 import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from './button_submit_close';
 
-let ConsignForm = React.createClass({
+let UnConsignForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_consigns
+        return ApiUrls.ownership_unconsigns
     },
     getFormData() {
         return {
             bitcoin_id: this.props.edition.bitcoin_id,
-            consignee: this.refs.consignee.state.value,
-            consign_message: this.refs.consign_message.state.value,
+            unconsign_message: this.refs.unconsign_message.state.value,
             password: this.refs.password.state.value
         }
     },
@@ -28,34 +27,27 @@ let ConsignForm = React.createClass({
         let message =
 `Hi,
 
-I consign \" ${title} \" to you.
+I un-consign \" ${title} \" from you.
 
 Truly yours,
 ${username}`;
 
         return (
-            <form id="consign_modal_content" role="form" onSubmit={this.submit}>
-                <input className="invisible" type="email" name="fake_consignee"/>
+            <form id="unconsign_modal_content" role="form" onSubmit={this.submit}>
+                <input className="invisible" type="email" name="fake_unconsignee"/>
                 <input className="invisible" type="password" name="fake_password"/>
-                <InputText
-                    ref="consignee"
-                    placeHolder="Consignee email"
-                    required="required"
-                    type="email"
-                    submitted={this.state.submitted}/>
                 <InputTextArea
-                    ref="consign_message"
+                    ref="unconsign_message"
                     defaultValue={message}
-                    required=""
-                    />
+                    required="" />
                 <InputText
                     ref="password"
                     placeHolder="Password"
                     required="required"
                     type="password"
-                    submitted={this.state.submitted}/>
+                    submitted={this.state.submitted} />
                <ButtonSubmitOrClose
-                    text="CONSIGN"
+                    text="UNCONSIGN"
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>
@@ -63,4 +55,4 @@ ${username}`;
     }
 });
 
-export default ConsignForm;
+export default UnConsignForm;
