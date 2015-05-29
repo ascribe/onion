@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'ascribe';
-	src:url('fonts/ascribe.eot?-6bb2dq');
-	src:url('fonts/ascribe.eot?#iefix-6bb2dq') format('embedded-opentype'),
-		url('fonts/ascribe.woff?-6bb2dq') format('woff'),
-		url('fonts/ascribe.ttf?-6bb2dq') format('truetype'),
-		url('fonts/ascribe.svg?-6bb2dq#ascribe') format('svg');
+	src:url('ascribe.eot?-6bb2dq');
+	src:url('ascribe.eot?#iefix-6bb2dq') format('embedded-opentype'),
+		url('ascribe.woff?-6bb2dq') format('woff'),
+		url('ascribe.ttf?-6bb2dq') format('truetype'),
+		url('ascribe.svg?-6bb2dq#ascribe') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -187,3 +187,7 @@
 	content: "\eae9";
 }
 
+.btn-glyph-ascribe{
+    font-size: 18px;
+    padding: 4px 12px 0 10px
+}

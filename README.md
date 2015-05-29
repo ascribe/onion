@@ -18,9 +18,7 @@ Install some nice extensions for Chrom(e|ium):
 git clone git@bitbucket.org:ascribe/onion.git
 cd onion
 npm install
-npm run watch
-
-python -mSimpleHTTPServer
+gulp serve
 ```
 
 

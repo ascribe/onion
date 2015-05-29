@@ -3,7 +3,7 @@ import Router from 'react-router';
 
 import AscribeApp from './components/ascribe_app';
 import PieceList from './components/piece_list';
-import Piece from './components/piece';
+import EditionContainer from './components/edition_container';
 
 let Route = Router.Route;
 
@@ -11,7 +11,9 @@ let Route = Router.Route;
 let routes = (
     <Route name="app" path="/" handler={AscribeApp}>
         <Route name="pieces" path="/pieces" handler={PieceList}>
-            <Route name="piece" path="/pieces/:bitcoin_ID_noPrefix" handler={Piece} />
+            
+        </Route>
+        <Route name="edition" path="/editions/:editionId" handler={EditionContainer}>
         </Route>
     </Route>
 );
