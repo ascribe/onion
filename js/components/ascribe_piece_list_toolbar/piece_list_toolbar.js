@@ -3,6 +3,7 @@ import React from 'react';
 import EditionListStore from '../../stores/edition_list_store';
 
 import AclButton from '../acl_button';
+import PieceListToolbarSelectedEditionsWidget from './piece_list_toolbar_selected_editions_widget';
 
 let PieceListToolbar = React.createClass({
     getInitialState() {
@@ -42,6 +43,10 @@ let PieceListToolbar = React.createClass({
         return a.filter((val) => b.indexOf(val) > -1);
     },
 
+    bulk(action) {
+        console.log(action);
+    },
+
     getAvailableAcls() {
         let availableAcls = [];
         let selectedEditionList = this.fetchSelectedEditionList();
@@ -67,11 +72,15 @@ let PieceListToolbar = React.createClass({
         return (
             <div className="row no-margin">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-toolbar">
+                    <div className="pull-left">
+                        <PieceListToolbarSelectedEditionsWidget
+                            numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
+                    </div>
                     <div className="pull-right">
-                        <AclButton availableAcls={availableAcls} action="transfer" />
-                        <AclButton availableAcls={availableAcls} action="consign" />
-                        <AclButton availableAcls={availableAcls} action="share" />
-                        <AclButton availableAcls={availableAcls} action="loan" />
+                        <AclButton availableAcls={availableAcls} action="transfer" actionFunction={this.bulk} />
+                        <AclButton availableAcls={availableAcls} action="consign" actionFunction={this.bulk} />
+                        <AclButton availableAcls={availableAcls} action="share" actionFunction={this.bulk} />
+                        <AclButton availableAcls={availableAcls} action="loan" actionFunction={this.bulk} />
                     </div>
                 </div>
             </div>
