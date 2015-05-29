@@ -12,6 +12,9 @@ export const FormMixin = {
     },
     submit(e) {
         e.preventDefault();
+        for (var ref in this.refs){
+            this.refs[ref].clearAlerts();
+        }
         this.setState({submitted: true});
         fetch(this.url(), {
             method: 'post',

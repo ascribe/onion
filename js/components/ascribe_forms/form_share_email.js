@@ -22,12 +22,16 @@ let ShareForm = React.createClass({
         }
     },
     renderForm() {
-        let message = "Hi,\n" +
-                        "\n" +
-                        "I am sharing \"" + this.props.edition.title + "\" with you.\n" +
-                        "\n" +
-                        "Truly yours,\n" +
-                        this.props.currentUser.username;
+        let title = this.props.edition.title;
+        let username = this.props.currentUser.username;
+        let message =
+`Hi,
+
+I am sharing \" ${title} \" with you.
+
+Truly yours,
+${username}`;
+
         return (
             <form id="share_modal_content" role="form" key="share_modal_content" onSubmit={this.submit}>
                 <InputText

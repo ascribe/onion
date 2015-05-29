@@ -10,7 +10,11 @@ let AlertMixin = {
                         }.bind(this)
                     );
         this.setState({alerts: alerts, retry: this.state.retry + 1});
+    },
+    clearAlerts(){
+        this.setState({alerts: null});
     }
+
 };
 
 export default AlertMixin;
