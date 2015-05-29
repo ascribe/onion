@@ -10,11 +10,6 @@ let AlertMixin = {
                         }.bind(this)
                     );
         this.setState({alerts: alerts, retry: this.state.retry + 1});
-    },
-    hideAlerts(){
-        for (alert in this.state.alerts){
-            alert.hide();
-        }
     }
 };
 
