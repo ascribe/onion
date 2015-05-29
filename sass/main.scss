@@ -1,3 +1,8 @@
+@import 'variables';
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import './ascribe-fonts/style';
+@import './ascribe-fonts/ascribe-fonts';
+
 #main {
     padding-top: 70px;
 }

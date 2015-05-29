@@ -9,13 +9,19 @@ var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var babelify = require('babelify');
 var notify = require('gulp-notify');
+var sass = require('gulp-sass');
+var concat = require('gulp-concat');
 var _ = require('lodash');
- 
+
+var config = {
+    bootstrapDir: './node_modules/bootstrap-sass'
+};
+
 gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync'], function() {
+gulp.task('serve', ['browser-sync', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -26,6 +32,36 @@ gulp.task('browser-sync', function() {
         },
         port: process.env.PORT || 3000
     });
+});
+
+gulp.task('sass', function () {
+    gulp.src('./sass/**/main.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            includePaths: [
+                config.bootstrapDir + '/assets/stylesheets'
+            ]
+        }).on('error', sass.logError))
+        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulp.dest('./build/css'))
+        .pipe(browserSync.stream());;
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('./sass/**/*.scss', ['sass']);
+});
+
+gulp.task('copy', function () {
+    var files = [
+        './fonts/**/*',
+        './img/**/*'
+    ];
+
+    gulp.src(files, {base: './'})
+        .pipe(gulp.dest('build'));
+
+    gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
+        .pipe(gulp.dest('./build/fonts'));
 });
 
 function bundle(watch) {
