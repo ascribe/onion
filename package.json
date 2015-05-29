@@ -8,6 +8,7 @@
   "devDependencies": {
     "babel-jest": "^4.0.0",
     "babelify": "^6.1.2",
+    "bootstrap-sass": "^3.3.4",
     "browser-sync": "^2.7.5",
     "browserify": "^9.0.8",
     "envify": "^3.4.0",
