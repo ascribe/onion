@@ -27,7 +27,6 @@ let InputTextArea = React.createClass({
                     onChange={this.handleChange}></textarea>
             </div>
         );
-
     }
 });
 

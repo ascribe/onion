@@ -8,7 +8,7 @@ let InputText = React.createClass({
 
     getInitialState() {
         return {value: null,
-                alerts: null
+                alerts: null // needed in AlertMixin
         };
     },
     handleChange(event) {
