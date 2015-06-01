@@ -1,7 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import ResourceViewer from './ascribe_media/resource_viewer';
-=======
 
 import ImageViewer from './ascribe_media/image_viewer';
 import LoanModalButton from './ascribe_modal/modal_loan';
@@ -10,7 +8,6 @@ import UnConsignModalButton from './ascribe_modal/modal_unconsign';
 import UnConsignRequestModalButton from './ascribe_modal/modal_unconsign_request';
 import TransferModalButton from './ascribe_modal/modal_transfer';
 import ShareModalButton from './ascribe_modal/modal_share';
->>>>>>> master
 
 /**
  * This is the component that implements display-specific functionality
