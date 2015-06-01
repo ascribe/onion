@@ -11,6 +11,7 @@ export const FormMixin = {
             , status: null
         }
     },
+
     submit(e) {
         e.preventDefault();
         this.setState({submitted: true});
@@ -20,16 +21,7 @@ export const FormMixin = {
             .catch(this.handleError);
 
     },
-    handleResponse(response){
-        if (response.status >= 200 && response.status < 300){
-            this.props.onRequestHide();
-        }
-        else if (response.status >= 400 && response.status < 500) {
-            this.handleError(response);
-        }
-        else {
-        }
-    },
+
     handleError(err){
         if (err.json) {
             for (var input in errors){
@@ -42,6 +34,7 @@ export const FormMixin = {
             this.setState({submitted: false, status: response.status});
         }
     },
+
     render(){
         let alert = null;
         if (this.state.status >= 500){
