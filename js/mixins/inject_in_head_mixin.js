@@ -42,7 +42,7 @@ let InjectInHeadMixin = {
     },
 
     inject(src) {
-        debugger;
+        //debugger;
         let ext = src.split('.').pop();
         try {
             let tag = mapAttr(src);

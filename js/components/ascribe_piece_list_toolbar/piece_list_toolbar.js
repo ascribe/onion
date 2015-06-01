@@ -3,6 +3,9 @@ import React from 'react';
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
+import UserActions from '../../actions/user_actions';
+import UserStore from '../../stores/user_store';
+
 import AclButton from '../acl_button';
 import PieceListToolbarSelectedEditionsWidget from './piece_list_toolbar_selected_editions_widget';
 
@@ -20,11 +23,14 @@ let PieceListToolbar = React.createClass({
     },
 
     componentDidMount() {
-        EditionListStore.listen(this.onChange)
+        EditionListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
     componentDidUnmount() {
-        EditionListStore.unlisten(this.onChange)
+        EditionListStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     filterForSelected(edition) {
@@ -77,6 +83,7 @@ let PieceListToolbar = React.createClass({
 
     render() {
         let availableAcls = this.getAvailableAcls();
+        let editions = this.fetchSelectedEditionList();
 
         if(availableAcls.length > 0) {
             return (
@@ -97,10 +104,26 @@ let PieceListToolbar = React.createClass({
                             <p></p>
                             <div className="row">
                                 <div className="text-center">
-                                    <AclButton availableAcls={availableAcls} action="transfer" actionFunction={this.bulk} />
-                                    <AclButton availableAcls={availableAcls} action="consign" actionFunction={this.bulk} />
-                                    <AclButton availableAcls={availableAcls} action="share" actionFunction={this.bulk} />
-                                    <AclButton availableAcls={availableAcls} action="loan" actionFunction={this.bulk} />
+                                    <AclButton
+                                        availableAcls={availableAcls}
+                                        action="transfer"
+                                        editions={editions}
+                                        currentUser={this.state.currentUser}/>
+                                    <AclButton
+                                        availableAcls={availableAcls}
+                                        action="consign"
+                                        editions={editions}
+                                        currentUser={this.state.currentUser}/>
+                                    <AclButton
+                                        availableAcls={availableAcls}
+                                        action="loan"
+                                        editions={editions}
+                                        currentUser={this.state.currentUser}/>
+                                    <AclButton
+                                        availableAcls={availableAcls}
+                                        action="share"
+                                        editions={editions}
+                                        currentUser={this.state.currentUser}/>
                                 </div>
                             </div>
                         </div>

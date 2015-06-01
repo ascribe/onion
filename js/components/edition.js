@@ -2,7 +2,8 @@ import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
 
 import LoanModalButton from './ascribe_modal/modal_loan';
-import ConsignModalButton from './ascribe_modal/modal_consign';
+import ModalWrapper from './ascribe_modal/modal_wrapper';
+import ConsignForm from './ascribe_forms/form_consign.js';
 import UnConsignModalButton from './ascribe_modal/modal_unconsign';
 import UnConsignRequestModalButton from './ascribe_modal/modal_unconsign_request';
 import TransferModalButton from './ascribe_modal/modal_transfer';
@@ -48,6 +49,7 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
+
     render() {
         return (
             <div className="ascribe-detail-header">
@@ -57,7 +59,14 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
                 <LoanModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <ConsignModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
+                <ModalWrapper
+                    button={<div className="btn btn-ascribe-inv">CONSIGN</div>}
+                    currentUser={ this.props.currentUser }
+                    edition={ this.props.edition }
+                    title="Consign artwork"
+                    tooltip="Have someone else sell the artwork">
+                    <ConsignForm />
+                </ModalWrapper>
                 <UnConsignModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <UnConsignRequestModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <TransferModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
