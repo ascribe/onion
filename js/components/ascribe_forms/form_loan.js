@@ -7,7 +7,7 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputHidden from './input_hidden';
 import InputCheckbox from './input_checkbox';
-//import InputDate from './input_date';
+import InputDate from './input_date';
 import InputTextArea from './input_textarea';
 import OwnershipFetcher from '../../fetchers/ownership_fetcher'
 import ButtonSubmitOrClose from './button_submit_close';
@@ -82,6 +82,13 @@ ${username}`;
                             label={label}
                         />
         }
+        //<InputText
+        //                    ref="startdate"
+        //                    name="startdate"
+        //                    placeHolder="Loan start date"
+        //                    required="required"
+        //                    type="text"
+        //                    submitted={this.state.submitted}/>
         return (
             <form id="loan_modal_content" role="form" onSubmit={this.submit}>
                 <input className="invisible" type="email" name="fake_loanee"/>
@@ -101,13 +108,7 @@ ${username}`;
                     submitted={this.state.submitted}/>
                 <div className="row">
                     <div className="col-md-6">
-                        <InputText
-                            ref="startdate"
-                            name="startdate"
-                            placeHolder="Loan start date"
-                            required="required"
-                            type="text"
-                            submitted={this.state.submitted}/>
+                        <InputDate ref="startdate"/>
                     </div>
                     <div className="col-md-6 form-group">
                         <InputText
