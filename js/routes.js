@@ -9,8 +9,8 @@ let Route = Router.Route;
 
 
 let routes = (
-    <Route name="app" path="/" handler={AscribeApp}>
-        <Route name="pieces" path="/pieces" handler={PieceList}>
+    <Route name="app" handler={AscribeApp}>
+        <Route name="pieces" path="/" handler={PieceList}>
             
         </Route>
         <Route name="edition" path="/editions/:editionId" handler={EditionContainer}>

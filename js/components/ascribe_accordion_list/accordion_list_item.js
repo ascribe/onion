@@ -7,7 +7,6 @@ let AccordionListItem = React.createClass({
     },
 
     render() {
-        console.log(this.props.content);
         return (
             <div className={this.props.className}>
                 <div className="wrapper">
