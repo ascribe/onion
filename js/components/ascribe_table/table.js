@@ -9,7 +9,7 @@ let Table = React.createClass({
     
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        changeOrder: React.PropTypes.func // turn isRequired on again after editions order implemented
+        changeOrder: React.PropTypes.func
     },
 
     renderChildren() {
@@ -24,24 +24,20 @@ let Table = React.createClass({
     },
     
     render() {
-        if(this.props.itemList && this.props.itemList.length > 0) {
-            return (
-                <div className="ascribe-table">
-                    <TableHeader 
-                        columnList={this.props.columnList} 
-                        itemList={this.props.itemList} 
-                        fetchList={this.props.fetchList} 
-                        changeOrder={this.props.changeOrder} 
-                        orderAsc={this.props.orderAsc} 
-                        orderBy={this.props.orderBy} />
+        return (
+            <div className="ascribe-table">
+                <TableHeader 
+                    columnList={this.props.columnList} 
+                    itemList={this.props.itemList} 
+                    fetchList={this.props.fetchList} 
+                    changeOrder={this.props.changeOrder} 
+                    orderAsc={this.props.orderAsc} 
+                    orderBy={this.props.orderBy} />
+                <div className="row">
                     {this.renderChildren()}
                 </div>
-            );
-        } else {
-            return (
-                <p>Loading</p>
-            );
-        }
+            </div>
+        );
     }
 });
 
