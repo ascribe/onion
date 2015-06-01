@@ -17,11 +17,13 @@ let TableItemWrapper = React.createClass({
                 {this.props.columnList.map((column, i) => {
 
                     let TypeElement = column.displayType;
+                    let typeElementProps = column.transformFn(this.props.columnContent);
+
                     let columnClass = this.calcColumnClasses(this.props.columnList, i, this.props.columnWidth);
 
                     return (
                         <div className={columnClass + ' ascribe-table-item-column'} key={i}>
-                            <TypeElement content={this.props.columnContent[column.columnName]} width="50" />
+                            <TypeElement {...typeElementProps} />
                         </div>
                     );
 

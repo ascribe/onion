@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Table from '../ascribe_table/table';
-import TableItemSelectable from '../ascribe_table/table_item_selectable';
+import TableItem from '../ascribe_table/table_item';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
@@ -37,10 +37,10 @@ let AccordionListItemTable = React.createClass({
                       itemList={this.props.itemList}>
                         {this.props.itemList.map((item, i) => {
                             return (
-                                 <TableItemSelectable
+                                 <TableItem
                                     className="ascribe-table-item-selectable"
                                     key={i}>
-                                </TableItemSelectable>
+                                </TableItem>
                             );
                         })}
                     </Table>
