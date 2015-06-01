@@ -34,7 +34,8 @@
     "react": "^0.13.2",
     "react-router": "^0.13.3",
     "uglifyjs": "^2.4.10",
-    "react-bootstrap": "~0.22.6"
+    "react-bootstrap": "~0.22.6",
+    "react-datepicker": "~0.8.0"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",

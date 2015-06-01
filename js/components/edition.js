@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ImageViewer from './ascribe_media/image_viewer';
+import LoanModalButton from './ascribe_modal/modal_loan';
 import ConsignModalButton from './ascribe_modal/modal_consign';
 import UnConsignModalButton from './ascribe_modal/modal_unconsign';
 import UnConsignRequestModalButton from './ascribe_modal/modal_unconsign_request';
@@ -50,6 +51,7 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
+                <LoanModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <ConsignModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <UnConsignModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
                 <UnConsignRequestModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
