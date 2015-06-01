@@ -108,13 +108,15 @@ ${username}`;
                     submitted={this.state.submitted}/>
                 <div className="row">
                     <div className="col-md-6">
-                        <InputDate ref="startdate"/>
+                        <InputDate
+                            ref="startdate"
+                            placeholderText="Loan start date" />
                     </div>
                     <div className="col-md-6 form-group">
                         <InputText
                             ref="enddate"
                             name="enddate"
-                            placeHolder="Loan end date"
+                            placeholderText="Loan end date"
                             required="required"
                             type="text"
                             submitted={this.state.submitted}/>
