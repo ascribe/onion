@@ -6,6 +6,7 @@ import PieceListActions from '../actions/piece_list_actions';
 
 import AccordionList from './ascribe_accordion_list/accordion_list';
 import AccordionListItem from './ascribe_accordion_list/accordion_list_item';
+import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_list_item_table_editions';
 
 import Pagination from './ascribe_pagination/pagination';
 
@@ -48,9 +49,9 @@ let PieceList = React.createClass({
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
         
         return (
-            <div class="row">
+            <div>
                 <AccordionList
-                    className="ascribe-accordion-list row"
+                    className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
                     itemList={this.state.pieceList}
                     itemListCount={this.state.pieceListCount}
@@ -64,7 +65,11 @@ let PieceList = React.createClass({
                             <AccordionListItem 
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={item}
-                                key={i} />
+                                key={i}>
+                                <AccordionListItemTableEditions 
+                                    className="ascribe-accordion-list-item-table col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3"
+                                    parentId={item.id} />
+                            </AccordionListItem>
                         );
                     })}
                 </AccordionList>

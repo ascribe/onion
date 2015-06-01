@@ -28,8 +28,7 @@
 }
 
 .ascribe-table-header-row {
-    border-bottom: 2px solid rgba(2, 182, 163, 0.5);
-    border-top: 2px solid rgba(2, 182, 163, 0.5);
+    border-bottom: 2px solid #E0E0E0;
     padding: 0;
 }
 
@@ -44,8 +43,8 @@
     vertical-align: middle;
     font-family: 'Source Sans Pro';
     font-weight: 600;
-    color: rgba(2, 182, 163, 1);
-    font-size: 1.4em;
+    color: #424242;
+    font-size: 1.2em;
 }
 
 .ascribe-table-header-column > span > .glyphicon {
@@ -63,7 +62,7 @@
 .ascribe-table-item-column {
     display: table;
     font-family: 'Source Sans Pro';
-    font-size: 1.2em;
+    font-size: .8em;
     height:3em;
 }
 

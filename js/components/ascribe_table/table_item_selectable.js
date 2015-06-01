@@ -24,14 +24,25 @@ let TableItemSelectable = React.createClass({
             'ascribe-table-item-selected': this.props.columnContent.selected
         });
 
-        return (
-            <TableItem 
-                className={tableItemClasses + ' ' + this.props.className}
-                columnList={this.props.columnList}
-                columnContent={this.props.columnContent}
-                onClick={this.selectItem}>
-            </TableItem>
-        );
+        if(this.props.onClick) {
+            return (
+                <TableItem 
+                    className={tableItemClasses + ' ' + this.props.className}
+                    columnList={this.props.columnList}
+                    columnContent={this.props.columnContent}
+                    onClick={this.selectItem}>
+                </TableItem>
+            );
+        } else {
+            return (
+                <TableItem 
+                    className={tableItemClasses + ' ' + this.props.className}
+                    columnList={this.props.columnList}
+                    columnContent={this.props.columnContent}>
+                </TableItem>
+            );
+        }
+        
     }
 });
 
