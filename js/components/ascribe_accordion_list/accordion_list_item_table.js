@@ -17,7 +17,8 @@ let AccordionListItemTable = React.createClass({
         parentId: React.PropTypes.number,
         fetchData: React.PropTypes.func,
         itemList: React.PropTypes.array,
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel))
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        numOfTableItems: React.PropTypes.number
     },
 
     toggleTable() {
@@ -45,7 +46,9 @@ let AccordionListItemTable = React.createClass({
                     </Table>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle" 
-                        onClick={this.toggleTable} />
+                        onClick={this.toggleTable}
+                        show={this.state.show}
+                        numOfTableItems={this.props.numOfTableItems} />
                 </div>
             );
         } else {
@@ -53,7 +56,9 @@ let AccordionListItemTable = React.createClass({
                 <div className={this.props.className}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle" 
-                        onClick={this.toggleTable} />
+                        onClick={this.toggleTable} 
+                        show={this.state.show}
+                        numOfTableItems={this.props.numOfTableItems} />
                 </div>
             );
         }
@@ -63,14 +68,18 @@ let AccordionListItemTable = React.createClass({
 let AccordionListItemTableToggle = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        onClick: React.PropTypes.func
+        onClick: React.PropTypes.func,
+        show: React.PropTypes.bool,
+        numOfTableItems: React.PropTypes.number
     },
 
     render() {
         return (
             <span 
                 className={this.props.className}
-                onClick={this.props.onClick}>Show all X Editions</span>
+                onClick={this.props.onClick}>
+                {this.props.show ? 'Hide all ' + this.props.numOfTableItems + ' Editions' : 'Show all ' + this.props.numOfTableItems + ' Editions'}
+            </span>
         );
     }
 });

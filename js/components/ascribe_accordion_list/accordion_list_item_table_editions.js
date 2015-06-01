@@ -9,13 +9,14 @@ import TableColumnContentModel from '../../models/table_column_content_model';
 
 import TableItemImg from '../ascribe_table/table_item_img';
 import TableItemText from '../ascribe_table/table_item_text';
-import TableItemAcl from '../ascribe_table/table_item_acl';
+import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 let AccordionListItemTableEditions = React.createClass({
 
     propTypes: {
         className: React.PropTypes.string,
-        parentId: React.PropTypes.number
+        parentId: React.PropTypes.number,
+        numOfEditions: React.PropTypes.number
     },
 
     getInitialState() {
@@ -42,8 +43,8 @@ let AccordionListItemTableEditions = React.createClass({
 
         let columnList = [
             new TableColumnContentModel('edition_number', 'Nr', TableItemText, 1, false),
-            new TableColumnContentModel('bitcoin_id', 'Bitcoin Address', TableItemText, 4, false),
-            new TableColumnContentModel('acl', 'Actions', TableItemAcl, 6, false)
+            new TableColumnContentModel('bitcoin_id', 'Bitcoin Address', TableItemText, 5, false),
+            new TableColumnContentModel('acl', 'Actions', TableItemAclFiltered, 6, false)
         ];
 
         return (
@@ -52,8 +53,8 @@ let AccordionListItemTableEditions = React.createClass({
                 parentId={this.props.parentId}
                 fetchData={this.getEditionList}
                 itemList={this.state.editionList[this.props.parentId]}
-                columnList={columnList}>
-            </AccordionListItemTable>
+                columnList={columnList}
+                numOfTableItems={this.props.numOfEditions} />
         );
     }
 });

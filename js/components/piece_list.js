@@ -54,13 +54,13 @@ let PieceList = React.createClass({
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
                     itemList={this.state.pieceList}
-                    itemListCount={this.state.pieceListCount}
                     orderBy={this.state.orderBy}
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
                     page={this.state.page}
                     pageSize={this.state.pageSize}>
                     {this.state.pieceList.map((item, i) => {
+                        
                         return (
                             <AccordionListItem 
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
@@ -68,7 +68,8 @@ let PieceList = React.createClass({
                                 key={i}>
                                 <AccordionListItemTableEditions 
                                     className="ascribe-accordion-list-item-table col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3"
-                                    parentId={item.id} />
+                                    parentId={item.id} 
+                                    numOfEditions={item.num_editions}/>
                             </AccordionListItem>
                         );
                     })}
