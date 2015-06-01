@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ImageViewer from './ascribe_media/image_viewer';
 import TransferModalButton from './ascribe_modal/modal_transfer';
 import ShareModalButton from './ascribe_modal/modal_share';

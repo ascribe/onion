@@ -5,6 +5,7 @@
   "main": "js/app.js",
   "author": "Ascribe",
   "license": "Copyright",
+  "private": true,
   "devDependencies": {
     "babel-jest": "^4.0.0",
     "babelify": "^6.1.2",
@@ -32,9 +33,9 @@
     "isomorphic-fetch": "^2.0.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.2",
+    "react-bootstrap": "~0.22.6",
     "react-router": "^0.13.3",
-    "uglifyjs": "^2.4.10",
-    "react-bootstrap": "~0.22.6"
+    "uglifyjs": "^2.4.10"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",

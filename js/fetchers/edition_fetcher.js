@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '../utils/fetch';
 
 import AppConstants from '../constants/application_constants';
 import FetchApiUtils from '../utils/fetch_api_utils';
@@ -11,13 +11,7 @@ let EditionFetcher = {
      * 
      */
     fetchOne(editionId) {
-        return fetch(AppConstants.baseUrl + 'editions/' + editionId + '/', {
-            headers: {
-                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
-            }
-        }).then(
-            (res) => res.json()
-        );
+        return fetch.get('edition', {'bitcoin_id': editionId});
     }
 };
 
