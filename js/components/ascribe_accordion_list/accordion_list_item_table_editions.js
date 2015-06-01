@@ -49,7 +49,7 @@ let AccordionListItemTableEditions = React.createClass({
             new TableColumnContentModel((item) => { return { 'editionId': item.id, 'pieceId': this.props.parentId, 'selectItem': this.selectItem, 'selected': item.selected }}, '', '', TableItemCheckbox, 1, false),
             new TableColumnContentModel((item) => { return { 'content': item.edition_number }}, 'num_editions', 'Nr', TableItemText, 1, false),
             new TableColumnContentModel((item) => { return { 'content': item.bitcoin_id }}, 'bitcoin_id', 'Bitcoin Address', TableItemText, 5, false),
-            new TableColumnContentModel((item) => { return { 'content': item.acl }}, 'acl', 'Actions', TableItemAclFiltered, 5, false)
+            new TableColumnContentModel((item) => { return { 'content': item.acl }}, 'acl', 'Actions', TableItemAclFiltered, 4, false)
         ];
 
         return (

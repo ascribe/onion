@@ -31,6 +31,21 @@ class EditionListStore {
             }
         });
     }
+
+    onClearAllEditionSelections() {
+        Object
+            .keys(this.editionList)
+            .forEach((pieceId) => {
+                this.editionList[pieceId]
+                    .forEach((edition) => {
+                        try {
+                            delete edition.selected;
+                        } catch(err) {
+                            //just ignore
+                        }
+                    });
+            });
+    }
 };
 
 export default alt.createStore(EditionListStore);

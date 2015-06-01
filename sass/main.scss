@@ -6,6 +6,7 @@
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
 @import 'ascribe-accordion_list';
+@import 'ascribe-piece-list-toolbar';
 
 .hidden {
     display: none;
@@ -14,6 +15,12 @@
 .navbar-default {
     border-left:0;
     border-right:0;
+    margin-bottom: 3em;
+}
+
+.clear-margins-and-paddings {
+    padding-left:0;
+    padding-right:0;
 }
 
 .ascribe-color {
@@ -68,6 +75,9 @@
 .ascribe-table-item-column > * {
     display: table-cell;
     vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ascribe-table-item-selected {
@@ -76,10 +86,6 @@
 
 .ascribe-table-item-selectable {
     cursor: default;
-}
-
-.piece-list-toolbar {
-    height:3em;
 }
 
 .no-margin {

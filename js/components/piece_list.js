@@ -50,6 +50,7 @@ let PieceList = React.createClass({
         
         return (
             <div>
+                <PieceListToolbar className="ascribe-piece-list-toolbar" />
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
@@ -60,7 +61,6 @@ let PieceList = React.createClass({
                     page={this.state.page}
                     pageSize={this.state.pageSize}>
                     {this.state.pieceList.map((item, i) => {
-                        
                         return (
                             <AccordionListItem 
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
