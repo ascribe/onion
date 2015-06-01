@@ -20,7 +20,8 @@ fetch.defaults({
     http: {
         headers: {
             'Authorization': 'Basic ' + AppConstants.debugCredentialBase64,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         }
     },
     fatalErrorHandler: (err) => {

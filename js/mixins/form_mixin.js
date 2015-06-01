@@ -1,3 +1,4 @@
+import fetch from '../utils/fetch';
 import React from 'react';
 
 import AppConstants from '../constants/application_constants'
@@ -13,18 +14,11 @@ export const FormMixin = {
     submit(e) {
         e.preventDefault();
         this.setState({submitted: true});
-        fetch(this.url(), {
-            method: 'post',
-            headers: {
-                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.getFormData())
-        })
-            .then(
-            (response) => this.handleResponse(response)
-        );
+        fetch
+            .post(this.url(), { body: this.getFormData() })
+            .then(response => { this.props.onRequestHide(); })
+            .catch(this.handleError);
+
     },
     handleResponse(response){
         if (response.status >= 200 && response.status < 300){
@@ -34,20 +28,19 @@ export const FormMixin = {
             this.handleError(response);
         }
         else {
+        }
+    },
+    handleError(err){
+        if (err.json) {
+            for (var input in errors){
+                if (this.refs && this.refs[input] && this.refs[input].state) {
+                    this.refs[input].setAlerts(errors[input]);
+                }
+            }
+            this.setState({submitted: false});
+        } else {
             this.setState({submitted: false, status: response.status});
         }
-    },
-    handleError(response){
-        response.json().then((response) => this.dispatchErrors(response.errors));
-
-    },
-    dispatchErrors(errors){
-        for (var input in errors){
-            if (this.refs && this.refs[input] && this.refs[input].state){
-                this.refs[input].setAlerts(errors[input]);
-            }
-        }
-        this.setState({submitted: false});
     },
     render(){
         let alert = null;
