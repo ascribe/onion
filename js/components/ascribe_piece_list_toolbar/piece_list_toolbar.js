@@ -1,11 +1,16 @@
 import React from 'react';
 
 import EditionListStore from '../../stores/edition_list_store';
+import EditionListActions from '../../actions/edition_list_actions';
 
 import AclButton from '../acl_button';
 import PieceListToolbarSelectedEditionsWidget from './piece_list_toolbar_selected_editions_widget';
 
 let PieceListToolbar = React.createClass({
+    propTypes: {
+        className: React.PropTypes.string
+    },
+
     getInitialState() {
         return EditionListStore.getState();
     },
@@ -66,25 +71,46 @@ let PieceListToolbar = React.createClass({
         return availableAcls;
     },
 
+    clearAllSelections() {
+        EditionListActions.clearAllEditionSelections();
+    },
+
     render() {
         let availableAcls = this.getAvailableAcls();
 
-        return (
-            <div className="row no-margin">
-                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-toolbar">
-                    <div className="pull-left">
-                        <PieceListToolbarSelectedEditionsWidget
-                            numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
-                    </div>
-                    <div className="pull-right">
-                        <AclButton availableAcls={availableAcls} action="transfer" actionFunction={this.bulk} />
-                        <AclButton availableAcls={availableAcls} action="consign" actionFunction={this.bulk} />
-                        <AclButton availableAcls={availableAcls} action="share" actionFunction={this.bulk} />
-                        <AclButton availableAcls={availableAcls} action="loan" actionFunction={this.bulk} />
+        if(availableAcls.length > 0) {
+            return (
+                <div className={this.props.className}>
+                    <div className="row no-margin">
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-toolbar">
+                            <p></p>
+                            <div className="row">
+                                <div className="text-center">
+                                    <PieceListToolbarSelectedEditionsWidget
+                                        numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span 
+                                        className="piece-list-toolbar-clear-all"
+                                        onClick={this.clearAllSelections}>clear all</span>
+                                </div>
+                            </div>
+                            <p></p>
+                            <div className="row">
+                                <div className="text-center">
+                                    <AclButton availableAcls={availableAcls} action="transfer" actionFunction={this.bulk} />
+                                    <AclButton availableAcls={availableAcls} action="consign" actionFunction={this.bulk} />
+                                    <AclButton availableAcls={availableAcls} action="share" actionFunction={this.bulk} />
+                                    <AclButton availableAcls={availableAcls} action="loan" actionFunction={this.bulk} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return null;
+        } 
+        
     }
 });
 

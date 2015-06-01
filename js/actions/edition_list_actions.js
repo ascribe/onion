@@ -6,7 +6,8 @@ class EditionListActions {
     constructor() {
         this.generateActions(
             'updateEditionList',
-            'selectEdition'
+            'selectEdition',
+            'clearAllEditionSelections'
         );
     }
 

@@ -1,14 +1,30 @@
+// If you import a new .scss file, make sure to restart gulp
+// otherwise it will not be included
 @import 'variables';
+@import 'ascribe-variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
-
-#main {
-    padding-top: 70px;
-}
+@import 'ascribe-accordion_list';
+@import 'ascribe-piece-list-toolbar';
 
 .hidden {
     display: none;
+}
+
+.navbar-default {
+    border-left:0;
+    border-right:0;
+    margin-bottom: 3em;
+}
+
+.clear-margins-and-paddings {
+    padding-left:0;
+    padding-right:0;
+}
+
+.ascribe-color {
+    color: $ascribe-color;
 }
 
 /* Taken from http://stackoverflow.com/a/20548578 */
@@ -19,8 +35,7 @@
 }
 
 .ascribe-table-header-row {
-    border-bottom: 2px solid rgba(2, 182, 163, 0.5);
-    border-top: 2px solid rgba(2, 182, 163, 0.5);
+    border-bottom: 2px solid #E0E0E0;
     padding: 0;
 }
 
@@ -35,8 +50,7 @@
     vertical-align: middle;
     font-family: 'Source Sans Pro';
     font-weight: 600;
-    color: rgba(2, 182, 163, 1);
-    font-size: 1.4em;
+    color: #424242;
 }
 
 .ascribe-table-header-column > span > .glyphicon {
@@ -54,13 +68,16 @@
 .ascribe-table-item-column {
     display: table;
     font-family: 'Source Sans Pro';
-    font-size: 1.2em;
+    font-size: .8em;
     height:3em;
 }
 
 .ascribe-table-item-column > * {
     display: table-cell;
     vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ascribe-table-item-selected {
@@ -69,10 +86,6 @@
 
 .ascribe-table-item-selectable {
     cursor: default;
-}
-
-.piece-list-toolbar {
-    height:3em;
 }
 
 .no-margin {
