@@ -1,7 +1,6 @@
 import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
 
-import ImageViewer from './ascribe_media/image_viewer';
 import LoanModalButton from './ascribe_modal/modal_loan';
 import ConsignModalButton from './ascribe_modal/modal_consign';
 import UnConsignModalButton from './ascribe_modal/modal_unconsign';
