@@ -1,11 +1,11 @@
 import alt from '../alt';
-import EditionAction from '../actions/edition_actions';
+import EditionActions from '../actions/edition_actions';
 
 
 class EditionStore {
     constructor() {
         this.edition = {};
-        this.bindActions(EditionAction);
+        this.bindActions(EditionActions);
     }
 
     onUpdateEdition(edition) {
