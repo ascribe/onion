@@ -2,7 +2,8 @@ const languages = {
     'en-US': {
         'Bitcoin Address': 'Bitcoin Address',
         'Actions': 'Actions',
-        'Hide all %d Editions': 'Hide all %d Editions',
+        'Hide': 'Hide',
+        'Show the edition': 'Show the edition',
         'Show all %d Editions': 'Show all %d Editions',
         'by %s': 'by %s',
         'Account Settings': 'Account Settings',
@@ -15,8 +16,9 @@ const languages = {
     'de': {
         'Bitcoin Address': 'Bitcoin Adresse',
         'Actions': 'Aktionen',
-        'Hide all %d Editions': 'Zeige all %d Editionen an',
-        'Show all %d Editions': 'Verstecke alle %d Editionen',
+        'Hide': 'Verstecke',
+        'Show the edition': 'Zeige die Edition',
+        'Show all %d Editions': 'Zeige alle %d Editionen an',
         'by %s': 'von %s',
         'Account Settings': 'Kontoeinstellungen',
         'FAQ': 'Fragen & Antworten',

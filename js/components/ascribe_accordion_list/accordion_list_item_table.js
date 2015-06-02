@@ -76,11 +76,14 @@ let AccordionListItemTableToggle = React.createClass({
     },
 
     render() {
+        let messageShow = this.props.numOfTableItems == 1 ?
+                  getLangText('Show the edition') :
+                  getLangText('Show all %d Editions', this.props.numOfTableItems)
         return (
             <span 
                 className={this.props.className}
                 onClick={this.props.onClick}>
-                {this.props.show ? getLangText('Hide all %d Editions', this.props.numOfTableItems) : getLangText('Show all %d Editions', this.props.numOfTableItems)}
+                {this.props.show ? getLangText('Hide') : messageShow}
             </span>
         );
     }
