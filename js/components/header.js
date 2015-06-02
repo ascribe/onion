@@ -11,6 +11,8 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
+import { getLangText } from '../utils/lang_utils';
+
 let Link = Router.Link;
 
 let Header = React.createClass({
@@ -39,12 +41,12 @@ let Header = React.createClass({
                 </Nav>
                 <Nav right>
                     <DropdownButton eventKey={3} title={this.state.currentUser.username}>
-                        <MenuItem eventKey="1" href="/art/account_settings/">Account Settings</MenuItem>
+                        <MenuItem eventKey="1" href="/art/account_settings/">{getLangText('Account Settings')}</MenuItem>
                         <li className="divider"></li>
-                        <MenuItem eventKey="2" href="/art/faq/">FAQ</MenuItem>
-                        <MenuItem eventKey="3" href="/art/terms/">Terms of Service</MenuItem>
+                        <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>
+                        <MenuItem eventKey="3" href="/art/terms/">{getLangText('Terms of Service')}</MenuItem>
                         <MenuItem divider />
-                        <MenuItem eventKey="4" href="/api/users/logout/">Log out</MenuItem>
+                        <MenuItem eventKey="4" href="/api/users/logout/">{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
                 </Nav>
             </Navbar>
