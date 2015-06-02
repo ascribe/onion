@@ -1,12 +1,12 @@
 // If you import a new .scss file, make sure to restart gulp
 // otherwise it will not be included
 @import 'variables';
-@import 'ascribe-variables';
+@import 'ascribe_variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
-@import 'ascribe-accordion_list';
-@import 'ascribe-piece-list-toolbar';
+@import 'ascribe_accordion_list';
+@import 'ascribe_piece_list_bulk_modal';
 
 .hidden {
     display: none;

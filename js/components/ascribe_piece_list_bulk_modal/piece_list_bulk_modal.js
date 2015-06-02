@@ -4,9 +4,9 @@ import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
 import AclButton from '../acl_button';
-import PieceListToolbarSelectedEditionsWidget from './piece_list_toolbar_selected_editions_widget';
+import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 
-let PieceListToolbar = React.createClass({
+let PieceListBulkModal = React.createClass({
     propTypes: {
         className: React.PropTypes.string
     },
@@ -82,15 +82,15 @@ let PieceListToolbar = React.createClass({
             return (
                 <div className={this.props.className}>
                     <div className="row no-margin">
-                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-toolbar">
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 piece-list-bulk-modal">
                             <p></p>
                             <div className="row">
                                 <div className="text-center">
-                                    <PieceListToolbarSelectedEditionsWidget
+                                    <PieceListBulkModalSelectedEditionsWidget
                                         numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span 
-                                        className="piece-list-toolbar-clear-all"
+                                        className="piece-list-bulk-modal-clear-all"
                                         onClick={this.clearAllSelections}>clear all</span>
                                 </div>
                             </div>
@@ -114,4 +114,4 @@ let PieceListToolbar = React.createClass({
     }
 });
 
-export default PieceListToolbar;
+export default PieceListBulkModal;
