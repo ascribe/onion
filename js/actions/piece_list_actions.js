@@ -14,7 +14,6 @@ class PieceListActions {
         PieceListFetcher
             .fetch(page, pageSize, search, orderBy, orderAsc)
             .then((res) => {
-                console.log(res);
                 this.actions.updatePieceList({
                     page,
                     pageSize,

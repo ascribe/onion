@@ -12,7 +12,7 @@ import TableItemText from '../ascribe_table/table_item_text';
 import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
-import getText from '../../utils/lang_utils';
+import getLangText from '../../utils/lang_utils';
 
 let AccordionListItemTableEditions = React.createClass({
 
@@ -50,8 +50,8 @@ let AccordionListItemTableEditions = React.createClass({
         let columnList = [
             new TableColumnContentModel((item) => { return { 'editionId': item.id, 'pieceId': this.props.parentId, 'selectItem': this.selectItem, 'selected': item.selected }}, '', '', TableItemCheckbox, 1, false),
             new TableColumnContentModel((item) => { return { 'content': item.edition_number }}, 'num_editions', '#', TableItemText, 1, false),
-            new TableColumnContentModel((item) => { return { 'content': item.bitcoin_id }}, 'bitcoin_id', getText('Bitcoin Address'), TableItemText, 5, false),
-            new TableColumnContentModel((item) => { return { 'content': item.acl }}, 'acl', 'Actions', TableItemAclFiltered, 4, false)
+            new TableColumnContentModel((item) => { return { 'content': item.bitcoin_id }}, 'bitcoin_id', getLangText('Bitcoin Address'), TableItemText, 5, false),
+            new TableColumnContentModel((item) => { return { 'content': item.acl }}, 'acl', getLangText('Actions'), TableItemAclFiltered, 4, false)
         ];
 
         return (

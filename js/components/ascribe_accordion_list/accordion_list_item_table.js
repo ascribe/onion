@@ -5,6 +5,8 @@ import TableItem from '../ascribe_table/table_item';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
+import getLangText from '../../utils/lang_utils';
+
 let AccordionListItemTable = React.createClass({
     getInitialState() {
         return {
@@ -78,7 +80,7 @@ let AccordionListItemTableToggle = React.createClass({
             <span 
                 className={this.props.className}
                 onClick={this.props.onClick}>
-                {this.props.show ? 'Hide all ' + this.props.numOfTableItems + ' Editions' : 'Show all ' + this.props.numOfTableItems + ' Editions'}
+                {this.props.show ? getLangText('Hide all %d Editions', this.props.numOfTableItems) : getLangText('Show all %d Editions', this.props.numOfTableItems)}
             </span>
         );
     }
