@@ -18,19 +18,24 @@ let TransferForm = React.createClass({
     },
     getFormData() {
         return {
-            bitcoin_id: this.props.edition.bitcoin_id,
+            bitcoin_id: this.getBitcoinIds().join(),
             transferee: this.refs.transferee.state.value,
             transfer_message: this.refs.transfer_message.state.value,
             password: this.refs.password.state.value
         }
     },
     renderForm() {
-        let message = "Hi,\n" +
-                        "\n" +
-                        "I transfer ownership of \"" + this.props.edition.title + "\" to you.\n" +
-                        "\n" +
-                        "Truly yours,\n" +
-                        this.props.currentUser.username;
+        let title = this.getTitlesString().join("");
+        let username = this.props.currentUser.username;
+        let message =
+`Hi,
+
+I transfer ownership of :
+${title}to you.
+
+Truly yours,
+${username}`;
+
         return (
             <form id="transfer_modal_content" role="form" onSubmit={this.submit}>
                 <input className="invisible" type="email" name="fake_transferee"/>

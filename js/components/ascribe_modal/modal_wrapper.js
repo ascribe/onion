@@ -17,8 +17,10 @@ let ModalWrapper = React.createClass({
                 <ModalTrigger modal={
                     <ModalBody
                         title={this.props.title}
-                        edition={this.props.edition}
-                        currentUser={this.props.currentUser}>
+                        editions={this.props.editions}
+                        currentUser={this.props.currentUser}
+                        handleSuccess={this.props.handleSuccess}
+                    >
                     {this.props.children}
                     </ModalBody>
                 }>
@@ -33,12 +35,17 @@ let ModalWrapper = React.createClass({
 let ModalBody = React.createClass({
     mixins : [ModalMixin],
 
+    handleSuccess(){
+        this.props.handleSuccess();
+        this.props.onRequestHide();
+    },
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child, i) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                edition: this.props.edition,
+                editions: this.props.editions,
                 currentUser: this.props.currentUser,
-                onRequestHide: this.onRequestHide
+                onRequestHide: this.onRequestHide,
+                handleSuccess: this.handleSuccess
             });
         });
     },

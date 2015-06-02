@@ -16,19 +16,21 @@ let ConsignForm = React.createClass({
     },
     getFormData() {
         return {
-            bitcoin_id: this.props.edition.bitcoin_id,
+            bitcoin_id: this.getBitcoinIds().join(),
             consignee: this.refs.consignee.state.value,
             consign_message: this.refs.consign_message.state.value,
             password: this.refs.password.state.value
         }
     },
+
     renderForm() {
-        let title = this.props.edition.title;
+        let title = this.getTitlesString().join("");
         let username = this.props.currentUser.username;
         let message =
 `Hi,
 
-I consign \" ${title} \" to you.
+I consign :
+${title}to you.
 
 Truly yours,
 ${username}`;

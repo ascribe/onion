@@ -80,7 +80,9 @@ let PieceListToolbar = React.createClass({
     clearAllSelections() {
         EditionListActions.clearAllEditionSelections();
     },
+    handleSuccess(){
 
+    },
     render() {
         let availableAcls = this.getAvailableAcls();
         let editions = this.fetchSelectedEditionList();
@@ -107,23 +109,27 @@ let PieceListToolbar = React.createClass({
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="transfer"
+                                        currentUser={this.state.currentUser}
                                         editions={editions}
-                                        currentUser={this.state.currentUser}/>
+                                        handleSuccess={this.handleSuccess}/>
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="consign"
+                                        currentUser={this.state.currentUser}
                                         editions={editions}
-                                        currentUser={this.state.currentUser}/>
+                                        handleSuccess={this.handleSuccess}/>
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="loan"
+                                        currentUser={this.state.currentUser}
                                         editions={editions}
-                                        currentUser={this.state.currentUser}/>
+                                        handleSuccess={this.handleSuccess}/>
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="share"
+                                        currentUser={this.state.currentUser}
                                         editions={editions}
-                                        currentUser={this.state.currentUser}/>
+                                        handleSuccess={this.handleSuccess}/>
                                 </div>
                             </div>
                         </div>

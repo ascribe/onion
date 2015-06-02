@@ -1,13 +1,8 @@
 import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
 
-import LoanModalButton from './ascribe_modal/modal_loan';
-import ModalWrapper from './ascribe_modal/modal_wrapper';
-import ConsignForm from './ascribe_forms/form_consign.js';
-import UnConsignModalButton from './ascribe_modal/modal_unconsign';
-import UnConsignRequestModalButton from './ascribe_modal/modal_unconsign_request';
-import TransferModalButton from './ascribe_modal/modal_transfer';
-import ShareModalButton from './ascribe_modal/modal_share';
+import EditionActions from '../actions/edition_actions'
+import AclButton from './acl_button'
 
 /**
  * This is the component that implements display-specific functionality
@@ -49,7 +44,9 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
-
+    handleSuccess(){
+        EditionActions.fetchOne(this.props.edition.id);
+    },
     render() {
         return (
             <div className="ascribe-detail-header">
@@ -58,19 +55,20 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
-                <LoanModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <ModalWrapper
-                    button={<div className="btn btn-ascribe-inv">CONSIGN</div>}
-                    currentUser={ this.props.currentUser }
-                    edition={ this.props.edition }
-                    title="Consign artwork"
-                    tooltip="Have someone else sell the artwork">
-                    <ConsignForm />
-                </ModalWrapper>
-                <UnConsignModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <UnConsignRequestModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <TransferModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <ShareModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
+                <AclButton
+                    availableAcls={["transfer"]}
+                    action="transfer"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
+                <AclButton
+                    availableAcls={["consign"]}
+                    action="consign"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
                 <hr/>
             </div>
         );

@@ -12,11 +12,8 @@ let AclButton = React.createClass({
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
         availableAcls: React.PropTypes.array.isRequired,
         editions: React.PropTypes.array.isRequired,
-        currentUser: React.PropTypes.object
-    },
-
-    actionFunction() {
-        this.props.actionFunction(this.props.action);
+        currentUser: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func.isRequired
     },
 
     actionProperties(){
@@ -58,7 +55,8 @@ let AclButton = React.createClass({
                     </div>
                 }
                 currentUser={ this.props.currentUser }
-                edition={ this.props.editions[0] }
+                editions={ this.props.editions }
+                handleSuccess={ this.props.handleSuccess }
                 title={ aclProps.title }
                 tooltip={ aclProps.tooltip }>
                 { aclProps.form }

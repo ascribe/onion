@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EditionActions from '../actions/edition_actions'
 import AppConstants from '../constants/application_constants'
 import AlertDismissable from '../components/ascribe_forms/alert'
 
@@ -34,8 +33,7 @@ export const FormMixin = {
     handleResponse(response){
         let submitted = false;
         if (response.status >= 200 && response.status < 300){
-            EditionActions.fetchOne(this.props.edition.id);
-            this.props.onRequestHide();
+            this.props.handleSuccess();
             submitted = true;
         }
         else if (response.status >= 400 && response.status < 500) {
@@ -56,6 +54,16 @@ export const FormMixin = {
                 this.setState({errors: this.state.errors.concat(errors[input])});
             }
         }
+    },
+    getBitcoinIds(){
+        return this.props.editions.map(function(edition){
+            return edition.bitcoin_id
+        })
+    },
+    getTitlesString(){
+        return this.props.editions.map(function(edition){
+            return '- \"' + edition.title + ', edition ' + edition.edition_number + '\"\n'
+        })
     },
     render(){
         let alert = null;
