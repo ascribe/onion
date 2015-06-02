@@ -28,8 +28,8 @@ let LoanForm = React.createClass({
             bitcoin_id: this.getBitcoinIds().join(),
             loanee: this.refs.loanee.state.value,
             gallery_name: this.refs.gallery_name.state.value,
-            startdate: this.refs.startdate.state.value,
-            enddate: this.refs.enddate.state.value,
+            startdate: this.refs.startdate.state.value.format("YYYY-MM-DD"),
+            enddate: this.refs.enddate.state.value.format("YYYY-MM-DD"),
             loan_message: this.refs.loan_message.state.value,
             password: this.refs.password.state.value,
             terms: this.refs.terms.state.value
@@ -108,13 +108,9 @@ ${username}`;
                             placeholderText="Loan start date" />
                     </div>
                     <div className="col-md-6 form-group">
-                        <InputText
+                        <InputDate
                             ref="enddate"
-                            name="enddate"
-                            placeholderText="Loan end date"
-                            required="required"
-                            type="text"
-                            submitted={this.state.submitted}/>
+                            placeholderText="Loan end date" />
                     </div>
                 </div>
                 <InputTextArea
