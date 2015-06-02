@@ -12,7 +12,7 @@ import TableItemText from '../ascribe_table/table_item_text';
 import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
-import getLangText from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemTableEditions = React.createClass({
 

@@ -1,5 +1,5 @@
 import AppConstants from '../constants/application_constants';
-import FetchApiUtils from '../utils/fetch_api_utils';
+import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
 import fetch from '../utils/fetch';
 
 
@@ -9,7 +9,7 @@ let PieceListFetcher = {
      * Can be called with all supplied queryparams the API.
      */
     fetch(page, pageSize, search, orderBy, orderAsc) {
-        let ordering = FetchApiUtils.generateOrderingQueryParams(orderBy, orderAsc);
+        let ordering = generateOrderingQueryParams(orderBy, orderAsc);
         return fetch.get('pieces_list', { page, pageSize, search, ordering });
     }
 };

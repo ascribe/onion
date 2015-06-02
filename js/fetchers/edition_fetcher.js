@@ -1,7 +1,6 @@
 import fetch from '../utils/fetch';
 
 import AppConstants from '../constants/application_constants';
-import FetchApiUtils from '../utils/fetch_api_utils';
 
 
 let EditionFetcher = {

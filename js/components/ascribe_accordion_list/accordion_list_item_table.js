@@ -5,7 +5,7 @@ import TableItem from '../ascribe_table/table_item';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
-import getLangText from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemTable = React.createClass({
     getInitialState() {
