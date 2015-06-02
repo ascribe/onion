@@ -8,7 +8,6 @@ export const FormMixin = {
     getInitialState() {
         return {
             submitted: false
-            , status: null
             , errors: []
         }
     },
@@ -16,12 +15,18 @@ export const FormMixin = {
     submit(e) {
         e.preventDefault();
         this.setState({submitted: true});
+        this.clearErrors();
         fetch
             .post(this.url(), { body: this.getFormData() })
             .then(response => { this.props.handleSuccess(); })
             .catch(this.handleError);
     },
-
+    clearErrors(){
+        for (var ref in this.refs){
+            this.refs[ref].clearAlerts();
+        }
+        this.setState({errors:[]});
+    },
     handleError(err){
         if (err.json) {
             for (var input in err.json.errors){
