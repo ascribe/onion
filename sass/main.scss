@@ -1,12 +1,14 @@
 // If you import a new .scss file, make sure to restart gulp
 // otherwise it will not be included
 @import 'variables';
-@import 'ascribe-variables';
+@import 'ascribe_variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
-@import 'ascribe-accordion_list';
-@import 'ascribe-piece-list-toolbar';
+@import 'ascribe_accordion_list';
+@import 'ascribe_piece_list_bulk_modal';
+@import 'ascribe_piece_list_toolbar';
+@import 'offset_right';
 
 .hidden {
     display: none;
@@ -15,10 +17,10 @@
 .navbar-default {
     border-left:0;
     border-right:0;
-    margin-bottom: 3em;
+    margin-bottom: 1.5em;
 }
 
-.clear-margins-and-paddings {
+.clear-paddings {
     padding-left:0;
     padding-right:0;
 }

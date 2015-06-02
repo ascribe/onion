@@ -1,6 +1,6 @@
 import React from 'react';
 
-let PieceListToolbarSelectedEditionsWidget = React.createClass({
+let PieceListBulkModalSelectedEditionsWidget = React.createClass({
     propTypes: {
         numberOfSelectedEditions: React.PropTypes.number.isRequired
     },
@@ -14,4 +14,4 @@ let PieceListToolbarSelectedEditionsWidget = React.createClass({
     }
 });
 
-export default PieceListToolbarSelectedEditionsWidget;
+export default PieceListBulkModalSelectedEditionsWidget;

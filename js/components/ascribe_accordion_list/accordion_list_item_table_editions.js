@@ -2,8 +2,11 @@ import React from 'react';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
+import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
@@ -17,7 +20,8 @@ let AccordionListItemTableEditions = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         parentId: React.PropTypes.number,
-        numOfEditions: React.PropTypes.number
+        numOfEditions: React.PropTypes.number,
+        show: React.PropTypes.bool
     },
 
     getInitialState() {
@@ -36,12 +40,13 @@ let AccordionListItemTableEditions = React.createClass({
         EditionListStore.unlisten(this.onChange);
     },
 
-    getEditionList() {
-        EditionListActions.fetchEditionList(this.props.parentId);
-    },
-
     selectItem(pieceId, editionId) {
         EditionListActions.selectEdition({pieceId, editionId});
+    },
+
+    toggleTable() {
+        PieceListActions.showEditionList(this.props.parentId);
+        EditionListActions.fetchEditionList(this.props.parentId);
     },
 
     render() {
@@ -53,13 +58,22 @@ let AccordionListItemTableEditions = React.createClass({
         ];
 
         return (
-            <AccordionListItemTable
-                className={this.props.className}
-                parentId={this.props.parentId}
-                fetchData={this.getEditionList}
-                itemList={this.state.editionList[this.props.parentId]}
-                columnList={columnList}
-                numOfTableItems={this.props.numOfEditions} />
+            <div>
+                <AccordionListItemTable
+                    className={this.props.className}
+                    parentId={this.props.parentId}
+                    itemList={this.state.editionList[this.props.parentId]}
+                    columnList={columnList}
+                    numOfTableItems={this.props.numOfEditions}
+                    show={this.props.show}>
+                    <AccordionListItemTableToggle
+                        className="ascribe-accordion-list-table-toggle" 
+                        onClick={this.toggleTable}
+                        show={this.props.show}
+                        numOfTableItems={this.props.numOfEditions} />
+                </AccordionListItemTable>
+                
+            </div>
         );
     }
 });
