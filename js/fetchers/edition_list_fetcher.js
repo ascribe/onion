@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '../utils/fetch';
 
 import AppConstants from '../constants/application_constants';
 
@@ -8,12 +8,7 @@ let EditionListFetcher = {
      * Fetches a list of editions from the API.
      */
     fetch(pieceId) {
-
-        return fetch(AppConstants.baseUrl + 'pieces/' + pieceId + '/editions/', {
-            headers: {
-                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
-            }
-        }).then((res) => res.json());
+        return fetch.get('editions_list', { 'piece_id': pieceId });
     }
 };
 

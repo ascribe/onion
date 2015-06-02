@@ -5,6 +5,7 @@
   "main": "js/app.js",
   "author": "Ascribe",
   "license": "Copyright",
+  "private": true,
   "devDependencies": {
     "babel-jest": "^4.0.0",
     "babelify": "^6.1.2",
@@ -29,6 +30,7 @@
   "dependencies": {
     "alt": "^0.16.5",
     "classnames": "^1.2.2",
+    "es6-promise": "^2.1.1",
     "isomorphic-fetch": "^2.0.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.2",

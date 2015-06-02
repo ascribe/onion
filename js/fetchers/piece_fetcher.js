@@ -1,7 +1,6 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '../utils/fetch';
 
 import AppConstants from '../constants/application_constants';
-import FetchApiUtils from '../utils/fetch_api_utils';
 
 
 let PieceFetcher = {
@@ -11,11 +10,7 @@ let PieceFetcher = {
      * 
      */
     fetchOne(pieceId) {
-        return fetch(AppConstants.baseUrl + 'pieces/' + pieceId + '/', {
-            headers: {
-                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
-            }
-        }).then((res) => res.json());
+        return fetch.get('piece');
     }
 };
 
