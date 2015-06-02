@@ -5,7 +5,8 @@ import PieceListActions from '../../actions/piece_list_actions';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
+
+import PieceListToolbarFilterWidgetFilter from './piece_list_toolbar_filter_widget';
 
 let PieceListToolbar = React.createClass({
 
@@ -38,12 +39,12 @@ let PieceListToolbar = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div className="row">
-                            <div className="ascribe-piece-list-toolbar-search form-inline col-md-3 col-md-offset-right-2 pull-right">
-                                <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
-                                &nbsp;&nbsp;
-                                <Button>
-                                    <Glyphicon glyph='filter' />
-                                </Button>
+                            <div className="col-xs-12 col-md-12 col-md-5 col-lg-4 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 clear-paddings">
+                                <div className="form-inline">
+                                    <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
+                                    &nbsp;&nbsp;
+                                    <PieceListToolbarFilterWidgetFilter />
+                                </div>
                             </div>
                         </div>
                     </div>
