@@ -1,17 +1,24 @@
 import React from 'react';
-import ImageViewer from './ascribe_media/image_viewer';
-import TransferModalButton from './ascribe_modal/modal_transfer';
-import ShareModalButton from './ascribe_modal/modal_share';
+
+import ResourceViewer from './ascribe_media/resource_viewer';
+
+import EditionActions from '../actions/edition_actions'
+import AclButton from './acl_button'
 
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
     render() {
+        let thumbnail = this.props.edition.thumbnail;
+        let mimetype = this.props.edition.digital_work.mime;
+
         return (
             <div>
                 <div className="col-md-7">
-                    <ImageViewer thumbnail={this.props.edition.thumbnail}/>
+                    <ResourceViewer thumbnail={thumbnail}
+                                    mimetype={mimetype}
+                                    />
                 </div>
                 <div className="col-md-5">
                     <EditionHeader edition={this.props.edition}/>
@@ -38,6 +45,9 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
+    handleSuccess(){
+        EditionActions.fetchOne(this.props.edition.id);
+    },
     render() {
         return (
             <div className="ascribe-detail-header">
@@ -46,8 +56,20 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
-                <TransferModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <ShareModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
+                <AclButton
+                    availableAcls={["transfer"]}
+                    action="transfer"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
+                <AclButton
+                    availableAcls={["consign"]}
+                    action="consign"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
                 <hr/>
             </div>
         );
@@ -74,4 +96,3 @@ let EditionDetailProperty = React.createClass({
 
 
 export default Edition;
-

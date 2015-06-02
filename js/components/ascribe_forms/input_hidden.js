@@ -2,12 +2,12 @@ import React from 'react';
 
 import AlertMixin from '../../mixins/alert_mixin'
 
-let InputText = React.createClass({
+let InputHidden = React.createClass({
 
     mixins : [AlertMixin],
 
     getInitialState() {
-        return {value: null,
+        return {value: this.props.value,
                 alerts: null // needed in AlertMixin
         };
     },
@@ -15,21 +15,19 @@ let InputText = React.createClass({
         this.setState({value: event.target.value});
     },
     render() {
-        let className = "form-control input-text-ascribe";
         let alerts = (this.props.submitted) ? null : this.state.alerts;
         return (
             <div className="form-group">
                 {alerts}
-                <input className={className}
-                        placeholder={this.props.placeHolder}
-                        required={this.props.required}
-                        type={this.props.type}
-                        onChange={this.handleChange}
-                        onBlur={this.props.onBlur}/>
+                <input
+                    value={this.props.value}
+                    type="hidden"
+                    onChange={this.handleChange}
+                />
             </div>
         );
 
     }
 });
 
-export default InputText;
+export default InputHidden;
