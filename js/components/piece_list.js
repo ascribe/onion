@@ -11,6 +11,7 @@ import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_l
 import Pagination from './ascribe_pagination/pagination';
 
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
+import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 
 let PieceList = React.createClass({
@@ -50,6 +51,7 @@ let PieceList = React.createClass({
         
         return (
             <div>
+                <PieceListToolbar className="ascribe-piece-list-toolbar" />
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"

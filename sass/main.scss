@@ -7,6 +7,8 @@
 @import './ascribe-fonts/ascribe-fonts';
 @import 'ascribe_accordion_list';
 @import 'ascribe_piece_list_bulk_modal';
+@import 'ascribe_piece_list_toolbar';
+@import 'offset_right';
 
 .hidden {
     display: none;
@@ -15,7 +17,7 @@
 .navbar-default {
     border-left:0;
     border-right:0;
-    margin-bottom: 3em;
+    margin-bottom: 1.5em;
 }
 
 .clear-margins-and-paddings {
