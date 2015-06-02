@@ -1,6 +1,8 @@
 import React from 'react';
 import Router from 'react-router';
 
+import { getLangText } from '../../utils/lang_utils';
+
 let Link = Router.Link;
 
 let PaginationButton = React.createClass({
@@ -25,14 +27,14 @@ let PaginationButton = React.createClass({
             page -= 1;
             directionDisplay = (
                 <span>
-                    <span aria-hidden="true">&larr;</span> Previous
+                    <span aria-hidden="true">&larr;</span> {getLangText('Previous')}
                 </span>
                 );
         } else {
             page += 1;
             directionDisplay = (
                 <span>
-                    Next <span aria-hidden="true">&rarr;</span>
+                    {getLangText('Next')} <span aria-hidden="true">&rarr;</span>
                 </span>
                 );
         }

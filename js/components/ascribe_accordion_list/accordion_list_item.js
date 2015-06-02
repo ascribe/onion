@@ -2,6 +2,7 @@ import React from 'react';
 
 import AccordionListItemTable from './accordion_list_item_table';
 
+import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItem = React.createClass({
     propTypes: {
@@ -19,7 +20,7 @@ let AccordionListItem = React.createClass({
                         </div>
                         <div className="info-wrapper">
                             <h1>{this.props.content.title}</h1>
-                            <h3>by {this.props.content.artist_name}</h3>
+                            <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                         </div>
                         <span style={{'clear': 'both'}}></span>
                     </div>
