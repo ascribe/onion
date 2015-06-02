@@ -18,20 +18,24 @@ export const FormMixin = {
         this.setState({submitted: true});
         fetch
             .post(this.url(), { body: this.getFormData() })
-            .then(response => { this.props.onRequestHide(); })
+            .then(response => { this.props.handleSuccess(); })
             .catch(this.handleError);
     },
 
     handleError(err){
         if (err.json) {
-            for (var input in errors){
+            for (var input in err.json.errors){
                 if (this.refs && this.refs[input] && this.refs[input].state) {
-                    this.refs[input].setAlerts(errors[input]);
+                    this.refs[input].setAlerts( err.json.errors[input]);
                 } else {
-                    this.setState({errors: this.state.errors.concat(errors[input])});
+                    this.setState({errors: this.state.errors.concat(err.json.errors[input])});
                 }
             }
         }
+        else{
+            this.setState({errors: ['Something went wrong, please try again later"']});
+        }
+        this.setState({submitted: false});
     },
 
     getBitcoinIds(){
@@ -48,15 +52,12 @@ export const FormMixin = {
 
     render(){
         let alert = null;
-        if (this.state.status >= 500){
-            alert = <AlertDismissable error="Something went wrong, please try again later"/>;
-        }
         if (this.state.errors.length > 0){
             alert = this.state.errors.map(
-                        function(error) {
-                            return <AlertDismissable error={error} key={error}/>;
-                        }.bind(this)
-                    );
+                    function(error) {
+                        return <AlertDismissable error={error} key={error}/>;
+                    }.bind(this)
+                );
         }
         return (
             <div>
