@@ -24,7 +24,7 @@ let Header = React.createClass({
 
     render() {
         return (
-            <nav className="navbar navbar-default navbar-fixed-top">
+            <nav className="navbar navbar-default">
                 <div className="container">
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -35,15 +35,12 @@ let Header = React.createClass({
                         </button>
                         <a className="navbar-brand" href="#">
                             <span>ascribe </span> 
-                            <span className="glyph-ascribe-spool-chunked"></span>
+                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
                         </a>
                     </div>
                     
                     <div id="navbar" className="navbar-collapse collapse">
                         <ul className="nav navbar-nav navbar-left">
-                            <li>
-                                <Link to="pieces">Pieces</Link>
-                            </li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">

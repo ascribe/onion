@@ -61,7 +61,7 @@ let TableItemSubtable = React.createClass({
         let renderEditionListTable = () => {
 
             let columnList = [
-                new TableColumnContentModel('edition_number', 'Edition Number', TableItemText, 2, false),
+                new TableColumnContentModel('edition_number', 'Number', TableItemText, 2, false),
                 new TableColumnContentModel('user_registered', 'User', TableItemText, 4, true),
                 new TableColumnContentModel('acl', 'Actions', TableItemAcl, 4, true)
             ];

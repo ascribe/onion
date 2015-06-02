@@ -26,12 +26,13 @@ let TableItemSelectable = React.createClass({
 
         return (
             <TableItem 
-                classNames={tableItemClasses + ' ' + this.props.className}
+                className={tableItemClasses + ' ' + this.props.className}
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
                 onClick={this.selectItem}>
             </TableItem>
         );
+        
     }
 });
 

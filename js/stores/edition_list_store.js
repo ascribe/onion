@@ -21,9 +21,8 @@ class EditionListStore {
     }
 
     onSelectEdition({pieceId, editionId}) {
-
         this.editionList[pieceId].forEach((edition) => {
-            if(edition.edition_number === editionId) {
+            if(edition.id === editionId) {
                 if(edition.selected) {
                     edition.selected = false;
                 } else {
@@ -31,7 +30,21 @@ class EditionListStore {
                 }
             }
         });
+    }
 
+    onClearAllEditionSelections() {
+        Object
+            .keys(this.editionList)
+            .forEach((pieceId) => {
+                this.editionList[pieceId]
+                    .forEach((edition) => {
+                        try {
+                            delete edition.selected;
+                        } catch(err) {
+                            //just ignore
+                        }
+                    });
+            });
     }
 };
 

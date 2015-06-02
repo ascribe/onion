@@ -42,12 +42,12 @@ let InjectInHeadMixin = {
     },
 
     inject(src) {
-        debugger;
         let ext = src.split('.').pop();
+        let tag = null;
         try {
-            let tag = mapAttr(src);
+            tag = mapAttr(src);
         } catch (e) {
-            throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension ${ext}. Valid extensions are "js" and "css".`);
+            throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension "${ext}". Valid extensions are "js" and "css".`);
         }
         InjectInHeadMixin.injectTag(tag, src);
     }

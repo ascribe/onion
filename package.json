@@ -5,15 +5,19 @@
   "main": "js/app.js",
   "author": "Ascribe",
   "license": "Copyright",
+  "private": true,
   "devDependencies": {
     "babel-jest": "^4.0.0",
     "babelify": "^6.1.2",
+    "bootstrap-sass": "^3.3.4",
     "browser-sync": "^2.7.5",
     "browserify": "^9.0.8",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
     "gulp-if": "^1.2.5",
     "gulp-notify": "^2.2.0",
+    "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.4",
     "jest-cli": "^0.4.0",
@@ -26,12 +30,13 @@
   "dependencies": {
     "alt": "^0.16.5",
     "classnames": "^1.2.2",
+    "es6-promise": "^2.1.1",
     "isomorphic-fetch": "^2.0.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.2",
+    "react-bootstrap": "~0.22.6",
     "react-router": "^0.13.3",
-    "uglifyjs": "^2.4.10",
-    "react-bootstrap": "~0.22.6"
+    "uglifyjs": "^2.4.10"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",
