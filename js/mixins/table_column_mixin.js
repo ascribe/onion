@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GeneralUtils from '../utils/general_utils';
+import { sumNumList } from '../utils/general_utils';
 
 let TableColumnMixin = {
     /**
@@ -11,7 +11,7 @@ let TableColumnMixin = {
         let bootstrapClasses = ['col-xs-', 'col-sm-', 'col-md-', 'col-lg-'];
         
         let listOfRowValues = list.map((column) => column.rowWidth );
-        let numOfUsedColumns = GeneralUtils.sumNumList(listOfRowValues);
+        let numOfUsedColumns = sumNumList(listOfRowValues);
 
         if(numOfUsedColumns > numOfColumns) {
             throw new Error('This table has only ' + numOfColumns + ' columns to assign. You defined ' + numOfUsedColumns + '. Change this in the columnMap you\'re passing to the table.')
