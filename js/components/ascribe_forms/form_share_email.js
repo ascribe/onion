@@ -16,18 +16,19 @@ let ShareForm = React.createClass({
     },
     getFormData() {
         return {
-            bitcoin_id: this.props.edition.bitcoin_id,
+            bitcoin_id: this.getBitcoinIds().join(),
             share_emails: this.refs.share_emails.state.value,
             share_message: this.refs.share_message.state.value
         }
     },
     renderForm() {
-        let title = this.props.edition.title;
+        let title = this.getTitlesString().join("");
         let username = this.props.currentUser.username;
         let message =
 `Hi,
 
-I am sharing \" ${title} \" with you.
+I am sharing :
+${title}with you.
 
 Truly yours,
 ${username}`;

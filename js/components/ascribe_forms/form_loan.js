@@ -25,7 +25,7 @@ let LoanForm = React.createClass({
     },
     getFormData() {
         return {
-            bitcoin_id: this.props.edition.bitcoin_id,
+            bitcoin_id: this.getBitcoinIds().join(),
             loanee: this.refs.loanee.state.value,
             gallery_name: this.refs.gallery_name.state.value,
             startdate: this.refs.startdate.state.value,
@@ -59,15 +59,17 @@ let LoanForm = React.createClass({
                        });
     },
     renderForm() {
-        let title = this.props.edition.title;
+        let title = this.getTitlesString().join("");
         let username = this.props.currentUser.username;
         let message =
 `Hi,
 
-I loan \" ${title} \" to you.
+I loan :
+${title}to you.
 
 Truly yours,
 ${username}`;
+
         let contract = <InputHidden ref="terms" value="True"/>;
         if (this.state.loaneeHasContract){
             let label = <div>
@@ -82,13 +84,6 @@ ${username}`;
                             label={label}
                         />
         }
-        //<InputText
-        //                    ref="startdate"
-        //                    name="startdate"
-        //                    placeHolder="Loan start date"
-        //                    required="required"
-        //                    type="text"
-        //                    submitted={this.state.submitted}/>
         return (
             <form id="loan_modal_content" role="form" onSubmit={this.submit}>
                 <input className="invisible" type="email" name="fake_loanee"/>
