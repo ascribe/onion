@@ -43,7 +43,7 @@ let PieceListToolbar = React.createClass({
                                 <div className="form-inline">
                                     <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
                                     &nbsp;&nbsp;
-                                    <PieceListToolbarFilterWidgetFilter />
+                                    {/*<PieceListToolbarFilterWidgetFilter />*/}
                                 </div>
                             </div>
                         </div>
