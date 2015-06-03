@@ -22,8 +22,12 @@ let Header = React.createClass({
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange)
         UserActions.fetchCurrentUser();
+        UserStore.listen(this.onChange)
+    },
+
+    componentDidUnmount() {
+        UserStore.unlisten(this.onChange)
     },
 
     onChange(state) {
@@ -40,7 +44,7 @@ let Header = React.createClass({
                     </a>
                 </Nav>
                 <Nav right>
-                    <DropdownButton eventKey={3} title={this.state.currentUser.username}>
+                    <DropdownButton eventKey="1" title={this.state.currentUser.username}>
                         <MenuItem eventKey="1" href="/art/account_settings/">{getLangText('Account Settings')}</MenuItem>
                         <li className="divider"></li>
                         <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>

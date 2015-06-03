@@ -19,8 +19,7 @@ let ModalWrapper = React.createClass({
                         title={this.props.title}
                         editions={this.props.editions}
                         currentUser={this.props.currentUser}
-                        handleSuccess={this.props.handleSuccess}
-                    >
+                        handleSuccess={this.props.handleSuccess}>
                     {this.props.children}
                     </ModalBody>
                 }>

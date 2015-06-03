@@ -15,7 +15,7 @@ class UserActions {
                 this.actions.updateCurrentUser(res['users'][0]);
             })
             .catch((err) => {
-                console.log(err);           
+                console.log(err);
             });
     }
 };

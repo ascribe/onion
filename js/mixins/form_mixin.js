@@ -7,8 +7,8 @@ import AlertDismissable from '../components/ascribe_forms/alert'
 export const FormMixin = {
     getInitialState() {
         return {
-            submitted: false
-            , errors: []
+            submitted: false,
+            errors: []
         }
     },
 
