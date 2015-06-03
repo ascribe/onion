@@ -14,7 +14,7 @@ let AclButtonList = React.createClass({
         this.setState(state);
     },
 
-    componentDidMount() {
+    componentWillMount() {
         UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
     },

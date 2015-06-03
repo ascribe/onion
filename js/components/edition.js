@@ -3,7 +3,7 @@ import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
 
 import EditionActions from '../actions/edition_actions'
-import AclButton from './ascribe_buttons/acl_button'
+import AclButtonList from './ascribe_buttons/acl_button_list'
 
 /**
  * This is the component that implements display-specific functionality
@@ -56,20 +56,10 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
-                <AclButton
-                    availableAcls={["transfer"]}
-                    action="transfer"
+                <AclButtonList
+                    availableAcls={["transfer", "consign", "loan", "share"]}
                     editions={[this.props.edition]}
-                    currentUser={this.props.currentUser}
-                    handleSuccess={this.handleSuccess}
-                />
-                <AclButton
-                    availableAcls={["consign"]}
-                    action="consign"
-                    editions={[this.props.edition]}
-                    currentUser={this.props.currentUser}
-                    handleSuccess={this.handleSuccess}
-                />
+                    handleSuccess={this.handleSuccess} />
                 <hr/>
             </div>
         );
