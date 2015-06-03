@@ -5,31 +5,20 @@ import TableItem from '../ascribe_table/table_item';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
-let AccordionListItemTable = React.createClass({
-    getInitialState() {
-        return {
-            'show': false
-        };
-    },
+import { getLangText } from '../../utils/lang_utils';
 
+let AccordionListItemTable = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         parentId: React.PropTypes.number,
-        fetchData: React.PropTypes.func,
         itemList: React.PropTypes.array,
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        numOfTableItems: React.PropTypes.number
-    },
-
-    toggleTable() {
-        this.props.fetchData();
-        this.setState({
-            'show': !this.state.show
-        });
+        numOfTableItems: React.PropTypes.number,
+        show: React.PropTypes.bool
     },
 
     render() {
-        if(this.props.itemList && this.state.show) {
+        if(this.props.show && this.props.itemList) {
             return (
                 <div className={this.props.className}>
                     <Table
@@ -44,43 +33,16 @@ let AccordionListItemTable = React.createClass({
                             );
                         })}
                     </Table>
-                    <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle" 
-                        onClick={this.toggleTable}
-                        show={this.state.show}
-                        numOfTableItems={this.props.numOfTableItems} />
+                    {this.props.children}
                 </div>
             );
         } else {
             return (
                 <div className={this.props.className}>
-                    <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle" 
-                        onClick={this.toggleTable} 
-                        show={this.state.show}
-                        numOfTableItems={this.props.numOfTableItems} />
+                    {this.props.children}
                 </div>
             );
         }
-    }
-});
-
-let AccordionListItemTableToggle = React.createClass({
-    propTypes: {
-        className: React.PropTypes.string,
-        onClick: React.PropTypes.func,
-        show: React.PropTypes.bool,
-        numOfTableItems: React.PropTypes.number
-    },
-
-    render() {
-        return (
-            <span 
-                className={this.props.className}
-                onClick={this.props.onClick}>
-                {this.props.show ? 'Hide all ' + this.props.numOfTableItems + ' Editions' : 'Show all ' + this.props.numOfTableItems + ' Editions'}
-            </span>
-        );
     }
 });
 

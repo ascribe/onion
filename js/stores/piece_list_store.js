@@ -24,6 +24,19 @@ class PieceListStore {
         this.bindActions(PieceListActions);
     }
 
+    onShowEditionList(pieceId) {
+        this.pieceList
+            .forEach((piece) => {
+                if(piece.id === pieceId) {
+                    if(piece.show) {
+                        piece.show = false;
+                    } else {
+                        piece.show = true;
+                    }
+                }
+            });
+    }
+
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;
         this.pageSize = pageSize;

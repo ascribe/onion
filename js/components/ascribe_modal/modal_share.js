@@ -4,6 +4,7 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
+import ModalMixin from '../../mixins/modal_mixin'
 
 
 import ShareForm from '../ascribe_forms/form_share_email'
@@ -24,11 +25,8 @@ let ShareModalButton = React.createClass({
 });
 
 let ShareModal = React.createClass({
-    onRequestHide(e){
-        if (e)
-            e.preventDefault();
-        this.props.onRequestHide();
-    },
+    mixins : [ModalMixin],
+
     render() {
         return (
             <Modal {...this.props} title="Share artwork">

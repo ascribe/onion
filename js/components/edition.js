@@ -1,7 +1,8 @@
 import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
-import TransferModalButton from './ascribe_modal/modal_transfer';
-import ShareModalButton from './ascribe_modal/modal_share';
+
+import EditionActions from '../actions/edition_actions'
+import AclButton from './acl_button'
 
 /**
  * This is the component that implements display-specific functionality
@@ -49,6 +50,9 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
+    handleSuccess(){
+        EditionActions.fetchOne(this.props.edition.id);
+    },
     render() {
         return (
             <div className="ascribe-detail-header">
@@ -57,8 +61,20 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
-                <TransferModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
-                <ShareModalButton edition={ this.props.edition } currentUser={ this.props.currentUser }/>
+                <AclButton
+                    availableAcls={["transfer"]}
+                    action="transfer"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
+                <AclButton
+                    availableAcls={["consign"]}
+                    action="consign"
+                    editions={[this.props.edition]}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess}
+                />
                 <hr/>
             </div>
         );

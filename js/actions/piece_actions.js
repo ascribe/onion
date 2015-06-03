@@ -15,7 +15,7 @@ class PieceActions {
                 this.actions.updatePiece(res.piece);
             })
             .catch((err) => {
-                console.log(err);           
+                console.log(err);
             });
     }
 }

@@ -3,11 +3,11 @@ import React from 'react';
 let ButtonSubmitOrClose = React.createClass({
     render() {
         if (this.props.submitted){
-            return (
-                <div className="modal-footer">
-                    Loading
-                </div>
-            )
+            //return (
+            //    <div className="modal-footer">
+            //        Loading
+            //    </div>
+            //)
         }
         return (
             <div className="modal-footer">

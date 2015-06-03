@@ -27,7 +27,6 @@ let EditionContainer = React.createClass({
         UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
     },
-
     componentDidUnmount() {
         EditionStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
