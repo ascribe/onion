@@ -1,5 +1,8 @@
 import React from 'react';
 
+import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
+import Button from 'react-bootstrap/lib/Button';
+
 import ResourceViewer from './ascribe_media/resource_viewer';
 
 import EditionActions from '../actions/edition_actions'
@@ -22,6 +25,7 @@ let Edition = React.createClass({
                 </div>
                 <div className="col-sm-6">
                     <EditionHeader edition={this.props.edition}/>
+                    <EditionSummary edition={this.props.edition} currentUser={ this.props.currentUser }/>
                     <EditionDetails edition={this.props.edition} currentUser={ this.props.currentUser }/>
                 </div>
 
@@ -44,7 +48,7 @@ let EditionHeader = React.createClass({
     }
 });
 
-let EditionDetails = React.createClass({
+let EditionSummary = React.createClass({
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
@@ -57,7 +61,7 @@ let EditionDetails = React.createClass({
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
                 <AclButtonList
-                    availableAcls={["transfer", "consign", "loan", "share"]}
+                    availableAcls={this.props.edition.acl}
                     editions={[this.props.edition]}
                     handleSuccess={this.handleSuccess} />
                 <hr/>
@@ -67,15 +71,62 @@ let EditionDetails = React.createClass({
     }
 });
 
+let EditionDetails = React.createClass({
+    handleSuccess(){
+        EditionActions.fetchOne(this.props.edition.id);
+    },
+    render() {
+        return (
+            <div className="ascribe-detail-header">
+                <CollapsibleParagraph>
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </CollapsibleParagraph>
+                <hr/>
+            </div>
+        );
+
+    }
+});
+
+let CollapsibleParagraph = React.createClass({
+  mixins: [CollapsibleMixin],
+
+  getCollapsibleDOMNode(){
+    return React.findDOMNode(this.refs.panel);
+  },
+
+  getCollapsibleDimensionValue(){
+    return React.findDOMNode(this.refs.panel).scrollHeight;
+  },
+
+  onHandleToggle(e){
+    e.preventDefault();
+    this.setState({expanded:!this.state.expanded});
+  },
+
+  render(){
+    let text = this.isExpanded() ? 'Hide' : 'Show';
+    return (
+      <div>
+        <Button onClick={this.onHandleToggle}>{text} Content</Button>
+        <div ref='panel'>
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+});
+
+
 let EditionDetailProperty = React.createClass({
     render() {
         return (
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
-                    <div className="col-xs-2 col-xs-height col-bottom">
+                    <div className="col-xs-4 col-sm-3 col-xs-height col-bottom">
                         <div>{ this.props.label }:</div>
                     </div>
-                    <div className="col-xs-10 col-xs-height col-bottom">
+                    <div className="col-xs-8 col-sm-9 col-xs-height col-bottom">
                         <div>{ this.props.value }</div>
                     </div>
                 </div>
