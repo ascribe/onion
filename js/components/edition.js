@@ -10,13 +10,19 @@ let Edition = React.createClass({
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
+        let extraData = null;
+
+        if (this.props.edition.digital_work.encoding_urls) {
+            extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label } });
+        }
 
         return (
             <div>
                 <div className="col-md-7">
-                    <ResourceViewer thumbnail={thumbnail}
-                                    mimetype={mimetype}
-                                    />
+                    <ResourceViewer mimetype={mimetype}
+                                    preview={thumbnail}
+                                    url={this.props.edition.digital_work.url}
+                                    extraData={extraData} />
                 </div>
                 <div className="col-md-5">
                     <EditionHeader edition={this.props.edition}/>
