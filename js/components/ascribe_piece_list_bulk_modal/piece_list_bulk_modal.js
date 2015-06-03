@@ -33,17 +33,13 @@ let PieceListBulkModal = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
-    filterForSelected(edition) {
-        return edition.selected;
-    },
-
     fetchSelectedEditionList() {
         let selectedEditionList = [];
 
         Object
             .keys(this.state.editionList)
             .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editionList[key].filter(this.filterForSelected);
+                let filteredEditionsForPiece = this.state.editionList[key].filter((edition) => edition.selected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -52,10 +48,6 @@ let PieceListBulkModal = React.createClass({
 
     intersectAcls(a, b) {
         return a.filter((val) => b.indexOf(val) > -1);
-    },
-
-    bulk(action) {
-        console.log(action);
     },
 
     getAvailableAcls() {
