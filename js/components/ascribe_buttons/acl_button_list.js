@@ -14,41 +14,44 @@ let AclButtonList = React.createClass({
         this.setState(state);
     },
 
-    componentWillMount() {
-        UserActions.fetchCurrentUser();
+    componentDidMount() {
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
     componentDidUnmount() {
         UserStore.unlisten(this.onChange);
     },
+
     render() {
-        return (<div className="text-center">
-            <AclButton
-                availableAcls={this.props.availableAcls}
-                action="transfer"
-                editions={this.props.editions}
-                currentUser={this.state.currentUser}
-                handleSuccess={this.props.handleSuccess} />
-            <AclButton
-                availableAcls={this.props.availableAcls}
-                action="consign"
-                editions={this.props.editions}
-                currentUser={this.state.currentUser}
-                handleSuccess={this.props.handleSuccess} />
-            <AclButton
-                availableAcls={this.props.availableAcls}
-                action="loan"
-                editions={this.props.editions}
-                currentUser={this.state.currentUser}
-                handleSuccess={this.props.handleSuccess} />
-            <AclButton
-                availableAcls={this.props.availableAcls}
-                action="share"
-                editions={this.props.editions}
-                currentUser={this.state.currentUser}
-                handleSuccess={this.props.handleSuccess} />
-        </div>)
+        return (
+            <div className="text-center">
+                <AclButton
+                    availableAcls={this.props.availableAcls}
+                    action="transfer"
+                    editions={this.props.editions}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                <AclButton
+                    availableAcls={this.props.availableAcls}
+                    action="consign"
+                    editions={this.props.editions}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                <AclButton
+                    availableAcls={this.props.availableAcls}
+                    action="loan"
+                    editions={this.props.editions}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                <AclButton
+                    availableAcls={this.props.availableAcls}
+                    action="share"
+                    editions={this.props.editions}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+            </div>
+        );
     }
 });
 

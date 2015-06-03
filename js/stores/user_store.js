@@ -1,11 +1,11 @@
 import alt from '../alt';
-import UserAction from '../actions/user_actions';
+import UserActions from '../actions/user_actions';
 
 
-class UserStore{
+class UserStore {
     constructor() {
         this.currentUser = {};
-        this.bindActions(UserAction);
+        this.bindActions(UserActions);
     }
 
     onUpdateCurrentUser(user) {
