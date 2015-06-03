@@ -3,7 +3,7 @@ import React from 'react';
 import ResourceViewer from './ascribe_media/resource_viewer';
 
 import EditionActions from '../actions/edition_actions'
-import AclButton from './acl_button'
+import AclButton from './ascribe_buttons/acl_button'
 
 /**
  * This is the component that implements display-specific functionality
@@ -15,12 +15,12 @@ let Edition = React.createClass({
 
         return (
             <div>
-                <div className="col-md-7">
+                <div className="col-sm-6">
                     <ResourceViewer thumbnail={thumbnail}
                                     mimetype={mimetype}
                                     />
                 </div>
-                <div className="col-md-5">
+                <div className="col-sm-6">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionDetails edition={this.props.edition} currentUser={ this.props.currentUser }/>
                 </div>

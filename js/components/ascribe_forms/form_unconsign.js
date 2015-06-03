@@ -6,7 +6,7 @@ import ApiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputTextArea from './input_textarea';
-import ButtonSubmitOrClose from './button_submit_close';
+import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
 let UnConsignForm = React.createClass({
     mixins: [FormMixin],

@@ -3,11 +3,11 @@ import React from 'react';
 let ButtonSubmitOrClose = React.createClass({
     render() {
         if (this.props.submitted){
-            //return (
-            //    <div className="modal-footer">
-            //        Loading
-            //    </div>
-            //)
+            return (
+                <div className="modal-footer">
+                    <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                </div>
+            )
         }
         return (
             <div className="modal-footer">

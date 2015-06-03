@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ConsignForm from './ascribe_forms/form_consign';
-import TransferForm from './ascribe_forms/form_transfer';
-import LoanForm from './ascribe_forms/form_loan';
-import ShareForm from './ascribe_forms/form_share_email';
-import ModalWrapper from './ascribe_modal/modal_wrapper';
-import AppConstants from '../constants/application_constants';
+import ConsignForm from '../ascribe_forms/form_consign';
+import TransferForm from '../ascribe_forms/form_transfer';
+import LoanForm from '../ascribe_forms/form_loan';
+import ShareForm from '../ascribe_forms/form_share_email';
+import ModalWrapper from '../ascribe_modal/modal_wrapper';
+import AppConstants from '../../constants/application_constants';
 
 let AclButton = React.createClass({
     propTypes: {

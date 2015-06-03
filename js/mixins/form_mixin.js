@@ -58,11 +58,10 @@ export const FormMixin = {
     render(){
         let alert = null;
         if (this.state.errors.length > 0){
-            alert = this.state.errors.map(
-                    function(error) {
-                        return <AlertDismissable error={error} key={error}/>;
-                    }.bind(this)
-                );
+            alert =
+                this.state.errors.map(function(error) {
+                    return <AlertDismissable error={error} key={error}/>;
+                }.bind(this));
         }
         return (
             <div>
