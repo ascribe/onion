@@ -65,7 +65,7 @@ let AccordionListItemTableEditions = React.createClass({
 
     toggleTable() {
         PieceListActions.showEditionList(this.props.parentId);
-        EditionListActions.fetchEditionList(this.props.parentId, this.state.orderBy, this.state.orderAsc);
+        EditionListActions.fetchEditionList(this.props.parentId);
     },
 
     changeEditionListOrder(orderBy, orderAsc) {
@@ -75,6 +75,8 @@ let AccordionListItemTableEditions = React.createClass({
     render() {
         let selectedEditionsCount = 0;
         let allEditionsCount = 0;
+        let orderBy;
+        let orderAsc;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -82,6 +84,8 @@ let AccordionListItemTableEditions = React.createClass({
         if(this.state.editionList[this.props.parentId]) {
             selectedEditionsCount = this.filterSelectedEditions().length;
             allEditionsCount = this.state.editionList[this.props.parentId].length;
+            orderBy = this.state.editionList[this.props.parentId].orderBy
+            orderAsc = this.state.editionList[this.props.parentId].orderAsc;
         }
 
         let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', PieceListActions.closeAllEditionLists);
@@ -151,8 +155,8 @@ let AccordionListItemTableEditions = React.createClass({
                     columnList={columnList}
                     numOfTableItems={this.props.numOfEditions}
                     show={this.props.show}
-                    orderBy={this.state.orderBy}
-                    orderAsc={this.state.orderAsc}
+                    orderBy={orderBy}
+                    orderAsc={orderAsc}
                     changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle" 

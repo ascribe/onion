@@ -12,6 +12,11 @@ class EditionListActions {
     }
 
     fetchEditionList(pieceId, orderBy, orderAsc) {
+        if(!orderBy && typeof orderAsc == "undefined") {
+            orderBy = 'edition_number';
+            orderAsc = true;
+        }
+
         EditionListFetcher
             .fetch(pieceId, orderBy, orderAsc)
             .then((res) => {

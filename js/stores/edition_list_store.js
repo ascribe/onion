@@ -6,8 +6,6 @@ import EditionsListActions from '../actions/edition_list_actions';
 class EditionListStore {
     constructor() {
         this.editionList = {};
-        this.orderBy = 'edition_number';
-        this.orderAsc = true;
         this.bindActions(EditionsListActions);
     }
 
@@ -20,8 +18,15 @@ class EditionListStore {
             })
         }
         this.editionList[pieceId] = editionListOfPiece;
-        this.orderBy = orderBy;
-        this.orderAsc = orderAsc;
+
+        /**
+         * orderBy and orderAsc are specific to a single list of editons
+         * therefore they need to be saved in relation to their parent-piece.
+         *
+         * Default values for both are set in the editon_list-actions.
+         */
+        this.editionList[pieceId].orderBy = orderBy;
+        this.editionList[pieceId].orderAsc = orderAsc
     }
 
     onSelectEdition({pieceId, editionId}) {
