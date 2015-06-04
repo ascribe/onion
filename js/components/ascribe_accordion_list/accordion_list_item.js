@@ -1,8 +1,11 @@
 import React from 'react';
+import Router from 'react-router';
 
 import AccordionListItemTable from './accordion_list_item_table';
 
 import { getLangText } from '../../utils/lang_utils';
+
+let Link = Router.Link;
 
 let AccordionListItem = React.createClass({
     propTypes: {

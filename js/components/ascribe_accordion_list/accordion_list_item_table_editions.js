@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'react-router';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -17,6 +18,8 @@ import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 import { getLangText } from '../../utils/lang_utils';
+
+let Link = Router.Link;
 
 let AccordionListItemTableEditions = React.createClass({
 
@@ -108,7 +111,8 @@ let AccordionListItemTableEditions = React.createClass({
                     '#',
                     TableItemText,
                     1,
-                    true
+                    true,
+                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
             ),
             new TableColumnContentModel(
                 (item) => {
@@ -119,7 +123,8 @@ let AccordionListItemTableEditions = React.createClass({
                     getLangText('Bitcoin Address'),
                     TableItemText,
                     5,
-                    true
+                    true,
+                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
             ),
             new TableColumnContentModel(
                 (item) => { 
@@ -130,7 +135,8 @@ let AccordionListItemTableEditions = React.createClass({
                     getLangText('Actions'),
                     TableItemAclFiltered,
                     4,
-                    false
+                    false,
+                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
             )
         ];
 
