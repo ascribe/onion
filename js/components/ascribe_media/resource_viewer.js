@@ -25,7 +25,7 @@ let ResourceViewer = React.createClass({
     mixins: [InjectInHeadMixin],
 
     componentDidMount() {
-        this.inject('http://antani.com');
+        //this.inject('http://antani.com');
     },
 
     render() {

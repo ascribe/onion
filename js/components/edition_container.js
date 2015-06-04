@@ -11,10 +11,11 @@ import Edition from './edition';
  * This is the component that implements resource/data specific functionality
  */
 let EditionContainer = React.createClass({
-
     getInitialState() {
-        return {'user': UserStore.getState(),
-                'edition': EditionStore.getState()}
+        return {
+            'user': UserStore.getState(),
+            'edition': EditionStore.getState()
+        };
     },
 
     onChange(state) {
@@ -22,29 +23,30 @@ let EditionContainer = React.createClass({
     },
 
     componentDidMount() {
-        EditionActions.fetchOne(this.props.params.editionId);
         EditionStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
+        EditionActions.fetchOne(this.props.params.editionId);
     },
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
 
     render() {
-
         if('title' in this.state.edition) {
             return (
-                <Edition edition={this.state.edition } currentUser={this.state.currentUser}></Edition>
+                <Edition 
+                    edition={this.state.edition} 
+                    currentUser={this.state.currentUser}>
+                </Edition>
             );
         } else {
             return (
                 <p>Loading</p>
             );
         }
-
-        
     }
 });
 

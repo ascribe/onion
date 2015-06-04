@@ -15,7 +15,10 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return {
+            editions: EditionListStore.getState(),
+            user: UserStore.getState()
+        };
     },
 
     onChange(state) {
@@ -28,7 +31,7 @@ let PieceListBulkModal = React.createClass({
         UserStore.listen(this.onChange);
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
@@ -37,9 +40,9 @@ let PieceListBulkModal = React.createClass({
         let selectedEditionList = [];
 
         Object
-            .keys(this.state.editionList)
+            .keys(this.state.editions.editionList)
             .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editionList[key].filter((edition) => edition.selected);
+                let filteredEditionsForPiece = this.state.editions.editionList[key].filter((edition) => edition.selected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -73,10 +76,6 @@ let PieceListBulkModal = React.createClass({
         EditionListActions.clearAllEditionSelections();
     },
 
-    handleSuccess(){
-
-    },
-
     render() {
         let availableAcls = this.getAvailableAcls();
         let selectedEditions = this.fetchSelectedEditionList();
@@ -104,25 +103,25 @@ let PieceListBulkModal = React.createClass({
                                         availableAcls={availableAcls}
                                         action="transfer"
                                         editions={selectedEditions}
-                                        currentUser={this.state.currentUser}
+                                        currentUser={this.state.user.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="consign"
                                         editions={selectedEditions}
-                                        currentUser={this.state.currentUser}
+                                        currentUser={this.state.user.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="loan"
                                         editions={selectedEditions}
-                                        currentUser={this.state.currentUser}
+                                        currentUser={this.state.user.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="share"
                                         editions={selectedEditions}
-                                        currentUser={this.state.currentUser}
+                                        currentUser={this.state.user.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                 </div>
                             </div>

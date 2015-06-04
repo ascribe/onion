@@ -26,6 +26,10 @@ let Header = React.createClass({
         UserActions.fetchCurrentUser();
     },
 
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
     onChange(state) {
         this.setState(state);
     },

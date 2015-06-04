@@ -22,7 +22,7 @@ let PieceListToolbar = React.createClass({
         PieceListStore.listen(this.onChange);
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
     },
 
