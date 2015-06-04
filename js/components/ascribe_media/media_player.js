@@ -15,7 +15,7 @@ import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 
 let Image = React.createClass({
     render() {
-        return (<img className="img-responsive" src={this.props.preview} />);
+        return (<img src={this.props.preview} />);
     }
 });
 
@@ -64,7 +64,7 @@ let resourceMap = {
     'video': Video
 }
 
-let ResourceViewer = React.createClass({
+let MediaPlayer = React.createClass({
     propTypes: {
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
         preview: React.PropTypes.string.isRequired,
@@ -75,7 +75,7 @@ let ResourceViewer = React.createClass({
         let Component = resourceMap[this.props.mimetype] || Image;
 
         return (
-            <div className="media">
+            <div className="ascribe-media-player">
                 <Component preview={this.props.preview}
                            url={this.props.url}
                            extraData={this.props.extraData} />
@@ -84,4 +84,4 @@ let ResourceViewer = React.createClass({
     }
 });
 
-export default ResourceViewer;
+export default MediaPlayer;

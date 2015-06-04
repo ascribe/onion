@@ -1,5 +1,10 @@
 import React from 'react';
-import ResourceViewer from './ascribe_media/resource_viewer';
+import MediaPlayer from './ascribe_media/media_player';
+
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import EditionActions from '../actions/edition_actions'
 import AclButton from './acl_button'
@@ -18,19 +23,23 @@ let Edition = React.createClass({
         }
 
         return (
-            <div>
-                <div className="col-md-7">
-                    <ResourceViewer mimetype={mimetype}
+            <Row>
+                <Col md={7}>
+                    <MediaPlayer mimetype={mimetype}
                                     preview={thumbnail}
                                     url={this.props.edition.digital_work.url}
                                     extraData={extraData} />
-                </div>
-                <div className="col-md-5">
+                    <p className="text-center">
+                        <Button bsSize="xsmall" href={this.props.edition.digital_work.url} target="_blank">
+                            Download <Glyphicon glyph="cloud-download" />
+                        </Button>
+                    </p>
+                </Col>
+                <Col md={5}>
                     <EditionHeader edition={this.props.edition}/>
                     <EditionDetails edition={this.props.edition} currentUser={ this.props.currentUser }/>
-                </div>
-
-            </div>
+                </Col>
+            </Row>
         );
     }
 });
