@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -16,7 +16,7 @@ import TableItemSubtableButton from './table_item_subtable_button';
 
 let TableItemSubtable = React.createClass({
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object
     },
 
@@ -61,9 +61,9 @@ let TableItemSubtable = React.createClass({
         let renderEditionListTable = () => {
 
             let columnList = [
-                new TableColumnContentModel('edition_number', 'Number', TableItemText, 2, false),
-                new TableColumnContentModel('user_registered', 'User', TableItemText, 4, true),
-                new TableColumnContentModel('acl', 'Actions', TableItemAcl, 4, true)
+                new ColumnModel('edition_number', 'Number', TableItemText, 2, false),
+                new ColumnModel('user_registered', 'User', TableItemText, 4, true),
+                new ColumnModel('acl', 'Actions', TableItemAcl, 4, true)
             ];
 
             if(this.state.open && this.state.editionList[this.props.columnContent.id] && this.state.editionList[this.props.columnContent.id].length) {

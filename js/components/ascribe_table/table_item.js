@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 import TableItemWrapper from './table_item_wrapper';
 
@@ -8,7 +8,7 @@ import TableItemWrapper from './table_item_wrapper';
 let TableItem = React.createClass({
 
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
         onClick: React.PropTypes.func, // See: https://facebook.github.io/react/tips/expose-component-functions.html
         className: React.PropTypes.string

@@ -73,6 +73,10 @@
     font-family: 'Source Sans Pro';
     font-size: .8em;
     height:3em;
+
+    &:not(:first-child) {
+        cursor: pointer;
+    }
 }
 
 .ascribe-table-item-column > * {

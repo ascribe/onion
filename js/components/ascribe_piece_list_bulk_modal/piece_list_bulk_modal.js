@@ -76,6 +76,10 @@ let PieceListBulkModal = React.createClass({
         EditionListActions.clearAllEditionSelections();
     },
 
+    handleSuccess() {
+
+    },
+
     render() {
         let availableAcls = this.getAvailableAcls();
         let selectedEditions = this.fetchSelectedEditionList();

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 import TableItem from './table_item';
 
@@ -9,7 +9,7 @@ import TableItem from './table_item';
 let TableItemSelectable = React.createClass({
 
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
         parentId: React.PropTypes.number,
         className: React.PropTypes.string

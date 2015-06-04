@@ -7,7 +7,8 @@ class PieceListActions {
     constructor() {
         this.generateActions(
             'updatePieceList',
-            'showEditionList'
+            'showEditionList',
+            'closeAllEditionLists'
         );
     }
 

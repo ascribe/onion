@@ -1,27 +1,31 @@
 import React from 'react';
 import Router from 'react-router';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 import TableColumnMixin from '../../mixins/table_column_mixin';
 
 let TableItemWrapper = React.createClass({
     mixins: [TableColumnMixin, Router.Navigation],
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
         columnWidth: React.PropTypes.number.isRequired
     },
 
     /**
-     * If a link is defined in columnContent, then we can use
+     * If a transition is defined in columnContent, then we can use
      * Router.Navigation.transitionTo to redirect the user
      * programmatically
      */
     transition(column) {
-        if(column.link) {
+        if(column.transition) {
             let params = {};
-            params[column.link.paramsKey] = this.props.columnContent[column.link.contentKey];
-            this.transitionTo(column.link.to, params);
+            params[column.transition.queryKey] = this.props.columnContent[column.transition.valueKey];
+            this.transitionTo(column.transition.to, params);
+
+            if(column.transition.callback) {
+                column.transition.callback();
+            }
         }
     },
 

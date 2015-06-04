@@ -3,7 +3,7 @@ import React from 'react';
 import Table from '../ascribe_table/table';
 import TableItem from '../ascribe_table/table_item';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from '../ascribe_table/models/table_models';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -12,7 +12,7 @@ let AccordionListItemTable = React.createClass({
         className: React.PropTypes.string,
         parentId: React.PropTypes.number,
         itemList: React.PropTypes.array,
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         numOfTableItems: React.PropTypes.number,
         show: React.PropTypes.bool,
         changeOrder: React.PropTypes.func,

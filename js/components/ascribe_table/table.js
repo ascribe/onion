@@ -2,13 +2,13 @@ import React from 'react';
 import ReactAddons from 'react/addons';
 
 import TableHeader from './table_header';
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 
 let Table = React.createClass({
     
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,
         orderAsc: React.PropTypes.bool,

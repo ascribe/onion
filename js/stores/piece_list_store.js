@@ -36,6 +36,13 @@ class PieceListStore {
                 }
             });
     }
+
+    onCloseAllEditionLists() {
+        this.pieceList
+            .forEach((piece) => {
+                piece.show = false;
+            });
+    }
     
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;

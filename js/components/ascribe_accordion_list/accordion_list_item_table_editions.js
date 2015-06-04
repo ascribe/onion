@@ -10,7 +10,7 @@ import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
 import AccordionListItemTableSelectAllEditionsToggle from './accordion_list_item_table_select_all_editions_toggle';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel, TransitionModel } from '../ascribe_table/models/table_models';
 
 import TableItemImg from '../ascribe_table/table_item_img';
 import TableItemText from '../ascribe_table/table_item_text';
@@ -84,8 +84,10 @@ let AccordionListItemTableEditions = React.createClass({
             allEditionsCount = this.state.editionList[this.props.parentId].length;
         }
 
+        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', PieceListActions.closeAllEditionLists);
+
         let columnList = [
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => {
                     return {
                         'editionId': item.id,
@@ -102,7 +104,7 @@ let AccordionListItemTableEditions = React.createClass({
                     1,
                     false
             ),
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => { 
                     return {
                         'content': item.edition_number
@@ -112,9 +114,9 @@ let AccordionListItemTableEditions = React.createClass({
                     TableItemText,
                     1,
                     true,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             ),
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => {
                     return {
                         'content': item.bitcoin_id
@@ -124,9 +126,9 @@ let AccordionListItemTableEditions = React.createClass({
                     TableItemText,
                     5,
                     true,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             ),
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => { 
                     return {
                         'content': item.acl
@@ -136,7 +138,7 @@ let AccordionListItemTableEditions = React.createClass({
                     TableItemAclFiltered,
                     4,
                     false,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             )
         ];
 

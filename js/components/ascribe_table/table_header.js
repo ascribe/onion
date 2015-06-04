@@ -3,13 +3,13 @@ import React from 'react';
 import TableColumnMixin from '../../mixins/table_column_mixin';
 import TableHeaderItem from './table_header_item';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 
 let TableHeader = React.createClass({
     mixins: [TableColumnMixin],
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         itemList: React.PropTypes.array.isRequired,
         changeOrder: React.PropTypes.func,
         orderAsc: React.PropTypes.bool,
