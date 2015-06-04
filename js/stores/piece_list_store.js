@@ -1,4 +1,6 @@
+import React from 'react';
 import alt from '../alt';
+
 import PieceListActions from '../actions/piece_list_actions';
 
 
@@ -53,6 +55,10 @@ class PieceListStore {
         this.pieceListCount = pieceListCount;
 
         /**
+         * Pagination - Known Issue:
+         * #########################
+         *
+         * 
          * The piece list store currently stores the open/close state of a piece list item.
          *
          * Once a new page is requested, this.pieceList will be overwritten, which means that the 
@@ -64,7 +70,6 @@ class PieceListStore {
          *
          * We did not implement this, as we're going to add pagination to pieceList at some
          * point anyway. Then, this problem is automatically resolved.
-         * 
          */
         this.pieceList = pieceList;
     }

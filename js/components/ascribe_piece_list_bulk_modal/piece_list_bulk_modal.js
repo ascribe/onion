@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { mergeOptionList } from '../../utils/general_utils';
+
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
@@ -15,10 +17,7 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return {
-            editions: EditionListStore.getState(),
-            user: UserStore.getState()
-        };
+        return mergeOptionList([EditionListStore.getState(), UserStore.getState()]);
     },
 
     onChange(state) {
@@ -26,9 +25,9 @@ let PieceListBulkModal = React.createClass({
     },
 
     componentDidMount() {
-        UserActions.fetchCurrentUser();
         EditionListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
@@ -36,13 +35,22 @@ let PieceListBulkModal = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
+    fetchSelectedPieceEditionList() {
+        let filteredPieceIdList = Object.keys(this.state.editionList)
+                                        .filter((pieceId) => {
+                                            return this.state.editions.editionList[pieceId]
+                                                .filter((edition) => edition.selected).length > 0;
+                                        });
+        return filteredPieceIdList;
+    },
+
     fetchSelectedEditionList() {
         let selectedEditionList = [];
 
         Object
-            .keys(this.state.editions.editionList)
-            .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editions.editionList[key].filter((edition) => edition.selected);
+            .keys(this.state.editionList)
+            .forEach((pieceId) => {
+                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -77,7 +85,12 @@ let PieceListBulkModal = React.createClass({
     },
 
     handleSuccess() {
+        this.fetchSelectedPieceEditionList()
+            .forEach((pieceId) => {
+                EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
+            });
 
+        EditionListActions.clearAllEditionSelections();
     },
 
     render() {
@@ -107,25 +120,25 @@ let PieceListBulkModal = React.createClass({
                                         availableAcls={availableAcls}
                                         action="transfer"
                                         editions={selectedEditions}
-                                        currentUser={this.state.user.currentUser}
+                                        currentUser={this.state.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="consign"
                                         editions={selectedEditions}
-                                        currentUser={this.state.user.currentUser}
+                                        currentUser={this.state.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="loan"
                                         editions={selectedEditions}
-                                        currentUser={this.state.user.currentUser}
+                                        currentUser={this.state.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                     <AclButton
                                         availableAcls={availableAcls}
                                         action="share"
                                         editions={selectedEditions}
-                                        currentUser={this.state.user.currentUser}
+                                        currentUser={this.state.currentUser}
                                         handleSuccess={this.handleSuccess} />
                                 </div>
                             </div>
