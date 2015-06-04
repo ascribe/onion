@@ -42,7 +42,7 @@ let AccordionListItemTableEditions = React.createClass({
         EditionListStore.listen(this.onChange);
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
     },
 

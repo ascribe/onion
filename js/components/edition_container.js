@@ -29,7 +29,7 @@ let EditionContainer = React.createClass({
         UserActions.fetchCurrentUser();
         EditionActions.fetchOne(this.props.params.editionId);
     },
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },

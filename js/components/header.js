@@ -26,7 +26,7 @@ let Header = React.createClass({
         UserActions.fetchCurrentUser();
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         UserStore.unlisten(this.onChange);
     },
 
