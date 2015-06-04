@@ -35,6 +35,7 @@ class PieceListStore {
                     }
                 }
             });
+        console.log(this.pieceList, pieceId);
     }
 
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {

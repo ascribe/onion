@@ -7,6 +7,7 @@ import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
+import AccordionListItemTableSelectAllEditionsToggle from './accordion_list_item_table_select_all_editions_toggle';
 
 import TableColumnContentModel from '../../models/table_column_content_model';
 
@@ -46,6 +47,19 @@ let AccordionListItemTableEditions = React.createClass({
         EditionListActions.selectEdition({pieceId, editionId});
     },
 
+    selectAllItems() {
+        this.state.editionList[this.props.parentId]
+            .forEach((edition) => {
+                this.selectItem(this.props.parentId, edition.id);
+            });
+    },
+
+    filterSelectedEditions() {
+        let selectedEditions = this.state.editionList[this.props.parentId]
+            .filter((edition) => edition.selected);
+        return selectedEditions;
+    },
+
     toggleTable() {
         PieceListActions.showEditionList(this.props.parentId);
         EditionListActions.fetchEditionList(this.props.parentId, this.state.orderBy, this.state.orderAsc);
@@ -56,6 +70,17 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     render() {
+        let selectedEditionsCount = 0;
+        let allEditionsCount = 0;
+
+        // here we need to check if all editions of a specific
+        // piece are already defined. Otherwise .length will throw an error and we'll not
+        // be notified about it.
+        if(this.state.editionList[this.props.parentId]) {
+            selectedEditionsCount = this.filterSelectedEditions().length;
+            allEditionsCount = this.state.editionList[this.props.parentId].length;
+        }
+
         let columnList = [
             new TableColumnContentModel(
                 (item) => {
@@ -66,7 +91,10 @@ let AccordionListItemTableEditions = React.createClass({
                         'selected': item.selected
                     }},
                     '',
-                    '',
+                    <AccordionListItemTableSelectAllEditionsToggle
+                        onChange={this.selectAllItems}
+                        numOfSelectedEditions={selectedEditionsCount}
+                        numOfAllEditions={allEditionsCount}/>,
                     TableItemCheckbox,
                     1,
                     false
