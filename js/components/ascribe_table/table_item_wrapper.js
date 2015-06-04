@@ -21,7 +21,6 @@ let TableItemWrapper = React.createClass({
         if(column.link) {
             let params = {};
             params[column.link.paramsKey] = this.props.columnContent[column.link.contentKey];
-
             this.transitionTo(column.link.to, params);
         }
     },
