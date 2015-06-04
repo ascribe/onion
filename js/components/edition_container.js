@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mergeOptionList } from '../utils/general_utils';
+import { mergeOptions } from '../utils/general_utils';
 
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
@@ -14,7 +14,7 @@ import Edition from './edition';
  */
 let EditionContainer = React.createClass({
     getInitialState() {
-        return mergeOptionList([UserStore.getState(), EditionStore.getState()]);
+        return mergeOptions(UserStore.getState(), EditionStore.getState());
     },
 
     onChange(state) {

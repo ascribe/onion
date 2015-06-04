@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mergeOptionList } from '../../utils/general_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -17,7 +17,7 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptionList([EditionListStore.getState(), UserStore.getState()]);
+        return mergeOptions(EditionListStore.getState(), UserStore.getState());
     },
 
     onChange(state) {
