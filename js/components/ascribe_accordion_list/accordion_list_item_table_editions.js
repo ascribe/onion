@@ -48,7 +48,11 @@ let AccordionListItemTableEditions = React.createClass({
 
     toggleTable() {
         PieceListActions.showEditionList(this.props.parentId);
-        EditionListActions.fetchEditionList(this.props.parentId);
+        EditionListActions.fetchEditionList(this.props.parentId, this.state.orderBy, this.state.orderAsc);
+    },
+
+    changeEditionListOrder(orderBy, orderAsc) {
+        EditionListActions.fetchEditionList(this.props.parentId, orderBy, orderAsc);
     },
 
     render() {
@@ -72,11 +76,11 @@ let AccordionListItemTableEditions = React.createClass({
                     return {
                         'content': item.edition_number
                     }},
-                    'num_editions',
+                    'edition_number',
                     '#',
                     TableItemText,
                     1,
-                    false
+                    true
             ),
             new TableColumnContentModel(
                 (item) => {
@@ -87,7 +91,7 @@ let AccordionListItemTableEditions = React.createClass({
                     getLangText('Bitcoin Address'),
                     TableItemText,
                     5,
-                    false
+                    true
             ),
             new TableColumnContentModel(
                 (item) => { 
@@ -110,7 +114,10 @@ let AccordionListItemTableEditions = React.createClass({
                     itemList={this.state.editionList[this.props.parentId]}
                     columnList={columnList}
                     numOfTableItems={this.props.numOfEditions}
-                    show={this.props.show}>
+                    show={this.props.show}
+                    orderBy={this.state.orderBy}
+                    orderAsc={this.state.orderAsc}
+                    changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle" 
                         onClick={this.toggleTable}

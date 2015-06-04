@@ -14,7 +14,10 @@ let AccordionListItemTable = React.createClass({
         itemList: React.PropTypes.array,
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
         numOfTableItems: React.PropTypes.number,
-        show: React.PropTypes.bool
+        show: React.PropTypes.bool,
+        changeOrder: React.PropTypes.func,
+        orderBy: React.PropTypes.string,
+        orderAsc: React.PropTypes.bool
     },
 
     render() {
@@ -23,7 +26,10 @@ let AccordionListItemTable = React.createClass({
                 <div className={this.props.className}>
                     <Table
                       columnList={this.props.columnList} 
-                      itemList={this.props.itemList}>
+                      itemList={this.props.itemList}
+                      changeOrder={this.props.changeOrder}
+                      orderBy={this.props.orderBy}
+                      orderAsc={this.props.orderAsc}>
                         {this.props.itemList.map((item, i) => {
                             return (
                                  <TableItem
