@@ -15,7 +15,11 @@ import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 
 let Image = React.createClass({
     render() {
-        return (<img src={this.props.preview} />);
+        return (
+            <a href={this.props.url} target="_blank" >
+                <img src={this.props.preview} />
+            </a>
+                );
     }
 });
 
