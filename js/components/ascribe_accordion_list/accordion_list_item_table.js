@@ -25,11 +25,12 @@ let AccordionListItemTable = React.createClass({
             return (
                 <div className={this.props.className}>
                     <Table
-                      columnList={this.props.columnList} 
-                      itemList={this.props.itemList}
-                      changeOrder={this.props.changeOrder}
-                      orderBy={this.props.orderBy}
-                      orderAsc={this.props.orderAsc}>
+                        className="ascribe-table"
+                        columnList={this.props.columnList} 
+                        itemList={this.props.itemList}
+                        changeOrder={this.props.changeOrder}
+                        orderBy={this.props.orderBy}
+                        orderAsc={this.props.orderAsc}>
                         {this.props.itemList.map((item, i) => {
                             return (
                                  <TableItem

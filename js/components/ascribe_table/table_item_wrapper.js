@@ -16,7 +16,7 @@ let TableItemWrapper = React.createClass({
 
     render() {
         return (
-            <div>
+            <tr>
                 {this.props.columnList.map((column, i) => {
 
                     let TypeElement = column.displayType;
@@ -24,16 +24,13 @@ let TableItemWrapper = React.createClass({
 
                     let columnClass = this.calcColumnClasses(this.props.columnList, i, this.props.columnWidth);
 
-                    //
-                    
-
                     if(!column.transition) {
                         return (
-                            <div
-                                className={columnClass + ' ascribe-table-item-column'} 
+                            <td
+                                className={'ascribe-table-item-column'} 
                                 key={i}>
                                 <TypeElement {...typeElementProps} />
-                            </div>
+                            </td>
                         );
                     } else {
 
@@ -44,17 +41,18 @@ let TableItemWrapper = React.createClass({
                          * programmatically
                          */
                         return (
-                            <Link 
-                                className={columnClass + ' ascribe-table-item-column'} 
-                                key={i}
-                                onClick={column.transition.callback}
-                                {...linkProps}>
-                                <TypeElement {...typeElementProps} />
-                            </Link>
+                            <td key={i}>
+                                <Link 
+                                    className={'ascribe-table-item-column'} 
+                                    onClick={column.transition.callback}
+                                    {...linkProps}>
+                                    <TypeElement {...typeElementProps} />
+                                </Link>
+                            </td>
                         );
                     }
                 })}
-            </div>
+            </tr>
         );
     }
 });

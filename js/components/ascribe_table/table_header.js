@@ -18,8 +18,8 @@ let TableHeader = React.createClass({
 
     render() {
         return (
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 ascribe-table-header-row">
-                <div className="row">
+            <thead>
+                <tr>
                     {this.props.columnList.map((val, i) => {
 
                         let columnClasses = this.calcColumnClasses(this.props.columnList, i, 12);
@@ -39,8 +39,8 @@ let TableHeader = React.createClass({
                             </TableHeaderItem>
                         );
                     })}
-                </div>
-            </div> 
+                </tr>
+            </thead> 
         );
 
     }

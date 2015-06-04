@@ -12,6 +12,7 @@ let Table = React.createClass({
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,
         orderAsc: React.PropTypes.bool,
+        className: React.PropTypes.string
     },
 
     renderChildren() {
@@ -27,17 +28,17 @@ let Table = React.createClass({
     
     render() {
         return (
-            <div className="ascribe-table">
+            <table className={'table ' + this.props.className}>
                 <TableHeader 
                     columnList={this.props.columnList}
                     itemList={this.props.itemList}
                     changeOrder={this.props.changeOrder}
                     orderAsc={this.props.orderAsc}
                     orderBy={this.props.orderBy} />
-                <div className="row">
+                <tbody>
                     {this.renderChildren()}
-                </div>
-            </div>
+                </tbody>
+            </table>
         );
     }
 });
