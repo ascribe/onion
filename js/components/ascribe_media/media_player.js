@@ -1,5 +1,6 @@
 import React from 'react';
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
+import Panel from 'react-bootstrap/lib/Panel';
 
 /**
  * This is the component that implements display-specific functionality.
@@ -13,13 +14,27 @@ import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
  */
 
 
+let Other = React.createClass({
+    render() {
+        let ext = this.props.url.split('.').pop();
+
+        return (
+            <Panel className="media-other">
+                <p className="text-center">
+                    .{ext}
+                </p>
+            </Panel>
+        );
+    }
+});
+
 let Image = React.createClass({
     render() {
         return (
             <a href={this.props.url} target="_blank" >
                 <img src={this.props.preview} />
             </a>
-                );
+        );
     }
 });
 
@@ -65,7 +80,8 @@ let Video = React.createClass({
 
 let resourceMap = {
     'image': Image,
-    'video': Video
+    'video': Video,
+    'other': Other
 }
 
 let MediaPlayer = React.createClass({
@@ -76,7 +92,7 @@ let MediaPlayer = React.createClass({
     },
 
     render() {
-        let Component = resourceMap[this.props.mimetype] || Image;
+        let Component = resourceMap[this.props.mimetype] || Other;
 
         return (
             <div className="ascribe-media-player">
