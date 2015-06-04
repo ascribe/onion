@@ -35,17 +35,31 @@ class PieceListStore {
                     }
                 }
             });
-        console.log(this.pieceList, pieceId);
     }
-
+    
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;
         this.pageSize = pageSize;
         this.search = search;
         this.orderAsc = orderAsc;
         this.orderBy = orderBy;
-        this.pieceList = pieceList;
         this.pieceListCount = pieceListCount;
+
+        /**
+         * The piece list store currently stores the open/close state of a piece list item.
+         *
+         * Once a new page is requested, this.pieceList will be overwritten, which means that the 
+         * open/close state of a specific list item will be thrown away.
+         *
+         * This means that when opening an editionListTable on a piece, and continuing 
+         * clicking next or back in the pagination, the editionListTable will return to its
+         * default value, which is "close".
+         *
+         * We did not implement this, as we're going to add pagination to pieceList at some
+         * point anyway. Then, this problem is automatically resolved.
+         * 
+         */
+        this.pieceList = pieceList;
     }
 };
 
