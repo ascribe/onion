@@ -6,7 +6,10 @@ let TableHeaderItem = React.createClass({
 
     propTypes: {
         columnClasses: React.PropTypes.string.isRequired,
-        displayName: React.PropTypes.string.isRequired,
+        displayName: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]).isRequired,
         columnName: React.PropTypes.string.isRequired,
         canBeOrdered: React.PropTypes.bool,
         changeOrder: React.PropTypes.func,

@@ -11,13 +11,15 @@ class EditionListActions {
         );
     }
 
-    fetchEditionList(pieceId) {
+    fetchEditionList(pieceId, orderBy, orderAsc) {
         EditionListFetcher
-            .fetch(pieceId)
+            .fetch(pieceId, orderBy, orderAsc)
             .then((res) => {
                 this.actions.updateEditionList({
                     'editionListOfPiece': res.editions,
-                    pieceId
+                    pieceId,
+                    orderBy,
+                    orderAsc
                 });
             })
             .catch((err) => {

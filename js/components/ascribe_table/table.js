@@ -9,7 +9,9 @@ let Table = React.createClass({
     
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
-        changeOrder: React.PropTypes.func
+        changeOrder: React.PropTypes.func,
+        orderBy: React.PropTypes.string,
+        orderAsc: React.PropTypes.bool,
     },
 
     renderChildren() {
@@ -27,11 +29,10 @@ let Table = React.createClass({
         return (
             <div className="ascribe-table">
                 <TableHeader 
-                    columnList={this.props.columnList} 
-                    itemList={this.props.itemList} 
-                    fetchList={this.props.fetchList} 
-                    changeOrder={this.props.changeOrder} 
-                    orderAsc={this.props.orderAsc} 
+                    columnList={this.props.columnList}
+                    itemList={this.props.itemList}
+                    changeOrder={this.props.changeOrder}
+                    orderAsc={this.props.orderAsc}
                     orderBy={this.props.orderBy} />
                 <div className="row">
                     {this.renderChildren()}

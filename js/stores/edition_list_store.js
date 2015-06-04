@@ -6,10 +6,12 @@ import EditionsListActions from '../actions/edition_list_actions';
 class EditionListStore {
     constructor() {
         this.editionList = {};
+        this.orderBy = 'edition_number';
+        this.orderAsc = true;
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece}) {
+    onUpdateEditionList({pieceId, editionListOfPiece, orderBy, orderAsc}) {
         if(this.editionList[pieceId]) {
             this.editionList[pieceId].forEach((edition, i) => {
                 // This uses the index of the new editionList for determining the edition.
@@ -18,6 +20,8 @@ class EditionListStore {
             })
         }
         this.editionList[pieceId] = editionListOfPiece;
+        this.orderBy = orderBy;
+        this.orderAsc = orderAsc;
     }
 
     onSelectEdition({pieceId, editionId}) {
