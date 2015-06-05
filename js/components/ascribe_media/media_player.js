@@ -29,11 +29,20 @@ let Other = React.createClass({
 });
 
 let Image = React.createClass({
+    mixins: [InjectInHeadMixin],
+
+    componentDidMount() {
+        this.inject('http://code.jquery.com/jquery-2.1.4.min.js')
+            .then(() =>
+                Promise.all([
+                    this.inject('node_modules/shmui/shmui.css'),
+                    this.inject('node_modules/shmui/jquery.shmui.js')
+                ]).then(() => { $('.shmui-ascribe').shmui(); }));
+    },
+
     render() {
         return (
-            <a href={this.props.url} target="_blank" >
-                <img src={this.props.preview} />
-            </a>
+            <img className="shmui-ascribe" src={this.props.preview} data-large-src={this.props.url}/>
         );
     }
 });

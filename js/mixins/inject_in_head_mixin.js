@@ -22,7 +22,7 @@ let InjectInHeadMixin = {
         return document.querySelector(query);
     },
 
-    injectTag(tag, src){
+    injectTag(tag, src, extraAttrs) {
         let promise = new Promise((resolve, reject) => {
             if (InjectInHeadMixin.isPresent(tag, src)) {
                 resolve();
@@ -37,6 +37,9 @@ let InjectInHeadMixin = {
                 }
                 document.head.appendChild(element);
                 element[attr] = src;
+                if (tag == 'link') {
+                    element['rel'] = 'stylesheet';
+                }
             }
         });
 
