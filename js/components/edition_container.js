@@ -39,9 +39,8 @@ let EditionContainer = React.createClass({
     render() {
         if('title' in this.state.edition) {
             return (
-                <Edition
-                    edition={this.state.edition}
-                    currentUser={this.state.currentUser} />
+                <Edition edition={this.state.edition}
+                         currentUser={this.state.currentUser} />
             );
         } else {
             return (

@@ -1,8 +1,12 @@
 'use strict';
 
 import React from 'react';
+import MediaPlayer from './ascribe_media/media_player';
 
-import ResourceViewer from './ascribe_media/resource_viewer';
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import EditionActions from '../actions/edition_actions';
 import AclButton from './acl_button';
@@ -19,20 +23,30 @@ let Edition = React.createClass({
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
+        let extraData = null;
+
+        if (this.props.edition.digital_work.encoding_urls) {
+            extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label } });
+        }
 
         return (
-            <div>
-                <div className="col-md-7">
-                    <ResourceViewer thumbnail={thumbnail}
-                                    mimetype={mimetype}
-                                    />
-                </div>
-                <div className="col-md-5">
+            <Row>
+                <Col md={7}>
+                    <MediaPlayer mimetype={mimetype}
+                                    preview={thumbnail}
+                                    url={this.props.edition.digital_work.url}
+                                    extraData={extraData} />
+                    <p className="text-center">
+                        <Button bsSize="xsmall" href={this.props.edition.digital_work.url} target="_blank">
+                            Download <Glyphicon glyph="cloud-download" />
+                        </Button>
+                    </p>
+                </Col>
+                <Col md={5}>
                     <EditionHeader edition={this.props.edition}/>
                     <EditionDetails edition={this.props.edition} currentUser={ this.props.currentUser }/>
-                </div>
-
-            </div>
+                </Col>
+            </Row>
         );
     }
 });
