@@ -2,11 +2,11 @@
 
 let mapAttr = {
     link: 'href',
-    source: 'src'
+    script: 'src'
 };
 
-let mapExt = {
-    js: 'source',
+let mapTag = {
+    js: 'script',
     css: 'link'
 };
 
@@ -24,35 +24,46 @@ let InjectInHeadMixin = {
         return document.querySelector(query);
     },
 
-    injectTag(tag, src){
-        if (InjectInHeadMixin.isPresent(tag, src)) {
-            return;
-        }
+    injectTag(tag, src) {
+        let promise = new Promise((resolve, reject) => {
+            if (InjectInHeadMixin.isPresent(tag, src)) {
+                resolve();
+            } else {
+                let attr = mapAttr[tag];
+                let element = document.createElement(tag);
+                if (tag === 'script') {
+                    element.onload = () => resolve();
+                    element.onerror = () => reject();
+                } else {
+                    resolve();
+                }
+                document.head.appendChild(element);
+                element[attr] = src;
+                if (tag === 'link') {
+                    element.rel = 'stylesheet';
+                }
+            }
+        });
 
-        let attr = mapAttr[tag];
-        let element = document.createElement(tag);
-        document.head.appendChild(element);
-        element[attr] = src;
+        return promise;
     },
 
     injectStylesheet(src) {
-        this.injectTag('link', src);
+        return InjectInHeadMixin.injectTag('link', src);
     },
 
     injectScript(src) {
-        this.injectTag('source', src);
+        return InjectInHeadMixin.injectTag('source', src);
     },
 
     inject(src) {
         let ext = src.split('.').pop();
-        try {
-            let tag = mapAttr(src);
-        } catch (e) {
-            throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension ${ext}. Valid extensions are "js" and "css".`);
+        let tag = mapTag[ext];
+        if (!tag) {
+            throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension "${ext}". Valid extensions are "js" and "css".`);
         }
-        // ES6Lint says tag is not defined, pls fix
-        // - Tim
-        InjectInHeadMixin.injectTag(tag, src);
+
+        return InjectInHeadMixin.injectTag(tag, src);
     }
 
 };

@@ -1,11 +1,13 @@
 'use strict';
 
 import React from 'react';
+import MediaPlayer from './ascribe_media/media_player';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
-
-import ResourceViewer from './ascribe_media/resource_viewer';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
@@ -25,6 +27,11 @@ let Edition = React.createClass({
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
+        let extraData = null;
+
+        if (this.props.edition.digital_work.encoding_urls) {
+            extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label } });
+        }
 
         let bitcoinIdValue = (
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
@@ -35,12 +42,19 @@ let Edition = React.createClass({
         );
 
         return (
-            <div>
-                <div className="col-sm-5">
-                    <ResourceViewer thumbnail={thumbnail}
-                                    mimetype={mimetype}/>
-                </div>
-                <div className="col-sm-7">
+            <Row>
+                <Col md={7}>
+                    <MediaPlayer mimetype={mimetype}
+                                    preview={thumbnail}
+                                    url={this.props.edition.digital_work.url}
+                                    extraData={extraData} />
+                    <p className="text-center">
+                        <Button bsSize="xsmall" href={this.props.edition.digital_work.url} target="_blank">
+                            Download <Glyphicon glyph="cloud-download" />
+                        </Button>
+                    </p>
+                </Col>
+                <Col md={5}>
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
                         edition={this.props.edition}
@@ -81,9 +95,8 @@ let Edition = React.createClass({
                                 Remove this artwork from your list
                         </Button>
                     </CollapsibleEditionDetails>
-                </div>
-
-            </div>
+                </Col>
+            </Row>
         );
     }
 });
