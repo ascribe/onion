@@ -51,12 +51,8 @@ let EditionContainer = React.createClass({
                 <Edition
                     edition={this.state.edition}
                     currentUser={this.state.currentUser}
-<<<<<<< HEAD
-                    deleteEdition={this.deleteEdition}/>
-=======
                     deleteEdition={this.deleteEdition}
                     savePersonalNote={this.savePersonalNote}/>
->>>>>>> AD-43-in-piece_detail-add-generic-field-
             );
         } else {
             return (
