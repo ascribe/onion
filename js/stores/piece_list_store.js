@@ -1,11 +1,14 @@
+'use strict';
+
 import alt from '../alt';
+
 import PieceListActions from '../actions/piece_list_actions';
 
 
 class PieceListStore {
     constructor() {
         /**
-         * The store manages the state that is introduced by fetching 
+         * The store manages the state that is introduced by fetching
          * the resource with certain parameters.
          *
          * This means that pieceList for example only contains pageSize-many items.
@@ -18,8 +21,8 @@ class PieceListStore {
         this.pieceListCount = 0;
         this.page = 1;
         this.pageSize = 10;
-        this.search = "";
-        this.orderBy = "artist_name";
+        this.search = '';
+        this.orderBy = 'artist_name';
         this.orderAsc = true;
         this.bindActions(PieceListActions);
     }
@@ -36,6 +39,13 @@ class PieceListStore {
                 }
             });
     }
+
+    onCloseAllEditionLists() {
+        this.pieceList
+            .forEach((piece) => {
+                piece.show = false;
+            });
+    }
     
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;
@@ -46,21 +56,24 @@ class PieceListStore {
         this.pieceListCount = pieceListCount;
 
         /**
+         * Pagination - Known Issue:
+         * #########################
+         *
+         *
          * The piece list store currently stores the open/close state of a piece list item.
          *
-         * Once a new page is requested, this.pieceList will be overwritten, which means that the 
+         * Once a new page is requested, this.pieceList will be overwritten, which means that the
          * open/close state of a specific list item will be thrown away.
          *
-         * This means that when opening an editionListTable on a piece, and continuing 
+         * This means that when opening an editionListTable on a piece, and continuing
          * clicking next or back in the pagination, the editionListTable will return to its
          * default value, which is "close".
          *
          * We did not implement this, as we're going to add pagination to pieceList at some
          * point anyway. Then, this problem is automatically resolved.
-         * 
          */
         this.pieceList = pieceList;
     }
-};
+}
 
 export default alt.createStore(PieceListStore);

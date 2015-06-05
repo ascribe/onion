@@ -1,8 +1,8 @@
+'use strict';
+
 import fetch from '../utils/fetch';
 
 import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
-
-import AppConstants from '../constants/application_constants';
 
 
 let EditionListFetcher = {

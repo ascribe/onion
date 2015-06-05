@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import TableHeaderItemCarret from './table_header_item_carret';
@@ -25,28 +27,28 @@ let TableHeaderItem = React.createClass({
         if(this.props.canBeOrdered && this.props.changeOrder && this.props.orderAsc != null && this.props.orderBy) {
             if(this.props.columnName === this.props.orderBy) {
                 return (
-                    <div 
-                        className={this.props.columnClasses + ' ascribe-table-header-column'}
+                    <th
+                        className={'ascribe-table-header-column'}
                         onClick={this.changeOrder}>
                         <span>{this.props.displayName} <TableHeaderItemCarret orderAsc={this.props.orderAsc} /></span>
-                    </div>
+                    </th>
                 );
             } else {
                 return (
-                    <div 
-                        className={this.props.columnClasses + ' ascribe-table-header-column'}
+                    <th
+                        className={'ascribe-table-header-column'}
                         onClick={this.changeOrder}>
                         <span>{this.props.displayName}</span>
-                    </div>
+                    </th>
                 );
             }
         } else {
             return (
-                <div className={this.props.columnClasses + ' ascribe-table-header-column'}>
+                <th className={'ascribe-table-header-column'}>
                     <span>
                         {this.props.displayName}
                     </span>
-                </div>
+                </th>
             );
         }
     }

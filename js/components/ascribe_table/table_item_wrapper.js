@@ -1,34 +1,25 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 import TableColumnMixin from '../../mixins/table_column_mixin';
 
+let Link = Router.Link;
+
 let TableItemWrapper = React.createClass({
-    mixins: [TableColumnMixin, Router.Navigation],
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
         columnWidth: React.PropTypes.number.isRequired
     },
 
-    /**
-     * If a link is defined in columnContent, then we can use
-     * Router.Navigation.transitionTo to redirect the user
-     * programmatically
-     */
-    transition(column) {
-        if(column.link) {
-            let params = {};
-            params[column.link.paramsKey] = this.props.columnContent[column.link.contentKey];
-
-            this.transitionTo(column.link.to, params);
-        }
-    },
+    mixins: [TableColumnMixin, Router.Navigation],
 
     render() {
         return (
-            <div>
+            <tr>
                 {this.props.columnList.map((column, i) => {
 
                     let TypeElement = column.displayType;
@@ -36,19 +27,35 @@ let TableItemWrapper = React.createClass({
 
                     let columnClass = this.calcColumnClasses(this.props.columnList, i, this.props.columnWidth);
 
-                    let transition = this.transition.bind(this, column);
+                    if(!column.transition) {
+                        return (
+                            <td
+                                className={'ascribe-table-item-column'}
+                                key={i}>
+                                <TypeElement {...typeElementProps} />
+                            </td>
+                        );
+                    } else {
 
-                    return (
-                        <div 
-                            className={columnClass + ' ascribe-table-item-column'} 
-                            key={i}
-                            onClick={transition}>
-                            <TypeElement {...typeElementProps} />
-                        </div>
-                    );
-
+                        let linkProps = column.transition.toReactRouterLinkProps(this.props.columnContent[column.transition.valueKey]);
+                        /**
+                         * If a transition is defined in columnContent, then we can use
+                         * Router.Navigation.transitionTo to redirect the user
+                         * programmatically
+                         */
+                        return (
+                            <td key={i}>
+                                <Link
+                                    className={'ascribe-table-item-column'}
+                                    onClick={column.transition.callback}
+                                    {...linkProps}>
+                                    <TypeElement {...typeElementProps} />
+                                </Link>
+                            </td>
+                        );
+                    }
                 })}
-            </div>
+            </tr>
         );
     }
 });

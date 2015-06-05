@@ -1,12 +1,14 @@
+'use strict';
+
 let mapAttr = {
     link: 'href',
-    script: 'src'
-}
+    source: 'src'
+};
 
 let mapTag = {
     js: 'script',
     css: 'link'
-}
+};
 
 
 let InjectInHeadMixin = {
@@ -57,8 +59,9 @@ let InjectInHeadMixin = {
     inject(src) {
         let ext = src.split('.').pop();
         let tag = mapTag[ext];
-        if (!tag)
+        if (!tag) {
             throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension "${ext}". Valid extensions are "js" and "css".`);
+        }
 
         return InjectInHeadMixin.injectTag(tag, src);
     }

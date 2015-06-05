@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+'use strict';
 
 import React from 'react';
 
@@ -12,15 +12,17 @@ let UnConsignForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_unconsigns
+        return ApiUrls.ownership_unconsigns;
     },
+
     getFormData() {
         return {
             bitcoin_id: this.props.edition.bitcoin_id,
             unconsign_message: this.refs.unconsign_message.state.value,
             password: this.refs.password.state.value
-        }
+        };
     },
+
     renderForm() {
         let title = this.props.edition.title;
         let username = this.props.currentUser.username;

@@ -1,18 +1,18 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
-import PieceListStore from '../../stores/piece_list_store';
 import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
 import AccordionListItemTableSelectAllEditionsToggle from './accordion_list_item_table_select_all_editions_toggle';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel, TransitionModel } from '../ascribe_table/models/table_models';
 
-import TableItemImg from '../ascribe_table/table_item_img';
 import TableItemText from '../ascribe_table/table_item_text';
 import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
@@ -34,16 +34,16 @@ let AccordionListItemTableEditions = React.createClass({
         return EditionListStore.getState();
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
-
     componentDidMount() {
         EditionListStore.listen(this.onChange);
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     selectItem(pieceId, editionId) {
@@ -65,7 +65,7 @@ let AccordionListItemTableEditions = React.createClass({
 
     toggleTable() {
         PieceListActions.showEditionList(this.props.parentId);
-        EditionListActions.fetchEditionList(this.props.parentId, this.state.orderBy, this.state.orderAsc);
+        EditionListActions.fetchEditionList(this.props.parentId);
     },
 
     changeEditionListOrder(orderBy, orderAsc) {
@@ -75,6 +75,8 @@ let AccordionListItemTableEditions = React.createClass({
     render() {
         let selectedEditionsCount = 0;
         let allEditionsCount = 0;
+        let orderBy;
+        let orderAsc;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -82,17 +84,21 @@ let AccordionListItemTableEditions = React.createClass({
         if(this.state.editionList[this.props.parentId]) {
             selectedEditionsCount = this.filterSelectedEditions().length;
             allEditionsCount = this.state.editionList[this.props.parentId].length;
+            orderBy = this.state.editionList[this.props.parentId].orderBy;
+            orderAsc = this.state.editionList[this.props.parentId].orderAsc;
         }
 
+        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', PieceListActions.closeAllEditionLists);
+
         let columnList = [
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => {
                     return {
                         'editionId': item.id,
                         'pieceId': this.props.parentId,
                         'selectItem': this.selectItem,
                         'selected': item.selected
-                    }},
+                    }; },
                     '',
                     <AccordionListItemTableSelectAllEditionsToggle
                         onChange={this.selectAllItems}
@@ -102,41 +108,41 @@ let AccordionListItemTableEditions = React.createClass({
                     1,
                     false
             ),
-            new TableColumnContentModel(
-                (item) => { 
+            new ColumnModel(
+                (item) => {
                     return {
                         'content': item.edition_number
-                    }},
+                    }; },
                     'edition_number',
                     '#',
                     TableItemText,
                     1,
                     true,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             ),
-            new TableColumnContentModel(
+            new ColumnModel(
                 (item) => {
                     return {
                         'content': item.bitcoin_id
-                    }},
+                    }; },
                     'bitcoin_id',
                     getLangText('Bitcoin Address'),
                     TableItemText,
                     5,
                     true,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             ),
-            new TableColumnContentModel(
-                (item) => { 
+            new ColumnModel(
+                (item) => {
                     return {
                         'content': item.acl
-                    }},
+                    }; },
                     'acl',
                     getLangText('Actions'),
                     TableItemAclFiltered,
                     4,
                     false,
-                    {to: 'edition', paramsKey: 'editionId', contentKey: 'bitcoin_id'}
+                    transition
             )
         ];
 
@@ -149,11 +155,11 @@ let AccordionListItemTableEditions = React.createClass({
                     columnList={columnList}
                     numOfTableItems={this.props.numOfEditions}
                     show={this.props.show}
-                    orderBy={this.state.orderBy}
-                    orderAsc={this.state.orderAsc}
+                    orderBy={orderBy}
+                    orderAsc={orderAsc}
                     changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle" 
+                        className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}
                         show={this.props.show}
                         numOfTableItems={this.props.numOfEditions} />

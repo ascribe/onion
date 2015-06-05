@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../alt';
 
 import EditionListFetcher from '../fetchers/edition_list_fetcher.js';
@@ -12,6 +14,11 @@ class EditionListActions {
     }
 
     fetchEditionList(pieceId, orderBy, orderAsc) {
+        if(!orderBy && typeof orderAsc == 'undefined') {
+            orderBy = 'edition_number';
+            orderAsc = true;
+        }
+
         EditionListFetcher
             .fetch(pieceId, orderBy, orderAsc)
             .then((res) => {

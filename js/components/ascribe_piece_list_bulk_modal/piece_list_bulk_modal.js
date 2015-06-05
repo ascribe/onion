@@ -1,4 +1,8 @@
+'use strict';
+
 import React from 'react';
+
+import { mergeOptions } from '../../utils/general_utils';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -15,7 +19,7 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return mergeOptions(EditionListStore.getState(), UserStore.getState());
     },
 
     onChange(state) {
@@ -23,14 +27,23 @@ let PieceListBulkModal = React.createClass({
     },
 
     componentDidMount() {
-        UserActions.fetchCurrentUser();
         EditionListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+    },
+
+    fetchSelectedPieceEditionList() {
+        let filteredPieceIdList = Object.keys(this.state.editionList)
+                                        .filter((pieceId) => {
+                                            return this.state.editions.editionList[pieceId]
+                                                .filter((edition) => edition.selected).length > 0;
+                                        });
+        return filteredPieceIdList;
     },
 
     fetchSelectedEditionList() {
@@ -38,8 +51,8 @@ let PieceListBulkModal = React.createClass({
 
         Object
             .keys(this.state.editionList)
-            .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editionList[key].filter((edition) => edition.selected);
+            .forEach((pieceId) => {
+                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -73,8 +86,13 @@ let PieceListBulkModal = React.createClass({
         EditionListActions.clearAllEditionSelections();
     },
 
-    handleSuccess(){
+    handleSuccess() {
+        this.fetchSelectedPieceEditionList()
+            .forEach((pieceId) => {
+                EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
+            });
 
+        EditionListActions.clearAllEditionSelections();
     },
 
     render() {
@@ -92,7 +110,7 @@ let PieceListBulkModal = React.createClass({
                                     <PieceListBulkModalSelectedEditionsWidget
                                         numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span 
+                                    <span
                                         className="piece-list-bulk-modal-clear-all"
                                         onClick={this.clearAllSelections}>clear all</span>
                                 </div>
@@ -132,7 +150,7 @@ let PieceListBulkModal = React.createClass({
             );
         } else {
             return null;
-        } 
+        }
         
     }
 });

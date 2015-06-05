@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 /**
@@ -5,7 +7,7 @@ import React from 'react';
  */
 let TableItemImg = React.createClass({
     propTypes: {
-        content: React.PropTypes.string.isRequired,
+        content: React.PropTypes.string.isRequired
     },
 
     render() {

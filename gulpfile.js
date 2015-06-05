@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
@@ -12,6 +14,7 @@ var notify = require('gulp-notify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var _ = require('lodash');
+var eslint = require('gulp-eslint');
 
 var config = {
     bootstrapDir: './node_modules/bootstrap-sass'
@@ -21,7 +24,7 @@ gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'sass', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -62,6 +65,23 @@ gulp.task('copy', function () {
 
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
         .pipe(gulp.dest('./build/fonts'));
+});
+
+gulp.task('lint', function () {
+    return gulp.src(['js/**/*.js'])
+        // eslint() attaches the lint output to the eslint property
+        // of the file object so it can be used by other modules.
+        .pipe(eslint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(eslint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failOnError last.
+        .pipe(eslint.failOnError());
+});
+
+gulp.task('lint:watch', function () {
+    gulp.watch('js/**/*.js', ['lint']);
 });
 
 function bundle(watch) {

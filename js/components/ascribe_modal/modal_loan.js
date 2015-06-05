@@ -1,11 +1,13 @@
+'use strict';
+
 import React from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
-import LoanForm from '../ascribe_forms/form_loan'
-import ModalMixin from '../../mixins/modal_mixin'
+import LoanForm from '../ascribe_forms/form_loan';
+import ModalMixin from '../../mixins/modal_mixin';
 
 let LoanModalButton = React.createClass({
     render() {
@@ -19,12 +21,12 @@ let LoanModalButton = React.createClass({
                     </div>
                 </ModalTrigger>
             </OverlayTrigger>
-        )
+        );
     }
 });
 
 let LoanModal = React.createClass({
-    mixins : [ModalMixin],
+    mixins: [ModalMixin],
 
     render() {
         return (
@@ -35,7 +37,7 @@ let LoanModal = React.createClass({
                               onRequestHide={this.onRequestHide}/>
                 </div>
             </Modal>
-        )
+        );
     }
 });
 

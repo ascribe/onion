@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+'use strict';
 
 import React from 'react';
 
@@ -12,19 +12,20 @@ let ConsignForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_consigns
+        return ApiUrls.ownership_consigns;
     },
+    
     getFormData() {
         return {
             bitcoin_id: this.getBitcoinIds().join(),
             consignee: this.refs.consignee.state.value,
             consign_message: this.refs.consign_message.state.value,
             password: this.refs.password.state.value
-        }
+        };
     },
 
     renderForm() {
-        let title = this.getTitlesString().join("");
+        let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
 `Hi,

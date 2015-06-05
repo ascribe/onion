@@ -1,13 +1,13 @@
+'use strict';
+
 import React from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
-import ModalMixin from '../../mixins/modal_mixin'
-
-
-import ShareForm from '../ascribe_forms/form_share_email'
+import ModalMixin from '../../mixins/modal_mixin';
+import ShareForm from '../ascribe_forms/form_share_email';
 
 let ShareModalButton = React.createClass({
     render() {
@@ -20,12 +20,12 @@ let ShareModalButton = React.createClass({
                     </div>
                 </ModalTrigger>
             </OverlayTrigger>
-        )
+        );
     }
 });
 
 let ShareModal = React.createClass({
-    mixins : [ModalMixin],
+    mixins: [ModalMixin],
 
     render() {
         return (
@@ -36,7 +36,7 @@ let ShareModal = React.createClass({
                                 onRequestHide={this.onRequestHide}/>
                 </div>
             </Modal>
-        )
+        );
     }
 });
 

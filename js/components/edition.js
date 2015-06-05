@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import MediaPlayer from './ascribe_media/media_player';
 
@@ -6,13 +8,18 @@ import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import EditionActions from '../actions/edition_actions'
-import AclButton from './acl_button'
+import EditionActions from '../actions/edition_actions';
+import AclButton from './acl_button';
 
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
@@ -45,13 +52,17 @@ let Edition = React.createClass({
 });
 
 let EditionHeader = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object
+    },
+
     render() {
-        var title_html = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
+        var titleHtml = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="title" value={title_html} />
+                <EditionDetailProperty label="title" value={titleHtml} />
                 <EditionDetailProperty label="by" value={this.props.edition.artist_name} />
-                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0,4) } />
+                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0, 4) } />
                 <hr/>
             </div>
         );
@@ -59,26 +70,32 @@ let EditionHeader = React.createClass({
 });
 
 let EditionDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
+
     render() {
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty label="edition"
-                    value={this.props.edition.edition_number + " of " + this.props.edition.num_editions} />
+                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
                 <AclButton
-                    availableAcls={["transfer"]}
+                    availableAcls={['transfer']}
                     action="transfer"
                     editions={[this.props.edition]}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.handleSuccess}
                 />
                 <AclButton
-                    availableAcls={["consign"]}
+                    availableAcls={['consign']}
                     action="consign"
                     editions={[this.props.edition]}
                     currentUser={this.props.currentUser}
@@ -92,6 +109,14 @@ let EditionDetails = React.createClass({
 });
 
 let EditionDetailProperty = React.createClass({
+    propTypes: {
+        label: React.PropTypes.string,
+        value: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ])
+    },
+
     render() {
         return (
             <div className="row ascribe-detail-property">

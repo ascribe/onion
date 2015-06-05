@@ -1,4 +1,8 @@
+'use strict';
+
 import React from 'react';
+
+import { mergeOptions } from '../utils/general_utils';
 
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
@@ -11,10 +15,8 @@ import Edition from './edition';
  * This is the component that implements resource/data specific functionality
  */
 let EditionContainer = React.createClass({
-
     getInitialState() {
-        return {'user': UserStore.getState(),
-                'edition': EditionStore.getState()}
+        return mergeOptions(UserStore.getState(), EditionStore.getState());
     },
 
     onChange(state) {
@@ -22,18 +24,19 @@ let EditionContainer = React.createClass({
     },
 
     componentDidMount() {
-        EditionActions.fetchOne(this.props.params.editionId);
         EditionStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
+        EditionActions.fetchOne(this.props.params.editionId);
     },
-    componentDidUnmount() {
+
+    componentWillUnmount() {
         EditionStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
 
     render() {
-
         if('title' in this.state.edition) {
             return (
                 <Edition edition={this.state.edition}
@@ -44,8 +47,6 @@ let EditionContainer = React.createClass({
                 <p>Loading</p>
             );
         }
-
-        
     }
 });
 

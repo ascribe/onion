@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../alt';
 import PieceFetcher from '../fetchers/piece_fetcher';
 

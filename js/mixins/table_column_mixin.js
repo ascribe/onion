@@ -1,4 +1,4 @@
-import React from 'react';
+'use strict';
 
 import { sumNumList } from '../utils/general_utils';
 
@@ -14,7 +14,7 @@ let TableColumnMixin = {
         let numOfUsedColumns = sumNumList(listOfRowValues);
 
         if(numOfUsedColumns > numOfColumns) {
-            throw new Error('This table has only ' + numOfColumns + ' columns to assign. You defined ' + numOfUsedColumns + '. Change this in the columnMap you\'re passing to the table.')
+            throw new Error('This table has only ' + numOfColumns + ' columns to assign. You defined ' + numOfUsedColumns + '. Change this in the columnMap you\'re passing to the table.');
         } else {
             return bootstrapClasses.join( listOfRowValues[i] + ' ') + listOfRowValues[i];
         }

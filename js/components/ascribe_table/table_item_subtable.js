@@ -1,6 +1,8 @@
+'use strict';
+
 import React from 'react';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -16,7 +18,7 @@ import TableItemSubtableButton from './table_item_subtable_button';
 
 let TableItemSubtable = React.createClass({
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object
     },
 
@@ -26,12 +28,16 @@ let TableItemSubtable = React.createClass({
         };
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
-
     componentDidMount() {
         EditionListStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        EditionListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     loadEditionList() {
@@ -61,9 +67,9 @@ let TableItemSubtable = React.createClass({
         let renderEditionListTable = () => {
 
             let columnList = [
-                new TableColumnContentModel('edition_number', 'Number', TableItemText, 2, false),
-                new TableColumnContentModel('user_registered', 'User', TableItemText, 4, true),
-                new TableColumnContentModel('acl', 'Actions', TableItemAcl, 4, true)
+                new ColumnModel('edition_number', 'Number', TableItemText, 2, false),
+                new ColumnModel('user_registered', 'User', TableItemText, 4, true),
+                new ColumnModel('acl', 'Actions', TableItemAcl, 4, true)
             ];
 
             if(this.state.open && this.state.editionList[this.props.columnContent.id] && this.state.editionList[this.props.columnContent.id].length) {
@@ -77,10 +83,9 @@ let TableItemSubtable = React.createClass({
                                         className="ascribe-table-item-selectable"
                                         selectItem={this.selectItem}
                                         parentId={this.props.columnContent.id}
-                                        key={i}>
-                                    </TableItemSelectable>
+                                        key={i} />
                                 );
-                            })} 
+                            })}
                         </Table>
                       </div>  
                     </div>
@@ -94,15 +99,13 @@ let TableItemSubtable = React.createClass({
                     <TableItemWrapper
                         columnList={this.props.columnList}
                         columnContent={this.props.columnContent}
-                        columnWidth={12}>
-                    </TableItemWrapper>
+                        columnWidth={12} />
                     <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 ascribe-table-item-column">
-                        <TableItemSubtableButton content="+" onClick={this.loadEditionList}>
-                        </TableItemSubtableButton>
+                        <TableItemSubtableButton content="+" onClick={this.loadEditionList} />
                     </div>
                 </div>
                 {renderEditionListTable()}
-            </div> 
+            </div>
         );
     }
 });

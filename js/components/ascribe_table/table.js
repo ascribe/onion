@@ -1,17 +1,22 @@
+'use strict';
+
 import React from 'react';
 import ReactAddons from 'react/addons';
 
 import TableHeader from './table_header';
-import TableColumnContentModel from '../../models/table_column_content_model';
+import { ColumnModel } from './models/table_models';
 
 
 let Table = React.createClass({
     
     propTypes: {
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,
         orderAsc: React.PropTypes.bool,
+        className: React.PropTypes.string,
+        children: React.PropTypes.array,
+        itemList: React.PropTypes.array
     },
 
     renderChildren() {
@@ -27,17 +32,17 @@ let Table = React.createClass({
     
     render() {
         return (
-            <div className="ascribe-table">
-                <TableHeader 
+            <table className={'table ' + this.props.className}>
+                <TableHeader
                     columnList={this.props.columnList}
                     itemList={this.props.itemList}
                     changeOrder={this.props.changeOrder}
                     orderAsc={this.props.orderAsc}
                     orderBy={this.props.orderBy} />
-                <div className="row">
+                <tbody>
                     {this.renderChildren()}
-                </div>
-            </div>
+                </tbody>
+            </table>
         );
     }
 });

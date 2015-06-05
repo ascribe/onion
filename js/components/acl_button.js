@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import ConsignForm from './ascribe_forms/form_consign';
@@ -17,31 +19,33 @@ let AclButton = React.createClass({
     },
 
     actionProperties(){
-        if (this.props.action == 'consign'){
+        if (this.props.action === 'consign'){
             return {
-                title: "Consign artwork",
-                tooltip: "Have someone else sell the artwork",
+                title: 'Consign artwork',
+                tooltip: 'Have someone else sell the artwork',
                 form: <ConsignForm />
-            }
+            };
         }
-        else if (this.props.action == 'transfer') {
+        else if (this.props.action === 'transfer') {
             return {
-                title: "Transfer artwork",
-                tooltip: "Transfer the ownership of the artwork",
+                title: 'Transfer artwork',
+                tooltip: 'Transfer the ownership of the artwork',
                 form: <TransferForm />
-            }
+            };
         }
-        else if (this.props.action == 'loan'){
+        else if (this.props.action === 'loan'){
             return {
-                title: "Loan artwork",
-                tooltip: "Loan your artwork for a limited period of time",
-                form: <LoanForm />}
+                title: 'Loan artwork',
+                tooltip: 'Loan your artwork for a limited period of time',
+                form: <LoanForm />
+            };
         }
-        else if (this.props.action == 'share'){
+        else if (this.props.action === 'share'){
             return {
-                title: "Share artwork",
-                tooltip: "Share the artwork",
-                form: <ShareForm />}
+                title: 'Share artwork',
+                tooltip: 'Share the artwork',
+                form: <ShareForm />
+            };
         }
     },
     render() {
