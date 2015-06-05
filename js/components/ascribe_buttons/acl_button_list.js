@@ -9,9 +9,9 @@ import AclButton from '../ascribe_buttons/acl_button';
 
 let AclButtonList = React.createClass({
     propTypes: {
-        availableAcls: React.PropTypes.array,
+        className: React.PropTypes.string,
         editions: React.PropTypes.array,
-        currentUser: React.PropTypes.object,
+        availableAcls: React.PropTypes.array,
         handleSuccess: React.PropTypes.func
     },
 
@@ -34,7 +34,7 @@ let AclButtonList = React.createClass({
 
     render() {
         return (
-            <div className="text-center">
+            <div className={this.props.className}>
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="transfer"

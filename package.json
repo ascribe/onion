@@ -29,6 +29,7 @@
     "gulp-util": "^3.0.4",
     "jest-cli": "^0.4.0",
     "lodash": "^3.9.3",
+    "react-textarea-autosize": "^2.2.3",
     "reactify": "^1.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
@@ -45,8 +46,7 @@
     "react-datepicker": "~0.8.0",
     "react-router": "^0.13.3",
     "shmui": "^0.1.0",
-    "uglifyjs": "^2.4.10",
-    "react-datepicker": "~0.8.0"
+    "uglifyjs": "^2.4.10"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",

@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
@@ -21,7 +22,8 @@ let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
-        deleteEdition: React.PropTypes.func
+        deleteEdition: React.PropTypes.func,
+        savePersonalNote: React.PropTypes.func
     },
 
     render() {
@@ -43,7 +45,7 @@ let Edition = React.createClass({
 
         return (
             <Row>
-                <Col md={7}>
+                <Col md={6}>
                     <MediaPlayer mimetype={mimetype}
                                     preview={thumbnail}
                                     url={this.props.edition.digital_work.url}
@@ -54,11 +56,17 @@ let Edition = React.createClass({
                         </Button>
                     </p>
                 </Col>
-                <Col md={5}>
+                <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
                         edition={this.props.edition}
                         currentUser={ this.props.currentUser }/>
+                    <CollapsibleEditionDetails
+                        title="Personal Note"
+                        iconName="pencil">
+                        <EditionPersonalNote 
+                            savePersonalNote={this.props.savePersonalNote}/>
+                    </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
                         title="Provenance/Ownership History"
@@ -138,10 +146,15 @@ let EditionSummary = React.createClass({
                 <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
                 <br/>
-                <AclButtonList
-                    availableAcls={this.props.edition.acl}
-                    editions={[this.props.edition]}
-                    handleSuccess={this.handleSuccess} />
+                <Row>
+                    <Col md={12}>
+                        <AclButtonList
+                            className="pull-left"
+                            availableAcls={this.props.edition.acl}
+                            editions={[this.props.edition]}
+                            handleSuccess={this.handleSuccess} />
+                    </Col>
+                </Row>
                 <hr/>
             </div>
         );
@@ -156,7 +169,8 @@ let CollapsibleEditionDetails = React.createClass({
             React.PropTypes.object,
             React.PropTypes.array
         ]),
-        show: React.PropTypes.bool
+        show: React.PropTypes.bool,
+        iconName: React.PropTypes.string
     },
 
     getDefaultProps() {
@@ -169,10 +183,11 @@ let CollapsibleEditionDetails = React.createClass({
         if(this.props.show) {
             return (
                 <div className="ascribe-detail-header">
-                    <CollapsibleParagraph title={this.props.title}>
+                    <CollapsibleParagraph
+                        title={this.props.title}
+                        iconName={this.props.iconName}>
                         {this.props.children}
                     </CollapsibleParagraph>
-                    <hr/>
                 </div>
             );
         } else {
@@ -188,7 +203,8 @@ const CollapsibleParagraph = React.createClass({
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
-        ])
+        ]),
+        iconName: React.PropTypes.string
     },
 
     mixins: [CollapsibleMixin],
@@ -206,14 +222,16 @@ const CollapsibleParagraph = React.createClass({
         this.setState({expanded: !this.state.expanded});
     },
 
-    render(){
+    render() {
         let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? 'Hide' : 'Show';
+        let text = this.isExpanded() ? '-' : '+';
+
+        let icon = this.props.iconName ? (<Glyphicon style={{fontSize: '.75em'}} glyph={this.props.iconName} />) : null;
+
         return (
             <div className="ascribe-edition-collapsible-wrapper">
                 <div onClick={this.onHandleToggle}>
-                    <span>{this.props.title} </span>
-                    <a>{text}</a>
+                    <span>{text} {icon} {this.props.title} </span>
                 </div>
                 <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
                     {this.props.children}
@@ -280,6 +298,34 @@ let EditionDetailHistoryIterator = React.createClass({
                     );
                 })}
             </div>
+        );
+    }
+});
+
+let EditionPersonalNote = React.createClass({
+    propTypes: {
+        savePersonalNote: React.PropTypes.func
+    },
+
+    prepareSavePersonalNote() {
+        let personalNote = React.findDOMNode(this.refs.personalNote).value;
+        this.props.savePersonalNote(personalNote);
+    },
+
+    render() {
+        return (
+            <Row>
+                <Col md={12} className="ascribe-edition-personal-note">
+                    <TextareaAutosize
+                        ref="personalNote"
+                        className="form-control"
+                        rows={3}
+                        placeholder='Write something...' />
+                    <Button
+                        onClick={this.prepareSavePersonalNote}
+                        className="pull-right">Save</Button>
+                </Col>
+            </Row>
         );
     }
 });
