@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
@@ -15,6 +17,10 @@ import Panel from 'react-bootstrap/lib/Panel';
 
 
 let Other = React.createClass({
+    propTypes: {
+        url: React.PropTypes.string.isRequired
+    },
+
     render() {
         let ext = this.props.url.split('.').pop();
 
@@ -29,6 +35,11 @@ let Other = React.createClass({
 });
 
 let Image = React.createClass({
+    propTypes: {
+        url: React.PropTypes.string.isRequired,
+        preview: React.PropTypes.string.isRequired
+    },
+
     mixins: [InjectInHeadMixin],
 
     componentDidMount() {
@@ -37,7 +48,7 @@ let Image = React.createClass({
                 Promise.all([
                     this.inject('node_modules/shmui/shmui.css'),
                     this.inject('node_modules/shmui/jquery.shmui.js')
-                ]).then(() => { $('.shmui-ascribe').shmui(); }));
+                ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
     },
 
     render() {
@@ -66,7 +77,11 @@ let Video = React.createClass({
                 Promise.all([
                     this.inject('https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.17.0/mediaelement-and-player.min.js'),
                     this.inject('https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.17.0/mediaelementplayer.min.css')
-                ]).then(() => { this.setState({ready: true}); }));
+                ]).then(this.ready));
+    },
+
+    ready() {
+        this.setState({ready: true});
     },
 
     render() {
@@ -79,7 +94,7 @@ let Video = React.createClass({
                 </video>
             );
         } else {
-            return(
+            return (
                 <Image src={this.props.preview} />
             );
         }
@@ -91,13 +106,14 @@ let resourceMap = {
     'image': Image,
     'video': Video,
     'other': Other
-}
+};
 
 let MediaPlayer = React.createClass({
     propTypes: {
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
         preview: React.PropTypes.string.isRequired,
-        url: React.PropTypes.string.isRequired
+        url: React.PropTypes.string.isRequired,
+        extraData: React.PropTypes.array
     },
 
     render() {

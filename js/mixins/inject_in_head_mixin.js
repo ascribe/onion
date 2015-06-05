@@ -2,7 +2,7 @@
 
 let mapAttr = {
     link: 'href',
-    source: 'src'
+    script: 'src'
 };
 
 let mapTag = {
@@ -24,14 +24,14 @@ let InjectInHeadMixin = {
         return document.querySelector(query);
     },
 
-    injectTag(tag, src, extraAttrs) {
+    injectTag(tag, src) {
         let promise = new Promise((resolve, reject) => {
             if (InjectInHeadMixin.isPresent(tag, src)) {
                 resolve();
             } else {
                 let attr = mapAttr[tag];
                 let element = document.createElement(tag);
-                if (tag == 'script') {
+                if (tag === 'script') {
                     element.onload = () => resolve();
                     element.onerror = () => reject();
                 } else {
@@ -39,8 +39,8 @@ let InjectInHeadMixin = {
                 }
                 document.head.appendChild(element);
                 element[attr] = src;
-                if (tag == 'link') {
-                    element['rel'] = 'stylesheet';
+                if (tag === 'link') {
+                    element.rel = 'stylesheet';
                 }
             }
         });
