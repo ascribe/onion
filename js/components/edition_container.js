@@ -45,7 +45,7 @@ let EditionContainer = React.createClass({
             return (
                 <Edition
                     edition={this.state.edition}
-                    currentUser={this.state.currentUser} 
+                    currentUser={this.state.currentUser}
                     deleteEdition={this.deleteEdition}/>
             );
         } else {

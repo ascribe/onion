@@ -32,7 +32,7 @@ let PieceListToolbar = React.createClass({
 
     searchFor() {
          let searchTerm = this.refs.search.getInputDOMNode().value;
-         PieceListActions.fetchPieceList(this.state.page, this.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
+         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
     },
 
     render() {
