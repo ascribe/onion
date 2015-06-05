@@ -15,7 +15,7 @@ let Table = React.createClass({
         orderBy: React.PropTypes.string,
         orderAsc: React.PropTypes.bool,
         className: React.PropTypes.string,
-        children: React.PropTypes.object,
+        children: React.PropTypes.array,
         itemList: React.PropTypes.array
     },
 

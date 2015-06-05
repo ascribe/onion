@@ -97,7 +97,10 @@ let EditionDetails = React.createClass({
 let EditionDetailProperty = React.createClass({
     propTypes: {
         label: React.PropTypes.string,
-        value: React.PropTypes.string
+        value: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ])
     },
 
     render() {
