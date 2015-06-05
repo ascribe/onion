@@ -9,6 +9,7 @@
 @import 'ascribe_accordion_list';
 @import 'ascribe_piece_list_bulk_modal';
 @import 'ascribe_piece_list_toolbar';
+@import 'ascribe_edition';
 @import 'offset_right';
 
 .hidden {
@@ -145,9 +146,6 @@
 
 .ascribe-detail-property {
     padding-bottom: 0.4em;
-}
-.ascribe-detail-property > .row-same-height > .col-xs-4 {
-    text-transform: uppercase;
 }
 
 .input-text-ascribe,

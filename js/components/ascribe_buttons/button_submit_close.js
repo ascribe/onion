@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-
 /*
     Is this even used somewhere?
     Deprecate? 5.6.15 - Tim

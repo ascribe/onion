@@ -10,30 +10,77 @@ import ResourceViewer from './ascribe_media/resource_viewer';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
+import classNames from 'classnames';
+
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object,
+        deleteEdition: React.PropTypes.func
     },
 
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
 
+        let bitcoinIdValue = (
+            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
+        );
+
+         let hashOfArtwork = (
+            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        );
+
         return (
             <div>
-                <div className="col-sm-6">
+                <div className="col-sm-5">
                     <ResourceViewer thumbnail={thumbnail}
-                                    mimetype={mimetype}
-                                    />
+                                    mimetype={mimetype}/>
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-7">
                     <EditionHeader edition={this.props.edition}/>
-                    <EditionSummary edition={this.props.edition} currentUser={ this.props.currentUser }/>
-                    <EditionDetails edition={this.props.edition} currentUser={ this.props.currentUser }/>
+                    <EditionSummary
+                        edition={this.props.edition}
+                        currentUser={ this.props.currentUser }/>
+
+                    <CollapsibleEditionDetails
+                        title="Provenance/Ownership History"
+                        show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
+                        <EditionDetailHistoryIterator 
+                            history={this.props.edition.ownership_history} />
+                    </CollapsibleEditionDetails>
+
+                    <CollapsibleEditionDetails
+                        title="Loan History"
+                        show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
+                        <EditionDetailHistoryIterator 
+                            history={this.props.edition.loan_history} />
+                    </CollapsibleEditionDetails>
+
+                    <CollapsibleEditionDetails
+                        title="SPOOL Details">
+                        <EditionDetailProperty
+                            label="Artwork ID"
+                            value={bitcoinIdValue} />
+                        <EditionDetailProperty
+                            label="Hash of Artwork, title, etc"
+                            value={hashOfArtwork} />
+                        <EditionDetailProperty
+                            label="Owned by SPOOL address"
+                            value="MISSING IN /editions/<id> RESOURCE!" />
+                    </CollapsibleEditionDetails>
+
+                    <CollapsibleEditionDetails
+                        title="Delete Actions">
+                        <Button 
+                            bsStyle="danger"
+                            onClick={this.props.deleteEdition}>
+                                Remove this artwork from your list
+                        </Button>
+                    </CollapsibleEditionDetails>
                 </div>
 
             </div>
@@ -50,9 +97,9 @@ let EditionHeader = React.createClass({
         var titleHtml = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="title" value={titleHtml} />
-                <EditionDetailProperty label="by" value={this.props.edition.artist_name} />
-                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0, 4) } />
+                <EditionDetailProperty label="TITLE" value={titleHtml} />
+                <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
+                <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
                 <hr/>
             </div>
         );
@@ -73,10 +120,10 @@ let EditionSummary = React.createClass({
     render() {
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="edition"
+                <EditionDetailProperty label="EDITION"
                     value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
+                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
+                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
                 <br/>
                 <AclButtonList
                     availableAcls={this.props.edition.acl}
@@ -89,50 +136,78 @@ let EditionSummary = React.createClass({
     }
 });
 
-let EditionDetails = React.createClass({
-    handleSuccess(){
-        EditionActions.fetchOne(this.props.edition.id);
+let CollapsibleEditionDetails = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ]),
+        show: React.PropTypes.bool
     },
-    render() {
-        return (
-            <div className="ascribe-detail-header">
-                <CollapsibleParagraph>
-    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </CollapsibleParagraph>
-                <hr/>
-            </div>
-        );
 
+    getDefaultProps() {
+        return {
+            show: true
+        };
+    },
+
+    render() {
+        if(this.props.show) {
+            return (
+                <div className="ascribe-detail-header">
+                    <CollapsibleParagraph title={this.props.title}>
+                        {this.props.children}
+                    </CollapsibleParagraph>
+                    <hr/>
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 });
 
-let CollapsibleParagraph = React.createClass({
-  mixins: [CollapsibleMixin],
+const CollapsibleParagraph = React.createClass({
 
-  getCollapsibleDOMNode(){
-    return React.findDOMNode(this.refs.panel);
-  },
+    propTypes: {
+        title: React.PropTypes.string,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ])
+    },
 
-  getCollapsibleDimensionValue(){
-    return React.findDOMNode(this.refs.panel).scrollHeight;
-  },
+    mixins: [CollapsibleMixin],
 
-  onHandleToggle(e){
-    e.preventDefault();
-    this.setState({expanded:!this.state.expanded});
-  },
+    getCollapsibleDOMNode(){
+        return React.findDOMNode(this.refs.panel);
+    },
 
-  render(){
-    let text = this.isExpanded() ? 'Hide' : 'Show';
-    return (
-      <div>
-        <Button onClick={this.onHandleToggle}>{text} Content</Button>
-        <div ref='panel'>
-          {this.props.children}
-        </div>
-      </div>
-    );
-  }
+    getCollapsibleDimensionValue(){
+        return React.findDOMNode(this.refs.panel).scrollHeight;
+    },
+
+    onHandleToggle(e){
+        e.preventDefault();
+        this.setState({expanded: !this.state.expanded});
+    },
+
+    render(){
+        let styles = this.getCollapsibleClassSet();
+        let text = this.isExpanded() ? 'Hide' : 'Show';
+        return (
+            <div className="ascribe-edition-collapsible-wrapper">
+                <div onClick={this.onHandleToggle}>
+                    <span>{this.props.title} </span>
+                    <a>{text}</a>
+                </div>
+                <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
+                    {this.props.children}
+                </div>
+            </div>
+        );
+    }
 });
 
 
@@ -142,20 +217,55 @@ let EditionDetailProperty = React.createClass({
         value: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.element
-        ])
+        ]),
+        separator: React.PropTypes.string,
+        labelClassName: React.PropTypes.string,
+        valueClassName: React.PropTypes.string
+    },
+
+    getDefaultProps() {
+        return {
+            separator: ':',
+            labelClassName: 'col-xs-5 col-sm-5 col-md-5 col-lg-5',
+            valueClassName: 'col-xs-7 col-sm-7 col-md-7 col-lg-7'
+        };
     },
 
     render() {
         return (
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
-                    <div className="col-xs-4 col-sm-3 col-xs-height col-bottom">
-                        <div>{ this.props.label }:</div>
+                    <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
+                        <div>{ this.props.label }{this.props.separator}</div>
                     </div>
-                    <div className="col-xs-8 col-sm-9 col-xs-height col-bottom">
+                    <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
                         <div>{ this.props.value }</div>
                     </div>
                 </div>
+            </div>
+        );
+    }
+});
+
+let EditionDetailHistoryIterator = React.createClass({
+    propTypes: {
+        history: React.PropTypes.array
+    },
+
+    render() {
+        return (
+            <div>
+                {this.props.history.map((historicalEvent, i) => {
+                    return (
+                        <EditionDetailProperty
+                            key={i}
+                            label={historicalEvent[0]}
+                            value={historicalEvent[1]}
+                            labelClassName="col-xs-4 col-sm-4 col-md-4 col-lg-4"
+                            valueClassName="col-xs-8 col-sm-8 col-md-8 col-lg-8"
+                            separator="" />
+                    );
+                })}
             </div>
         );
     }

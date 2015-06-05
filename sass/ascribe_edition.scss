@@ -1,0 +1,19 @@
+.ascribe-edition-collapsible-wrapper {
+    vertical-align: bottom;
+    width:100%;
+}
+
+.ascribe-edition-collapsible-wrapper > div:first-child {
+    width:100%;
+    cursor:pointer;
+}
+
+.ascribe-edition-collapsible-wrapper > div > span {
+    font-size:1.4em;
+    margin-right: .5em;
+}
+
+.ascribe-edition-collapible-content {
+    width:100%;
+    margin-top: 1em;
+}

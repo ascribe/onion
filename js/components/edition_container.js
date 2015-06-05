@@ -36,12 +36,17 @@ let EditionContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
+    deleteEdition() {
+
+    },
+
     render() {
         if('title' in this.state.edition) {
             return (
                 <Edition
                     edition={this.state.edition}
-                    currentUser={this.state.currentUser} />
+                    currentUser={this.state.currentUser} 
+                    deleteEdition={this.deleteEdition}/>
             );
         } else {
             return (

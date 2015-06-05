@@ -11,7 +11,7 @@ import InputDate from './input_date';
 import InputTextArea from './input_textarea';
 
 import OwnershipFetcher from '../../fetchers/ownership_fetcher';
-import ButtonSubmitOrClose from './button_submit_close';
+import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
 let LoanForm = React.createClass({
     
