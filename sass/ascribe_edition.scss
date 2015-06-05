@@ -1,3 +1,11 @@
+.ascribe-edition-details hr {
+    border-top: 1px solid #616161;
+}
+
+.ascribe-edition-personal-note > textarea {
+    margin-bottom: 1em;
+}
+
 .ascribe-edition-collapsible-wrapper {
     vertical-align: bottom;
     width:100%;
@@ -9,7 +17,7 @@
 }
 
 .ascribe-edition-collapsible-wrapper > div > span {
-    font-size:1.4em;
+    font-size:1.3em;
     margin-right: .5em;
 }
 

@@ -6,12 +6,15 @@ import UserStore from '../../stores/user_store';
 import AclButton from '../ascribe_buttons/acl_button';
 
 let AclButtonList = React.createClass({
-    getInitialState() {
-        return UserStore.getState();
+    propTypes: {
+        className: React.PropTypes.string,
+        editions: React.PropTypes.array,
+        availableAcls: React.PropTypes.array,
+        handleSuccess: React.PropTypes.func
     },
 
-    onChange(state) {
-        this.setState(state);
+    getInitialState() {
+        return UserStore.getState();
     },
 
     componentDidMount() {
@@ -23,9 +26,13 @@ let AclButtonList = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
         return (
-            <div className="text-center">
+            <div className={this.props.className}>
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="transfer"

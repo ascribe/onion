@@ -37,7 +37,12 @@ let EditionContainer = React.createClass({
     },
 
     deleteEdition() {
+        // Delete Edition from server
+    },
 
+    savePersonalNote(note) {
+        console.log(note);
+        // Save personalNote to server
     },
 
     render() {
@@ -45,8 +50,9 @@ let EditionContainer = React.createClass({
             return (
                 <Edition
                     edition={this.state.edition}
-                    currentUser={this.state.currentUser} 
-                    deleteEdition={this.deleteEdition}/>
+                    currentUser={this.state.currentUser}
+                    deleteEdition={this.deleteEdition}
+                    savePersonalNote={this.savePersonalNote}/>
             );
         } else {
             return (
