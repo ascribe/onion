@@ -15,6 +15,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var _ = require('lodash');
 var eslint = require('gulp-eslint');
+var jest = require('gulp-jest');
 
 var config = {
     bootstrapDir: './node_modules/bootstrap-sass'
@@ -24,14 +25,14 @@ gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy', 'jest:watch'], function() {
     bundle(true);
 });
 
 gulp.task('browser-sync', function() {
     browserSync({
         server: {
-            baseDir: "."
+            baseDir: '.'
         },
         port: process.env.PORT || 3000
     });
@@ -44,7 +45,8 @@ gulp.task('sass', function () {
             includePaths: [
                 config.bootstrapDir + '/assets/stylesheets'
             ]
-        }).on('error', sass.logError))
+        })
+        .on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./build/css'))
         .pipe(browserSync.stream());;
@@ -84,9 +86,34 @@ gulp.task('lint:watch', function () {
     gulp.watch('js/**/*.js', ['lint']);
 });
 
+gulp.task('jest', function () {
+    return gulp.src('__tests__').pipe(jest({
+        scriptPreprocessor: "./node_modules/babel-jest",
+        testDirectoryName: '__tests__',
+        testPathIgnorePatterns: [
+            'node_modules',
+            'spec/support'
+        ],
+        testFileExtensions: [
+            'es6',
+            'js'
+        ],
+        moduleFileExtensions: [
+            'js',
+            'json',
+            'react',
+            'es6'
+        ]
+    })
+    .on('error', console.error));
+});
+
+gulp.task('jest:watch', function () {
+    gulp.watch('__tests__', ['jest']);
+});
+
 function bundle(watch) {
     var bro;
- 
     if (watch) {
         bro = watchify(browserify('./js/app.js',
             // Assigning debug to have sourcemaps
@@ -101,11 +128,11 @@ function bundle(watch) {
             debug: true
         });
     }
- 
+
     bro.transform(babelify.configure({
         compact: false
     }));
- 
+
     function rebundle(bundler, watch) {
         return bundler.bundle()
             .on('error', notify.onError('Error: <%= error.message %>'))
@@ -118,6 +145,6 @@ function bundle(watch) {
             .pipe(gulp.dest('./build'))
             .pipe(browserSync.stream());
     }
- 
+
     return rebundle(bro);
 }

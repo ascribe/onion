@@ -63,14 +63,14 @@ let Edition = React.createClass({
                     <CollapsibleEditionDetails
                         title="Provenance/Ownership History"
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
-                        <EditionDetailHistoryIterator 
+                        <EditionDetailHistoryIterator
                             history={this.props.edition.ownership_history} />
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
                         title="Loan History"
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
-                        <EditionDetailHistoryIterator 
+                        <EditionDetailHistoryIterator
                             history={this.props.edition.loan_history} />
                     </CollapsibleEditionDetails>
 
@@ -89,7 +89,7 @@ let Edition = React.createClass({
 
                     <CollapsibleEditionDetails
                         title="Delete Actions">
-                        <Button 
+                        <Button
                             bsStyle="danger"
                             onClick={this.props.deleteEdition}>
                                 Remove this artwork from your list
