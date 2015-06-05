@@ -1,12 +1,14 @@
+'use strict';
+
 let mapAttr = {
     link: 'href',
     source: 'src'
-}
+};
 
 let mapExt = {
     js: 'source',
     css: 'link'
-}
+};
 
 
 let InjectInHeadMixin = {
@@ -23,9 +25,9 @@ let InjectInHeadMixin = {
     },
 
     injectTag(tag, src){
-        console.log(this.foobar);
-        if (InjectInHeadMixin.isPresent(tag, src))
+        if (InjectInHeadMixin.isPresent(tag, src)) {
             return;
+        }
 
         let attr = mapAttr[tag];
         let element = document.createElement(tag);
@@ -49,6 +51,8 @@ let InjectInHeadMixin = {
         } catch (e) {
             throw new Error(`Cannot inject ${src} in the DOM, cannot guess the tag name from extension ${ext}. Valid extensions are "js" and "css".`);
         }
+        // ES6Lint says tag is not defined, pls fix
+        // - Tim
         InjectInHeadMixin.injectTag(tag, src);
     }
 

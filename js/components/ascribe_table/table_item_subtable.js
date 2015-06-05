@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import { ColumnModel } from './models/table_models';
@@ -26,12 +28,16 @@ let TableItemSubtable = React.createClass({
         };
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
-
     componentDidMount() {
         EditionListStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        EditionListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     loadEditionList() {
@@ -77,10 +83,9 @@ let TableItemSubtable = React.createClass({
                                         className="ascribe-table-item-selectable"
                                         selectItem={this.selectItem}
                                         parentId={this.props.columnContent.id}
-                                        key={i}>
-                                    </TableItemSelectable>
+                                        key={i} />
                                 );
-                            })} 
+                            })}
                         </Table>
                       </div>  
                     </div>
@@ -94,15 +99,13 @@ let TableItemSubtable = React.createClass({
                     <TableItemWrapper
                         columnList={this.props.columnList}
                         columnContent={this.props.columnContent}
-                        columnWidth={12}>
-                    </TableItemWrapper>
+                        columnWidth={12} />
                     <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 ascribe-table-item-column">
-                        <TableItemSubtableButton content="+" onClick={this.loadEditionList}>
-                        </TableItemSubtableButton>
+                        <TableItemSubtableButton content="+" onClick={this.loadEditionList} />
                     </div>
                 </div>
                 {renderEditionListTable()}
-            </div> 
+            </div>
         );
     }
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import { mergeOptions } from '../utils/general_utils';
@@ -28,6 +30,7 @@ let EditionContainer = React.createClass({
         UserActions.fetchCurrentUser();
         EditionActions.fetchOne(this.props.params.editionId);
     },
+
     componentWillUnmount() {
         EditionStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
@@ -36,10 +39,9 @@ let EditionContainer = React.createClass({
     render() {
         if('title' in this.state.edition) {
             return (
-                <Edition 
-                    edition={this.state.edition} 
-                    currentUser={this.state.currentUser}>
-                </Edition>
+                <Edition
+                    edition={this.state.edition}
+                    currentUser={this.state.currentUser} />
             );
         } else {
             return (

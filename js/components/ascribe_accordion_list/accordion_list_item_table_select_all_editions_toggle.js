@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 
@@ -11,8 +13,8 @@ let AccordionListItemTableSelectAllEditionsToggle = React.createClass({
 
     render() {
         return (
-            <input type="checkbox" 
-                onChange={this.props.onChange} 
+            <input type="checkbox"
+                onChange={this.props.onChange}
                 checked={this.props.numOfAllEditions === this.props.numOfSelectedEditions} />
         );
     }

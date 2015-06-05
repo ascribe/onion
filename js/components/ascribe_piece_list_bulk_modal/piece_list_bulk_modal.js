@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import { mergeOptions } from '../../utils/general_utils';
@@ -108,7 +110,7 @@ let PieceListBulkModal = React.createClass({
                                     <PieceListBulkModalSelectedEditionsWidget
                                         numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span 
+                                    <span
                                         className="piece-list-bulk-modal-clear-all"
                                         onClick={this.clearAllSelections}>clear all</span>
                                 </div>
@@ -148,7 +150,7 @@ let PieceListBulkModal = React.createClass({
             );
         } else {
             return null;
-        } 
+        }
         
     }
 });

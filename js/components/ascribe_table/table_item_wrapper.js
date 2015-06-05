@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 
@@ -7,12 +9,13 @@ import TableColumnMixin from '../../mixins/table_column_mixin';
 let Link = Router.Link;
 
 let TableItemWrapper = React.createClass({
-    mixins: [TableColumnMixin, Router.Navigation],
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
         columnWidth: React.PropTypes.number.isRequired
     },
+
+    mixins: [TableColumnMixin, Router.Navigation],
 
     render() {
         return (
@@ -27,7 +30,7 @@ let TableItemWrapper = React.createClass({
                     if(!column.transition) {
                         return (
                             <td
-                                className={'ascribe-table-item-column'} 
+                                className={'ascribe-table-item-column'}
                                 key={i}>
                                 <TypeElement {...typeElementProps} />
                             </td>
@@ -42,8 +45,8 @@ let TableItemWrapper = React.createClass({
                          */
                         return (
                             <td key={i}>
-                                <Link 
-                                    className={'ascribe-table-item-column'} 
+                                <Link
+                                    className={'ascribe-table-item-column'}
                                     onClick={column.transition.callback}
                                     {...linkProps}>
                                     <TypeElement {...typeElementProps} />

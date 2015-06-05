@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 import Header from '../components/header';
@@ -12,7 +14,7 @@ let AscribeApp = React.createClass({
             <div>
                 <Header />
                 <RouteHandler />
-            </div> 
+            </div>
         );
     }
 });

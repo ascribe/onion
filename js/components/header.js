@@ -1,13 +1,13 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 
-import AltContainer from 'alt/AltContainer';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import NavItem from 'react-bootstrap/lib/NavItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
@@ -22,7 +22,7 @@ let Header = React.createClass({
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange)
+        UserStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 

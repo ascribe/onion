@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import Router from 'react-router';
 
@@ -10,11 +12,8 @@ let Route = Router.Route;
 
 let routes = (
     <Route name="app" handler={AscribeApp}>
-        <Route name="pieces" path="/" handler={PieceList}>
-            
-        </Route>
-        <Route name="edition" path="/editions/:editionId" handler={EditionContainer}>
-        </Route>
+        <Route name="pieces" path="/" handler={PieceList} />
+        <Route name="edition" path="/editions/:editionId" handler={EditionContainer} />
     </Route>
 );
 

@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';

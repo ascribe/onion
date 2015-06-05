@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import alt from '../alt';
@@ -15,7 +17,7 @@ class EditionListStore {
                 // This uses the index of the new editionList for determining the edition.
                 // If the list of editions can be sorted in the future, this needs to be changed!
                 editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
-            })
+            });
         }
         this.editionList[pieceId] = editionListOfPiece;
 
@@ -26,7 +28,7 @@ class EditionListStore {
          * Default values for both are set in the editon_list-actions.
          */
         this.editionList[pieceId].orderBy = orderBy;
-        this.editionList[pieceId].orderAsc = orderAsc
+        this.editionList[pieceId].orderAsc = orderAsc;
     }
 
     onSelectEdition({pieceId, editionId}) {
@@ -55,6 +57,6 @@ class EditionListStore {
                     });
             });
     }
-};
+}
 
 export default alt.createStore(EditionListStore);

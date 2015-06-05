@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import { ColumnModel } from './models/table_models';
@@ -18,8 +20,7 @@ let TableItem = React.createClass({
             <TableItemWrapper
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
-                columnWidth={12}>
-            </TableItemWrapper>
+                columnWidth={12} />
         );
     }
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 const languages = {
     'en-US': {
         'Bitcoin Address': 'Bitcoin Address',

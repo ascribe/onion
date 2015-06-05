@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import PieceListStore from '../../stores/piece_list_store';
@@ -6,16 +8,14 @@ import PieceListActions from '../../actions/piece_list_actions';
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import PieceListToolbarFilterWidgetFilter from './piece_list_toolbar_filter_widget';
-
 let PieceListToolbar = React.createClass({
+
+    propTypes: {
+        className: React.PropTypes.string
+    },
 
     getInitialState() {
         return PieceListStore.getState();
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     componentDidMount() {
@@ -24,6 +24,10 @@ let PieceListToolbar = React.createClass({
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     searchFor() {

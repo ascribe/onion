@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import ReactAddons from 'react/addons';
 
@@ -12,7 +14,9 @@ let Table = React.createClass({
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,
         orderAsc: React.PropTypes.bool,
-        className: React.PropTypes.string
+        className: React.PropTypes.string,
+        children: React.PropTypes.object,
+        itemList: React.PropTypes.array
     },
 
     renderChildren() {
@@ -29,7 +33,7 @@ let Table = React.createClass({
     render() {
         return (
             <table className={'table ' + this.props.className}>
-                <TableHeader 
+                <TableHeader
                     columnList={this.props.columnList}
                     itemList={this.props.itemList}
                     changeOrder={this.props.changeOrder}

@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
@@ -22,7 +24,7 @@ gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'sass', 'sass:watch', 'copy', 'lint'], function() {
+gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -76,6 +78,10 @@ gulp.task('lint', function () {
         // To have the process exit with an error code (1) on
         // lint error, return the stream and pipe to failOnError last.
         .pipe(eslint.failOnError());
+});
+
+gulp.task('lint:watch', function () {
+    gulp.watch('js/**/*.js', ['lint']);
 });
 
 function bundle(watch) {

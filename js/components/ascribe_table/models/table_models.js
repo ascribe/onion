@@ -1,3 +1,5 @@
+'use strict';
+
 export class ColumnModel {
     // ToDo: Add validation for all passed-in parameters
     constructor(transformFn, columnName, displayName, displayType, rowWidth, canBeOrdered, transition) {
@@ -12,7 +14,7 @@ export class ColumnModel {
 }
 
 /**
- * If a user opens an editionList of a piece and clicks on a specific edition to go to the 
+ * If a user opens an editionList of a piece and clicks on a specific edition to go to the
  * piece detail page, all previously opened editionLists are still saved as show = true in the
  * pieceList store.
  *

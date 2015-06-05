@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../alt';
 
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
@@ -28,6 +30,6 @@ class PieceListActions {
             });
     }
 
-};
+}
 
 export default alt.createActions(PieceListActions);

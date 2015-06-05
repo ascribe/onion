@@ -1,11 +1,11 @@
+'use strict';
+
 import React from 'react';
 
 import Table from '../ascribe_table/table';
 import TableItem from '../ascribe_table/table_item';
 
 import { ColumnModel } from '../ascribe_table/models/table_models';
-
-import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemTable = React.createClass({
     propTypes: {
@@ -26,7 +26,7 @@ let AccordionListItemTable = React.createClass({
                 <div className={this.props.className}>
                     <Table
                         className="ascribe-table"
-                        columnList={this.props.columnList} 
+                        columnList={this.props.columnList}
                         itemList={this.props.itemList}
                         changeOrder={this.props.changeOrder}
                         orderBy={this.props.orderBy}
@@ -35,8 +35,7 @@ let AccordionListItemTable = React.createClass({
                             return (
                                  <TableItem
                                     className="ascribe-table-item-selectable"
-                                    key={i}>
-                                </TableItem>
+                                    key={i} />
                             );
                         })}
                     </Table>

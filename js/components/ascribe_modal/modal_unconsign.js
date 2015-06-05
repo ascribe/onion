@@ -1,11 +1,13 @@
+'use strict';
+
 import React from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
-import UnConsignForm from '../ascribe_forms/form_unconsign'
-import ModalMixin from '../../mixins/modal_mixin'
+import UnConsignForm from '../ascribe_forms/form_unconsign';
+import ModalMixin from '../../mixins/modal_mixin';
 
 let UnConsignModalButton = React.createClass({
     render() {
@@ -19,12 +21,12 @@ let UnConsignModalButton = React.createClass({
                     </div>
                 </ModalTrigger>
             </OverlayTrigger>
-        )
+        );
     }
 });
 
 let UnConsignModal = React.createClass({
-    mixins : [ModalMixin],
+    mixins: [ModalMixin],
 
     render() {
         return (
@@ -35,7 +37,7 @@ let UnConsignModal = React.createClass({
                                  onRequestHide={this.onRequestHide}/>
                 </div>
             </Modal>
-        )
+        );
     }
 });
 

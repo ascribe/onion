@@ -1,9 +1,10 @@
-import React from 'react';
+'use strict';
 
 let ModalMixin = {
     onRequestHide(e){
-        if (e)
+        if (e) {
             e.preventDefault();
+        }
         this.props.onRequestHide();
     }
 };
