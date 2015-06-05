@@ -1,10 +1,12 @@
+'use strict';
+
 import React from 'react';
 
-import AlertMixin from '../../mixins/alert_mixin'
+import AlertMixin from '../../mixins/alert_mixin';
 
 let InputHidden = React.createClass({
 
-    mixins : [AlertMixin],
+    mixins: [AlertMixin],
 
     getInitialState() {
         return {value: this.props.value,

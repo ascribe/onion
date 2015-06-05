@@ -3,6 +3,7 @@
 @import 'variables';
 @import 'ascribe_variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../node_modules/react-datepicker/dist/react-datepicker';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
 @import 'ascribe_accordion_list';
@@ -36,15 +37,8 @@
     float: none;
 }
 
-.ascribe-table-header-row {
-    border-bottom: 2px solid #E0E0E0;
-    padding: 0;
-}
-
-.ascribe-table-header-column {
-    display: table;
-    height:3em;
-    padding: 0;
+.ascribe-table {
+    margin-bottom:0;
 }
 
 .ascribe-table-header-column > span {
@@ -58,14 +52,6 @@
 .ascribe-table-header-column > span > .glyphicon {
     font-size: .5em;
 }
-/*
-.ascribe-table-item:nth-child(even) {
-    background-color: #F5F5F5;
-}*/
-
-/*.ascribe-table-item:hover {
-    background-color: #EEEEEE; 
-}*/
 
 .ascribe-table-item-column {
     display: table;
@@ -77,9 +63,9 @@
 .ascribe-table-item-column > * {
     display: table-cell;
     vertical-align: middle;
-    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ascribe-table-item-selected {

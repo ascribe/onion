@@ -1,20 +1,23 @@
+'use strict';
+
 import React from 'react';
 
 import Table from '../ascribe_table/table';
 import TableItem from '../ascribe_table/table_item';
 
-import TableColumnContentModel from '../../models/table_column_content_model';
-
-import { getLangText } from '../../utils/lang_utils';
+import { ColumnModel } from '../ascribe_table/models/table_models';
 
 let AccordionListItemTable = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         parentId: React.PropTypes.number,
         itemList: React.PropTypes.array,
-        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(TableColumnContentModel)),
+        columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         numOfTableItems: React.PropTypes.number,
-        show: React.PropTypes.bool
+        show: React.PropTypes.bool,
+        changeOrder: React.PropTypes.func,
+        orderBy: React.PropTypes.string,
+        orderAsc: React.PropTypes.bool
     },
 
     render() {
@@ -22,14 +25,17 @@ let AccordionListItemTable = React.createClass({
             return (
                 <div className={this.props.className}>
                     <Table
-                      columnList={this.props.columnList} 
-                      itemList={this.props.itemList}>
+                        className="ascribe-table"
+                        columnList={this.props.columnList}
+                        itemList={this.props.itemList}
+                        changeOrder={this.props.changeOrder}
+                        orderBy={this.props.orderBy}
+                        orderAsc={this.props.orderAsc}>
                         {this.props.itemList.map((item, i) => {
                             return (
                                  <TableItem
                                     className="ascribe-table-item-selectable"
-                                    key={i}>
-                                </TableItem>
+                                    key={i} />
                             );
                         })}
                     </Table>

@@ -1,3 +1,5 @@
+'use strict';
+
 let constants = {
     //'baseUrl': 'http://localhost:8000/api/',
     'baseUrl': 'http://staging.ascribe.io/api/',

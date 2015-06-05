@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../alt';
 import UserActions from '../actions/user_actions';
 

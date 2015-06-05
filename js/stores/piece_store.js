@@ -1,3 +1,5 @@
+'use strict';
+
 import alt from '../alt';
 import PieceAction from '../actions/piece_actions';
 

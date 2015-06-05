@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 let AccordionListItemTableToggle = React.createClass({
@@ -10,7 +12,7 @@ let AccordionListItemTableToggle = React.createClass({
 
     render() {
         return (
-            <span 
+            <span
                 className={this.props.className}
                 onClick={this.props.onClick}>
                 {this.props.show ? 'Hide all ' + this.props.numOfTableItems + ' Editions' : 'Show all ' + this.props.numOfTableItems + ' Editions'}

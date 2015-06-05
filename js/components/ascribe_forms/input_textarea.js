@@ -1,21 +1,24 @@
+'use strict';
+
 import React from 'react';
 
-import AlertMixin from '../../mixins/alert_mixin'
+import AlertMixin from '../../mixins/alert_mixin';
 
 let InputTextArea = React.createClass({
 
-    mixins : [AlertMixin],
+    mixins: [AlertMixin],
 
     getInitialState() {
-        return {value: this.props.defaultValue,
-                alerts: null // needed in AlertMixin
+        return {
+            value: this.props.defaultValue,
+            alerts: null // needed in AlertMixin
         };
     },
     handleChange(event) {
         this.setState({value: event.target.value});
     },
     render() {
-        let className = "form-control input-text-ascribe textarea-ascribe-message";
+        let className = 'form-control input-text-ascribe textarea-ascribe-message';
 
         let alerts = (this.props.submitted) ? null : this.state.alerts;
         return (

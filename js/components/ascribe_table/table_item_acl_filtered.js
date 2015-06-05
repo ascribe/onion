@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 
@@ -7,8 +9,10 @@ let TableItemAclFiltered = React.createClass({
     },
 
     render() {
+        var availableAcls = ['consign', 'loan', 'transfer', 'view'];
+
         let filteredAcls = this.props.content.filter((v) => {
-            return v === 'consign' || v === 'loan' || v === 'transfer' || v === 'view';
+            return availableAcls.indexOf(v) > -1;
         });
 
         return (

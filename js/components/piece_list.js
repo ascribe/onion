@@ -1,5 +1,6 @@
+'use strict';
+
 import React from 'react';
-import AltContainer from 'alt/AltContainer';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -15,7 +16,10 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 
 let PieceList = React.createClass({
-    
+    propTypes: {
+        query: React.PropTypes.object
+    },
+
     getInitialState() {
         return PieceListStore.getState();
     },
@@ -35,7 +39,7 @@ let PieceList = React.createClass({
     },
 
     paginationGoToPage(page) {
-        return (e) => PieceListActions.fetchPieceList(page, this.state.pageSize,
+        return () => PieceListActions.fetchPieceList(page, this.state.pageSize,
                                                       this.state.search, this.state.orderBy,
                                                       this.state.orderAsc);
     },
@@ -47,8 +51,8 @@ let PieceList = React.createClass({
 
     render() {
         let currentPage = parseInt(this.props.query.page, 10) || 1;
-        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize)
-        
+        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+
         return (
             <div>
                 <PieceListToolbar className="ascribe-piece-list-toolbar" />
@@ -64,12 +68,12 @@ let PieceList = React.createClass({
                     pageSize={this.state.pageSize}>
                     {this.state.pieceList.map((item, i) => {
                         return (
-                            <AccordionListItem 
+                            <AccordionListItem
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={item}
                                 key={i}>
-                                <AccordionListItemTableEditions 
-                                    className="ascribe-accordion-list-item-table col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3"
+                                <AccordionListItemTableEditions
+                                    className="ascribe-accordion-list-item-table col-xs-12 col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 col-lg-offset-3"
                                     parentId={item.id}
                                     show={item.show}
                                     numOfEditions={item.num_editions}/>
@@ -80,8 +84,7 @@ let PieceList = React.createClass({
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    goToPage={this.paginationGoToPage}>
-                </Pagination>
+                    goToPage={this.paginationGoToPage} />
             </div>
         );
     }

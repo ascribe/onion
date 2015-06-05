@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+'use strict';
 
 import React from 'react';
 
@@ -9,20 +9,26 @@ import InputHidden from './input_hidden';
 import InputCheckbox from './input_checkbox';
 import InputDate from './input_date';
 import InputTextArea from './input_textarea';
-import OwnershipFetcher from '../../fetchers/ownership_fetcher'
-import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+
+import OwnershipFetcher from '../../fetchers/ownership_fetcher';
+import ButtonSubmitOrClose from './button_submit_close';
 
 let LoanForm = React.createClass({
+    
+    getInitialState() {
+        this.setState({
+            contract_key: null,
+            contract_url: null,
+            loaneeHasContract: false
+        });
+    },
+
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_loans
+        return ApiUrls.ownership_loans;
     },
-    componentDidMount(){
-        this.setState({contract_key: null,
-                       contract_url: null,
-                       loaneeHasContract: false});
-    },
+
     getFormData() {
         return {
             bitcoin_id: this.getBitcoinIds().join(),
@@ -33,15 +39,18 @@ let LoanForm = React.createClass({
             loan_message: this.refs.loan_message.state.value,
             password: this.refs.password.state.value,
             terms: this.refs.terms.state.value
-        }
+        };
     },
-    handleLoanEmailBlur(e){
+
+    handleLoanEmailBlur(){
         OwnershipFetcher.fetchLoanContract(this.refs.loanee.state.value)
             .then((res) => {
                 if (res && res.length > 0) {
-                    this.setState({contract_key: res[0].s3Key,
-                                   contract_url: res[0].s3Url,
-                                   loaneeHasContract: true});
+                    this.setState({
+                        contract_key: res[0].s3Key,
+                        contract_url: res[0].s3Url,
+                        loaneeHasContract: true
+                    });
                 }
                 else{
                     this.resetLoanContract();
@@ -52,14 +61,16 @@ let LoanForm = React.createClass({
                 this.resetLoanContract();
             });
     },
+
     resetLoanContract(){
         this.setState({contract_key: null,
                         contract_url: null,
                         loaneeHasContract: false
                        });
     },
+    
     renderForm() {
-        let title = this.getTitlesString().join("");
+        let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
 `Hi,
@@ -72,18 +83,19 @@ ${username}`;
 
         let contract = <InputHidden ref="terms" value="True"/>;
         if (this.state.loaneeHasContract){
-            let label = <div>
+            let label = (<div>
                             I agree to the&nbsp;
                             <a href={this.state.contract_url} target="_blank">
                                 terms of {this.refs.loanee.state.value}
                             </a>
-                        </div>;
-            contract = <InputCheckbox
+                        </div>);
+            contract = (<InputCheckbox
                             ref="terms"
                             required="required"
                             label={label}
-                        />
+                        />);
         }
+
         return (
             <form id="loan_modal_content" role="form" onSubmit={this.submit}>
                 <input className="invisible" type="email" name="fake_loanee"/>

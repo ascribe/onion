@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+'use strict';
 
 import React from 'react';
 
@@ -12,17 +12,19 @@ let ShareForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_shares_mail
+        return ApiUrls.ownership_shares_mail;
     },
+
     getFormData() {
         return {
             bitcoin_id: this.getBitcoinIds().join(),
             share_emails: this.refs.share_emails.state.value,
             share_message: this.refs.share_message.state.value
-        }
+        };
     },
+
     renderForm() {
-        let title = this.getTitlesString().join("");
+        let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
 `Hi,

@@ -1,5 +1,6 @@
+'use strict';
+
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 
 let AccordionList = React.createClass({

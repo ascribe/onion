@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 
@@ -14,7 +16,7 @@ import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 
 let resourceMap = {
     'image': 1
-}
+};
 
 let ResourceViewer = React.createClass({
     propTypes: {
@@ -25,6 +27,7 @@ let ResourceViewer = React.createClass({
     mixins: [InjectInHeadMixin],
 
     componentDidMount() {
+        //this.inject('http://antani.com');
     },
 
     render() {

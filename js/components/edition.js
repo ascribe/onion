@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
@@ -5,13 +7,18 @@ import Button from 'react-bootstrap/lib/Button';
 
 import ResourceViewer from './ascribe_media/resource_viewer';
 
-import EditionActions from '../actions/edition_actions'
-import AclButtonList from './ascribe_buttons/acl_button_list'
+import EditionActions from '../actions/edition_actions';
+import AclButtonList from './ascribe_buttons/acl_button_list';
 
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+
     render() {
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
@@ -35,28 +42,39 @@ let Edition = React.createClass({
 });
 
 let EditionHeader = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object
+    },
+
     render() {
-        var title_html = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
+        var titleHtml = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="title" value={title_html} />
+                <EditionDetailProperty label="title" value={titleHtml} />
                 <EditionDetailProperty label="by" value={this.props.edition.artist_name} />
-                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0,4) } />
+                <EditionDetailProperty label="date" value={ this.props.edition.date_created.slice(0, 4) } />
                 <hr/>
             </div>
         );
     }
 });
 
+
 let EditionSummary = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
+
     render() {
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty label="edition"
-                    value={this.props.edition.edition_number + " of " + this.props.edition.num_editions} />
+                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
                 <EditionDetailProperty label="id" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="owner" value={ this.props.edition.owner } />
                 <br/>
@@ -119,6 +137,14 @@ let CollapsibleParagraph = React.createClass({
 
 
 let EditionDetailProperty = React.createClass({
+    propTypes: {
+        label: React.PropTypes.string,
+        value: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ])
+    },
+
     render() {
         return (
             <div className="row ascribe-detail-property">

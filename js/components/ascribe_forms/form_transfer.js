@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+'use strict';
 
 import React from 'react';
 
@@ -9,23 +9,24 @@ import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
 
-
 let TransferForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_transfers
+        return ApiUrls.ownership_transfers;
     },
+    
     getFormData() {
         return {
             bitcoin_id: this.getBitcoinIds().join(),
             transferee: this.refs.transferee.state.value,
             transfer_message: this.refs.transfer_message.state.value,
             password: this.refs.password.state.value
-        }
+        };
     },
+
     renderForm() {
-        let title = this.getTitlesString().join("");
+        let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
 `Hi,

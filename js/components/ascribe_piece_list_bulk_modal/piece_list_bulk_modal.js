@@ -1,7 +1,14 @@
+'use strict';
+
 import React from 'react';
+
+import { mergeOptions } from '../../utils/general_utils';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
+
+import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
 
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
@@ -13,7 +20,7 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return mergeOptions(EditionListStore.getState(), UserStore.getState());
     },
 
     onChange(state) {
@@ -22,14 +29,21 @@ let PieceListBulkModal = React.createClass({
 
     componentDidMount() {
         EditionListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
-    componentDidUnmount() {
+    componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
     },
 
-    filterForSelected(edition) {
-        return edition.selected;
+    fetchSelectedPieceEditionList() {
+        let filteredPieceIdList = Object.keys(this.state.editionList)
+                                        .filter((pieceId) => {
+                                            return this.state.editions.editionList[pieceId]
+                                                .filter((edition) => edition.selected).length > 0;
+                                        });
+        return filteredPieceIdList;
     },
 
     fetchSelectedEditionList() {
@@ -37,8 +51,8 @@ let PieceListBulkModal = React.createClass({
 
         Object
             .keys(this.state.editionList)
-            .forEach((key) => {
-                let filteredEditionsForPiece = this.state.editionList[key].filter(this.filterForSelected);
+            .forEach((pieceId) => {
+                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
                 selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
             });
 
@@ -47,10 +61,6 @@ let PieceListBulkModal = React.createClass({
 
     intersectAcls(a, b) {
         return a.filter((val) => b.indexOf(val) > -1);
-    },
-
-    bulk(action) {
-        console.log(action);
     },
 
     getAvailableAcls() {
@@ -76,8 +86,13 @@ let PieceListBulkModal = React.createClass({
         EditionListActions.clearAllEditionSelections();
     },
 
-    handleSuccess(){
+    handleSuccess() {
+        this.fetchSelectedPieceEditionList()
+            .forEach((pieceId) => {
+                EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
+            });
 
+        EditionListActions.clearAllEditionSelections();
     },
 
     render() {
@@ -95,7 +110,7 @@ let PieceListBulkModal = React.createClass({
                                     <PieceListBulkModalSelectedEditionsWidget
                                         numberOfSelectedEditions={this.fetchSelectedEditionList().length} />
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span 
+                                    <span
                                         className="piece-list-bulk-modal-clear-all"
                                         onClick={this.clearAllSelections}>clear all</span>
                                 </div>
@@ -113,7 +128,7 @@ let PieceListBulkModal = React.createClass({
             );
         } else {
             return null;
-        } 
+        }
         
     }
 });

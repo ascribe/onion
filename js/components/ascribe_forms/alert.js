@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import Alert from 'react-bootstrap/lib/Alert';
 
@@ -7,12 +9,15 @@ let AlertDismissable = React.createClass({
             alertVisible: true
         };
     },
+    
     show() {
         this.setState({alertVisible: true});
     },
+
     hide() {
         this.setState({alertVisible: false});
     },
+
     render() {
         if (this.state.alertVisible) {
             let key = this.props.error;

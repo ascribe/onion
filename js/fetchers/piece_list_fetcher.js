@@ -1,4 +1,5 @@
-import AppConstants from '../constants/application_constants';
+'use strict';
+
 import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
 import fetch from '../utils/fetch';
 
