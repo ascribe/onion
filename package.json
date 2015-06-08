@@ -23,11 +23,11 @@
     "gulp-concat": "^2.5.2",
     "gulp-eslint": "^0.13.2",
     "gulp-if": "^1.2.5",
-    "gulp-jest": "^0.4.0",
     "gulp-notify": "^2.2.0",
     "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.4",
+    "harmonize": "^1.4.2",
     "jest-cli": "^0.4.0",
     "lodash": "^3.9.3",
     "reactify": "^1.1.0",
@@ -47,13 +47,5 @@
     "react-router": "^0.13.3",
     "shmui": "^0.1.0",
     "uglifyjs": "^2.4.10"
-  },
-  "jest": {
-    "scriptPreprocessor": "node_modules/babel-jest",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/alt",
-      "<rootDir>/js/alt.js"
-    ]
   }
 }
