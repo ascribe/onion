@@ -10,7 +10,6 @@ app.get(/.*/, function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-
 if (require.main === module) {
     app.listen(process.env.PORT || 4000);
 }

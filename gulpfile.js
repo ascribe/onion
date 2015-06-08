@@ -17,17 +17,22 @@ var _ = require('lodash');
 var eslint = require('gulp-eslint');
 var argv = require('yargs').argv;
 var server = require('./server.js').app;
+var minifyCss = require('gulp-minify-css');
+var uglify = require('gulp-uglify');
 
 
 var config = {
     bootstrapDir: './node_modules/bootstrap-sass'
 };
 
-gulp.task('build', function() {
+gulp.task('build', ['js:build', 'sass:build', 'copy'], function() {
+});
+
+gulp.task('js:build', function() {
     bundle(false);
 });
 
-gulp.task('serve', ['browser-sync', 'run-server', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'run-server', 'lint:watch', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -43,15 +48,16 @@ gulp.task('browser-sync', function() {
     });
 });
 
-gulp.task('sass', function () {
+gulp.task('sass:build', function () {
     gulp.src('./sass/**/main.scss')
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({
             includePaths: [
                 config.bootstrapDir + '/assets/stylesheets'
             ]
         }).on('error', sass.logError))
-        .pipe(sourcemaps.write('./maps'))
+        .pipe(gulpif(!argv.production, sourcemaps.write('./maps')))
+        .pipe(gulpif(argv.production, minifyCss()))
         .pipe(gulp.dest('./build/css'))
         .pipe(browserSync.stream());
 });
@@ -117,10 +123,11 @@ function bundle(watch) {
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(source('app.js'))
             .pipe(buffer())
-            .pipe(sourcemaps.init({
+            .pipe(gulpif(!argv.production, sourcemaps.init({
                 loadMaps: true
-            })) // loads map from browserify file
-            .pipe(sourcemaps.write()) // writes .map file
+            }))) // loads map from browserify file
+            .pipe(gulpif(!argv.production, sourcemaps.write())) // writes .map file
+            .pipe(gulpif(argv.production, uglify()))
             .pipe(gulp.dest('./build/js'))
             .pipe(browserSync.stream());
     }
