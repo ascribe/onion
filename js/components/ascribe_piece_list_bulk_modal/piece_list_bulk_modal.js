@@ -40,7 +40,7 @@ let PieceListBulkModal = React.createClass({
     fetchSelectedPieceEditionList() {
         let filteredPieceIdList = Object.keys(this.state.editionList)
                                         .filter((pieceId) => {
-                                            return this.state.editions.editionList[pieceId]
+                                            return this.state.editionList[pieceId]
                                                 .filter((edition) => edition.selected).length > 0;
                                         });
         return filteredPieceIdList;
