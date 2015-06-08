@@ -9,7 +9,7 @@ import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
-import AccordionListItemTableSelectAllEditionsToggle from './accordion_list_item_table_select_all_editions_toggle';
+import AccordionListItemTableSelectAllEditionsCheckbox from './accordion_list_item_table_select_all_editions_checkbox';
 
 import { ColumnModel, TransitionModel } from '../ascribe_table/models/table_models';
 
@@ -46,14 +46,14 @@ let AccordionListItemTableEditions = React.createClass({
         this.setState(state);
     },
 
-    selectItem(pieceId, editionId) {
-        EditionListActions.selectEdition({pieceId, editionId});
+    selectItem(pieceId, editionId, toValue) {
+        EditionListActions.selectEdition({pieceId, editionId, toValue});
     },
 
-    selectAllItems() {
+    toggleAllItems(checked) {
         this.state.editionList[this.props.parentId]
             .forEach((edition) => {
-                this.selectItem(this.props.parentId, edition.id);
+                this.selectItem(this.props.parentId, edition.id, !checked);
             });
     },
 
@@ -100,8 +100,8 @@ let AccordionListItemTableEditions = React.createClass({
                         'selected': item.selected
                     }; },
                     '',
-                    <AccordionListItemTableSelectAllEditionsToggle
-                        onChange={this.selectAllItems}
+                    <AccordionListItemTableSelectAllEditionsCheckbox
+                        onChange={this.toggleAllItems}
                         numOfSelectedEditions={selectedEditionsCount}
                         numOfAllEditions={allEditionsCount}/>,
                     TableItemCheckbox,

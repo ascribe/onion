@@ -3,7 +3,7 @@
 import React from 'react';
 
 
-let AccordionListItemTableSelectAllEditionsToggle = React.createClass({
+let AccordionListItemTableSelectAllEditionsCheckbox = React.createClass({
     
     propTypes: {
         onChange: React.PropTypes.func.isRequired,
@@ -11,13 +11,18 @@ let AccordionListItemTableSelectAllEditionsToggle = React.createClass({
         numOfAllEditions: React.PropTypes.number.isRequired
     },
 
+    onChange() {
+        let checked = this.props.numOfAllEditions === this.props.numOfSelectedEditions;
+        this.props.onChange(checked);
+    },
+
     render() {
         return (
             <input type="checkbox"
-                onChange={this.props.onChange}
+                onChange={this.onChange}
                 checked={this.props.numOfAllEditions === this.props.numOfSelectedEditions} />
         );
     }
 });
 
-export default AccordionListItemTableSelectAllEditionsToggle;
+export default AccordionListItemTableSelectAllEditionsCheckbox;

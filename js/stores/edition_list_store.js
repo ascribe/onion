@@ -31,9 +31,13 @@ class EditionListStore {
         this.editionList[pieceId].orderAsc = orderAsc;
     }
 
-    onSelectEdition({pieceId, editionId}) {
+    onSelectEdition({pieceId, editionId, toValue}) {
         this.editionList[pieceId].forEach((edition) => {
-            if(edition.id === editionId) {
+
+            // http://stackoverflow.com/a/519157/1263876
+            if(typeof toValue !== 'undefined' && edition.id === editionId) {
+                edition.selected = toValue;
+            } else if(edition.id === editionId) {
                 if(edition.selected) {
                     edition.selected = false;
                 } else {
