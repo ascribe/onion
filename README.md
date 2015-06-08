@@ -33,6 +33,21 @@ For this project, we're using:
 * We don't use camel case for file naming but in everything Javascript related
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
 
+Testing
+===============
+We're using Facebook's jest to do testing as it integrates nicely with react.js as well.
+
+Tests are always created per directory by creating a `__tests__` folder. To test a specific file, a `<file_name>_tests.js` file needs to be created.
+
+Since we're using mixed syntax, test files are not linted using ES6Lint.
+This is due to the fact that jest's function mocking and ES6 module syntax are [fundamentally incompatible](https://github.com/babel/babel-jest/issues/16).
+
+Therefore, to require a module in your test file, you need to use CommonJS's `require` syntax. Except for this, all tests can be written in ES6 syntax.
+
+## Workflow
+Generally, when you're runing `gulp serve`, all tests are being run.
+If you want to test exclusively (without having the obnoxious ES6Linter warnings), you can just run `gulp jest:watch`.
+
 
 Troubleshooting
 ===============
