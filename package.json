@@ -4,7 +4,10 @@
   "description": "Das neue web client for Ascribe",
   "main": "js/app.js",
   "scripts": {
-    "lint": "eslint ./js"
+    "lint": "eslint ./js",
+    "postinstall": "npm run build",
+    "build": "gulp build --production",
+    "start": "node server.js"
   },
   "author": "Ascribe",
   "license": "Copyright",
@@ -33,12 +36,14 @@
     "reactify": "^1.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.1.2"
+    "watchify": "^3.1.2",
+    "yargs": "^3.10.0"
   },
   "dependencies": {
     "alt": "^0.16.5",
     "classnames": "^1.2.2",
     "es6-promise": "^2.1.1",
+    "express": "^4.12.4",
     "isomorphic-fetch": "^2.0.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.2",

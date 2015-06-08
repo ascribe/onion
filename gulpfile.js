@@ -15,6 +15,9 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var _ = require('lodash');
 var eslint = require('gulp-eslint');
+var argv = require('yargs').argv;
+var server = require('./server.js').app;
+
 
 var config = {
     bootstrapDir: './node_modules/bootstrap-sass'
@@ -23,17 +26,20 @@ var config = {
 gulp.task('build', function() {
     bundle(false);
 });
- 
-gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
+
+gulp.task('serve', ['browser-sync', 'run-server', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
+});
+
+gulp.task('run-server', function() {
+    server.listen(4000);
 });
 
 gulp.task('browser-sync', function() {
     browserSync({
-        server: {
-            baseDir: "."
-        },
-        port: process.env.PORT || 3000
+        files: ['build/css/*.css', 'build/js/*.js'],
+        proxy: 'http://localhost:4000',
+        port: 3000
     });
 });
 
@@ -47,7 +53,7 @@ gulp.task('sass', function () {
         }).on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./build/css'))
-        .pipe(browserSync.stream());;
+        .pipe(browserSync.stream());
 });
 
 gulp.task('sass:watch', function () {
@@ -55,13 +61,13 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('copy', function () {
-    var files = [
+    var staticAssets = [
         './fonts/**/*',
         './img/**/*'
     ];
 
-    gulp.src(files, {base: './'})
-        .pipe(gulp.dest('build'));
+    gulp.src(staticAssets, {base: './'})
+        .pipe(gulp.dest('./build'));
 
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
         .pipe(gulp.dest('./build/fonts'));
@@ -86,7 +92,7 @@ gulp.task('lint:watch', function () {
 
 function bundle(watch) {
     var bro;
- 
+
     if (watch) {
         bro = watchify(browserify('./js/app.js',
             // Assigning debug to have sourcemaps
@@ -101,11 +107,11 @@ function bundle(watch) {
             debug: true
         });
     }
- 
+
     bro.transform(babelify.configure({
         compact: false
     }));
- 
+
     function rebundle(bundler, watch) {
         return bundler.bundle()
             .on('error', notify.onError('Error: <%= error.message %>'))
@@ -115,9 +121,9 @@ function bundle(watch) {
                 loadMaps: true
             })) // loads map from browserify file
             .pipe(sourcemaps.write()) // writes .map file
-            .pipe(gulp.dest('./build'))
+            .pipe(gulp.dest('./build/js'))
             .pipe(browserSync.stream());
     }
- 
+
     return rebundle(bro);
 }
