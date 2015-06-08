@@ -3,15 +3,12 @@
   "version": "0.0.1",
   "description": "Das neue web client for Ascribe",
   "main": "js/app.js",
-  "scripts": {
-    "lint": "eslint ./js"
-  },
   "author": "Ascribe",
   "license": "Copyright",
   "private": true,
   "devDependencies": {
     "babel-eslint": "^3.1.11",
-    "babel-jest": "^4.0.0",
+    "babel-jest": "^5.2.0",
     "babelify": "^6.1.2",
     "bootstrap-sass": "^3.3.4",
     "browser-sync": "^2.7.5",
@@ -27,6 +24,7 @@
     "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.4",
+    "harmonize": "^1.4.2",
     "jest-cli": "^0.4.0",
     "lodash": "^3.9.3",
     "react-textarea-autosize": "^2.2.3",
@@ -47,13 +45,5 @@
     "react-router": "^0.13.3",
     "shmui": "^0.1.0",
     "uglifyjs": "^2.4.10"
-  },
-  "jest": {
-    "scriptPreprocessor": "node_modules/babel-jest",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/alt",
-      "<rootDir>/js/alt.js"
-    ]
   }
 }

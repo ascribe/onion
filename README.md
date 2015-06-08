@@ -10,6 +10,7 @@ The code is JavaScript ECMA 6.
 Getting started
 ===============
 Install some nice extensions for Chrom(e|ium):
+<<<<<<< HEAD
 - [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi):
   we need this to open connection to external hosts ([staging.ascribe.io](http://staging.ascribe.io/) in our case).
   Please note that there is an [open issue](https://github.com/vitvad/Access-Control-Allow-Origin/issues/22) that prevents the extension to save the changes in the "intercepted URL or URL pattern". You can follow [this workaround](https://github.com/vitvad/Access-Control-Allow-Origin/issues/22#issuecomment-109898052) to fix the problem.
@@ -34,11 +35,27 @@ For this project, we're using:
 * We don't use camel case for file naming but in everything Javascript related
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
 
+Testing
+===============
+We're using Facebook's jest to do testing as it integrates nicely with react.js as well.
+
+Tests are always created per directory by creating a `__tests__` folder. To test a specific file, a `<file_name>_tests.js` file needs to be created.
+
+Since we're using mixed syntax, test files are not linted using ES6Lint.
+This is due to the fact that jest's function mocking and ES6 module syntax are [fundamentally incompatible](https://github.com/babel/babel-jest/issues/16).
+
+Therefore, to require a module in your test file, you need to use CommonJS's `require` syntax. Except for this, all tests can be written in ES6 syntax.
+
+## Workflow
+Generally, when you're runing `gulp serve`, all tests are being run.
+If you want to test exclusively (without having the obnoxious ES6Linter warnings), you can just run `gulp jest:watch`.
+
 
 Troubleshooting
 ===============
 
 Q: OMG nothing works
+
 A: try `npm install`. Someone may have updated some dependencies
 
 
