@@ -120,7 +120,8 @@ let PieceListBulkModal = React.createClass({
                                 <AclButtonList
                                     availableAcls={availableAcls}
                                     editions={selectedEditions}
-                                    handleSuccess={this.handleSuccess} />
+                                    handleSuccess={this.handleSuccess}
+                                    className="text-center"/>
                             </div>
                         </div>
                     </div>
