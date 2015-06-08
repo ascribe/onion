@@ -13,6 +13,8 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import { getLangText } from '../utils/lang_utils';
 
+import GlobalNotificationActions from '../actions/global_notification_actions';
+
 let Link = Router.Link;
 
 let Header = React.createClass({
@@ -34,6 +36,10 @@ let Header = React.createClass({
         this.setState(state);
     },
 
+    showNotification() {
+        GlobalNotificationActions.updateGlobalNotification({message: 'transaction successful', dismissAfter: 2000});
+    },
+
     render() {
         return (
             <Navbar>
@@ -42,6 +48,7 @@ let Header = React.createClass({
                         <span>ascribe </span>
                         <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
                     </a>
+                    <MenuItem onClick={this.showNotification}>test notification</MenuItem>
                 </Nav>
                 <Nav right>
                     <DropdownButton eventKey="1" title={this.state.currentUser.username}>
