@@ -3,7 +3,7 @@ var compression = require('compression')
 
 var app = express();
 
-app.use(compression());
+//app.use(compression());
 
 app.use('/static/js', express.static(__dirname + '/build/js'));
 app.use('/static/css', express.static(__dirname + '/build/css'));
