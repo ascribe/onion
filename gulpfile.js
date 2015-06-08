@@ -45,7 +45,7 @@ gulp.task('build', function() {
     bundle(false);
 });
  
-gulp.task('serve', ['browser-sync', 'jest:watch', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 

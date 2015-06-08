@@ -9,7 +9,6 @@ export const FormMixin = {
     getInitialState() {
         return {
             submitted: false,
-            status: null,
             errors: []
         };
     },
@@ -23,12 +22,14 @@ export const FormMixin = {
             .then(() => { this.props.handleSuccess(); })
             .catch(this.handleError);
     },
+    
     clearErrors(){
         for (var ref in this.refs){
             this.refs[ref].clearAlerts();
         }
-        this.setState({errors:[]});
+        this.setState({errors: []});
     },
+
     handleError(err){
         if (err.json) {
             for (var input in err.json.errors){
@@ -39,8 +40,8 @@ export const FormMixin = {
                 }
             }
         }
-        else{
-            this.setState({errors: ['Something went wrong, please try again later"']});
+        else {
+            this.setState({errors: ['Something went wrong, please try again later']});
         }
         this.setState({submitted: false});
     },
