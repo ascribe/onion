@@ -1,6 +1,5 @@
 jest.dontMock('../general_utils.js');
 
-
 let GeneralUtils = require('../general_utils')
 
 let sanitize = GeneralUtils.sanitize;

@@ -10,8 +10,8 @@ The code is JavaScript ECMA 6.
 Getting started
 ===============
 Install some nice extensions for Chrom(e|ium):
-- [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi):
-  we need this to open connection to external hosts ([staging.ascribe.io](http://staging.ascribe.io/) in our case)
+
+- [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi): we need this to open connection to external hosts ([staging.ascribe.io](http://staging.ascribe.io/) in our case)
 - [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
   
 ```bash
@@ -53,6 +53,7 @@ Troubleshooting
 ===============
 
 Q: OMG nothing works
+
 A: try `npm install`. Someone may have updated some dependencies
 
 
