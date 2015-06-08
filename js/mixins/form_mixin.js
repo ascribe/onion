@@ -19,7 +19,7 @@ export const FormMixin = {
         this.clearErrors();
         fetch
             .post(this.url(), { body: this.getFormData() })
-            .then(response => this.props.handleSuccess())
+            .then(() => this.props.handleSuccess())
             .catch(this.handleError);
     },
     
