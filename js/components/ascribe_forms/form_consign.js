@@ -11,6 +11,7 @@ import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 let ConsignForm = React.createClass({
     mixins: [FormMixin],
 
+
     url() {
         return ApiUrls.ownership_consigns;
     },

@@ -6,6 +6,11 @@ import React from 'react';
 import AlertDismissable from '../components/ascribe_forms/alert';
 
 export const FormMixin = {
+    propTypes: {
+        editions: React.PropTypes.array,
+        currentUser: React.PropTypes.object
+    },
+
     getInitialState() {
         return {
             submitted: false,
@@ -21,7 +26,7 @@ export const FormMixin = {
         this.clearErrors();
         fetch
             .post(this.url(), { body: this.getFormData() })
-            .then(() => this.handleSuccess() )
+            .then(this.handleSuccess)
             .catch(this.handleError);
     },
     
@@ -34,9 +39,9 @@ export const FormMixin = {
         }
         this.setState({errors: []});
     },
-    handleSuccess(){
+    handleSuccess(response){
         if ('handleSuccess' in this.props){
-            this.props.handleSuccess();
+            this.props.handleSuccess(response);
         }
 
     },

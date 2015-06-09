@@ -93,7 +93,6 @@ let PieceListBulkModal = React.createClass({
             .forEach((pieceId) => {
                 EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
             });
-        GlobalNotificationActions.updateGlobalNotification({message: 'Transfer successful'});
         EditionListActions.clearAllEditionSelections();
     },
 

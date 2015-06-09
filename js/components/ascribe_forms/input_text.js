@@ -5,6 +5,13 @@ import React from 'react';
 import AlertMixin from '../../mixins/alert_mixin';
 
 let InputText = React.createClass({
+    propTypes: {
+        submitted: React.PropTypes.bool,
+        onBlur: React.PropTypes.func,
+        type: React.PropTypes.string,
+        required: React.PropTypes.string,
+        placeHolder: React.PropTypes.string
+    },
 
     mixins: [AlertMixin],
 

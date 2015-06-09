@@ -5,6 +5,10 @@ import React from 'react';
 import AlertMixin from '../../mixins/alert_mixin';
 
 let InputHidden = React.createClass({
+    propTypes: {
+        submitted: React.PropTypes.bool,
+        value: React.PropTypes.string
+    },
 
     mixins: [AlertMixin],
 

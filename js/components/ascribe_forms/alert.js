@@ -4,6 +4,10 @@ import React from 'react';
 import Alert from 'react-bootstrap/lib/Alert';
 
 let AlertDismissable = React.createClass({
+    propTypes: {
+        error: React.PropTypes.array.isRequired
+    },
+
     getInitialState() {
         return {
             alertVisible: true
@@ -20,7 +24,6 @@ let AlertDismissable = React.createClass({
 
     render() {
         if (this.state.alertVisible) {
-            let key = this.props.error;
             return (
                 <Alert bsStyle='danger' onDismiss={this.hide}>
                     {this.props.error}

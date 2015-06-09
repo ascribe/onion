@@ -2,12 +2,13 @@
 
 import React from 'react';
 
-/*
-    Is this even used somewhere?
-    Deprecate? 5.6.15 - Tim
-
- */
 let ButtonSubmitOrClose = React.createClass({
+    propTypes: {
+        submitted: React.PropTypes.bool.isRequired,
+        text: React.PropTypes.string.isRequired,
+        onClose: React.PropTypes.func.isRequired
+    },
+
     render() {
         if (this.props.submitted){
             return (

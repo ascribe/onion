@@ -11,6 +11,16 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 import ModalMixin from '../../mixins/modal_mixin';
 
 let ModalWrapper = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        editions: React.PropTypes.array.isRequired,
+        currentUser: React.PropTypes.object.isRequired,
+        onRequestHide: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func.isRequired,
+        button: React.PropTypes.object.isRequired,
+        children: React.PropTypes.object,
+        tooltip: React.PropTypes.string.isRequired
+    },
 
     render() {
         return (
@@ -32,13 +42,21 @@ let ModalWrapper = React.createClass({
     }
 });
 
-//
+
 let ModalBody = React.createClass({
+    propTypes: {
+        editions: React.PropTypes.array,
+        currentUser: React.PropTypes.object,
+        onRequestHide: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func,
+        children: React.PropTypes.object,
+        title: React.PropTypes.string.isRequired
+    },
 
     mixins: [ModalMixin],
 
-    handleSuccess(){
-        this.props.handleSuccess();
+    handleSuccess(response){
+        this.props.handleSuccess(response);
         this.props.onRequestHide();
     },
 

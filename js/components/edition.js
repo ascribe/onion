@@ -73,6 +73,12 @@ let Edition = React.createClass({
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
+                    <CollapsibleEditionDetails
+                        title="Further Details">
+                        <EditionFurtherDetails
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
                         title="Provenance/Ownership History"
@@ -310,12 +316,29 @@ let EditionDetailHistoryIterator = React.createClass({
 
 let EditionPersonalNote = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
     },
 
-    prepareSavePersonalNote() {
-        let personalNote = React.findDOMNode(this.refs.personalNote).value;
-        this.props.savePersonalNote(personalNote);
+    render() {
+        return (
+            <Row>
+                <Col md={12} className="ascribe-edition-personal-note">
+                    <PersonalNoteForm
+                        handleSuccess={this.props.handleSuccess}
+                        editions={[this.props.edition]} />
+                </Col>
+            </Row>
+        );
+    }
+});
+
+
+
+let EditionFurtherDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
     },
 
     render() {
