@@ -38,7 +38,7 @@ let Header = React.createClass({
         return (
             <Navbar>
                 <Nav>
-                    <a className="navbar-brand" href="#">
+                    <a className="navbar-brand" href="/">
                         <span>ascribe </span>
                         <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
                     </a>

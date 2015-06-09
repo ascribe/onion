@@ -18,6 +18,11 @@ var concat = require('gulp-concat');
 var _ = require('lodash');
 var eslint = require('gulp-eslint');
 var jest = require('jest-cli');
+var argv = require('yargs').argv;
+var server = require('./server.js').app;
+var minifyCss = require('gulp-minify-css');
+var uglify = require('gulp-uglify');
+
 
 var config = {
     bootstrapDir: './node_modules/bootstrap-sass',
@@ -41,11 +46,14 @@ var config = {
     }
 };
 
-gulp.task('build', function() {
+gulp.task('build', ['js:build', 'sass:build', 'copy'], function() {
+});
+
+gulp.task('js:build', function() {
     bundle(false);
 });
- 
-gulp.task('serve', ['browser-sync', 'lint:watch', 'sass', 'sass:watch', 'copy'], function() {
+
+gulp.task('serve', ['browser-sync', 'run-server', 'lint:watch', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
@@ -59,27 +67,30 @@ gulp.task('jest:watch', function(done) {
     gulp.watch([ config.jestOptions.rootDir + "/**/*.js" ], [ 'jest' ]);
 });
 
+gulp.task('run-server', function() {
+    server.listen(4000);
+});
+
 gulp.task('browser-sync', function() {
     browserSync({
-        server: {
-            baseDir: '.'
-        },
-        port: process.env.PORT || 3000
+        files: ['build/css/*.css', 'build/js/*.js'],
+        proxy: 'http://localhost:4000',
+        port: 3000
     });
 });
 
-gulp.task('sass', function () {
+gulp.task('sass:build', function () {
     gulp.src('./sass/**/main.scss')
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({
             includePaths: [
                 config.bootstrapDir + '/assets/stylesheets'
             ]
-        })
-        .on('error', sass.logError))
-        .pipe(sourcemaps.write('./maps'))
+        }).on('error', sass.logError))
+        .pipe(gulpif(!argv.production, sourcemaps.write('./maps')))
+        .pipe(gulpif(argv.production, minifyCss()))
         .pipe(gulp.dest('./build/css'))
-        .pipe(browserSync.stream());;
+        .pipe(browserSync.stream());
 });
 
 gulp.task('sass:watch', function () {
@@ -87,13 +98,13 @@ gulp.task('sass:watch', function () {
 });
 
 gulp.task('copy', function () {
-    var files = [
+    var staticAssets = [
         './fonts/**/*',
         './img/**/*'
     ];
 
-    gulp.src(files, {base: './'})
-        .pipe(gulp.dest('build'));
+    gulp.src(staticAssets, {base: './'})
+        .pipe(gulp.dest('./build'));
 
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
         .pipe(gulp.dest('./build/fonts'));
@@ -117,6 +128,7 @@ gulp.task('lint:watch', function () {
 
 function bundle(watch) {
     var bro;
+
     if (watch) {
         bro = watchify(browserify('./js/app.js',
             // Assigning debug to have sourcemaps
@@ -141,11 +153,12 @@ function bundle(watch) {
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(source('app.js'))
             .pipe(buffer())
-            .pipe(sourcemaps.init({
+            .pipe(gulpif(!argv.production, sourcemaps.init({
                 loadMaps: true
-            })) // loads map from browserify file
-            .pipe(sourcemaps.write()) // writes .map file
-            .pipe(gulp.dest('./build'))
+            }))) // loads map from browserify file
+            .pipe(gulpif(!argv.production, sourcemaps.write())) // writes .map file
+            .pipe(gulpif(argv.production, uglify({mangle: false})))
+            .pipe(gulp.dest('./build/js'))
             .pipe(browserSync.stream());
     }
 

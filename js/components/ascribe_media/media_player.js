@@ -46,8 +46,8 @@ let Image = React.createClass({
         this.inject('http://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
                 Promise.all([
-                    this.inject('node_modules/shmui/shmui.css'),
-                    this.inject('node_modules/shmui/jquery.shmui.js')
+                    this.inject('/static/thirdparty/shmui/shmui.css'),
+                    this.inject('/static/thirdparty/shmui/jquery.shmui.js')
                 ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
     },
 
