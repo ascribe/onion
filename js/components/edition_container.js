@@ -4,6 +4,9 @@ import React from 'react';
 
 import { mergeOptions } from '../utils/general_utils';
 
+import apiUrls from '../constants/api_urls';
+import fetch from '../utils/fetch';
+
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
 import UserActions from '../actions/user_actions';
@@ -40,9 +43,8 @@ let EditionContainer = React.createClass({
         // Delete Edition from server
     },
 
-    savePersonalNote(note) {
-        console.log(note);
-        // Save personalNote to server
+    loadEdition() {
+        EditionActions.fetchOne(this.props.params.editionId);
     },
 
     render() {
@@ -52,7 +54,7 @@ let EditionContainer = React.createClass({
                     edition={this.state.edition}
                     currentUser={this.state.currentUser}
                     deleteEdition={this.deleteEdition}
-                    savePersonalNote={this.savePersonalNote}/>
+                    loadEdition={this.loadEdition}/>
             );
         } else {
             return (

@@ -8,7 +8,8 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import TextareaAutosize from 'react-textarea-autosize';
+
+import PersonalNoteForm from './ascribe_forms/form_note_personal';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
@@ -23,7 +24,7 @@ let Edition = React.createClass({
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         deleteEdition: React.PropTypes.func,
-        savePersonalNote: React.PropTypes.func
+        loadEdition: React.PropTypes.func
     },
 
     render() {
@@ -39,8 +40,12 @@ let Edition = React.createClass({
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
         );
 
-         let hashOfArtwork = (
+        let hashOfArtwork = (
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        );
+
+        let ownerAddress = (
+            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
         );
 
         return (
@@ -64,8 +69,9 @@ let Edition = React.createClass({
                     <CollapsibleEditionDetails
                         title="Personal Note"
                         iconName="pencil">
-                        <EditionPersonalNote 
-                            savePersonalNote={this.props.savePersonalNote}/>
+                        <EditionPersonalNote
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
@@ -92,7 +98,7 @@ let Edition = React.createClass({
                             value={hashOfArtwork} />
                         <EditionDetailProperty
                             label="Owned by SPOOL address"
-                            value="MISSING IN /editions/<id> RESOURCE!" />
+                            value={ownerAddress} />
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
@@ -267,7 +273,7 @@ let EditionDetailProperty = React.createClass({
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
                     <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.label }{this.props.separator}</div>
+                        <div>{ this.props.label + this.props.separator}</div>
                     </div>
                     <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
                         <div>{ this.props.value }</div>
@@ -304,7 +310,7 @@ let EditionDetailHistoryIterator = React.createClass({
 
 let EditionPersonalNote = React.createClass({
     propTypes: {
-        savePersonalNote: React.PropTypes.func
+        edition: React.PropTypes.object
     },
 
     prepareSavePersonalNote() {
@@ -316,14 +322,9 @@ let EditionPersonalNote = React.createClass({
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
-                    <TextareaAutosize
-                        ref="personalNote"
-                        className="form-control"
-                        rows={3}
-                        placeholder='Write something...' />
-                    <Button
-                        onClick={this.prepareSavePersonalNote}
-                        className="pull-right">Save</Button>
+                    <PersonalNoteForm
+                        handleSuccess={this.props.handleSuccess}
+                        editions={[this.props.edition]} />
                 </Col>
             </Row>
         );

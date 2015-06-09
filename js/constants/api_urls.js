@@ -13,7 +13,8 @@ let apiUrls = {
     'ownership_loans': AppConstants.baseUrl + 'ownership/loans/',
     'ownership_consigns': AppConstants.baseUrl + 'ownership/consigns/',
     'ownership_unconsigns': AppConstants.baseUrl + 'ownership/unconsigns/',
-    'ownership_unconsigns_request': AppConstants.baseUrl + 'ownership/unconsigns/request/'
+    'ownership_unconsigns_request': AppConstants.baseUrl + 'ownership/unconsigns/request/',
+    'note_notes': AppConstants.baseUrl + 'note/notes/'
 };
 
 export default apiUrls;

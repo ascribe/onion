@@ -14,22 +14,32 @@ export const FormMixin = {
     },
 
     submit(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({submitted: true});
         this.clearErrors();
         fetch
             .post(this.url(), { body: this.getFormData() })
-            .then(() => this.props.handleSuccess())
+            .then(() => this.handleSuccess() )
             .catch(this.handleError);
     },
     
     clearErrors(){
         for (var ref in this.refs){
-            this.refs[ref].clearAlerts();
+            if ('clearAlerts' in this.refs[ref]){
+                this.refs[ref].clearAlerts();
+            }
+
         }
         this.setState({errors: []});
     },
+    handleSuccess(){
+        if ('handleSuccess' in this.props){
+            this.props.handleSuccess();
+        }
 
+    },
     handleError(err){
         if (err.json) {
             for (var input in err.json.errors){

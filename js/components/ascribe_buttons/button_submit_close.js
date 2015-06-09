@@ -14,7 +14,7 @@ let ButtonSubmitOrClose = React.createClass({
                 <div className="modal-footer">
                     <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                 </div>
-            )
+            );
         }
         return (
             <div className="modal-footer">
