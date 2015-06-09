@@ -10,9 +10,13 @@ import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import PersonalNoteForm from './ascribe_forms/form_note_personal';
+import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
+
+import GlobalNotificationModel from '../models/global_notification_model';
+import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import classNames from 'classnames';
 
@@ -319,13 +323,17 @@ let EditionPersonalNote = React.createClass({
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
-
+    showNotification(){
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel('Note saved', 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
     render() {
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PersonalNoteForm
-                        handleSuccess={this.props.handleSuccess}
+                        handleSuccess={this.showNotification}
                         editions={[this.props.edition]} />
                 </Col>
             </Row>
@@ -345,7 +353,19 @@ let EditionFurtherDetails = React.createClass({
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
-                    <PersonalNoteForm
+                    <PieceExtraDataForm
+                        name='artist_contact_info'
+                        title='Artist Contact Info'
+                        handleSuccess={this.props.handleSuccess}
+                        editions={[this.props.edition]} />
+                    <PieceExtraDataForm
+                        name='display_instructions'
+                        title='Display Instructions'
+                        handleSuccess={this.props.handleSuccess}
+                        editions={[this.props.edition]} />
+                    <PieceExtraDataForm
+                        name='technology_details'
+                        title='Technology Details'
                         handleSuccess={this.props.handleSuccess}
                         editions={[this.props.edition]} />
                 </Col>

@@ -4,9 +4,6 @@ import React from 'react';
 
 import { mergeOptions } from '../utils/general_utils';
 
-import apiUrls from '../constants/api_urls';
-import fetch from '../utils/fetch';
-
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
 import UserActions from '../actions/user_actions';

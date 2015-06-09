@@ -2,34 +2,39 @@
 
 import React from 'react';
 
+import fetch from '../../utils/fetch';
+
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
 import InputTextAreaToggable from './input_textarea_toggable';
 
 
-let PersonalNoteForm = React.createClass({
+let PieceExtraDataForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return apiUrls.note_notes;
+        return fetch.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.editions[0].bitcoin_id});
     },
 
     getFormData() {
+        let extradata = {};
+        extradata[this.props.name] = this.refs[this.props.name].state.value;
         return {
             bitcoin_id: this.getBitcoinIds().join(),
-            note: this.refs.personalNote.state.value
+            extradata: extradata
         };
     },
 
     renderForm() {
 
         return (
-            <form id="personal_note_content" role="form" key="personal_note_content">
+            <form role="form" key={this.props.name}>
+                <h5>{this.props.title}</h5>
                 <InputTextAreaToggable
-                    ref="personalNote"
+                    ref={this.props.name}
                     className="form-control"
-                    defaultValue={this.props.editions[0].note_from_user}
+                    defaultValue={this.props.editions[0].extra_data[this.props.name]}
                     rows={3}
                     editable={true}
                     required=""
@@ -40,4 +45,4 @@ let PersonalNoteForm = React.createClass({
     }
 });
 
-export default PersonalNoteForm;
+export default PieceExtraDataForm;

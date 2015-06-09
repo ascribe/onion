@@ -14,7 +14,8 @@ let apiUrls = {
     'ownership_consigns': AppConstants.baseUrl + 'ownership/consigns/',
     'ownership_unconsigns': AppConstants.baseUrl + 'ownership/unconsigns/',
     'ownership_unconsigns_request': AppConstants.baseUrl + 'ownership/unconsigns/request/',
-    'note_notes': AppConstants.baseUrl + 'note/notes/'
+    'note_notes': AppConstants.baseUrl + 'note/notes/',
+    'piece_extradata': AppConstants.baseUrl + 'pieces/${piece_id}/extradata/'
 };
 
 export default apiUrls;
