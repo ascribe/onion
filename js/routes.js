@@ -8,12 +8,17 @@ import PieceList from './components/piece_list';
 import EditionContainer from './components/edition_container';
 
 let Route = Router.Route;
+let Redirect = Router.Redirect;
+let baseUrl = '/beta';
 
 
 let routes = (
-    <Route name="app" handler={AscribeApp}>
-        <Route name="pieces" path="/" handler={PieceList} />
-        <Route name="edition" path="/editions/:editionId" handler={EditionContainer} />
+    <Route name="app" path={baseUrl} handler={AscribeApp}>
+        <Route name="pieces" path="collection" handler={PieceList} />
+        <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+
+        <Redirect from={baseUrl} to="pieces" />
+        <Redirect from={baseUrl + '/'} to="pieces" />
     </Route>
 );
 

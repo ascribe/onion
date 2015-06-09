@@ -38,10 +38,10 @@ let Header = React.createClass({
         return (
             <Navbar>
                 <Nav>
-                    <a className="navbar-brand" href="/">
+                    <Link className="navbar-brand" to="pieces">
                         <span>ascribe </span>
                         <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                    </a>
+                    </Link>
                 </Nav>
                 <Nav right>
                     <DropdownButton eventKey="1" title={this.state.currentUser.username}>
