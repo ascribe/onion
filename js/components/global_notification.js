@@ -15,36 +15,38 @@ let GlobalNotification = React.createClass({
     },
 
     componentWillUnmount() {
-        GlobalNotificationStore.listen(this.onChange);
+        GlobalNotificationStore.unlisten(this.onChange);
     },
 
     getInititalState() {
-        return GlobalNotificationStore.getState();
+        return this.extractFirstElem(GlobalNotificationStore.getState().notificationQue);
+    },
+
+    extractFirstElem(l) {
+        return l.length > 0 ? l[0] : null;
     },
 
     onChange(state) {
-        this.setState(state);
-        if(state.message && state.dismissAfter) {
-            setTimeout(GlobalNotificationActions.resetGlobalNotification, state.dismissAfter);
-        }
-    },
+        let notification = this.extractFirstElem(state.notificationQue);
 
-    onClick() {
-        if(this.state.onClick) {
-            this.state.onClick();
+        if(notification) {
+            this.setState(notification);
+        } else {
+            this.replaceState(null);
         }
-        GlobalNotificationActions.resetGlobalNotification();
     },
 
     render() {
         let className = 'ascribe-global-notification ';
-        className += this.state && this.state.message ? 'ascribe-global-notification-on' : 'ascribe-global-notification-off';
+        let message = this.state && this.state.message ? this.state.message : null;
 
-         return (
-            <Row onClick={this.onClick}>
+        className += message ? 'ascribe-global-notification-on' : 'ascribe-global-notification-off';
+
+        return (
+            <Row>
                 <Col>
                     <div className={className}>
-                        <div>{this.state ? this.state.message : null}</div>
+                        <div>{message ? message : null}</div>
                     </div>
                 </Col>
             </Row>

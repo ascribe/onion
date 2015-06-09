@@ -6,8 +6,9 @@ import alt from '../alt';
 class GlobalNotificationActions {
     constructor() {
         this.generateActions(
-            'updateGlobalNotification',
-            'resetGlobalNotification'
+            'appendGlobalNotification',
+            'shiftGlobalNotification',
+            'emulateEmptyStore'
         );
     }
 }

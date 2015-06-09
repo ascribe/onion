@@ -6,34 +6,34 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 class GlobalNotificationStore {
     constructor() {
-        this.message = '';
-        this.action = '';
-        this.styles = {};
-        this.onClick = null;
-        this.dismissAfter = 0;
+        this.notificationQue = [];
 
         this.bindActions(GlobalNotificationActions);
     }
 
-    onUpdateGlobalNotification({message, action, styles, onClick, dismissAfter}) {
-        if(!message) {
-            throw new Error('A notifications message must be defined.');
-        } else {
-            this.message = message;
+    onAppendGlobalNotification(newNotification) {
+        let notificationDelay = 0;
+        for(let i = 0; i < this.notificationQue.length; i++) {
+            notificationDelay += this.notificationQue[i].dismissAfter;
         }
 
-        this.action = action ? action : '';
-        this.styles = styles ? styles : {};
-        this.onClick = onClick ? onClick : null;
-        this.dismissAfter = dismissAfter ? dismissAfter : 0;
+        this.notificationQue.push(newNotification);
+        setTimeout(GlobalNotificationActions.emulateEmptyStore, notificationDelay + newNotification.dismissAfter);
     }
 
-    onResetGlobalNotification() {
-        this.message = '';
-        this.action = '';
-        this.styles = {};
-        this.onClick = null;
-        this.dismissAfter = 0;
+    onEmulateEmptyStore() {
+        let actualNotificitionQue = this.notificationQue.slice();
+
+        this.notificationQue = [];
+
+        setTimeout(() => {
+            this.notificationQue = actualNotificitionQue.slice();
+            GlobalNotificationActions.shiftGlobalNotification();
+        }, 400);
+    }
+
+    onShiftGlobalNotification() {
+        this.notificationQue.shift();
     }
 }
 
