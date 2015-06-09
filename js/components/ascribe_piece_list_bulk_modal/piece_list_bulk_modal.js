@@ -13,6 +13,7 @@ import UserActions from '../../actions/user_actions';
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
 
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 let PieceListBulkModal = React.createClass({
     propTypes: {
@@ -92,7 +93,7 @@ let PieceListBulkModal = React.createClass({
             .forEach((pieceId) => {
                 EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
             });
-
+        GlobalNotificationActions.updateGlobalNotification({message: 'Transfer successful'});
         EditionListActions.clearAllEditionSelections();
     },
 

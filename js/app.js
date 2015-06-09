@@ -26,7 +26,7 @@ fetch.defaults({
     }
 });
 
-Router.run(routes, Router.HashLocation, (AscribeApp) => {
+Router.run(routes, Router.HistoryLocation, (AscribeApp) => {
     React.render(
         <AscribeApp />,
         document.getElementById('main')

@@ -1,13 +1,13 @@
 'use strict';
 
 import alt from '../alt';
-import PieceAction from '../actions/piece_actions';
+import PieceActions from '../actions/piece_actions';
 
 
 class PieceStore {
     constructor() {
         this.piece = {};
-        this.bindActions(PieceAction);
+        this.bindActions(PieceActions);
     }
 
     onUpdatePiece(piece) {
