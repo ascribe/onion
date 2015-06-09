@@ -7,9 +7,11 @@ import AscribeApp from './components/ascribe_app';
 import PieceList from './components/piece_list';
 import EditionContainer from './components/edition_container';
 
+import AppConstants from './constants/application_constants';
+
 let Route = Router.Route;
 let Redirect = Router.Redirect;
-let baseUrl = '/beta';
+let baseUrl = AppConstants.baseUrl;
 
 
 let routes = (

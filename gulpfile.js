@@ -3,6 +3,7 @@
 require("harmonize")();
 
 var gulp = require('gulp');
+var template = require('gulp-template');
 var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var util = require('gulp-util');
@@ -24,7 +25,9 @@ var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 
 
+
 var config = {
+    baseUrl: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
     bootstrapDir: './node_modules/bootstrap-sass',
     jestOptions: {
         rootDir: 'js',
@@ -45,6 +48,7 @@ var config = {
         ]
     }
 };
+
 
 gulp.task('build', ['js:build', 'sass:build', 'copy'], function() {
 });
@@ -81,6 +85,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('sass:build', function () {
     gulp.src('./sass/**/main.scss')
+        .pipe(template({BASE_URL: config.baseUrl}))
         .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({
             includePaths: [
@@ -108,6 +113,10 @@ gulp.task('copy', function () {
 
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
         .pipe(gulp.dest('./build/fonts'));
+
+    gulp.src('./index.html')
+        .pipe(template({BASE_URL: config.baseUrl}))
+        .pipe(gulp.dest('./build'));
 });
 
 gulp.task('lint', function () {
