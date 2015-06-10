@@ -27,7 +27,6 @@ var uglify = require('gulp-uglify');
 
 
 var config = {
-    baseUrl: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
     bootstrapDir: './node_modules/bootstrap-sass',
     jestOptions: {
         rootDir: 'js',
@@ -47,6 +46,13 @@ var config = {
             'es6'
         ]
     }
+};
+
+var constants = {
+    BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
+    API_ENDPOINT: process.env.ONION_API_ENDPOINT || 'http://staging.ascribe.io/api/',
+    DEBUG: !argv.production,
+    CREDENTIALS: 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw' // dimi@mailinator:0000000000
 };
 
 
@@ -85,7 +91,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('sass:build', function () {
     gulp.src('./sass/**/main.scss')
-        .pipe(template({BASE_URL: config.baseUrl}))
+        .pipe(template(constants))
         .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({
             includePaths: [
@@ -115,7 +121,7 @@ gulp.task('copy', function () {
         .pipe(gulp.dest('./build/fonts'));
 
     gulp.src('./index.html')
-        .pipe(template({BASE_URL: config.baseUrl}))
+        .pipe(template(constants))
         .pipe(gulp.dest('./build'));
 });
 

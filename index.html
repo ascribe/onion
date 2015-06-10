@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="<%= BASE_URL %>static/css/main.css">
         <script>
             window.BASE_URL = '<%= BASE_URL %>';
+            window.API_ENDPOINT = '<%= API_ENDPOINT %>';
+            <% DEBUG && print('window.DEBUG = true'); %>
+            <% DEBUG && print('window.CREDENTIALS = \'' + CREDENTIALS + '\''); %>
         </script>
     </head>
     <body>
