@@ -1,9 +1,8 @@
 var argv = require('yargs').argv;
-
 var express = require('express');
-var compression = require('compression')
+var compression = require('compression');
+
 var baseUrl = (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })();
-console.log('base url is', baseUrl);
 
 var app = express();
 
