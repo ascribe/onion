@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+
 import MediaPlayer from './ascribe_media/media_player';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
@@ -14,6 +15,7 @@ import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
+import DeleteButton from './ascribe_buttons/delete_button';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -113,11 +115,9 @@ let Edition = React.createClass({
 
                     <CollapsibleEditionDetails
                         title="Delete Actions">
-                        <Button
-                            bsStyle="danger"
-                            onClick={this.props.deleteEdition}>
-                                Remove this artwork from your list
-                        </Button>
+                        <DeleteButton
+                            edition={this.props.edition}
+                            currentUser={ this.props.currentUser } />
                     </CollapsibleEditionDetails>
                 </Col>
             </Row>
@@ -348,6 +348,11 @@ let EditionFurtherDetails = React.createClass({
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
+    showNotification(){
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel('Details updated', 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
 
     render() {
         return (
@@ -356,23 +361,22 @@ let EditionFurtherDetails = React.createClass({
                     <PieceExtraDataForm
                         name='artist_contact_info'
                         title='Artist Contact Info'
-                        handleSuccess={this.props.handleSuccess}
+                        handleSuccess={this.showNotification}
                         editions={[this.props.edition]} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
-                        handleSuccess={this.props.handleSuccess}
+                        handleSuccess={this.showNotification}
                         editions={[this.props.edition]} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
-                        handleSuccess={this.props.handleSuccess}
+                        handleSuccess={this.showNotification}
                         editions={[this.props.edition]} />
                 </Col>
             </Row>
         );
     }
 });
-
 
 export default Edition;

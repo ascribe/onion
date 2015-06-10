@@ -24,8 +24,20 @@ export const FormMixin = {
         }
         this.setState({submitted: true});
         this.clearErrors();
+        let action = (this.httpVerb && this.httpVerb()) || 'post';
+        this[action]();
+    },
+
+    post(){
         fetch
             .post(this.url(), { body: this.getFormData() })
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    delete(){
+        fetch
+            .delete(this.url())
             .then(this.handleSuccess)
             .catch(this.handleError);
     },

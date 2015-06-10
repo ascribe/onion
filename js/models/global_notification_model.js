@@ -1,7 +1,7 @@
 'use strict';
 
 export default class GlobalNotificationModel {
-    constructor(message, type = 'info', dismissAfter = 3500) {
+    constructor(message, type = 'info', dismissAfter = 5000) {
         if(message) {
             this.message = message;
         } else {

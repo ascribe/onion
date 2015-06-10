@@ -13,7 +13,6 @@ import UserActions from '../../actions/user_actions';
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
 
-import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 let PieceListBulkModal = React.createClass({
     propTypes: {

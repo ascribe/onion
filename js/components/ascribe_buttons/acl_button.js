@@ -26,7 +26,7 @@ let AclButton = React.createClass({
             return {
                 title: 'Consign artwork',
                 tooltip: 'Have someone else sell the artwork',
-                form: <ConsignForm />,
+                form: <ConsignForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -34,7 +34,7 @@ let AclButton = React.createClass({
             return {
                 title: 'Transfer artwork',
                 tooltip: 'Transfer the ownership of the artwork',
-                form: <TransferForm />,
+                form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -42,7 +42,7 @@ let AclButton = React.createClass({
             return {
                 title: 'Loan artwork',
                 tooltip: 'Loan your artwork for a limited period of time',
-                form: <LoanForm />,
+                form: <LoanForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -50,7 +50,7 @@ let AclButton = React.createClass({
             return {
                 title: 'Share artwork',
                 tooltip: 'Share the artwork',
-                form: <ShareForm />,
+                form: <ShareForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -70,8 +70,6 @@ let AclButton = React.createClass({
                         {this.props.action.toUpperCase()}
                     </div>
                 }
-                currentUser={ this.props.currentUser }
-                editions={ this.props.editions }
                 handleSuccess={ aclProps.handleSuccess }
                 title={ aclProps.title }
                 tooltip={ aclProps.tooltip }>
