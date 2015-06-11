@@ -25,19 +25,19 @@ export const FormMixin = {
         this.setState({submitted: true});
         this.clearErrors();
         let action = (this.httpVerb && this.httpVerb()) || 'post';
-        this[action]();
+        this[action](e);
     },
 
-    post(){
+    post(e){
         fetch
-            .post(this.url(), { body: this.getFormData() })
+            .post(this.url(e), { body: this.getFormData() })
             .then(this.handleSuccess)
             .catch(this.handleError);
     },
 
-    delete(){
+    delete(e){
         fetch
-            .delete(this.url())
+            .delete(this.url(e))
             .then(this.handleSuccess)
             .catch(this.handleError);
     },

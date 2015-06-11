@@ -16,7 +16,9 @@ class EditionListStore {
             this.editionList[pieceId].forEach((edition, i) => {
                 // This uses the index of the new editionList for determining the edition.
                 // If the list of editions can be sorted in the future, this needs to be changed!
-                editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
+                if (editionListOfPiece[i]){
+                    editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
+                }
             });
         }
         this.editionList[pieceId] = editionListOfPiece;

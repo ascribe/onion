@@ -17,19 +17,20 @@ let UnConsignForm = React.createClass({
 
     getFormData() {
         return {
-            bitcoin_id: this.props.edition.bitcoin_id,
+            bitcoin_id: this.getBitcoinIds().join(),
             unconsign_message: this.refs.unconsign_message.state.value,
             password: this.refs.password.state.value
         };
     },
 
     renderForm() {
-        let title = this.props.edition.title;
+        let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
 `Hi,
 
-I un-consign \" ${title} \" from you.
+I un-consign:
+${title}from you.
 
 Truly yours,
 ${username}`;

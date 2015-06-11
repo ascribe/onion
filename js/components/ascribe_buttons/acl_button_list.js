@@ -6,6 +6,7 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
+import DeleteButton from '../ascribe_buttons/delete_button';
 
 let AclButtonList = React.createClass({
     propTypes: {
@@ -49,6 +50,12 @@ let AclButtonList = React.createClass({
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
+                    action="unconsign"
+                    editions={this.props.editions}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                <AclButton
+                    availableAcls={this.props.availableAcls}
                     action="loan"
                     editions={this.props.editions}
                     currentUser={this.state.currentUser}
@@ -59,6 +66,7 @@ let AclButtonList = React.createClass({
                     editions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
+                <DeleteButton editions={this.props.editions}/>
             </div>
         );
     }

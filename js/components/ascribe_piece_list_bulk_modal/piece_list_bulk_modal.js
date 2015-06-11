@@ -14,6 +14,9 @@ import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_se
 import AclButtonList from '../ascribe_buttons/acl_button_list';
 
 
+import { getAvailableAcls } from '../../utils/acl_utils';
+
+
 let PieceListBulkModal = React.createClass({
     propTypes: {
         className: React.PropTypes.string
@@ -60,29 +63,6 @@ let PieceListBulkModal = React.createClass({
         return selectedEditionList;
     },
 
-    intersectAcls(a, b) {
-        return a.filter((val) => b.indexOf(val) > -1);
-    },
-
-    getAvailableAcls() {
-        let availableAcls = [];
-        let selectedEditionList = this.fetchSelectedEditionList();
-
-        // If no edition has been selected, availableActions is empty
-        // If only one edition has been selected, their actions are available
-        // If more than one editions have been selected, their acl properties are intersected
-        if(selectedEditionList.length >= 1) {
-            availableAcls = selectedEditionList[0].acl;
-        }
-        if(selectedEditionList.length >= 2) {
-            for(let i = 1; i < selectedEditionList.length; i++) {
-                availableAcls = this.intersectAcls(availableAcls, selectedEditionList[i].acl);
-            }
-        }
-        
-        return availableAcls;
-    },
-
     clearAllSelections() {
         EditionListActions.clearAllEditionSelections();
     },
@@ -96,8 +76,8 @@ let PieceListBulkModal = React.createClass({
     },
 
     render() {
-        let availableAcls = this.getAvailableAcls();
         let selectedEditions = this.fetchSelectedEditionList();
+        let availableAcls = getAvailableAcls(selectedEditions);
 
         if(availableAcls.length > 0) {
             return (

@@ -3,6 +3,7 @@
 import React from 'react';
 
 import ConsignForm from '../ascribe_forms/form_consign';
+import UnConsignForm from '../ascribe_forms/form_unconsign';
 import TransferForm from '../ascribe_forms/form_transfer';
 import LoanForm from '../ascribe_forms/form_loan';
 import ShareForm from '../ascribe_forms/form_share_email';
@@ -30,7 +31,14 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }
-        else if (this.props.action === 'transfer') {
+        if (this.props.action === 'unconsign'){
+            return {
+                title: 'Unconsign artwork',
+                tooltip: 'Have the owner manage his sales again',
+                form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                handleSuccess: this.showNotification
+            };
+        }else if (this.props.action === 'transfer') {
             return {
                 title: 'Transfer artwork',
                 tooltip: 'Transfer the ownership of the artwork',

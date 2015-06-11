@@ -111,10 +111,10 @@ let AccordionListItemTableEditions = React.createClass({
             new ColumnModel(
                 (item) => {
                     return {
-                        'content': item.edition_number
+                        'content': item.edition_number + ' of ' + item.num_editions
                     }; },
                     'edition_number',
-                    '#',
+                    'Edition',
                     TableItemText,
                     1,
                     true,

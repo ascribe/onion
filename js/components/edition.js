@@ -12,10 +12,10 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import PersonalNoteForm from './ascribe_forms/form_note_personal';
 import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
+import RequestActionForm from './ascribe_forms/form_request_action';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
-import DeleteButton from './ascribe_buttons/delete_button';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -28,8 +28,6 @@ import classNames from 'classnames';
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        deleteEdition: React.PropTypes.func,
         loadEdition: React.PropTypes.func
     },
 
@@ -70,8 +68,7 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
-                        edition={this.props.edition}
-                        currentUser={ this.props.currentUser }/>
+                        edition={this.props.edition} />
                     <CollapsibleEditionDetails
                         title="Personal Note"
                         iconName="pencil">
@@ -94,6 +91,13 @@ let Edition = React.createClass({
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
+                        title="Consignment History"
+                        show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
+                        <EditionDetailHistoryIterator
+                            history={this.props.edition.consign_history} />
+                    </CollapsibleEditionDetails>
+
+                    <CollapsibleEditionDetails
                         title="Loan History"
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
                         <EditionDetailHistoryIterator
@@ -111,13 +115,6 @@ let Edition = React.createClass({
                         <EditionDetailProperty
                             label="Owned by SPOOL address"
                             value={ownerAddress} />
-                    </CollapsibleEditionDetails>
-
-                    <CollapsibleEditionDetails
-                        title="Delete Actions">
-                        <DeleteButton
-                            edition={this.props.edition}
-                            currentUser={ this.props.currentUser } />
                     </CollapsibleEditionDetails>
                 </Col>
             </Row>
@@ -146,22 +143,31 @@ let EditionHeader = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        edition: React.PropTypes.object
     },
 
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
-
+    showNotification(response){
+        this.handleSuccess();
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
     render() {
-        return (
-            <div className="ascribe-detail-header">
-                <EditionDetailProperty label="EDITION"
-                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
-                <br/>
+        let status = null;
+        if (this.props.edition.status.length > 0){
+            status = <EditionDetailProperty label="STATUS" value={ this.props.edition.status.join().replace(/_/, ' ') } />;
+        }
+        let actions = null;
+        if (this.props.edition.request_action){
+            actions = (
+                <RequestActionForm
+                    editions={ [this.props.edition] }
+                    handleSuccess={this.showNotification}/>);
+        }
+        else {
+            actions = (
                 <Row>
                     <Col md={12}>
                         <AclButtonList
@@ -170,7 +176,18 @@ let EditionSummary = React.createClass({
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess} />
                     </Col>
-                </Row>
+                </Row>);
+        }
+
+        return (
+            <div className="ascribe-detail-header">
+                <EditionDetailProperty label="EDITION"
+                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
+                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
+                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
+                {status}
+                <br/>
+                {actions}
                 <hr/>
             </div>
         );
@@ -273,8 +290,8 @@ let EditionDetailProperty = React.createClass({
     getDefaultProps() {
         return {
             separator: ':',
-            labelClassName: 'col-xs-5 col-sm-5 col-md-5 col-lg-5',
-            valueClassName: 'col-xs-7 col-sm-7 col-md-7 col-lg-7'
+            labelClassName: 'col-xs-5 col-sm-4 col-md-3 col-lg-3',
+            valueClassName: 'col-xs-7 col-sm-8 col-md-9 col-lg-9'
         };
     },
 
