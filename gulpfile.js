@@ -3,6 +3,7 @@
 require("harmonize")();
 
 var gulp = require('gulp');
+var template = require('gulp-template');
 var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var util = require('gulp-util');
@@ -22,6 +23,7 @@ var argv = require('yargs').argv;
 var server = require('./server.js').app;
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
+
 
 
 var config = {
@@ -45,6 +47,14 @@ var config = {
         ]
     }
 };
+
+var constants = {
+    BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
+    API_ENDPOINT: process.env.ONION_API_ENDPOINT || 'http://staging.ascribe.io/api/',
+    DEBUG: !argv.production,
+    CREDENTIALS: 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw' // dimi@mailinator:0000000000
+};
+
 
 gulp.task('build', ['js:build', 'sass:build', 'copy'], function() {
 });
@@ -81,6 +91,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('sass:build', function () {
     gulp.src('./sass/**/main.scss')
+        .pipe(template(constants))
         .pipe(gulpif(!argv.production, sourcemaps.init()))
         .pipe(sass({
             includePaths: [
@@ -108,6 +119,10 @@ gulp.task('copy', function () {
 
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
         .pipe(gulp.dest('./build/fonts'));
+
+    gulp.src('./index.html')
+        .pipe(template(constants))
+        .pipe(gulp.dest('./build'));
 });
 
 gulp.task('lint', function () {
