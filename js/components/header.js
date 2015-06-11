@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-//import Router from 'react-router';
+import Router from 'react-router';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -16,7 +16,7 @@ import LoginForm from '../components/ascribe_forms/form_login';
 
 import { getLangText } from '../utils/lang_utils';
 
-//let Link = Router.Link;
+let Link = Router.Link;
 
 let Header = React.createClass({
 
