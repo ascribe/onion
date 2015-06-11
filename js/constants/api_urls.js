@@ -23,7 +23,10 @@ let apiUrls = {
     'ownership_loans_deny': AppConstants.apiEndpoint + 'ownership/loans/deny/',
     'note_notes': AppConstants.apiEndpoint + 'note/notes/',
     'user': AppConstants.apiEndpoint + 'users/',
-    'users_login': AppConstants.apiEndpoint + 'users/login/'
+    'users_login': AppConstants.apiEndpoint + 'users/login/',
+    'users_signup': AppConstants.apiEndpoint + 'users/',
+    'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
+    'users_password_reset': AppConstants.apiEndpoint + 'users/reset_password/'
 };
 
 export default apiUrls;

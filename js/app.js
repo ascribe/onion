@@ -23,7 +23,7 @@ fetch.defaults({
     urlMap: ApiUrls,
     http: {
         headers: headers,
-        credentials: 'include'
+        credentials: 'cors'
     },
     fatalErrorHandler: (err) => {
         console.log(err);
