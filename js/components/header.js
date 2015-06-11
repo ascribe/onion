@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+//import Router from 'react-router';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -11,9 +11,12 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
+import ModalWrapper from '../components/ascribe_modal/modal_wrapper';
+import LoginForm from '../components/ascribe_forms/form_login';
+
 import { getLangText } from '../utils/lang_utils';
 
-let Link = Router.Link;
+//let Link = Router.Link;
 
 let Header = React.createClass({
 
@@ -33,6 +36,9 @@ let Header = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+    handleLoginSuccess(){
+        UserActions.fetchCurrentUser();
+    },
 
     render() {
         return (
@@ -44,6 +50,13 @@ let Header = React.createClass({
                     </a>
                 </Nav>
                 <Nav right>
+                    <ModalWrapper
+                        button={<div className='btn btn-default btn-sm'>LOGIN</div>}
+                        title='Log in to ascribe'
+                        handleSuccess={this.handleLoginSuccess}
+                        tooltip='Log in to ascribe'>
+                        <LoginForm />
+                    </ModalWrapper>
                     <DropdownButton eventKey="1" title={this.state.currentUser.username}>
                         <MenuItem eventKey="1" href="/art/account_settings/">{getLangText('Account Settings')}</MenuItem>
                         <li className="divider"></li>

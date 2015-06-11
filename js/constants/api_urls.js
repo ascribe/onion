@@ -3,7 +3,6 @@
 import AppConstants from './application_constants';
 
 let apiUrls = {
-    'user': AppConstants.baseUrl + 'users/',
     'piece': AppConstants.baseUrl + 'pieces/${piece_id}',
     'pieces_list': AppConstants.baseUrl + 'pieces/',
     'piece_extradata': AppConstants.baseUrl + 'pieces/${piece_id}/extradata/',
@@ -22,9 +21,9 @@ let apiUrls = {
     'ownership_loans': AppConstants.baseUrl + 'ownership/loans/',
     'ownership_loans_confirm': AppConstants.baseUrl + 'ownership/loans/confirm/',
     'ownership_loans_deny': AppConstants.baseUrl + 'ownership/loans/deny/',
-
-    'note_notes': AppConstants.baseUrl + 'note/notes/'
-
+    'note_notes': AppConstants.baseUrl + 'note/notes/',
+    'user': AppConstants.baseUrl + 'users/',
+    'users_login': AppConstants.baseUrl + 'users/login/'
 };
 
 export default apiUrls;
