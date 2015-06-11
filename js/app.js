@@ -15,10 +15,6 @@ let headers = {
     'Content-Type': 'application/json'
 };
 
-//if (window.DEBUG) {
-//    headers.Authorization = 'Basic ' + window.CREDENTIALS;
-//}
-
 fetch.defaults({
     urlMap: ApiUrls,
     http: {
