@@ -15,15 +15,11 @@ let headers = {
     'Content-Type': 'application/json'
 };
 
-if (window.DEBUG) {
-    headers.Authorization = 'Basic ' + window.CREDENTIALS;
-}
-
 fetch.defaults({
     urlMap: ApiUrls,
     http: {
         headers: headers,
-        credentials: 'same-origin'
+        credentials: 'cors'
     },
     fatalErrorHandler: (err) => {
         console.log(err);
