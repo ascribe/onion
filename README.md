@@ -58,6 +58,38 @@ Q: OMG nothing works
 
 A: try `npm install`. Someone may have updated some dependencies
 
+Q: ZOMG, I'm getting this error:
+```
+[09:58:56] 'sass:watch' errored after 6.68 ms
+[09:58:56] Error: watch ENOSPC
+    at errnoException (fs.js:1031:11)
+    at FSWatcher.start (fs.js:1063:11)
+    at Object.fs.watch (fs.js:1088:11)
+    at Gaze._watchDir (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/gaze.js:289:30)
+    at /home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/gaze.js:358:10
+    at iterate (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/helper.js:52:5)
+    at Object.forEachSeries (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/helper.js:66:3)
+    at Gaze._initWatched (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/gaze.js:354:10)
+    at Gaze.add (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/gaze.js:177:8)
+    at new Gaze (/home/tim/ascribe/onion/node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/lib/gaze.js:74:10)
+
+events.js:72
+        throw er; // Unhandled 'error' event
+              ^
+Error: watch ENOSPC
+    at errnoException (fs.js:1031:11)
+    at FSWatcher.start (fs.js:1063:11)
+    at Object.fs.watch (fs.js:1088:11)
+    at createFsWatchInstance (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:37:15)
+    at setFsWatchListener (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:80:15)
+    at EventEmitter.NodeFsHandler._watchWithNodeFs (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:228:14)
+    at EventEmitter.NodeFsHandler._handleDir (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:403:23)
+    at EventEmitter.<anonymous> (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:450:19)
+    at EventEmitter.<anonymous> (/home/tim/ascribe/onion/node_modules/browser-sync/node_modules/chokidar/lib/nodefs-handler.js:455:16)
+    at Object.oncomplete (fs.js:108:15)
+
+```
+A: Use `npm dedupe` to remove duplicates in npm. This might fix that you're not [running out of watchers in your system (read the comments)](http://stackoverflow.com/a/17437601/1263876).
 
 Reading list
 ============
