@@ -60,10 +60,6 @@
     color: #424242;
 }
 
-.ascribe-table-header-column > span > .glyphicon {
-    font-size: .5em;
-}
-
 .ascribe-table-item-column {
     display: table;
     font-family: 'Source Sans Pro';
@@ -77,6 +73,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.ascribe-table-item-column > span > input {
+    margin-top:14px;
 }
 
 .ascribe-table-item-selected {
