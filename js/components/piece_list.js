@@ -78,8 +78,7 @@ let PieceList = React.createClass({
                                 <AccordionListItemTableEditions
                                     className="ascribe-accordion-list-item-table col-xs-12 col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 col-lg-offset-3"
                                     parentId={item.id}
-                                    show={item.show}
-                                    numOfEditions={item.num_editions}/>
+                                    show={item.show} />
                             </AccordionListItem>
                         );
                     })}

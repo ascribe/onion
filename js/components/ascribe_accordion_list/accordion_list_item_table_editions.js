@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -19,14 +18,11 @@ import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 import { getLangText } from '../../utils/lang_utils';
 
-let Link = Router.Link;
-
 let AccordionListItemTableEditions = React.createClass({
 
     propTypes: {
         className: React.PropTypes.string,
         parentId: React.PropTypes.number,
-        numOfEditions: React.PropTypes.number,
         show: React.PropTypes.bool
     },
 
@@ -88,7 +84,7 @@ let AccordionListItemTableEditions = React.createClass({
             orderAsc = this.state.editionList[this.props.parentId].orderAsc;
         }
 
-        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', PieceListActions.closeAllEditionLists);
+        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
 
         let columnList = [
             new ColumnModel(
@@ -161,8 +157,7 @@ let AccordionListItemTableEditions = React.createClass({
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}
-                        show={this.props.show}
-                        numOfTableItems={this.props.numOfEditions} />
+                        show={this.props.show} />
                 </AccordionListItemTable>
                 
             </div>

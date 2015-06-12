@@ -1,5 +1,6 @@
 'use strict';
 
+import React from 'react';
 import alt from '../alt';
 
 import PieceListActions from '../actions/piece_list_actions';
@@ -72,6 +73,16 @@ class PieceListStore {
          * We did not implement this, as we're going to add pagination to pieceList at some
          * point anyway. Then, this problem is automatically resolved.
          */
+        pieceList.forEach((piece, i) => {
+            let oldPiece = this.pieceList[i];
+            if(oldPiece) {
+                piece = React.addons.update(piece, {
+                    show: { $set: oldPiece.show }
+                });
+            }
+            
+        });
+
         this.pieceList = pieceList;
     }
 }

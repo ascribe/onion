@@ -6,8 +6,7 @@ let AccordionListItemTableToggle = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         onClick: React.PropTypes.func,
-        show: React.PropTypes.bool,
-        numOfTableItems: React.PropTypes.number
+        show: React.PropTypes.bool
     },
 
     render() {
@@ -15,7 +14,7 @@ let AccordionListItemTableToggle = React.createClass({
             <span
                 className={this.props.className}
                 onClick={this.props.onClick}>
-                {this.props.show ? 'Hide all ' + this.props.numOfTableItems + ' Editions' : 'Show all ' + this.props.numOfTableItems + ' Editions'}
+                {this.props.show ? 'Hide all Editions' : 'Show all Editions'}
             </span>
         );
     }
