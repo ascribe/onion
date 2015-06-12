@@ -8,9 +8,7 @@ import PieceListFetcher from '../fetchers/piece_list_fetcher';
 class PieceListActions {
     constructor() {
         this.generateActions(
-            'updatePieceList',
-            'showEditionList',
-            'closeAllEditionLists'
+            'updatePieceList'
         );
     }
 

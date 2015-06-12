@@ -28,7 +28,7 @@ class PieceListStore {
         this.bindActions(PieceListActions);
     }
 
-    onShowEditionList(pieceId) {
+    /*onShowEditionList(pieceId) {
         this.pieceList
             .forEach((piece) => {
                 if(piece.id === pieceId) {
@@ -39,14 +39,14 @@ class PieceListStore {
                     }
                 }
             });
-    }
+    }*/
 
-    onCloseAllEditionLists() {
+    /*onCloseAllEditionLists() {
         this.pieceList
             .forEach((piece) => {
                 piece.show = false;
             });
-    }
+    }*/
     
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;

@@ -9,7 +9,8 @@ class EditionListActions {
         this.generateActions(
             'updateEditionList',
             'selectEdition',
-            'clearAllEditionSelections'
+            'clearAllEditionSelections',
+            'toggleEditionList'
         );
     }
 
@@ -19,19 +20,24 @@ class EditionListActions {
             orderAsc = true;
         }
 
-        EditionListFetcher
-            .fetch(pieceId, orderBy, orderAsc)
-            .then((res) => {
-                this.actions.updateEditionList({
-                    'editionListOfPiece': res.editions,
-                    pieceId,
-                    orderBy,
-                    orderAsc
+        return new Promise((resolve, reject) => {
+            EditionListFetcher
+                .fetch(pieceId, orderBy, orderAsc)
+                .then((res) => {
+                    this.actions.updateEditionList({
+                        'editionListOfPiece': res.editions,
+                        pieceId,
+                        orderBy,
+                        orderAsc
+                    });
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                    console.log(err);
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        });
+        
     }
 }
 

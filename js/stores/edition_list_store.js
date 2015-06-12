@@ -8,6 +8,7 @@ import EditionsListActions from '../actions/edition_list_actions';
 class EditionListStore {
     constructor() {
         this.editionList = {};
+        this.editionOpenList = {};
         this.bindActions(EditionsListActions);
     }
 
@@ -23,6 +24,11 @@ class EditionListStore {
         }
 
         this.editionList[pieceId] = editionListOfPiece;
+
+        // ToDo: Do merging later
+        this.editionOpenList[pieceId] = {
+            show: this.editionOpenList[pieceId] ? !this.editionOpenList[pieceId].show : true
+        };
 
         /**
          * orderBy and orderAsc are specific to a single list of editons

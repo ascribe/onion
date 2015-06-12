@@ -22,8 +22,7 @@ let AccordionListItemTableEditions = React.createClass({
 
     propTypes: {
         className: React.PropTypes.string,
-        parentId: React.PropTypes.number,
-        show: React.PropTypes.bool
+        parentId: React.PropTypes.number
     },
 
     getInitialState() {
@@ -60,7 +59,7 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     toggleTable() {
-        PieceListActions.showEditionList(this.props.parentId);
+        // This is triggered everytime show all editions is clicked, which is wrong
         EditionListActions.fetchEditionList(this.props.parentId);
     },
 
@@ -73,6 +72,7 @@ let AccordionListItemTableEditions = React.createClass({
         let allEditionsCount = 0;
         let orderBy;
         let orderAsc;
+        let show;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -82,6 +82,10 @@ let AccordionListItemTableEditions = React.createClass({
             allEditionsCount = this.state.editionList[this.props.parentId].length;
             orderBy = this.state.editionList[this.props.parentId].orderBy;
             orderAsc = this.state.editionList[this.props.parentId].orderAsc;
+        }
+
+        if(this.props.parentId in this.state.editionOpenList) {
+            show = this.state.editionOpenList[this.props.parentId].show;
         }
 
         let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
@@ -149,15 +153,14 @@ let AccordionListItemTableEditions = React.createClass({
                     parentId={this.props.parentId}
                     itemList={this.state.editionList[this.props.parentId]}
                     columnList={columnList}
-                    numOfTableItems={this.props.numOfEditions}
-                    show={this.props.show}
+                    show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
                     changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}
-                        show={this.props.show} />
+                        show={show} />
                 </AccordionListItemTable>
                 
             </div>
