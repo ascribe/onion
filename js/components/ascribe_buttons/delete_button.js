@@ -45,7 +45,7 @@ let DeleteButton = React.createClass({
         }
         else if (availableAcls.indexOf('del_from_collection') > -1){
             content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
-            btnDelete = <Button bsStyle="danger" bsSize="small">REMOVE FROM LIST</Button>;
+            btnDelete = <Button bsStyle="danger" bsSize="small">REMOVE FROM COLLECTION</Button>;
         }
         else{
             return <div></div>;

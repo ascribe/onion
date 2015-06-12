@@ -46,6 +46,12 @@
     margin-bottom:0;
 }
 
+/*This is aligning the first checkbox in pieclist detail with all the other ones*/
+.table > thead:first-child > tr:first-child > th {
+    padding-left:0;
+}
+
+
 .ascribe-table-header-column > span {
     display: table-cell;
     vertical-align: middle;
