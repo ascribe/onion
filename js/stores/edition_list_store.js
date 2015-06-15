@@ -8,7 +8,7 @@ import EditionsListActions from '../actions/edition_list_actions';
 class EditionListStore {
     constructor() {
         this.editionList = {};
-        this.editionOpenList = {};
+        this.isEditionListOpenForPieceId = {};
         this.bindActions(EditionsListActions);
     }
 
@@ -25,13 +25,8 @@ class EditionListStore {
 
         this.editionList[pieceId] = editionListOfPiece;
 
-        // ToDo: Do merging later
-        this.editionOpenList[pieceId] = {
-            show: this.editionOpenList[pieceId] ? !this.editionOpenList[pieceId].show : true
-        };
-
         /**
-         * orderBy and orderAsc are specific to a single list of editons
+         * orderBy and orderAsc are specific to a single list of editions
          * therefore they need to be saved in relation to their parent-piece.
          *
          * Default values for both are set in the editon_list-actions.
@@ -67,6 +62,16 @@ class EditionListStore {
                         } catch(err) {/* ignore and keep going */}
                     });
             });
+    }
+
+    onToggleEditionList(pieceId) {
+        this.isEditionListOpenForPieceId[pieceId] = {
+            show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
+        };
+    }
+
+    onCloseAllEditionLists() {
+        this.isEditionListOpenForPieceId = {};
     }
 }
 

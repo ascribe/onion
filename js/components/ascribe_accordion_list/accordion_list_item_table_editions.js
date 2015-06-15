@@ -59,8 +59,13 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     toggleTable() {
-        // This is triggered everytime show all editions is clicked, which is wrong
-        EditionListActions.fetchEditionList(this.props.parentId);
+        let isEditionListOpen = this.state.isEditionListOpenForPieceId[this.props.parentId] ? this.state.isEditionListOpenForPieceId[this.props.parentId].show : false;
+        if(isEditionListOpen) {
+            EditionListActions.toggleEditionList(this.props.parentId);
+        } else {
+            EditionListActions.toggleEditionList(this.props.parentId);
+            EditionListActions.fetchEditionList(this.props.parentId);
+        }
     },
 
     changeEditionListOrder(orderBy, orderAsc) {
@@ -84,8 +89,8 @@ let AccordionListItemTableEditions = React.createClass({
             orderAsc = this.state.editionList[this.props.parentId].orderAsc;
         }
 
-        if(this.props.parentId in this.state.editionOpenList) {
-            show = this.state.editionOpenList[this.props.parentId].show;
+        if(this.props.parentId in this.state.isEditionListOpenForPieceId) {
+            show = this.state.isEditionListOpenForPieceId[this.props.parentId].show;
         }
 
         let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');

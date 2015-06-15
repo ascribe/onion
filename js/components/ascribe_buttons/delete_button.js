@@ -23,12 +23,13 @@ let DeleteButton = React.createClass({
 
     mixins: [Router.Navigation],
 
-    showNotification(response){
+    showNotification(response) {
         this.props.editions
             .forEach((edition) => {
                 EditionListActions.fetchEditionList(edition.parent);
             });
         EditionListActions.clearAllEditionSelections();
+        EditionListActions.closeAllEditionLists();
         this.transitionTo('pieces');
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);

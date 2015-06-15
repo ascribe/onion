@@ -10,6 +10,7 @@ class EditionListActions {
             'updateEditionList',
             'selectEdition',
             'clearAllEditionSelections',
+            'closeAllEditionLists',
             'toggleEditionList'
         );
     }
