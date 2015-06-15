@@ -37,4 +37,4 @@ class GlobalNotificationStore {
     }
 }
 
-export default alt.createStore(GlobalNotificationStore);
+export default alt.createStore(GlobalNotificationStore, 'GlobalNotificationStore');

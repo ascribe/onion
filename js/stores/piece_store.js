@@ -15,4 +15,4 @@ class PieceStore {
     }
 }
 
-export default alt.createStore(PieceStore);
+export default alt.createStore(PieceStore, 'PieceStore');

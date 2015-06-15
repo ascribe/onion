@@ -76,4 +76,4 @@ class PieceListStore {
     }
 }
 
-export default alt.createStore(PieceListStore);
+export default alt.createStore(PieceListStore, 'PieceListStore');

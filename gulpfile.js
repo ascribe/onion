@@ -172,7 +172,7 @@ function bundle(watch) {
                 loadMaps: true
             }))) // loads map from browserify file
             .pipe(gulpif(!argv.production, sourcemaps.write())) // writes .map file
-            .pipe(gulpif(argv.production, uglify({mangle: false})))
+            .pipe(gulpif(argv.production, uglify()))
             .pipe(gulp.dest('./build/js'))
             .pipe(browserSync.stream());
     }
