@@ -63,4 +63,4 @@ class EditionListStore {
     }
 }
 
-export default alt.createStore(EditionListStore);
+export default alt.createStore(EditionListStore, 'EditionListStore');
