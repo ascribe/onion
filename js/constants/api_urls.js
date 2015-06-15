@@ -24,6 +24,7 @@ let apiUrls = {
     'note_notes': AppConstants.apiEndpoint + 'note/notes/',
     'user': AppConstants.apiEndpoint + 'users/',
     'users_login': AppConstants.apiEndpoint + 'users/login/',
+    'users_logout': AppConstants.apiEndpoint + 'users/logout/',
     'users_signup': AppConstants.apiEndpoint + 'users/',
     'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
     'users_password_reset': AppConstants.apiEndpoint + 'users/reset_password/'
