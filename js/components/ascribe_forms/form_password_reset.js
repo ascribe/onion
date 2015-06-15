@@ -5,7 +5,7 @@ import React from 'react';
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
-import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import ButtonSubmit from '../ascribe_buttons/button_submit';
 
 let PasswordResetForm = React.createClass({
     mixins: [FormMixin],
@@ -13,7 +13,7 @@ let PasswordResetForm = React.createClass({
     url() {
         return apiUrls.users_password_reset;
     },
-    
+
     getFormData() {
         return {
             email: this.props.email,
@@ -39,9 +39,8 @@ let PasswordResetForm = React.createClass({
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
-                <ButtonSubmitOrClose
+                <ButtonSubmit
                     text="RESET PASSWORD"
-                    onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>
         );
