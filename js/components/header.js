@@ -6,6 +6,8 @@ import Router from 'react-router';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
+import PieceListActions from '../actions/piece_list_actions';
+
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
@@ -38,6 +40,7 @@ let Header = React.createClass({
     },
     handleLoginSuccess(){
         UserActions.fetchCurrentUser();
+        PieceListActions.fetchPieceList(1, 10);
     },
 
     render() {
@@ -51,7 +54,7 @@ let Header = React.createClass({
                 </Nav>
                 <Nav right>
                     <ModalWrapper
-                        button={<div className='btn btn-default btn-sm'>LOGIN</div>}
+                        button={<Link className='btn btn-default btn-sm' to="pieces">LOGIN</Link>}
                         title='Log in to ascribe'
                         handleSuccess={this.handleLoginSuccess}
                         tooltip='Log in to ascribe'>
