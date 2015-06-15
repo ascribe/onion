@@ -7,6 +7,9 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
+import SignupModal from '../ascribe_modal/modal_signup';
+import PasswordResetRequestModal from '../ascribe_modal/modal_password_request_reset';
+
 let LoginForm = React.createClass({
     mixins: [FormMixin],
 
@@ -21,7 +24,6 @@ let LoginForm = React.createClass({
             password: this.refs.password.state.value
         };
     },
-
     renderForm() {
         return (
             <form id="login_modal_content" role="form" onSubmit={this.submit}>
@@ -40,10 +42,14 @@ let LoginForm = React.createClass({
                     type="password"
                     submitted={this.state.submitted}/>
                 <div>
-                        Forgot your password&#63; <a className="button" href="#" id="request_reset_pwd_from_login_btn">Reset password</a>.
+                    Forgot your password&#63;
+                    <PasswordResetRequestModal
+                        button={<a className="button" href="#"> Reset password</a>}/>
                 </div>
                 <div>
-                    Not a member yet&#63; <a className="button" href="#" id="signup_from_login_btn">Sign up</a>.
+                    Not a member yet&#63;
+                    <SignupModal
+                        button={<a className="button" href="#"> Sign up</a>}/>
                 </div>
                 <ButtonSubmitOrClose
                     text="LOGIN"

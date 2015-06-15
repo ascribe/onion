@@ -7,7 +7,6 @@ import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import apiUrls from '../constants/api_urls.js';
-
 import PieceListActions from '../actions/piece_list_actions';
 
 import Nav from 'react-bootstrap/lib/Nav';
@@ -16,8 +15,9 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
-import ModalWrapper from '../components/ascribe_modal/modal_wrapper';
-import LoginForm from '../components/ascribe_forms/form_login';
+import LoginModal from '../components/ascribe_modal/modal_login';
+import SignupModal from '../components/ascribe_modal/modal_signup';
+
 
 import { getLangText } from '../utils/lang_utils';
 
@@ -41,20 +41,14 @@ let Header = React.createClass({
     onChange(state) {
         this.setState(state);
     },
-    handleLoginSuccess(){
+
+    refreshData(){
         UserActions.fetchCurrentUser();
         PieceListActions.fetchPieceList(1, 10);
     },
-
     render() {
-        let account = (
-            <ModalWrapper
-                button={<NavItem to="pieces">LOGIN</NavItem>}
-                title='Log in to ascribe'
-                handleSuccess={this.handleLoginSuccess}
-                tooltip='Log in to ascribe'>
-                <LoginForm />
-            </ModalWrapper>);
+        let account = null;
+        let signup = null;
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
@@ -67,6 +61,15 @@ let Header = React.createClass({
                   </DropdownButton>
             );
         }
+        else {
+            account = (
+                <LoginModal
+                    button={<NavItem to="pieces">LOGIN</NavItem>}
+                    handleSuccess={this.refreshData}/>);
+            signup = (
+                <SignupModal
+                    button={<NavItem to="pieces">SIGNUP</NavItem>} />);
+        }
         return (
             <Navbar>
                 <Nav>
@@ -77,6 +80,7 @@ let Header = React.createClass({
                 </Nav>
                 <Nav right>
                     {account}
+                    {signup}
                 </Nav>
             </Navbar>
         );

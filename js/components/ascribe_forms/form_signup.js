@@ -60,8 +60,7 @@ let SignupForm = React.createClass({
                         <div>
                             I agree to the&nbsp;
                             <a href="/terms" target="_blank"> Terms of Service</a>
-                        </div>}
-                />)
+                        </div>}/>
                 <InputText
                     ref="promo_code"
                     placeHolder="Promocode (Optional)"
