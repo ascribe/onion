@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -20,6 +21,8 @@ let PieceList = React.createClass({
         query: React.PropTypes.object
     },
 
+    mixins: [Router.Navigation, Router.State],
+
     getInitialState() {
         return PieceListStore.getState();
     },
@@ -30,7 +33,6 @@ let PieceList = React.createClass({
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         }
-
     },
 
     componentWillUnmount() {
@@ -47,6 +49,11 @@ let PieceList = React.createClass({
                                                       this.state.orderAsc);
     },
 
+    searchFor(searchTerm) {
+         PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
+         this.transitionTo(this.getPathname(), {page: 1});
+    },
+
     accordionChangeOrder(orderBy, orderAsc) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize,
                                         this.state.search, orderBy, orderAsc);
@@ -58,7 +65,9 @@ let PieceList = React.createClass({
 
         return (
             <div>
-                <PieceListToolbar className="ascribe-piece-list-toolbar" />
+                <PieceListToolbar 
+                    className="ascribe-piece-list-toolbar"
+                    searchFor={this.searchFor} />
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"

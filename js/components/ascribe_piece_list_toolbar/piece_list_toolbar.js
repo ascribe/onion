@@ -2,37 +2,19 @@
 
 import React from 'react';
 
-import PieceListStore from '../../stores/piece_list_store';
-import PieceListActions from '../../actions/piece_list_actions';
-
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 let PieceListToolbar = React.createClass({
 
     propTypes: {
-        className: React.PropTypes.string
-    },
-
-    getInitialState() {
-        return PieceListStore.getState();
-    },
-
-    componentDidMount() {
-        PieceListStore.listen(this.onChange);
-    },
-
-    componentWillUnmount() {
-        PieceListStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        className: React.PropTypes.string,
+        searchFor: React.PropTypes.func
     },
 
     searchFor() {
          let searchTerm = this.refs.search.getInputDOMNode().value;
-         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
+         this.props.searchFor(searchTerm);
     },
 
     render() {

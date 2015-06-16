@@ -9,7 +9,6 @@ let Pagination = React.createClass({
         goToPage: React.PropTypes.func.isRequired,
         currentPage: React.PropTypes.number.isRequired,
         totalPages: React.PropTypes.number.isRequired
-        //itemListCount: React.PropTypes.number.isRequired
     },
 
     render() {
