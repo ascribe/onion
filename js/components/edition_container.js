@@ -2,12 +2,8 @@
 
 import React from 'react';
 
-import { mergeOptions } from '../utils/general_utils';
-
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
 
 import Edition from './edition';
 
@@ -16,7 +12,7 @@ import Edition from './edition';
  */
 let EditionContainer = React.createClass({
     getInitialState() {
-        return mergeOptions(UserStore.getState(), EditionStore.getState());
+        return EditionStore.getState();
     },
 
     onChange(state) {
@@ -25,24 +21,16 @@ let EditionContainer = React.createClass({
 
     componentDidMount() {
         EditionStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
         EditionActions.fetchOne(this.props.params.editionId);
     },
 
     componentWillUnmount() {
         EditionStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
-    deleteEdition() {
-        // Delete Edition from server
-    },
 
-    savePersonalNote(note) {
-        console.log(note);
-        // Save personalNote to server
+    loadEdition() {
+        EditionActions.fetchOne(this.props.params.editionId);
     },
 
     render() {
@@ -50,9 +38,7 @@ let EditionContainer = React.createClass({
             return (
                 <Edition
                     edition={this.state.edition}
-                    currentUser={this.state.currentUser}
-                    deleteEdition={this.deleteEdition}
-                    savePersonalNote={this.savePersonalNote}/>
+                    loadEdition={this.loadEdition}/>
             );
         } else {
             return (

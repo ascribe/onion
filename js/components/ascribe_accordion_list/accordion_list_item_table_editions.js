@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -19,15 +18,11 @@ import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 import { getLangText } from '../../utils/lang_utils';
 
-let Link = Router.Link;
-
 let AccordionListItemTableEditions = React.createClass({
 
     propTypes: {
         className: React.PropTypes.string,
-        parentId: React.PropTypes.number,
-        numOfEditions: React.PropTypes.number,
-        show: React.PropTypes.bool
+        parentId: React.PropTypes.number
     },
 
     getInitialState() {
@@ -64,8 +59,13 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     toggleTable() {
-        PieceListActions.showEditionList(this.props.parentId);
-        EditionListActions.fetchEditionList(this.props.parentId);
+        let isEditionListOpen = this.state.isEditionListOpenForPieceId[this.props.parentId] ? this.state.isEditionListOpenForPieceId[this.props.parentId].show : false;
+        if(isEditionListOpen) {
+            EditionListActions.toggleEditionList(this.props.parentId);
+        } else {
+            EditionListActions.toggleEditionList(this.props.parentId);
+            EditionListActions.fetchEditionList(this.props.parentId);
+        }
     },
 
     changeEditionListOrder(orderBy, orderAsc) {
@@ -77,6 +77,7 @@ let AccordionListItemTableEditions = React.createClass({
         let allEditionsCount = 0;
         let orderBy;
         let orderAsc;
+        let show;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -88,7 +89,11 @@ let AccordionListItemTableEditions = React.createClass({
             orderAsc = this.state.editionList[this.props.parentId].orderAsc;
         }
 
-        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', PieceListActions.closeAllEditionLists);
+        if(this.props.parentId in this.state.isEditionListOpenForPieceId) {
+            show = this.state.isEditionListOpenForPieceId[this.props.parentId].show;
+        }
+
+        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
 
         let columnList = [
             new ColumnModel(
@@ -111,10 +116,10 @@ let AccordionListItemTableEditions = React.createClass({
             new ColumnModel(
                 (item) => {
                     return {
-                        'content': item.edition_number
+                        'content': item.edition_number + ' of ' + item.num_editions
                     }; },
                     'edition_number',
-                    '#',
+                    'Edition',
                     TableItemText,
                     1,
                     true,
@@ -153,16 +158,14 @@ let AccordionListItemTableEditions = React.createClass({
                     parentId={this.props.parentId}
                     itemList={this.state.editionList[this.props.parentId]}
                     columnList={columnList}
-                    numOfTableItems={this.props.numOfEditions}
-                    show={this.props.show}
+                    show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
                     changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}
-                        show={this.props.show}
-                        numOfTableItems={this.props.numOfEditions} />
+                        show={show} />
                 </AccordionListItemTable>
                 
             </div>

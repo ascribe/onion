@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+
 import MediaPlayer from './ascribe_media/media_player';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
@@ -8,10 +9,16 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import TextareaAutosize from 'react-textarea-autosize';
+
+import PersonalNoteForm from './ascribe_forms/form_note_personal';
+import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
+import RequestActionForm from './ascribe_forms/form_request_action';
 
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
+
+import GlobalNotificationModel from '../models/global_notification_model';
+import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import classNames from 'classnames';
 
@@ -21,9 +28,7 @@ import classNames from 'classnames';
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        deleteEdition: React.PropTypes.func,
-        savePersonalNote: React.PropTypes.func
+        loadEdition: React.PropTypes.func
     },
 
     render() {
@@ -39,8 +44,12 @@ let Edition = React.createClass({
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
         );
 
-         let hashOfArtwork = (
+        let hashOfArtwork = (
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        );
+
+        let ownerAddress = (
+            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
         );
 
         return (
@@ -59,13 +68,19 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
-                        edition={this.props.edition}
-                        currentUser={ this.props.currentUser }/>
+                        edition={this.props.edition} />
                     <CollapsibleEditionDetails
                         title="Personal Note"
                         iconName="pencil">
-                        <EditionPersonalNote 
-                            savePersonalNote={this.props.savePersonalNote}/>
+                        <EditionPersonalNote
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleEditionDetails>
+                    <CollapsibleEditionDetails
+                        title="Further Details">
+                        <EditionFurtherDetails
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
@@ -73,6 +88,13 @@ let Edition = React.createClass({
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.ownership_history} />
+                    </CollapsibleEditionDetails>
+
+                    <CollapsibleEditionDetails
+                        title="Consignment History"
+                        show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
+                        <EditionDetailHistoryIterator
+                            history={this.props.edition.consign_history} />
                     </CollapsibleEditionDetails>
 
                     <CollapsibleEditionDetails
@@ -92,16 +114,7 @@ let Edition = React.createClass({
                             value={hashOfArtwork} />
                         <EditionDetailProperty
                             label="Owned by SPOOL address"
-                            value="MISSING IN /editions/<id> RESOURCE!" />
-                    </CollapsibleEditionDetails>
-
-                    <CollapsibleEditionDetails
-                        title="Delete Actions">
-                        <Button
-                            bsStyle="danger"
-                            onClick={this.props.deleteEdition}>
-                                Remove this artwork from your list
-                        </Button>
+                            value={ownerAddress} />
                     </CollapsibleEditionDetails>
                 </Col>
             </Row>
@@ -130,22 +143,31 @@ let EditionHeader = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        edition: React.PropTypes.object
     },
 
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
-
+    showNotification(response){
+        this.handleSuccess();
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
     render() {
-        return (
-            <div className="ascribe-detail-header">
-                <EditionDetailProperty label="EDITION"
-                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
-                <br/>
+        let status = null;
+        if (this.props.edition.status.length > 0){
+            status = <EditionDetailProperty label="STATUS" value={ this.props.edition.status.join().replace(/_/, ' ') } />;
+        }
+        let actions = null;
+        if (this.props.edition.request_action){
+            actions = (
+                <RequestActionForm
+                    editions={ [this.props.edition] }
+                    handleSuccess={this.showNotification}/>);
+        }
+        else {
+            actions = (
                 <Row>
                     <Col md={12}>
                         <AclButtonList
@@ -154,7 +176,18 @@ let EditionSummary = React.createClass({
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess} />
                     </Col>
-                </Row>
+                </Row>);
+        }
+
+        return (
+            <div className="ascribe-detail-header">
+                <EditionDetailProperty label="EDITION"
+                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
+                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
+                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
+                {status}
+                <br/>
+                {actions}
                 <hr/>
             </div>
         );
@@ -257,8 +290,8 @@ let EditionDetailProperty = React.createClass({
     getDefaultProps() {
         return {
             separator: ':',
-            labelClassName: 'col-xs-5 col-sm-5 col-md-5 col-lg-5',
-            valueClassName: 'col-xs-7 col-sm-7 col-md-7 col-lg-7'
+            labelClassName: 'col-xs-5 col-sm-4 col-md-3 col-lg-3',
+            valueClassName: 'col-xs-7 col-sm-8 col-md-9 col-lg-9'
         };
     },
 
@@ -267,7 +300,7 @@ let EditionDetailProperty = React.createClass({
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
                     <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.label }{this.props.separator}</div>
+                        <div>{ this.props.label + this.props.separator}</div>
                     </div>
                     <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
                         <div>{ this.props.value }</div>
@@ -304,31 +337,63 @@ let EditionDetailHistoryIterator = React.createClass({
 
 let EditionPersonalNote = React.createClass({
     propTypes: {
-        savePersonalNote: React.PropTypes.func
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
     },
-
-    prepareSavePersonalNote() {
-        let personalNote = React.findDOMNode(this.refs.personalNote).value;
-        this.props.savePersonalNote(personalNote);
+    showNotification(){
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel('Note saved', 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
-
     render() {
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
-                    <TextareaAutosize
-                        ref="personalNote"
-                        className="form-control"
-                        rows={3}
-                        placeholder='Write something...' />
-                    <Button
-                        onClick={this.prepareSavePersonalNote}
-                        className="pull-right">Save</Button>
+                    <PersonalNoteForm
+                        handleSuccess={this.showNotification}
+                        editions={[this.props.edition]} />
                 </Col>
             </Row>
         );
     }
 });
 
+
+
+let EditionFurtherDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
+    },
+    showNotification(){
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel('Details updated', 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    render() {
+        return (
+            <Row>
+                <Col md={12} className="ascribe-edition-personal-note">
+                    <PieceExtraDataForm
+                        name='artist_contact_info'
+                        title='Artist Contact Info'
+                        handleSuccess={this.showNotification}
+                        editions={[this.props.edition]} />
+                    <PieceExtraDataForm
+                        name='display_instructions'
+                        title='Display Instructions'
+                        handleSuccess={this.showNotification}
+                        editions={[this.props.edition]} />
+                    <PieceExtraDataForm
+                        name='technology_details'
+                        title='Technology Details'
+                        handleSuccess={this.showNotification}
+                        editions={[this.props.edition]} />
+                </Col>
+            </Row>
+        );
+    }
+});
 
 export default Edition;

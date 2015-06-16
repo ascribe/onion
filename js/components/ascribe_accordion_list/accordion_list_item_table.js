@@ -13,7 +13,6 @@ let AccordionListItemTable = React.createClass({
         parentId: React.PropTypes.number,
         itemList: React.PropTypes.array,
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
-        numOfTableItems: React.PropTypes.number,
         show: React.PropTypes.bool,
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,

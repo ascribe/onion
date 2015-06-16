@@ -11,6 +11,14 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 import ModalMixin from '../../mixins/modal_mixin';
 
 let ModalWrapper = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        onRequestHide: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func.isRequired,
+        button: React.PropTypes.object.isRequired,
+        children: React.PropTypes.object,
+        tooltip: React.PropTypes.string.isRequired
+    },
 
     render() {
         return (
@@ -19,8 +27,6 @@ let ModalWrapper = React.createClass({
                 <ModalTrigger modal={
                     <ModalBody
                         title={this.props.title}
-                        editions={this.props.editions}
-                        currentUser={this.props.currentUser}
                         handleSuccess={this.props.handleSuccess}>
                     {this.props.children}
                     </ModalBody>
@@ -32,22 +38,26 @@ let ModalWrapper = React.createClass({
     }
 });
 
-//
+
 let ModalBody = React.createClass({
+    propTypes: {
+        onRequestHide: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func,
+        children: React.PropTypes.object,
+        title: React.PropTypes.string.isRequired
+    },
 
     mixins: [ModalMixin],
 
-    handleSuccess(){
-        this.props.handleSuccess();
+    handleSuccess(response){
+        this.props.handleSuccess(response);
         this.props.onRequestHide();
     },
 
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                editions: this.props.editions,
-                currentUser: this.props.currentUser,
-                onRequestHide: this.onRequestHide,
+                onRequestHide: this.props.onRequestHide,
                 handleSuccess: this.handleSuccess
             });
         });

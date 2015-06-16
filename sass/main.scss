@@ -9,10 +9,12 @@ $BASE_URL: '<%= BASE_URL %>';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
+@import 'ascribe_table';
 @import 'ascribe_accordion_list';
 @import 'ascribe_piece_list_bulk_modal';
 @import 'ascribe_piece_list_toolbar';
 @import 'ascribe_edition';
+@import 'ascribe_textarea';
 @import 'ascribe_media_player';
 @import 'ascribe-global-notification';
 @import 'offset_right';
@@ -26,6 +28,10 @@ $BASE_URL: '<%= BASE_URL %>';
     border-right:0;
     margin-bottom: 1.5em;
     border-top:0;
+}
+
+.navbar-right {
+    margin-right: 0;
 }
 
 .clear-paddings {
@@ -44,45 +50,6 @@ $BASE_URL: '<%= BASE_URL %>';
     float: none;
 }
 
-.ascribe-table {
-    margin-bottom:0;
-}
-
-.ascribe-table-header-column > span {
-    display: table-cell;
-    vertical-align: middle;
-    font-family: 'Source Sans Pro';
-    font-weight: 600;
-    color: #424242;
-}
-
-.ascribe-table-header-column > span > .glyphicon {
-    font-size: .5em;
-}
-
-.ascribe-table-item-column {
-    display: table;
-    font-family: 'Source Sans Pro';
-    font-size: .8em;
-    height:3em;
-}
-
-.ascribe-table-item-column > * {
-    display: table-cell;
-    vertical-align: middle;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.ascribe-table-item-selected {
-    background-color: rgba(2, 182, 163, 0.5);
-}
-
-.ascribe-table-item-selectable {
-    cursor: default;
-}
-
 .no-margin {
     margin-right: 0;
     margin-left: 0;
@@ -95,7 +62,6 @@ $BASE_URL: '<%= BASE_URL %>';
     margin-left: 0 !important;
     font-family: sans-serif !important;
     border-radius: 0 !important;
-
 }
 
 .btn-ascribe, .btn-ascribe-inv:active, .btn-ascribe-inv:hover {
@@ -125,7 +91,6 @@ $BASE_URL: '<%= BASE_URL %>';
     margin-left: 0 !important;
     font-family: sans-serif !important;
     border-radius: 0 !important;
-
 }
 
 .btn-ascribe-green, .btn-ascribe-green-inv:active, .btn-ascribe-green-inv:hover {
@@ -143,7 +108,6 @@ $BASE_URL: '<%= BASE_URL %>';
 .ascribe-detail-header {
     margin-top: 2em;
 }
-
 
 .ascribe-detail-title {
     font-size: 2em;

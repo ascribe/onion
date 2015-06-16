@@ -1,0 +1,21 @@
+.ascribe-textarea {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 1em;
+}
+
+.ascribe-textarea-editable:hover {
+    border: 1px solid #AAA;
+}
+
+.ascribe-pre{
+    word-break: break-word;
+    /* white-space: pre-wrap; */
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    /* word-wrap: break-word; */
+    font-family: inherit;
+    text-align: justify;
+    background-color: white;
+}

@@ -52,7 +52,7 @@ let LoanForm = React.createClass({
                         loaneeHasContract: true
                     });
                 }
-                else{
+                else {
                     this.resetLoanContract();
                 }
             })
@@ -63,10 +63,11 @@ let LoanForm = React.createClass({
     },
 
     resetLoanContract(){
-        this.setState({contract_key: null,
-                        contract_url: null,
-                        loaneeHasContract: false
-                       });
+        this.setState({
+            contract_key: null,
+            contract_url: null,
+            loaneeHasContract: false
+        });
     },
     
     renderForm() {

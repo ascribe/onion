@@ -13,7 +13,9 @@ import UserActions from '../../actions/user_actions';
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
 
-import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import { getAvailableAcls } from '../../utils/acl_utils';
+
 
 let PieceListBulkModal = React.createClass({
     propTypes: {
@@ -61,31 +63,9 @@ let PieceListBulkModal = React.createClass({
         return selectedEditionList;
     },
 
-    intersectAcls(a, b) {
-        return a.filter((val) => b.indexOf(val) > -1);
-    },
-
-    getAvailableAcls() {
-        let availableAcls = [];
-        let selectedEditionList = this.fetchSelectedEditionList();
-
-        // If no edition has been selected, availableActions is empty
-        // If only one edition has been selected, their actions are available
-        // If more than one editions have been selected, their acl properties are intersected
-        if(selectedEditionList.length >= 1) {
-            availableAcls = selectedEditionList[0].acl;
-        }
-        if(selectedEditionList.length >= 2) {
-            for(let i = 1; i < selectedEditionList.length; i++) {
-                availableAcls = this.intersectAcls(availableAcls, selectedEditionList[i].acl);
-            }
-        }
-        
-        return availableAcls;
-    },
-
     clearAllSelections() {
         EditionListActions.clearAllEditionSelections();
+        EditionListActions.closeAllEditionLists();
     },
 
     handleSuccess() {
@@ -93,13 +73,12 @@ let PieceListBulkModal = React.createClass({
             .forEach((pieceId) => {
                 EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
             });
-        GlobalNotificationActions.updateGlobalNotification({message: 'Transfer successful'});
         EditionListActions.clearAllEditionSelections();
     },
 
     render() {
-        let availableAcls = this.getAvailableAcls();
         let selectedEditions = this.fetchSelectedEditionList();
+        let availableAcls = getAvailableAcls(selectedEditions);
 
         if(availableAcls.length > 0) {
             return (

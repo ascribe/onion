@@ -6,6 +6,11 @@ import React from 'react';
 import AlertDismissable from '../components/ascribe_forms/alert';
 
 export const FormMixin = {
+    propTypes: {
+        editions: React.PropTypes.array,
+        currentUser: React.PropTypes.object
+    },
+
     getInitialState() {
         return {
             submitted: false,
@@ -14,22 +19,44 @@ export const FormMixin = {
     },
 
     submit(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({submitted: true});
         this.clearErrors();
+        let action = (this.httpVerb && this.httpVerb()) || 'post';
+        this[action](e);
+    },
+
+    post(e){
         fetch
-            .post(this.url(), { body: this.getFormData() })
-            .then(() => this.props.handleSuccess())
+            .post(this.url(e), { body: this.getFormData() })
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    delete(e){
+        fetch
+            .delete(this.url(e))
+            .then(this.handleSuccess)
             .catch(this.handleError);
     },
     
     clearErrors(){
         for (var ref in this.refs){
-            this.refs[ref].clearAlerts();
+            if ('clearAlerts' in this.refs[ref]){
+                this.refs[ref].clearAlerts();
+            }
+
         }
         this.setState({errors: []});
     },
+    handleSuccess(response){
+        if ('handleSuccess' in this.props){
+            this.props.handleSuccess(response);
+        }
 
+    },
     handleError(err){
         if (err.json) {
             for (var input in err.json.errors){

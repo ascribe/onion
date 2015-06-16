@@ -20,7 +20,6 @@ let Table = React.createClass({
     },
 
     renderChildren() {
-        var that = this;
         return ReactAddons.Children.map(this.props.children, (child, i) => {
             return ReactAddons.addons.cloneWithProps(child, {
                 columnList: this.props.columnList,

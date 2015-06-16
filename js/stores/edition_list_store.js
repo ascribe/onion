@@ -8,6 +8,7 @@ import EditionsListActions from '../actions/edition_list_actions';
 class EditionListStore {
     constructor() {
         this.editionList = {};
+        this.isEditionListOpenForPieceId = {};
         this.bindActions(EditionsListActions);
     }
 
@@ -16,13 +17,16 @@ class EditionListStore {
             this.editionList[pieceId].forEach((edition, i) => {
                 // This uses the index of the new editionList for determining the edition.
                 // If the list of editions can be sorted in the future, this needs to be changed!
-                editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
+                if (editionListOfPiece[i]) {
+                    editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
+                }
             });
         }
+
         this.editionList[pieceId] = editionListOfPiece;
 
         /**
-         * orderBy and orderAsc are specific to a single list of editons
+         * orderBy and orderAsc are specific to a single list of editions
          * therefore they need to be saved in relation to their parent-piece.
          *
          * Default values for both are set in the editon_list-actions.
@@ -34,7 +38,7 @@ class EditionListStore {
     onSelectEdition({pieceId, editionId, toValue}) {
         this.editionList[pieceId].forEach((edition) => {
 
-            // http://stackoverflow.com/a/519157/1263876
+            // Taken from: http://stackoverflow.com/a/519157/1263876
             if(typeof toValue !== 'undefined' && edition.id === editionId) {
                 edition.selected = toValue;
             } else if(edition.id === editionId) {
@@ -55,11 +59,19 @@ class EditionListStore {
                     .forEach((edition) => {
                         try {
                             delete edition.selected;
-                        } catch(err) {
-                            //just ignore
-                        }
+                        } catch(err) {/* ignore and keep going */}
                     });
             });
+    }
+
+    onToggleEditionList(pieceId) {
+        this.isEditionListOpenForPieceId[pieceId] = {
+            show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
+        };
+    }
+
+    onCloseAllEditionLists() {
+        this.isEditionListOpenForPieceId = {};
     }
 }
 
