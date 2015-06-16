@@ -108,7 +108,7 @@ let Edition = React.createClass({
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
                     <CollapsibleEditionDetails
-                        title="Further Details">
+                        title="Further Details (all editions)">
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>

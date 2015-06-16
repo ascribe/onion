@@ -29,7 +29,7 @@ let EditionNoteForm = React.createClass({
                 <InputTextAreaToggable
                     ref="personalNote"
                     className="form-control"
-                    defaultValue={this.props.editions[0].note_from_user}
+                    defaultValue={this.props.editions[0].public_note}
                     rows={3}
                     editable={this.props.editable}
                     required=""
