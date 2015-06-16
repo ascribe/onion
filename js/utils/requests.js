@@ -76,7 +76,10 @@ class Requests {
     request(verb, url, options) {
         options = options || {};
         let merged = this._merge(this.httpOptions, options);
-        this.httpOptions.headers['X-CSRFToken'] = getCookie('csrftoken');
+        let csrftoken = getCookie('csrftoken');
+        if (csrftoken) {
+            merged.headers['X-CSRFToken'] = csrftoken;
+        }
         merged.method = verb;
         return fetch(url, merged)
                     .then(this.unpackResponse)
