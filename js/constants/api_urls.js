@@ -8,6 +8,7 @@ let apiUrls = {
     'edition_remove_from_collection': AppConstants.apiEndpoint + 'ownership/shares/${edition_id}/',
     'editions_list': AppConstants.apiEndpoint + 'pieces/${piece_id}/editions/',
     'note_notes': AppConstants.apiEndpoint + 'note/notes/',
+    'note_edition': AppConstants.apiEndpoint + 'note/edition_notes/',
     'ownership_consigns': AppConstants.apiEndpoint + 'ownership/consigns/',
     'ownership_consigns_confirm': AppConstants.apiEndpoint + 'ownership/consigns/confirm/',
     'ownership_consigns_deny': AppConstants.apiEndpoint + 'ownership/consigns/deny/',

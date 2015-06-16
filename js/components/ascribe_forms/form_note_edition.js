@@ -8,11 +8,11 @@ import FormMixin from '../../mixins/form_mixin';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 
-let PersonalNoteForm = React.createClass({
+let EditionNoteForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return apiUrls.note_notes;
+        return apiUrls.note_edition;
     },
 
     getFormData() {
@@ -40,4 +40,4 @@ let PersonalNoteForm = React.createClass({
     }
 });
 
-export default PersonalNoteForm;
+export default EditionNoteForm;

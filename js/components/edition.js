@@ -14,6 +14,8 @@ import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import PersonalNoteForm from './ascribe_forms/form_note_personal';
+import EditionNoteForm from './ascribe_forms/form_note_edition';
+
 import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
 import RequestActionForm from './ascribe_forms/form_request_action';
 
@@ -90,11 +92,18 @@ let Edition = React.createClass({
                     <EditionSummary
                         edition={this.props.edition} />
                     <CollapsibleEditionDetails
-                        title="Personal Note"
-                        show={this.state.currentUser && true || false}
+                        title="Personal Note (private)"
+                        show={this.state.currentUser.username && true || false}
                         iconName="pencil">
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleEditionDetails>
+                    <CollapsibleEditionDetails
+                        title="Edition Note (public)"
+                        iconName="pencil">
+                        <EditionPublicEditionNote
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
@@ -364,7 +373,7 @@ let EditionPersonalNote = React.createClass({
     },
     showNotification(){
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Note saved', 'success');
+        let notification = new GlobalNotificationModel('Private note saved', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -372,6 +381,7 @@ let EditionPersonalNote = React.createClass({
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PersonalNoteForm
+                        editable={true}
                         handleSuccess={this.showNotification}
                         editions={[this.props.edition]} />
                 </Col>
@@ -380,6 +390,30 @@ let EditionPersonalNote = React.createClass({
     }
 });
 
+
+let EditionPublicEditionNote = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
+    },
+    showNotification(){
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel('Public note saved', 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+    render() {
+        return (
+            <Row>
+                <Col md={12} className="ascribe-edition-personal-note">
+                    <EditionNoteForm
+                        editable={this.props.edition.acl.indexOf('edit') > -1}
+                        handleSuccess={this.showNotification}
+                        editions={[this.props.edition]} />
+                </Col>
+            </Row>
+        );
+    }
+});
 
 
 let EditionFurtherDetails = React.createClass({
