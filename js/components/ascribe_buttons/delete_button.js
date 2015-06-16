@@ -49,7 +49,7 @@ let DeleteButton = React.createClass({
             btnDelete = <Button bsStyle="danger" bsSize="small">REMOVE FROM COLLECTION</Button>;
         }
         else{
-            return <div></div>;
+            return null;
         }
         return (
             <ModalWrapper
