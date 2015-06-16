@@ -3,6 +3,7 @@
 import React from 'react';
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
+import AppConstants from '../../constants/application_constants.js';
 
 /**
  * This is the component that implements display-specific functionality.
@@ -46,8 +47,8 @@ let Image = React.createClass({
         this.inject('http://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
                 Promise.all([
-                    this.inject('/static/thirdparty/shmui/shmui.css'),
-                    this.inject('/static/thirdparty/shmui/jquery.shmui.js')
+                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
+                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
                 ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
     },
 
