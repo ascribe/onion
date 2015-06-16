@@ -15,6 +15,8 @@ import Pagination from './ascribe_pagination/pagination';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
+import AppConstants from '../constants/application_constants';
+
 
 let PieceList = React.createClass({
     propTypes: {
@@ -62,10 +64,11 @@ let PieceList = React.createClass({
     render() {
         let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+        let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
 
         return (
             <div>
-                <PieceListToolbar 
+                <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor} />
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
@@ -77,7 +80,8 @@ let PieceList = React.createClass({
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
                     page={this.state.page}
-                    pageSize={this.state.pageSize}>
+                    pageSize={this.state.pageSize}
+                    loadingElement={loadingElement}>
                     {this.state.pieceList.map((item, i) => {
                         return (
                             <AccordionListItem

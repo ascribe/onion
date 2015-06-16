@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-
 let AccordionList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired
+        children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+        loadingElement: React.PropTypes.element
     },
     
     render() {
@@ -18,7 +18,9 @@ let AccordionList = React.createClass({
             );
         } else {
             return (
-                <p>Loading</p>
+                <div className={this.props.className + ' ascribe-accordion-list-loading'}>
+                    {this.props.loadingElement}
+                </div>
             );
         }
     }

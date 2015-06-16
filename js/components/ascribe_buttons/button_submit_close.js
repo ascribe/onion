@@ -13,7 +13,7 @@ let ButtonSubmitOrClose = React.createClass({
         if (this.props.submitted){
             return (
                 <div className="modal-footer">
-                    <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <img src="img/ascribe_animated_medium.gif" />
                 </div>
             );
         }

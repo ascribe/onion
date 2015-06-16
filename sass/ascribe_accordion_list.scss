@@ -39,6 +39,16 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     }
 }
 
+.ascribe-accordion-list-loading {
+    padding-top: 30%;
+    padding-bottom: 30%;
+}
+
+.ascribe-accordion-list-loading img {
+    display: block;
+    margin: auto;
+}
+
 .ascribe-accordion-list-item-table {
     text-align: center;
     margin-bottom: 3em;
