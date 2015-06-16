@@ -102,6 +102,7 @@ let Edition = React.createClass({
                     </CollapsibleEditionDetails>
                     <CollapsibleEditionDetails
                         title="Edition Note (public)"
+                        show={this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note}
                         iconName="pencil">
                         <EditionPublicEditionNote
                             handleSuccess={this.props.loadEdition}

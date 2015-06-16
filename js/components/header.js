@@ -7,7 +7,8 @@ import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import apiUrls from '../constants/api_urls.js';
-import PieceListActions from '../actions/piece_list_actions';
+//import PieceListActions from '../actions/piece_list_actions';
+import requests from '../utils/requests';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -24,7 +25,7 @@ import { getLangText } from '../utils/lang_utils';
 let Link = Router.Link;
 
 let Header = React.createClass({
-    mixins: [Router.Navigation],
+    //mixins: [Router.Navigation],
 
     getInitialState() {
         return UserStore.getState();
@@ -38,7 +39,11 @@ let Header = React.createClass({
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
     },
-
+    handleLogout(){
+        requests
+            .get(apiUrls.users_logout)
+            .then(this.refreshData);
+    },
     onChange(state) {
         this.setState(state);
     },
@@ -57,7 +62,7 @@ let Header = React.createClass({
                         <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>
                         <MenuItem eventKey="3" href="/art/terms/">{getLangText('Terms of Service')}</MenuItem>
                         <MenuItem divider />
-                        <MenuItem eventKey="4" href={apiUrls.users_logout}>{getLangText('Log out')}</MenuItem>
+                        <MenuItem eventKey="4" href="#" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
             );
         }
