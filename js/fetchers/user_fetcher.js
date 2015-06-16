@@ -1,6 +1,6 @@
 'use strict';
 
-import fetch from '../utils/fetch';
+import requests from '../utils/requests';
 
 
 let UserFetcher = {
@@ -9,7 +9,7 @@ let UserFetcher = {
      * If no arg is supplied, load the current user
      */
     fetchOne() {
-        return fetch.get('user');
+        return requests.get('user');
     }
 };
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import fetch from '../../utils/fetch';
+import requests from '../../utils/requests';
 import ApiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
@@ -11,7 +11,7 @@ let EditionDeleteForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return fetch.prepareUrl(ApiUrls.edition_delete, {edition_id: this.getBitcoinIds().join()});
+        return requests.prepareUrl(ApiUrls.edition_delete, {edition_id: this.getBitcoinIds().join()});
     },
     httpVerb(){
         return 'delete';

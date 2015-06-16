@@ -1,7 +1,5 @@
 'use strict';
 
-import { default as _fetch } from 'isomorphic-fetch';
-
 import { argsToQueryParams } from '../utils/fetch_api_utils';
 
 
@@ -10,7 +8,7 @@ class ServerError extends Error {}
 class APIError extends Error {}
 
 
-class Fetch {
+class Requests {
     _merge(defaults, options) {
         let merged = {};
         for (let key in defaults) {
@@ -79,7 +77,7 @@ class Fetch {
         options = options || {};
         let merged = this._merge(this.httpOptions, options);
         merged.method = verb;
-        return _fetch(url, merged)
+        return fetch(url, merged)
                     .then(this.unpackResponse)
                     .then(JSON.parse)
                     .catch(this.handleFatalError.bind(this))
@@ -117,6 +115,6 @@ class Fetch {
 }
 
 
-let fetch = new Fetch();
+let requests = new Requests();
 
-export default fetch;
+export default requests;

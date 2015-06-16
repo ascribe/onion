@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import fetch from '../../utils/fetch';
+import requests from '../../utils/requests';
 
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
@@ -14,7 +14,7 @@ let PieceExtraDataForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return fetch.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.editions[0].bitcoin_id});
+        return requests.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.editions[0].bitcoin_id});
     },
 
     getFormData() {
