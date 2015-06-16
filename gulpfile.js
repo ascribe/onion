@@ -63,7 +63,7 @@ gulp.task('js:build', function() {
     bundle(false);
 });
 
-gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'run-server', 'lint:watch', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
