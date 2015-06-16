@@ -24,6 +24,7 @@ import { getLangText } from '../utils/lang_utils';
 let Link = Router.Link;
 
 let Header = React.createClass({
+    mixins: [Router.Navigation],
 
     getInitialState() {
         return UserStore.getState();
@@ -43,8 +44,7 @@ let Header = React.createClass({
     },
 
     refreshData(){
-        UserActions.fetchCurrentUser();
-        PieceListActions.fetchPieceList(1, 10);
+        location.reload();
     },
     render() {
         let account = null;
