@@ -9,6 +9,7 @@ var app = express();
 app.use(compression());
 
 app.use(baseUrl + 'static/js', express.static(__dirname + '/build/js'));
+app.use(baseUrl + 'static/img', express.static(__dirname + '/build/img'));
 app.use(baseUrl + 'static/css', express.static(__dirname + '/build/css'));
 app.use(baseUrl + 'static/fonts', express.static(__dirname + '/build/fonts'));
 app.use(baseUrl + 'static/thirdparty/', express.static(__dirname + '/node_modules'));

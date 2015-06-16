@@ -8,9 +8,8 @@ let constants = {
     //'baseUrl': window.BASE_URL,
     'apiEndpoint': window.API_ENDPOINT,
     'baseUrl': window.BASE_URL,
-    //'debugCredentialBase64': 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw', // dimi@mailinator:0000000000
     'aclList': ['edit', 'consign', 'consign_request', 'unconsign', 'unconsign_request', 'transfer',
-        'loan', 'loan_request', 'share', 'download', 'view', 'delete', 'del_from_collection', 'add_to_collection']
+                'loan', 'loan_request', 'share', 'download', 'view', 'delete', 'del_from_collection', 'add_to_collection']
 };
 
 export default constants;

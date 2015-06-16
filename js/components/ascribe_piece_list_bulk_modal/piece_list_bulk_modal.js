@@ -65,6 +65,7 @@ let PieceListBulkModal = React.createClass({
 
     clearAllSelections() {
         EditionListActions.clearAllEditionSelections();
+        EditionListActions.closeAllEditionLists();
     },
 
     handleSuccess() {

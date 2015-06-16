@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -14,11 +15,15 @@ import Pagination from './ascribe_pagination/pagination';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
+import AppConstants from '../constants/application_constants';
+
 
 let PieceList = React.createClass({
     propTypes: {
         query: React.PropTypes.object
     },
+
+    mixins: [Router.Navigation, Router.State],
 
     getInitialState() {
         return PieceListStore.getState();
@@ -30,7 +35,6 @@ let PieceList = React.createClass({
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         }
-
     },
 
     componentWillUnmount() {
@@ -47,6 +51,11 @@ let PieceList = React.createClass({
                                                       this.state.orderAsc);
     },
 
+    searchFor(searchTerm) {
+         PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
+         this.transitionTo(this.getPathname(), {page: 1});
+    },
+
     accordionChangeOrder(orderBy, orderAsc) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize,
                                         this.state.search, orderBy, orderAsc);
@@ -55,10 +64,13 @@ let PieceList = React.createClass({
     render() {
         let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+        let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
 
         return (
             <div>
-                <PieceListToolbar className="ascribe-piece-list-toolbar" />
+                <PieceListToolbar
+                    className="ascribe-piece-list-toolbar"
+                    searchFor={this.searchFor} />
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"
@@ -68,7 +80,8 @@ let PieceList = React.createClass({
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
                     page={this.state.page}
-                    pageSize={this.state.pageSize}>
+                    pageSize={this.state.pageSize}
+                    loadingElement={loadingElement}>
                     {this.state.pieceList.map((item, i) => {
                         return (
                             <AccordionListItem
@@ -77,9 +90,7 @@ let PieceList = React.createClass({
                                 key={i}>
                                 <AccordionListItemTableEditions
                                     className="ascribe-accordion-list-item-table col-xs-12 col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 col-lg-offset-3"
-                                    parentId={item.id}
-                                    show={item.show}
-                                    numOfEditions={item.num_editions}/>
+                                    parentId={item.id} />
                             </AccordionListItem>
                         );
                     })}

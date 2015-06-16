@@ -4,7 +4,6 @@ import React from 'react';
 import Router from 'react-router';
 
 import { ColumnModel } from './models/table_models';
-import TableColumnMixin from '../../mixins/table_column_mixin';
 
 let Link = Router.Link;
 
@@ -15,7 +14,7 @@ let TableItemWrapper = React.createClass({
         columnWidth: React.PropTypes.number.isRequired
     },
 
-    mixins: [TableColumnMixin, Router.Navigation],
+    mixins: [Router.Navigation],
 
     render() {
         return (
@@ -24,8 +23,6 @@ let TableItemWrapper = React.createClass({
 
                     let TypeElement = column.displayType;
                     let typeElementProps = column.transformFn(this.props.columnContent);
-
-                    let columnClass = this.calcColumnClasses(this.props.columnList, i, this.props.columnWidth);
 
                     if(!column.transition) {
                         return (

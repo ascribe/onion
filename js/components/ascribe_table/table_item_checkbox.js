@@ -17,7 +17,9 @@ let TableItemCheckbox = React.createClass({
 
     render() {
         return (
-            <input type="checkbox" onChange={this.selectItem} checked={this.props.selected}/>
+            <span>
+                <input type="checkbox" onChange={this.selectItem} checked={this.props.selected}/>
+            </span>
         );
     }
 });

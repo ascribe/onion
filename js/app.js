@@ -5,17 +5,19 @@ import Router from 'react-router';
 import promise from 'es6-promise';
 
 promise.polyfill();
+import fetch from 'isomorphic-fetch';
+//require('isomorphic-fetch');
 
 import ApiUrls from './constants/api_urls';
 import routes from './routes';
-import fetch from './utils/fetch';
+import requests from './utils/requests';
 
 let headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
 
-fetch.defaults({
+requests.defaults({
     urlMap: ApiUrls,
     http: {
         headers: headers,

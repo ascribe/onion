@@ -1,6 +1,6 @@
 'use strict';
 
-import fetch from '../utils/fetch';
+import requests from '../utils/requests';
 
 import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
 
@@ -11,7 +11,7 @@ let EditionListFetcher = {
      */
     fetch(pieceId, orderBy, orderAsc) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
-        return fetch.get('editions_list', { 'piece_id': pieceId, ordering });
+        return requests.get('editions_list', { 'piece_id': pieceId, ordering });
     }
 };
 

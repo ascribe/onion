@@ -1,7 +1,5 @@
 'use strict';
 
-import { default as _fetch } from 'isomorphic-fetch';
-
 import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
 
 
@@ -10,7 +8,7 @@ class ServerError extends Error {}
 class APIError extends Error {}
 
 
-class Fetch {
+class Requests {
     _merge(defaults, options) {
         let merged = {};
         for (let key in defaults) {
@@ -80,7 +78,7 @@ class Fetch {
         let merged = this._merge(this.httpOptions, options);
         this.httpOptions.headers['X-CSRFToken'] = getCookie('csrftoken');
         merged.method = verb;
-        return _fetch(url, merged)
+        return fetch(url, merged)
                     .then(this.unpackResponse)
                     .then(JSON.parse)
                     .catch(this.handleFatalError.bind(this))
@@ -107,7 +105,6 @@ class Fetch {
         if (paramsCopy && paramsCopy.body) {
             body = JSON.stringify(paramsCopy.body);
         }
-
         return this.request('post', newUrl, { body });
     }
 
@@ -119,6 +116,6 @@ class Fetch {
 }
 
 
-let fetch = new Fetch();
+let requests = new Requests();
 
-export default fetch;
+export default requests;

@@ -3,3 +3,5 @@ gulpfile.js
 node_modules
 
 js/**/__tests__
+
+server.js

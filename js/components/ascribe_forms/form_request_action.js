@@ -7,6 +7,8 @@ import Alert from 'react-bootstrap/lib/Alert';
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
+import AppConstants from '../../constants/application_constants';
+
 let RequestActionForm = React.createClass({
     mixins: [FormMixin],
 
@@ -62,7 +64,7 @@ let RequestActionForm = React.createClass({
         if (this.state.submitted){
             buttons = (
                 <span>
-                    <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_small.gif" />
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
                 </span>
             );
         }

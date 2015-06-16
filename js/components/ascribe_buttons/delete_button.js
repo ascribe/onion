@@ -23,12 +23,13 @@ let DeleteButton = React.createClass({
 
     mixins: [Router.Navigation],
 
-    showNotification(response){
+    showNotification(response) {
         this.props.editions
             .forEach((edition) => {
                 EditionListActions.fetchEditionList(edition.parent);
             });
         EditionListActions.clearAllEditionSelections();
+        EditionListActions.closeAllEditionLists();
         this.transitionTo('pieces');
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -45,7 +46,7 @@ let DeleteButton = React.createClass({
         }
         else if (availableAcls.indexOf('del_from_collection') > -1){
             content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
-            btnDelete = <Button bsStyle="danger" bsSize="small">REMOVE FROM LIST</Button>;
+            btnDelete = <Button bsStyle="danger" bsSize="small">REMOVE FROM COLLECTION</Button>;
         }
         else{
             return null;

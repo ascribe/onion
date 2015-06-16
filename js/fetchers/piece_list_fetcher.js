@@ -1,7 +1,7 @@
 'use strict';
 
 import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
-import fetch from '../utils/fetch';
+import requests from '../utils/requests';
 
 
 let PieceListFetcher = {
@@ -11,7 +11,7 @@ let PieceListFetcher = {
      */
     fetch(page, pageSize, search, orderBy, orderAsc) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
-        return fetch.get('pieces_list', { page, pageSize, search, ordering });
+        return requests.get('pieces_list', { page, pageSize, search, ordering });
     }
 };
 

@@ -105,7 +105,7 @@ gulp.task('sass:build', function () {
 });
 
 gulp.task('sass:watch', function () {
-    gulp.watch('./sass/**/*.scss', ['sass']);
+    gulp.watch('./sass/**/*.scss', ['sass:build']);
 });
 
 gulp.task('copy', function () {

@@ -1,6 +1,6 @@
 'use strict';
 
-import fetch from '../utils/fetch';
+import requests from '../utils/requests';
 
 let EditionFetcher = {
     /**
@@ -8,7 +8,7 @@ let EditionFetcher = {
      * If no arg is supplied, load the current user
      */
     fetchOne(editionId) {
-        return fetch.get('edition', {'bitcoin_id': editionId});
+        return requests.get('edition', {'bitcoin_id': editionId});
     }
 };
 

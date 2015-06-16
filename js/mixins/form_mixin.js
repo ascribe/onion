@@ -1,6 +1,6 @@
 'use strict';
 
-import fetch from '../utils/fetch';
+import requests from '../utils/requests';
 import React from 'react';
 
 import AlertDismissable from '../components/ascribe_forms/alert';
@@ -29,14 +29,14 @@ export const FormMixin = {
     },
 
     post(e){
-        fetch
+        requests
             .post(this.url(e), { body: this.getFormData() })
             .then(this.handleSuccess)
             .catch(this.handleError);
     },
 
     delete(e){
-        fetch
+        requests
             .delete(this.url(e))
             .then(this.handleSuccess)
             .catch(this.handleError);

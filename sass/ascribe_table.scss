@@ -1,0 +1,44 @@
+.ascribe-table {
+    margin-bottom:0;
+}
+
+/*This is aligning the first checkbox in pieclist detail with all the other ones*/
+.table > thead:first-child > tr:first-child > th {
+    padding-left:0;
+}
+
+
+.ascribe-table-header-column > span {
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
+    color: #424242;
+}
+
+.ascribe-table-item-column {
+    display: table;
+    font-family: 'Source Sans Pro';
+    font-size: .8em;
+    height:3em;
+}
+
+.ascribe-table-item-column > * {
+    display: table-cell;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ascribe-table-item-column > span > input {
+    margin-top:14px;
+}
+
+.ascribe-table-item-selected {
+    background-color: rgba(2, 182, 163, 0.5);
+}
+
+.ascribe-table-item-selectable {
+    cursor: default;
+}
