@@ -1,6 +1,6 @@
 'use strict';
 
-import { argsToQueryParams } from '../utils/fetch_api_utils';
+import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
 
 
 class UrlMapError extends Error {}
@@ -76,6 +76,7 @@ class Requests {
     request(verb, url, options) {
         options = options || {};
         let merged = this._merge(this.httpOptions, options);
+        this.httpOptions.headers['X-CSRFToken'] = getCookie('csrftoken');
         merged.method = verb;
         return fetch(url, merged)
                     .then(this.unpackResponse)

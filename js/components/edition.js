@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
 import MediaPlayer from './ascribe_media/media_player';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
@@ -29,6 +32,23 @@ let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
         loadEdition: React.PropTypes.func
+    },
+
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     render() {
@@ -71,8 +91,10 @@ let Edition = React.createClass({
                         edition={this.props.edition} />
                     <CollapsibleEditionDetails
                         title="Personal Note"
+                        show={this.state.currentUser && true || false}
                         iconName="pencil">
                         <EditionPersonalNote
+                            currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
@@ -160,7 +182,7 @@ let EditionSummary = React.createClass({
             status = <EditionDetailProperty label="STATUS" value={ this.props.edition.status.join().replace(/_/, ' ') } />;
         }
         let actions = null;
-        if (this.props.edition.request_action){
+        if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
             actions = (
                 <RequestActionForm
                     editions={ [this.props.edition] }
@@ -372,6 +394,7 @@ let EditionFurtherDetails = React.createClass({
     },
 
     render() {
+        let editable = this.props.edition.acl.indexOf('edit') > -1;
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
@@ -379,16 +402,19 @@ let EditionFurtherDetails = React.createClass({
                         name='artist_contact_info'
                         title='Artist Contact Info'
                         handleSuccess={this.showNotification}
+                        editable={editable}
                         editions={[this.props.edition]} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
                         handleSuccess={this.showNotification}
+                        editable={editable}
                         editions={[this.props.edition]} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
                         handleSuccess={this.showNotification}
+                        editable={editable}
                         editions={[this.props.edition]} />
                 </Col>
             </Row>
