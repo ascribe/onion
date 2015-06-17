@@ -18,6 +18,12 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_media_player';
 @import 'ascribe-global-notification';
 @import 'offset_right';
+@import 'ascribe_settings';
+
+body {
+    background-color: #FDFDFD;
+    border-radius: 0;
+}
 
 .hidden {
     display: none;

@@ -14,6 +14,8 @@ import WalletSettingsStore from '../stores/wallet_settings_store';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
+import Input from 'react-bootstrap/lib/Input';
+
 import classNames from 'classnames';
 
 let SettingsContainer = React.createClass({
@@ -123,6 +125,8 @@ const CollapsibleParagraph = React.createClass({
 });
 
 let SettingsProperty = React.createClass({
+
+    
     propTypes: {
         label: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
@@ -142,28 +146,51 @@ let SettingsProperty = React.createClass({
         };
     },
 
-    //render() {
-    //    return (
-    //        <div className="row ascribe-detail-property">
-    //            <div className="row-same-height">
-    //                <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
-    //                    <pre>{ this.props.label + this.props.separator}</pre>
-    //                </div>
-    //                <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
-    //                    <pre>{ this.props.value }</pre>
-    //                </div>
-    //            </div>
-    //        </div>
-    //    );
-    //}
+    getInitialState() {
+        return {
+            value: '',
+            isFocused: false
+        };
+    },
+
+    componentWillReceiveProps() {
+        this.setState({
+            value: this.props.value
+        });
+    },
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    },
+
+    handleFocus() {
+        console.log(this.state);
+        this.refs.input.getDOMNode().focus();
+        this.setState({
+            isFocused: !this.state.isFocused
+        });
+    },
+
+    getClassName() {
+        if(this.state.isFocused) {
+            return 'is-focused';
+        } else {
+            return '';
+        }
+    },
+
     render() {
         return (
-            <div className="row ascribe-detail-property">
-                <div className="row-same-height">
-                    <label>
-                        <span>{ this.props.label + this.props.separator}</span>
-                        <input type="text" disabled>{ this.props.value }</input>
-                    </label>
+            <div 
+                className={'ascribe-settings-wrapper ' + this.getClassName()}
+                onClick={this.handleFocus}>
+                <div className="ascribe-settings-property">
+                    <span>{ this.props.label}</span>
+                    <input
+                        ref="input"
+                        type="text"
+                        value={this.state.value}
+                        onChange={this.handleChange} />
                 </div>
             </div>
         );
@@ -180,8 +207,8 @@ let AccountSettings = React.createClass({
 
         return (
             <div>
-                <SettingsProperty label="Username" value={this.props.currentUser.username}/>
-                <SettingsProperty label="Email" value={this.props.currentUser.email}/>
+                <SettingsProperty key={1} label="Username" value={this.props.currentUser.username}/>
+                <SettingsProperty key={2} label="Email" value={this.props.currentUser.email}/>
             </div>
         );
     }
