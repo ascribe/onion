@@ -45,7 +45,12 @@ var config = {
             'react',
             'es6'
         ]
-    }
+    },
+    filesToWatch: [
+        'build/css/*.css',
+        'build/js/*.js',
+        'node_modules/react-s3-fineuploader/*.js'
+    ]
 };
 
 var constants = {
@@ -83,7 +88,7 @@ gulp.task('run-server', function() {
 
 gulp.task('browser-sync', function() {
     browserSync({
-        files: ['build/css/*.css', 'build/js/*.js'],
+        files: config.filesToWatch,
         proxy: 'http://localhost:4000',
         port: 3000
     });
