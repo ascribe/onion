@@ -44,7 +44,7 @@ let Image = React.createClass({
     mixins: [InjectInHeadMixin],
 
     componentDidMount() {
-        this.inject('http://code.jquery.com/jquery-2.1.4.min.js')
+        this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
                 Promise.all([
                     this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
@@ -73,7 +73,7 @@ let Video = React.createClass({
     },
 
     componentDidMount() {
-        this.inject('http://code.jquery.com/jquery-2.1.4.min.js')
+        this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
                 Promise.all([
                     this.inject('https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.17.0/mediaelement-and-player.min.js'),
