@@ -15,6 +15,7 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 
 import LoginModal from '../components/ascribe_modal/modal_login';
 import SignupModal from '../components/ascribe_modal/modal_signup';
@@ -57,7 +58,7 @@ let Header = React.createClass({
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
-                        <MenuItem eventKey="1" href="/art/account_settings/">{getLangText('Account Settings')}</MenuItem>
+                        <MenuItemLink to="settings">{getLangText('Account Settings')}</MenuItemLink>
                         <li className="divider"></li>
                         <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>
                         <MenuItem eventKey="3" href="/art/terms/">{getLangText('Terms of Service')}</MenuItem>

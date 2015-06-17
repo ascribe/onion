@@ -91,25 +91,27 @@ let Edition = React.createClass({
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
                         edition={this.props.edition} />
+
                     <CollapsibleEditionDetails
                         title="Personal Note (private)"
-                        show={this.state.currentUser.username && true || false}
-                        iconName="pencil">
+                        show={this.state.currentUser.username && true || false}>
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
+
                     <CollapsibleEditionDetails
                         title="Edition Note (public)"
-                        show={this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note}
-                        iconName="pencil">
+                        show={this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note}>
                         <EditionPublicEditionNote
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
                     </CollapsibleEditionDetails>
+
                     <CollapsibleEditionDetails
-                        title="Further Details (all editions)">
+                        title="Further Details (all editions)"
+                        show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>

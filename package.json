@@ -60,7 +60,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.2",
-    "yargs": "^3.10.0"
+    "yargs": "^3.10.0",
+    "react-router-bootstrap": "~0.16.0"
   },
   "jest": {
     "scriptPreprocessor": "node_modules/babel-jest",

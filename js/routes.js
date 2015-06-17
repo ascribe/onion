@@ -7,6 +7,7 @@ import AscribeApp from './components/ascribe_app';
 import PieceList from './components/piece_list';
 import EditionContainer from './components/edition_container';
 import PasswordResetContainer from './components/password_reset_container';
+import SettingsContainer from './components/settings_container';
 import AppConstants from './constants/application_constants';
 //import LoginModalHandler from './components/login_modal_handler';
 
@@ -20,6 +21,7 @@ let routes = (
         <Route name="pieces" path="collection" handler={PieceList} />
         <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
+        <Route name="settings" path="settings" handler={SettingsContainer} />
 
         <Redirect from={baseUrl} to="pieces" />
         <Redirect from={baseUrl + '/'} to="pieces" />

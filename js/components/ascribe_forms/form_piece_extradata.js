@@ -28,7 +28,7 @@ let PieceExtraDataForm = React.createClass({
 
     renderForm() {
         let defaultValue = this.props.editions[0].extra_data[this.props.name] || '';
-        if (defaultValue.length === 0 && ~this.props.editable){
+        if (defaultValue.length === 0 && !this.props.editable){
             return null;
         }
         return (
