@@ -1,5 +1,7 @@
 # Git Submodule Workflow
 
+**ATTENTION: Adding submodules at the wrong place of the project will actually f&%k up your git if you want to remove them again. So please take all those steps with care!!!**
+
 1. Create a new repository on bitbucket
 2. Clone it and create the main file: `my_component.js`
 ```javascript
