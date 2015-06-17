@@ -18,10 +18,10 @@
 export default MyComponent;
 ```
 
-3. Commit and push to your newly created repository
-4. Open `.gitignore` and add your future package folder to *NOT* to be ignored by git `!node_modules/<my-repository-name>`
-5. Copy the repository's SSH link from bitbucket
-6. Open a shell and go to `cd onion/node_modules`
+3. Open a shell and go to `cd onion/node_modules`
+4. Commit and push to your newly created repository
+5. Open `.gitignore` and add your future package folder to *NOT* to be ignored by git `!node_modules/<my-repository-name>`
+6. Copy the repository's SSH link from bitbucket
 7. Do `git submodule add <your-ssh-link>`
 8. Git will clone the repository and add it to `node_modules`
 9. open `package.json` inside of onion and adjust the `browser` field
