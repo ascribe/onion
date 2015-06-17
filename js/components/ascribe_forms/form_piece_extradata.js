@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import fetch from '../../utils/fetch';
+import requests from '../../utils/requests';
 
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
@@ -14,7 +14,7 @@ let PieceExtraDataForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return fetch.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.editions[0].bitcoin_id});
+        return requests.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.editions[0].bitcoin_id});
     },
 
     getFormData() {
@@ -27,16 +27,19 @@ let PieceExtraDataForm = React.createClass({
     },
 
     renderForm() {
-
+        let defaultValue = this.props.editions[0].extra_data[this.props.name] || '';
+        if (defaultValue.length === 0 && ~this.props.editable){
+            return null;
+        }
         return (
             <form role="form" key={this.props.name}>
                 <h5>{this.props.title}</h5>
                 <InputTextAreaToggable
                     ref={this.props.name}
                     className="form-control"
-                    defaultValue={this.props.editions[0].extra_data[this.props.name]}
+                    defaultValue={defaultValue}
                     rows={3}
-                    editable={true}
+                    editable={this.props.editable}
                     required=""
                     onSubmit={this.submit}
                 />
