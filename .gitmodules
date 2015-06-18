@@ -1,4 +1,4 @@
 
-[submodule "react-s3-fineuploader"]
-	path = react-s3-fineuploader
-	url = git@bitbucket.org:ascribe/react-s3-fineuploader.git
+[submodule "node_modules/react-s3-fineuploader"]
+	path = node_modules/react-s3-fineuploader
+	url = https://bitbucket.org/ascribe/react-s3-fineuploader.git
