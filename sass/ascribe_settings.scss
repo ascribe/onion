@@ -13,8 +13,40 @@
 }
 
 .is-focused {
-    background-color: rgba(2, 182, 163, 0.1);
+    background-color: rgba(2, 182, 163, 0.05);
     border-left: 3px solid rgba(2, 182, 163, 1);
+}
+
+.is-error {
+    background-color: rgba(169, 68, 66, 0.05);
+    border-left: 3px solid rgba(169, 68, 66, 1);
+    div {
+        span {
+            color: rgba(169, 68, 66, 1);
+            font-size: 0.9em;
+            margin-right: 1em;
+        }
+        span {
+
+        }
+        input {
+            color: #666;
+        }
+    }
+}
+
+.is-fixed {
+    cursor: default;
+    div {
+        cursor: default;
+        span {
+            cursor: default;
+        }
+        input {
+            cursor: default;
+            color: #666;
+        }
+    }
 }
 
 .ascribe-settings-property {
@@ -31,7 +63,7 @@
     span {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-weight: normal;
-        font-size: 1em;
+        font-size: 0.9em;
         color: rgba(0,0,0,.7);
     }
 
@@ -40,7 +72,7 @@
         font-weight: 400;
         font-size: 1.1em;
         width:100%;
-        margin-top: .7em;
+        margin-top: .5em;
         border: 0;
         background-color: rgba(0,0,0,0);
         color: #38BAAD;

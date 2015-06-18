@@ -3,8 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
-
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
@@ -14,13 +12,29 @@ import WalletSettingsStore from '../stores/wallet_settings_store';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import Input from 'react-bootstrap/lib/Input';
+import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
+import Form from './ascribe_forms/form';
+import Property from './ascribe_forms/property';
 
-import classNames from 'classnames';
+import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
+
 
 let SettingsContainer = React.createClass({
     mixins: [Router.Navigation],
 
+    render() {
+        return (
+            <div>
+                <AccountSettings />
+                <BitcoinWalletSettings />
+            </div>
+        );
+    }
+});
+
+
+let AccountSettings = React.createClass({
     getInitialState() {
         return UserStore.getState();
     },
@@ -39,185 +53,54 @@ let SettingsContainer = React.createClass({
     },
 
     handleSuccess(){
-        this.transitionTo('pieces');
-        let notification = new GlobalNotificationModel('password succesfully updated', 'success', 10000);
+        UserActions.fetchCurrentUser();
+        let notification = new GlobalNotificationModel('username succesfully updated', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
-        return (
-            <div>
+        if (this.state.currentUser.username) {
+            return (
                 <CollapsibleParagraph
                     title="Account"
                     show={true}
                     defaultExpanded={true}>
-                    <AccountSettings
-                        currentUser={this.state.currentUser} />
+                    <Form
+                        url={apiUrls.users_username}
+                        handleSuccess={this.handleSuccess}>
+                        <Property
+                            name='username'
+                            label="Username">
+                            <input
+                                type="text"
+                                defaultValue={this.state.currentUser.username}
+                                placeholder="Enter your username"
+                                required/>
+                        </Property>
+                        <Property
+                            name='email'
+                            label="Email"
+                            editable={false}>
+                            <input
+                                type="text"
+                                defaultValue={this.state.currentUser.email}
+                                placeholder="Enter your username"
+                                required/>
+                        </Property>
+                    </Form>
                 </CollapsibleParagraph>
-
-                <CollapsibleParagraph
-                    title="Bitcoin Wallet"
-                    show={true}>
-                    <BitcoinWalletSettings
-                        currentUser={this.state.currentUser} />
-                </CollapsibleParagraph>
-
-                <CollapsibleParagraph
-                    title="Contracts"
-                    show={true}>
-                    <ContractSettings
-                        currentUser={this.state.currentUser} />
-                </CollapsibleParagraph>
-
-                <CollapsibleParagraph
-                    title="API"
-                    show={true}>
-                    <APISettings
-                        currentUser={this.state.currentUser} />
-                </CollapsibleParagraph>
-            </div>
-      );
-  }
-});
-
-const CollapsibleParagraph = React.createClass({
-
-    propTypes: {
-        title: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
-        ]),
-        iconName: React.PropTypes.string
-    },
-
-    mixins: [CollapsibleMixin],
-
-    getCollapsibleDOMNode(){
-        return React.findDOMNode(this.refs.panel);
-    },
-
-    getCollapsibleDimensionValue(){
-        return React.findDOMNode(this.refs.panel).scrollHeight;
-    },
-
-    onHandleToggle(e){
-        e.preventDefault();
-        this.setState({expanded: !this.state.expanded});
-    },
-
-    render() {
-        let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? '-' : '+';
-
-        return (
-            <div className="ascribe-detail-header">
-                <div className="ascribe-edition-collapsible-wrapper">
-                    <div onClick={this.onHandleToggle}>
-                        <span>{text} {this.props.title} </span>
-                    </div>
-                    <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
-                        {this.props.children}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-});
-
-let SettingsProperty = React.createClass({
-
-    
-    propTypes: {
-        label: React.PropTypes.string,
-        value: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.element
-        ]),
-        separator: React.PropTypes.string,
-        labelClassName: React.PropTypes.string,
-        valueClassName: React.PropTypes.string
-    },
-
-    getDefaultProps() {
-        return {
-            separator: ':',
-            labelClassName: 'col-xs-3 col-sm-3 col-md-2 col-lg-1',
-            valueClassName: 'col-xs-9 col-sm-9 col-md-10 col-lg-11'
-        };
-    },
-
-    getInitialState() {
-        return {
-            value: '',
-            isFocused: false
-        };
-    },
-
-    componentWillReceiveProps() {
-        this.setState({
-            value: this.props.value
-        });
-    },
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    },
-
-    handleFocus() {
-        this.refs.input.getDOMNode().focus();
-        this.setState({
-            isFocused: !this.state.isFocused
-        });
-    },
-
-    getClassName() {
-        if(this.state.isFocused) {
-            return 'is-focused';
-        } else {
-            return '';
+            );
         }
-    },
-
-    render() {
-        return (
-            <div 
-                className={'ascribe-settings-wrapper ' + this.getClassName()}
-                onClick={this.handleFocus}>
-                <div className="ascribe-settings-property">
-                    <span>{ this.props.label}</span>
-                    <input
-                        ref="input"
-                        type="text"
-                        value={this.state.value}
-                        onChange={this.handleChange} />
-                </div>
-            </div>
-        );
+        else {
+            return (
+                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+            );
+        }
     }
 });
 
-let AccountSettings = React.createClass({
 
-    propTypes: {
-        currentUser: React.PropTypes.object
-    },
-
-    render() {
-
-        return (
-            <div>
-                <SettingsProperty key={1} label="Username" value={this.props.currentUser.username}/>
-                <SettingsProperty key={2} label="Email" value={this.props.currentUser.email}/>
-            </div>
-        );
-    }
-});
 
 let BitcoinWalletSettings = React.createClass({
-
-    propTypes: {
-        currentUser: React.PropTypes.object
-    },
 
     getInitialState() {
         return WalletSettingsStore.getState();
@@ -235,14 +118,44 @@ let BitcoinWalletSettings = React.createClass({
     onChange(state) {
         this.setState(state);
     },
-    render() {
 
-        return (
-            <div>
-                <SettingsProperty label="Bitcoin public key" value={this.state.walletSettings.btc_public_key}/>
-                <SettingsProperty label="Root Address" value={this.state.walletSettings.btc_root_address}/>
-            </div>
-        );
+    render() {
+         if (this.state.walletSettings.btc_public_key) {
+            return (
+                <CollapsibleParagraph
+                    title="Crypto Wallet"
+                    show={true}
+                    defaultExpanded={true}>
+                    <Form
+                        url={apiUrls.users_username}
+                        handleSuccess={this.handleSuccess}>
+                        <Property
+                            name='btc_public_key'
+                            label="Bitcoin public key"
+                            editable={false}>
+                            <input
+                                type="text"
+                                defaultValue={this.state.walletSettings.btc_public_key}
+                                placeholder="Enter your username"
+                                required/>
+                        </Property>
+                        <Property
+                            name='btc_root_address'
+                            label="Root Address"
+                            editable={false}>
+                            <input
+                                type="text"
+                                defaultValue={this.state.walletSettings.btc_root_address}/>
+                        </Property>
+                    </Form>
+                </CollapsibleParagraph>
+            );
+        }
+        else {
+            return (
+                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+            );
+        }
     }
 });
 

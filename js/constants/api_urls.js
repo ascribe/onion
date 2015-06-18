@@ -29,6 +29,7 @@ let apiUrls = {
     'users_password_reset': AppConstants.apiEndpoint + 'users/reset_password/',
     'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
     'users_signup': AppConstants.apiEndpoint + 'users/',
+    'users_username': AppConstants.apiEndpoint + 'users/username/',
     'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/'
 };
 
