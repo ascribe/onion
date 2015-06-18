@@ -164,7 +164,6 @@ let SettingsProperty = React.createClass({
     },
 
     handleFocus() {
-        console.log(this.state);
         this.refs.input.getDOMNode().focus();
         this.setState({
             isFocused: !this.state.isFocused
