@@ -27,7 +27,6 @@
           "compact": false
         }
       ],
-      "reactify",
       "browserify-shim"
     ]
   },

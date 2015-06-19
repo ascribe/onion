@@ -9,8 +9,9 @@ import ReactS3FineUploader from 'ReactS3FineUploader';
 
 let RegisterPiece = React.createClass( {
     render() {
-
+        console.log(AppConstants.serverUrl)
         return (
+
             <div>
                 <ReactS3FineUploader
                     keyRoutine={{

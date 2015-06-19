@@ -49,7 +49,7 @@ var config = {
     filesToWatch: [
         'build/css/*.css',
         'build/js/*.js',
-        'node_modules/react-s3-fineuploader/*.js'
+        'node_modules/react-s3-fine_uploader/*.js'
     ]
 };
 
@@ -69,7 +69,7 @@ gulp.task('js:build', function() {
     bundle(false);
 });
 
-gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
+gulp.task('serve', ['browser-sync', 'run-server', 'sass:watch', 'copy'], function() {
     bundle(true);
 });
 
