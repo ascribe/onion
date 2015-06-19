@@ -19,7 +19,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe-global-notification';
 @import 'offset_right';
 @import 'ascribe_settings';
-@import '../node_modules/react-s3-fineuploader/scss/ascribe-theme';
+@import 'ascribe_react_s3_fineuploader';
 
 body {
     background-color: #FDFDFD;
