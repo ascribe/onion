@@ -9,11 +9,12 @@ import ReactS3FineUploader from 'ReactS3FineUploader';
 
 let RegisterPiece = React.createClass( {
     render() {
+
         return (
             <div>
                 <ReactS3FineUploader
                     keyRoutine={{
-                        url: AppConstants.apiEndpoint + '/s3/key/',
+                        url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'digitalwork'
                     }}
                     autoUpload={true}
@@ -27,7 +28,7 @@ let RegisterPiece = React.createClass( {
                         accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
                     }}
                     signature={{
-                        endpoint: AppConstants.apiEndpoint + '/s3/signature/'
+                        endpoint: AppConstants.serverUrl + 's3/signature/'
                     }}
                     uploadSuccess={{
                         params: {
@@ -49,7 +50,7 @@ let RegisterPiece = React.createClass( {
                     deleteFile={{
                         enabled: true,
                         method: 'DELETE',
-                        endpoint: AppConstants.apiEndpoint + '/s3/delete'
+                        endpoint: AppConstants.serverUrl + 's3/delete'
                     }}
                     validation={{
                         itemLimit: 100000,

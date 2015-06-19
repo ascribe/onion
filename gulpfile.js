@@ -56,6 +56,7 @@ var config = {
 var constants = {
     BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
     API_ENDPOINT: process.env.ONION_API_ENDPOINT || 'http://staging.ascribe.io/api/',
+    SERVER_URL: process.env.ONION_SERVER_URL || 'http://staging.ascribe.io/',
     DEBUG: !argv.production,
     CREDENTIALS: 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw' // dimi@mailinator:0000000000
 };
@@ -172,14 +173,21 @@ function bundle(watch) {
         return bundler.bundle()
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(source('app.js'))
+            .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(buffer())
+            .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulpif(!argv.production, sourcemaps.init({
                 loadMaps: true
             }))) // loads map from browserify file
+            .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulpif(!argv.production, sourcemaps.write())) // writes .map file
+            .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulpif(argv.production, uglify()))
+            .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulp.dest('./build/js'))
-            .pipe(browserSync.stream());
+            .on('error', notify.onError('Error: <%= error.message %>'))
+            .pipe(browserSync.stream())
+            .on('error', notify.onError('Error: <%= error.message %>'));
     }
 
     return rebundle(bro);

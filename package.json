@@ -1,7 +1,7 @@
 {
   "name": "Onion",
   "version": "0.0.1",
-  "description": "Das neue web client for Ascribe",
+  "description": "Das neue web client for Ascribe. Onions make you cry",
   "main": "js/app.js",
   "engines": {
     "node": "0.10.x"
@@ -14,7 +14,7 @@
   },
   "browser": {
     "fineUploader": "./node_modules/react-s3-fineuploader/vendor/s3.fine-uploader.js",
-    "ReactS3FineUploader": "./node_modules/react-s3-fineuploader/react_s3_fineuploader.js"
+    "ReactS3FineUploader": "./node_modules/react-s3-fineuploader/react_s3_fine_uploader.js"
   },
   "browserify-shim": {
     "fineUploader": "qq"
