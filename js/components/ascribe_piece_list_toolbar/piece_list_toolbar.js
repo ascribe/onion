@@ -1,9 +1,13 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Button from 'react-bootstrap/lib/Button';
+
+let Link = Router.Link;
 
 let PieceListToolbar = React.createClass({
 
@@ -30,6 +34,9 @@ let PieceListToolbar = React.createClass({
                                     <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
                                     &nbsp;&nbsp;
                                     {/*<PieceListToolbarFilterWidgetFilter />*/}
+                                    <Link to="register_piece">
+                                        <Button>+ Artwork</Button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
