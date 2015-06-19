@@ -12,12 +12,32 @@
     "build": "gulp build --production",
     "start": "node server.js"
   },
+  "browser": {
+    "fineUploader": "./node_modules/react-s3-fineuploader/vendor/s3.fine-uploader.js",
+    "ReactS3FineUploader": "./node_modules/react-s3-fineuploader/react_s3_fineuploader.js"
+  },
+  "browserify-shim": {
+    "fineUploader": "qq"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "compact": false
+        }
+      ],
+      "reactify",
+      "browserify-shim"
+    ]
+  },
   "author": "Ascribe",
   "license": "Copyright",
   "private": true,
   "devDependencies": {
     "babel-eslint": "^3.1.11",
     "babel-jest": "^5.2.0",
+    "browserify-shim": "^3.8.9",
     "jest-cli": "^0.4.0"
   },
   "dependencies": {
