@@ -9,6 +9,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
+@import 'ascribe_login';
 @import 'ascribe_table';
 @import 'ascribe_accordion_list';
 @import 'ascribe_piece_list_bulk_modal';
@@ -35,6 +36,7 @@ body {
     border-right:0;
     margin-bottom: 1.5em;
     border-top:0;
+    border-color: #CCC
 }
 
 .navbar-right {
@@ -48,6 +50,17 @@ body {
 
 .ascribe-color {
     color: $ascribe-color;
+}
+
+.tooltip-inner{
+    max-width: 300px;
+    padding: 3px 8px;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    background-color: #FCFAFA;
+    border-radius: 0;
+    border: 1px solid;
 }
 
 /* Taken from http://stackoverflow.com/a/20548578 */

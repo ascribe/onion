@@ -6,9 +6,7 @@ import Router from 'react-router';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
-import apiUrls from '../constants/api_urls.js';
-//import PieceListActions from '../actions/piece_list_actions';
-import requests from '../utils/requests';
+import Alt from '../alt';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -16,8 +14,8 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
+import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
-import LoginModal from '../components/ascribe_modal/modal_login';
 import SignupModal from '../components/ascribe_modal/modal_signup';
 
 
@@ -26,7 +24,7 @@ import { getLangText } from '../utils/lang_utils';
 let Link = Router.Link;
 
 let Header = React.createClass({
-    //mixins: [Router.Navigation],
+    mixins: [Router.Navigation],
 
     getInitialState() {
         return UserStore.getState();
@@ -41,17 +39,13 @@ let Header = React.createClass({
         UserStore.unlisten(this.onChange);
     },
     handleLogout(){
-        requests
-            .get(apiUrls.users_logout)
-            .then(this.refreshData);
+        UserActions.logoutCurrentUser();
+        Alt.flush();
     },
     onChange(state) {
         this.setState(state);
     },
 
-    refreshData(){
-        location.reload();
-    },
     render() {
         let account = null;
         let signup = null;
@@ -63,15 +57,12 @@ let Header = React.createClass({
                         <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>
                         <MenuItem eventKey="3" href="/art/terms/">{getLangText('Terms of Service')}</MenuItem>
                         <MenuItem divider />
-                        <MenuItem eventKey="4" href="#" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
+                        <MenuItem eventKey="4" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
             );
         }
         else {
-            account = (
-                <LoginModal
-                    button={<NavItem to="pieces">LOGIN</NavItem>}
-                    handleSuccess={this.refreshData}/>);
+            account = <NavItemLink to="login">LOGIN</NavItemLink>;
             signup = (
                 <SignupModal
                     button={<NavItem to="pieces">SIGNUP</NavItem>} />);
