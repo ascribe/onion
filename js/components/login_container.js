@@ -3,9 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
@@ -47,7 +44,16 @@ let LoginForm = React.createClass({
         return (
             <Form
                 url={apiUrls.users_login}
-                handleSuccess={this.handleSuccess}>
+                handleSuccess={this.handleSuccess}
+                buttons={
+                    <button type="submit" className="btn ascribe-btn ascribe-btn-login">
+                        Log in to ascribe
+                    </button>}
+                spinner={
+                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    </button>
+                    }>
                 <Property
                     name='email'
                     label="Email">
@@ -71,9 +77,6 @@ let LoginForm = React.createClass({
                     Not an ascribe user&#63; Sign up...<br/>
                     Forgot my password&#63; Rescue me...
                 </div>
-                <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                    Log in to ascribe
-                </button>
             </Form>
         );
     }

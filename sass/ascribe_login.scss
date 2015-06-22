@@ -1,5 +1,6 @@
 $break-small: 764px;
 
+
 .ascribe-btn-login {
   padding: 1.5em;
   font-weight: 500;
@@ -23,6 +24,21 @@ $break-small: 764px;
     border: none;
   }
 }
+
+.ascribe-btn-login-spinner{
+  background-color: rgba(2, 182, 163, 0.4);
+  padding: 0.8em;
+  img {
+    height: 3em;
+  }
+  &:hover {
+    background-color: rgba(2, 182, 163, 0.4);
+  }
+  &:active, &:focus {
+    background-color: rgba(2, 182, 163, 0.4);
+  }
+}
+
 
 .ascribe-login-wrapper {
   width: 80%;

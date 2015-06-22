@@ -14,31 +14,54 @@ import InputCheckbox from './ascribe_forms/input_checkbox';
 import apiUrls from '../constants/api_urls';
 
 
-let LoginContainer = React.createClass({
+let SignupContainer = React.createClass({
     mixins: [Router.Navigation],
 
+    getInitialState(){
+        return ({
+            submitted: false,
+            message: null
+        });
+    },
+    handleSuccess(message){
+        this.setState({
+            submitted: true,
+            message: message
+        });
+    },
     render() {
+        if (this.state.submitted){
+            return (
+                <div className="ascribe-login-wrapper">
+                    <br/>
+                    <div className="ascribe-login-text ascribe-login-header">
+                    {this.state.message}
+                    </div>
+                </div>
+            );
+        }
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
                 <div className="ascribe-login-text ascribe-login-header">
                     Welcome to ascribe...
                 </div>
-                <LoginForm />
+                <SignupForm handleSuccess={this.handleSuccess}/>
             </div>
         );
     }
 });
 
 
-let LoginForm = React.createClass({
+let SignupForm = React.createClass({
     mixins: [Router.Navigation],
 
+    handleSuccess(response){
 
-    handleSuccess(){
-        let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
+        let notificationText = 'Sign up successful';
+        let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.props.handleSuccess('We sent an email to your address ' + response.user.email + ', please confirm.');
 
     },
     render() {
@@ -47,23 +70,24 @@ let LoginForm = React.createClass({
             'Store it in a safe place!';
         return (
             <Form
-                url={apiUrls.users_login}
-                handleSuccess={this.handleSuccess}>
+                ref='form'
+                url={apiUrls.users_signup}
+                handleSuccess={this.handleSuccess}
+                buttons={
+                    <button type="submit" className="btn ascribe-btn ascribe-btn-login">
+                        Sign up to ascribe
+                    </button>}
+                spinner={
+                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    </button>
+                    }>
                 <Property
                     name='email'
                     label="Email">
                     <input
                         type="email"
                         placeholder="Enter your email"
-                        autoComplete="on"
-                        required/>
-                </Property>
-                <Property
-                    name='username'
-                    label="Username">
-                    <input
-                        type="text"
-                        placeholder="Choose a username"
                         autoComplete="on"
                         required/>
                 </Property>
@@ -89,26 +113,23 @@ let LoginForm = React.createClass({
                 </Property>
                 <Property
                     name='promo_code'
-                    label="Promocode (Optional)">
+                    label="Promocode">
                     <input
                         type="password"
-                        placeholder="Enter a promocode here"/>
+                        placeholder="Enter a promocode here (Optional)"/>
                 </Property>
+                <hr />
                 <InputCheckbox
-                    ref="terms"
+                    name='terms'
                     required="required"
                     label={
                         <div>
                             I agree to the&nbsp;
                             <a href="/terms" target="_blank"> Terms of Service</a>
                         </div>}/>
-                <hr />
-                <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                    Sign up to ascribe
-                </button>
             </Form>
         );
     }
 });
 
-export default LoginContainer;
+export default SignupContainer;

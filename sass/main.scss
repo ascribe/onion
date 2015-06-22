@@ -18,6 +18,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_textarea';
 @import 'ascribe_media_player';
 @import 'ascribe-global-notification';
+@import 'ascribe_piece_register';
 @import 'offset_right';
 @import 'ascribe_settings';
 @import '../node_modules/react-s3-fineuploader/scss/ascribe-theme';
@@ -32,6 +33,7 @@ body {
 }
 
 .navbar-default {
+    border: none;
     border-left:0;
     border-right:0;
     margin-bottom: 1.5em;
