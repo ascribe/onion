@@ -39,10 +39,7 @@
         span {
             cursor: default;
         }
-        div {
-            color: #666;
-        }
-        input {
+        input, div, pre {
             cursor: default;
             color: #666;
         }
@@ -60,8 +57,10 @@
 
     cursor:pointer;
 
-    span {
+    input, div, span, pre {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    span {
         font-weight: normal;
         font-size: 0.9em;
         color: rgba(0,0,0,.7);
@@ -79,7 +78,7 @@
         }
     }
 
-    input {
+    input, pre {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-weight: 400;
         font-size: 1.1em;

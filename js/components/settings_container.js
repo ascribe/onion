@@ -133,19 +133,13 @@ let BitcoinWalletSettings = React.createClass({
                         name='btc_public_key'
                         label="Bitcoin public key"
                         editable={false}>
-                        <input
-                            type="text"
-                            defaultValue={this.state.walletSettings.btc_public_key}
-                            placeholder="Enter your username"
-                            required/>
+                        <pre className="ascribe-pre">{this.state.walletSettings.btc_public_key}</pre>
                     </Property>
                     <Property
                         name='btc_root_address'
                         label="Root Address"
                         editable={false}>
-                        <input
-                            type="text"
-                            defaultValue={this.state.walletSettings.btc_root_address}/>
+                        <pre className="ascribe-pre">{this.state.walletSettings.btc_root_address}</pre>
                     </Property>
                     <hr />
                 </Form>);
@@ -204,7 +198,7 @@ let APISettings = React.createClass({
     handleTokenRefresh: function(event){
         let applicationName = event.target.getAttribute('data-id');
         ApplicationActions.refreshApplicationToken(applicationName);
-        let notification = new GlobalNotificationModel('Token refreshed', 'success');
+        let notification = new GlobalNotificationModel('Token refreshed', 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -235,9 +229,8 @@ let APISettings = React.createClass({
                     <Form>
                         {content}
                         <hr />
-                        </Form>
-                    </div>);
-
+                    </Form>
+                </div>);
         }
         return (
             <CollapsibleParagraph
@@ -257,6 +250,9 @@ let APISettings = React.createClass({
                     </Property>
                     <hr />
                 </Form>
+                <pre>
+                    Usage: curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
+                </pre>
                 {content}
             </CollapsibleParagraph>
         );
