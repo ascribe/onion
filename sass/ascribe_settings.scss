@@ -1,3 +1,4 @@
+
 .ascribe-settings-wrapper {
     width: 100%;
     text-align: center;
@@ -10,11 +11,18 @@
     &div:last-of-type {
         border-bottom: 1px solid rgba(0,0,0,.2);
     }
+    &:hover{
+      border-left: 3px solid rgba(2, 182, 163, 0.4);
+    }
+}
+
+.is-hidden{
+  display: none;
 }
 
 .is-focused {
     background-color: rgba(2, 182, 163, 0.05);
-    border-left: 3px solid rgba(2, 182, 163, 1);
+    border-left: 3px solid rgba(2, 182, 163, 1)!important;
 }
 
 .is-error {
@@ -26,7 +34,7 @@
             font-size: 0.9em;
             margin-right: 1em;
         }
-        input {
+        input, textarea {
             color: #666;
         }
     }
@@ -39,12 +47,14 @@
         span {
             cursor: default;
         }
-        input, div, pre {
+        input, div, pre, textarea {
             cursor: default;
             color: #666;
         }
     }
 }
+
+
 
 .ascribe-settings-property {
     display: inline-block;
@@ -57,7 +67,7 @@
 
     cursor:pointer;
 
-    input, div, span, pre {
+    input, div, span, pre, textarea {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
     span {
@@ -78,7 +88,7 @@
         }
     }
 
-    input, pre {
+    input, pre, textarea {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-weight: 400;
         font-size: 1.1em;
@@ -91,6 +101,7 @@
         &:focus {
             border:0;
             outline:0;
+            box-shadow: none;
         }
 
         &::selection {
@@ -100,4 +111,9 @@
 
     }
 
+    textarea{
+        color: #666;
+        margin-top: 1em;
+        padding: 0;
+    }
 }

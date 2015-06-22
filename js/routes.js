@@ -30,8 +30,8 @@ let routes = (
         <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
 
-        <Redirect from={baseUrl} to="pieces" />
-        <Redirect from={baseUrl + '/'} to="pieces" />
+        <Redirect from={baseUrl} to="login" />
+        <Redirect from={baseUrl + '/'} to="login" />
     </Route>
 );
 

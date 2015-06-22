@@ -2,19 +2,21 @@
 
 import React from 'react';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import MediaPlayer from './ascribe_media/media_player';
-
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import PersonalNoteForm from './ascribe_forms/form_note_personal';
-import EditionNoteForm from './ascribe_forms/form_note_edition';
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
+import MediaPlayer from './ascribe_media/media_player';
+
+import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
+
+import Form from './ascribe_forms/form';
+import Property from './ascribe_forms/property';
+import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
 import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
 import RequestActionForm from './ascribe_forms/form_request_action';
@@ -25,7 +27,8 @@ import AclButtonList from './ascribe_buttons/acl_button_list';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import classNames from 'classnames';
+import requests from '../utils/requests';
+import apiUrls from '../constants/api_urls';
 
 /**
  * This is the component that implements display-specific functionality
@@ -92,64 +95,72 @@ let Edition = React.createClass({
                     <EditionSummary
                         edition={this.props.edition} />
 
-                    <CollapsibleEditionDetails
-                        title="Personal Note (private)"
-                        show={this.state.currentUser.username && true || false}>
+                    <CollapsibleParagraph
+                        title="Notes"
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
-                    </CollapsibleEditionDetails>
-
-                    <CollapsibleEditionDetails
-                        title="Edition Note (public)"
-                        show={this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note}>
                         <EditionPublicEditionNote
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
-                    </CollapsibleEditionDetails>
+                    </CollapsibleParagraph>
 
-                    <CollapsibleEditionDetails
+                    <CollapsibleParagraph
                         title="Further Details (all editions)"
                         show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
-                    </CollapsibleEditionDetails>
+                    </CollapsibleParagraph>
 
-                    <CollapsibleEditionDetails
+                    <CollapsibleParagraph
                         title="Provenance/Ownership History"
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.ownership_history} />
-                    </CollapsibleEditionDetails>
+                    </CollapsibleParagraph>
 
-                    <CollapsibleEditionDetails
+                    <CollapsibleParagraph
                         title="Consignment History"
                         show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.consign_history} />
-                    </CollapsibleEditionDetails>
+                    </CollapsibleParagraph>
 
-                    <CollapsibleEditionDetails
+                    <CollapsibleParagraph
                         title="Loan History"
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.loan_history} />
-                    </CollapsibleEditionDetails>
+                    </CollapsibleParagraph>
 
-                    <CollapsibleEditionDetails
+                    <CollapsibleParagraph
                         title="SPOOL Details">
-                        <EditionDetailProperty
-                            label="Artwork ID"
-                            value={bitcoinIdValue} />
-                        <EditionDetailProperty
-                            label="Hash of Artwork, title, etc"
-                            value={hashOfArtwork} />
-                        <EditionDetailProperty
-                            label="Owned by SPOOL address"
-                            value={ownerAddress} />
-                    </CollapsibleEditionDetails>
+                        <Form >
+                            <Property
+                                name='artwork_id'
+                                label="Artwork ID"
+                                editable={false}>
+                                <pre className="ascribe-pre">{bitcoinIdValue}</pre>
+                            </Property>
+                            <Property
+                                name='hash_of_artwork'
+                                label="Hash of Artwork, title, etc"
+                                editable={false}>
+                                <pre className="ascribe-pre">{hashOfArtwork}</pre>
+                            </Property>
+                            <Property
+                                name='owner_address'
+                                label="Owned by SPOOL address"
+                                editable={false}>
+                                <pre className="ascribe-pre">{ownerAddress}</pre>
+                            </Property>
+                            <hr />
+                        </Form>
+                    </CollapsibleParagraph>
                 </Col>
             </Row>
         );
@@ -229,85 +240,6 @@ let EditionSummary = React.createClass({
     }
 });
 
-let CollapsibleEditionDetails = React.createClass({
-    propTypes: {
-        title: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
-        ]),
-        show: React.PropTypes.bool,
-        iconName: React.PropTypes.string
-    },
-
-    getDefaultProps() {
-        return {
-            show: true
-        };
-    },
-
-    render() {
-        if(this.props.show) {
-            return (
-                <div className="ascribe-detail-header">
-                    <CollapsibleParagraph
-                        title={this.props.title}
-                        iconName={this.props.iconName}>
-                        {this.props.children}
-                    </CollapsibleParagraph>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    }
-});
-
-const CollapsibleParagraph = React.createClass({
-
-    propTypes: {
-        title: React.PropTypes.string,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
-        ]),
-        iconName: React.PropTypes.string
-    },
-
-    mixins: [CollapsibleMixin],
-
-    getCollapsibleDOMNode(){
-        return React.findDOMNode(this.refs.panel);
-    },
-
-    getCollapsibleDimensionValue(){
-        return React.findDOMNode(this.refs.panel).scrollHeight;
-    },
-
-    onHandleToggle(e){
-        e.preventDefault();
-        this.setState({expanded: !this.state.expanded});
-    },
-
-    render() {
-        let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? '-' : '+';
-
-        let icon = this.props.iconName ? (<Glyphicon style={{fontSize: '.75em'}} glyph={this.props.iconName} />) : null;
-
-        return (
-            <div className="ascribe-edition-collapsible-wrapper">
-                <div onClick={this.onHandleToggle}>
-                    <span>{text} {icon} {this.props.title} </span>
-                </div>
-                <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
-                    {this.props.children}
-                </div>
-            </div>
-        );
-    }
-});
-
 
 let EditionDetailProperty = React.createClass({
     propTypes: {
@@ -372,6 +304,7 @@ let EditionDetailHistoryIterator = React.createClass({
 let EditionPersonalNote = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
     showNotification(){
@@ -379,20 +312,34 @@ let EditionPersonalNote = React.createClass({
         let notification = new GlobalNotificationModel('Private note saved', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
     render() {
-        return (
-            <Row>
-                <Col md={12} className="ascribe-edition-personal-note">
-                    <PersonalNoteForm
-                        editable={true}
-                        handleSuccess={this.showNotification}
-                        editions={[this.props.edition]} />
-                </Col>
-            </Row>
-        );
+        if (this.props.currentUser.username && true || false) {
+            return (
+                <Form
+                    url={apiUrls.note_notes}
+                    handleSuccess={this.showNotification}>
+                    <Property
+                        name='note'
+                        label='Personal note (private)'
+                        editable={true}>
+                        <InputTextAreaToggable
+                            rows={3}
+                            editable={true}
+                            defaultValue={this.props.edition.note_from_user}
+                            placeholder='Enter a personal note...'
+                            required/>
+                    </Property>
+                    <Property hidden={true} name='bitcoin_id'>
+                        <input defaultValue={this.props.edition.bitcoin_id}/>
+                    </Property>
+                    <hr />
+                </Form>
+            );
+        }
+        return null;
     }
 });
-
 
 let EditionPublicEditionNote = React.createClass({
     propTypes: {
@@ -405,16 +352,31 @@ let EditionPublicEditionNote = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
-        return (
-            <Row>
-                <Col md={12} className="ascribe-edition-personal-note">
-                    <EditionNoteForm
-                        editable={this.props.edition.acl.indexOf('edit') > -1}
-                        handleSuccess={this.showNotification}
-                        editions={[this.props.edition]} />
-                </Col>
-            </Row>
-        );
+        let isEditable = this.props.edition.acl.indexOf('edit') > -1;
+        if (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note){
+            return (
+                <Form
+                    url={apiUrls.note_edition}
+                    handleSuccess={this.showNotification}>
+                    <Property
+                        name='note'
+                        label='Edition note (public)'
+                        editable={isEditable}>
+                        <InputTextAreaToggable
+                            rows={3}
+                            editable={isEditable}
+                            defaultValue={this.props.edition.public_note}
+                            placeholder='Enter a public note for this edition...'
+                            required/>
+                    </Property>
+                    <Property hidden={true} name='bitcoin_id'>
+                        <input defaultValue={this.props.edition.bitcoin_id}/>
+                    </Property>
+                    <hr />
+                </Form>
+            );
+        }
+        return null;
     }
 });
 
@@ -440,19 +402,19 @@ let EditionFurtherDetails = React.createClass({
                         title='Artist Contact Info'
                         handleSuccess={this.showNotification}
                         editable={editable}
-                        editions={[this.props.edition]} />
+                        edition={this.props.edition} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
                         handleSuccess={this.showNotification}
                         editable={editable}
-                        editions={[this.props.edition]} />
+                        edition={this.props.edition} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
                         handleSuccess={this.showNotification}
                         editable={editable}
-                        editions={[this.props.edition]} />
+                        edition={this.props.edition} />
                 </Col>
             </Row>
         );

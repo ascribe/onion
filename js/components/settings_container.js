@@ -97,7 +97,6 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
-
             </CollapsibleParagraph>
         );
     }
@@ -215,7 +214,7 @@ let APISettings = React.createClass({
                             </div>
                             <div className="col-xs-6 col-xs-height">
                                 <button
-                                    className="btn btn-default btn-sm"
+                                    className="pull-right btn btn-default btn-sm"
                                     onClick={this.handleTokenRefresh}
                                     data-id={app.name}>
                                     REFRESH
