@@ -13,6 +13,9 @@ class UserStore {
     onUpdateCurrentUser(user) {
         this.currentUser = user;
     }
+    onDeleteCurrentUser() {
+        this.currentUser = {};
+    }
 }
 
 export default alt.createStore(UserStore, 'UserStore');

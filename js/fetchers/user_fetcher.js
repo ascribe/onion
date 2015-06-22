@@ -1,7 +1,7 @@
 'use strict';
 
 import requests from '../utils/requests';
-
+import apiUrls from '../constants/api_urls';
 
 let UserFetcher = {
     /**
@@ -10,6 +10,10 @@ let UserFetcher = {
      */
     fetchOne() {
         return requests.get('user');
+    },
+
+    logout() {
+        return requests.get(apiUrls.users_logout);
     }
 };
 

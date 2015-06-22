@@ -7,7 +7,8 @@ import UserFetcher from '../fetchers/user_fetcher';
 class UserActions {
     constructor() {
         this.generateActions(
-            'updateCurrentUser'
+            'updateCurrentUser',
+            'deleteCurrentUser'
         );
     }
 
@@ -15,6 +16,15 @@ class UserActions {
         UserFetcher.fetchOne()
             .then((res) => {
                 this.actions.updateCurrentUser(res.users[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    logoutCurrentUser() {
+        UserFetcher.logout()
+            .then(() => {
+                this.actions.deleteCurrentUser();
             })
             .catch((err) => {
                 console.log(err);

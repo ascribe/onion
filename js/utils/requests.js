@@ -89,6 +89,9 @@ class Requests {
     }
 
     get(url, params) {
+        if (url === undefined){
+            throw new Error('Url undefined');
+        }
         let paramsCopy = this._merge(params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
         return this.request('get', newUrl);
