@@ -17,6 +17,8 @@ import apiUrls from '../constants/api_urls';
 
 import ReactS3FineUploader from 'ReactS3FineUploader';
 
+import DatePicker from 'react-datepicker/dist/react-datepicker';
+
 let RegisterPiece = React.createClass( {
     render() {
 
@@ -26,7 +28,7 @@ let RegisterPiece = React.createClass( {
                     <FileUploader />
                 </div>
                 <div className="col-md-6">
-                    <LoginForm />
+                    <RegisterPieceForm />
                 </div>
             </div>
         );
@@ -99,7 +101,7 @@ let FileUploader = React.createClass( {
     }
 });
 
-let LoginForm = React.createClass({
+let RegisterPieceForm = React.createClass({
     mixins: [Router.Navigation],
 
 
@@ -124,28 +126,22 @@ let LoginForm = React.createClass({
                     </button>
                     }>
                 <Property
-                    name='email'
-                    label="Email">
+                    name='artist_name'
+                    label="Artist Name">
                     <input
-                        type="email"
-                        placeholder="Enter your email"
-                        autoComplete="on"
+                        type="text"
+                        placeholder="The name of the creator"
                         required/>
                 </Property>
                 <Property
-                    name='password'
-                    label="Password">
+                    name='title'
+                    label="Artwork title">
                     <input
-                        type="password"
-                        placeholder="Enter your password"
-                        autoComplete="on"
+                        type="text"
+                        placeholder="The title of the artwork"
                         required/>
                 </Property>
                 <hr />
-                <div className="ascribe-login-text">
-                    Not an ascribe user&#63; Sign up...<br/>
-                    Forgot my password&#63; Rescue me...
-                </div>
             </Form>
         );
     }
