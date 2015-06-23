@@ -7,7 +7,6 @@ import EditionContainer from './components/edition_container';
 
 let Route = Router.Route;
 
-
 let routes = (
     <Route name="app" handler={AscribeApp}>
         <Route name="pieces" path="/" handler={PieceList}>

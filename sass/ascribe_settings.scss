@@ -1,0 +1,123 @@
+
+.ascribe-settings-wrapper {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 1em;
+
+    background-color: white;
+
+    border-left: 3px solid rgba(0,0,0,0);
+
+    &div:last-of-type {
+        border-bottom: 1px solid rgba(0,0,0,.2);
+    }
+    &:hover{
+      border-left: 3px solid rgba(2, 182, 163, 0.4);
+    }
+}
+
+.is-hidden{
+  display: none;
+}
+
+.is-focused {
+    background-color: rgba(2, 182, 163, 0.05);
+    border-left: 3px solid rgba(2, 182, 163, 1)!important;
+}
+
+.is-error {
+    background-color: rgba(169, 68, 66, 0.05);
+    border-left: 3px solid rgba(169, 68, 66, 1);
+    div {
+        span {
+            color: rgba(169, 68, 66, 1);
+            font-size: 0.9em;
+            margin-right: 1em;
+        }
+        input, textarea {
+            color: #666;
+        }
+    }
+
+    &:hover{
+      border-left: 3px solid rgba(169, 68, 66, 1);
+    }
+}
+
+.is-fixed {
+    cursor: default;
+    div {
+        cursor: default;
+        span {
+            cursor: default;
+        }
+        input, div, pre, textarea {
+            cursor: default;
+            color: #666;
+        }
+    }
+}
+
+
+
+.ascribe-settings-property {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    border-top: 1px solid rgba(0,0,0,.2);
+
+    padding-top: 1em;
+    padding-left: 1.5em;
+
+    cursor:pointer;
+
+    input, div, span, pre, textarea, select {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    span {
+        font-weight: normal;
+        font-size: 0.9em;
+        color: rgba(0,0,0,.7);
+    }
+
+    div {
+        margin-top: 10px;
+        div {
+          padding-left: 0;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-weight: normal;
+          font-size: 1.1em;
+          cursor: default;
+          color: rgba(0, 0, 0, .7);
+        }
+    }
+
+    input, pre, textarea, select {
+        font-weight: 400;
+        font-size: 1.1em;
+        width:100%;
+        margin-top: .5em;
+        border: 0;
+        background-color: rgba(0,0,0,0);
+        color: #38BAAD;
+        padding-left: 0;
+
+        &:focus {
+            border:0;
+            outline:0;
+            box-shadow: none;
+        }
+
+        &::selection {
+            color: white;
+            background-color: rgba(0,0,0,1);
+        }
+
+    }
+
+    textarea{
+        color: #666;
+        margin-top: 1em;
+        padding: 0;
+    }
+}
