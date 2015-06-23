@@ -15,7 +15,7 @@ import Property from './ascribe_forms/property';
 
 import apiUrls from '../constants/api_urls';
 
-import ReactS3FineUploader from 'ReactS3FineUploader';
+import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 
@@ -26,6 +26,7 @@ let RegisterPiece = React.createClass( {
             <div className="row ascribe-row">
                 <div className="col-md-6">
                     <FileUploader />
+                    <br />
                 </div>
                 <div className="col-md-6">
                     <RegisterPieceForm />
@@ -114,11 +115,11 @@ let RegisterPieceForm = React.createClass({
     render() {
         return (
             <Form
-                url={apiUrls.users_login}
+                url={apiUrls.pieces_list}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        Log in to ascribe
+                        Register your artwork
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -141,9 +142,56 @@ let RegisterPieceForm = React.createClass({
                         placeholder="The title of the artwork"
                         required/>
                 </Property>
+                <Property
+                    name='date_created'
+                    label="Year Created">
+                    <InputDate
+                        placeholderText="Year Created (e.g. 2015)" />
+                </Property>
+                <Property
+                    name='num_editions'
+                    label="Number of editions">
+                    <input
+                        type="number"
+                        placeholder="Specify the number of unique editions for this artwork"
+                        min={1}
+                        required/>
+                </Property>
                 <hr />
             </Form>
         );
     }
 });
+
+let InputDate = React.createClass({
+    propTypes: {
+        placeholderText: React.PropTypes.string
+    },
+
+    getInitialState() {
+        return {
+            value: null,
+            value_formatted: null
+        };
+    },
+
+    handleChange(date) {
+        this.setState({
+            value: date,
+            value_formatted: date.format('YYYY')});
+    },
+
+    render: function () {
+        return (
+            <DatePicker
+                key="example2"
+                dateFormat="YYYY"
+                selected={this.state.value}
+                onChange={this.handleChange}
+                onBlur={this.props.onBlur}
+                placeholderText={this.props.placeholderText}/>
+        );
+    }
+});
+
 export default RegisterPiece;

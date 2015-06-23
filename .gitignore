@@ -12,7 +12,6 @@ logs
 results
  
 node_modules/*
-!node_modules/react-s3-fineuploader
 
 build
 

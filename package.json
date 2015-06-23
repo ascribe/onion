@@ -13,8 +13,7 @@
     "start": "node server.js"
   },
   "browser": {
-    "fineUploader": "./node_modules/react-s3-fineuploader/vendor/s3.fine-uploader.js",
-    "ReactS3FineUploader": "./node_modules/react-s3-fineuploader/react_s3_fine_uploader.js"
+    "fineUploader": "./js/components/ascribe_uploader/vendor/s3.fine-uploader.js"
   },
   "browserify-shim": {
     "fineUploader": "qq"
@@ -71,6 +70,7 @@
     "react": "^0.13.2",
     "react-bootstrap": "~0.22.6",
     "react-datepicker": "~0.8.0",
+    "react-progressbar": "^1.1.0",
     "react-router": "^0.13.3",
     "react-textarea-autosize": "^2.2.3",
     "reactify": "^1.1.0",
