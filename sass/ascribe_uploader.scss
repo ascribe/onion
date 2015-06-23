@@ -1,0 +1,64 @@
+.file-drag-and-drop {
+    display: table-cell;
+    outline: 1px dashed #616161;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    height:208px;
+    width: 672px;
+    background-color: #FAFAFA;
+    transition: .1s linear background-color;
+}
+
+.file-drag-and-drop:hover {
+    background-color: rgba(72, 218, 203, 0.2);
+}
+
+.file-drag-and-drop > span {
+    font-size: 1.5em;
+}
+
+.has-files {
+    text-align: left;
+    padding: 3em 0 0 0;
+}
+
+.file-drag-and-drop-position {
+    display: inline-block;
+    margin: 0 0 3em 3em;
+    float:left;
+}
+
+.file-drag-and-drop-preview-table-wrapper {
+    display: table;
+    height:94px;
+    width:104px;
+}
+
+.file-drag-and-drop-preview {
+    overflow:hidden;
+    cursor: default;
+    background-color: #EEEEEE;
+    border: 1px solid #616161;
+}
+
+.file-drag-and-drop-preview-image {
+    display: table;
+    height:104px;
+    width:104px;
+    overflow:hidden;
+    border: 1px solid #616161;
+}
+
+.file-drag-and-drop-preview-other {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.file-drag-and-drop-preview-other span {
+    font-size: 1.1em;
+    display: block;
+    margin-top: -10px;
+}
