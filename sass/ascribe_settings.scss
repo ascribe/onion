@@ -38,6 +38,10 @@
             color: #666;
         }
     }
+
+    &:hover{
+      border-left: 3px solid rgba(169, 68, 66, 1);
+    }
 }
 
 .is-fixed {
@@ -67,7 +71,7 @@
 
     cursor:pointer;
 
-    input, div, span, pre, textarea {
+    input, div, span, pre, textarea, select {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
     span {
@@ -88,7 +92,7 @@
         }
     }
 
-    input, pre, textarea {
+    input, pre, textarea, select {
         font-weight: 400;
         font-size: 1.1em;
         width:100%;

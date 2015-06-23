@@ -97,6 +97,24 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
+                <Form
+                    url={AppConstants.serverUrl + 'api/users/set_language/'}>
+                    <Property
+                        name='language'
+                        label="Choose your Language"
+                        editable={true}>
+                        <select id="select-lang" name="language">
+                            <option value="fr">
+                                Fran&ccedil;ais
+                            </option>
+                            <option value="en"
+                                    selected="selected">
+                                English
+                            </option>
+                        </select>
+                    </Property>
+                    <hr />
+                </Form>
             </CollapsibleParagraph>
         );
     }

@@ -19,7 +19,6 @@ let Route = Router.Route;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
-
 let routes = (
     <Route name="app" path={baseUrl} handler={AscribeApp}>
         <Route name="signup" path="signup" handler={SignupContainer} />
