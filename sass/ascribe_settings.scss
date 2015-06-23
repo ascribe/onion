@@ -89,7 +89,6 @@
     }
 
     input, pre, textarea {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-weight: 400;
         font-size: 1.1em;
         width:100%;
@@ -97,6 +96,7 @@
         border: 0;
         background-color: rgba(0,0,0,0);
         color: #38BAAD;
+        padding-left: 0;
 
         &:focus {
             border:0;

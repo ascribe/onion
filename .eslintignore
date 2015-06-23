@@ -5,3 +5,4 @@ node_modules
 js/**/__tests__
 
 server.js
+js/components/ascribe_uploader/vendor

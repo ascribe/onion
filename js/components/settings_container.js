@@ -202,7 +202,7 @@ let APISettings = React.createClass({
     },
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
-        if (this.state.applications.length > 0) {
+        if (this.state.applications.length > -1) {
             content = this.state.applications.map(function(app) {
                 return (
                     <Property
