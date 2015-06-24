@@ -55,8 +55,8 @@ var config = {
 
 var constants = {
     BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
-    API_ENDPOINT: process.env.ONION_API_ENDPOINT || 'http://staging.ascribe.io/api/',
     SERVER_URL: process.env.ONION_SERVER_URL || 'http://staging.ascribe.io/',
+    API_ENDPOINT: process.env.ONION_SERVER_URL + 'api/' || 'http://staging.ascribe.io/api/',
     DEBUG: !argv.production,
     CREDENTIALS: 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw' // dimi@mailinator:0000000000
 };

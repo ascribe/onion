@@ -94,7 +94,7 @@ A: Use `npm dedupe` to remove duplicates in npm. This might fix that you're not 
 Q: How can I use a local copy of SPOOL and Onion?
 A: Easily by starting the your gulp process with the following command:
 ```
-ONION_BASE_URL='/' ONION_API_ENDPOINT='http://localhost:8000/api/' ONION_SERVER_URL='http://localhost:8000/' gulp serve
+ONION_BASE_URL='/' ONION_API_ENDPOINT='http://localhost:8000/' gulp serve
 ```
 
 Reading list
