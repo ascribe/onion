@@ -37,16 +37,27 @@ let LoginForm = React.createClass({
     handleSuccess(){
         let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
 
+        /*Taken from http://stackoverflow.com/a/14916411 */
+        /* 
+        We actually have to trick the Browser into showing the "save password" dialog
+        as Chrome expects the login page to be reloaded after the login.
+        Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
+        Until then, we redirect the HARD way, but reloading the whole page using window.location
+        */
+        window.location = '/collection';
     },
+
     render() {
         return (
             <Form
+                ref="loginForm"
                 url={apiUrls.users_login}
                 handleSuccess={this.handleSuccess}
                 buttons={
-                    <button type="submit" className="btn ascribe-btn ascribe-btn-login">
+                    <button
+                        type="submit"
+                        className="btn ascribe-btn ascribe-btn-login">
                         Log in to ascribe
                     </button>}
                 spinner={
@@ -61,6 +72,7 @@ let LoginForm = React.createClass({
                         type="email"
                         placeholder="Enter your email"
                         autoComplete="on"
+                        name="username"
                         required/>
                 </Property>
                 <Property
@@ -70,6 +82,7 @@ let LoginForm = React.createClass({
                         type="password"
                         placeholder="Enter your password"
                         autoComplete="on"
+                        name="password"
                         required/>
                 </Property>
                 <hr />

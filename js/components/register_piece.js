@@ -40,7 +40,7 @@ let RegisterPiece = React.createClass( {
         return data;
     },
     handleChange(){
-        this.setState({digital_work_key: this.refs.uploader.refs.fineuploader.state.filesToUpload[0].key})
+        this.setState({digital_work_key: this.refs.uploader.refs.fineuploader.state.filesToUpload[0].key});
     },
 
     render() {
