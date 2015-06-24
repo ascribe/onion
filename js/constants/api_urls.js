@@ -3,6 +3,9 @@
 import AppConstants from './application_constants';
 
 let apiUrls = {
+    'applications': AppConstants.apiEndpoint + 'applications/',
+    'application_token_refresh': AppConstants.apiEndpoint + 'applications/refresh_token/',
+    'blob_digitalworks': AppConstants.apiEndpoint + 'blob/digitalworks/',
     'edition': AppConstants.apiEndpoint + 'editions/${bitcoin_id}/',
     'edition_delete': AppConstants.apiEndpoint + 'editions/${edition_id}/',
     'edition_remove_from_collection': AppConstants.apiEndpoint + 'ownership/shares/${edition_id}/',
@@ -15,7 +18,7 @@ let apiUrls = {
     'ownership_loans': AppConstants.apiEndpoint + 'ownership/loans/',
     'ownership_loans_confirm': AppConstants.apiEndpoint + 'ownership/loans/confirm/',
     'ownership_loans_deny': AppConstants.apiEndpoint + 'ownership/loans/deny/',
-    'ownership_shares_mail': AppConstants.apiEndpoint + 'ownership/shares/mail/',
+    'ownership_shares': AppConstants.apiEndpoint + 'ownership/shares/',
     'ownership_transfers': AppConstants.apiEndpoint + 'ownership/transfers/',
     'ownership_unconsigns': AppConstants.apiEndpoint + 'ownership/unconsigns/',
     'ownership_unconsigns_deny': AppConstants.apiEndpoint + 'ownership/unconsigns/deny/',

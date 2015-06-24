@@ -18,6 +18,12 @@ const CollapsibleParagraph = React.createClass({
         iconName: React.PropTypes.string
     },
 
+    getDefaultProps() {
+        return {
+            show: true
+        };
+    },
+
     mixins: [CollapsibleMixin],
 
     getCollapsibleDOMNode(){
@@ -35,19 +41,23 @@ const CollapsibleParagraph = React.createClass({
 
     render() {
         let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? '-' : '+';
-        return (
-            <div className="ascribe-detail-header">
-                <div className="ascribe-edition-collapsible-wrapper">
-                    <div onClick={this.handleToggle}>
-                        <span>{text} {this.props.title} </span>
-                    </div>
-                    <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
-                        {this.props.children}
+        let text = this.isExpanded() ? '[hide]' : '[show]';
+        if(this.props.show) {
+            return (
+                <div className="ascribe-detail-header">
+                    <div className="ascribe-edition-collapsible-wrapper">
+                        <div onClick={this.handleToggle}>
+                            <span>{this.props.title}</span><span className="pull-right">{text}</span>
+                        </div>
+                        <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
+                            {this.props.children}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     }
 });
 

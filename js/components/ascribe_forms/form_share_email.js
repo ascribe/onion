@@ -12,7 +12,7 @@ let ShareForm = React.createClass({
     mixins: [FormMixin],
 
     url() {
-        return ApiUrls.ownership_shares_mail;
+        return ApiUrls.ownership_shares;
     },
 
     getFormData() {

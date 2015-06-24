@@ -10,6 +10,9 @@ import AlertDismissable from './alert';
 
 let Form = React.createClass({
     propTypes: {
+        url: React.PropTypes.string,
+        handleSuccess: React.PropTypes.func,
+        getFormData: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
@@ -47,6 +50,9 @@ let Form = React.createClass({
     },
 
     getFormData(){
+        if ('getFormData' in this.props){
+            return this.props.getFormData();
+        }
         let data = {};
         for (let ref in this.refs){
             data[this.refs[ref].props.name] = this.refs[ref].state.value;
@@ -66,7 +72,7 @@ let Form = React.createClass({
                 this.refs[ref].handleSuccess();
             }
         }
-        this.setState({edited: false});
+        this.setState({edited: false, submitted: false});
     },
     handleError(err){
         if (err.json) {
@@ -102,9 +108,11 @@ let Form = React.createClass({
 
         if (this.state.edited){
             buttons = (
-                <div className="pull-right">
-                    <Button className="ascribe-btn" type="submit">Save</Button>
-                    <Button className="ascribe-btn" onClick={this.reset}>Cancel</Button>
+                <div className="row" style={{margin: 0}}>
+                    <p className="pull-right">
+                        <Button className="ascribe-btn" type="submit">Save</Button>
+                        <Button className="ascribe-btn" onClick={this.reset}>Cancel</Button>
+                    </p>
                 </div>
             );
 

@@ -1,3 +1,4 @@
+
 .ascribe-settings-wrapper {
     width: 100%;
     text-align: center;
@@ -10,11 +11,18 @@
     &div:last-of-type {
         border-bottom: 1px solid rgba(0,0,0,.2);
     }
+    &:hover{
+      border-left: 3px solid rgba(2, 182, 163, 0.4);
+    }
+}
+
+.is-hidden{
+  display: none;
 }
 
 .is-focused {
     background-color: rgba(2, 182, 163, 0.05);
-    border-left: 3px solid rgba(2, 182, 163, 1);
+    border-left: 3px solid rgba(2, 182, 163, 1)!important;
 }
 
 .is-error {
@@ -26,12 +34,13 @@
             font-size: 0.9em;
             margin-right: 1em;
         }
-        span {
-
-        }
-        input {
+        input, textarea {
             color: #666;
         }
+    }
+
+    &:hover{
+      border-left: 3px solid rgba(169, 68, 66, 1);
     }
 }
 
@@ -42,12 +51,14 @@
         span {
             cursor: default;
         }
-        input {
+        input, div, pre, textarea {
             cursor: default;
             color: #666;
         }
     }
 }
+
+
 
 .ascribe-settings-property {
     display: inline-block;
@@ -60,15 +71,28 @@
 
     cursor:pointer;
 
-    span {
+    input, div, span, pre, textarea, select {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    span {
         font-weight: normal;
         font-size: 0.9em;
         color: rgba(0,0,0,.7);
     }
 
-    input {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    div {
+        margin-top: 10px;
+        div {
+          padding-left: 0;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-weight: normal;
+          font-size: 1.1em;
+          cursor: default;
+          color: rgba(0, 0, 0, .7);
+        }
+    }
+
+    input, pre, textarea, select {
         font-weight: 400;
         font-size: 1.1em;
         width:100%;
@@ -76,10 +100,12 @@
         border: 0;
         background-color: rgba(0,0,0,0);
         color: #38BAAD;
+        padding-left: 0;
 
         &:focus {
             border:0;
             outline:0;
+            box-shadow: none;
         }
 
         &::selection {
@@ -89,4 +115,9 @@
 
     }
 
+    textarea{
+        color: #666;
+        margin-top: 1em;
+        padding: 0;
+    }
 }

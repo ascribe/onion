@@ -39,6 +39,7 @@ let Header = React.createClass({
     handleLogout(){
         UserActions.logoutCurrentUser();
         Alt.flush();
+        this.transitionTo('login');
     },
     onChange(state) {
         this.setState(state);
@@ -71,7 +72,6 @@ let Header = React.createClass({
 
             <Navbar brand={brand} toggleNavKey={0}>
                 <CollapsibleNav eventKey={0}>
-                    <Nav navbar />
                     <Nav navbar right>
                         {account}
                         {signup}

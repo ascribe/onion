@@ -19,7 +19,6 @@ let Route = Router.Route;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
-
 let routes = (
     <Route name="app" path={baseUrl} handler={AscribeApp}>
         <Route name="signup" path="signup" handler={SignupContainer} />
@@ -30,8 +29,8 @@ let routes = (
         <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
 
-        <Redirect from={baseUrl} to="pieces" />
-        <Redirect from={baseUrl + '/'} to="pieces" />
+        <Redirect from={baseUrl} to="login" />
+        <Redirect from={baseUrl + '/'} to="login" />
     </Route>
 );
 
