@@ -91,6 +91,12 @@ Error: watch ENOSPC
 ```
 A: Use `npm dedupe` to remove duplicates in npm. This might fix that you're not [running out of watchers in your system (read the comments)](http://stackoverflow.com/a/17437601/1263876).
 
+Q: How can I use a local copy of SPOOL and Onion?
+A: Easily by starting the your gulp process with the following command:
+```
+ONION_BASE_URL='/beta/' ONION_API_ENDPOINT='http://localhost:8000/api' gulp serve
+```
+
 Reading list
 ============
 
