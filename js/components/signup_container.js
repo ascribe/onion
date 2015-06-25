@@ -3,6 +3,9 @@
 import React from 'react';
 import Router from 'react-router';
 
+import { mergeOptions } from '../utils/general_utils';
+
+import UserStore from '../stores/user_store';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -17,18 +20,37 @@ import apiUrls from '../constants/api_urls';
 let SignupContainer = React.createClass({
     mixins: [Router.Navigation],
 
-    getInitialState(){
-        return ({
+    getInitialState() {
+        return mergeOptions({
             submitted: false,
             message: null
-        });
+        }, UserStore.getState());
     },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+
+        // if user is already logged in, redirect him to piece list
+        if(this.state.currentUser && this.state.currentUser.email) {
+            this.transitionTo('pieces');
+        }
+    },
+
     handleSuccess(message){
         this.setState({
             submitted: true,
             message: message
         });
     },
+
     render() {
         if (this.state.submitted){
             return (

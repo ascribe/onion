@@ -31,6 +31,8 @@ let LoginContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
+
+        // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
             this.transitionTo('pieces');
         }
