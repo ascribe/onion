@@ -224,7 +224,7 @@ let EditionSummary = React.createClass({
                     </button>
                 );
             }
-            status =(
+            status = (
                 <EditionDetailProperty label="STATUS" value={ statusStr }>
                     {statusAction}
                 </EditionDetailProperty>);
@@ -323,16 +323,7 @@ let EditionDetailHistoryIterator = React.createClass({
         return (
             <Form>
                 {this.props.history.map((historicalEvent, i) => {
-                    //return (
-                    //    <EditionDetailProperty
-                    //        key={i}
-                    //        label={historicalEvent[0]}
-                    //        value={historicalEvent[1]}
-                    //        labelClassName="col-xs-4 col-sm-4 col-md-4 col-lg-4"
-                    //        valueClassName="col-xs-8 col-sm-8 col-md-8 col-lg-8"
-                    //        separator="" />
-                    //);
-                    return(
+                    return (
                         <Property
                                 name={i}
                                 key={i}
@@ -340,7 +331,7 @@ let EditionDetailHistoryIterator = React.createClass({
                                 editable={false}>
                             <pre className="ascribe-pre">{ historicalEvent[1] }</pre>
                         </Property>
-                    )
+                    );
                 })}
                 <hr />
             </Form>
