@@ -6,6 +6,8 @@ import Router from 'react-router';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
+import UserStore from '../stores/user_store';
+
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 
@@ -14,6 +16,25 @@ import apiUrls from '../constants/api_urls';
 
 let LoginContainer = React.createClass({
     mixins: [Router.Navigation],
+
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+        if(this.state.currentUser && this.state.currentUser.email) {
+            this.transitionTo('pieces');
+        }
+    },
 
     render() {
         return (
@@ -31,15 +52,12 @@ let LoginContainer = React.createClass({
 
 
 let LoginForm = React.createClass({
-    mixins: [Router.Navigation],
-
-
     handleSuccess(){
         let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         /*Taken from http://stackoverflow.com/a/14916411 */
-        /* 
+        /*
         We actually have to trick the Browser into showing the "save password" dialog
         as Chrome expects the login page to be reloaded after the login.
         Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
