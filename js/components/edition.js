@@ -6,9 +6,12 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Panel from 'react-bootstrap/lib/Panel';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
+import CoaActions from '../actions/coa_actions';
+import CoaStore from '../stores/coa_store';
 
 import MediaPlayer from './ascribe_media/media_player';
 
@@ -29,6 +32,7 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import requests from '../utils/requests';
 import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
 
 /**
  * This is the component that implements display-specific functionality
@@ -109,10 +113,17 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Further Details (all editions)"
+                        title="Further Details"
                         show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title="Certificate of Authenticity"
+                        show={this.props.edition.acl.indexOf('coa') > -1}>
+                        <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
 
@@ -418,6 +429,57 @@ let EditionFurtherDetails = React.createClass({
                 </Col>
             </Row>
         );
+    }
+});
+
+let CoaDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object
+    },
+
+    getInitialState() {
+        return CoaStore.getState();
+    },
+
+    componentDidMount() {
+        CoaStore.listen(this.onChange);
+        if (this.props.edition.coa) {
+            CoaActions.fetchOne(this.props.edition.coa);
+        }
+        else{
+            console.log('create coa');
+            CoaActions.create(this.props.edition);
+        }
+    },
+
+    componentWillUnmount() {
+        CoaStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
+    render() {
+        if (this.state.coa.url_safe) {
+            return (
+                <div>
+                    <p className="text-center">
+                        <Button bsSize="xsmall" href={this.state.coa.url_safe} target="_blank">
+                            Download <Glyphicon glyph="cloud-download"/>
+                        </Button>
+                        <Button bsSize="xsmall" href={AppConstants.serverUrl + 'verify/'} target="_blank">
+                            Verify <Glyphicon glyph="check"/>
+                        </Button>
+                    </p>
+                </div>
+            );
+        }
+        return (
+            <div className="text-center">
+                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+            </div>);
+
     }
 });
 

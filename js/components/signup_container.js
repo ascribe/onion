@@ -115,7 +115,7 @@ let SignupForm = React.createClass({
                     name='promo_code'
                     label="Promocode">
                     <input
-                        type="password"
+                        type="text"
                         placeholder="Enter a promocode here (Optional)"/>
                 </Property>
                 <hr />
