@@ -40,7 +40,7 @@ let LoginForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         /*Taken from http://stackoverflow.com/a/14916411 */
-        /* 
+        /*
         We actually have to trick the Browser into showing the "save password" dialog
         as Chrome expects the login page to be reloaded after the login.
         Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
