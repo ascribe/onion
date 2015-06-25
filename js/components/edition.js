@@ -1,12 +1,12 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Panel from 'react-bootstrap/lib/Panel';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -30,10 +30,10 @@ import AclButtonList from './ascribe_buttons/acl_button_list';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import requests from '../utils/requests';
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
 
+let Link = Router.Link;
 /**
  * This is the component that implements display-specific functionality
  */
@@ -468,9 +468,12 @@ let CoaDetails = React.createClass({
                         <Button bsSize="xsmall" href={this.state.coa.url_safe} target="_blank">
                             Download <Glyphicon glyph="cloud-download"/>
                         </Button>
-                        <Button bsSize="xsmall" href={AppConstants.serverUrl + 'verify/'} target="_blank">
-                            Verify <Glyphicon glyph="check"/>
-                        </Button>
+                        <Link to="coa_verify">
+                            <Button bsSize="xsmall">
+                                Verify <Glyphicon glyph="check"/>
+                            </Button>
+                        </Link>
+
                     </p>
                 </div>
             );
