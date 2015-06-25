@@ -46,7 +46,7 @@ let LoginForm = React.createClass({
         Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
         Until then, we redirect the HARD way, but reloading the whole page using window.location
         */
-        window.location = AppConstants.baseUrl + '/collection';
+        window.location = AppConstants.baseUrl + 'collection';
     },
 
     render() {
