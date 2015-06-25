@@ -35,7 +35,6 @@
   "devDependencies": {
     "babel-eslint": "^3.1.11",
     "babel-jest": "^5.2.0",
-    "browserify-shim": "^3.8.9",
     "jest-cli": "^0.4.0"
   },
   "dependencies": {
@@ -44,6 +43,7 @@
     "bootstrap-sass": "^3.3.4",
     "browser-sync": "^2.7.5",
     "browserify": "^9.0.8",
+    "browserify-shim": "^3.8.9",
     "classnames": "^1.2.2",
     "compression": "^1.4.4",
     "envify": "^3.4.0",
