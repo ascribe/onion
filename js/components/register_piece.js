@@ -187,7 +187,8 @@ let FileUploader = React.createClass( {
 
 let InputDate = React.createClass({
     propTypes: {
-        placeholderText: React.PropTypes.string
+        placeholderText: React.PropTypes.string,
+        onChange: React.PropTypes.func
     },
 
     getInitialState() {
