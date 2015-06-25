@@ -10,6 +10,14 @@
     transition: .1s linear background-color;
 }
 
+.inactive-dropzone {
+    cursor: default !important;
+}
+
+.inactive-dropzone:hover {
+    background-color: #FAFAFA !important;
+}
+
 .file-drag-and-drop:hover {
     background-color: rgba(72, 218, 203, 0.2);
 }
