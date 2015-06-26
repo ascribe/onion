@@ -203,6 +203,9 @@ let EditionSummary = React.createClass({
         edition: React.PropTypes.object
     },
 
+    getTransferWithdrawData(){
+        return {'bitcoin_id': this.props.edition.bitcoin_id};
+    },
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
@@ -215,19 +218,23 @@ let EditionSummary = React.createClass({
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join().replace(/_/, ' ');
-            let statusAction = null;
+            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.indexOf('withdraw_transfer') > -1){
-                statusAction = (
-                    <button
-                        className="pull-right btn btn-default btn-sm">
-                        WITHDRAW
-                    </button>
+                status = (
+                    <Form
+                        url={apiUrls.ownership_transfers_withdraw}
+                        getFormData={this.getTransferWithdrawData}
+                        handleSuccess={this.showNotification}>
+                        <EditionDetailProperty label="STATUS" value={ statusStr }>
+                            <button
+                                type="submit"
+                                className="pull-right btn btn-default btn-sm">
+                                WITHDRAW
+                            </button>
+                        </EditionDetailProperty>
+                    </Form>
                 );
             }
-            status = (
-                <EditionDetailProperty label="STATUS" value={ statusStr }>
-                    {statusAction}
-                </EditionDetailProperty>);
         }
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
