@@ -56,6 +56,33 @@
     width:104px;
     overflow:hidden;
     border: 1px solid #616161;
+    text-align: center;
+}
+
+.file-drag-and-drop-preview-image .delete-file {
+    font-size: 3em;
+    margin-top: .5em;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    cursor: pointer;
+
+    &:hover {
+        color: #d9534f;
+    }
+}
+
+.file-drag-and-drop-preview-other .delete-file {
+    position: relative;
+    top: .45em;
+    margin-top: 0;
+    font-size: 3em;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    cursor: pointer;
+
+    &:hover {
+        color: #d9534f;
+    }
 }
 
 .file-drag-and-drop-preview-other {
@@ -65,8 +92,7 @@
 
 }
 
-.file-drag-and-drop-preview-other span {
-    font-size: 1.1em;
+.file-drag-and-drop-preview-other span:not(:first-child) {
     display: block;
-    margin-top: -10px;
+    margin-top: 1.5em;
 }

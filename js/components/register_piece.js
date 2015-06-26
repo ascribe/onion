@@ -179,7 +179,7 @@ let FileUploader = React.createClass( {
                     }
                     return name;
                 }}
-                multiple={false}/>
+                multiple={true}/>
         );
     }
 });

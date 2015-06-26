@@ -221,6 +221,7 @@ var ReactS3FineUploader = React.createClass({
 
     onCancel() {
         console.log('cancel');
+        // handle file removal here, for this.state.filesToUpload (same as in onDeleteComplete)
     },
 
     onSessionRequestComplete() {
@@ -229,18 +230,23 @@ var ReactS3FineUploader = React.createClass({
 
     onDeleteComplete(id, xhr, isError) {
         if(isError) {
+            let notification = new GlobalNotificationModel('Couldn\'t delete file', 'danger', 10000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+        } else {
             // also, sync files from state with the ones from fineuploader
             let filesToUpload = JSON.parse(JSON.stringify(this.state.filesToUpload));
+
             // splice because I can
             filesToUpload.splice(id, 1);
 
             // set state
-            this.setState({
-                filesToUpload: React.addons.update(this.state.filesToUpload, {$set: filesToUpload})
+            let newState = React.addons.update(this.state, {
+                filesToUpload: { $set: filesToUpload }
             });
-        } else {
-            console.log(id);
-            // TODO: add global notification
+            this.setState(newState);
+
+            let notification = new GlobalNotificationModel('File deleted', 'success', 10000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
         }
     },
 
