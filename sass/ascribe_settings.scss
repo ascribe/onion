@@ -68,12 +68,13 @@
 
     padding-top: 1em;
     padding-left: 1.5em;
+    padding-right: 1.5em;
 
     cursor:pointer;
 
-    input, div, span, pre, textarea, select {
+   /*  input, div, span, pre, textarea, select {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
+    } */
     span {
         font-weight: normal;
         font-size: 0.9em;
@@ -81,7 +82,7 @@
     }
 
     div {
-        margin-top: 10px;
+        /* margin-top: 10px; */
         div {
           padding-left: 0;
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -90,6 +91,10 @@
           cursor: default;
           color: rgba(0, 0, 0, .7);
         }
+    }
+
+    .progressbar-container, .progressbar-progress {
+        margin-top: 0 !important;
     }
 
     input, pre, textarea, select {

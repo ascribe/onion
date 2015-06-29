@@ -1,13 +1,15 @@
 .file-drag-and-drop {
-    display: table-cell;
+    position: relative;
+    display: block;
     outline: 1px dashed #616161;
     cursor: pointer;
     vertical-align: middle;
     text-align: center;
-    height:208px;
-    width: 672px;
+    height:185px;
     background-color: #FAFAFA;
     transition: .1s linear background-color;
+
+    margin-top: 1em;
 }
 
 .inactive-dropzone {
@@ -22,8 +24,15 @@
     background-color: rgba(72, 218, 203, 0.2);
 }
 
-.file-drag-and-drop > span {
-    font-size: 1.5em;
+.file-drag-and-drop .file-drag-and-drop-dialog {
+    font-size: 1.25em !important;
+
+    &:before {
+        content: ' ';
+        display: inline-block;
+        vertical-align: middle; /* vertical alignment of the inline element */
+        height: 100%;
+    }
 }
 
 .has-files {
@@ -61,7 +70,7 @@
 
 .file-drag-and-drop-preview-image .delete-file {
     font-size: 3em;
-    margin-top: .5em;
+    margin-top: .3em;
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
     cursor: pointer;
