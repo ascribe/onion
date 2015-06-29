@@ -36,6 +36,8 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
 
+import { getCookie } from '../utils/fetch_api_utils';
+
 let Link = Router.Link;
 /**
  * This is the component that implements display-specific functionality
@@ -528,7 +530,10 @@ let FileUploader = React.createClass({
                 setUploadStatus={this.props.setUploadStatus}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 session={{
-                    endpoint: '/api/ownership/loans/contract/'
+                    endpoint: AppConstants.serverUrl + 'api/ownership/loans/contract/',
+                    customHeaders: {
+                       'X-CSRFToken': getCookie('csrftoken')
+                    }
                 }}/>
         );
     }
