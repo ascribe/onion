@@ -518,7 +518,7 @@ let FileUploader = React.createClass({
                     bitcoinId: this.props.edition.bitcoin_id
                 }}
                 createBlobRoutine={{
-                    url: apiUrls.blob_digitalworks
+                    url: apiUrls.blob_otherdatas
                 }}
                 validation={{
                     itemLimit: 100000,

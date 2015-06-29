@@ -6,6 +6,7 @@ let apiUrls = {
     'applications': AppConstants.apiEndpoint + 'applications/',
     'application_token_refresh': AppConstants.apiEndpoint + 'applications/refresh_token/',
     'blob_digitalworks': AppConstants.apiEndpoint + 'blob/digitalworks/',
+    'blob_otherdatas': AppConstants.apiEndpoint + 'blob/otherdatas/',
     'coa': AppConstants.apiEndpoint + 'coa/${id}/',
     'coa_create': AppConstants.apiEndpoint + 'coa/',
     'coa_verify': AppConstants.apiEndpoint + 'coa/verify_coa/',
