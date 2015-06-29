@@ -93,8 +93,7 @@ gulp.task('browser-sync', function() {
     browserSync({
         files: config.filesToWatch,
         proxy: 'http://localhost:4000',
-        port: 3000,
-        browser: "chromium-browser"
+        port: 3000
     });
 });
 

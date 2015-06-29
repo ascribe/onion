@@ -6,6 +6,7 @@ let apiUrls = {
     'applications': AppConstants.apiEndpoint + 'applications/',
     'application_token_refresh': AppConstants.apiEndpoint + 'applications/refresh_token/',
     'blob_digitalworks': AppConstants.apiEndpoint + 'blob/digitalworks/',
+    'blob_otherdatas': AppConstants.apiEndpoint + 'blob/otherdatas/',
     'coa': AppConstants.apiEndpoint + 'coa/${id}/',
     'coa_create': AppConstants.apiEndpoint + 'coa/',
     'coa_verify': AppConstants.apiEndpoint + 'coa/verify_coa/',
@@ -37,7 +38,8 @@ let apiUrls = {
     'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
     'users_signup': AppConstants.apiEndpoint + 'users/',
     'users_username': AppConstants.apiEndpoint + 'users/username/',
-    'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/'
+    'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
+    'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/'
 };
 
 export default apiUrls;
