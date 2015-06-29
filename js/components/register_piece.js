@@ -24,8 +24,12 @@ let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
 
     getInitialState(){
-        return {digital_work_key: null};
+        return {
+            digitalWorkKey: null,
+            uploadStatus: false
+        };
     },
+
     handleSuccess(){
         let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -37,30 +41,46 @@ let RegisterPiece = React.createClass( {
         for (let ref in this.refs.form.refs){
             data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
         }
-        data.digital_work_key = this.state.digital_work_key;
+        data.digital_work_key = this.state.digitalWorkKey;
         return data;
     },
-    handleChange(){
-        this.setState({digital_work_key: this.refs.uploader.refs.fineuploader.state.filesToUpload[0].key});
+
+    submitKey(key){
+        this.setState({
+            digitalWorkKey: key
+        });
+    },
+
+    setUploadStatus(isReady) {
+        console.log(isReady);
+        this.setState({
+            uploadStatus: isReady
+        });
+    },
+
+    isReadyForFormSubmission(files) {
+        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
+        console.log(files);
+        if(files.length > 0 && files[0].status === 'upload successful') {
+            return true;
+        } else {
+            return false;
+        }
     },
 
     render() {
         let buttons = null;
-        if (this.refs.uploader && this.refs.uploader.refs.fineuploader.state.filesToUpload[0].status === 'upload successful'){
+
+        if (this.state.uploadStatus){
             buttons = (
                 <button type="submit" className="btn ascribe-btn ascribe-btn-login">
                     Register your artwork
                 </button>);
         }
+
         return (
             <div className="row ascribe-row">
-                <div className="col-md-5">
-                    <FileUploader
-                        ref='uploader'
-                        handleChange={this.handleChange}/>
-                    <br />
-                </div>
-                <div className="col-md-7">
+                <div className="col-md-12">
                     <h3 style={{'marginTop': 0}}>Lock down title</h3>
                     <Form
                         ref='form'
@@ -73,6 +93,13 @@ let RegisterPiece = React.createClass( {
                                 <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                             </button>
                             }>
+                        <Property
+                            label="Files to upload">
+                            <FileUploader
+                                submitKey={this.submitKey}
+                                setUploadStatus={this.setUploadStatus}
+                                isReadyForFormSubmission={this.isReadyForFormSubmission}/>
+                        </Property>
                         <Property
                             name='artist_name'
                             label="Artist Name">
@@ -117,17 +144,15 @@ let RegisterPiece = React.createClass( {
 
 
 let FileUploader = React.createClass({
-    getCookie(name) {
-        let value = '; ' + document.cookie;
-        let parts = value.split('; ' + name + '=');
-        if (parts.length === 2) {
-            return parts.pop().split(';').shift();
-        }
+    propTypes: {
+        setUploadStatus: React.PropTypes.func,
+        submitKey: React.PropTypes.func,
+        isReadyForFormSubmission: React.PropTypes.func
     },
+
     render() {
         return (
             <ReactS3FineUploader
-                ref='fineuploader'
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'digitalwork'
@@ -135,11 +160,13 @@ let FileUploader = React.createClass({
                 createBlobRoutine={{
                     url: apiUrls.blob_digitalworks
                 }}
-                handleChange={this.props.handleChange}
+                submitKey={this.props.submitKey}
                 validation={{
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
-                }}/>
+                }}
+                setUploadStatus={this.props.setUploadStatus}
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}/>
         );
     }
 });
