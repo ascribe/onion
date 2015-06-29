@@ -12,6 +12,7 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 
 import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
 
 
 let LoginContainer = React.createClass({
@@ -65,7 +66,7 @@ let LoginForm = React.createClass({
         Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
         Until then, we redirect the HARD way, but reloading the whole page using window.location
         */
-        window.location = '/collection';
+        window.location = AppConstants.baseUrl + 'collection';
     },
 
     render() {

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -9,6 +10,8 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
+import CoaActions from '../actions/coa_actions';
+import CoaStore from '../stores/coa_store';
 
 import MediaPlayer from './ascribe_media/media_player';
 
@@ -24,12 +27,16 @@ import RequestActionForm from './ascribe_forms/form_request_action';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
+import fineUploader from 'fineUploader';
+import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import requests from '../utils/requests';
 import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
 
+let Link = Router.Link;
 /**
  * This is the component that implements display-specific functionality
  */
@@ -93,6 +100,7 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
+                        currentUser={this.state.currentUser}
                         edition={this.props.edition} />
 
                     <CollapsibleParagraph
@@ -109,10 +117,17 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Further Details (all editions)"
+                        title="Further Details"
                         show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title="Certificate of Authenticity"
+                        show={this.props.edition.acl.indexOf('coa') > -1}>
+                        <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
 
@@ -191,6 +206,9 @@ let EditionSummary = React.createClass({
         edition: React.PropTypes.object
     },
 
+    getTransferWithdrawData(){
+        return {'bitcoin_id': this.props.edition.bitcoin_id};
+    },
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
@@ -202,7 +220,24 @@ let EditionSummary = React.createClass({
     render() {
         let status = null;
         if (this.props.edition.status.length > 0){
-            status = <EditionDetailProperty label="STATUS" value={ this.props.edition.status.join().replace(/_/, ' ') } />;
+            let statusStr = this.props.edition.status.join().replace(/_/, ' ');
+            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            if (this.props.edition.pending_new_owner && this.props.edition.acl.indexOf('withdraw_transfer') > -1){
+                status = (
+                    <Form
+                        url={apiUrls.ownership_transfers_withdraw}
+                        getFormData={this.getTransferWithdrawData}
+                        handleSuccess={this.showNotification}>
+                        <EditionDetailProperty label="STATUS" value={ statusStr }>
+                            <button
+                                type="submit"
+                                className="pull-right btn btn-default btn-sm">
+                                WITHDRAW
+                            </button>
+                        </EditionDetailProperty>
+                    </Form>
+                );
+            }
         }
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
@@ -262,6 +297,18 @@ let EditionDetailProperty = React.createClass({
     },
 
     render() {
+        let value = this.props.value;
+        if (this.props.children){
+            value = (
+                <div className="row-same-height">
+                    <div className="col-xs-6 col-xs-height col-bottom no-padding">
+                        { this.props.value }
+                    </div>
+                    <div className="col-xs-6 col-xs-height">
+                        { this.props.children }
+                    </div>
+                </div>);
+        }
         return (
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
@@ -269,7 +316,7 @@ let EditionDetailProperty = React.createClass({
                         <div>{ this.props.label + this.props.separator}</div>
                     </div>
                     <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.value }</div>
+                        {value}
                     </div>
                 </div>
             </div>
@@ -284,19 +331,20 @@ let EditionDetailHistoryIterator = React.createClass({
 
     render() {
         return (
-            <div>
+            <Form>
                 {this.props.history.map((historicalEvent, i) => {
                     return (
-                        <EditionDetailProperty
-                            key={i}
-                            label={historicalEvent[0]}
-                            value={historicalEvent[1]}
-                            labelClassName="col-xs-4 col-sm-4 col-md-4 col-lg-4"
-                            valueClassName="col-xs-8 col-sm-8 col-md-8 col-lg-8"
-                            separator="" />
+                        <Property
+                                name={i}
+                                key={i}
+                                label={ historicalEvent[0] }
+                                editable={false}>
+                            <pre className="ascribe-pre">{ historicalEvent[1] }</pre>
+                        </Property>
                     );
                 })}
-            </div>
+                <hr />
+            </Form>
         );
     }
 });
@@ -415,9 +463,91 @@ let EditionFurtherDetails = React.createClass({
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
+                    <FileUploader
+                        edition={this.props.edition}
+                        ref='uploader'/>
                 </Col>
             </Row>
         );
+    }
+});
+
+let FileUploader = React.createClass( {
+    handleChange(){
+        this.setState({other_data_key: this.refs.fineuploader.state.filesToUpload[0].key});
+    },
+    render() {
+        return (
+            <ReactS3FineUploader
+                ref='fineuploader'
+                keyRoutine={{
+                    url: AppConstants.serverUrl + 's3/key/',
+                    fileClass: 'otherdata',
+                    bitcoinId: this.props.edition.bitcoin_id
+                }}
+                createBlobRoutine={{
+                    url: apiUrls.blob_digitalworks
+                }}
+                handleChange={this.handleChange}
+                validation={{
+                    itemLimit: 100000,
+                    sizeLimit: '10000000'
+                }}/>
+        );
+    }
+});
+
+let CoaDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object
+    },
+
+    getInitialState() {
+        return CoaStore.getState();
+    },
+
+    componentDidMount() {
+        CoaStore.listen(this.onChange);
+        if (this.props.edition.coa) {
+            CoaActions.fetchOne(this.props.edition.coa);
+        }
+        else{
+            console.log('create coa');
+            CoaActions.create(this.props.edition);
+        }
+    },
+
+    componentWillUnmount() {
+        CoaStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
+    render() {
+        if (this.state.coa.url_safe) {
+            return (
+                <div>
+                    <p className="text-center">
+                        <Button bsSize="xsmall" href={this.state.coa.url_safe} target="_blank">
+                            Download <Glyphicon glyph="cloud-download"/>
+                        </Button>
+                        <Link to="coa_verify">
+                            <Button bsSize="xsmall">
+                                Verify <Glyphicon glyph="check"/>
+                            </Button>
+                        </Link>
+
+                    </p>
+                </div>
+            );
+        }
+        return (
+            <div className="text-center">
+                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+            </div>);
+
     }
 });
 
