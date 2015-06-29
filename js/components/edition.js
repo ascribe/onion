@@ -520,7 +520,8 @@ let FileUploader = React.createClass({
                     bitcoinId: this.props.edition.bitcoin_id
                 }}
                 createBlobRoutine={{
-                    url: apiUrls.blob_otherdatas
+                    url: apiUrls.blob_otherdatas,
+                    bitcoinId: this.props.edition.bitcoin_id
                 }}
                 validation={{
                     itemLimit: 100000,
@@ -532,7 +533,10 @@ let FileUploader = React.createClass({
                 session={{
                     endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
                     customHeaders: {
-                       'X-CSRFToken': getCookie('csrftoken')
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    params: {
+                        'pk': this.props.edition.other_data.id
                     }
                 }}/>
         );
