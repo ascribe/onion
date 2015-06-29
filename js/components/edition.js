@@ -434,10 +434,38 @@ let EditionFurtherDetails = React.createClass({
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
+
+    getInitialState() {
+        return {
+            loading: false
+        };
+    },
+
     showNotification(){
         this.props.handleSuccess();
         let notification = new GlobalNotificationModel('Details updated', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    submitKey(key){
+        this.setState({
+            otherDataKey: key
+        });
+    },
+
+    setUploadStatus(isReady) {
+        this.setState({
+            uploadStatus: isReady
+        });
+    },
+
+    isReadyForFormSubmission(files) {
+        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
+        if(files.length > 0 && files[0].status === 'upload successful') {
+            return true;
+        } else {
+            return false;
+        }
     },
 
     render() {
@@ -464,22 +492,26 @@ let EditionFurtherDetails = React.createClass({
                         editable={editable}
                         edition={this.props.edition} />
                     <FileUploader
-                        edition={this.props.edition}
-                        ref='uploader'/>
+                        submitKey={this.submitKey}
+                        setUploadStatus={this.setUploadStatus}
+                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        edition={this.props.edition}/>
                 </Col>
             </Row>
         );
     }
 });
 
-let FileUploader = React.createClass( {
-    handleChange(){
-        this.setState({other_data_key: this.refs.fineuploader.state.filesToUpload[0].key});
+let FileUploader = React.createClass({
+    propTypes: {
+        setUploadStatus: React.PropTypes.func,
+        submitKey: React.PropTypes.func,
+        isReadyForFormSubmission: React.PropTypes.func
     },
+
     render() {
         return (
             <ReactS3FineUploader
-                ref='fineuploader'
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'otherdata',
@@ -488,11 +520,13 @@ let FileUploader = React.createClass( {
                 createBlobRoutine={{
                     url: apiUrls.blob_digitalworks
                 }}
-                handleChange={this.handleChange}
                 validation={{
                     itemLimit: 100000,
                     sizeLimit: '10000000'
-                }}/>
+                }}
+                submitKey={this.props.submitKey}
+                setUploadStatus={this.props.setUploadStatus}
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}/>
         );
     }
 });

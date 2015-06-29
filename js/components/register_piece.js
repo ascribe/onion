@@ -52,7 +52,6 @@ let RegisterPiece = React.createClass( {
     },
 
     setUploadStatus(isReady) {
-        console.log(isReady);
         this.setState({
             uploadStatus: isReady
         });
@@ -60,7 +59,6 @@ let RegisterPiece = React.createClass( {
 
     isReadyForFormSubmission(files) {
         files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        console.log(files);
         if(files.length > 0 && files[0].status === 'upload successful') {
             return true;
         } else {
