@@ -60,6 +60,20 @@ body {
     color: $ascribe-color;
 }
 
+.img-brand{
+    height: 25px;
+}
+
+.ascribe-subheader{
+    padding-bottom: 10px;
+    margin-top: -10px;
+    a {
+        cursor: pointer;
+        font-size: 0.8em;
+        color: #222;
+    }
+}
+
 .tooltip-inner{
     max-width: 300px;
     padding: 3px 8px;

@@ -37,7 +37,8 @@ let apiUrls = {
     'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
     'users_signup': AppConstants.apiEndpoint + 'users/',
     'users_username': AppConstants.apiEndpoint + 'users/username/',
-    'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/'
+    'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
+    'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/'
 };
 
 export default apiUrls;
