@@ -530,7 +530,7 @@ let FileUploader = React.createClass({
                 setUploadStatus={this.props.setUploadStatus}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 session={{
-                    endpoint: AppConstants.serverUrl + 'api/ownership/loans/contract/',
+                    endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
                     customHeaders: {
                        'X-CSRFToken': getCookie('csrftoken')
                     }
