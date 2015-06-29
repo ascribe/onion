@@ -2,8 +2,8 @@
 
 import React from 'react';
 
+import { getCookie } from '../utils/fetch_api_utils';
 import AppConstants from '../constants/application_constants';
-import fineUploader from 'fineUploader';
 
 import Router from 'react-router';
 
@@ -18,6 +18,7 @@ import apiUrls from '../constants/api_urls';
 import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import DatePicker from 'react-datepicker/dist/react-datepicker';
+
 
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
@@ -128,58 +129,10 @@ let FileUploader = React.createClass( {
                     url: apiUrls.blob_digitalworks
                 }}
                 handleChange={this.props.handleChange}
-                autoUpload={true}
-                debug={false}
-                objectProperties={{
-                    acl: 'public-read',
-                    bucket: 'ascribe0'
-                }}
-                request={{
-                    endpoint: 'https://ascribe0.s3.amazonaws.com',
-                    accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
-                }}
-                signature={{
-                    endpoint: AppConstants.serverUrl + 's3/signature/'
-                }}
-                uploadSuccess={{
-                    params: {
-                        isBrowserPreviewCapable: fineUploader.supportedFeatures.imagePreviews
-                    }
-                }}
-                cors={{
-                    expected: true
-                }}
-                chunking={{
-                    enabled: true
-                }}
-                resume={{
-                    enabled: true
-                }}
-                retry={{
-                    enableAuto: false
-                }}
-                deleteFile={{
-                    enabled: true,
-                    method: 'DELETE',
-                    endpoint: AppConstants.serverUrl + 's3/delete'
-                }}
                 validation={{
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
-                }}
-                session={{
-                    endpoint: null
-                }}
-                messages={{
-                    unsupportedBrowser: '<h3>Upload is not functional in IE7 as IE7 has no support for CORS!</h3>'
-                }}
-                formatFileName={(name) => {// fix maybe
-                    if (name !== undefined && name.length > 26) {
-                        name = name.slice(0, 15) + '...' + name.slice(-15);
-                    }
-                    return name;
-                }}
-                multiple={true}/>
+                }}/>
         );
     }
 });

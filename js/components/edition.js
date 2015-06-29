@@ -27,6 +27,9 @@ import RequestActionForm from './ascribe_forms/form_request_action';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
+import fineUploader from 'fineUploader';
+import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
@@ -460,8 +463,36 @@ let EditionFurtherDetails = React.createClass({
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
+                    <FileUploader
+                        edition={this.props.edition}
+                        ref='uploader'/>
                 </Col>
             </Row>
+        );
+    }
+});
+
+let FileUploader = React.createClass( {
+    handleChange(){
+        this.setState({other_data_key: this.refs.fineuploader.state.filesToUpload[0].key});
+    },
+    render() {
+        return (
+            <ReactS3FineUploader
+                ref='fineuploader'
+                keyRoutine={{
+                    url: AppConstants.serverUrl + 's3/key/',
+                    fileClass: 'otherdata',
+                    bitcoinId: this.props.edition.bitcoin_id
+                }}
+                createBlobRoutine={{
+                    url: apiUrls.blob_digitalworks
+                }}
+                handleChange={this.handleChange}
+                validation={{
+                    itemLimit: 100000,
+                    sizeLimit: '10000000'
+                }}/>
         );
     }
 });
