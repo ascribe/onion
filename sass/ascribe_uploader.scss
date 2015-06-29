@@ -1,15 +1,15 @@
 .file-drag-and-drop {
-    position: relative;
     display: block;
     outline: 1px dashed #616161;
     cursor: pointer;
     vertical-align: middle;
     text-align: center;
-    height:185px;
+    height: auto;
     background-color: #FAFAFA;
-    transition: .1s linear background-color;
-
+    overflow: auto;
     margin-top: 1em;
+
+    padding: 3em;
 }
 
 .inactive-dropzone {
@@ -27,6 +27,8 @@
 .file-drag-and-drop .file-drag-and-drop-dialog {
     font-size: 1.25em !important;
 
+    margin-top: 1em;
+
     &:before {
         content: ' ';
         display: inline-block;
@@ -37,19 +39,19 @@
 
 .has-files {
     text-align: left;
-    padding: 3em 0 0 0;
+    padding: 4% 0 0 0;
 }
 
 .file-drag-and-drop-position {
     display: inline-block;
-    margin: 0 0 3em 3em;
+    margin: 0 0 4% 4%;
     float:left;
 }
 
 .file-drag-and-drop-preview-table-wrapper {
     display: table;
-    height:94px;
-    width:104px;
+    height:64px;
+    width:74px;
 }
 
 .file-drag-and-drop-preview {
@@ -61,15 +63,15 @@
 
 .file-drag-and-drop-preview-image {
     display: table;
-    height:104px;
-    width:104px;
+    height:74px;
+    width:74px;
     overflow:hidden;
     border: 1px solid #616161;
     text-align: center;
 }
 
 .file-drag-and-drop-preview-image .delete-file {
-    font-size: 3em;
+    font-size: 2.5em;
     margin-top: .3em;
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -82,9 +84,9 @@
 
 .file-drag-and-drop-preview-other .delete-file {
     position: relative;
-    top: .45em;
+    top: .3em;
     margin-top: 0;
-    font-size: 3em;
+    font-size: 2.5em;
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
     cursor: pointer;
@@ -103,5 +105,5 @@
 
 .file-drag-and-drop-preview-other span:not(:first-child) {
     display: block;
-    margin-top: 1.5em;
+    margin-top: .5em;
 }

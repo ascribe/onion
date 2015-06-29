@@ -71,10 +71,11 @@
     padding-right: 1.5em;
 
     cursor:pointer;
-
-   /*  input, div, span, pre, textarea, select {
+    
+    input, div, span:not(.glyphicon), pre, textarea, select {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    } */
+    }
+   
     span {
         font-weight: normal;
         font-size: 0.9em;
@@ -83,7 +84,7 @@
 
     div {
         /* margin-top: 10px; */
-        div {
+        div:not(.file-drag-and-drop div) {
           padding-left: 0;
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
           font-weight: normal;
