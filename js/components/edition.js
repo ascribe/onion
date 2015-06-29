@@ -526,7 +526,10 @@ let FileUploader = React.createClass({
                 }}
                 submitKey={this.props.submitKey}
                 setUploadStatus={this.props.setUploadStatus}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}/>
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                session={{
+                    endpoint: '/api/ownership/loans/contract/'
+                }}/>
         );
     }
 });
