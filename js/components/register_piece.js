@@ -115,7 +115,14 @@ let RegisterPiece = React.createClass( {
 });
 
 
-let FileUploader = React.createClass( {
+let FileUploader = React.createClass({
+    getCookie(name) {
+        let value = '; ' + document.cookie;
+        let parts = value.split('; ' + name + '=');
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+    },
     render() {
         return (
             <ReactS3FineUploader
@@ -161,7 +168,10 @@ let FileUploader = React.createClass( {
                 deleteFile={{
                     enabled: true,
                     method: 'DELETE',
-                    endpoint: AppConstants.serverUrl + 's3/delete'
+                    endpoint: AppConstants.serverUrl + 's3/delete',
+                    customHeaders: {
+                        'X-CSRFToken': 'asdasd'
+                    }
                 }}
                 validation={{
                     itemLimit: 100000,
