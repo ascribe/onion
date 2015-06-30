@@ -65,7 +65,6 @@ let PieceList = React.createClass({
         let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
-
         return (
             <div>
                 <PieceListToolbar
