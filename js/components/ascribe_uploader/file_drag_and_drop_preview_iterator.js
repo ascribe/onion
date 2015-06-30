@@ -8,7 +8,10 @@ let FileDragAndDropPreviewIterator = React.createClass({
     propTypes: {
         files: React.PropTypes.array,
         handleDeleteFile: React.PropTypes.func,
-        handleCancelFile: React.PropTypes.func
+        handleCancelFile: React.PropTypes.func,
+        handlePauseFile: React.PropTypes.func,
+        handleResumeFile: React.PropTypes.func,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     render() {
@@ -22,7 +25,10 @@ let FileDragAndDropPreviewIterator = React.createClass({
                                     key={i}
                                     file={file}
                                     handleDeleteFile={this.props.handleDeleteFile}
-                                    handleCancelFile={this.props.handleCancelFile}/>
+                                    handleCancelFile={this.props.handleCancelFile}
+                                    handlePauseFile={this.props.handlePauseFile}
+                                    handleResumeFile={this.props.handleResumeFile}
+                                    areAssetsDownloadable={this.props.areAssetsDownloadable}/>
                             );
                         } else {
                             return null;

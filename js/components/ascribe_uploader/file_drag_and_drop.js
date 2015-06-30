@@ -4,8 +4,10 @@ import React from 'react';
 import FileDragAndDropPreviewIterator from './file_drag_and_drop_preview_iterator';
 
 
+let ReactTestUtils = React.addons.TestUtils;
+
 // Taken from: https://github.com/fedosejev/react-file-drag-and-drop
-var FileDragAndDrop = React.createClass({
+let FileDragAndDrop = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         onDragStart: React.PropTypes.func,
@@ -19,8 +21,11 @@ var FileDragAndDrop = React.createClass({
         filesToUpload: React.PropTypes.array,
         handleDeleteFile: React.PropTypes.func,
         handleCancelFile: React.PropTypes.func,
+        handlePauseFile: React.PropTypes.func,
+        handleResumeFile: React.PropTypes.func,
         multiple: React.PropTypes.bool,
-        dropzoneInactive: React.PropTypes.bool
+        dropzoneInactive: React.PropTypes.bool,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     handleDragStart(event) {
@@ -93,6 +98,20 @@ var FileDragAndDrop = React.createClass({
         this.props.handleCancelFile(fileId);
     },
 
+    handlePauseFile(fileId) {
+        // input's value is not change the second time someone
+        // inputs the same file again, therefore we need to reset its value
+        this.refs.fileinput.getDOMNode().value = '';
+        this.props.handlePauseFile(fileId);
+    },
+
+    handleResumeFile(fileId) {
+        // input's value is not change the second time someone
+        // inputs the same file again, therefore we need to reset its value
+        this.refs.fileinput.getDOMNode().value = '';
+        this.props.handleResumeFile(fileId);
+    },
+
     handleOnClick() {
         // when multiple is set to false and the user already uploaded a piece,
         // do not propagate event
@@ -100,10 +119,16 @@ var FileDragAndDrop = React.createClass({
             return;
         }
 
-        // Simulate click on hidden file input
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('click', false, true);
-        this.refs.fileinput.getDOMNode().dispatchEvent(event);
+        // Firefox only recognizes the simulated mouse click if bubbles is set to true,
+        // but since Google Chrome propagates the event much further than needed, we
+        // need to stop propagation as soon as the event is created
+        var evt = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        evt.stopPropagation();
+        this.refs.fileinput.getDOMNode().dispatchEvent(evt);
     },
 
     render: function () {
@@ -128,7 +153,10 @@ var FileDragAndDrop = React.createClass({
                     <FileDragAndDropPreviewIterator
                         files={this.props.filesToUpload}
                         handleDeleteFile={this.handleDeleteFile}
-                        handleCancelFile={this.handleCancelFile}/>
+                        handleCancelFile={this.handleCancelFile}
+                        handlePauseFile={this.handlePauseFile}
+                        handleResumeFile={this.handleResumeFile}
+                        areAssetsDownloadable={this.props.areAssetsDownloadable}/>
                     <input
                         multiple={this.props.multiple}
                         ref="fileinput"

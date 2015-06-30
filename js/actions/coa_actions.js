@@ -15,7 +15,6 @@ class CoaActions {
         CoaFetcher.fetchOne(id)
             .then((res) => {
                 this.actions.updateCoa(res.coa);
-                console.log(res.coa);
             })
             .catch((err) => {
                 console.log(err);
@@ -25,7 +24,6 @@ class CoaActions {
         CoaFetcher.create(edition.bitcoin_id)
             .then((res) => {
                 this.actions.updateCoa(res.coa);
-                console.log(res.coa);
             })
             .catch((err) => {
                 console.log(err);

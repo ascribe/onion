@@ -14,11 +14,18 @@ let FileDragAndDropPreview = React.createClass({
             type: React.PropTypes.string
         }).isRequired,
         handleDeleteFile: React.PropTypes.func,
-        handleCancelFile: React.PropTypes.func
+        handleCancelFile: React.PropTypes.func,
+        handlePauseFile: React.PropTypes.func,
+        handleResumeFile: React.PropTypes.func,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     toggleUploadProcess() {
-
+        if(this.props.file.status === 'uploading') {
+            this.props.handlePauseFile(this.props.file.id);
+        } else if(this.props.file.status === 'paused') {
+            this.props.handleResumeFile(this.props.file.id);
+        }
     },
 
     handleDeleteFile() {
@@ -45,18 +52,23 @@ let FileDragAndDropPreview = React.createClass({
                                 onClick={this.handleDeleteFile}
                                 progress={this.props.file.progress}
                                 url={this.props.file.url}
-                                toggleUploadProcess={this.toggleUploadProcess}/>);
+                                toggleUploadProcess={this.toggleUploadProcess}
+                                areAssetsDownloadable={this.props.areAssetsDownloadable}/>);
         } else {
             previewElement = (<FileDragAndDropPreviewOther
                                 onClick={this.handleDeleteFile}
                                 progress={this.props.file.progress}
                                 type={this.props.file.type.split('/')[1]}
-                                toggleUploadProcess={this.toggleUploadProcess}/>);
+                                toggleUploadProcess={this.toggleUploadProcess}
+                                areAssetsDownloadable={this.props.areAssetsDownloadable}/>);
         }
 
         return (
             <div
                 className="file-drag-and-drop-position">
+                <div className="delete-file">
+                    <span className="glyphicon glyphicon-remove text-center" aria-hidden="true" title="Remove file" onClick={this.handleDeleteFile}/>
+                </div>
                 {previewElement}
             </div>
         );

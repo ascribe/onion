@@ -43,9 +43,29 @@
 }
 
 .file-drag-and-drop-position {
+    position: relative;
     display: inline-block;
     margin: 0 0 4% 4%;
     float:left;
+
+    .delete-file {
+        display: block;
+        background-color: black;
+        
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: -7px;
+        top: -7px;
+        border-radius: 1em;
+        text-align: center;
+
+        cursor: pointer;
+
+        span {
+            color: white;
+        }
+    }
 }
 
 .file-drag-and-drop-preview-table-wrapper {

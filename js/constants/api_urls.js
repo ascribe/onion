@@ -40,7 +40,8 @@ let apiUrls = {
     'users_signup': AppConstants.apiEndpoint + 'users/',
     'users_username': AppConstants.apiEndpoint + 'users/username/',
     'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
-    'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/'
+    'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
+    'delete_s3_file': AppConstants.serverUrl + 's3/delete/'
 };
 
 export default apiUrls;

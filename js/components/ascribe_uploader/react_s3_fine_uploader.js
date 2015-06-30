@@ -9,6 +9,7 @@ import fetch from 'isomorphic-fetch';
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
+import S3Fetcher from '../../fetchers/s3_fetcher';
 
 import fineUploader from 'fineUploader';
 import FileDragAndDrop from './file_drag_and_drop';
@@ -82,8 +83,9 @@ var ReactS3FineUploader = React.createClass({
         retry: React.PropTypes.shape({
             enableAuto: React.PropTypes.bool
         }),
-        setUploadStatus: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func
+        setIsUploadReady: React.PropTypes.func,
+        isReadyForFormSubmission: React.PropTypes.func,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     getDefaultProps() {
@@ -183,7 +185,8 @@ var ReactS3FineUploader = React.createClass({
                 onRetry: this.onRetry,
                 onAutoRetry: this.onAutoRetry,
                 onManualRetry: this.onManualRetry,
-                onDeleteComplete: this.onDeleteComplete
+                onDeleteComplete: this.onDeleteComplete,
+                onSessionRequestComplete: this.onSessionRequestComplete
             }
         };
     },
@@ -242,14 +245,14 @@ var ReactS3FineUploader = React.createClass({
         this.setState(newState);
         this.createBlob(files[id]);
         this.props.submitKey(files[id].key);
-        
+
         // also, lets check if after the completion of this upload,
         // the form is ready for submission or not
         if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
             // if so, set uploadstatus to true
-            this.props.setUploadStatus(true);
+            this.props.setIsUploadReady(true);
         } else {
-            this.props.setUploadStatus(false);
+            this.props.setIsUploadReady(false);
         }
     },
 
@@ -305,9 +308,9 @@ var ReactS3FineUploader = React.createClass({
 
         if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
             // if so, set uploadstatus to true
-            this.props.setUploadStatus(true);
+            this.props.setIsUploadReady(true);
         } else {
-            this.props.setUploadStatus(false);
+            this.props.setIsUploadReady(false);
         }
     },
 
@@ -324,14 +327,14 @@ var ReactS3FineUploader = React.createClass({
 
         if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
             // if so, set uploadstatus to true
-            this.props.setUploadStatus(true);
+            this.props.setIsUploadReady(true);
         } else {
-            this.props.setUploadStatus(false);
+            this.props.setIsUploadReady(false);
         }
     },
 
     onProgress(id, name, uploadedBytes, totalBytes) {
-        var newState = React.addons.update(this.state, {
+        let newState = React.addons.update(this.state, {
             filesToUpload: { [id]: {
                 progress: { $set: (uploadedBytes / totalBytes) * 100} }
             }
@@ -339,16 +342,82 @@ var ReactS3FineUploader = React.createClass({
         this.setState(newState);
     },
 
+    onSessionRequestComplete(response, success) {
+        if(success) {
+            // fetch blobs for images
+            response = response.map((file) => {
+                file.url = file.s3Url;
+                file.status = 'online';
+                file.progress = 100;
+                return file;
+            });
+
+            // add file to filesToUpload
+            let updatedFilesToUpload = this.state.filesToUpload.concat(response);
+
+            // refresh all files ids,
+            updatedFilesToUpload = updatedFilesToUpload.map((file, i) => {
+                file.id = i;
+                return file;
+            });
+
+            let newState = React.addons.update(this.state, {filesToUpload: {$set: updatedFilesToUpload}});
+            this.setState(newState);
+        } else {
+            let notification = new GlobalNotificationModel('Could not load attached files (Further data)', 'success', 5000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+
+            throw new Error('The session request failed', response);
+        }
+    },
+
     handleDeleteFile(fileId) {
-        // delete file from server
-        this.state.uploader.deleteFile(fileId);
-        // this is being continues in onDeleteFile, as
-        // fineuploaders deleteFile does not return a correct callback or
-        // promise
+        // In some instances (when the file was already uploaded and is just displayed to the user)
+        // fineuploader does not register an id on the file (we do, don't be confused by this!).
+        // Since you can only delete a file by its id, we have to implement this method ourselves
+        // 
+        //  So, if an id is not present, we delete the file manually
+        //  To check which files are already uploaded from previous sessions we check their status.
+        //  If they are, it is "online"
+
+        if(this.state.filesToUpload[fileId].status !== 'online') {
+            // delete file from server
+            this.state.uploader.deleteFile(fileId);
+            // this is being continues in onDeleteFile, as
+            // fineuploaders deleteFile does not return a correct callback or
+            // promise
+        } else {
+            let fileToDelete = this.state.filesToUpload[fileId];
+            S3Fetcher
+                .deleteFile(fileToDelete.s3Key, fileToDelete.s3Bucket)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     },
 
     handleCancelFile(fileId) {
         this.state.uploader.cancel(fileId);
+    },
+
+    handlePauseFile(fileId) {
+        if(this.state.uploader.pauseUpload(fileId)) {
+            this.setStatusOfFile(fileId, 'paused');
+        } else {
+            throw new Error('File upload could not be paused.');
+        }
+        
+    },
+
+    handleResumeFile(fileId) {
+        if(this.state.uploader.continueUpload(fileId)) {
+            this.setStatusOfFile(fileId, 'uploading');
+        } else {
+            throw new Error('File upload could not be resumed.');
+        }
     },
 
     handleUploadFile(files) {
@@ -420,6 +489,20 @@ var ReactS3FineUploader = React.createClass({
         this.setState(newState);
     },
 
+    setStatusOfFile(fileId, status) {
+        // also, sync files from state with the ones from fineuploader
+        let filesToUpload = JSON.parse(JSON.stringify(this.state.filesToUpload));
+
+        // splice because I can
+        filesToUpload[fileId].status = status;
+
+        // set state
+        let newState = React.addons.update(this.state, {
+            filesToUpload: { $set: filesToUpload }
+        });
+        this.setState(newState);
+    },
+
     render() {
         return (
             <div>
@@ -429,7 +512,10 @@ var ReactS3FineUploader = React.createClass({
                     filesToUpload={this.state.filesToUpload}
                     handleDeleteFile={this.handleDeleteFile}
                     handleCancelFile={this.handleCancelFile}
+                    handlePauseFile={this.handlePauseFile}
+                    handleResumeFile={this.handleResumeFile}
                     multiple={this.props.multiple}
+                    areAssetsDownloadable={this.props.areAssetsDownloadable}
                     dropzoneInactive={!this.props.multiple && this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled').length > 0} />
             </div>
         );

@@ -71,9 +71,9 @@ let RegisterPiece = React.createClass( {
         });
     },
 
-    setUploadStatus(isReady) {
+    setIsUploadReady(isReady) {
         this.setState({
-            uploadStatus: isReady
+            isUploadReady: isReady
         });
     },
 
@@ -118,15 +118,6 @@ let RegisterPiece = React.createClass( {
     },
 
     render() {
-        let buttons = <span />;
-
-        if (this.state.uploadStatus){
-            buttons = (
-                <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                    Register your artwork
-                </button>);
-        }
-
         return (
             <div className="row ascribe-row">
                 <div className="col-md-12">
@@ -136,7 +127,12 @@ let RegisterPiece = React.createClass( {
                         url={apiUrls.pieces_list}
                         getFormData={this.getFormData}
                         handleSuccess={this.handleSuccess}
-                        buttons={buttons}
+                        buttons={<button
+                                    type="submit"
+                                    className="btn ascribe-btn ascribe-btn-login"
+                                    disabled={!this.state.isUploadReady}>
+                                    Register your artwork
+                                </button>}
                         spinner={
                             <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                                 <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
@@ -146,7 +142,7 @@ let RegisterPiece = React.createClass( {
                             label="Files to upload">
                             <FileUploader
                                 submitKey={this.submitKey}
-                                setUploadStatus={this.setUploadStatus}
+                                setIsUploadReady={this.setIsUploadReady}
                                 isReadyForFormSubmission={this.isReadyForFormSubmission}/>
                         </Property>
                         <Property
@@ -195,7 +191,7 @@ let RegisterPiece = React.createClass( {
 
 let FileUploader = React.createClass({
     propTypes: {
-        setUploadStatus: React.PropTypes.func,
+        setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func
     },
@@ -215,8 +211,9 @@ let FileUploader = React.createClass({
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
                 }}
-                setUploadStatus={this.props.setUploadStatus}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}/>
+                setIsUploadReady={this.props.setIsUploadReady}
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                areAssetsDownloadable={false}/>
         );
     }
 });
