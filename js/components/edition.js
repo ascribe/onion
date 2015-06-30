@@ -253,7 +253,7 @@ let EditionSummary = React.createClass({
                 <Row>
                     <Col md={12}>
                         <AclButtonList
-                            className="pull-left"
+                            className="text-center"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess} />
@@ -539,7 +539,8 @@ let FileUploader = React.createClass({
                     params: {
                         'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
                     }
-                }}/>
+                }}
+                areAssetsDownloadable={true}/>
         );
     }
 });

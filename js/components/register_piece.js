@@ -212,7 +212,8 @@ let FileUploader = React.createClass({
                     sizeLimit: '25000000000'
                 }}
                 setIsUploadReady={this.props.setIsUploadReady}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}/>
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                areAssetsDownloadable={false}/>
         );
     }
 });
