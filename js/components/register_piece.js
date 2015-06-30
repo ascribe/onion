@@ -7,6 +7,9 @@ import AppConstants from '../constants/application_constants';
 
 import Router from 'react-router';
 
+import LicenseActions from '../actions/license_actions';
+import LicenseStore from '../stores/license_store';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
@@ -19,15 +22,32 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 
+import { mergeOptions } from '../utils/general_utils';
 
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
 
     getInitialState(){
-        return {
-            digitalWorkKey: null,
-            uploadStatus: false
-        };
+        return mergeOptions(
+            LicenseStore.getState(),
+            {
+                digitalWorkKey: null,
+                uploadStatus: false,
+                selectedLicense: 0
+            });
+    },
+
+    componentDidMount() {
+        LicenseActions.fetchLicense();
+        LicenseStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        LicenseStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     handleSuccess(){
@@ -59,15 +79,46 @@ let RegisterPiece = React.createClass( {
 
     isReadyForFormSubmission(files) {
         files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if(files.length > 0 && files[0].status === 'upload successful') {
+        if (files.length > 0 && files[0].status === 'upload successful') {
             return true;
         } else {
             return false;
         }
     },
+    onLicenseChange(event){
+        console.log(this.state.licenses[event.target.selectedIndex].url);
+        this.setState({selectedLicense: event.target.selectedIndex});
+    },
+    getLicenses() {
+        if (this.state.licenses && this.state.licenses.length > 0) {
+            return (
+                <Property
+                    name='license'
+                    label="Copyright license..."
+                    onChange={this.onLicenseChange}
+                    footer={
+                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
+                            Learn more about this license
+                        </a>}>
+                    <select name="license">
+                        {this.state.licenses.map((license, i) => {
+                            return (
+                                <option
+                                    name={i}
+                                    key={i}
+                                    value={ license.code }>
+                                    { license.code.toUpperCase() }: { license.name }
+                                </option>
+                            );
+                        })}
+                    </select>
+                </Property>);
+        }
+        return null;
+    },
 
     render() {
-        let buttons = null;
+        let buttons = <span />;
 
         if (this.state.uploadStatus){
             buttons = (
@@ -132,6 +183,7 @@ let RegisterPiece = React.createClass( {
                                 min={1}
                                 required/>
                         </Property>
+                        {this.getLicenses()}
                         <hr />
                     </Form>
                 </div>
