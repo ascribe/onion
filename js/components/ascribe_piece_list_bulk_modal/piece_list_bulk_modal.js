@@ -102,7 +102,7 @@ let PieceListBulkModal = React.createClass({
                                     availableAcls={availableAcls}
                                     editions={selectedEditions}
                                     handleSuccess={this.handleSuccess}
-                                    className="text-center"/>
+                                    className="text-center ascribe-button-list"/>
                             </div>
                         </div>
                     </div>

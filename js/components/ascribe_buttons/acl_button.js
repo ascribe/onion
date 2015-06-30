@@ -74,9 +74,9 @@ let AclButton = React.createClass({
         return (
             <ModalWrapper
                 button={
-                    <div className={shouldDisplay ? 'btn btn-default btn-sm' : 'hidden'}>
+                    <button className={shouldDisplay ? 'btn btn-default btn-sm' : 'hidden'}>
                         {this.props.action.toUpperCase()}
-                    </div>
+                    </button>
                 }
                 handleSuccess={ aclProps.handleSuccess }
                 title={ aclProps.title }
