@@ -455,9 +455,9 @@ let EditionFurtherDetails = React.createClass({
         });
     },
 
-    setUploadStatus(isReady) {
+    setIsUploadReady(isReady) {
         this.setState({
-            uploadStatus: isReady
+            isUploadReady: isReady
         });
     },
 
@@ -495,7 +495,7 @@ let EditionFurtherDetails = React.createClass({
                         edition={this.props.edition} />
                     <FileUploader
                         submitKey={this.submitKey}
-                        setUploadStatus={this.setUploadStatus}
+                        setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
                         edition={this.props.edition}/>
                 </Col>
@@ -506,7 +506,7 @@ let EditionFurtherDetails = React.createClass({
 
 let FileUploader = React.createClass({
     propTypes: {
-        setUploadStatus: React.PropTypes.func,
+        setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func
     },
@@ -528,7 +528,7 @@ let FileUploader = React.createClass({
                     sizeLimit: '10000000'
                 }}
                 submitKey={this.props.submitKey}
-                setUploadStatus={this.props.setUploadStatus}
+                setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 session={{
                     endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
