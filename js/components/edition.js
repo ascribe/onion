@@ -506,6 +506,7 @@ let EditionFurtherDetails = React.createClass({
 
 let FileUploader = React.createClass({
     propTypes: {
+        edition: React.PropTypes.object,
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func
@@ -536,7 +537,7 @@ let FileUploader = React.createClass({
                         'X-CSRFToken': getCookie('csrftoken')
                     },
                     params: {
-                        'pk': this.props.edition.other_data.id
+                        'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
                     }
                 }}/>
         );
