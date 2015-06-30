@@ -4,7 +4,6 @@ import React from 'react';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
-import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
