@@ -468,16 +468,16 @@ $pagination-disabled-border:           #ddd !default;
 //
 //##
 
-$pager-bg:                             $pagination-bg !default;
-$pager-border:                         $pagination-border !default;
-$pager-border-radius:                  15px !default;
+$pager-bg:                             $ascribe-color-full !default;
+$pager-border:                         $ascribe-color-full !default;
+$pager-border-radius:                  0 !default;
 
-$pager-hover-bg:                       $pagination-hover-bg !default;
+$pager-hover-bg:                       darken($ascribe-color-full, 10%) !default;
 
-$pager-active-bg:                      $pagination-active-bg !default;
-$pager-active-color:                   $pagination-active-color !default;
+$pager-active-bg:                      $ascribe-color-full !default;
+$pager-active-color:                   $ascribe-color-full !default;
 
-$pager-disabled-color:                 $pagination-disabled-color !default;
+$pager-disabled-color:                 lighten($ascribe-color-full, 10%) !default;
 
 
 //== Jumbotron

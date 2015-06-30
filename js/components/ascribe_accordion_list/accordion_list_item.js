@@ -19,7 +19,7 @@ let AccordionListItem = React.createClass({
                         <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 thumbnail-wrapper">
                             <img src={this.props.content.thumbnail} />
                         </div>
-                        <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <div className="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                             <h1>{this.props.content.title}</h1>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <h3>{this.props.content.date_created.split('-')[0]}</h3>
