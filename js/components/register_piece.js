@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-import { getCookie } from '../utils/fetch_api_utils';
 import AppConstants from '../constants/application_constants';
 
 import Router from 'react-router';
