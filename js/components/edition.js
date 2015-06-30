@@ -120,7 +120,9 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title="Further Details"
-                        show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
+                        show={this.props.edition.acl.indexOf('edit') > -1
+                            || Object.keys(this.props.edition.extra_data).length > 0
+                            || this.props.edition.other_data !== null}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
                             edition={this.props.edition}/>
@@ -497,6 +499,7 @@ let EditionFurtherDetails = React.createClass({
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        editable={editable}
                         edition={this.props.edition}/>
                 </Col>
             </Row>
@@ -513,34 +516,43 @@ let FileUploader = React.createClass({
     },
 
     render() {
+        if (!this.props.editable && this.props.edition.other_data === null){
+            return null;
+        }
         return (
-            <ReactS3FineUploader
-                keyRoutine={{
-                    url: AppConstants.serverUrl + 's3/key/',
-                    fileClass: 'otherdata',
-                    bitcoinId: this.props.edition.bitcoin_id
-                }}
-                createBlobRoutine={{
-                    url: apiUrls.blob_otherdatas,
-                    bitcoinId: this.props.edition.bitcoin_id
-                }}
-                validation={{
-                    itemLimit: 100000,
-                    sizeLimit: '10000000'
-                }}
-                submitKey={this.props.submitKey}
-                setIsUploadReady={this.props.setIsUploadReady}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                session={{
-                    endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
-                    customHeaders: {
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    params: {
-                        'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
-                    }
-                }}
-                areAssetsDownloadable={true}/>
+            <Form>
+                <Property
+                    label="Additional files">
+                    <ReactS3FineUploader
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'otherdata',
+                            bitcoinId: this.props.edition.bitcoin_id
+                        }}
+                        createBlobRoutine={{
+                            url: apiUrls.blob_otherdatas,
+                            bitcoinId: this.props.edition.bitcoin_id
+                        }}
+                        validation={{
+                            itemLimit: 100000,
+                            sizeLimit: '10000000'
+                        }}
+                        submitKey={this.props.submitKey}
+                        setIsUploadReady={this.props.setIsUploadReady}
+                        isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                        session={{
+                            endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
+                            customHeaders: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            params: {
+                                'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
+                            }
+                        }}
+                        areAssetsDownloadable={true}/>
+                </Property>
+                <hr />
+            </Form>
         );
     }
 });
