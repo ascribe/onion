@@ -23,6 +23,12 @@ npm install
 gulp serve
 ```
 
+Additionally, to work on the white labeling functionality, you need to edit your `/etc/hosts` file and add:
+
+```
+127.0.0.1 localhost.com
+127.0.0.1 cc.localhost.com
+```
 
 
 Code Conventions
