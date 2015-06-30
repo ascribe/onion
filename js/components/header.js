@@ -61,14 +61,17 @@ let Header = React.createClass({
     },
 
     getPoweredBy(){
-        return (
-            <div className="row no-margin ascribe-subheader">
-                <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                    <span id="powered">powered by </span>
-                    <span>ascribe </span>
-                    <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                </a>
-            </div>);
+        if (this.state.whitelabel.logo) {
+            return (
+                <div className="row no-margin ascribe-subheader">
+                    <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                        <span id="powered">powered by </span>
+                        <span>ascribe </span>
+                        <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                    </a>
+                </div>);
+        }
+        return null;
     },
     onChange(state) {
         this.setState(state);
