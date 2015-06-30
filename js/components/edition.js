@@ -493,11 +493,16 @@ let EditionFurtherDetails = React.createClass({
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
-                    <FileUploader
-                        submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        edition={this.props.edition}/>
+                    <Property
+                        label="Additional files"
+                        editable={editable}>
+                        <FileUploader
+                            submitKey={this.submitKey}
+                            setIsUploadReady={this.setIsUploadReady}
+                            isReadyForFormSubmission={this.isReadyForFormSubmission}
+                            edition={this.props.edition}/>
+                    </Property>
+
                 </Col>
             </Row>
         );
