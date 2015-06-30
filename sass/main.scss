@@ -7,6 +7,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
+@import 'ascribe_theme';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
 @import 'ascribe_login';
