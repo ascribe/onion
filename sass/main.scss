@@ -100,6 +100,10 @@ body {
 .btn-delete{
     background-color: rgba(0,0,0,0);
     color: #888;
+    border: 1px solid rgba(0,0,0,0);
+    &:hover{
+        border: 1px solid $ascribe-brand-danger;
+    }
 }
 .btn-ascribe, .btn-ascribe-inv {
     border: 1px solid #444;
