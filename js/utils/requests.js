@@ -27,6 +27,17 @@ class Requests {
         return response.text();
     }
 
+    customJSONparse(responseText) {
+        // If the responses' body does not contain any data,
+        // fetch will resolve responseText to the string 'None'.
+        // If this is the case, we can not try to parse it as JSON.
+        if(responseText !== 'None') {
+            return JSON.parse(responseText);
+        } else {
+            return {};
+        }
+    }
+
     handleFatalError(err) {
         this.fatalErrorHandler(err);
         throw new ServerError(err);
@@ -36,6 +47,7 @@ class Requests {
         if (!json.success) {
             let error = new APIError();
             error.json = json;
+            console.error(new Error('The \'success\' property is missing in the server\'s response.'));
             throw error;
         }
         return json;
@@ -83,7 +95,7 @@ class Requests {
         merged.method = verb;
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .then(JSON.parse)
+                    .then(this.customJSONparse)
                     .catch(this.handleFatalError.bind(this))
                     .then(this.handleAPIError);
     }

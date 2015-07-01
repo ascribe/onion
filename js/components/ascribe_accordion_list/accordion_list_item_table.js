@@ -24,6 +24,7 @@ let AccordionListItemTable = React.createClass({
             return (
                 <div className={this.props.className}>
                     <Table
+                        responsive
                         className="ascribe-table"
                         columnList={this.props.columnList}
                         itemList={this.props.itemList}

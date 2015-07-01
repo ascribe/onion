@@ -16,7 +16,8 @@ let TableHeaderItem = React.createClass({
         canBeOrdered: React.PropTypes.bool,
         changeOrder: React.PropTypes.func,
         orderAsc: React.PropTypes.bool,
-        orderBy: React.PropTypes.string
+        orderBy: React.PropTypes.string,
+        className: React.PropTypes.string
     },
 
     changeOrder() {
@@ -28,7 +29,7 @@ let TableHeaderItem = React.createClass({
             if(this.props.columnName === this.props.orderBy) {
                 return (
                     <th
-                        className={'ascribe-table-header-column'}
+                        className={'ascribe-table-header-column ' + this.props.className}
                         onClick={this.changeOrder}>
                         <span>{this.props.displayName} <TableHeaderItemCarret orderAsc={this.props.orderAsc} /></span>
                     </th>
@@ -36,7 +37,7 @@ let TableHeaderItem = React.createClass({
             } else {
                 return (
                     <th
-                        className={'ascribe-table-header-column'}
+                        className={'ascribe-table-header-column ' + this.props.className}
                         onClick={this.changeOrder}>
                         <span>{this.props.displayName}</span>
                     </th>
@@ -44,7 +45,7 @@ let TableHeaderItem = React.createClass({
             }
         } else {
             return (
-                <th className={'ascribe-table-header-column'}>
+                <th className={'ascribe-table-header-column ' + this.props.className}>
                     <span>
                         {this.props.displayName}
                     </span>

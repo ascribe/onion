@@ -3,9 +3,11 @@
 import React from 'react';
 
 import AppConstants from '../constants/application_constants';
-import fineUploader from 'fineUploader';
 
 import Router from 'react-router';
+
+import LicenseActions from '../actions/license_actions';
+import LicenseStore from '../stores/license_store';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -19,12 +21,34 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 
+import { mergeOptions } from '../utils/general_utils';
+
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
 
     getInitialState(){
-        return {digital_work_key: null};
+        return mergeOptions(
+            LicenseStore.getState(),
+            {
+                digitalWorkKey: null,
+                uploadStatus: false,
+                selectedLicense: 0
+            });
     },
+
+    componentDidMount() {
+        LicenseActions.fetchLicense();
+        LicenseStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        LicenseStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     handleSuccess(){
         let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -36,42 +60,90 @@ let RegisterPiece = React.createClass( {
         for (let ref in this.refs.form.refs){
             data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
         }
-        data.digital_work_key = this.state.digital_work_key;
+        data.digital_work_key = this.state.digitalWorkKey;
         return data;
     },
-    handleChange(){
-        this.setState({digital_work_key: this.refs.uploader.refs.fineuploader.state.filesToUpload[0].key});
+
+    submitKey(key){
+        this.setState({
+            digitalWorkKey: key
+        });
+    },
+
+    setIsUploadReady(isReady) {
+        this.setState({
+            isUploadReady: isReady
+        });
+    },
+
+    isReadyForFormSubmission(files) {
+        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
+        if (files.length > 0 && files[0].status === 'upload successful') {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    onLicenseChange(event){
+        console.log(this.state.licenses[event.target.selectedIndex].url);
+        this.setState({selectedLicense: event.target.selectedIndex});
+    },
+    getLicenses() {
+        if (this.state.licenses && this.state.licenses.length > 0) {
+            return (
+                <Property
+                    name='license'
+                    label="Copyright license..."
+                    onChange={this.onLicenseChange}
+                    footer={
+                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
+                            Learn more about this license
+                        </a>}>
+                    <select name="license">
+                        {this.state.licenses.map((license, i) => {
+                            return (
+                                <option
+                                    name={i}
+                                    key={i}
+                                    value={ license.code }>
+                                    { license.code.toUpperCase() }: { license.name }
+                                </option>
+                            );
+                        })}
+                    </select>
+                </Property>);
+        }
+        return null;
     },
 
     render() {
-        let buttons = null;
-        if (this.refs.uploader && this.refs.uploader.refs.fineuploader.state.filesToUpload[0].status === 'upload successful'){
-            buttons = (
-                <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                    Register your artwork
-                </button>);
-        }
         return (
             <div className="row ascribe-row">
-                <div className="col-md-5">
-                    <FileUploader
-                        ref='uploader'
-                        handleChange={this.handleChange}/>
-                    <br />
-                </div>
-                <div className="col-md-7">
+                <div className="col-md-12">
                     <h3 style={{'marginTop': 0}}>Lock down title</h3>
                     <Form
                         ref='form'
                         url={apiUrls.pieces_list}
                         getFormData={this.getFormData}
                         handleSuccess={this.handleSuccess}
-                        buttons={buttons}
+                        buttons={<button
+                                    type="submit"
+                                    className="btn ascribe-btn ascribe-btn-login"
+                                    disabled={!this.state.isUploadReady}>
+                                    Register your artwork
+                                </button>}
                         spinner={
                             <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                                 <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                             </button>
                             }>
+                        <Property
+                            label="Files to upload">
+                            <FileUploader
+                                submitKey={this.submitKey}
+                                setIsUploadReady={this.setIsUploadReady}
+                                isReadyForFormSubmission={this.isReadyForFormSubmission}/>
+                        </Property>
                         <Property
                             name='artist_name'
                             label="Artist Name">
@@ -106,6 +178,7 @@ let RegisterPiece = React.createClass( {
                                 min={1}
                                 required/>
                         </Property>
+                        {this.getLicenses()}
                         <hr />
                     </Form>
                 </div>
@@ -115,11 +188,16 @@ let RegisterPiece = React.createClass( {
 });
 
 
-let FileUploader = React.createClass( {
+let FileUploader = React.createClass({
+    propTypes: {
+        setIsUploadReady: React.PropTypes.func,
+        submitKey: React.PropTypes.func,
+        isReadyForFormSubmission: React.PropTypes.func
+    },
+
     render() {
         return (
             <ReactS3FineUploader
-                ref='fineuploader'
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'digitalwork'
@@ -127,59 +205,15 @@ let FileUploader = React.createClass( {
                 createBlobRoutine={{
                     url: apiUrls.blob_digitalworks
                 }}
-                handleChange={this.props.handleChange}
-                autoUpload={true}
-                debug={false}
-                objectProperties={{
-                    acl: 'public-read',
-                    bucket: 'ascribe0'
-                }}
-                request={{
-                    endpoint: 'https://ascribe0.s3.amazonaws.com',
-                    accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
-                }}
-                signature={{
-                    endpoint: AppConstants.serverUrl + 's3/signature/'
-                }}
-                uploadSuccess={{
-                    params: {
-                        isBrowserPreviewCapable: fineUploader.supportedFeatures.imagePreviews
-                    }
-                }}
-                cors={{
-                    expected: true
-                }}
-                chunking={{
-                    enabled: true
-                }}
-                resume={{
-                    enabled: true
-                }}
-                retry={{
-                    enableAuto: false
-                }}
-                deleteFile={{
-                    enabled: true,
-                    method: 'DELETE',
-                    endpoint: AppConstants.serverUrl + 's3/delete'
-                }}
+                submitKey={this.props.submitKey}
                 validation={{
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
                 }}
-                session={{
-                    endpoint: null
-                }}
-                messages={{
-                    unsupportedBrowser: '<h3>Upload is not functional in IE7 as IE7 has no support for CORS!</h3>'
-                }}
-                formatFileName={(name) => {// fix maybe
-                    if (name !== undefined && name.length > 26) {
-                        name = name.slice(0, 15) + '...' + name.slice(-15);
-                    }
-                    return name;
-                }}
-                multiple={false}/>
+                setIsUploadReady={this.props.setIsUploadReady}
+                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                areAssetsDownloadable={false}
+                areAssetsEditable={true}/>
         );
     }
 });

@@ -1,8 +1,9 @@
 .ascribe-piece-list-bulk-modal {
     position: fixed;
     top:0;
-    width:1170px;
-    height:6em;
+    left: 3%;
+    width:94%;
+
     background-color: #FAFAFA;
 
     border-left: 0.1em solid #E0E0E0;
@@ -12,6 +13,15 @@
     border-bottom-right-radius: 5px;
     border-bottom: 0.2em solid #E0E0E0;
     z-index:1000;
+    
+    padding-bottom: 1em;
+}
+
+@media(min-width:1174px){
+    .ascribe-piece-list-bulk-modal {
+        left: auto;
+        max-width: 1174px;
+    }
 }
 
 .piece-list-bulk-modal-clear-all {

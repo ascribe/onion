@@ -12,7 +12,9 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 
 import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
 
+let Link = Router.Link;
 
 let LoginContainer = React.createClass({
     mixins: [Router.Navigation],
@@ -45,7 +47,6 @@ let LoginContainer = React.createClass({
                 <div className="ascribe-login-text ascribe-login-header">
                     Log in to ascribe...
                 </div>
-
                 <LoginForm />
             </div>
         );
@@ -65,7 +66,7 @@ let LoginForm = React.createClass({
         Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
         Until then, we redirect the HARD way, but reloading the whole page using window.location
         */
-        window.location = '/collection';
+        window.location = AppConstants.baseUrl + 'collection';
     },
 
     render() {
@@ -107,8 +108,8 @@ let LoginForm = React.createClass({
                 </Property>
                 <hr />
                 <div className="ascribe-login-text">
-                    Not an ascribe user&#63; Sign up...<br/>
-                    Forgot my password&#63; Rescue me...
+                    Not an ascribe user&#63; <Link to="signup">Sign up...</Link><br/>
+                    Forgot my password&#63; <Link to="password_reset">Rescue me...</Link>
                 </div>
             </Form>
         );

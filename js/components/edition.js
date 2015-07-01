@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -9,6 +10,8 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
+import CoaActions from '../actions/coa_actions';
+import CoaStore from '../stores/coa_store';
 
 import MediaPlayer from './ascribe_media/media_player';
 
@@ -24,12 +27,18 @@ import RequestActionForm from './ascribe_forms/form_request_action';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
+import fineUploader from 'fineUploader';
+import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import requests from '../utils/requests';
 import apiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
 
+import { getCookie } from '../utils/fetch_api_utils';
+
+let Link = Router.Link;
 /**
  * This is the component that implements display-specific functionality
  */
@@ -55,6 +64,8 @@ let Edition = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+
+
 
     render() {
         let thumbnail = this.props.edition.thumbnail;
@@ -93,6 +104,7 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
                     <EditionSummary
+                        currentUser={this.state.currentUser}
                         edition={this.props.edition} />
 
                     <CollapsibleParagraph
@@ -109,10 +121,19 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Further Details (all editions)"
-                        show={this.props.edition.acl.indexOf('edit') > -1 || Object.keys(this.props.edition.extra_data).length > 0}>
+                        title="Further Details"
+                        show={this.props.edition.acl.indexOf('edit') > -1
+                            || Object.keys(this.props.edition.extra_data).length > 0
+                            || this.props.edition.other_data !== null}>
                         <EditionFurtherDetails
                             handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title="Certificate of Authenticity"
+                        show={this.props.edition.acl.indexOf('coa') > -1}>
+                        <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
 
@@ -191,6 +212,9 @@ let EditionSummary = React.createClass({
         edition: React.PropTypes.object
     },
 
+    getTransferWithdrawData(){
+        return {'bitcoin_id': this.props.edition.bitcoin_id};
+    },
     handleSuccess(){
         EditionActions.fetchOne(this.props.edition.id);
     },
@@ -202,7 +226,24 @@ let EditionSummary = React.createClass({
     render() {
         let status = null;
         if (this.props.edition.status.length > 0){
-            status = <EditionDetailProperty label="STATUS" value={ this.props.edition.status.join().replace(/_/, ' ') } />;
+            let statusStr = this.props.edition.status.join().replace(/_/, ' ');
+            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            if (this.props.edition.pending_new_owner && this.props.edition.acl.indexOf('withdraw_transfer') > -1){
+                status = (
+                    <Form
+                        url={apiUrls.ownership_transfers_withdraw}
+                        getFormData={this.getTransferWithdrawData}
+                        handleSuccess={this.showNotification}>
+                        <EditionDetailProperty label="STATUS" value={ statusStr }>
+                            <button
+                                type="submit"
+                                className="pull-right btn btn-default btn-sm">
+                                WITHDRAW
+                            </button>
+                        </EditionDetailProperty>
+                    </Form>
+                );
+            }
         }
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
@@ -216,7 +257,7 @@ let EditionSummary = React.createClass({
                 <Row>
                     <Col md={12}>
                         <AclButtonList
-                            className="pull-left"
+                            className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess} />
@@ -262,6 +303,18 @@ let EditionDetailProperty = React.createClass({
     },
 
     render() {
+        let value = this.props.value;
+        if (this.props.children){
+            value = (
+                <div className="row-same-height">
+                    <div className="col-xs-6 col-xs-height col-bottom no-padding">
+                        { this.props.value }
+                    </div>
+                    <div className="col-xs-6 col-xs-height">
+                        { this.props.children }
+                    </div>
+                </div>);
+        }
         return (
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
@@ -269,7 +322,7 @@ let EditionDetailProperty = React.createClass({
                         <div>{ this.props.label + this.props.separator}</div>
                     </div>
                     <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.value }</div>
+                        {value}
                     </div>
                 </div>
             </div>
@@ -284,19 +337,20 @@ let EditionDetailHistoryIterator = React.createClass({
 
     render() {
         return (
-            <div>
+            <Form>
                 {this.props.history.map((historicalEvent, i) => {
                     return (
-                        <EditionDetailProperty
-                            key={i}
-                            label={historicalEvent[0]}
-                            value={historicalEvent[1]}
-                            labelClassName="col-xs-4 col-sm-4 col-md-4 col-lg-4"
-                            valueClassName="col-xs-8 col-sm-8 col-md-8 col-lg-8"
-                            separator="" />
+                        <Property
+                                name={i}
+                                key={i}
+                                label={ historicalEvent[0] }
+                                editable={false}>
+                            <pre className="ascribe-pre">{ historicalEvent[1] }</pre>
+                        </Property>
                     );
                 })}
-            </div>
+                <hr />
+            </Form>
         );
     }
 });
@@ -386,14 +440,43 @@ let EditionFurtherDetails = React.createClass({
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
+
+    getInitialState() {
+        return {
+            loading: false
+        };
+    },
+
     showNotification(){
         this.props.handleSuccess();
         let notification = new GlobalNotificationModel('Details updated', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
+    submitKey(key){
+        this.setState({
+            otherDataKey: key
+        });
+    },
+
+    setIsUploadReady(isReady) {
+        this.setState({
+            isUploadReady: isReady
+        });
+    },
+
+    isReadyForFormSubmission(files) {
+        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
+        if(files.length > 0 && files[0].status === 'upload successful') {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
     render() {
         let editable = this.props.edition.acl.indexOf('edit') > -1;
+
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
@@ -415,9 +498,126 @@ let EditionFurtherDetails = React.createClass({
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
+                    <FileUploader
+                        submitKey={this.submitKey}
+                        setIsUploadReady={this.setIsUploadReady}
+                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        editable={editable}
+                        edition={this.props.edition}/>
                 </Col>
             </Row>
         );
+    }
+});
+
+let FileUploader = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object,
+        setIsUploadReady: React.PropTypes.func,
+        submitKey: React.PropTypes.func,
+        isReadyForFormSubmission: React.PropTypes.func,
+        editable: React.PropTypes.bool
+    },
+
+    render() {
+        // Essentially there a three cases important to the fileuploader
+        //
+        // 1. there is no other_data => do not show the fileuploader at all
+        // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
+        // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
+        if (!this.props.editable && !this.props.edition.other_data){
+            return null;
+        }
+        return (
+            <Form>
+                <Property
+                    label="Additional files">
+                    <ReactS3FineUploader
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'otherdata',
+                            bitcoinId: this.props.edition.bitcoin_id
+                        }}
+                        createBlobRoutine={{
+                            url: apiUrls.blob_otherdatas,
+                            bitcoinId: this.props.edition.bitcoin_id
+                        }}
+                        validation={{
+                            itemLimit: 100000,
+                            sizeLimit: '10000000'
+                        }}
+                        submitKey={this.props.submitKey}
+                        setIsUploadReady={this.props.setIsUploadReady}
+                        isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                        session={{
+                            endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
+                            customHeaders: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            params: {
+                                'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
+                            }
+                        }}
+                        areAssetsDownloadable={true}
+                        areAssetsEditable={this.props.editable}/>
+                </Property>
+                <hr />
+            </Form>
+        );
+    }
+});
+
+let CoaDetails = React.createClass({
+    propTypes: {
+        edition: React.PropTypes.object
+    },
+
+    getInitialState() {
+        return CoaStore.getState();
+    },
+
+    componentDidMount() {
+        CoaStore.listen(this.onChange);
+        if (this.props.edition.coa) {
+            CoaActions.fetchOne(this.props.edition.coa);
+        }
+        else{
+            console.log('create coa');
+            CoaActions.create(this.props.edition);
+        }
+    },
+
+    componentWillUnmount() {
+        CoaStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
+    render() {
+        if (this.state.coa.url_safe) {
+            return (
+                <div>
+                    <p className="text-center ascribe-button-list">
+                        <button className="btn btn-default btn-xs" href={this.state.coa.url_safe} target="_blank">
+                            Download <Glyphicon glyph="cloud-download"/>
+                        </button>
+                        <Link to="coa_verify">
+                            <button className="btn btn-default btn-xs">
+                                Verify <Glyphicon glyph="check"/>
+                            </button>
+                        </Link>
+
+                    </p>
+                </div>
+            );
+        }
+        return (
+            <div className="text-center">
+                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+            </div>);
+
     }
 });
 

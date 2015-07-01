@@ -3,10 +3,11 @@
 
 $BASE_URL: '<%= BASE_URL %>';
 
-@import 'variables';
 @import 'ascribe_variables';
+@import 'variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
+@import 'ascribe_theme';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
 @import 'ascribe_login';
@@ -22,7 +23,6 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_piece_register';
 @import 'offset_right';
 @import 'ascribe_settings';
-@import 'ascribe_react_s3_fineuploader';
 
 body {
     background-color: #FDFDFD;
@@ -33,6 +33,12 @@ body {
     display: none;
 }
 
+.no-margin{
+    margin: 0;
+}
+.no-padding{
+    padding: 0;
+}
 .navbar-default {
     border: none;
     border-left:0;
@@ -53,6 +59,20 @@ body {
 
 .ascribe-color {
     color: $ascribe-color;
+}
+
+.img-brand{
+    height: 25px;
+}
+
+.ascribe-subheader{
+    padding-bottom: 10px;
+    margin-top: -10px;
+    a {
+        cursor: pointer;
+        font-size: 0.8em;
+        color: #222;
+    }
 }
 
 .tooltip-inner{
@@ -221,4 +241,9 @@ body {
 
 .col-bottom {
     vertical-align: bottom;
+}
+
+.ascribe-button-list button {
+    margin-right: 1px;
+    margin-top: 1px;
 }

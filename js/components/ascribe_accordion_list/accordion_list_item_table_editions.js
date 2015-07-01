@@ -4,7 +4,6 @@ import React from 'react';
 
 import EditionListStore from '../../stores/edition_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
-import PieceListActions from '../../actions/piece_list_actions';
 
 import AccordionListItemTable from './accordion_list_item_table';
 import AccordionListItemTableToggle from './accordion_list_item_table_toggle';
@@ -122,7 +121,7 @@ let AccordionListItemTableEditions = React.createClass({
                     'Edition',
                     TableItemText,
                     1,
-                    true,
+                    false,
                     transition
             ),
             new ColumnModel(
@@ -131,11 +130,12 @@ let AccordionListItemTableEditions = React.createClass({
                         'content': item.bitcoin_id
                     }; },
                     'bitcoin_id',
-                    getLangText('Bitcoin Address'),
+                    getLangText('ID'),
                     TableItemText,
                     5,
-                    true,
-                    transition
+                    false,
+                    transition,
+                    'hidden-xs visible-sm visible-md visible-lg'
             ),
             new ColumnModel(
                 (item) => {

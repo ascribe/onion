@@ -2,7 +2,7 @@
 
 const languages = {
     'en-US': {
-        'Bitcoin Address': 'Bitcoin Address',
+        'ID': 'ID',
         'Actions': 'Actions',
         'Hide': 'Hide',
         'Show the edition': 'Show the edition',
@@ -16,7 +16,7 @@ const languages = {
         'Next': 'Next'
     },
     'de': {
-        'Bitcoin Address': 'Bitcoin Adresse',
+        'ID': 'ID',
         'Actions': 'Aktionen',
         'Hide': 'Verstecke',
         'Show the edition': 'Zeige die Edition',

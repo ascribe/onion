@@ -12,6 +12,8 @@ import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
 import SettingsContainer from './components/settings_container';
+import CoaVerifyContainer from './components/coa_verify_container';
+
 import AppConstants from './constants/application_constants';
 import RegisterPiece from './components/register_piece';
 
@@ -28,6 +30,7 @@ let routes = (
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
         <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
+        <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
 
         <Redirect from={baseUrl} to="login" />
         <Redirect from={baseUrl + '/'} to="login" />

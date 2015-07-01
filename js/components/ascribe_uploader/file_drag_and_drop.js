@@ -5,8 +5,9 @@ import FileDragAndDropPreviewIterator from './file_drag_and_drop_preview_iterato
 
 
 // Taken from: https://github.com/fedosejev/react-file-drag-and-drop
-var FileDragAndDrop = React.createClass({
+let FileDragAndDrop = React.createClass({
     propTypes: {
+        className: React.PropTypes.string,
         onDragStart: React.PropTypes.func,
         onDrop: React.PropTypes.func.isRequired,
         onDrag: React.PropTypes.func,
@@ -17,8 +18,13 @@ var FileDragAndDrop = React.createClass({
         onDragEnd: React.PropTypes.func,
         filesToUpload: React.PropTypes.array,
         handleDeleteFile: React.PropTypes.func,
+        handleCancelFile: React.PropTypes.func,
+        handlePauseFile: React.PropTypes.func,
+        handleResumeFile: React.PropTypes.func,
         multiple: React.PropTypes.bool,
-        dropzoneInactive: React.PropTypes.bool
+        dropzoneInactive: React.PropTypes.bool,
+        areAssetsDownloadable: React.PropTypes.bool,
+        areAssetsEditable: React.PropTypes.bool
     },
 
     handleDragStart(event) {
@@ -59,7 +65,6 @@ var FileDragAndDrop = React.createClass({
         }
     },
 
-
     handleDrop(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -85,6 +90,27 @@ var FileDragAndDrop = React.createClass({
         this.props.handleDeleteFile(fileId);
     },
 
+    handleCancelFile(fileId) {
+        // input's value is not change the second time someone
+        // inputs the same file again, therefore we need to reset its value
+        this.refs.fileinput.getDOMNode().value = '';
+        this.props.handleCancelFile(fileId);
+    },
+
+    handlePauseFile(fileId) {
+        // input's value is not change the second time someone
+        // inputs the same file again, therefore we need to reset its value
+        this.refs.fileinput.getDOMNode().value = '';
+        this.props.handlePauseFile(fileId);
+    },
+
+    handleResumeFile(fileId) {
+        // input's value is not change the second time someone
+        // inputs the same file again, therefore we need to reset its value
+        this.refs.fileinput.getDOMNode().value = '';
+        this.props.handleResumeFile(fileId);
+    },
+
     handleOnClick() {
         // when multiple is set to false and the user already uploaded a piece,
         // do not propagate event
@@ -92,17 +118,24 @@ var FileDragAndDrop = React.createClass({
             return;
         }
 
-        // Simulate click on hidden file input
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('click', false, true);
-        this.refs.fileinput.getDOMNode().dispatchEvent(event);
+        // Firefox only recognizes the simulated mouse click if bubbles is set to true,
+        // but since Google Chrome propagates the event much further than needed, we
+        // need to stop propagation as soon as the event is created
+        var evt = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        evt.stopPropagation();
+        this.refs.fileinput.getDOMNode().dispatchEvent(evt);
     },
 
     render: function () {
-        console.log(this.props.dropzoneInactive);
-        let hasFiles = this.props.filesToUpload.length > 0;
-        let className = hasFiles ? 'file-drag-and-drop has-files ' : 'file-drag-and-drop ';
+        // has files only is true if there are files that do not have the status deleted or canceled
+        let hasFiles = this.props.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0;
+        let className = hasFiles ? 'has-files ' : '';
         className += this.props.dropzoneInactive ? 'inactive-dropzone' : 'active-dropzone';
+        className += this.props.className ? ' ' + this.props.className : '';
 
         return (
             <div
@@ -115,10 +148,15 @@ var FileDragAndDrop = React.createClass({
                 onDragOver={this.handleDragOver}
                 onDrop={this.handleDrop}
                 onDragEnd={this.handleDragEnd}>
-                    {hasFiles ? null : this.props.multiple ? <span>Click or drag to add files</span> : <span>Click or drag to add a file</span>}
+                    {hasFiles ? null : this.props.multiple ? <span className="file-drag-and-drop-dialog">Click or drag to add files</span> : <span className="file-drag-and-drop-dialog">Click or drag to add a file</span>}
                     <FileDragAndDropPreviewIterator
                         files={this.props.filesToUpload}
-                        handleDeleteFile={this.handleDeleteFile}/>
+                        handleDeleteFile={this.handleDeleteFile}
+                        handleCancelFile={this.handleCancelFile}
+                        handlePauseFile={this.handlePauseFile}
+                        handleResumeFile={this.handleResumeFile}
+                        areAssetsDownloadable={this.props.areAssetsDownloadable}
+                        areAssetsEditable={this.props.areAssetsEditable}/>
                     <input
                         multiple={this.props.multiple}
                         ref="fileinput"
