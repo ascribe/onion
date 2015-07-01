@@ -19,7 +19,8 @@ let AclButton = React.createClass({
         availableAcls: React.PropTypes.array.isRequired,
         editions: React.PropTypes.array.isRequired,
         currentUser: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func.isRequired
+        handleSuccess: React.PropTypes.func.isRequired,
+        className: React.PropTypes.string
     },
 
     actionProperties(){
@@ -74,7 +75,7 @@ let AclButton = React.createClass({
         return (
             <ModalWrapper
                 button={
-                    <button className={shouldDisplay ? 'btn btn-default btn-sm' : 'hidden'}>
+                    <button className={shouldDisplay ? 'btn btn-default btn-sm ' : 'hidden'}>
                         {this.props.action.toUpperCase()}
                     </button>
                 }

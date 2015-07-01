@@ -97,12 +97,12 @@ let PieceListBulkModal = React.createClass({
                                 </div>
                             </div>
                             <p></p>
-                            <div className="row">
+                            <div className="row-fluid">
                                 <AclButtonList
                                     availableAcls={availableAcls}
                                     editions={selectedEditions}
                                     handleSuccess={this.handleSuccess}
-                                    className="text-center ascribe-button-list"/>
+                                    className="text-center ascribe-button-list collapse-group"/>
                             </div>
                         </div>
                     </div>
