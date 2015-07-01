@@ -51,7 +51,7 @@ let RegisterPiece = React.createClass( {
     },
 
     handleSuccess(){
-        let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
+        let notification = new GlobalNotificationModel('Piece successfully registered', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.transitionTo('pieces');
     },
@@ -98,7 +98,7 @@ let RegisterPiece = React.createClass( {
                     onChange={this.onLicenseChange}
                     footer={
                         <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-                            Learn more about this license
+                            Learn more
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {
@@ -134,9 +134,9 @@ let RegisterPiece = React.createClass( {
                                     Register your artwork
                                 </button>}
                         spinner={
-                            <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                            <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                                 <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                            </button>
+                            </span>
                             }>
                         <Property
                             label="Files to upload">
