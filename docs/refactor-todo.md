@@ -2,7 +2,7 @@
 
 *This should be a living document. So if you have any ideas for refactoring stuff, then feel free to add them to this document*
 
-- Get rid of all Mixins.
+- Get rid of all Mixins. (making good progress there :))
 - Make all standalone components independent from things like global utilities (GeneralUtils is maybe used in table for example)
 - Check if all polyfills are appropriately initialized and available: Compare to this
 - Extract all standalone components to their own folder structure and write application independent tests (+ figure out how to do that in a productive way) (fetch lib especially)
@@ -11,3 +11,8 @@
 queryParams of the piece_list_store should all be reflected in the url and not a single component each should manipulate the URL bar (refactor pagination, use actions and state)
 - Refactor string-templating for api_urls
 - Use classNames plugin instead of if-conditional-classes
+
+## React-S3-Fineuploader
+- implementation should enable to define all important methods outside
+- and: maybe create a utility class for all methods to avoid code duplication
+- filesToUpload CRUD methods are dirty

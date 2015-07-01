@@ -27,7 +27,6 @@ import RequestActionForm from './ascribe_forms/form_request_action';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
-import fineUploader from 'fineUploader';
 import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import GlobalNotificationModel from '../models/global_notification_model';
@@ -64,6 +63,8 @@ let Edition = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+
+
 
     render() {
         let thumbnail = this.props.edition.thumbnail;
@@ -474,6 +475,7 @@ let EditionFurtherDetails = React.createClass({
 
     render() {
         let editable = this.props.edition.acl.indexOf('edit') > -1;
+
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
@@ -512,11 +514,17 @@ let FileUploader = React.createClass({
         edition: React.PropTypes.object,
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func
+        isReadyForFormSubmission: React.PropTypes.func,
+        editable: React.PropTypes.bool
     },
 
     render() {
-        if (!this.props.editable && this.props.edition.other_data === null){
+        // Essentially there a three cases important to the fileuploader
+        //
+        // 1. there is no other_data => do not show the fileuploader at all
+        // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
+        // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
+        if (!this.props.editable && !this.props.edition.other_data){
             return null;
         }
         return (
@@ -549,7 +557,8 @@ let FileUploader = React.createClass({
                                 'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
                             }
                         }}
-                        areAssetsDownloadable={true}/>
+                        areAssetsDownloadable={true}
+                        areAssetsEditable={this.props.editable}/>
                 </Property>
                 <hr />
             </Form>

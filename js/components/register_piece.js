@@ -212,7 +212,8 @@ let FileUploader = React.createClass({
                 }}
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                areAssetsDownloadable={false}/>
+                areAssetsDownloadable={false}
+                areAssetsEditable={true}/>
         );
     }
 });

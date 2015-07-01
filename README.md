@@ -23,6 +23,12 @@ npm install
 gulp serve
 ```
 
+Additionally, to work on the white labeling functionality, you need to edit your `/etc/hosts` file and add:
+
+```
+127.0.0.1 localhost.com
+127.0.0.1 cc.localhost.com
+```
 
 
 Code Conventions
@@ -94,7 +100,7 @@ A: Use `npm dedupe` to remove duplicates in npm. This might fix that you're not 
 Q: How can I use a local copy of SPOOL and Onion?
 A: Easily by starting the your gulp process with the following command:
 ```
-ONION_BASE_URL='/' ONION_API_ENDPOINT='http://localhost:8000/' gulp serve
+ONION_BASE_URL='/' ONION_SERVER_URL='http://localhost.com:8000/' gulp serve
 ```
 
 Reading list
