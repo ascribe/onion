@@ -31,6 +31,7 @@ let apiUrls = {
     'ownership_unconsigns_request': AppConstants.apiEndpoint + 'ownership/unconsigns/request/',
     'piece': AppConstants.apiEndpoint + 'pieces/${piece_id}',
     'piece_extradata': AppConstants.apiEndpoint + 'pieces/${piece_id}/extradata/',
+    'piece_first_edition_id': AppConstants.apiEndpoint + 'pieces/${piece_id}/edition_index/',
     'pieces_list': AppConstants.apiEndpoint + 'pieces/',
     'user': AppConstants.apiEndpoint + 'users/',
     'users_login': AppConstants.apiEndpoint + 'users/login/',
