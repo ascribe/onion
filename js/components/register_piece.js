@@ -9,6 +9,9 @@ import Router from 'react-router';
 import LicenseActions from '../actions/license_actions';
 import LicenseStore from '../stores/license_store';
 
+import PieceListStore from '../stores/piece_list_store';
+import PieceListActions from '../actions/piece_list_actions';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
@@ -29,6 +32,7 @@ let RegisterPiece = React.createClass( {
     getInitialState(){
         return mergeOptions(
             LicenseStore.getState(),
+            PieceListStore.getState(),
             {
                 digitalWorkKey: null,
                 uploadStatus: false,
@@ -39,10 +43,12 @@ let RegisterPiece = React.createClass( {
     componentDidMount() {
         LicenseActions.fetchLicense();
         LicenseStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         LicenseStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -52,6 +58,12 @@ let RegisterPiece = React.createClass( {
     handleSuccess(){
         let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
+        // once the user was able to register a piece successfully, we need to make sure to keep
+        // the piece list up to date
+        //console.log(this.state);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.searchTerm, this.state.orderBy, this.state.orderAsc);
+
         this.transitionTo('pieces');
     },
 
