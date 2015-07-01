@@ -135,7 +135,7 @@ let AccordionListItemTableEditions = React.createClass({
                     5,
                     false,
                     transition,
-                    'hidden-xs visible-sm'
+                    'hidden-xs visible-sm visible-md visible-lg'
             ),
             new ColumnModel(
                 (item) => {
