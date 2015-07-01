@@ -13,7 +13,6 @@ Install some nice extensions for Chrom(e|ium):
 
 - [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi):
   we need this to open connection to external hosts ([staging.ascribe.io](http://staging.ascribe.io/) in our case).
-  Please note that there is an [open issue](https://github.com/vitvad/Access-Control-Allow-Origin/issues/22) that prevents the extension to save the changes in the "intercepted URL or URL pattern". You can follow [this workaround](https://github.com/vitvad/Access-Control-Allow-Origin/issues/22#issuecomment-109898052) to fix the problem.
 - [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
   
 ```bash
