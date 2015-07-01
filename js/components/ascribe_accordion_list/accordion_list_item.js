@@ -16,13 +16,20 @@ let AccordionListItem = React.createClass({
             <div className="row">
                 <div className={this.props.className}>
                     <div className="wrapper">
-                        <div className="col-xs-5 col-sm-5 col-md-4 col-lg-4 thumbnail-wrapper">
-                            <img src={this.props.content.thumbnail} />
+                        <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
+                            <div className="thumbnail-wrapper">
+                                <img src={this.props.content.thumbnail} />
+                            </div>
                         </div>
-                        <div className="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
+                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
                             <h1>{this.props.content.title}</h1>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
-                            <h3>{this.props.content.date_created.split('-')[0]}</h3>
+                            <div>
+                                <span>{this.props.content.date_created.split('-')[0]}</span>
+                                <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
+                                    {this.props.content.license_type.code} license
+                                </a>
+                            </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>
                     </div>
