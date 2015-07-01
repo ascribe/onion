@@ -15,6 +15,8 @@ import Property from './ascribe_forms/property';
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
 
+import { getLangText } from '../utils/lang_utils';
+
 let Link = Router.Link;
 
 let LoginContainer = React.createClass({
@@ -28,7 +30,7 @@ let LoginContainer = React.createClass({
 
     getDefaultProps() {
         return {
-            message: 'Log in to ascribe...',
+            message: getLangText('Log in to') + ' ascribe ...'
             redirectOnLoggedIn: true,
             redirectOnLoginSuccess: true
         };
@@ -107,7 +109,7 @@ let LoginForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        Log in to ascribe
+                        {getLangText('Log in to')} ascribe
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -116,28 +118,28 @@ let LoginForm = React.createClass({
                     }>
                 <Property
                     name='email'
-                    label="Email">
+                    label={getLangText('Email')}>
                     <input
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={getLangText('Enter your email')}
                         autoComplete="on"
                         name="username"
                         required/>
                 </Property>
                 <Property
                     name='password'
-                    label="Password">
+                    label={getLangText('Password')}>
                     <input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder={getLangText('Enter your password')}
                         autoComplete="on"
                         name="password"
                         required/>
                 </Property>
                 <hr />
                 <div className="ascribe-login-text">
-                    Not an ascribe user&#63; <Link to="signup">Sign up...</Link><br/>
-                    Forgot my password&#63; <Link to="password_reset">Rescue me...</Link>
+                    {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
+                    {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
                 </div>
             </Form>
         );

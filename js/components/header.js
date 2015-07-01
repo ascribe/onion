@@ -95,8 +95,8 @@ let Header = React.createClass({
             collection = <NavItemLink to="pieces">COLLECTION</NavItemLink>;
         }
         else {
-            account = <NavItemLink to="login">LOGIN</NavItemLink>;
-            signup = <NavItemLink to="signup">SIGNUP</NavItemLink>;
+            account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
+            signup = <NavItemLink to="signup">{getLangText('SIGNUP')}</NavItemLink>;
         }
 
         return (
