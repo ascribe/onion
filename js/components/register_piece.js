@@ -50,10 +50,10 @@ let RegisterPiece = React.createClass( {
         this.setState(state);
     },
 
-    handleSuccess(){
-        let notification = new GlobalNotificationModel('Piece successfully registered', 'success', 10000);
+    handleSuccess(response){
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.transitionTo('edition', {editionId: response.edition.bitcoin_id});
     },
 
     getFormData(){

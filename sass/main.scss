@@ -97,7 +97,10 @@ body {
     margin-right: 0;
     margin-left: 0;
 }
-
+.btn-delete{
+    background-color: rgba(0,0,0,0);
+    color: #888;
+}
 .btn-ascribe, .btn-ascribe-inv {
     border: 1px solid #444;
     line-height: 2em;
