@@ -25,6 +25,12 @@ let EditionContainer = React.createClass({
     },
 
     componentWillUnmount() {
+        // Every time we're leaving the edition detail page,
+        // just reset the edition that is saved in the edition store
+        // as it will otherwise display wrong/old data once the user loads
+        // the edition detail a second time
+        EditionActions.updateEdition({});
+        
         EditionStore.unlisten(this.onChange);
     },
 

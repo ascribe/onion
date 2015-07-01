@@ -27,7 +27,6 @@ import RequestActionForm from './ascribe_forms/form_request_action';
 import EditionActions from '../actions/edition_actions';
 import AclButtonList from './ascribe_buttons/acl_button_list';
 
-import fineUploader from 'fineUploader';
 import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import GlobalNotificationModel from '../models/global_notification_model';
