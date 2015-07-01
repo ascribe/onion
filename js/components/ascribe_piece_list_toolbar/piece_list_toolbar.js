@@ -1,13 +1,12 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
-
-let Link = Router.Link;
+import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import Row from 'react-bootstrap/lib/Row';
+import Col from 'react-bootstrap/lib/Col';
 
 let PieceListToolbar = React.createClass({
 
@@ -29,15 +28,19 @@ let PieceListToolbar = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div className="row">
-                            <div className="col-xs-12 col-md-12 col-md-5 col-lg-4 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 clear-paddings">
-                                <div className="form-inline">
-                                    <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
-                                    &nbsp;&nbsp;
-                                    {/*<PieceListToolbarFilterWidgetFilter />*/}
-                                    <Link to="register_piece">
-                                        <Button>+ Artwork</Button>
-                                    </Link>
-                                </div>
+                            <div className="col-xs-12 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 clear-paddings">
+                                <Input wrapperClassName='wrapper'>
+                                    <Row>
+                                        <Col xs={7} sm={4}>
+                                            <Input type='text' ref="search" placeholder="Search..." onChange={this.searchFor} addonAfter={searchIcon} />
+                                        </Col>
+                                        <Col xs={5} sm={5}>
+                                            <ButtonLink to="register_piece">
+                                                + Artwork
+                                            </ButtonLink>
+                                        </Col>
+                                    </Row>
+                                </Input>
                             </div>
                         </div>
                     </div>

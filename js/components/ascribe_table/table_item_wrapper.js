@@ -41,7 +41,7 @@ let TableItemWrapper = React.createClass({
                          * programmatically
                          */
                         return (
-                            <td key={i}>
+                            <td key={i} className={column.className}>
                                 <Link
                                     className={'ascribe-table-item-column'}
                                     onClick={column.transition.callback}

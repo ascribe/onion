@@ -276,6 +276,11 @@ var ReactS3FineUploader = React.createClass({
             return res.json();
         })
         .then((res) =>{
+            if(res.otherdata) {
+                file.s3Url = res.otherdata.url_safe;
+            } else {
+                throw new Error('Could not find a url to download.');
+            }
             defer.success(res.key);
         })
         .catch((err) => {
@@ -327,7 +332,7 @@ var ReactS3FineUploader = React.createClass({
         if(success) {
             // fetch blobs for images
             response = response.map((file) => {
-                file.url = file.s3Url;
+                file.url = file.s3UrlSafe;
                 file.status = 'online';
                 file.progress = 100;
                 return file;
@@ -345,6 +350,7 @@ var ReactS3FineUploader = React.createClass({
             let newState = React.addons.update(this.state, {filesToUpload: {$set: updatedFilesToUpload}});
             this.setState(newState);
         } else {
+            // server has to respond with 204
             //let notification = new GlobalNotificationModel('Could not load attached files (Further data)', 'danger', 10000);
             //GlobalNotificationActions.appendGlobalNotification(notification);
             //
@@ -388,6 +394,8 @@ var ReactS3FineUploader = React.createClass({
             // promise
         } else {
             let fileToDelete = this.state.filesToUpload[fileId];
+            fileToDelete.status = 'deleted';
+
             S3Fetcher
                 .deleteFile(fileToDelete.s3Key, fileToDelete.s3Bucket)
                 .then(() => this.onDeleteComplete(fileToDelete.id, null, false))
@@ -417,7 +425,6 @@ var ReactS3FineUploader = React.createClass({
     },
 
     handleUploadFile(files) {
-
         // If multiple set and user already uploaded its work,
         // cancel upload
         if(!this.props.multiple && this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled').length > 0) {
@@ -512,7 +519,7 @@ var ReactS3FineUploader = React.createClass({
                     handleResumeFile={this.handleResumeFile}
                     multiple={this.props.multiple}
                     areAssetsDownloadable={this.props.areAssetsDownloadable}
-                    dropzoneInactive={!this.props.multiple && this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled').length > 0} />
+                    dropzoneInactive={!this.props.multiple && this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0} />
             </div>
         );
     }

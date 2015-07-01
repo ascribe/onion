@@ -41,7 +41,7 @@ let AclButtonList = React.createClass({
                     action="transfer"
                     editions={this.props.editions}
                     currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
+                    handleSuccess={this.props.handleSuccess}/>
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="consign"

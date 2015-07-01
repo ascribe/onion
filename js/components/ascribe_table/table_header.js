@@ -23,17 +23,18 @@ let TableHeader = React.createClass({
         return (
             <thead>
                 <tr>
-                    {this.props.columnList.map((val, i) => {
+                    {this.props.columnList.map((column, i) => {
 
                         let columnClasses = this.calcColumnClasses(this.props.columnList, i, 12);
-                        let columnName = this.props.columnList[i].columnName;
-                        let canBeOrdered = this.props.columnList[i].canBeOrdered;
+                        let columnName = column.columnName;
+                        let canBeOrdered = column.canBeOrdered;
 
                         return (
                             <TableHeaderItem
+                                className={column.className}
                                 key={i}
                                 columnClasses={columnClasses}
-                                displayName={val.displayName}
+                                displayName={column.displayName}
                                 columnName={columnName}
                                 canBeOrdered={canBeOrdered}
                                 orderAsc={this.props.orderAsc}

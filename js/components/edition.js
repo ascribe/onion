@@ -255,7 +255,7 @@ let EditionSummary = React.createClass({
                 <Row>
                     <Col md={12}>
                         <AclButtonList
-                            className="text-center"
+                            className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess} />
@@ -589,14 +589,14 @@ let CoaDetails = React.createClass({
         if (this.state.coa.url_safe) {
             return (
                 <div>
-                    <p className="text-center">
-                        <Button bsSize="xsmall" href={this.state.coa.url_safe} target="_blank">
+                    <p className="text-center ascribe-button-list">
+                        <button className="btn btn-default btn-xs" href={this.state.coa.url_safe} target="_blank">
                             Download <Glyphicon glyph="cloud-download"/>
-                        </Button>
+                        </button>
                         <Link to="coa_verify">
-                            <Button bsSize="xsmall">
+                            <button className="btn btn-default btn-xs">
                                 Verify <Glyphicon glyph="check"/>
-                            </Button>
+                            </button>
                         </Link>
 
                     </p>

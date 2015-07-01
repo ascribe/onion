@@ -121,7 +121,7 @@ let AccordionListItemTableEditions = React.createClass({
                     'Edition',
                     TableItemText,
                     1,
-                    true,
+                    false,
                     transition
             ),
             new ColumnModel(
@@ -130,11 +130,12 @@ let AccordionListItemTableEditions = React.createClass({
                         'content': item.bitcoin_id
                     }; },
                     'bitcoin_id',
-                    getLangText('Bitcoin Address'),
+                    getLangText('ID'),
                     TableItemText,
                     5,
-                    true,
-                    transition
+                    false,
+                    transition,
+                    'hidden-xs visible-sm'
             ),
             new ColumnModel(
                 (item) => {
