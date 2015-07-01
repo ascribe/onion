@@ -139,8 +139,12 @@ let AccordionListItemTableEditions = React.createClass({
             ),
             new ColumnModel(
                 (item) => {
+                    let content = item.acl;
+                    if (item.request_action){
+                        content = [item.request_action + ' request'];
+                    }
                     return {
-                        'content': item.acl
+                        'content': content
                     }; },
                     'acl',
                     getLangText('Actions'),

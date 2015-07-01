@@ -3,6 +3,10 @@
 import React from 'react';
 import Router from 'react-router';
 
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+
 import requests from '../../utils/requests';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -20,6 +24,16 @@ let AccordionListItem = React.createClass({
             .then((res) => this.transitionTo('edition', {editionId: res.bitcoin_id}));
 
         console.log(event.target);
+    },
+    getGlyphicon(){
+        if (this.props.content.requestAction){
+            return (
+                <OverlayTrigger delay={500} placement="left"
+                            overlay={<Tooltip>You have actions pending in one of your editions</Tooltip>}>
+                        <Glyphicon glyph='bell' />
+                </OverlayTrigger>);
+        }
+        return null;
     },
     render() {
         return (
@@ -42,6 +56,9 @@ let AccordionListItem = React.createClass({
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>
+                        <div className="request-action-batch">
+                            {this.getGlyphicon()}
+                        </div>
                     </div>
                 </div>
                 {this.props.children}
