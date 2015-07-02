@@ -477,7 +477,9 @@ $pager-hover-bg:                       darken($ascribe-color-full, 10%) !default
 $pager-active-bg:                      $ascribe-color-full !default;
 $pager-active-color:                   $ascribe-color-full !default;
 
-$pager-disabled-color:                 lighten($ascribe-color-full, 10%) !default;
+$pager-disabled-color:                 #CCC !default;
+$pager-disabled-border:                1px solid #CCC !default;
+$pager-disabled-bg:                    #000 !default;
 
 
 //== Jumbotron

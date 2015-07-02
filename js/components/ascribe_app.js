@@ -3,6 +3,7 @@
 import React from 'react';
 import Router from 'react-router';
 import Header from '../components/header';
+import Footer from '../components/footer';
 import GlobalNotification from './global_notification';
 
 let Link = Router.Link;
@@ -15,6 +16,7 @@ let AscribeApp = React.createClass({
             <div>
                 <Header />
                 <RouteHandler />
+                <Footer />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
             </div>
