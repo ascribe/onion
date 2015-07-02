@@ -1,7 +1,6 @@
 $break-small: 764px;
 $break-medium: 991px;
 
-
 .ascribe-row {
   @media screen and (max-width: $break-medium) {
     max-width: 600px;
@@ -9,5 +8,9 @@ $break-medium: 991px;
   @media screen and (min-width: $break-medium) {
     max-width: 1200px;
   }
-  margin: 0 auto
+  margin: 0 auto;
+}
+
+.ascribe-row > div {
+    padding-left: 0;
 }

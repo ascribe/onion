@@ -9,7 +9,7 @@ let TableItemAclFiltered = React.createClass({
     },
 
     render() {
-        var availableAcls = ['consign', 'loan', 'transfer', 'view'];
+        var availableAcls = ['consign', 'loan', 'transfer', 'view', 'consign request', 'unconsign request', 'loan request'];
 
         let filteredAcls = this.props.content.filter((v) => {
             return availableAcls.indexOf(v) > -1;

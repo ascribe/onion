@@ -17,6 +17,9 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     border-radius: 1px;
     border-bottom: 0.1em solid rgba(0,0,0,.2);
     .wrapper {
+        &:hover{
+            background-color: rgba(2, 182, 163, 0.05);
+        }
         width:100%;
         height:100%;
         // ToDo: Include media queries for thumbnail
@@ -24,6 +27,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
             width: 110px;
             height: 110px;
             padding:0;
+            cursor: pointer;
             img {
                 max-width: 100%;
                 max-height: 100%;
@@ -38,10 +42,14 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
         h1 {
             margin-top: .3em;
             font-size: 2.25em;
+            cursor: pointer;
         }
         h3 {
             font-size: 1.1em;
-            margin: .7em 0 0 0;
+            margin: .2em 0 0 0;
+        }
+        a {
+            color: #666;
         }
     }
 }
@@ -62,11 +70,46 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     margin-bottom: 3em;
     background-color: white;
 
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
+    //border-bottom-left-radius: 1px;
+    //border-bottom-right-radius: 1px;
     border-bottom: 0.1em solid rgba(0,0,0,.15);
     border-left: 0.1em solid rgba(0,0,0,.2);
     border-right: 0.1em solid rgba(0,0,0,.2);
+    padding: 0;
+    thead:first-child {
+        tr:first-child {
+            border: none! important;
+            th{
+                padding-left: 10px;
+                border: none! important;
+            }
+        }
+        border-left: 3px solid rgba(0,0,0,0);
+        border-bottom: 1px solid rgba(0,0,0,.1);
+    }
+    tbody {
+        tr {
+            padding: 1em;
+            &:hover{
+                background-color: rgba(2, 182, 163, 0.05);
+                border-left: 3px solid rgba(2, 182, 163, 0.4);
+            }
+            border-left: 3px solid rgba(0,0,0,0);
+            border-bottom:  1px solid rgba(0,0,0,.05);
+            td {
+                border: none! important;
+                a {
+                    color: #444
+                }
+
+            }
+        }
+        tr{
+            td:first-child {
+                margin-left: 10px;
+            }
+        }
+    }
 }
 
 span.ascribe-accordion-list-table-toggle {
@@ -84,4 +127,13 @@ span.ascribe-accordion-list-table-toggle {
       font-size:.85em;
       text-align: center;
     }
+}
+
+.request-action-batch {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #666;
+    font-size: 1.2em;
+    padding: 0.3em;
 }

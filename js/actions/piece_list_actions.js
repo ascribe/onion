@@ -8,23 +8,34 @@ import PieceListFetcher from '../fetchers/piece_list_fetcher';
 class PieceListActions {
     constructor() {
         this.generateActions(
-            'updatePieceList'
+            'updatePieceList',
+            'updatePieceListRequestActions'
         );
     }
 
     fetchPieceList(page, pageSize, search, orderBy, orderAsc) {
-        PieceListFetcher
-            .fetch(page, pageSize, search, orderBy, orderAsc)
-            .then((res) => {
-                this.actions.updatePieceList({
-                    page,
-                    pageSize,
-                    search,
-                    orderBy,
-                    orderAsc,
-                    'pieceList': res.pieces,
-                    'pieceListCount': res.count
+        return new Promise((resolve, reject) => {
+            PieceListFetcher
+                .fetch(page, pageSize, search, orderBy, orderAsc)
+                .then((res) => {
+                    this.actions.updatePieceList({
+                        page,
+                        pageSize,
+                        search,
+                        orderBy,
+                        orderAsc,
+                        'pieceList': res.pieces,
+                        'pieceListCount': res.count
+                    });
+                    resolve();
                 });
+        });
+    }
+    fetchPieceRequestActions() {
+        PieceListFetcher
+            .fetchRequestActions()
+            .then((res) => {
+                this.actions.updatePieceListRequestActions(res.piece_ids);
             });
     }
 

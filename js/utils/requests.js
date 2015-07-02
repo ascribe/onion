@@ -44,10 +44,10 @@ class Requests {
     }
 
     handleAPIError(json) {
-        if (!json.success) {
+        if (json.success === false) {
             let error = new APIError();
             error.json = json;
-            console.error(new Error('The \'success\' property is missing in the server\'s response.'));
+            //console.error(new Error('The \'success\' property is missing in the server\'s response.'));
             throw error;
         }
         return json;

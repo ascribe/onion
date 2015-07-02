@@ -44,7 +44,7 @@ var ReactS3FineUploader = React.createClass({
         }),
         signature: React.PropTypes.shape({
             endpoint: React.PropTypes.string
-        }),
+        }).isRequired,
         uploadSuccess: React.PropTypes.shape({
             method: React.PropTypes.string,
             endpoint: React.PropTypes.string,
@@ -67,7 +67,7 @@ var ReactS3FineUploader = React.createClass({
             method: React.PropTypes.string,
             endpoint: React.PropTypes.string,
             customHeaders: React.PropTypes.object
-        }),
+        }).isRequired,
         session: React.PropTypes.shape({
             endpoint: React.PropTypes.bool
         }),
@@ -106,20 +106,6 @@ var ReactS3FineUploader = React.createClass({
                     isBrowserPreviewCapable: fineUploader.supportedFeatures.imagePreviews
                 }
             },
-            signature: {
-                endpoint: AppConstants.serverUrl + 's3/signature/',
-                customHeaders: {
-                   'X-CSRFToken': getCookie('csrftoken')
-                }
-            },
-            deleteFile: {
-                enabled: true,
-                method: 'DELETE',
-                endpoint: AppConstants.serverUrl + 's3/delete',
-                customHeaders: {
-                   'X-CSRFToken': getCookie('csrftoken')
-                }
-            },
             cors: {
                 expected: true,
                 sendCredentials: true
@@ -152,8 +138,22 @@ var ReactS3FineUploader = React.createClass({
     getInitialState() {
         return {
             filesToUpload: [],
-            uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig())
+            uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
+            csrfToken: getCookie('csrftoken')
         };
+    },
+
+    // since the csrf header is defined in this component's props,
+    // everytime the csrf cookie is changed we'll need to reinitalize 
+    // fineuploader and update the actual csrf token
+    componentWillUpdate(nextProps, nextState) {
+        let potentiallyNewCSRFToken = getCookie('csrftoken');
+        if(this.state.csrfToken !== potentiallyNewCSRFToken) {
+            this.setState({
+                uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
+                csrfToken: potentiallyNewCSRFToken
+            });
+        }
     },
 
     propsToConfig() {
@@ -192,13 +192,6 @@ var ReactS3FineUploader = React.createClass({
         };
     },
 
-    getCookie(name) {
-        let value = '; ' + document.cookie;
-        let parts = value.split('; ' + name + '=');
-        if (parts.length === 2) {
-            return parts.pop().split(';').shift();
-        }
-    },
     requestKey(fileId) {
         let filename = this.state.uploader.getName(fileId);
         return new Promise((resolve, reject) => {
@@ -207,7 +200,7 @@ var ReactS3FineUploader = React.createClass({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': this.getCookie('csrftoken')
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
                 credentials: 'include',
                 body: JSON.stringify({
@@ -245,15 +238,27 @@ var ReactS3FineUploader = React.createClass({
         });
         this.setState(newState);
         this.createBlob(files[id]);
-        this.props.submitKey(files[id].key);
 
-        // also, lets check if after the completion of this upload,
-        // the form is ready for submission or not
-        if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-            // if so, set uploadstatus to true
-            this.props.setIsUploadReady(true);
+        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+        // are optional, we'll only trigger them when they're actually defined
+        if(this.props.submitKey) {
+            this.props.submitKey(files[id].key);
         } else {
-            this.props.setIsUploadReady(false);
+            console.warn('You didn\'t define submitKey in as a prop in react-s3-fine-uploader');
+        }
+        
+        // for explanation, check comment of if statement above
+        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
+            // also, lets check if after the completion of this upload,
+            // the form is ready for submission or not
+            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
+                // if so, set uploadstatus to true
+                this.props.setIsUploadReady(true);
+            } else {
+                this.props.setIsUploadReady(false);
+            }
+        } else {
+            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
         }
     },
 
@@ -264,7 +269,7 @@ var ReactS3FineUploader = React.createClass({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'X-CSRFToken': this.getCookie('csrftoken')
+                'X-CSRFToken': getCookie('csrftoken')
             },
             credentials: 'include',
             body: JSON.stringify({
@@ -316,11 +321,17 @@ var ReactS3FineUploader = React.createClass({
         let notification = new GlobalNotificationModel('File upload canceled', 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-            // if so, set uploadstatus to true
-            this.props.setIsUploadReady(true);
+        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+        // are optional, we'll only trigger them when they're actually defined
+        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
+            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
+                // if so, set uploadstatus to true
+                this.props.setIsUploadReady(true);
+            } else {
+                this.props.setIsUploadReady(false);
+            }
         } else {
-            this.props.setIsUploadReady(false);
+            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
         }
     },
 
@@ -374,11 +385,19 @@ var ReactS3FineUploader = React.createClass({
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
 
-        if(this.props.isReadyForFormSubmission && this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-            // if so, set uploadstatus to true
-            this.props.setIsUploadReady(true);
+        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+        // are optional, we'll only trigger them when they're actually defined
+        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
+            // also, lets check if after the completion of this upload,
+            // the form is ready for submission or not
+            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
+                // if so, set uploadstatus to true
+                this.props.setIsUploadReady(true);
+            } else {
+                this.props.setIsUploadReady(false);
+            }
         } else {
-            this.props.setIsUploadReady(false);
+            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
         }
     },
 

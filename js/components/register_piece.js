@@ -12,11 +12,16 @@ import LicenseStore from '../stores/license_store';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
+import UserStore from '../stores/user_store';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+
+import LoginContainer from './login_container';
+import SlidesContainer from './ascribe_slides_container/slides_container';
 
 import apiUrls from '../constants/api_urls';
 
@@ -25,6 +30,7 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 
 import { mergeOptions } from '../utils/general_utils';
+import { getCookie } from '../utils/fetch_api_utils';
 
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
@@ -32,11 +38,13 @@ let RegisterPiece = React.createClass( {
     getInitialState(){
         return mergeOptions(
             LicenseStore.getState(),
+            UserStore.getState(),
             PieceListStore.getState(),
             {
                 digitalWorkKey: null,
                 uploadStatus: false,
-                selectedLicense: 0
+                selectedLicense: 0,
+                isFineUploaderEditable: false
             });
     },
 
@@ -44,26 +52,39 @@ let RegisterPiece = React.createClass( {
         LicenseActions.fetchLicense();
         LicenseStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         LicenseStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
+
+        // once the currentUser object from UserStore is defined (eventually the user was transitioned
+        // to the login form via the slider and successfully logged in), we can direct him back to the
+        // register_piece slide
+        if(state.currentUser && state.currentUser.email || this.state.currentUser && this.state.currentUser.email) {
+            this.refs.slidesContainer.setSlideNum(0);
+            // we should also make the fineuploader component editable again
+            this.setState({
+                isFineUploaderEditable: true
+            });
+        }
     },
 
-    handleSuccess(){
-        let notification = new GlobalNotificationModel('Piece registration successful', 'success', 10000);
+    handleSuccess(response){
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // once the user was able to register a piece successfully, we need to make sure to keep
         // the piece list up to date
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.searchTerm, this.state.orderBy, this.state.orderAsc);
 
-        this.transitionTo('pieces');
+        this.transitionTo('edition', {editionId: response.edition.bitcoin_id});
     },
 
     getFormData(){
@@ -96,7 +117,7 @@ let RegisterPiece = React.createClass( {
         }
     },
     onLicenseChange(event){
-        console.log(this.state.licenses[event.target.selectedIndex].url);
+        //console.log(this.state.licenses[event.target.selectedIndex].url);
         this.setState({selectedLicense: event.target.selectedIndex});
     },
     getLicenses() {
@@ -108,7 +129,7 @@ let RegisterPiece = React.createClass( {
                     onChange={this.onLicenseChange}
                     footer={
                         <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-                            Learn more about this license
+                            Learn more
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {
@@ -127,11 +148,21 @@ let RegisterPiece = React.createClass( {
         return null;
     },
 
+    changeSlide() {
+        // only transition to the login store, if user is not logged in
+        // ergo the currentUser object is not properly defined
+        if(!this.state.currentUser.email) {
+            this.refs.slidesContainer.setSlideNum(1);
+        }
+    },
+
     render() {
         return (
-            <div className="row ascribe-row">
-                <div className="col-md-12">
-                    <h3 style={{'marginTop': 0}}>Lock down title</h3>
+            <SlidesContainer ref="slidesContainer">
+                <div
+                    onClick={this.changeSlide}
+                    onFocus={this.changeSlide}>
+                    <h3 style={{'marginTop': 0}} onClick={this.changePage}>Lock down title</h3>
                     <Form
                         ref='form'
                         url={apiUrls.pieces_list}
@@ -148,12 +179,12 @@ let RegisterPiece = React.createClass( {
                                 <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                             </button>
                             }>
-                        <Property
-                            label="Files to upload">
+                        <Property label="Files to upload">
                             <FileUploader
                                 submitKey={this.submitKey}
                                 setIsUploadReady={this.setIsUploadReady}
-                                isReadyForFormSubmission={this.isReadyForFormSubmission}/>
+                                isReadyForFormSubmission={this.isReadyForFormSubmission}
+                                editable={this.state.isFineUploaderEditable}/>
                         </Property>
                         <Property
                             name='artist_name'
@@ -193,7 +224,13 @@ let RegisterPiece = React.createClass( {
                         <hr />
                     </Form>
                 </div>
-            </div>
+                <div>
+                    <LoginContainer
+                        message="Please login before ascribing your piece..."
+                        redirectOnLoggedIn={false}
+                        redirectOnLoginSuccess={false}/>
+                </div>
+            </SlidesContainer>
         );
     }
 });
@@ -203,12 +240,18 @@ let FileUploader = React.createClass({
     propTypes: {
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func
+        isReadyForFormSubmission: React.PropTypes.func,
+        onClick: React.PropTypes.func,
+        // editable is used to lock react fine uploader in case
+        // a user is actually not logged in already to prevent him from droping files
+        // before login in
+        editable: React.PropTypes.bool
     },
 
     render() {
         return (
             <ReactS3FineUploader
+                onClick={this.props.onClick}
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'digitalwork'
@@ -224,7 +267,21 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={true}/>
+                areAssetsEditable={this.props.editable}
+                signature={{
+                    endpoint: AppConstants.serverUrl + 's3/signature/',
+                    customHeaders: {
+                       'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }}
+                deleteFile={{
+                    enabled: true,
+                    method: 'DELETE',
+                    endpoint: AppConstants.serverUrl + 's3/delete',
+                    customHeaders: {
+                       'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }}/>
         );
     }
 });

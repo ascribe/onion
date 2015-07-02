@@ -12,6 +12,10 @@ let PieceListFetcher = {
     fetch(page, pageSize, search, orderBy, orderAsc) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
         return requests.get('pieces_list', { page, pageSize, search, ordering });
+    },
+
+    fetchRequestActions() {
+        return requests.get('pieces_list_request_actions');
     }
 };
 

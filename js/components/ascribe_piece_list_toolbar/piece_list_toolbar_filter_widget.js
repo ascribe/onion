@@ -8,7 +8,7 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 let PieceListToolbarFilterWidgetFilter = React.createClass({
     render() {
-        let filterIcon = <Glyphicon glyph='filter' />;
+        let filterIcon = <Glyphicon glyph='filter' className="filter-glyph"/>;
 
         return (
             <DropdownButton title={filterIcon}>
