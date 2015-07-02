@@ -21,7 +21,7 @@ let PieceListToolbar = React.createClass({
     },
 
     render() {
-        let searchIcon = <Glyphicon glyph='search' />;
+        let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
 
         return (
             <div className={this.props.className}>

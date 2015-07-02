@@ -85,6 +85,11 @@ class PieceListStore {
 
         this.pieceList = pieceList;
     }
+    onUpdatePieceListRequestActions(requestActions) {
+        this.pieceList.forEach((piece) => {
+            piece.requestAction = requestActions.indexOf(piece.id) > -1;
+        });
+    }
 }
 
 export default alt.createStore(PieceListStore, 'PieceListStore');

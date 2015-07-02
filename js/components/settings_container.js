@@ -227,7 +227,7 @@ let APISettings = React.createClass({
                         name={app.name}
                         label={app.name}>
                         <div className="row-same-height">
-                            <div className="col-xs-6 col-xs-height col-middle">
+                            <div className="no-padding col-xs-6 col-xs-height col-middle">
                             {'Bearer ' + app.bearer_token.token}
                             </div>
                             <div className="col-xs-6 col-xs-height">

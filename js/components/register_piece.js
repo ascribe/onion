@@ -58,15 +58,15 @@ let RegisterPiece = React.createClass( {
         this.setState(state);
     },
 
-    handleSuccess(){
-        let notification = new GlobalNotificationModel('Piece registration successful', 'success', 10000);
+    handleSuccess(response){
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // once the user was able to register a piece successfully, we need to make sure to keep
         // the piece list up to date
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.searchTerm, this.state.orderBy, this.state.orderAsc);
 
-        this.transitionTo('pieces');
+        this.transitionTo('edition', {editionId: response.edition.bitcoin_id});
     },
 
     getFormData(){
@@ -111,7 +111,7 @@ let RegisterPiece = React.createClass( {
                     onChange={this.onLicenseChange}
                     footer={
                         <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-                            Learn more about this license
+                            Learn more
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {

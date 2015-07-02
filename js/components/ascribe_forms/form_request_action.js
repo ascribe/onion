@@ -54,10 +54,10 @@ let RequestActionForm = React.createClass({
         let buttons = (
                 <span>
                     <span>
-                        <div id="request_accept" onClick={this.handleRequest} className='btn btn-default btn-sm'>ACCEPT</div>
+                        <div id="request_accept" onClick={this.handleRequest} className='btn btn-default btn-sm ascribe-margin-1px'>ACCEPT</div>
                     </span>
                     <span>
-                        <div id="request_deny" onClick={this.handleRequest} className='btn btn-default btn-sm'>REJECT</div>
+                        <div id="request_deny" onClick={this.handleRequest} className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>REJECT</div>
                     </span>
                 </span>
         );
