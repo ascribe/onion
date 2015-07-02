@@ -557,6 +557,20 @@ let FileUploader = React.createClass({
                                 'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
                             }
                         }}
+                        signature={{
+                            endpoint: AppConstants.serverUrl + 's3/signature/',
+                            customHeaders: {
+                               'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        }}
+                        deleteFile={{
+                            enabled: true,
+                            method: 'DELETE',
+                            endpoint: AppConstants.serverUrl + 's3/delete',
+                            customHeaders: {
+                               'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={this.props.editable}/>
                 </Property>

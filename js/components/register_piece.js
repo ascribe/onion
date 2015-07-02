@@ -30,6 +30,7 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 
 import { mergeOptions } from '../utils/general_utils';
+import { getCookie } from '../utils/fetch_api_utils';
 
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
@@ -66,7 +67,7 @@ let RegisterPiece = React.createClass( {
         // once the currentUser object from UserStore is defined (eventually the user was transitioned
         // to the login form via the slider and successfully logged in), we can direct him back to the
         // register_piece slide
-        if(state.currentUser && state.currentUser.email) {
+        if(state.currentUser && state.currentUser.email || this.state.currentUser && this.state.currentUser.email) {
             this.refs.slidesContainer.setSlideNum(0);
             // we should also make the fineuploader component editable again
             this.setState({
@@ -158,8 +159,8 @@ let RegisterPiece = React.createClass( {
     render() {
         return (
             <SlidesContainer ref="slidesContainer">
-                <div 
-                    onClick={this.changeSlide} 
+                <div
+                    onClick={this.changeSlide}
                     onFocus={this.changeSlide}>
                     <h3 style={{'marginTop': 0}} onClick={this.changePage}>Lock down title</h3>
                     <Form
@@ -266,7 +267,21 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={this.props.editable}/>
+                areAssetsEditable={this.props.editable}
+                signature={{
+                    endpoint: AppConstants.serverUrl + 's3/signature/',
+                    customHeaders: {
+                       'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }}
+                deleteFile={{
+                    enabled: true,
+                    method: 'DELETE',
+                    endpoint: AppConstants.serverUrl + 's3/delete',
+                    customHeaders: {
+                       'X-CSRFToken': getCookie('csrftoken')
+                    }
+                }}/>
         );
     }
 });
