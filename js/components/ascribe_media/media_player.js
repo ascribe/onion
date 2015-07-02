@@ -73,22 +73,27 @@ let Video = React.createClass({
     },
 
     componentDidMount() {
-        this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
-            .then(() =>
-                Promise.all([
-                    this.inject('https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.17.0/mediaelement-and-player.min.js'),
-                    this.inject('https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.17.0/mediaelementplayer.min.css')
-                ]).then(this.ready));
+        Promise.all([
+            this.inject('//vjs.zencdn.net/4.12/video-js.css'),
+            this.inject('//vjs.zencdn.net/4.12/video.js')
+        ]).then(this.ready);
+    },
+
+    componentDidUpdate() {
+        if (this.state.ready && !this.state.videojs) {
+            window.videojs(React.findDOMNode(this.refs.video));
+        }
     },
 
     ready() {
-        this.setState({ready: true});
+        this.setState({ready: true, videojs: false});
     },
 
     render() {
         if (this.state.ready) {
             return (
-                <video poster={this.props.preview} controls="controls" preload="none">
+                <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
+                       controls preload="none" width="auto" height="auto">
                     {this.props.extraData.map((data, i) =>
                     <source key={i} type={'video/' + data.type} src={data.url} />
                     )}

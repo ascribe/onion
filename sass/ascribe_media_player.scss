@@ -14,5 +14,78 @@
         font-size: 500%;
         color: #cccccc;
     }
+
+    .video-js,
+    .vjs-poster {
+        background-color: transparent;
+    }
+
+    .video-js .vjs-tech {
+        position: relative;
+    }
+
+    .vjs-fullscreen {
+        padding-top: 0px;
+    }
+
+    .vjs-default-skin .vjs-play-progress,
+    .vjs-default-skin .vjs-volume-level {
+        background: $ascribe-color-full;
+    }
+
+    .vjs-default-skin .vjs-big-play-button {
+        border-radius: 6px;
+        -o-border-radius: 6px;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+
+        box-shadow: none;
+        -o-box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+
+        width: 100px;
+        height: 60px;
+        top: 50%;
+        left: 50%;
+        margin: -30px -50px;
+
+        border: none;
+
+        background-color: rgba(0,0,0,.8);
+    }
+
+    .vjs-default-skin:hover .vjs-big-play-button,
+    .vjs-default-skin .vjs-big-play-button:focus {
+        border-color: #fff;
+        background-color: rgba(0,0,0,.9);
+
+        box-shadow: none;
+        -o-box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+
+        transition: all 0s;
+        -o-transition: all 0s;
+        -moz-transition: all 0s;
+        -webkit-transition: all 0s;
+    }
+
+    .vjs-default-skin .vjs-big-play-button:before {
+        line-height: 60px;
+    }
+
+    .vjs-default-skin .vjs-slider-handle:before,
+    .vjs-default-skin .vjs-big-play-button:before {
+        text-shadow: none;
+    }
+
+    .vjs-default-skin .vjs-volume-bar {
+        height: .5em;
+    }
+
+    .vjs-default-skin .vjs-control-bar {
+        background-color: rgba(0,0,0,.7);
+    }
 }
 
