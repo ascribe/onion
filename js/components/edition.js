@@ -617,9 +617,11 @@ let CoaDetails = React.createClass({
             return (
                 <div>
                     <p className="text-center ascribe-button-list">
-                        <button className="btn btn-default btn-xs" href={this.state.coa.url_safe} target="_blank">
-                            Download <Glyphicon glyph="cloud-download"/>
-                        </button>
+                        <a href={this.state.coa.url_safe} target="_blank">
+                            <button className="btn btn-default btn-xs">
+                                Download <Glyphicon glyph="cloud-download"/>
+                            </button>
+                        </a>
                         <Link to="coa_verify">
                             <button className="btn btn-default btn-xs">
                                 Verify <Glyphicon glyph="check"/>
