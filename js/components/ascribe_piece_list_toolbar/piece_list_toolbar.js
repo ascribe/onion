@@ -36,7 +36,7 @@ let PieceListToolbar = React.createClass({
                                         </Col>
                                         <Col xs={5} sm={5}>
                                             <ButtonLink to="register_piece">
-                                                + Artwork
+                                                + Work
                                             </ButtonLink>
                                         </Col>
                                     </Row>

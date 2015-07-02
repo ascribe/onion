@@ -226,7 +226,7 @@ let RegisterPiece = React.createClass( {
                 </div>
                 <div>
                     <LoginContainer
-                        message="Please login before ascribing your piece..."
+                        message="Please login before ascribing your work..."
                         redirectOnLoggedIn={false}
                         redirectOnLoginSuccess={false}/>
                 </div>
