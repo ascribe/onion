@@ -52,6 +52,27 @@ html {
     border-color: #CCC
 }
 
+.truncate {
+    white-space: nowrap;
+    width: 4em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media only screen and (min-width: 400px) {
+        width: 8em;
+    }
+    @media only screen and (min-width: 600px) {
+        width: 12em;
+    }
+    @media only screen and (min-width: 1000px) {
+        width: 14em;
+    }
+    @media only screen and (min-width: 1200px) {
+        width: 16em;
+    }
+    @media only screen and (min-width: 1400px) {
+        width: 18em;
+    }
+}
 .navbar-right {
     margin-right: 0;
 }
