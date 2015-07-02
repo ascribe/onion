@@ -100,7 +100,7 @@ let RegisterPiece = React.createClass( {
         }
     },
     onLicenseChange(event){
-        console.log(this.state.licenses[event.target.selectedIndex].url);
+        //console.log(this.state.licenses[event.target.selectedIndex].url);
         this.setState({selectedLicense: event.target.selectedIndex});
     },
     getLicenses() {
@@ -201,7 +201,7 @@ let RegisterPiece = React.createClass( {
                     </Form>
                 </div>
                 <div>
-                    chellas
+                    <LoginContainer/>
                 </div>
             </SlidesContainer>
         );

@@ -21,9 +21,8 @@ let SlidesContainer = React.createClass({
 
         if(queryParams && 'slide_num' in queryParams) {
             slideNum = parseInt(queryParams.slide_num, 10);
-        } else {
-            console.warn('slide_num was\'t included as a queryParam. Defaulting to slide_num = 0');
         }
+        // if slide_num is not set, this will be done in componentDidMount
 
         return {
             containerWidth: 0,
@@ -32,6 +31,12 @@ let SlidesContainer = React.createClass({
     },
 
     componentDidMount() {
+        // check if slide_num was defined, and if not then default to 0
+        let queryParams = this.getQuery();
+        if(!('slide_num' in queryParams)) {
+            this.transitionTo(this.getPathname(), null, {slide_num: 0});
+        }
+
         // init container width
         this.handleContainerResize();
 
