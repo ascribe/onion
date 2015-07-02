@@ -1,7 +1,6 @@
 'use strict';
 
-import fetch from 'isomorphic-fetch';
-
+import requests from '../utils/requests';
 import AppConstants from '../constants/application_constants';
 
 
@@ -11,13 +10,7 @@ let OwnershipFetcher = {
      * If no arg is supplied, load the current user
      */
     fetchLoanContract(email) {
-        return fetch(AppConstants.baseUrl + 'ownership/loans/contract/?loanee=' + email, {
-            headers: {
-                'Authorization': 'Basic ' + AppConstants.debugCredentialBase64
-            }
-        }).then(
-            (res) => res.json()
-        );
+        return requests.get(AppConstants.apiEndpoint + 'ownership/loans/contract/?loanee=' + email);
     }
 };
 

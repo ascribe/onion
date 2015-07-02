@@ -555,6 +555,10 @@ let FileUploader = React.createClass({
                             },
                             params: {
                                 'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
+                            },
+                            cors: {
+                                expected: true,
+                                sendCredentials: true
                             }
                         }}
                         signature={{

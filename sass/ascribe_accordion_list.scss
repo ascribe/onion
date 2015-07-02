@@ -17,6 +17,9 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     border-radius: 1px;
     border-bottom: 0.1em solid rgba(0,0,0,.2);
     .wrapper {
+        &:hover{
+            background-color: rgba(2, 182, 163, 0.05);
+        }
         width:100%;
         height:100%;
         // ToDo: Include media queries for thumbnail
@@ -67,11 +70,46 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     margin-bottom: 3em;
     background-color: white;
 
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
+    //border-bottom-left-radius: 1px;
+    //border-bottom-right-radius: 1px;
     border-bottom: 0.1em solid rgba(0,0,0,.15);
     border-left: 0.1em solid rgba(0,0,0,.2);
     border-right: 0.1em solid rgba(0,0,0,.2);
+    padding: 0;
+    thead:first-child {
+        tr:first-child {
+            border: none! important;
+            th{
+                padding-left: 10px;
+                border: none! important;
+            }
+        }
+        border-left: 3px solid rgba(0,0,0,0);
+        border-bottom: 1px solid rgba(0,0,0,.1);
+    }
+    tbody {
+        tr {
+            padding: 1em;
+            &:hover{
+                background-color: rgba(2, 182, 163, 0.05);
+                border-left: 3px solid rgba(2, 182, 163, 0.4);
+            }
+            border-left: 3px solid rgba(0,0,0,0);
+            border-bottom:  1px solid rgba(0,0,0,.05);
+            td {
+                border: none! important;
+                a {
+                    color: #444
+                }
+
+            }
+        }
+        tr{
+            td:first-child {
+                margin-left: 10px;
+            }
+        }
+    }
 }
 
 span.ascribe-accordion-list-table-toggle {

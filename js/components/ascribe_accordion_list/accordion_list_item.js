@@ -46,7 +46,10 @@ let AccordionListItem = React.createClass({
                             </div>
                         </div>
                         <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
-                            <h1 onClick={this.handleClick}>{this.props.content.title}</h1>
+                            <OverlayTrigger delay={500} placement="left"
+                                overlay={<Tooltip>{this.props.content.title}</Tooltip>}>
+                                <h1 className="truncate" onClick={this.handleClick}>{this.props.content.title}</h1>
+                            </OverlayTrigger>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>

@@ -15,6 +15,8 @@ import ApplicationStore from '../stores/application_store';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
+import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
+
 import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
@@ -22,6 +24,7 @@ import Property from './ascribe_forms/property';
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
 
+import { getCookie } from '../utils/fetch_api_utils';
 
 let SettingsContainer = React.createClass({
     mixins: [Router.Navigation],
@@ -30,8 +33,11 @@ let SettingsContainer = React.createClass({
         return (
             <div>
                 <AccountSettings />
-                <BitcoinWalletSettings />
                 <APISettings />
+                <BitcoinWalletSettings />
+                <LoanContractSettings />
+                <br />
+                <br />
             </div>
         );
     }
@@ -172,19 +178,57 @@ let BitcoinWalletSettings = React.createClass({
     }
 });
 
-let ContractSettings = React.createClass({
-
-    propTypes: {
-        currentUser: React.PropTypes.object
-    },
+let LoanContractSettings = React.createClass({
 
     render() {
 
         return (
-            <div>
-                <div>Username: {this.props.currentUser.username}</div>
-                <div>Email: {this.props.currentUser.email}</div>
-            </div>
+            <CollapsibleParagraph
+                title="Loan Contract Settings"
+                show={true}
+                defaultExpanded={true}>
+                    <FileUploader />
+            </CollapsibleParagraph>
+        );
+    }
+});
+
+let FileUploader = React.createClass({
+    propTypes: {
+    },
+
+    render() {
+        return (
+            <Form>
+                <Property
+                    label="Contract file">
+                    <ReactS3FineUploader
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'contract'
+                        }}
+                        createBlobRoutine={{
+                            url: apiUrls.ownership_loans_contract
+                        }}
+                        validation={{
+                            itemLimit: 100000,
+                            sizeLimit: '10000000'
+                        }}
+                        session={{
+                            endpoint: apiUrls.ownership_loans_contract,
+                            customHeaders: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            cors: {
+                                expected: true,
+                                sendCredentials: true
+                            }
+                        }}
+                        areAssetsDownloadable={true}
+                        areAssetsEditable={true}/>
+                </Property>
+                <hr />
+            </Form>
         );
     }
 });
