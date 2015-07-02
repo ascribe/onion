@@ -34,11 +34,25 @@ let SlidesContainer = React.createClass({
         });
     },
 
+    // We let every one from the outsite set the page number of the slider,
+    // though only if the pageNum is actually in the range of our children-list.
+    setPageNum(pageNum) {
+        if(pageNum > 0 && pageNum < React.Children.count(this.props.children)) {
+            this.setState({
+                pageNum: pageNum
+            });
+        } else {
+            throw new Error('You\'re calling a page number that is out of range.');
+        }
+        console.log(this.state);
+    },
+
     // Since we need to give the slides a width, we need to call ReactAddons.addons.cloneWithProps
     // Also, a key is nice to have!
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child, i) => {
             return ReactAddons.addons.cloneWithProps(child, {
+                className: 'ascribe-slide',
                 style: {
                     width: this.state.containerWidth
                 },
@@ -56,7 +70,7 @@ let SlidesContainer = React.createClass({
                     className="container ascribe-sliding-container"
                     style={{
                         width: this.state.containerWidth * React.Children.count(this.props.children),
-                        transform: this.state.containerWidth * this.state.pageNum
+                        transform: 'translateX(' + (-1) * this.state.containerWidth * this.state.pageNum + 'px)'
                     }}>
                         <div className="row">
                             {this.renderChildren()}

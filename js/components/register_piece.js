@@ -131,11 +131,15 @@ let RegisterPiece = React.createClass( {
         return null;
     },
 
+    changePage() {
+        this.refs.slidesContainer.setPageNum(1);
+    },
+
     render() {
         return (
-            <SlidesContainer>
-                <div className={'ascribe-slide'}>
-                    <h3 style={{'marginTop': 0}}>Lock down title</h3>
+            <SlidesContainer ref="slidesContainer">
+                <div>
+                    <h3 style={{'marginTop': 0}} onClick={this.changePage}>Lock down title</h3>
                     <Form
                         ref='form'
                         url={apiUrls.pieces_list}
@@ -196,7 +200,7 @@ let RegisterPiece = React.createClass( {
                         <hr />
                     </Form>
                 </div>
-                <div className={'ascribe-slide'}>
+                <div>
                     chellas
                 </div>
             </SlidesContainer>
