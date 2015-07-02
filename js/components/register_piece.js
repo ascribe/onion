@@ -19,6 +19,7 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 
 import LoginContainer from './login_container';
+import SlidesContainer from './ascribe_slides_container/slides_container';
 
 import apiUrls from '../constants/api_urls';
 
@@ -130,95 +131,75 @@ let RegisterPiece = React.createClass( {
         return null;
     },
 
-    toggleLoginTransition() {
-        this.setState({
-            isLoginShown: !this.state.isLoginShown
-        });
-    },
-
-    getTranslationX() {
-        if(this.state.isLoginShown) {
-            return {'transform': 'translateX(-1174px)'};
-        } else {
-            return {'transform': 'translateX(0)'};
-        }
-    },
-
     render() {
         return (
-            <div className="container ascribe-sliding-container-wrapper">
-                <div
-                    className="container ascribe-sliding-container"
-                    style={this.getTranslationX()}>
-                    <div className="row">
-                        <div className={'col-md-6 ascribe-slide'}>
-                            <h3 style={{'marginTop': 0}} onClick={this.toggleLoginTransition}>Lock down title</h3>
-                            <Form
-                                ref='form'
-                                url={apiUrls.pieces_list}
-                                getFormData={this.getFormData}
-                                handleSuccess={this.handleSuccess}
-                                buttons={<button
-                                            type="submit"
-                                            className="btn ascribe-btn ascribe-btn-login"
-                                            disabled={!this.state.isUploadReady}>
-                                            Register your artwork
-                                        </button>}
-                                spinner={
-                                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                                    </button>
-                                    }>
-                                <Property label="Files to upload">
-                                    <FileUploader
-                                        submitKey={this.submitKey}
-                                        setIsUploadReady={this.setIsUploadReady}
-                                        isReadyForFormSubmission={this.isReadyForFormSubmission}/>
-                                </Property>
-                                <Property
-                                    name='artist_name'
-                                    label="Artist Name">
-                                    <input
-                                        type="text"
-                                        placeholder="The name of the creator"
-                                        required/>
-                                </Property>
-                                <Property
-                                    name='title'
-                                    label="Artwork title">
-                                    <input
-                                        type="text"
-                                        placeholder="The title of the artwork"
-                                        required/>
-                                </Property>
-                                <Property
-                                    name='date_created'
-                                    label="Year Created">
-                                    <input
-                                        type="number"
-                                        placeholder="Year Created (e.g. 2015)"
-                                        min={0}
-                                        required/>
-                                </Property>
-                                <Property
-                                    name='num_editions'
-                                    label="Number of editions">
-                                    <input
-                                        type="number"
-                                        placeholder="Specify the number of unique editions for this artwork"
-                                        min={1}
-                                        required/>
-                                </Property>
-                                {this.getLicenses()}
-                                <hr />
-                            </Form>
-                        </div>
-                        <div className={'col-md-6 ascribe-slide'}>
-                            <LoginContainer />
-                        </div>
-                    </div>
+            <SlidesContainer>
+                <div className={'ascribe-slide'}>
+                    <h3 style={{'marginTop': 0}}>Lock down title</h3>
+                    <Form
+                        ref='form'
+                        url={apiUrls.pieces_list}
+                        getFormData={this.getFormData}
+                        handleSuccess={this.handleSuccess}
+                        buttons={<button
+                                    type="submit"
+                                    className="btn ascribe-btn ascribe-btn-login"
+                                    disabled={!this.state.isUploadReady}>
+                                    Register your artwork
+                                </button>}
+                        spinner={
+                            <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                                <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                            </button>
+                            }>
+                        <Property label="Files to upload">
+                            <FileUploader
+                                submitKey={this.submitKey}
+                                setIsUploadReady={this.setIsUploadReady}
+                                isReadyForFormSubmission={this.isReadyForFormSubmission}/>
+                        </Property>
+                        <Property
+                            name='artist_name'
+                            label="Artist Name">
+                            <input
+                                type="text"
+                                placeholder="The name of the creator"
+                                required/>
+                        </Property>
+                        <Property
+                            name='title'
+                            label="Artwork title">
+                            <input
+                                type="text"
+                                placeholder="The title of the artwork"
+                                required/>
+                        </Property>
+                        <Property
+                            name='date_created'
+                            label="Year Created">
+                            <input
+                                type="number"
+                                placeholder="Year Created (e.g. 2015)"
+                                min={0}
+                                required/>
+                        </Property>
+                        <Property
+                            name='num_editions'
+                            label="Number of editions">
+                            <input
+                                type="number"
+                                placeholder="Specify the number of unique editions for this artwork"
+                                min={1}
+                                required/>
+                        </Property>
+                        {this.getLicenses()}
+                        <hr />
+                    </Form>
                 </div>
-            </div>
+                <div className={'ascribe-slide'}>
+                    chellas
+                </div>
+            </SlidesContainer>
         );
     }
 });
