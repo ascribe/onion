@@ -12,6 +12,8 @@ import LicenseStore from '../stores/license_store';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
+import UserStore from '../stores/user_store';
+
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
@@ -35,12 +37,13 @@ let RegisterPiece = React.createClass( {
     getInitialState(){
         return mergeOptions(
             LicenseStore.getState(),
+            UserStore.getState(),
             PieceListStore.getState(),
             {
                 digitalWorkKey: null,
                 uploadStatus: false,
                 selectedLicense: 0,
-                isLoginShown: false
+                isFineUploaderEditable: false
             });
     },
 
@@ -48,15 +51,28 @@ let RegisterPiece = React.createClass( {
         LicenseActions.fetchLicense();
         LicenseStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         LicenseStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
+
+        // once the currentUser object from UserStore is defined (eventually the user was transitioned
+        // to the login form via the slider and successfully logged in), we can direct him back to the
+        // register_piece slide
+        if(state.currentUser && state.currentUser.email) {
+            this.refs.slidesContainer.setSlideNum(0);
+            // we should also make the fineuploader component editable again
+            this.setState({
+                isFineUploaderEditable: true
+            });
+        }
     },
 
     handleSuccess(response){
@@ -131,14 +147,20 @@ let RegisterPiece = React.createClass( {
         return null;
     },
 
-    changePage() {
-        this.refs.slidesContainer.setSlideNum(1);
+    changeSlide() {
+        // only transition to the login store, if user is not logged in
+        // ergo the currentUser object is not properly defined
+        if(!this.state.currentUser.email) {
+            this.refs.slidesContainer.setSlideNum(1);
+        }
     },
 
     render() {
         return (
             <SlidesContainer ref="slidesContainer">
-                <div>
+                <div 
+                    onClick={this.changeSlide} 
+                    onFocus={this.changeSlide}>
                     <h3 style={{'marginTop': 0}} onClick={this.changePage}>Lock down title</h3>
                     <Form
                         ref='form'
@@ -160,7 +182,8 @@ let RegisterPiece = React.createClass( {
                             <FileUploader
                                 submitKey={this.submitKey}
                                 setIsUploadReady={this.setIsUploadReady}
-                                isReadyForFormSubmission={this.isReadyForFormSubmission}/>
+                                isReadyForFormSubmission={this.isReadyForFormSubmission}
+                                editable={this.state.isFineUploaderEditable}/>
                         </Property>
                         <Property
                             name='artist_name'
@@ -201,7 +224,10 @@ let RegisterPiece = React.createClass( {
                     </Form>
                 </div>
                 <div>
-                    <LoginContainer/>
+                    <LoginContainer
+                        message="Please login before ascribing your piece..."
+                        redirectOnLoggedIn={false}
+                        redirectOnLoginSuccess={false}/>
                 </div>
             </SlidesContainer>
         );
@@ -213,12 +239,18 @@ let FileUploader = React.createClass({
     propTypes: {
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func
+        isReadyForFormSubmission: React.PropTypes.func,
+        onClick: React.PropTypes.func,
+        // editable is used to lock react fine uploader in case
+        // a user is actually not logged in already to prevent him from droping files
+        // before login in
+        editable: React.PropTypes.bool
     },
 
     render() {
         return (
             <ReactS3FineUploader
+                onClick={this.props.onClick}
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'digitalwork'
@@ -234,7 +266,7 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={true}/>
+                areAssetsEditable={this.props.editable}/>
         );
     }
 });

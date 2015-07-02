@@ -58,7 +58,7 @@ let SlidesContainer = React.createClass({
     // We let every one from the outsite set the page number of the slider,
     // though only if the slideNum is actually in the range of our children-list.
     setSlideNum(slideNum) {
-        if(slideNum > 0 && slideNum < React.Children.count(this.props.children)) {
+        if(slideNum < 0 || slideNum < React.Children.count(this.props.children)) {
 
             this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
             this.setState({
