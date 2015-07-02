@@ -59,6 +59,30 @@ let Image = React.createClass({
     }
 });
 
+let Audio = React.createClass({
+    propTypes: {
+        url: React.PropTypes.string.isRequired
+    },
+
+    mixins: [InjectInHeadMixin],
+
+    componentDidMount() {
+        this.inject(AppConstants.baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js').then(this.ready);
+    },
+
+    ready() {
+        window.audiojs.events.ready(function() {
+            var as = audiojs.createAll();
+        });
+    },
+
+    render() {
+        return (
+            <audio className="ascribe-audio" src={this.props.url} preload="auto" />
+        );
+    }
+});
+
 let Video = React.createClass({
     propTypes: {
         preview: React.PropTypes.string.isRequired,
@@ -111,6 +135,7 @@ let Video = React.createClass({
 let resourceMap = {
     'image': Image,
     'video': Video,
+    'audio': Audio,
     'other': Other
 };
 

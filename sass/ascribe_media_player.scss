@@ -15,6 +15,24 @@
         color: #cccccc;
     }
 
+    .audiojs {
+        margin: 50px auto;
+        background-image: none;
+    }
+
+    .audiojs * {
+        box-sizing: content-box;
+    }
+
+    .audiojs .loaded {
+        background-color: $ascribe-color-full;
+        background-image: none;
+    }
+    .audiojs .progress {
+        background-color: rgba(255,255,255,0.8);
+        background-image: none;
+    }
+
     .video-js,
     .vjs-poster {
         background-color: transparent;
