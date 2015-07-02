@@ -132,7 +132,7 @@ let RegisterPiece = React.createClass( {
     },
 
     changePage() {
-        this.refs.slidesContainer.setPageNum(1);
+        this.refs.slidesContainer.setSlideNum(1);
     },
 
     render() {

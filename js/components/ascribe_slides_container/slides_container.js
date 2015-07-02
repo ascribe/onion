@@ -1,17 +1,33 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 import ReactAddons from 'react/addons';
+
+let State = Router.State;
+let Navigation = Router.Navigation;
 
 let SlidesContainer = React.createClass({
     propTypes: {
         children: React.PropTypes.arrayOf(React.PropTypes.element)
     },
 
+    mixins: [State, Navigation],
+
     getInitialState() {
+        // handle queryParameters
+        let queryParams = this.getQuery();
+        let slideNum = 0;
+
+        if(queryParams && 'slide_num' in queryParams) {
+            slideNum = parseInt(queryParams.slide_num, 10);
+        } else {
+            console.warn('slide_num was\'t included as a queryParam. Defaulting to slide_num = 0');
+        }
+
         return {
             containerWidth: 0,
-            pageNum: 0
+            slideNum: slideNum
         };
     },
 
@@ -35,16 +51,18 @@ let SlidesContainer = React.createClass({
     },
 
     // We let every one from the outsite set the page number of the slider,
-    // though only if the pageNum is actually in the range of our children-list.
-    setPageNum(pageNum) {
-        if(pageNum > 0 && pageNum < React.Children.count(this.props.children)) {
+    // though only if the slideNum is actually in the range of our children-list.
+    setSlideNum(slideNum) {
+        if(slideNum > 0 && slideNum < React.Children.count(this.props.children)) {
+
+            this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
             this.setState({
-                pageNum: pageNum
+                slideNum: slideNum
             });
+
         } else {
             throw new Error('You\'re calling a page number that is out of range.');
         }
-        console.log(this.state);
     },
 
     // Since we need to give the slides a width, we need to call ReactAddons.addons.cloneWithProps
@@ -70,7 +88,7 @@ let SlidesContainer = React.createClass({
                     className="container ascribe-sliding-container"
                     style={{
                         width: this.state.containerWidth * React.Children.count(this.props.children),
-                        transform: 'translateX(' + (-1) * this.state.containerWidth * this.state.pageNum + 'px)'
+                        transform: 'translateX(' + (-1) * this.state.containerWidth * this.state.slideNum + 'px)'
                     }}>
                         <div className="row">
                             {this.renderChildren()}
