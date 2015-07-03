@@ -23,6 +23,7 @@ import Property from './ascribe_forms/property';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
+import { getLangText } from '../utils/lang_utils';
 
 import { getCookie } from '../utils/fetch_api_utils';
 
@@ -64,7 +65,7 @@ let AccountSettings = React.createClass({
 
     handleSuccess(){
         UserActions.fetchCurrentUser();
-        let notification = new GlobalNotificationModel('username succesfully updated', 'success', 5000);
+        let notification = new GlobalNotificationModel(getLangText('username succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -76,21 +77,21 @@ let AccountSettings = React.createClass({
                     handleSuccess={this.handleSuccess}>
                     <Property
                         name='username'
-                        label="Username">
+                        label={getLangText('Username')}>
                         <input
                             type="text"
                             defaultValue={this.state.currentUser.username}
-                            placeholder="Enter your username"
+                            placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
                     <Property
                         name='email'
-                        label="Email"
+                        label={getLangText('Email')}
                         editable={false}>
                         <input
                             type="text"
                             defaultValue={this.state.currentUser.email}
-                            placeholder="Enter your username"
+                            placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
                     <hr />
@@ -99,7 +100,7 @@ let AccountSettings = React.createClass({
         }
         return (
             <CollapsibleParagraph
-                title="Account"
+                title={getLangText('Account')}
                 show={true}
                 defaultExpanded={true}>
                 {content}
@@ -107,7 +108,7 @@ let AccountSettings = React.createClass({
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
                     <Property
                         name='language'
-                        label="Choose your Language"
+                        label={getLangText('Choose your Language')}
                         editable={true}>
                         <select id="select-lang" name="language">
                             <option value="fr">
@@ -154,13 +155,13 @@ let BitcoinWalletSettings = React.createClass({
                 <Form >
                     <Property
                         name='btc_public_key'
-                        label="Bitcoin public key"
+                        label={getLangText('Bitcoin public key')}
                         editable={false}>
                         <pre className="ascribe-pre">{this.state.walletSettings.btc_public_key}</pre>
                     </Property>
                     <Property
                         name='btc_root_address'
-                        label="Root Address"
+                        label={getLangText('Root Address')}
                         editable={false}>
                         <pre className="ascribe-pre">{this.state.walletSettings.btc_root_address}</pre>
                     </Property>
@@ -169,7 +170,7 @@ let BitcoinWalletSettings = React.createClass({
         }
         return (
             <CollapsibleParagraph
-                title="Crypto Wallet"
+                title={getLangText('Crypto Wallet')}
                 show={true}
                 defaultExpanded={true}>
                 {content}
@@ -266,14 +267,14 @@ let APISettings = React.createClass({
     },
     handleCreateSuccess: function(){
         ApplicationActions.fetchApplication();
-        let notification = new GlobalNotificationModel('Application successfully created', 'success', 5000);
+        let notification = new GlobalNotificationModel(getLangText('Application successfully created'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     handleTokenRefresh: function(event){
         let applicationName = event.target.getAttribute('data-id');
         ApplicationActions.refreshApplicationToken(applicationName);
-        let notification = new GlobalNotificationModel('Token refreshed', 'success', 2000);
+        let notification = new GlobalNotificationModel(getLangText('Token refreshed'), 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -293,7 +294,7 @@ let APISettings = React.createClass({
                                     className="pull-right btn btn-default btn-sm"
                                     onClick={this.handleTokenRefresh}
                                     data-id={app.name}>
-                                    REFRESH
+                                    {getLangText('REFRESH')}
                                 </button>
                             </div>
                         </div>
@@ -309,7 +310,7 @@ let APISettings = React.createClass({
         }
         return (
             <CollapsibleParagraph
-                title="API Integration"
+                title={getLangText('API Integration')}
                 show={true}
                 defaultExpanded={true}>
                 <Form
@@ -317,10 +318,10 @@ let APISettings = React.createClass({
                     handleSuccess={this.handleCreateSuccess}>
                     <Property
                         name='name'
-                        label='Application Name'>
+                        label={getLangText('Application Name')}>
                         <input
                             type="text"
-                            placeholder="Enter the name of your app"
+                            placeholder={getLangText('Enter the name of your app')}
                             required/>
                     </Property>
                     <hr />

@@ -10,6 +10,8 @@ import apiUrls from '../constants/api_urls';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
+import { getLangText } from '../utils/lang_utils';
+
 
 let PasswordResetContainer = React.createClass({
     mixins: [Router.Navigation],
@@ -24,7 +26,7 @@ let PasswordResetContainer = React.createClass({
             return (
                 <div>
                     <div className="ascribe-login-text ascribe-login-header">
-                        Reset the password for {this.props.query.email}
+                        {getLangText('Reset the password for')} {this.props.query.email}
                     </div>
                     <PasswordResetForm
                         email={this.props.query.email}
@@ -37,7 +39,7 @@ let PasswordResetContainer = React.createClass({
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
-                            Reset your ascribe password
+                            {getLangText('Reset your ascribe password')}
                         </div>
                         <PasswordRequestResetForm
                             handleRequestSuccess={this.handleRequestSuccess}/>
@@ -48,7 +50,7 @@ let PasswordResetContainer = React.createClass({
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
-                            An email has been sent to "{this.state.isRequested}"
+                            {getLangText('An email has been sent to')} "{this.state.isRequested}"
                         </div>
                     </div>
                 );
@@ -62,7 +64,7 @@ let PasswordResetContainer = React.createClass({
 
 let PasswordRequestResetForm = React.createClass({
     handleSuccess() {
-        let notificationText = 'Request succesfully sent, check your email';
+        let notificationText = getLangText('Request successfully sent, check your email');
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.props.handleRequestSuccess(this.refs.form.refs.email.state.value);
@@ -77,7 +79,7 @@ let PasswordRequestResetForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        Reset your password
+                        {getLangText('Reset your password')}
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -86,10 +88,10 @@ let PasswordRequestResetForm = React.createClass({
                     }>
                 <Property
                     name='email'
-                    label="Email">
+                    label={getLangText('Email')}>
                     <input
                         type="email"
-                        placeholder="Enter your email and we'll send a link"
+                        placeholder={getLangText("Enter your email and we'll send a link")}
                         name="email"
                         required/>
                 </Property>
@@ -113,7 +115,7 @@ let PasswordResetForm = React.createClass({
     },
     handleSuccess() {
         this.transitionTo('pieces');
-        let notification = new GlobalNotificationModel('password succesfully updated', 'success', 10000);
+        let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -127,7 +129,7 @@ let PasswordResetForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        Reset your password
+                        {getLangText('Reset your password')}
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -136,19 +138,19 @@ let PasswordResetForm = React.createClass({
                     }>
                 <Property
                     name='password'
-                    label="Password">
+                    label={getLangText('Password')}>
                     <input
                         type="password"
-                        placeholder="Enter a new password"
+                        placeholder={getLangText('Enter a new password')}
                         name="password"
                         required/>
                 </Property>
                 <Property
                     name='password_confirm'
-                    label="Confirm password">
+                    label={getLangText('Confirm password')}>
                     <input
                         type="password"
-                        placeholder="Enter your password once again"
+                        placeholder={getLangText('Enter your password once again')}
                         name="password"
                         required/>
                 </Property>

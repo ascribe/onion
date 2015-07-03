@@ -54,7 +54,7 @@ let AccordionListItem = React.createClass({
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>
                                 <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
-                                    {this.props.content.license_type.code} license
+                                    {getLangText('%s license', this.props.content.license_type.code)}
                                 </a>
                             </div>
                         </div>

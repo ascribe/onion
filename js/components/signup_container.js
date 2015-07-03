@@ -4,6 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 
 import { mergeOptions } from '../utils/general_utils';
+import { getLangText } from '../utils/lang_utils';
 
 import UserStore from '../stores/user_store';
 
@@ -66,7 +67,7 @@ let SignupContainer = React.createClass({
             <div className="ascribe-login-wrapper">
                 <br/>
                 <div className="ascribe-login-text ascribe-login-header">
-                    Welcome to ascribe...
+                    {getLangText('Welcome to')} ascribe...
                 </div>
                 <SignupForm handleSuccess={this.handleSuccess}/>
             </div>
@@ -80,16 +81,17 @@ let SignupForm = React.createClass({
 
     handleSuccess(response){
 
-        let notificationText = 'Sign up successful';
+        let notificationText = getLangText('Sign up successful');
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.props.handleSuccess('We sent an email to your address ' + response.user.email + ', please confirm.');
+        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email +
+                                 ', ' + getLangText('please confirm') + '.');
 
     },
     render() {
-        let tooltipPassword = 'Your password must be at least 10 characters.\n ' +
-            'This password is securing your digital property like a bank account.\n ' +
-            'Store it in a safe place!';
+        let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
+            getLangText('This password is securing your digital property like a bank account') + '.\n ' +
+            getLangText('Store it in a safe place') + '!';
         return (
             <Form
                 ref='form'
@@ -97,7 +99,7 @@ let SignupForm = React.createClass({
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        Sign up to ascribe
+                        {getLangText('Sign up to ascribe')}
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -106,39 +108,39 @@ let SignupForm = React.createClass({
                     }>
                 <Property
                     name='email'
-                    label="Email">
+                    label={getLangText('Email')}>
                     <input
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder={getLangText('Enter your email')}
                         autoComplete="on"
                         required/>
                 </Property>
                 <Property
                     name='password'
-                    label="Password"
+                    label={getLangText('Password')}
                     tooltip={tooltipPassword}>
                     <input
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder={getLangText('Enter your password')}
                         autoComplete="on"
                         required/>
                 </Property>
                 <Property
                     name='password_confirm'
-                    label="Confirm Password"
+                    label={getLangText('Confirm Password')}
                     tooltip={tooltipPassword}>
                     <input
                         type="password"
-                        placeholder="Enter your password once again"
+                        placeholder={getLangText('Enter your password once again')}
                         autoComplete="on"
                         required/>
                 </Property>
                 <Property
                     name='promo_code'
-                    label="Promocode">
+                    label={getLangText('Promocode')}>
                     <input
                         type="text"
-                        placeholder="Enter a promocode here (Optional)"/>
+                        placeholder={getLangText('Enter a promocode here (Optional)')}/>
                 </Property>
                 <hr />
                 <InputCheckbox
@@ -146,8 +148,8 @@ let SignupForm = React.createClass({
                     required="required"
                     label={
                         <div>
-                            I agree to the&nbsp;
-                            <a href="/terms" target="_blank"> Terms of Service</a>
+                            {getLangText('I agree to the')}&nbsp;
+                            <a href="/terms" target="_blank"> {getLangText('Terms of Service')}</a>
                         </div>}/>
             </Form>
         );

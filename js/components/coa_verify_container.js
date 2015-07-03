@@ -11,6 +11,7 @@ import Property from './ascribe_forms/property';
 import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
 import apiUrls from '../constants/api_urls';
+import { getLangText } from '../utils/lang_utils';
 
 
 let CoaVerifyContainer = React.createClass({
