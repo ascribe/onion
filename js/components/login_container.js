@@ -30,7 +30,7 @@ let LoginContainer = React.createClass({
 
     getDefaultProps() {
         return {
-            message: getLangText('Log in to') + ' ascribe ...'
+            message: getLangText('Log in to') + ' ascribe ...',
             redirectOnLoggedIn: true,
             redirectOnLoginSuccess: true
         };
