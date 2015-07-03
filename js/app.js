@@ -1,12 +1,11 @@
 'use strict';
 
+require("babel/polyfill");
+
 import React from 'react';
 import Router from 'react-router';
-import promise from 'es6-promise';
 
-promise.polyfill();
 import fetch from 'isomorphic-fetch';
-//require('isomorphic-fetch');
 
 import ApiUrls from './constants/api_urls';
 import routes from './routes';
