@@ -3,6 +3,7 @@
 import React from 'react';
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import AppConstants from '../../constants/application_constants.js';
 
 /**
@@ -72,7 +73,7 @@ let Audio = React.createClass({
 
     ready() {
         window.audiojs.events.ready(function() {
-            var as = audiojs.createAll();
+            window.audiojs.createAll();
         });
     },
 
@@ -87,7 +88,8 @@ let Video = React.createClass({
     propTypes: {
         preview: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
-        extraData: React.PropTypes.array.isRequired
+        extraData: React.PropTypes.array.isRequired,
+        encodingStatus: React.PropTypes.number
     },
 
     mixins: [InjectInHeadMixin],
@@ -132,6 +134,24 @@ let Video = React.createClass({
 });
 
 
+let EncodingStatus = React.createClass({
+    propTypes: {
+        encodingStatus: React.PropTypes.number.isRequired
+    },
+
+    render() {
+        return (
+            <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
+                   controls preload="none" width="auto" height="auto">
+                {this.props.extraData.map((data, i) =>
+                <source key={i} type={'video/' + data.type} src={data.url} />
+                )}
+            </video>
+        );
+    }
+});
+
+
 let resourceMap = {
     'image': Image,
     'video': Video,
@@ -144,19 +164,30 @@ let MediaPlayer = React.createClass({
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
         preview: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
-        extraData: React.PropTypes.array
+        extraData: React.PropTypes.array,
+        encodingStatus: React.PropTypes.number
     },
 
     render() {
-        let Component = resourceMap[this.props.mimetype] || Other;
-
-        return (
-            <div className="ascribe-media-player">
-                <Component preview={this.props.preview}
-                           url={this.props.url}
-                           extraData={this.props.extraData} />
-            </div>
-        );
+        if (this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
+            return (
+                <div className="ascribe-detail-header ascribe-media-player">
+                    <p><em>Please be patient, the video is been encoded</em></p>
+                    <ProgressBar now={this.props.encodingStatus}
+                        label='%(percent)s%' />
+                </div>
+            );
+        } else {
+            let Component = resourceMap[this.props.mimetype] || Other;
+            return (
+                <div className="ascribe-media-player">
+                    <Component preview={this.props.preview}
+                               url={this.props.url}
+                               extraData={this.props.extraData}
+                               encodingStatus={this.props.encodingStatus} />
+                </div>
+            );
+        }
     }
 });
 

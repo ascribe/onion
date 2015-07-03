@@ -70,10 +70,12 @@ let Edition = React.createClass({
         let thumbnail = this.props.edition.thumbnail;
         let mimetype = this.props.edition.digital_work.mime;
         let extraData = null;
+        let encodingStatus = this.props.edition.digital_work.isEncoding;
 
         if (this.props.edition.digital_work.encoding_urls) {
             extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
         }
+
 
         let bitcoinIdValue = (
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
@@ -93,7 +95,8 @@ let Edition = React.createClass({
                     <MediaPlayer mimetype={mimetype}
                                     preview={thumbnail}
                                     url={this.props.edition.digital_work.url}
-                                    extraData={extraData} />
+                                    extraData={extraData}
+                                    encodingStatus={encodingStatus} />
                     <p className="text-center">
                         <Button bsSize="xsmall" href={this.props.edition.digital_work.url} target="_blank">
                             Download <Glyphicon glyph="cloud-download" />
