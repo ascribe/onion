@@ -70,8 +70,10 @@ let RequestActionForm = React.createClass({
         }
         return (
             <Alert bsStyle='warning'>
-                <span>{ edition.owner } requests you { edition.request_action } this edition.&nbsp;&nbsp;</span>
+                <div style={{textAlign: 'center'}}>
+                <div>{ edition.owner } requests you { edition.request_action } this edition.&nbsp;&nbsp;</div>
                 {buttons}
+                </div>
             </Alert>
         );
     }
