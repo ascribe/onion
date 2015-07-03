@@ -7,6 +7,7 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputCheckbox from './input_checkbox';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let SignupForm = React.createClass({
     mixins: [FormMixin],
@@ -32,43 +33,43 @@ let SignupForm = React.createClass({
                 <input className="invisible" type="password" name="fake_password"/>
                 <InputText
                     ref="email"
-                    placeHolder="Email"
+                    placeHolder={getLangText('Email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}/>
                 <InputText
                     ref="password"
-                    placeHolder="Choose a password"
+                    placeHolder={getLangText('Choose a password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 <InputText
                     ref="password_confirm"
-                    placeHolder="Confirm password"
+                    placeHolder={getLangText('Confirm password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 <div>
-                    Your password must be at least 10 characters.
-                    This password is securing your digital property like a bank account.
-                    Store it in a safe place!
+                    {getLangText('Your password must be at least 10 characters')}.
+                    {getLangText('This password is securing your digital property like a bank account')}.
+                    {getLangText('Store it in a safe place')}!
                 </div>
                 <InputCheckbox
                     ref="terms"
                     required="required"
                     label={
                         <div>
-                            I agree to the&nbsp;
-                            <a href="/terms" target="_blank"> Terms of Service</a>
+                            {getLangText('I agree to the')}&nbsp;
+                            <a href="/terms" target="_blank"> {getLangText('Terms of Service')}</a>
                         </div>}/>
                 <InputText
                     ref="promo_code"
-                    placeHolder="Promocode (Optional)"
+                    placeHolder={getLangText('Promocode (Optional)')}
                     required=""
                     type="text"
                     submitted={this.state.submitted}/>
                 <ButtonSubmitOrClose
-                    text="JOIN US"
+                    text={getLangText('JOIN US')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

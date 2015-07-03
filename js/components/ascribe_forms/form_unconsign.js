@@ -7,6 +7,7 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let UnConsignForm = React.createClass({
     mixins: [FormMixin],
@@ -27,12 +28,12 @@ let UnConsignForm = React.createClass({
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
-`Hi,
+`${getLangText('Hi')},
 
-I un-consign:
-${title}from you.
+${getLangText('I un-consign')}:
+${title}${getLangText('from you')}.
 
-Truly yours,
+${getLangText('Truly yours')},
 ${username}`;
 
         return (
@@ -45,12 +46,12 @@ ${username}`;
                     required="" />
                 <InputText
                     ref="password"
-                    placeHolder="Password"
+                    placeHolder={getLangText('Password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted} />
                <ButtonSubmitOrClose
-                    text="UNCONSIGN"
+                    text={getLangText('UNCONSIGN')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

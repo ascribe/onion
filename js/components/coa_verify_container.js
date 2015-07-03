@@ -22,13 +22,13 @@ let CoaVerifyContainer = React.createClass({
             <div className="ascribe-login-wrapper">
                 <br/>
                 <div className="ascribe-login-text ascribe-login-header">
-                    Verify your Certificate of Authenticity
+                    {getLangText('Verify your Certificate of Authenticity')}
                 </div>
 
                 <CoaVerifyForm />
                 <br />
                 <br />
-                ascribe is using the following public key for verification:
+                    {getLangText('ascribe is using the following public key for verification')}:
                 <br />
                 <pre>
                 -----BEGIN PUBLIC KEY-----
@@ -50,6 +50,7 @@ let CoaVerifyForm = React.createClass({
     handleSuccess(response){
         let notification = null;
         if (response.verdict){
+	        // TODO translate?
             notification = new GlobalNotificationModel('Certificate of Authenticity successfully verified', 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
@@ -65,7 +66,7 @@ let CoaVerifyForm = React.createClass({
                         <button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login">
-                            Verify your Certificate of Authenticity
+                            {getLangText('Verify your Certificate of Authenticity')}
                         </button>}
                     spinner={
                         <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -74,10 +75,10 @@ let CoaVerifyForm = React.createClass({
                         }>
                     <Property
                         name='message'
-                        label="Message">
+                        label={getLangText('Message')}>
                         <input
                             type="text"
-                            placeholder="Copy paste the message on the bottom of your Certificate of Authenticity"
+                            placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
                             autoComplete="on"
                             name="username"
                             required/>
@@ -88,7 +89,7 @@ let CoaVerifyForm = React.createClass({
                         <InputTextAreaToggable
                             rows={3}
                             editable={true}
-                            placeholder="Copy paste the signature on the bottom of your Certificate of Authenticity"
+                            placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
                             required/>
                     </Property>
                     <hr />

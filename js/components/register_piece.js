@@ -33,6 +33,7 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getCookie } from '../utils/fetch_api_utils';
+import { getLangText } from '../utils/lang_utils';
 
 let RegisterPiece = React.createClass( {
     mixins: [Router.Navigation],
@@ -127,11 +128,11 @@ let RegisterPiece = React.createClass( {
             return (
                 <Property
                     name='license'
-                    label="Copyright license..."
+                    label={getLangText('Copyright license%s', '...')}
                     onChange={this.onLicenseChange}
                     footer={
                         <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-                            Learn more
+			{getLangText('Learn more')}
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {
@@ -166,7 +167,7 @@ let RegisterPiece = React.createClass( {
                     onFocus={this.changeSlide}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}}>Register your work</h3>
+                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}}>{getLangText('Register your work')}</h3>
                             <Form
                                 ref='form'
                                 url={apiUrls.pieces_list}
@@ -176,7 +177,7 @@ let RegisterPiece = React.createClass( {
                                             type="submit"
                                             className="btn ascribe-btn ascribe-btn-login"
                                             disabled={!this.state.isUploadReady}>
-                                            Register work
+                                            {getLangText('Register work')}
                                         </button>}
                                 spinner={
                                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -192,7 +193,7 @@ let RegisterPiece = React.createClass( {
                                 </Property>
                                 <Property
                                     name='artist_name'
-                                    label="Artist Name">
+                                    label={getLangText('Artist Name')}>
                                     <input
                                         type="text"
                                         placeholder="(e.g. Andy Warhol)"
@@ -200,7 +201,7 @@ let RegisterPiece = React.createClass( {
                                 </Property>
                                 <Property
                                     name='title'
-                                    label="Title">
+                                    label={getLangText('Title')}>
                                     <input
                                         type="text"
                                         placeholder="(e.g. 32 Campbell's Soup Cans)"
@@ -208,7 +209,7 @@ let RegisterPiece = React.createClass( {
                                 </Property>
                                 <Property
                                     name='date_created'
-                                    label="Year Created">
+                                    label={getLangText('Year Created')}>
                                     <input
                                         type="number"
                                         placeholder="(e.g. 1962)"
@@ -223,7 +224,7 @@ let RegisterPiece = React.createClass( {
                 </div>
                 <div>
                     <LoginContainer
-                        message="Please login before ascribing your work..."
+                        message={getLangText('Please login before ascribing your work%s', '...')}
                         redirectOnLoggedIn={false}
                         redirectOnLoginSuccess={false}/>
                 </div>

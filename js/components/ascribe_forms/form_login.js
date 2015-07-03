@@ -9,6 +9,7 @@ import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
 import SignupModal from '../ascribe_modal/modal_signup';
 import PasswordResetRequestModal from '../ascribe_modal/modal_password_request_reset';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let LoginForm = React.createClass({
     mixins: [FormMixin],
@@ -31,28 +32,28 @@ let LoginForm = React.createClass({
                 <input className="invisible" type="password" name="fake_password"/>
                 <InputText
                     ref="email"
-                    placeHolder="Email"
+                    placeHolder={getLangText('Email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}/>
                 <InputText
                     ref="password"
-                    placeHolder="Password"
+                    placeHolder={getLangText('Password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 <div>
-                    Forgot your password&#63;
+                    {getLangText('Forgot your password')}&#63;
                     <PasswordResetRequestModal
-                        button={<a className="button" href="#"> Reset password</a>}/>
+                        button={<a className="button" href="#"> {getLangText('Reset password')}</a>}/>
                 </div>
                 <div>
-                    Not a member yet&#63;
+                    {getLangText('Not a member yet')}&#63;
                     <SignupModal
-                        button={<a className="button" href="#"> Sign up</a>}/>
+                        button={<a className="button" href="#"> {getLangText('Sign up')}</a>}/>
                 </div>
                 <ButtonSubmitOrClose
-                    text="LOGIN"
+                    text={getLangText('LOGIN')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

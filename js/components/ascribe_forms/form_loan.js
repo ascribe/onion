@@ -13,6 +13,8 @@ import InputTextArea from './input_textarea';
 import OwnershipFetcher from '../../fetchers/ownership_fetcher';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
+import { getLangText } from '../../utils/lang_utils.js'
+
 let LoanForm = React.createClass({
     
     getInitialState() {
@@ -74,20 +76,20 @@ let LoanForm = React.createClass({
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
-`Hi,
+`${getLangText('Hi')},
 
-I loan :
-${title}to you.
+${getLangText('I loan')} :
+${title}${getLangText('to you')}.
 
-Truly yours,
+${getLangText('Truly yours')},
 ${username}`;
 
         let contract = <InputHidden ref="terms" value="True"/>;
         if (this.state.loaneeHasContract){
             let label = (<div>
-                            I agree to the&nbsp;
+                            {getLangText('I agree to the')}&nbsp;
                             <a href={this.state.contract_url} target="_blank">
-                                terms of {this.refs.loanee.state.value}
+                                {getLangText('terms of')} {this.refs.loanee.state.value}
                             </a>
                         </div>);
             contract = (<InputCheckbox
@@ -103,14 +105,14 @@ ${username}`;
                 <input className="invisible" type="password" name="fake_password"/>
                 <InputText
                     ref="loanee"
-                    placeHolder="Loanee email"
+                    placeHolder={getLangText('Loanee email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}
                     onBlur={this.handleLoanEmailBlur}/>
                 <InputText
                     ref="gallery_name"
-                    placeHolder="Gallery/exhibition (optional)"
+                    placeHolder={getLangText('Gallery/exhibition (optional)')}
                     required=""
                     type="text"
                     submitted={this.state.submitted}/>
@@ -118,12 +120,12 @@ ${username}`;
                     <div className="col-xs-6">
                         <InputDate
                             ref="startdate"
-                            placeholderText="Loan start date" />
+                            placeholderText={getLangText('Loan start date')} />
                     </div>
                     <div className="col-xs-6 form-group">
                         <InputDate
                             ref="enddate"
-                            placeholderText="Loan end date" />
+                            placeholderText={getLangText('Loan end date')} />
                     </div>
                 </div>
                 <InputTextArea
@@ -133,13 +135,13 @@ ${username}`;
                     />
                 <InputText
                     ref="password"
-                    placeHolder="Password"
+                    placeHolder={getLangText('Password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 {contract}
                 <ButtonSubmitOrClose
-                    text="LOAN"
+                    text={getLangText('LOAN')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

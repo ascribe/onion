@@ -7,10 +7,11 @@ import SignupForm from '../ascribe_forms/form_signup';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let SignupModal = React.createClass({
     handleSignupSuccess(response){
-        let notificationText = 'We sent an email to your address ' + response.user.email + ', please confirm.';
+        let notificationText = getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.';
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -19,9 +20,9 @@ let SignupModal = React.createClass({
         return (
             <ModalWrapper
                 button={this.props.button}
-                title='Create an account'
+                title={getLangText('Create an account')}
                 handleSuccess={this.handleSignupSuccess}
-                tooltip='Sign up to ascribe'>
+                tooltip={getLangText('Sign up to ascribe')}>
                 <SignupForm />
             </ModalWrapper>
         );
