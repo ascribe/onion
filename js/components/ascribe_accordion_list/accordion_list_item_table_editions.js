@@ -67,6 +67,11 @@ let AccordionListItemTableEditions = React.createClass({
         }
     },
 
+    loadFurtherEditions() {
+        let editionList = this.state.editionList[this.props.parentId];
+        EditionListActions.fetchEditionList(this.props.parentId, editionList.page + 1, editionList.pageSize);
+    },
+
     changeEditionListOrder(orderBy, orderAsc) {
         EditionListActions.fetchEditionList(this.props.parentId, orderBy, orderAsc);
     },
@@ -168,8 +173,12 @@ let AccordionListItemTableEditions = React.createClass({
                     changeOrder={this.changeEditionListOrder}>
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
+                        onClick={this.loadFurtherEditions}
+                        message={show ? <p>Show me more</p> : ''} />
+                    <AccordionListItemTableToggle
+                        className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}
-                        show={show} />
+                        message={show ? 'Hide all editions' : 'Show all editions'} />
                 </AccordionListItemTable>
                 
             </div>
