@@ -16,6 +16,7 @@ import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 let AccordionListItemTableEditions = React.createClass({
 
@@ -25,7 +26,12 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return mergeOptions(
+            EditionListStore.getState(),
+            {
+                showMoreLoading: false
+            }
+        );
     },
 
     componentDidMount() {
@@ -37,6 +43,12 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     onChange(state) {
+        if(this.state.showMoreLoading) {
+            this.setState({
+                showMoreLoading: false
+            });
+        }
+
         this.setState(state);
     },
 
@@ -68,6 +80,11 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     loadFurtherEditions() {
+        // trigger loading animation
+        this.setState({
+            showMoreLoading: true
+        });
+
         let editionList = this.state.editionList[this.props.parentId];
         EditionListActions.fetchEditionList(this.props.parentId, editionList.page + 1, editionList.pageSize);
     },
@@ -81,7 +98,7 @@ let AccordionListItemTableEditions = React.createClass({
         let allEditionsCount = 0;
         let orderBy;
         let orderAsc;
-        let show;
+        let show = false;
         let showExpandOption = false;
 
         let editionsForPiece = this.state.editionList[this.props.parentId];
@@ -169,12 +186,14 @@ let AccordionListItemTableEditions = React.createClass({
             )
         ];
 
+        let loadingSpinner =  <span className="glyph-ascribe-spool-chunked ascribe-color spin"/> ;
+
         return (
             <div className={this.props.className}>
                 <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.toggleTable}
-                    message={show ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> Hide all editions</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> Show all editions </span>} />
+                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> Hide editions</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> Show editions {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} />
                 <AccordionListItemTable
                     parentId={this.props.parentId}
                     itemList={editionsForPiece}
@@ -182,12 +201,11 @@ let AccordionListItemTableEditions = React.createClass({
                     show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
-                    changeOrder={this.changeEditionListOrder}>
-                </AccordionListItemTable>
+                    changeOrder={this.changeEditionListOrder} />
                 <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.loadFurtherEditions}
-                    message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more</span> : ''} />
+                    message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more {this.state.showMoreLoading ? loadingSpinner : null}</span> : ''} />
             </div>
         );
     }
