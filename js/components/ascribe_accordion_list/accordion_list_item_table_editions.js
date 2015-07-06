@@ -16,6 +16,7 @@ import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 let AccordionListItemTableEditions = React.createClass({
 
@@ -25,7 +26,12 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return mergeOptions(
+            EditionListStore.getState(),
+            {
+                showMoreLoading: false
+            }
+        );
     },
 
     componentDidMount() {
@@ -37,6 +43,12 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     onChange(state) {
+        if(this.state.showMoreLoading) {
+            this.setState({
+                showMoreLoading: false
+            });
+        }
+
         this.setState(state);
     },
 
@@ -67,6 +79,16 @@ let AccordionListItemTableEditions = React.createClass({
         }
     },
 
+    loadFurtherEditions() {
+        // trigger loading animation
+        this.setState({
+            showMoreLoading: true
+        });
+
+        let editionList = this.state.editionList[this.props.parentId];
+        EditionListActions.fetchEditionList(this.props.parentId, editionList.page + 1, editionList.pageSize);
+    },
+
     changeEditionListOrder(orderBy, orderAsc) {
         EditionListActions.fetchEditionList(this.props.parentId, orderBy, orderAsc);
     },
@@ -76,20 +98,29 @@ let AccordionListItemTableEditions = React.createClass({
         let allEditionsCount = 0;
         let orderBy;
         let orderAsc;
-        let show;
+        let show = false;
+        let showExpandOption = false;
+
+        let editionsForPiece = this.state.editionList[this.props.parentId];
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
         // be notified about it.
-        if(this.state.editionList[this.props.parentId]) {
+        if(editionsForPiece) {
             selectedEditionsCount = this.filterSelectedEditions().length;
-            allEditionsCount = this.state.editionList[this.props.parentId].length;
-            orderBy = this.state.editionList[this.props.parentId].orderBy;
-            orderAsc = this.state.editionList[this.props.parentId].orderAsc;
+            allEditionsCount = editionsForPiece.length;
+            orderBy = editionsForPiece.orderBy;
+            orderAsc = editionsForPiece.orderAsc;
         }
 
         if(this.props.parentId in this.state.isEditionListOpenForPieceId) {
             show = this.state.isEditionListOpenForPieceId[this.props.parentId].show;
+        }
+
+        // if the number of editions in the array is equal to the maximum number of editions,
+        // then the "Show me more" dialog should be hidden from the user's view
+        if(editionsForPiece && editionsForPiece.count > editionsForPiece.length) {
+            showExpandOption = true;
         }
 
         let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
@@ -155,23 +186,26 @@ let AccordionListItemTableEditions = React.createClass({
             )
         ];
 
+        let loadingSpinner =  <span className="glyph-ascribe-spool-chunked ascribe-color spin"/> ;
+
         return (
-            <div>
+            <div className={this.props.className}>
+                <AccordionListItemTableToggle
+                    className="ascribe-accordion-list-table-toggle"
+                    onClick={this.toggleTable}
+                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> Hide editions</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> Show editions {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} />
                 <AccordionListItemTable
-                    className={this.props.className}
                     parentId={this.props.parentId}
-                    itemList={this.state.editionList[this.props.parentId]}
+                    itemList={editionsForPiece}
                     columnList={columnList}
                     show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
-                    changeOrder={this.changeEditionListOrder}>
-                    <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle"
-                        onClick={this.toggleTable}
-                        show={show} />
-                </AccordionListItemTable>
-                
+                    changeOrder={this.changeEditionListOrder} />
+                <AccordionListItemTableToggle
+                    className="ascribe-accordion-list-table-toggle"
+                    onClick={this.loadFurtherEditions}
+                    message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more {this.state.showMoreLoading ? loadingSpinner : null}</span> : ''} />
             </div>
         );
     }
