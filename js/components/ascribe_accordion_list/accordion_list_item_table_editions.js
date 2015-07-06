@@ -170,9 +170,12 @@ let AccordionListItemTableEditions = React.createClass({
         ];
 
         return (
-            <div>
+            <div className={this.props.className}>
+                <AccordionListItemTableToggle
+                    className="ascribe-accordion-list-table-toggle"
+                    onClick={this.toggleTable}
+                    message={show ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> Hide all editions</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> Show all editions </span>} />
                 <AccordionListItemTable
-                    className={this.props.className}
                     parentId={this.props.parentId}
                     itemList={editionsForPiece}
                     columnList={columnList}
@@ -180,16 +183,11 @@ let AccordionListItemTableEditions = React.createClass({
                     orderBy={orderBy}
                     orderAsc={orderAsc}
                     changeOrder={this.changeEditionListOrder}>
-                    <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle"
-                        onClick={this.loadFurtherEditions}
-                        message={show && showExpandOption ? <p>Show me more</p> : ''} />
-                    <AccordionListItemTableToggle
-                        className="ascribe-accordion-list-table-toggle"
-                        onClick={this.toggleTable}
-                        message={show ? 'Hide all editions' : 'Show all editions'} />
                 </AccordionListItemTable>
-                
+                <AccordionListItemTableToggle
+                    className="ascribe-accordion-list-table-toggle"
+                    onClick={this.loadFurtherEditions}
+                    message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more</span> : ''} />
             </div>
         );
     }

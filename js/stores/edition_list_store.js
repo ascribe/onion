@@ -14,7 +14,13 @@ class EditionListStore {
 
     onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count}) {
         
+        /*
+            Basically there are two modes an edition list can be updated.
 
+                1. The elements that have been requested from the server are not yet defined in the store => just assign them
+                2. The elements are already defined => merge current objects with the new ones from the server
+
+         */
         for(let i = 0; i < editionListOfPiece.length; i++) {
 
             // if editionList for a specific piece does not exist yet,
@@ -38,10 +44,10 @@ class EditionListStore {
         }
 
         /**
-         * orderBy and orderAsc are specific to a single list of editions
+         * page, pageSize, orderBy, orderAsc and count are specific to a single list of editions
          * therefore they need to be saved in relation to their parent-piece.
          *
-         * Default values for both are set in the editon_list-actions.
+         * Default values for both are set in the editon_list_actions.
          */
         this.editionList[pieceId].page = page;
         this.editionList[pieceId].pageSize = pageSize;
