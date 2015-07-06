@@ -82,19 +82,28 @@ let AccordionListItemTableEditions = React.createClass({
         let orderBy;
         let orderAsc;
         let show;
+        let showExpandOption = false;
+
+        let editionsForPiece = this.state.editionList[this.props.parentId];
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
         // be notified about it.
-        if(this.state.editionList[this.props.parentId]) {
+        if(editionsForPiece) {
             selectedEditionsCount = this.filterSelectedEditions().length;
-            allEditionsCount = this.state.editionList[this.props.parentId].length;
-            orderBy = this.state.editionList[this.props.parentId].orderBy;
-            orderAsc = this.state.editionList[this.props.parentId].orderAsc;
+            allEditionsCount = editionsForPiece.length;
+            orderBy = editionsForPiece.orderBy;
+            orderAsc = editionsForPiece.orderAsc;
         }
 
         if(this.props.parentId in this.state.isEditionListOpenForPieceId) {
             show = this.state.isEditionListOpenForPieceId[this.props.parentId].show;
+        }
+
+        // if the number of editions in the array is equal to the maximum number of editions,
+        // then the "Show me more" dialog should be hidden from the user's view
+        if(editionsForPiece && editionsForPiece.count > editionsForPiece.length) {
+            showExpandOption = true;
         }
 
         let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
@@ -165,7 +174,7 @@ let AccordionListItemTableEditions = React.createClass({
                 <AccordionListItemTable
                     className={this.props.className}
                     parentId={this.props.parentId}
-                    itemList={this.state.editionList[this.props.parentId]}
+                    itemList={editionsForPiece}
                     columnList={columnList}
                     show={show}
                     orderBy={orderBy}
@@ -174,7 +183,7 @@ let AccordionListItemTableEditions = React.createClass({
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.loadFurtherEditions}
-                        message={show ? <p>Show me more</p> : ''} />
+                        message={show && showExpandOption ? <p>Show me more</p> : ''} />
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.toggleTable}

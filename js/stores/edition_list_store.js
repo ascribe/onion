@@ -12,7 +12,7 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc}) {
+    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count}) {
         
 
         for(let i = 0; i < editionListOfPiece.length; i++) {
@@ -47,6 +47,7 @@ class EditionListStore {
         this.editionList[pieceId].pageSize = pageSize;
         this.editionList[pieceId].orderBy = orderBy;
         this.editionList[pieceId].orderAsc = orderAsc;
+        this.editionList[pieceId].count = count;
     }
 
     onSelectEdition({pieceId, editionId, toValue}) {

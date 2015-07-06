@@ -32,12 +32,13 @@ class EditionListActions {
                 .fetch(pieceId, page, pageSize, orderBy, orderAsc)
                 .then((res) => {
                     this.actions.updateEditionList({
-                        'editionListOfPiece': res.editions,
                         pieceId,
                         page,
                         pageSize,
                         orderBy,
-                        orderAsc
+                        orderAsc,
+                        'editionListOfPiece': res.editions,
+                        'count': res.count
                     });
                     resolve(res);
                 })
