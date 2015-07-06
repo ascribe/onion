@@ -13,27 +13,28 @@ class EditionListStore {
     }
 
     onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc}) {
-        if(this.editionList[pieceId]) {
+        
 
-            let pageOfCurrentEditionList = this.editionList[pieceId].slice((page - 1) * pageSize, pageSize);
-            
-            if(pageOfCurrentEditionList.length < 1) {
-                // just append newly received editions
-                console.log('asdasd');
-                this.editionList[pieceId].push.apply(this.editionList[pieceId], editionListOfPiece);
-            } else {
-                // merge with existing page's editions
-                pageOfCurrentEditionList.forEach((edition, i) => {
+        for(let i = 0; i < editionListOfPiece.length; i++) {
 
-                    if(editionListOfPiece[i]) {
-                        edition = React.addons.update(edition, {$merge: editionListOfPiece[i]});
-                    }
-
-                    this.editionList[pieceId].splice((page - 1) * pageSize + i, 0, edition);
-                });
+            // if editionList for a specific piece does not exist yet,
+            // just initialize a new array
+            if(!this.editionList[pieceId]) {
+                this.editionList[pieceId] = [];
             }
-        } else {
-            this.editionList[pieceId] = editionListOfPiece;
+
+            // this is the index formula for accessing an edition of a specific
+            // page
+            let storeEditionIndex = (page - 1) * pageSize + i;
+            let editionsForPieces = this.editionList[pieceId];
+            
+            // if edition already exists, just merge
+            if(editionsForPieces[storeEditionIndex]) {
+                editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
+            } else {
+                // if does not exist, assign
+                editionsForPieces[storeEditionIndex] = editionListOfPiece[i];
+            }
         }
 
         /**

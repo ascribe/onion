@@ -71,7 +71,11 @@ let PieceListBulkModal = React.createClass({
     handleSuccess() {
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                EditionListActions.fetchEditionList(pieceId, this.state.orderBy, this.state.orderAsc);
+                let editionsForPiece = this.state.editionList[pieceId];
+                for(let i = 1; i <= editionsForPiece.page; i++) {
+                    EditionListActions.fetchEditionList(pieceId, i, editionsForPiece.pageSize, editionsForPiece.orderBy, editionsForPiece.orderAsc);
+                }
+                
             });
         EditionListActions.clearAllEditionSelections();
     },
