@@ -84,9 +84,14 @@ let RegisterPiece = React.createClass( {
 
         // once the user was able to register a piece successfully, we need to make sure to keep
         // the piece list up to date
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.searchTerm, this.state.orderBy, this.state.orderAsc);
+        PieceListActions.fetchPieceList(
+            this.state.page,
+            this.state.pageSize,
+            this.state.searchTerm,
+            this.state.orderBy,
+            this.state.orderAsc);
 
-        this.transitionTo('edition', {editionId: response.edition.bitcoin_id});
+        this.transitionTo('edition', {editionId: response.piece.bitcoin_id});
     },
 
     getFormData(){

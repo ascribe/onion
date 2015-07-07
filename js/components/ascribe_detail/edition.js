@@ -9,35 +9,35 @@ import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-import CoaActions from '../actions/coa_actions';
-import CoaStore from '../stores/coa_store';
+import UserActions from '../../actions/user_actions';
+import UserStore from '../../stores/user_store';
+import CoaActions from '../../actions/coa_actions';
+import CoaStore from '../../stores/coa_store';
 
-import MediaPlayer from './ascribe_media/media_player';
+import MediaPlayer from './../ascribe_media/media_player';
 
-import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
+import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 
-import Form from './ascribe_forms/form';
-import Property from './ascribe_forms/property';
-import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
+import Form from './../ascribe_forms/form';
+import Property from './../ascribe_forms/property';
+import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
-import PieceExtraDataForm from './ascribe_forms/form_piece_extradata';
-import RequestActionForm from './ascribe_forms/form_request_action';
+import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
+import RequestActionForm from './../ascribe_forms/form_request_action';
 
-import EditionActions from '../actions/edition_actions';
-import AclButtonList from './ascribe_buttons/acl_button_list';
+import EditionActions from '../../actions/edition_actions';
+import AclButtonList from './../ascribe_buttons/acl_button_list';
 
-import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
+import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
-import GlobalNotificationModel from '../models/global_notification_model';
-import GlobalNotificationActions from '../actions/global_notification_actions';
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import apiUrls from '../constants/api_urls';
-import AppConstants from '../constants/application_constants';
+import apiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
 import classNames from 'classnames';
 
-import { getCookie } from '../utils/fetch_api_utils';
+import { getCookie } from '../../utils/fetch_api_utils';
 
 let Link = Router.Link;
 /**

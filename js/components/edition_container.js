@@ -5,7 +5,7 @@ import React from 'react';
 import EditionActions from '../actions/edition_actions';
 import EditionStore from '../stores/edition_store';
 
-import Edition from './edition';
+import Edition from './ascribe_detail/edition';
 
 /**
  * This is the component that implements resource/data specific functionality
