@@ -81,18 +81,17 @@ let Header = React.createClass({
         let account = null;
         let signup = null;
         let collection = null;
+        let addNewWork = null;
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
-                    <MenuItemLink to="settings">{getLangText('Account Settings')}</MenuItemLink>
-                    <li className="divider"></li>
-                    <MenuItem eventKey="2" href="/art/faq/">{getLangText('FAQ')}</MenuItem>
-                    <MenuItem eventKey="3" href="/art/terms/">{getLangText('Terms of Service')}</MenuItem>
+                    <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
                     <MenuItem divider />
-                    <MenuItem eventKey="4" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
+                    <MenuItem eventKey="3" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
             );
             collection = <NavItemLink to="pieces">COLLECTION</NavItemLink>;
+            addNewWork = <NavItemLink to="register_piece">+ NEW WORK</NavItemLink>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -106,12 +105,14 @@ let Header = React.createClass({
                         <Link className="navbar-brand" to="pieces">
                             {this.getLogo()}
                         </Link>}
-                    toggleNavKey={0}>
+                    toggleNavKey={0}
+                    fixedTop={true}>
                     <CollapsibleNav eventKey={0}>
                         <Nav navbar left>
-                            {collection}
                         </Nav>
                         <Nav navbar right>
+                            {addNewWork}
+                            {collection}
                             {account}
                             {signup}
                         </Nav>

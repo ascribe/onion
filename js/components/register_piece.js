@@ -2,9 +2,13 @@
 
 import React from 'react';
 
-import AppConstants from '../constants/application_constants';
+import DatePicker from 'react-datepicker/dist/react-datepicker';
 
 import Router from 'react-router';
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
+
+import AppConstants from '../constants/application_constants';
 
 import LicenseActions from '../actions/license_actions';
 import LicenseStore from '../stores/license_store';
@@ -26,8 +30,6 @@ import SlidesContainer from './ascribe_slides_container/slides_container';
 import apiUrls from '../constants/api_urls';
 
 import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
-
-import DatePicker from 'react-datepicker/dist/react-datepicker';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getCookie } from '../utils/fetch_api_utils';
@@ -121,7 +123,7 @@ let RegisterPiece = React.createClass( {
         this.setState({selectedLicense: event.target.selectedIndex});
     },
     getLicenses() {
-        if (this.state.licenses && this.state.licenses.length > 0) {
+        if (this.state.licenses && this.state.licenses.length > 1) {
             return (
                 <Property
                     name='license'
@@ -162,67 +164,76 @@ let RegisterPiece = React.createClass( {
                 <div
                     onClick={this.changeSlide}
                     onFocus={this.changeSlide}>
-                    <h3 style={{'marginTop': 0}} onClick={this.changePage}>Lock down title</h3>
-                    <Form
-                        ref='form'
-                        url={apiUrls.pieces_list}
-                        getFormData={this.getFormData}
-                        handleSuccess={this.handleSuccess}
-                        buttons={<button
-                                    type="submit"
-                                    className="btn ascribe-btn ascribe-btn-login"
-                                    disabled={!this.state.isUploadReady}>
-                                    Register your artwork
-                                </button>}
-                        spinner={
-                            <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                                <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                            </button>
-                            }>
-                        <Property label="Files to upload">
-                            <FileUploader
-                                submitKey={this.submitKey}
-                                setIsUploadReady={this.setIsUploadReady}
-                                isReadyForFormSubmission={this.isReadyForFormSubmission}
-                                editable={this.state.isFineUploaderEditable}/>
-                        </Property>
-                        <Property
-                            name='artist_name'
-                            label="Artist Name">
-                            <input
-                                type="text"
-                                placeholder="The name of the creator"
-                                required/>
-                        </Property>
-                        <Property
-                            name='title'
-                            label="Artwork title">
-                            <input
-                                type="text"
-                                placeholder="The title of the artwork"
-                                required/>
-                        </Property>
-                        <Property
-                            name='date_created'
-                            label="Year Created">
-                            <input
-                                type="number"
-                                placeholder="Year Created (e.g. 2015)"
-                                min={0}
-                                required/>
-                        </Property>
-                        <Property
-                            name='num_editions'
-                            label="Number of editions">
-                            <input
-                                type="number"
-                                placeholder="Specify the number of unique editions for this artwork"
-                                min={1}
-                                required/>
-                        </Property>
-                        {this.getLicenses()}
-                        <hr />
-                    </Form>
+                    <Row className="no-margin">
+                        <Col sm={4}>
+                            <div style={{'marginTop': 0, 'marginLeft': '1em'}}>
+                                <FileUploader
+                                    submitKey={this.submitKey}
+                                    setIsUploadReady={this.setIsUploadReady}
+                                    isReadyForFormSubmission={this.isReadyForFormSubmission}
+                                    editable={this.state.isFineUploaderEditable}/>
+                            </div>
+                            <br />
+                            <br />
+                        </Col>
+                        <Col sm={8}>
+                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}} onClick={this.changePage}>Lock down title</h3>
+                            <Form
+                                ref='form'
+                                url={apiUrls.pieces_list}
+                                getFormData={this.getFormData}
+                                handleSuccess={this.handleSuccess}
+                                buttons={<button
+                                            type="submit"
+                                            className="btn ascribe-btn ascribe-btn-login"
+                                            disabled={!this.state.isUploadReady}>
+                                            Register work
+                                        </button>}
+                                spinner={
+                                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                                    </button>
+                                    }>
+
+                                <Property
+                                    name='artist_name'
+                                    label="Artist Name">
+                                    <input
+                                        type="text"
+                                        placeholder="(e.g. Andy Warhol)"
+                                        required/>
+                                </Property>
+                                <Property
+                                    name='title'
+                                    label="Title">
+                                    <input
+                                        type="text"
+                                        placeholder="(e.g. 32 Campbell's Soup Cans)"
+                                        required/>
+                                </Property>
+                                <Property
+                                    name='date_created'
+                                    label="Year Created">
+                                    <input
+                                        type="number"
+                                        placeholder="(e.g. 1962)"
+                                        min={0}
+                                        required/>
+                                </Property>
+                                <Property
+                                    name='num_editions'
+                                    label="Number of editions">
+                                    <input
+                                        type="number"
+                                        placeholder="(e.g. 32)"
+                                        min={1}
+                                        required/>
+                                </Property>
+                                {this.getLicenses()}
+                                <hr />
+                            </Form>
+                        </Col>
+                    </Row>
                 </div>
                 <div>
                     <LoginContainer

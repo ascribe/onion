@@ -111,7 +111,7 @@ let SignupForm = React.createClass({
                     label={getLangText('Email')}>
                     <input
                         type="email"
-                        placeholder={getLangText('Enter your email')}
+                        placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
                         required/>
                 </Property>
@@ -121,7 +121,7 @@ let SignupForm = React.createClass({
                     tooltip={tooltipPassword}>
                     <input
                         type="password"
-                        placeholder={getLangText('Enter your password')}
+                        placeholder={getLangText('Use a combination of minimum 10 chars and numbers')}
                         autoComplete="on"
                         required/>
                 </Property>
@@ -148,8 +148,9 @@ let SignupForm = React.createClass({
                     required="required"
                     label={
                         <div>
-                            {getLangText('I agree to the')}&nbsp;
-                            <a href="/terms" target="_blank"> {getLangText('Terms of Service')}</a>
+                            <a href="/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                {getLangText('I agree to the')}&nbsp;{getLangText('Terms of Service')}
+                            </a>
                         </div>}/>
             </Form>
         );

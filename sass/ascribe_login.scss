@@ -2,7 +2,7 @@ $break-small: 764px;
 
 
 .ascribe-btn-login {
-  padding: 1.5em;
+  padding: 0.5em;
   font-weight: 500;
   text-align: center;
   background-color: rgba(2, 182, 163, 1);
@@ -11,7 +11,7 @@ $break-small: 764px;
   border-radius: 0;
   width: 100%;
   border:none;
-
+  //margin-left: 1.2em;
 
   &:hover {
     color: white;
@@ -27,9 +27,9 @@ $break-small: 764px;
 
 .ascribe-btn-login-spinner{
   background-color: rgba(2, 182, 163, 0.4);
-  padding: 0.8em;
+  padding: 0.4em;
   img {
-    height: 3em;
+    height: 1.6em;
   }
   &:hover {
     background-color: rgba(2, 182, 163, 0.4);
@@ -50,22 +50,24 @@ $break-small: 764px;
 }
 
 .ascribe-login-text {
-  font-size: 1em;
+  font-size: 0.8em;
   padding: 0 0 1em 0;
   margin-left: 0.4em;
+  margin-top: 1.5em;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .ascribe-login-header {
   font-size: 2em;
-  padding: 0 0 0.5em 0;
+  margin-left: 0.8em;
 }
 
 .ascribe-form {
   hr {
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.05);
     border: none;
     height: 1px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.05);
     margin-top: 0;
   }
 }

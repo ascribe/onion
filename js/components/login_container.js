@@ -30,7 +30,7 @@ let LoginContainer = React.createClass({
 
     getDefaultProps() {
         return {
-            message: getLangText('Log in to') + ' ascribe ...',
+            message: getLangText('Enter') + ' ascribe',
             redirectOnLoggedIn: true,
             redirectOnLoginSuccess: true
         };
@@ -65,6 +65,10 @@ let LoginContainer = React.createClass({
                     {this.props.message}
                 </div>
                 <LoginForm />
+                <div className="ascribe-login-text">
+                    {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
+                    {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
+                </div>
             </div>
         );
     }
@@ -109,7 +113,7 @@ let LoginForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Log in to')} ascribe
+                        {getLangText('Enter')} ascribe
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -137,10 +141,6 @@ let LoginForm = React.createClass({
                         required/>
                 </Property>
                 <hr />
-                <div className="ascribe-login-text">
-                    {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
-                    {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
-                </div>
             </Form>
         );
     }

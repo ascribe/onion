@@ -30,6 +30,7 @@ $BASE_URL: '<%= BASE_URL %>';
 body {
     background-color: #FDFDFD;
     border-radius: 0;
+    margin-top: 70px;
 }
 
 html {
@@ -52,7 +53,8 @@ html {
     border-right:0;
     margin-bottom: 1.5em;
     border-top:0;
-    border-color: #CCC
+    border-color: #CCC;
+    font-size: 0.8em;
 }
 
 .truncate {
@@ -198,6 +200,23 @@ html {
     padding-bottom: 0.4em;
 }
 
+::-webkit-input-placeholder { /* WebKit browsers */
+    font-size: 0.9em;
+    font-style: italic;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-size: 0.9em;
+    font-style: italic;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-size: 0.9em;
+    font-style: italic;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-size: 0.9em;
+    font-style: italic;
+}
+
 .input-text-ascribe,
 .datepicker__input {
     border-bottom: 1px solid black;
@@ -218,7 +237,7 @@ html {
     text-align: left;
     line-height: 1.6;
     width: 90%;
-    margin-left: auto;
+    margin-left: 1.6em;
     margin-right: auto;
 }
 
