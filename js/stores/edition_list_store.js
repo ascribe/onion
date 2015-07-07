@@ -12,27 +12,48 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, orderBy, orderAsc}) {
-        if(this.editionList[pieceId]) {
-            this.editionList[pieceId].forEach((edition, i) => {
-                // This uses the index of the new editionList for determining the edition.
-                // If the list of editions can be sorted in the future, this needs to be changed!
-                if (editionListOfPiece[i]) {
-                    editionListOfPiece[i] = React.addons.update(edition, {$merge: editionListOfPiece[i]});
-                }
-            });
+    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count}) {
+        
+        /*
+            Basically there are two modes an edition list can be updated.
+
+                1. The elements that have been requested from the server are not yet defined in the store => just assign them
+                2. The elements are already defined => merge current objects with the new ones from the server
+
+         */
+        for(let i = 0; i < editionListOfPiece.length; i++) {
+
+            // if editionList for a specific piece does not exist yet,
+            // just initialize a new array
+            if(!this.editionList[pieceId]) {
+                this.editionList[pieceId] = [];
+            }
+
+            // this is the index formula for accessing an edition of a specific
+            // page
+            let storeEditionIndex = (page - 1) * pageSize + i;
+            let editionsForPieces = this.editionList[pieceId];
+            
+            // if edition already exists, just merge
+            if(editionsForPieces[storeEditionIndex]) {
+                editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
+            } else {
+                // if does not exist, assign
+                editionsForPieces[storeEditionIndex] = editionListOfPiece[i];
+            }
         }
 
-        this.editionList[pieceId] = editionListOfPiece;
-
         /**
-         * orderBy and orderAsc are specific to a single list of editions
+         * page, pageSize, orderBy, orderAsc and count are specific to a single list of editions
          * therefore they need to be saved in relation to their parent-piece.
          *
-         * Default values for both are set in the editon_list-actions.
+         * Default values for both are set in the editon_list_actions.
          */
+        this.editionList[pieceId].page = page;
+        this.editionList[pieceId].pageSize = pageSize;
         this.editionList[pieceId].orderBy = orderBy;
         this.editionList[pieceId].orderAsc = orderAsc;
+        this.editionList[pieceId].count = count;
     }
 
     onSelectEdition({pieceId, editionId, toValue}) {

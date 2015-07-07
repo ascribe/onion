@@ -15,21 +15,30 @@ class EditionListActions {
         );
     }
 
-    fetchEditionList(pieceId, orderBy, orderAsc) {
+    fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc) {
         if(!orderBy && typeof orderAsc == 'undefined') {
             orderBy = 'edition_number';
             orderAsc = true;
         }
 
+        // Taken from: http://stackoverflow.com/a/519157/1263876
+        if(typeof page === 'undefined' && typeof pageSize === 'undefined') {
+            page = 1;
+            pageSize = 10;
+        }
+
         return new Promise((resolve, reject) => {
             EditionListFetcher
-                .fetch(pieceId, orderBy, orderAsc)
+                .fetch(pieceId, page, pageSize, orderBy, orderAsc)
                 .then((res) => {
                     this.actions.updateEditionList({
-                        'editionListOfPiece': res.editions,
                         pieceId,
+                        page,
+                        pageSize,
                         orderBy,
-                        orderAsc
+                        orderAsc,
+                        'editionListOfPiece': res.editions,
+                        'count': res.count
                     });
                     resolve(res);
                 })

@@ -9,9 +9,14 @@ let EditionListFetcher = {
     /**
      * Fetches a list of editions from the API.
      */
-    fetch(pieceId, orderBy, orderAsc) {
+    fetch(pieceId, page, pageSize, orderBy, orderAsc) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
-        return requests.get('editions_list', { 'piece_id': pieceId, ordering });
+        return requests.get('editions_list', { 
+            'piece_id': pieceId,
+            page, 
+            pageSize,
+            ordering
+        });
     }
 };
 
