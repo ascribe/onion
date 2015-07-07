@@ -191,7 +191,7 @@ let MediaContainer = React.createClass({
     }
 });
 
-const CollapsibleButton = React.createClass({
+let CollapsibleButton = React.createClass({
 
     propTypes: {
         button: React.PropTypes.object,
