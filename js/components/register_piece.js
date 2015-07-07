@@ -165,19 +165,8 @@ let RegisterPiece = React.createClass( {
                     onClick={this.changeSlide}
                     onFocus={this.changeSlide}>
                     <Row className="no-margin">
-                        <Col sm={4}>
-                            <div style={{'marginTop': 0, 'marginLeft': '1em'}}>
-                                <FileUploader
-                                    submitKey={this.submitKey}
-                                    setIsUploadReady={this.setIsUploadReady}
-                                    isReadyForFormSubmission={this.isReadyForFormSubmission}
-                                    editable={this.state.isFineUploaderEditable}/>
-                            </div>
-                            <br />
-                            <br />
-                        </Col>
-                        <Col sm={8}>
-                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}} onClick={this.changePage}>Lock down title</h3>
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}}>Register your work</h3>
                             <Form
                                 ref='form'
                                 url={apiUrls.pieces_list}
@@ -194,7 +183,13 @@ let RegisterPiece = React.createClass( {
                                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                                     </button>
                                     }>
-
+                                <Property>
+                                    <FileUploader
+                                        submitKey={this.submitKey}
+                                        setIsUploadReady={this.setIsUploadReady}
+                                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                                        editable={this.state.isFineUploaderEditable}/>
+                                </Property>
                                 <Property
                                     name='artist_name'
                                     label="Artist Name">
