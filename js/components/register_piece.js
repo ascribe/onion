@@ -220,15 +220,6 @@ let RegisterPiece = React.createClass( {
                                         min={0}
                                         required/>
                                 </Property>
-                                <Property
-                                    name='num_editions'
-                                    label="Number of editions">
-                                    <input
-                                        type="number"
-                                        placeholder="(e.g. 32)"
-                                        min={1}
-                                        required/>
-                                </Property>
                                 {this.getLicenses()}
                                 <hr />
                             </Form>
