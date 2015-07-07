@@ -19,7 +19,7 @@ class PieceListStore {
          * the number of items the resource actually - without pagination - provides.
          */
         this.pieceList = [];
-        this.pieceListCount = 0;
+        this.pieceListCount = -1;
         this.page = 1;
         this.pageSize = 10;
         this.search = '';

@@ -76,6 +76,7 @@ let PieceList = React.createClass({
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
                     itemList={this.state.pieceList}
+                    count={this.state.pieceListCount}
                     orderBy={this.state.orderBy}
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}

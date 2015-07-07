@@ -28,7 +28,8 @@ class PieceListActions {
                         'pieceListCount': res.count
                     });
                     resolve();
-                });
+                })
+                .catch((err) => reject(err));
         });
     }
     fetchPieceRequestActions() {
