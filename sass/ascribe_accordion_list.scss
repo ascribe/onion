@@ -8,6 +8,10 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
 
     padding-left:0;
     padding-right:0;
+    margin-top: 3em;
+    &::first-child {
+        margin-top:0;
+    }
 
     overflow:hidden;
 
@@ -67,7 +71,6 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
 .ascribe-accordion-list-item-table {
     font-size: .9em;
     text-align: center;
-    margin-bottom: 3em;
     background-color: white;
 
     //border-bottom-left-radius: 1px;
