@@ -7,18 +7,33 @@ import GlobalNotificationStore from '../stores/global_notification_store';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
+import { mergeOptions } from '../utils/general_utils';
+
 let GlobalNotification = React.createClass({
 
     componentDidMount() {
         GlobalNotificationStore.listen(this.onChange);
+
+        // init container width
+        this.handleContainerResize();
+
+        // we're using an event listener on window here,
+        // as it was not possible to listen to the resize events of a dom node
+        window.addEventListener('resize', this.handleContainerResize);
     },
 
     componentWillUnmount() {
         GlobalNotificationStore.unlisten(this.onChange);
+        window.removeEventListener('resize', this.handleContainerResize);
     },
 
     getInititalState() {
-        return this.extractFirstElem(GlobalNotificationStore.getState().notificationQue);
+        return mergeOptions(
+            this.extractFirstElem(GlobalNotificationStore.getState().notificationQue),
+            {
+                containerWidth: 0
+            }
+        );
     },
 
     extractFirstElem(l) {
@@ -35,7 +50,14 @@ let GlobalNotification = React.createClass({
         }
     },
 
+    handleContainerResize() {
+        this.setState({
+            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth
+        });
+    },
+
     render() {
+        console.log(this.state);
         let notificationClass = 'ascribe-global-notification ';
         let message = this.state && this.state.message ? this.state.message : null;
 

@@ -19,11 +19,12 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
+import HeaderNotificationDebug from './header_notification_debug';
+
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-let Link = Router.Link;
 
 let Header = React.createClass({
     mixins: [Router.Navigation],
@@ -43,11 +44,13 @@ let Header = React.createClass({
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
     },
+
     handleLogout(){
         UserActions.logoutCurrentUser();
         Alt.flush();
         this.transitionTo('login');
     },
+
     getLogo(){
         let logo = (
             <span>
@@ -110,6 +113,7 @@ let Header = React.createClass({
                         <Nav navbar left>
                         </Nav>
                         <Nav navbar right>
+                            <HeaderNotificationDebug />
                             {addNewWork}
                             {collection}
                             {account}
