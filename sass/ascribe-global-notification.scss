@@ -21,9 +21,24 @@
 .ascribe-global-notification > div {
     display:table-cell;
     vertical-align: middle;
-    color: $ascribe-color-full;
     font-size: 1.25em;
     font-family: 'Source Sans Pro';
     text-align: right;
     padding-right: 3em;
+}
+
+.ascribe-global-notification-warning {
+    color: #f0ad4e;
+}
+
+.ascribe-global-notification-danger {
+    color: #d9534f;
+}
+
+.ascribe-global-notification-success {
+    color: #5cb85c;
+}
+
+.ascribe-global-notification-info {
+    color: rgba(2, 182, 163, 1);
 }

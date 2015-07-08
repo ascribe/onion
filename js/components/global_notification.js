@@ -11,6 +11,16 @@ import { mergeOptions } from '../utils/general_utils';
 
 let GlobalNotification = React.createClass({
 
+    getInitialState() {
+        return mergeOptions(
+            {
+                containerWidth: 0,
+                type: 'success'
+            },
+            this.extractFirstElem(GlobalNotificationStore.getState().notificationQue)
+        );
+    },
+
     componentDidMount() {
         GlobalNotificationStore.listen(this.onChange);
 
@@ -27,17 +37,8 @@ let GlobalNotification = React.createClass({
         window.removeEventListener('resize', this.handleContainerResize);
     },
 
-    getInititalState() {
-        return mergeOptions(
-            this.extractFirstElem(GlobalNotificationStore.getState().notificationQue),
-            {
-                containerWidth: 0
-            }
-        );
-    },
-
     extractFirstElem(l) {
-        return l.length > 0 ? l[0] : null;
+        return l.length > 0 ? l[0] : {message: ''};
     },
 
     onChange(state) {
@@ -46,49 +47,59 @@ let GlobalNotification = React.createClass({
         if(notification) {
             this.setState(notification);
         } else {
-            this.replaceState(null);
+            this.replaceState({
+                message: ''
+            });
         }
     },
 
     handleContainerResize() {
         this.setState({
-            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth
+            containerWidth: this.refs.notificationWrapper.getDOMNode().offsetWidth
         });
     },
 
     render() {
-        console.log(this.state);
-        let notificationClass = 'ascribe-global-notification ';
+        let notificationClass = 'ascribe-global-notification';
+        let textClass;
         let message = this.state && this.state.message ? this.state.message : null;
 
         if(message) {
-            let colors = {
-                warning: '#f0ad4e',
-                success: '#5cb85c',
-                info: 'rgba(2, 182, 163, 1)',
-                danger: '#d9534f'
-            };
+            notificationClass += ' ascribe-global-notification-on';
+        } else {
+            notificationClass += ' ascribe-global-notification-off';
+        }
 
-            let text = (<div style={{color: colors[this.state.type]}}>{message ? message : null}</div>);
+        if(this.state) {
+            switch(this.state.type) {
+                case 'warning':
+                    textClass = 'ascribe-global-notification-warning';
+                    break;
+                case 'success':
+                    textClass = 'ascribe-global-notification-success';
+                    break;
+                case 'info':
+                    textClass = 'ascribe-global-notification-info';
+                    break;
+                case 'danger':
+                    textClass = 'ascribe-global-notification-danger';
+                    break;
+                default:
+                    console.warn('Could not find a matching type in global_notification.js');
+            }
+        }
 
-            return (
+        return (
+            <div ref="notificationWrapper">
                 <Row>
                     <Col>
-                        <div className={notificationClass + 'ascribe-global-notification-on'}>
-                            {text}
+                        <div className={notificationClass}>
+                            <div className={textClass}>{message ? message : null}</div>
                         </div>
                     </Col>
                 </Row>
-            );
-        } else {
-            return (
-                <Row>
-                    <Col>
-                        <div className={notificationClass + 'ascribe-global-notification-off'} />
-                    </Col>
-                </Row>
-            );
-        }
+            </div>
+        );
     }
 });
 
