@@ -38,17 +38,27 @@ let GlobalNotification = React.createClass({
     },
 
     extractFirstElem(l) {
-        return l.length > 0 ? l[0] : {message: ''};
+        if(l.length > 0) {
+            return {
+                show: true,
+                message: l[0]
+            };
+        } else {
+            return {
+                show: false,
+                message: ''
+            };
+        }
     },
 
     onChange(state) {
         let notification = this.extractFirstElem(state.notificationQue);
 
-        if(notification) {
+        if(notification.show) {
             this.setState(notification);
         } else {
-            this.replaceState({
-                message: ''
+            this.setState({
+                show: false
             });
         }
     },
@@ -62,31 +72,36 @@ let GlobalNotification = React.createClass({
     render() {
         let notificationClass = 'ascribe-global-notification';
         let textClass;
-        let message = this.state && this.state.message ? this.state.message : null;
 
-        if(message) {
-            notificationClass += ' ascribe-global-notification-on';
+        if(this.state.containerWidth > 768) {
+            notificationClass = 'ascribe-global-notification-bubble';
+
+            if(this.state.show) {
+                notificationClass += ' ascribe-global-notification-bubble-on';
+            } else {
+                notificationClass += ' ascribe-global-notification-bubble-off';
+            }
+
         } else {
-            notificationClass += ' ascribe-global-notification-off';
+            notificationClass = 'ascribe-global-notification';
+
+            if(this.state.show) {
+                notificationClass += ' ascribe-global-notification-on';
+            } else {
+                notificationClass += ' ascribe-global-notification-off';
+            }
+
         }
 
-        if(this.state) {
-            switch(this.state.type) {
-                case 'warning':
-                    textClass = 'ascribe-global-notification-warning';
-                    break;
-                case 'success':
-                    textClass = 'ascribe-global-notification-success';
-                    break;
-                case 'info':
-                    textClass = 'ascribe-global-notification-info';
-                    break;
-                case 'danger':
-                    textClass = 'ascribe-global-notification-danger';
-                    break;
-                default:
-                    console.warn('Could not find a matching type in global_notification.js');
-            }
+        switch(this.state.message.type) {
+            case 'success':
+                textClass = 'ascribe-global-notification-success';
+                break;
+            case 'danger':
+                textClass = 'ascribe-global-notification-danger';
+                break;
+            default:
+                console.warn('Could not find a matching type in global_notification.js');
         }
 
         return (
@@ -94,7 +109,7 @@ let GlobalNotification = React.createClass({
                 <Row>
                     <Col>
                         <div className={notificationClass}>
-                            <div className={textClass}>{message ? message : null}</div>
+                            <div className={textClass}>{this.state.message.message}</div>
                         </div>
                     </Col>
                 </Row>

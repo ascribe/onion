@@ -14,15 +14,37 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
  */
 let HeaderNotificationDebug = React.createClass({
 
+    propTypes: {
+        show: React.PropTypes.bool
+    },
+
+    getInitialState() {
+        return {
+            index: 0
+        };
+    },
+
     triggerNotification() {
-        let notification = new GlobalNotificationModel('this is a test, please ignore', 'success');
+        if(this.state.index === 1) {
+            this.setState({index: 0});
+        } else {
+            this.setState({index: this.state.index + 1});
+        }
+
+        let actions = ['success', 'danger'];
+
+        let notification = new GlobalNotificationModel('this is a test, please ignore', actions[this.state.index]);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {
-        return (
-            <MenuItem onClick={this.triggerNotification}>Notification</MenuItem>
-        );
+        if(this.props.show) {
+            return (
+                <MenuItem onClick={this.triggerNotification}>Notification</MenuItem>
+            );
+        } else {
+            return null;
+        }
     }
 });
 

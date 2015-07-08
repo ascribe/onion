@@ -113,7 +113,7 @@ let Header = React.createClass({
                         <Nav navbar left>
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug />
+                            <HeaderNotificationDebug show={false}/>
                             {addNewWork}
                             {collection}
                             {account}
