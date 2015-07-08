@@ -5,11 +5,10 @@ import requests from '../utils/requests';
 
 let PieceFetcher = {
     /**
-     * Fetch one user from the API.
-     * If no arg is supplied, load the current user
+     * Fetch a piece from the API.
      */
-    fetchOne() {
-        return requests.get('piece');
+    fetchOne(id) {
+        return requests.get('piece', {'piece_id': id});
     }
 };
 

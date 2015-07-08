@@ -7,20 +7,22 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
 
-import MediaPlayer from './../ascribe_media/media_player';
+import MediaContainer from './media_container';
 
 import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
+import EditionDetailProperty from './detail_property';
 import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
+
+import EditionHeader from './header';
 
 import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 import RequestActionForm from './../ascribe_forms/form_request_action';
@@ -35,7 +37,6 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import apiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
-import classNames from 'classnames';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 
@@ -72,10 +73,10 @@ let Edition = React.createClass({
             <Row>
                 <Col md={6}>
                     <MediaContainer
-                        edition={this.props.edition}/>
+                        content={this.props.edition}/>
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
-                    <EditionHeader edition={this.props.edition}/>
+                    <EditionHeader content={this.props.edition}/>
                     <EditionSummary
                         currentUser={this.state.currentUser}
                         edition={this.props.edition} />
@@ -142,106 +143,6 @@ let Edition = React.createClass({
     }
 });
 
-let MediaContainer = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object
-    },
-
-    render() {
-        let thumbnail = this.props.edition.thumbnail;
-        let mimetype = this.props.edition.digital_work.mime;
-        let embed = null;
-        let extraData = null;
-
-        if (this.props.edition.digital_work.encoding_urls) {
-            extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
-        }
-
-        if (['video', 'audio'].indexOf(mimetype) > -1){
-            embed = (
-                <CollapsibleButton
-                    button={
-                        <Button bsSize="xsmall" className="ascribe-margin-1px">
-                            Embed
-                        </Button>
-                    }
-                    panel={
-                        <pre className="">
-                            {'<iframe width="560" height="315" src="http://embed.ascribe.io/edition/'
-                                + this.props.edition.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'
-                            }
-                        </pre>
-                    }/>
-            );
-        }
-        return (
-            <div>
-                <MediaPlayer mimetype={mimetype}
-                                        preview={thumbnail}
-                                        url={this.props.edition.digital_work.url}
-                                        extraData={extraData} />
-                <p className="text-center">
-                    <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.edition.digital_work.url} target="_blank">
-                        Download <Glyphicon glyph="cloud-download"/>
-                    </Button>
-                    {embed}
-                </p>
-            </div>
-        );
-    }
-});
-
-let CollapsibleButton = React.createClass({
-
-    propTypes: {
-        button: React.PropTypes.object,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
-        ])
-    },
-
-    getInitialState() {
-        return {expanded: false};
-    },
-    handleToggle(e){
-        e.preventDefault();
-        this.setState({expanded: !this.state.expanded});
-    },
-    render() {
-        let isVisible = (this.state.expanded) ? '' : 'invisible';
-        return (
-            <span>
-                <span onClick={this.handleToggle}>
-                    {this.props.button}
-                </span>
-                <div ref='panel' className={isVisible}>
-                    {this.props.panel}
-                </div>
-            </span>
-        );
-    }
-});
-
-
-let EditionHeader = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object
-    },
-
-    render() {
-        var titleHtml = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
-        return (
-            <div className="ascribe-detail-header">
-                <EditionDetailProperty label="TITLE" value={titleHtml} />
-                <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
-                <hr/>
-            </div>
-        );
-    }
-});
-
 
 let EditionSummary = React.createClass({
     propTypes: {
@@ -259,7 +160,7 @@ let EditionSummary = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
-    render() {
+    getStatus(){
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join().replace(/_/, ' ');
@@ -281,6 +182,9 @@ let EditionSummary = React.createClass({
                 );
             }
         }
+        return status;
+    },
+    getActions(){
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
             actions = (
@@ -300,16 +204,18 @@ let EditionSummary = React.createClass({
                     </Col>
                 </Row>);
         }
-
+        return actions;
+    },
+    render() {
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty label="EDITION"
                     value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
                 <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
-                {status}
+                {this.getStatus()}
                 <br/>
-                {actions}
+                {this.getActions()}
                 <hr/>
             </div>
         );
@@ -317,54 +223,6 @@ let EditionSummary = React.createClass({
     }
 });
 
-
-let EditionDetailProperty = React.createClass({
-    propTypes: {
-        label: React.PropTypes.string,
-        value: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.element
-        ]),
-        separator: React.PropTypes.string,
-        labelClassName: React.PropTypes.string,
-        valueClassName: React.PropTypes.string
-    },
-
-    getDefaultProps() {
-        return {
-            separator: ':',
-            labelClassName: 'col-xs-5 col-sm-4 col-md-3 col-lg-3',
-            valueClassName: 'col-xs-7 col-sm-8 col-md-9 col-lg-9'
-        };
-    },
-
-    render() {
-        let value = this.props.value;
-        if (this.props.children){
-            value = (
-                <div className="row-same-height">
-                    <div className="col-xs-6 col-xs-height col-bottom no-padding">
-                        { this.props.value }
-                    </div>
-                    <div className="col-xs-6 col-xs-height">
-                        { this.props.children }
-                    </div>
-                </div>);
-        }
-        return (
-            <div className="row ascribe-detail-property">
-                <div className="row-same-height">
-                    <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.label + this.props.separator}</div>
-                    </div>
-                    <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
-                        {value}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-});
 
 let EditionDetailHistoryIterator = React.createClass({
     propTypes: {
