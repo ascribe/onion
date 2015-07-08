@@ -7,11 +7,12 @@ import LoginForm from '../ascribe_forms/form_login';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let LoginModal = React.createClass({
     handleLoginSuccess(){
         this.props.handleSuccess();
-        let notificationText = 'Login successful';
+        let notificationText = getLangText('Login successful');
         let notification = new GlobalNotificationModel(notificationText, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -20,9 +21,9 @@ let LoginModal = React.createClass({
         return (
             <ModalWrapper
                 button={this.props.button}
-                title='Log in to ascribe'
+                title={getLangText('Log in to ascribe')}
                 handleSuccess={this.handleLoginSuccess}
-                tooltip='Log in to ascribe'>
+                tooltip={getLangText('Log in to ascribe')}>
                 <LoginForm />
             </ModalWrapper>
         );

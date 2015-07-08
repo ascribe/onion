@@ -65,7 +65,7 @@ let Header = React.createClass({
             return (
                 <div className="row no-margin ascribe-subheader">
                     <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                        <span id="powered">powered by </span>
+                        <span id="powered">{getLangText('powered by')} </span>
                         <span>ascribe </span>
                         <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
                     </a>
@@ -90,8 +90,8 @@ let Header = React.createClass({
                     <MenuItem eventKey="3" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
             );
-            collection = <NavItemLink to="pieces">COLLECTION</NavItemLink>;
-            addNewWork = <NavItemLink to="register_piece">+ NEW WORK</NavItemLink>;
+            collection = <NavItemLink to="pieces">{getLangText('COLLECTION')}</NavItemLink>;
+            addNewWork = <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;

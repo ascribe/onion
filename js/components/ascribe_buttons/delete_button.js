@@ -13,6 +13,7 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
+import { getLangText } from '../../utils/lang_utils.js'
 
 import EditionListActions from '../../actions/edition_list_actions';
 
@@ -42,11 +43,11 @@ let DeleteButton = React.createClass({
 
         if (availableAcls.indexOf('delete') > -1) {
             content = <EditionDeleteForm editions={ this.props.editions }/>;
-            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">DELETE</Button>;
+            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
         }
         else if (availableAcls.indexOf('del_from_collection') > -1){
             content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
-            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">REMOVE FROM COLLECTION</Button>;
+            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
         }
         else{
             return null;
@@ -55,8 +56,8 @@ let DeleteButton = React.createClass({
             <ModalWrapper
                 button={ btnDelete }
                 handleSuccess={ this.showNotification }
-                title='Remove Edition'
-                tooltip='Click to remove edition'>
+                title={getLangText('Remove Edition')}
+                tooltip={getLangText('Click to remove edition')}>
                 { content }
             </ModalWrapper>
         );

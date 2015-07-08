@@ -3,6 +3,7 @@
 import React from 'react';
 
 import AppConstants from '../../constants/application_constants';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let ButtonSubmitOrClose = React.createClass({
     propTypes: {
@@ -22,7 +23,7 @@ let ButtonSubmitOrClose = React.createClass({
         return (
             <div className="modal-footer">
                 <button type="submit" className="btn btn-ascribe-inv">{this.props.text}</button>
-                <button className="btn btn-ascribe-inv" onClick={this.props.onClose}>CLOSE</button>
+                <button className="btn btn-ascribe-inv" onClick={this.props.onClose}>{getLangText('CLOSE')}</button>
             </div>
         );
     }

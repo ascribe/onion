@@ -7,6 +7,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
+import { getLangText } from '../../utils/lang_utils';
 
 let PieceListToolbar = React.createClass({
 
@@ -32,7 +33,7 @@ let PieceListToolbar = React.createClass({
                                 <Input
                                     type='text'
                                     ref="search"
-                                    placeholder="Search..."
+                                    placeholder={getLangText('Search%s', '...')}
                                     onChange={this.searchFor}
                                     addonAfter={searchIcon} />
                             </span>

@@ -6,6 +6,8 @@ import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 
 import classNames from 'classnames';
 
+import { getLangText } from '../../utils/lang_utils.js'
+
 
 const CollapsibleParagraph = React.createClass({
 
@@ -41,7 +43,7 @@ const CollapsibleParagraph = React.createClass({
 
     render() {
         let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? '[hide]' : '[show]';
+        let text = this.isExpanded() ? '[' + getLangText('hide') + ']' : '[' + getLangText('show') + ']';
         if(this.props.show) {
             return (
                 <div className="ascribe-detail-header">

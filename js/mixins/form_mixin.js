@@ -4,6 +4,7 @@ import requests from '../utils/requests';
 import React from 'react';
 
 import AlertDismissable from '../components/ascribe_forms/alert';
+import { getLangText } from '../utils/lang_utils.js'
 
 export const FormMixin = {
     propTypes: {
@@ -68,6 +69,7 @@ export const FormMixin = {
             }
         }
         else {
+            // TODO translate?
             this.setState({errors: ['Something went wrong, please try again later']});
         }
         this.setState({submitted: false});
@@ -81,7 +83,7 @@ export const FormMixin = {
     
     getTitlesString(){
         return this.props.editions.map(function(edition){
-            return '- \"' + edition.title + ', edition ' + edition.edition_number + '\"\n';
+            return '- \"' + edition.title + ', ' + getLangText('edition') + ' ' + edition.edition_number + '\"\n';
         });
     },
 

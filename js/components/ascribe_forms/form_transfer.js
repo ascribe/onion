@@ -7,7 +7,7 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
-
+import { getLangText } from '../../utils/lang_utils.js'
 
 let TransferForm = React.createClass({
     mixins: [FormMixin],
@@ -29,12 +29,12 @@ let TransferForm = React.createClass({
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
-`Hi,
+`${getLangText('Hi')},
 
-I transfer ownership of :
-${title}to you.
+${getLangText('I transfer ownership of')} :
+${title}${getLangText('to you')}.
 
-Truly yours,
+${getLangText('Truly yours')},
 ${username}`;
 
         return (
@@ -43,7 +43,7 @@ ${username}`;
                 <input className="invisible" type="password" name="fake_password"/>
                 <InputText
                     ref="transferee"
-                    placeHolder="Transferee email"
+                    placeHolder={getLangText('Transferee email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}/>
@@ -54,7 +54,7 @@ ${username}`;
                     />
                 <InputText
                     ref="password"
-                    placeHolder="Password"
+                    placeHolder={getLangText('Password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
@@ -63,7 +63,7 @@ ${username}`;
                     They cannot be edited after the transfer.
                 </div>
                <ButtonSubmitOrClose
-                    text="TRANSFER"
+                    text={getLangText('TRANSFER')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

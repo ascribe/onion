@@ -6,6 +6,7 @@ import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let PasswordResetRequestForm = React.createClass({
     mixins: [FormMixin],
@@ -25,12 +26,12 @@ let PasswordResetRequestForm = React.createClass({
             <form id="request_reset_password_modal_content" role="form" onSubmit={this.submit}>
                 <InputText
                     ref="email"
-                    placeHolder="Email"
+                    placeHolder={getLangText('Email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}/>
                 <ButtonSubmitOrClose
-                    text="RESET PASSWORD"
+                    text={getLangText('RESET PASSWORD')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

@@ -5,6 +5,7 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import OverlayMixin from 'react-bootstrap/lib/OverlayMixin';
+import { getLangText } from '../utils/lang_utils.js'
 
 let LoginModalHandler = React.createClass({
   mixins: [OverlayMixin],
@@ -32,7 +33,7 @@ let LoginModalHandler = React.createClass({
           This modal is controlled by our custom trigger component.
         </div>
         <div className='modal-footer'>
-          <Button onClick={this.handleToggle}>Close</Button>
+          <Button onClick={this.handleToggle}>{getLangText('Close')}</Button>
         </div>
       </Modal>
     );

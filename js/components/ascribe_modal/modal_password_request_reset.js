@@ -7,10 +7,11 @@ import PasswordResetRequestForm from '../ascribe_forms/form_password_reset_reque
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let PasswordResetRequestModal = React.createClass({
     handleResetSuccess(){
-        let notificationText = 'Request succesfully sent, check your email';
+        let notificationText = getLangText('Request successfully sent, check your email');
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -18,9 +19,9 @@ let PasswordResetRequestModal = React.createClass({
         return (
             <ModalWrapper
                 button={this.props.button}
-                title='Reset your password'
+                title={getLangText('Reset your password')}
                 handleSuccess={this.handleResetSuccess}
-                tooltip='Reset your password'>
+                tooltip={getLangText('Reset your password')}>
                 <PasswordResetRequestForm />
             </ModalWrapper>
         );
