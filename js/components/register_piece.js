@@ -183,7 +183,8 @@ let RegisterPiece = React.createClass( {
                                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                                     </button>
                                     }>
-                                <Property>
+                                <Property
+                                    ignoreFocus={true}>
                                     <FileUploader
                                         submitKey={this.submitKey}
                                         setIsUploadReady={this.setIsUploadReady}
