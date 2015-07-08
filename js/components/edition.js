@@ -7,7 +7,6 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -35,7 +34,6 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
-import classNames from 'classnames';
 
 import { getCookie } from '../utils/fetch_api_utils';
 
@@ -67,12 +65,10 @@ let Edition = React.createClass({
     },
 
     render() {
-
         return (
             <Row>
                 <Col md={6}>
-                    <MediaContainer
-                        edition={this.props.edition}/>
+                    <MediaContainer edition={this.props.edition}/>
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <EditionHeader edition={this.props.edition}/>
@@ -152,6 +148,7 @@ let MediaContainer = React.createClass({
         let mimetype = this.props.edition.digital_work.mime;
         let embed = null;
         let extraData = null;
+        let encodingStatus = this.props.edition.digital_work.isEncoding;
 
         if (this.props.edition.digital_work.encoding_urls) {
             extraData = this.props.edition.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
@@ -177,9 +174,10 @@ let MediaContainer = React.createClass({
         return (
             <div>
                 <MediaPlayer mimetype={mimetype}
-                                        preview={thumbnail}
-                                        url={this.props.edition.digital_work.url}
-                                        extraData={extraData} />
+                    preview={thumbnail}
+                    url={this.props.edition.digital_work.url}
+                    extraData={extraData} 
+                    encodingStatus={encodingStatus} />
                 <p className="text-center">
                     <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.edition.digital_work.url} target="_blank">
                         Download <Glyphicon glyph="cloud-download"/>
