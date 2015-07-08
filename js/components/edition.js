@@ -35,7 +35,6 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
-import classNames from 'classnames';
 
 import { getCookie } from '../utils/fetch_api_utils';
 import { getLangText } from '../utils/lang_utils';
@@ -210,7 +209,7 @@ const CollapsibleButton = React.createClass({
         this.setState({expanded: !this.state.expanded});
     },
     render() {
-        let isVisible = (this.state.expanded) ? '' : getLangText('invisible');
+        let isVisible = (this.state.expanded) ? '' : 'invisible';
         return (
             <span>
                 <span onClick={this.handleToggle}>
@@ -438,7 +437,9 @@ let EditionPublicEditionNote = React.createClass({
         handleSuccess: React.PropTypes.func
     },
     showNotification(){
-        this.props.handleSuccess();EnterndGlobalNotification(notification);
+        this.props.handleSuccess();
+        let notification = new GlobalNotificationModel(getLangText('Public note saved'), 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
         let isEditable = this.props.edition.acl.indexOf('edit') > -1;

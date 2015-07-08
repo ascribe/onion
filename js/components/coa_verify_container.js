@@ -49,9 +49,8 @@ let CoaVerifyForm = React.createClass({
 
     handleSuccess(response){
         let notification = null;
-        if (response.verdict){
-	        // TODO translate?
-            notification = new GlobalNotificationModel('Certificate of Authenticity successfully verified', 'success');
+        if (response.verdict) {
+            notification = new GlobalNotificationModel(getLangText('Certificate of Authenticity successfully verified'), 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
     },
