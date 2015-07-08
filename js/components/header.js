@@ -110,8 +110,7 @@ let Header = React.createClass({
                     toggleNavKey={0}
                     fixedTop={true}>
                     <CollapsibleNav eventKey={0}>
-                        <Nav navbar left>
-                        </Nav>
+                        <Nav navbar left />
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false}/>
                             {addNewWork}

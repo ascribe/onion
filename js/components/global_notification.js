@@ -14,8 +14,7 @@ let GlobalNotification = React.createClass({
     getInitialState() {
         return mergeOptions(
             {
-                containerWidth: 0,
-                type: 'success'
+                containerWidth: 0
             },
             this.extractFirstElem(GlobalNotificationStore.getState().notificationQue)
         );
@@ -93,16 +92,19 @@ let GlobalNotification = React.createClass({
 
         }
 
-        switch(this.state.message.type) {
-            case 'success':
-                textClass = 'ascribe-global-notification-success';
-                break;
-            case 'danger':
-                textClass = 'ascribe-global-notification-danger';
-                break;
-            default:
-                console.warn('Could not find a matching type in global_notification.js');
+        if(this.state.message) {
+            switch(this.state.message.type) {
+                case 'success':
+                    textClass = 'ascribe-global-notification-success';
+                    break;
+                case 'danger':
+                    textClass = 'ascribe-global-notification-danger';
+                    break;
+                default:
+                    console.warn('Could not find a matching type in global_notification.js');
+            }
         }
+        
 
         return (
             <div ref="notificationWrapper">
