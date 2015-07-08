@@ -36,6 +36,7 @@ import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
 
 import { getCookie } from '../utils/fetch_api_utils';
+import { getLangText } from '../utils/lang_utils';
 
 let Link = Router.Link;
 /**
@@ -90,7 +91,7 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Further Details"
+                        title={getLangText('Further Details')}
                         show={this.props.edition.acl.indexOf('edit') > -1
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data !== null}>
@@ -100,35 +101,35 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Certificate of Authenticity"
+                        title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.indexOf('coa') > -1}>
                         <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Provenance/Ownership History"
+                        title={getLangText('Provenance/Ownership History')}
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Consignment History"
+                        title={getLangText('Consignment History')}
                         show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Loan History"
+                        title={getLangText('Loan History')}
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.loan_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="SPOOL Details">
+                        title={getLangText('SPOOL Details')}>
                         <SpoolDetails
                             edition={this.props.edition} />
                     </CollapsibleParagraph>
@@ -180,7 +181,7 @@ let MediaContainer = React.createClass({
                     encodingStatus={encodingStatus} />
                 <p className="text-center">
                     <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.edition.digital_work.url} target="_blank">
-                        Download <Glyphicon glyph="cloud-download"/>
+                        {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                     </Button>
                     {embed}
                 </p>
@@ -231,9 +232,9 @@ let EditionHeader = React.createClass({
         var titleHtml = <div className="ascribe-detail-title">{this.props.edition.title}</div>;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="TITLE" value={titleHtml} />
-                <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
+                <EditionDetailProperty label={getLangText('TITLE')} value={titleHtml} />
+                <EditionDetailProperty label={getLangText('BY')} value={this.props.edition.artist_name} />
+                <EditionDetailProperty label={getLangText('DATE')} value={ this.props.edition.date_created.slice(0, 4) } />
                 <hr/>
             </div>
         );
@@ -261,18 +262,18 @@ let EditionSummary = React.createClass({
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join().replace(/_/, ' ');
-            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            status = <EditionDetailProperty label={getLangText('STATUS')} value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.indexOf('withdraw_transfer') > -1){
                 status = (
                     <Form
                         url={apiUrls.ownership_transfers_withdraw}
                         getFormData={this.getTransferWithdrawData}
                         handleSuccess={this.showNotification}>
-                        <EditionDetailProperty label="STATUS" value={ statusStr }>
+                        <EditionDetailProperty label={getLangText('STATUS')} value={ statusStr }>
                             <button
                                 type="submit"
                                 className="pull-right btn btn-default btn-sm">
-                                WITHDRAW
+                                {getLangText('WITHDRAW')}
                             </button>
                         </EditionDetailProperty>
                     </Form>
@@ -301,10 +302,10 @@ let EditionSummary = React.createClass({
 
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label="EDITION"
-                    value={this.props.edition.edition_number + ' of ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label="ID" value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label="OWNER" value={ this.props.edition.owner } />
+                <EditionDetailProperty label={getLangText('EDITION')}
+                    value={this.props.edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
+                <EditionDetailProperty label={getLangText('ID')} value={ this.props.edition.bitcoin_id } />
+                <EditionDetailProperty label={getLangText('OWNER')} value={ this.props.edition.owner } />
                 {status}
                 <br/>
                 {actions}
@@ -397,7 +398,7 @@ let EditionPersonalNote = React.createClass({
     },
     showNotification(){
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Private note saved', 'success');
+        let notification = new GlobalNotificationModel(getLangText('Private note saved'), 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -409,13 +410,13 @@ let EditionPersonalNote = React.createClass({
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'
-                        label='Personal note (private)'
+                        label={getLangText('Personal note (private)')}
                         editable={true}>
                         <InputTextAreaToggable
                             rows={3}
                             editable={true}
                             defaultValue={this.props.edition.note_from_user}
-                            placeholder='Enter a personal note...'
+                            placeholder={getLangText('Enter a personal note%s', '...')}
                             required/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
@@ -436,7 +437,7 @@ let EditionPublicEditionNote = React.createClass({
     },
     showNotification(){
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Public note saved', 'success');
+        let notification = new GlobalNotificationModel(getLangText('Public note saved'), 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
@@ -448,13 +449,13 @@ let EditionPublicEditionNote = React.createClass({
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'
-                        label='Edition note (public)'
+                        label={getLangText('Edition note (public)')}
                         editable={isEditable}>
                         <InputTextAreaToggable
                             rows={3}
                             editable={isEditable}
                             defaultValue={this.props.edition.public_note}
-                            placeholder='Enter a public note for this edition...'
+                            placeholder={getLangText('Enter a public note for this edition%', '...')}
                             required/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
@@ -483,7 +484,7 @@ let EditionFurtherDetails = React.createClass({
 
     showNotification(){
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Details updated', 'success');
+        let notification = new GlobalNotificationModel(getLangText('Details updated'), 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -516,19 +517,19 @@ let EditionFurtherDetails = React.createClass({
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PieceExtraDataForm
                         name='artist_contact_info'
-                        title='Artist Contact Info'
+                        title={getLangText('Artist Contact Info')}
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
                     <PieceExtraDataForm
                         name='display_instructions'
-                        title='Display Instructions'
+                        title={getLangText('Display Instructions')}
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
                     <PieceExtraDataForm
                         name='technology_details'
-                        title='Technology Details'
+                        title={getLangText('Technology Details')}
                         handleSuccess={this.showNotification}
                         editable={editable}
                         edition={this.props.edition} />
@@ -565,7 +566,7 @@ let FileUploader = React.createClass({
         return (
             <Form>
                 <Property
-                    label="Additional files">
+                    label={getLangText('Additional files')}>
                     <ReactS3FineUploader
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
@@ -654,12 +655,12 @@ let CoaDetails = React.createClass({
                     <p className="text-center ascribe-button-list">
                         <a href={this.state.coa.url_safe} target="_blank">
                             <button className="btn btn-default btn-xs">
-                                Download <Glyphicon glyph="cloud-download"/>
+                                {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                             </button>
                         </a>
                         <Link to="coa_verify">
                             <button className="btn btn-default btn-xs">
-                                Verify <Glyphicon glyph="check"/>
+                                {getLangText('Verify')} <Glyphicon glyph="check"/>
                             </button>
                         </Link>
 
@@ -697,19 +698,19 @@ let SpoolDetails = React.createClass({
             <Form >
                 <Property
                     name='artwork_id'
-                    label="Artwork ID"
+                    label={getLangText('Artwork ID')}
                     editable={false}>
                     <pre className="ascribe-pre">{bitcoinIdValue}</pre>
                 </Property>
                 <Property
                     name='hash_of_artwork'
-                    label="Hash of Artwork, title, etc"
+                    label={getLangText('Hash of Artwork, title, etc')}
                     editable={false}>
                     <pre className="ascribe-pre">{hashOfArtwork}</pre>
                 </Property>
                 <Property
                     name='owner_address'
-                    label="Owned by SPOOL address"
+                    label={getLangText('Owned by SPOOL address')}
                     editable={false}>
                     <pre className="ascribe-pre">{ownerAddress}</pre>
                 </Property>

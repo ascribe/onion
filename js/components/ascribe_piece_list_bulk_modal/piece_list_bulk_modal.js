@@ -15,7 +15,7 @@ import AclButtonList from '../ascribe_buttons/acl_button_list';
 
 
 import { getAvailableAcls } from '../../utils/acl_utils';
-
+import { getLangText } from '../../utils/lang_utils.js'
 
 let PieceListBulkModal = React.createClass({
     propTypes: {
@@ -97,7 +97,7 @@ let PieceListBulkModal = React.createClass({
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span
                                         className="piece-list-bulk-modal-clear-all"
-                                        onClick={this.clearAllSelections}>clear all</span>
+                                        onClick={this.clearAllSelections}>{getLangText('clear all')}</span>
                                 </div>
                             </div>
                             <p></p>

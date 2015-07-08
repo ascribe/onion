@@ -149,11 +149,10 @@ let FileDragAndDrop = React.createClass({
                 onDragOver={this.handleDragOver}
                 onDrop={this.handleDrop}
                 onDragEnd={this.handleDragEnd}>
-                    <FileDragAndDropDialog 
+                    <FileDragAndDropDialog
                         multipleFiles={this.props.multiple}
                         hasFiles={hasFiles}
-                        onClick={this.handleOnClick}
-                    />
+                        onClick={this.handleOnClick}/>
                     <FileDragAndDropPreviewIterator
                         files={this.props.filesToUpload}
                         handleDeleteFile={this.handleDeleteFile}

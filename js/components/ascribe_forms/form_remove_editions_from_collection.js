@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { getLangText } from '../../utils/lang_utils.js'
 import requests from '../../utils/requests';
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
@@ -20,11 +21,11 @@ let EditionRemoveFromCollectionForm = React.createClass({
     renderForm () {
         return (
             <div className="modal-body">
-                <p>Are you sure you would like to remove these editions from your collection&#63;</p>
-                <p>This is an irrevocable action.</p>
+                <p>{getLangText('Are you sure you would like to remove these editions from your collection')}&#63;</p>
+                <p>{getLangText('This is an irrevocable action%s', '.')}</p>
                 <div className="modal-footer">
-                    <button type="submit" className="btn btn-ascribe-inv" onClick={this.submit}>YES, REMOVE</button>
-                    <button className="btn btn-ascribe" onClick={this.props.onRequestHide}>CLOSE</button>
+                    <button type="submit" className="btn btn-ascribe-inv" onClick={this.submit}>{getLangText('YES, REMOVE')}</button>
+                    <button className="btn btn-ascribe" onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</button>
                 </div>
             </div>
         );

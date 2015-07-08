@@ -5,6 +5,7 @@ import React from 'react';
 import requests from '../../utils/requests';
 import ApiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
+import { getLangText } from '../../utils/lang_utils';
 
 let EditionDeleteForm = React.createClass({
 
@@ -20,11 +21,11 @@ let EditionDeleteForm = React.createClass({
     renderForm () {
         return (
             <div className="modal-body">
-                <p>Are you sure you would like to permanently delete this edition&#63;</p>
-                <p>This is an irrevocable action.</p>
+                <p>{getLangText('Are you sure you would like to permanently delete this edition')}&#63;</p>
+                <p>{getLangText('This is an irrevocable action%s', '.')}</p>
                 <div className="modal-footer">
-                    <button type="submit" className="btn btn-ascribe-inv" onClick={this.submit}>YES, DELETE</button>
-                    <button className="btn btn-ascribe" onClick={this.props.onRequestHide}>CLOSE</button>
+                    <button type="submit" className="btn btn-ascribe-inv" onClick={this.submit}>{getLangText('YES, DELETE')}</button>
+                    <button className="btn btn-ascribe" onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</button>
                 </div>
             </div>
         );

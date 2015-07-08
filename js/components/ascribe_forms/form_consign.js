@@ -7,6 +7,7 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let ConsignForm = React.createClass({
     mixins: [FormMixin],
@@ -29,12 +30,12 @@ let ConsignForm = React.createClass({
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
-`Hi,
+`${getLangText('Hi')},
 
-I consign :
-${title}to you.
+${getLangText('I consign')} :
+${title}${getLangText('to you')}.
 
-Truly yours,
+${getLangText('Truly yours')},
 ${username}`;
 
         return (
@@ -43,7 +44,7 @@ ${username}`;
                 <input className="invisible" type="password" name="fake_password"/>
                 <InputText
                     ref="consignee"
-                    placeHolder="Consignee email"
+                    placeHolder={getLangText('Consignee email')}
                     required="required"
                     type="email"
                     submitted={this.state.submitted}/>
@@ -54,12 +55,12 @@ ${username}`;
                     />
                 <InputText
                     ref="password"
-                    placeHolder="Password"
+                    placeHolder={getLangText('Password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                <ButtonSubmitOrClose
-                    text="CONSIGN"
+                    text={getLangText('CONSIGN')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

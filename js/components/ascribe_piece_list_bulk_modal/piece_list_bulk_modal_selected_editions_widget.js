@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let PieceListBulkModalSelectedEditionsWidget = React.createClass({
     propTypes: {
@@ -9,8 +10,8 @@ let PieceListBulkModalSelectedEditionsWidget = React.createClass({
 
     render() {
         return (
-            <span className={this.props.numberOfSelectedEditions < 1 ? 'hidden' : ''}>
-                {this.props.numberOfSelectedEditions} Editions selected
+            <span className={this.props.numberOfSelectedEditions < 1 ? getLangText('hidden') : ''}>
+                {this.props.numberOfSelectedEditions} {getLangText('Editions selected')}
             </span>
         );
     }

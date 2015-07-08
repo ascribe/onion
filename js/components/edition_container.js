@@ -53,6 +53,7 @@ let EditionContainer = React.createClass({
             );
         } else {
             return (
+                // TODO translate?
                 <p>Loading</p>
             );
         }
