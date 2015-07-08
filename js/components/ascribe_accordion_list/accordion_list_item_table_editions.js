@@ -202,7 +202,8 @@ let AccordionListItemTableEditions = React.createClass({
                     show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
-                    changeOrder={this.changeEditionListOrder} />
+                    changeOrder={this.changeEditionListOrder} 
+                    selectItem={this.selectItem}/>
                 <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.loadFurtherEditions}

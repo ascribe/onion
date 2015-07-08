@@ -12,12 +12,14 @@ let TableItem = React.createClass({
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
-        className: React.PropTypes.string
+        className: React.PropTypes.string,
+        onClick: React.PropTypes.func
     },
 
     render() {
         return (
             <TableItemWrapper
+                onClick={this.props.onClick}
                 columnList={this.props.columnList}
                 columnContent={this.props.columnContent}
                 columnWidth={12} />

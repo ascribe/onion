@@ -11,14 +11,15 @@ let TableItemWrapper = React.createClass({
     propTypes: {
         columnList: React.PropTypes.arrayOf(React.PropTypes.instanceOf(ColumnModel)),
         columnContent: React.PropTypes.object,
-        columnWidth: React.PropTypes.number.isRequired
+        columnWidth: React.PropTypes.number.isRequired,
+        onClick: React.PropTypes.func
     },
 
     mixins: [Router.Navigation],
 
     render() {
         return (
-            <tr>
+            <tr onClick={this.props.onClick}>
                 {this.props.columnList.map((column, i) => {
 
                     let TypeElement = column.displayType;
