@@ -102,9 +102,8 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     brand={
-                        <Link className="navbar-brand" to="pieces">
-                            {this.getLogo()}
-                        </Link>}
+                        this.getLogo()
+                    }
                     toggleNavKey={0}
                     fixedTop={true}>
                     <CollapsibleNav eventKey={0}>

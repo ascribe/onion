@@ -78,29 +78,6 @@ let Edition = React.createClass({
                         edition={this.props.edition} />
 
                     <CollapsibleParagraph
-                        title="Notes"
-                        show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
-                        <EditionPersonalNote
-                            currentUser={this.state.currentUser}
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                        <EditionPublicEditionNote
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                    </CollapsibleParagraph>
-
-                    <CollapsibleParagraph
-                        title={getLangText('Further Details')}
-                        show={this.props.edition.acl.indexOf('edit') > -1
-                            || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data !== null}>
-                        <EditionFurtherDetails
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                    </CollapsibleParagraph>
-
-                    <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.indexOf('coa') > -1}>
                         <CoaDetails
@@ -133,6 +110,30 @@ let Edition = React.createClass({
                         <SpoolDetails
                             edition={this.props.edition} />
                     </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title="Notes"
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
+                        <EditionPersonalNote
+                            currentUser={this.state.currentUser}
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                        <EditionPublicEditionNote
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title={getLangText('Further Details')}
+                        show={this.props.edition.acl.indexOf('edit') > -1
+                            || Object.keys(this.props.edition.extra_data).length > 0
+                            || this.props.edition.other_data !== null}>
+                        <EditionFurtherDetails
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
                 </Col>
             </Row>
         );
@@ -177,7 +178,7 @@ let MediaContainer = React.createClass({
                 <MediaPlayer mimetype={mimetype}
                     preview={thumbnail}
                     url={this.props.edition.digital_work.url}
-                    extraData={extraData} 
+                    extraData={extraData}
                     encodingStatus={encodingStatus} />
                 <p className="text-center">
                     <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.edition.digital_work.url} target="_blank">
@@ -326,7 +327,8 @@ let EditionDetailProperty = React.createClass({
         ]),
         separator: React.PropTypes.string,
         labelClassName: React.PropTypes.string,
-        valueClassName: React.PropTypes.string
+        valueClassName: React.PropTypes.string,
+        children: React.PropTypes.arrayOf(React.PropTypes.element)
     },
 
     getDefaultProps() {

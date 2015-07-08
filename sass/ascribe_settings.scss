@@ -4,7 +4,7 @@
     text-align: center;
     padding-bottom: 1em;
 
-    background-color: rgba(0,0,0,0);
+    background-color: white;
 
     border-left: 3px solid rgba(0,0,0,0);
 
@@ -22,7 +22,7 @@
 
 .is-focused {
     background-color: rgba(2, 182, 163, 0.05);
-    border-left: 3px solid rgba(2, 182, 163, 1)!important;
+    border-left: 3px solid rgba(2, 182, 163, 1) !important;
 }
 
 .is-error {
