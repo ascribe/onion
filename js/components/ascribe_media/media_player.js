@@ -133,25 +133,6 @@ let Video = React.createClass({
     }
 });
 
-
-let EncodingStatus = React.createClass({
-    propTypes: {
-        encodingStatus: React.PropTypes.number.isRequired
-    },
-
-    render() {
-        return (
-            <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
-                   controls preload="none" width="auto" height="auto">
-                {this.props.extraData.map((data, i) =>
-                <source key={i} type={'video/' + data.type} src={data.url} />
-                )}
-            </video>
-        );
-    }
-});
-
-
 let resourceMap = {
     'image': Image,
     'video': Video,

@@ -17,10 +17,10 @@ let EditionContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
-        let isEncoding = state.edition.digital_work.isEncoding;
-        if (isEncoding !== undefined && isEncoding !== 100) {
+        let isEncoding = state.edition.digital_work ? state.edition.digital_work.isEncoding : null;
+        if (typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
             let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
-            this.setState({timerId: timerId})
+            this.setState({timerId: timerId});
         }
     },
 

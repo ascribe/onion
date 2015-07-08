@@ -19,11 +19,9 @@ let AccordionListItem = React.createClass({
         content: React.PropTypes.object,
         children: React.PropTypes.object
     },
-    handleClick(event){
+    handleClick(){
         requests.get('piece_first_edition_id', {'piece_id': this.props.content.id})
             .then((res) => this.transitionTo('edition', {editionId: res.bitcoin_id}));
-
-        console.log(event.target);
     },
     getGlyphicon(){
         if (this.props.content.requestAction){
@@ -53,6 +51,7 @@ let AccordionListItem = React.createClass({
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>
+                                <span className="pull-right">this.props.</span>
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
                                     {getLangText('%s license', this.props.content.license_type.code)}
                                 </a> */}
