@@ -27,26 +27,6 @@ class PieceListStore {
         this.orderAsc = true;
         this.bindActions(PieceListActions);
     }
-
-    /*onShowEditionList(pieceId) {
-        this.pieceList
-            .forEach((piece) => {
-                if(piece.id === pieceId) {
-                    if(piece.show) {
-                        piece.show = false;
-                    } else {
-                        piece.show = true;
-                    }
-                }
-            });
-    }*/
-
-    /*onCloseAllEditionLists() {
-        this.pieceList
-            .forEach((piece) => {
-                piece.show = false;
-            });
-    }*/
     
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
         this.page = page;
@@ -85,10 +65,24 @@ class PieceListStore {
 
         this.pieceList = pieceList;
     }
+
     onUpdatePieceListRequestActions(requestActions) {
         this.pieceList.forEach((piece) => {
             piece.requestAction = requestActions.indexOf(piece.id) > -1;
         });
+    }
+
+    onAddFirstEditionToPiece({pieceId, firstEdition}) {
+        let filteredPieceList = this.pieceList.filter((piece) => piece.id === pieceId);
+
+        if(filteredPieceList.length === 1) {
+            
+            let piece = filteredPieceList[0];
+            piece.firstEdition = firstEdition.edition;
+
+        } else {
+            throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');
+        }
     }
 }
 

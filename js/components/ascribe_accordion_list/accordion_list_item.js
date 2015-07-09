@@ -3,13 +3,14 @@
 import React from 'react';
 import Router from 'react-router';
 
+import PieceListStore from '../../stores/piece_list_store';
+import PieceListActions from '../../actions/piece_list_actions';
+
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
-
-import requests from '../../utils/requests';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -22,9 +23,14 @@ let AccordionListItem = React.createClass({
 
     mixins: [Router.Navigation],
 
-    handleClick(){
-        requests.get('piece_first_edition_id', {'piece_id': this.props.content.id})
-            .then((res) => this.transitionTo('edition', {editionId: res.bitcoin_id}));
+    componentDidMount() {
+        if(this.props.content.num_editions !== 0) {
+            PieceListActions.fetchFirstEditionForPiece(this.props.content.id);
+        }
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     getGlyphicon(){
@@ -39,7 +45,6 @@ let AccordionListItem = React.createClass({
     },
 
     render() {
-
         return (
             <div className="row">
                 <div className={this.props.className}>
@@ -57,7 +62,7 @@ let AccordionListItem = React.createClass({
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>
-                                <AccordionListItemEditionWidget 
+                                <AccordionListItemEditionWidget
                                     piece={this.props.content} />
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
                                     {getLangText('%s license', this.props.content.license_type.code)}
