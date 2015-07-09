@@ -4,12 +4,12 @@ import alt from '../alt';
 
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
 
-
 class PieceListActions {
     constructor() {
         this.generateActions(
             'updatePieceList',
-            'updatePieceListRequestActions'
+            'updatePieceListRequestActions',
+            'addFirstEditionToPiece'
         );
     }
 
@@ -32,6 +32,7 @@ class PieceListActions {
                 .catch((err) => reject(err));
         });
     }
+
     fetchPieceRequestActions() {
         PieceListFetcher
             .fetchRequestActions()
@@ -40,6 +41,16 @@ class PieceListActions {
             });
     }
 
+    fetchFirstEditionForPiece(pieceId) {
+        return new Promise((resolve, reject) => {
+            PieceListFetcher.fetchFirstEditionForPiece(pieceId)
+                .then((firstEdition) => {
+                    this.actions.addFirstEditionToPiece({pieceId, firstEdition});
+                    resolve();
+                })
+                .catch((err) => reject(err));
+        });
+    }
 }
 
 export default alt.createActions(PieceListActions);

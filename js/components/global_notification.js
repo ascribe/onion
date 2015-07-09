@@ -7,66 +7,116 @@ import GlobalNotificationStore from '../stores/global_notification_store';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
+import { mergeOptions } from '../utils/general_utils';
+
 let GlobalNotification = React.createClass({
+
+    getInitialState() {
+        return mergeOptions(
+            {
+                containerWidth: 0
+            },
+            this.extractFirstElem(GlobalNotificationStore.getState().notificationQue)
+        );
+    },
 
     componentDidMount() {
         GlobalNotificationStore.listen(this.onChange);
+
+        // init container width
+        this.handleContainerResize();
+
+        // we're using an event listener on window here,
+        // as it was not possible to listen to the resize events of a dom node
+        window.addEventListener('resize', this.handleContainerResize);
     },
 
     componentWillUnmount() {
         GlobalNotificationStore.unlisten(this.onChange);
-    },
-
-    getInititalState() {
-        return this.extractFirstElem(GlobalNotificationStore.getState().notificationQue);
+        window.removeEventListener('resize', this.handleContainerResize);
     },
 
     extractFirstElem(l) {
-        return l.length > 0 ? l[0] : null;
+        if(l.length > 0) {
+            return {
+                show: true,
+                message: l[0]
+            };
+        } else {
+            return {
+                show: false,
+                message: ''
+            };
+        }
     },
 
     onChange(state) {
         let notification = this.extractFirstElem(state.notificationQue);
 
-        if(notification) {
+        if(notification.show) {
             this.setState(notification);
         } else {
-            this.replaceState(null);
+            this.setState({
+                show: false
+            });
         }
     },
 
+    handleContainerResize() {
+        this.setState({
+            containerWidth: this.refs.notificationWrapper.getDOMNode().offsetWidth
+        });
+    },
+
     render() {
-        let notificationClass = 'ascribe-global-notification ';
-        let message = this.state && this.state.message ? this.state.message : null;
+        let notificationClass = 'ascribe-global-notification';
+        let textClass;
 
-        if(message) {
-            let colors = {
-                warning: '#f0ad4e',
-                success: '#5cb85c',
-                info: 'rgba(2, 182, 163, 1)',
-                danger: '#d9534f'
-            };
+        if(this.state.containerWidth > 768) {
+            notificationClass = 'ascribe-global-notification-bubble';
 
-            let text = (<div style={{color: colors[this.state.type]}}>{message ? message : null}</div>);
+            if(this.state.show) {
+                notificationClass += ' ascribe-global-notification-bubble-on';
+            } else {
+                notificationClass += ' ascribe-global-notification-bubble-off';
+            }
 
-            return (
+        } else {
+            notificationClass = 'ascribe-global-notification';
+
+            if(this.state.show) {
+                notificationClass += ' ascribe-global-notification-on';
+            } else {
+                notificationClass += ' ascribe-global-notification-off';
+            }
+
+        }
+
+        if(this.state.message) {
+            switch(this.state.message.type) {
+                case 'success':
+                    textClass = 'ascribe-global-notification-success';
+                    break;
+                case 'danger':
+                    textClass = 'ascribe-global-notification-danger';
+                    break;
+                default:
+                    console.warn('Could not find a matching type in global_notification.js');
+            }
+        }
+        
+
+        return (
+            <div ref="notificationWrapper">
                 <Row>
                     <Col>
-                        <div className={notificationClass + 'ascribe-global-notification-on'}>
-                            {text}
+                        <div className={notificationClass}>
+                            <div className={textClass}>{this.state.message.message}</div>
                         </div>
                     </Col>
                 </Row>
-            );
-        } else {
-            return (
-                <Row>
-                    <Col>
-                        <div className={notificationClass + 'ascribe-global-notification-off'} />
-                    </Col>
-                </Row>
-            );
-        }
+            </div>
+        );
     }
 });
 

@@ -82,7 +82,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     thead:first-child {
         tr:first-child {
             border: none! important;
-            th{
+            th {
                 padding-left: 10px;
                 border: none! important;
             }
@@ -139,4 +139,12 @@ span.ascribe-accordion-list-table-toggle {
     color: #666;
     font-size: 1.2em;
     padding: 0.3em;
+}
+
+.ascribe-accordion-list-item-edition-widget {
+    cursor: pointer;
+
+    &:hover {
+        color: $ascribe-color-full;
+    }
 }

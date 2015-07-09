@@ -19,7 +19,7 @@ let TableItemSelectable = React.createClass({
     },
 
     selectItem() {
-        this.props.selectItem(this.props.parentId, this.props.columnContent.edition_number);
+        this.props.selectItem(this.props.parentId, this.props.columnContent.id);
     },
 
     render() {

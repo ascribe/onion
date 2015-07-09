@@ -39,6 +39,7 @@ import apiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 let Link = Router.Link;
 /**

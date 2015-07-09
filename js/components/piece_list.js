@@ -47,6 +47,7 @@ let PieceList = React.createClass({
     },
 
     paginationGoToPage(page) {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
         return () => PieceListActions.fetchPieceList(page, this.state.pageSize,
                                                       this.state.search, this.state.orderBy,
                                                       this.state.orderAsc);
@@ -84,21 +85,14 @@ let PieceList = React.createClass({
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>
                     {this.state.pieceList.map((piece, i) => {
-
-                        let editionsTableForPiece;
-
-                        if(piece.num_editions !== 1) {
-                            editionsTableForPiece = <AccordionListItemTableEditions
-                                                        className="ascribe-accordion-list-item-table col-xs-12 col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 col-lg-offset-3"
-                                                        parentId={piece.id} />;
-                        }
-
                         return (
                             <AccordionListItem
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
                                 key={i}>
-                                    {editionsTableForPiece}
+                                    <AccordionListItemTableEditions
+                                        className="ascribe-accordion-list-item-table col-xs-12 col-sm-8 col-md-6 col-lg-6 col-sm-offset-2 col-md-offset-3 col-lg-offset-3"
+                                        parentId={piece.id} />
                             </AccordionListItem>
                         );
                     })}

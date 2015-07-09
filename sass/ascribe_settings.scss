@@ -4,7 +4,7 @@
     text-align: center;
     padding-bottom: 1em;
 
-    background-color: rgba(0,0,0,0);
+    background-color: white;
 
     border-left: 3px solid rgba(0,0,0,0);
 
@@ -22,7 +22,7 @@
 
 .is-focused {
     background-color: rgba(2, 182, 163, 0.05);
-    border-left: 3px solid rgba(2, 182, 163, 1)!important;
+    border-left: 3px solid rgba(2, 182, 163, 1) !important;
 }
 
 .is-error {
@@ -128,8 +128,67 @@
     }
 }
 
-.ascribe-property-footer{
+.ascribe-property-footer {
     font-size: 0.8em;
     margin-top: 10px;
     width: 100%;
+}
+
+.ascribe-settings-property-collapsible-toggle {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    border-top: 1px solid rgba(0,0,0,.05);
+    
+    padding: .5em 1.5em .5em 1.5em;
+
+    cursor:pointer;
+
+    /* Taken from: http://www.htmllion.com/css3-checkbox.html */
+    .checkbox {
+        display: inline-block;
+        cursor: pointer;
+
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: normal;
+        font-size: .9em;
+        color: rgba(0, 0, 0, .5);
+        vertical-align:middle;
+
+        span {
+            position: relative;
+            top: 1px;
+            left: 5px;
+
+            &:hover {
+                color: rgba(2, 182, 163, 1);
+            }
+        }
+    }
+
+    input[type=checkbox] {
+        display:none; 
+    }
+
+    .checkbox:before {
+        content: "";
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        vertical-align:middle;
+        background-color: white;
+        color: #f3f3f3;
+        text-align: center;
+
+        border-radius: 1px;
+        border: 1px solid rgba(0, 0, 0, .5);
+    }
+
+    input[type=checkbox]:checked + .checkbox:before {
+        line-height: .8;
+
+        content: "\2713";
+        font-size: 20px;
+        color: rgba(2, 182, 163, 1);
+    }
 }

@@ -11,13 +11,12 @@
 .ascribe-edition-collapsible-wrapper > div:first-child {
     width: 100%;
     cursor: pointer;
-    background-color: #EEE;
+    background-color: #F5F5F5;
     padding: 10px;
-    border: 1px solid #CCC;
-
+    margin-top: 20px;
 }
 .ascribe-edition-collapsible-wrapper > div > span {
-  font-size:1.3em;
+  font-size: 1.2em;
   margin-right: .5em;
 }
 .ascribe-edition-collapsible-wrapper > div > span:nth-child(2) {
@@ -26,8 +25,6 @@
 
 .ascribe-edition-collapible-content {
   width:100%;
-  margin-top: 1em;
-
 }
 
 .coa-file-wrapper{
@@ -44,4 +41,8 @@
   vertical-align: middle;
   border: 1px solid #CCC;
   background-color: #F8F8F8;
+}
+
+.ascribe-button-list {
+  margin-top: 1em;
 }

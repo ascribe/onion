@@ -1,5 +1,6 @@
 .ascribe-table {
     margin-bottom:0;
+    font-size: 1.1em;
 }
 
 /*This is aligning the first checkbox in pieclist detail with all the other ones*/
@@ -7,6 +8,10 @@
     padding-left:0;
 }
 
+
+.table > thead > tr > th {
+    vertical-align: middle;
+}
 
 .ascribe-table-header-column > span {
     display: table-cell;
@@ -32,7 +37,7 @@
 }
 
 .ascribe-table-item-column > span > input {
-    margin-top:16px;
+    margin-top:18px;
 }
 
 .ascribe-table-item-selected {

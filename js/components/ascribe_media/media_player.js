@@ -133,25 +133,6 @@ let Video = React.createClass({
     }
 });
 
-
-let EncodingStatus = React.createClass({
-    propTypes: {
-        encodingStatus: React.PropTypes.number.isRequired
-    },
-
-    render() {
-        return (
-            <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
-                   controls preload="none" width="auto" height="auto">
-                {this.props.extraData.map((data, i) =>
-                <source key={i} type={'video/' + data.type} src={data.url} />
-                )}
-            </video>
-        );
-    }
-});
-
-
 let resourceMap = {
     'image': Image,
     'video': Video,
@@ -169,7 +150,7 @@ let MediaPlayer = React.createClass({
     },
 
     render() {
-        if (this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
+        if (this.props.mimetype === 'video' && this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
                     <p><em>Please be patient, the video is been encoded</em></p>

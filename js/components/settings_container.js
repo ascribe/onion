@@ -131,6 +131,10 @@ let AccountSettings = React.createClass({
 
 let BitcoinWalletSettings = React.createClass({
 
+    propTypes: {
+        defaultExpanded: React.PropTypes.bool
+    },
+
     getInitialState() {
         return WalletSettingsStore.getState();
     },
@@ -172,7 +176,7 @@ let BitcoinWalletSettings = React.createClass({
             <CollapsibleParagraph
                 title={getLangText('Crypto Wallet')}
                 show={true}
-                defaultExpanded={true}>
+                defaultExpanded={this.props.defaultExpanded}>
                 {content}
             </CollapsibleParagraph>
         );
@@ -180,6 +184,9 @@ let BitcoinWalletSettings = React.createClass({
 });
 
 let LoanContractSettings = React.createClass({
+    propTypes: {
+        defaultExpanded: React.PropTypes.bool
+    },
 
     render() {
 
@@ -187,7 +194,7 @@ let LoanContractSettings = React.createClass({
             <CollapsibleParagraph
                 title="Loan Contract Settings"
                 show={true}
-                defaultExpanded={true}>
+                defaultExpanded={this.props.defaultExpanded}>
                     <FileUploader />
             </CollapsibleParagraph>
         );
@@ -249,6 +256,10 @@ let FileUploader = React.createClass({
 });
 
 let APISettings = React.createClass({
+    propTypes: {
+        defaultExpanded: React.PropTypes.bool
+    },
+
     getInitialState() {
         return ApplicationStore.getState();
     },
@@ -312,7 +323,7 @@ let APISettings = React.createClass({
             <CollapsibleParagraph
                 title={getLangText('API Integration')}
                 show={true}
-                defaultExpanded={true}>
+                defaultExpanded={this.props.defaultExpanded}>
                 <Form
                     url={apiUrls.applications}
                     handleSuccess={this.handleCreateSuccess}>

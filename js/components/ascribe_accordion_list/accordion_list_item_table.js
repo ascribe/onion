@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Table from '../ascribe_table/table';
-import TableItem from '../ascribe_table/table_item';
+import TableItemSelectable from '../ascribe_table/table_item_selectable';
 
 import { ColumnModel } from '../ascribe_table/models/table_models';
 
@@ -16,7 +16,8 @@ let AccordionListItemTable = React.createClass({
         show: React.PropTypes.bool,
         changeOrder: React.PropTypes.func,
         orderBy: React.PropTypes.string,
-        orderAsc: React.PropTypes.bool
+        orderAsc: React.PropTypes.bool,
+        selectItem: React.PropTypes.func
     },
 
     render() {
@@ -32,9 +33,11 @@ let AccordionListItemTable = React.createClass({
                     orderAsc={this.props.orderAsc}>
                     {this.props.itemList.map((item, i) => {
                         return (
-                             <TableItem
+                             <TableItemSelectable
                                 className="ascribe-table-item-selectable"
-                                key={i} />
+                                key={i}
+                                selectItem={this.props.selectItem}
+                                parentId={this.props.parentId}/>
                         );
                     })}
                 </Table>

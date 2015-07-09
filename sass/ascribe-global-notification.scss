@@ -2,6 +2,7 @@
     position: fixed;
     
     background-color: #212121;
+    color: white;
     width: 100%;
     height:3.5em;
     left:0;
@@ -18,12 +19,48 @@
     bottom: 0;
 }
 
-.ascribe-global-notification > div {
+.ascribe-global-notification > div, .ascribe-global-notification-bubble > div {
     display:table-cell;
     vertical-align: middle;
-    color: $ascribe-color-full;
     font-size: 1.25em;
     font-family: 'Source Sans Pro';
     text-align: right;
     padding-right: 3em;
+}
+
+.ascribe-global-notification-bubble > div {
+    padding: .75em 1.5em .75em 1.5em;
+}
+
+.ascribe-global-notification-bubble {
+    position: fixed;
+    bottom: 3em;
+    right: -50em;
+
+    display:table;
+
+    height: 3.5em;
+
+    background-color: #212121;
+    border-radius: 2px;
+
+    color: white;
+
+    transition: 1s right ease;
+}
+
+.ascribe-global-notification-bubble-off {
+    right: -50em;
+}
+
+.ascribe-global-notification-bubble-on {
+    right: 3.5em;
+}
+
+.ascribe-global-notification-danger {
+    background-color: #d9534f;
+}
+
+.ascribe-global-notification-success {
+    background-color: rgba(2, 182, 163, 1);
 }

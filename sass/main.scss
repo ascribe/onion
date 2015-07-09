@@ -26,6 +26,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'offset_right';
 @import 'ascribe_settings';
 @import 'ascribe_slides_container';
+@import 'ascribe_form';
 
 body {
     background-color: #FDFDFD;
@@ -35,6 +36,10 @@ body {
 
 html {
     overflow-y: scroll;
+}
+
+hr {
+    margin-bottom: 15px;
 }
 
 .hidden {
@@ -185,10 +190,6 @@ html {
     border: 1px solid rgba(2, 182, 163, 0.5);
     color: white;
     background-color: rgba(2, 182, 163, 0.5);
-}
-
-.ascribe-detail-header {
-    margin-top: 2em;
 }
 
 .ascribe-detail-title {

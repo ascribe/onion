@@ -69,16 +69,6 @@ let AccordionListItemTableEditions = React.createClass({
         return selectedEditions;
     },
 
-    toggleTable() {
-        let isEditionListOpen = this.state.isEditionListOpenForPieceId[this.props.parentId] ? this.state.isEditionListOpenForPieceId[this.props.parentId].show : false;
-        if(isEditionListOpen) {
-            EditionListActions.toggleEditionList(this.props.parentId);
-        } else {
-            EditionListActions.toggleEditionList(this.props.parentId);
-            EditionListActions.fetchEditionList(this.props.parentId);
-        }
-    },
-
     loadFurtherEditions() {
         // trigger loading animation
         this.setState({
@@ -187,14 +177,14 @@ let AccordionListItemTableEditions = React.createClass({
             )
         ];
 
-        let loadingSpinner =  <span className="glyph-ascribe-spool-chunked ascribe-color spin"/> ;
+        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
 
         return (
             <div className={this.props.className}>
-                <AccordionListItemTableToggle
+                {/* <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.toggleTable}
-                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> {getLangText('Hide editions')}</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> {getLangText('Show editions')} {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} />
+                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> {getLangText('Hide editions')}</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> {getLangText('Show editions')} {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} /> */}
                 <AccordionListItemTable
                     parentId={this.props.parentId}
                     itemList={editionsForPiece}
@@ -202,7 +192,8 @@ let AccordionListItemTableEditions = React.createClass({
                     show={show}
                     orderBy={orderBy}
                     orderAsc={orderAsc}
-                    changeOrder={this.changeEditionListOrder} />
+                    changeOrder={this.changeEditionListOrder} 
+                    selectItem={this.selectItem}/>
                 <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.loadFurtherEditions}

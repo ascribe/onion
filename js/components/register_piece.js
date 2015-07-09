@@ -23,6 +23,8 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import PropertyCollapsible from './ascribe_forms/property_collapsible';
+import FormPropertyHeader from './ascribe_forms/form_property_header';
 
 import LoginContainer from './login_container';
 import SlidesContainer from './ascribe_slides_container/slides_container';
@@ -172,8 +174,8 @@ let RegisterPiece = React.createClass( {
                     onFocus={this.changeSlide}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <h3 style={{'marginTop': 0, 'marginLeft': '1em'}}>{getLangText('Register your work')}</h3>
                             <Form
+                                className="ascribe-form-bordered"
                                 ref='form'
                                 url={apiUrls.pieces_list}
                                 getFormData={this.getFormData}
@@ -189,6 +191,9 @@ let RegisterPiece = React.createClass( {
                                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                                     </button>
                                     }>
+                                <FormPropertyHeader>
+                                    <h3>{getLangText('Register your work')}</h3>
+                                </FormPropertyHeader>
                                 <Property
                                     ignoreFocus={true}>
                                     <FileUploader
@@ -222,8 +227,15 @@ let RegisterPiece = React.createClass( {
                                         min={0}
                                         required/>
                                 </Property>
+                                <PropertyCollapsible
+                                    checkboxLabel={getLangText('Specify editions')}>
+                                    <span>{getLangText('Editions')}</span>
+                                    <input
+                                        type="number"
+                                        placeholder="(e.g. 32)"
+                                        min={0}/>
+                                </PropertyCollapsible>
                                 {this.getLicenses()}
-                                <hr />
                             </Form>
                         </Col>
                     </Row>
