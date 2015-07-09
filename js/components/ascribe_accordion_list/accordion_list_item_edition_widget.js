@@ -73,14 +73,22 @@ let AccordionListItemEditionWidget = React.createClass({
         let piece = this.props.piece;
         let numEditions = piece.num_editions;
 
-        if(numEditions === 1) {
+        if(numEditions === 0) {
+            return (
+                <span
+                    onClick={this.toggleTable}
+                    className="ascribe-accordion-list-item-edition-widget">
+                    Create editions
+                </span>
+            );
+        } else if(numEditions === 1) {
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (
                 <span
                     onClick={this.toggleTable}
                     className="ascribe-accordion-list-item-edition-widget">
-                    {', ' + editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
+                    {editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
                 </span>
             );
         } else {
@@ -88,7 +96,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 <span
                     onClick={this.toggleTable}
                     className="ascribe-accordion-list-item-edition-widget">
-                    {', ' + numEditions + ' ' + getLangText('Editions')} {this.getGlyphicon()}
+                    {numEditions + ' ' + getLangText('Editions')} {this.getGlyphicon()}
                 </span>
             );
         }
