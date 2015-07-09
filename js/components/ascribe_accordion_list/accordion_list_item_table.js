@@ -21,34 +21,26 @@ let AccordionListItemTable = React.createClass({
     },
 
     render() {
-        if(this.props.show && this.props.itemList) {
-            return (
-                <Table
-                    responsive
-                    className="ascribe-table"
-                    columnList={this.props.columnList}
-                    itemList={this.props.itemList}
-                    changeOrder={this.props.changeOrder}
-                    orderBy={this.props.orderBy}
-                    orderAsc={this.props.orderAsc}>
-                    {this.props.itemList.map((item, i) => {
-                        return (
-                             <TableItemSelectable
-                                className="ascribe-table-item-selectable"
-                                key={i}
-                                selectItem={this.props.selectItem}
-                                parentId={this.props.parentId}/>
-                        );
-                    })}
-                </Table>
-            );
-        } else {
-            return (
-                <div className={this.props.className}>
-                    {this.props.children}
-                </div>
-            );
-        }
+        return (
+            <Table
+                responsive
+                className="ascribe-table"
+                columnList={this.props.columnList}
+                itemList={this.props.itemList}
+                changeOrder={this.props.changeOrder}
+                orderBy={this.props.orderBy}
+                orderAsc={this.props.orderAsc}>
+                {this.props.itemList.map((item, i) => {
+                    return (
+                         <TableItemSelectable
+                            className="ascribe-table-item-selectable"
+                            key={i}
+                            selectItem={this.props.selectItem}
+                            parentId={this.props.parentId}/>
+                    );
+                })}
+            </Table>
+        );
     }
 });
 
