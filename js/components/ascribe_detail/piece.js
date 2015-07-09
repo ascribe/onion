@@ -58,8 +58,11 @@ let Piece = React.createClass({
                             || Object.keys(this.props.piece.extra_data).length > 0
                             || this.props.piece.other_data !== null}>
                         <FurtherDetails
-                            handleSuccess={this.props.loadPiece}
-                            content={this.props.piece}/>
+                            editable={this.props.piece.acl.indexOf('edit') > -1}
+                            pieceId={this.props.piece.id}
+                            extraData={this.props.piece.extra_data}
+                            otherData={this.props.piece.other_data}
+                            handleSuccess={this.props.loadPiece}/>
                     </CollapsibleParagraph>
 
                 </Col>

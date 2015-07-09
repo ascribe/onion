@@ -23,7 +23,10 @@ import { getCookie } from '../../utils/fetch_api_utils';
 
 let FurtherDetails = React.createClass({
     propTypes: {
-        content: React.PropTypes.object,
+        editable: React.PropTypes.bool,
+        pieceId: React.PropTypes.int,
+        extraData: React.PropTypes.object,
+        otherData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
@@ -61,44 +64,49 @@ let FurtherDetails = React.createClass({
     },
 
     render() {
-        let editable = this.props.content.acl.indexOf('edit') > -1;
-        return (<span />);
-        //return (
-        //    <Row>
-        //        <Col md={12} className="ascribe-edition-personal-note">
-        //            <PieceExtraDataForm
-        //                name='artist_contact_info'
-        //                title='Artist Contact Info'
-        //                handleSuccess={this.showNotification}
-        //                editable={editable}
-        //                content={this.props.content} />
-        //            <PieceExtraDataForm
-        //                name='display_instructions'
-        //                title='Display Instructions'
-        //                handleSuccess={this.showNotification}
-        //                editable={editable}
-        //                content={this.props.content} />
-        //            <PieceExtraDataForm
-        //                name='technology_details'
-        //                title='Technology Details'
-        //                handleSuccess={this.showNotification}
-        //                editable={editable}
-        //                content={this.props.content} />
-        //            <FileUploader
-        //                submitKey={this.submitKey}
-        //                setIsUploadReady={this.setIsUploadReady}
-        //                isReadyForFormSubmission={this.isReadyForFormSubmission}
-        //                editable={editable}
-        //                content={this.props.content}/>
-        //        </Col>
-        //    </Row>
-        //);
+        //return (<span />);
+        return (
+            <Row>
+                <Col md={12} className="ascribe-edition-personal-note">
+                    <PieceExtraDataForm
+                        name='artist_contact_info'
+                        title='Artist Contact Info'
+                        handleSuccess={this.showNotification}
+                        editable={this.props.editable}
+                        pieceId={this.props.pieceId}
+                        extraData={this.props.extraData}
+                        />
+                    <PieceExtraDataForm
+                        name='display_instructions'
+                        title='Display Instructions'
+                        handleSuccess={this.showNotification}
+                        editable={this.props.editable}
+                        pieceId={this.props.pieceId}
+                        extraData={this.props.extraData} />
+                    <PieceExtraDataForm
+                        name='technology_details'
+                        title='Technology Details'
+                        handleSuccess={this.showNotification}
+                        editable={this.props.editable}
+                        pieceId={this.props.pieceId}
+                        extraData={this.props.extraData} />
+                    <FileUploader
+                        submitKey={this.submitKey}
+                        setIsUploadReady={this.setIsUploadReady}
+                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        editable={this.props.editable}
+                        pieceId={this.props.pieceId}
+                        otherData={this.props.otherData}/>
+                </Col>
+            </Row>
+        );
     }
 });
 
 let FileUploader = React.createClass({
     propTypes: {
-        content: React.PropTypes.object,
+        pieceId: React.PropTypes.int,
+        otherData: React.PropTypes.object,
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
@@ -111,7 +119,7 @@ let FileUploader = React.createClass({
         // 1. there is no other_data => do not show the fileuploader at all
         // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
         // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
-        if (!this.props.editable && !this.props.content.other_data){
+        if (!this.props.editable && !this.props.otherData){
             return null;
         }
         return (
@@ -122,11 +130,11 @@ let FileUploader = React.createClass({
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'otherdata',
-                            bitcoinId: this.props.content.bitcoin_id
+                            pieceId: this.props.pieceId
                         }}
                         createBlobRoutine={{
                             url: apiUrls.blob_otherdatas,
-                            bitcoinId: this.props.content.bitcoin_id
+                            pieceId: this.props.pieceId
                         }}
                         validation={{
                             itemLimit: 100000,
@@ -141,7 +149,7 @@ let FileUploader = React.createClass({
                                 'X-CSRFToken': getCookie('csrftoken')
                             },
                             params: {
-                                'pk': this.props.content.other_data ? this.props.content.other_data.id : null
+                                'pk': this.props.otherData ? this.props.otherData.id : null
                             },
                             cors: {
                                 expected: true,

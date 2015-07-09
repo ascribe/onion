@@ -23,14 +23,14 @@ import EditionDetailProperty from './detail_property';
 import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
 import EditionHeader from './header';
+import EditionFurtherDetails from './further_details';
 
-import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
+//import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 import RequestActionForm from './../ascribe_forms/form_request_action';
-
 import EditionActions from '../../actions/edition_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 
-import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
+//import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -100,8 +100,11 @@ let Edition = React.createClass({
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data !== null}>
                         <EditionFurtherDetails
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
+                            editable={this.props.edition.acl.indexOf('edit') > -1}
+                            pieceId={this.props.edition.parent}
+                            extraData={this.props.edition.extra_data}
+                            otherData={this.props.edition.other_data}
+                            handleSuccess={this.props.loadEdition}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -329,155 +332,155 @@ let EditionPublicEditionNote = React.createClass({
 });
 
 
-let EditionFurtherDetails = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
-    },
-
-    getInitialState() {
-        return {
-            loading: false
-        };
-    },
-
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Details updated', 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    submitKey(key){
-        this.setState({
-            otherDataKey: key
-        });
-    },
-
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
-    },
-
-    isReadyForFormSubmission(files) {
-        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if(files.length > 0 && files[0].status === 'upload successful') {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
-    render() {
-        let editable = this.props.edition.acl.indexOf('edit') > -1;
-
-        return (
-            <Row>
-                <Col md={12} className="ascribe-edition-personal-note">
-                    <PieceExtraDataForm
-                        name='artist_contact_info'
-                        title='Artist Contact Info'
-                        handleSuccess={this.showNotification}
-                        editable={editable}
-                        edition={this.props.edition} />
-                    <PieceExtraDataForm
-                        name='display_instructions'
-                        title='Display Instructions'
-                        handleSuccess={this.showNotification}
-                        editable={editable}
-                        edition={this.props.edition} />
-                    <PieceExtraDataForm
-                        name='technology_details'
-                        title='Technology Details'
-                        handleSuccess={this.showNotification}
-                        editable={editable}
-                        edition={this.props.edition} />
-                    <FileUploader
-                        submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={editable}
-                        edition={this.props.edition}/>
-                </Col>
-            </Row>
-        );
-    }
-});
-
-let FileUploader = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        setIsUploadReady: React.PropTypes.func,
-        submitKey: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func,
-        editable: React.PropTypes.bool
-    },
-
-    render() {
-        // Essentially there a three cases important to the fileuploader
-        //
-        // 1. there is no other_data => do not show the fileuploader at all
-        // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
-        // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
-        if (!this.props.editable && !this.props.edition.other_data){
-            return null;
-        }
-        return (
-            <Form>
-                <Property
-                    label="Additional files">
-                    <ReactS3FineUploader
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'otherdata',
-                            bitcoinId: this.props.edition.bitcoin_id
-                        }}
-                        createBlobRoutine={{
-                            url: apiUrls.blob_otherdatas,
-                            bitcoinId: this.props.edition.bitcoin_id
-                        }}
-                        validation={{
-                            itemLimit: 100000,
-                            sizeLimit: '10000000'
-                        }}
-                        submitKey={this.props.submitKey}
-                        setIsUploadReady={this.props.setIsUploadReady}
-                        isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                        session={{
-                            endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
-                            customHeaders: {
-                                'X-CSRFToken': getCookie('csrftoken')
-                            },
-                            params: {
-                                'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
-                            },
-                            cors: {
-                                expected: true,
-                                sendCredentials: true
-                            }
-                        }}
-                        signature={{
-                            endpoint: AppConstants.serverUrl + 's3/signature/',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie('csrftoken')
-                            }
-                        }}
-                        deleteFile={{
-                            enabled: true,
-                            method: 'DELETE',
-                            endpoint: AppConstants.serverUrl + 's3/delete',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie('csrftoken')
-                            }
-                        }}
-                        areAssetsDownloadable={true}
-                        areAssetsEditable={this.props.editable}/>
-                </Property>
-                <hr />
-            </Form>
-        );
-    }
-});
+//let EditionFurtherDetails = React.createClass({
+//    propTypes: {
+//        edition: React.PropTypes.object,
+//        handleSuccess: React.PropTypes.func
+//    },
+//
+//    getInitialState() {
+//        return {
+//            loading: false
+//        };
+//    },
+//
+//    showNotification(){
+//        this.props.handleSuccess();
+//        let notification = new GlobalNotificationModel('Details updated', 'success');
+//        GlobalNotificationActions.appendGlobalNotification(notification);
+//    },
+//
+//    submitKey(key){
+//        this.setState({
+//            otherDataKey: key
+//        });
+//    },
+//
+//    setIsUploadReady(isReady) {
+//        this.setState({
+//            isUploadReady: isReady
+//        });
+//    },
+//
+//    isReadyForFormSubmission(files) {
+//        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
+//        if(files.length > 0 && files[0].status === 'upload successful') {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    },
+//
+//    render() {
+//        let editable = this.props.edition.acl.indexOf('edit') > -1;
+//
+//        return (
+//            <Row>
+//                <Col md={12} className="ascribe-edition-personal-note">
+//                    <PieceExtraDataForm
+//                        name='artist_contact_info'
+//                        title='Artist Contact Info'
+//                        handleSuccess={this.showNotification}
+//                        editable={editable}
+//                        content={this.props.edition} />
+//                    <PieceExtraDataForm
+//                        name='display_instructions'
+//                        title='Display Instructions'
+//                        handleSuccess={this.showNotification}
+//                        editable={editable}
+//                        content={this.props.edition} />
+//                    <PieceExtraDataForm
+//                        name='technology_details'
+//                        title='Technology Details'
+//                        handleSuccess={this.showNotification}
+//                        editable={editable}
+//                        content={this.props.edition} />
+//                    <FileUploader
+//                        submitKey={this.submitKey}
+//                        setIsUploadReady={this.setIsUploadReady}
+//                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+//                        editable={editable}
+//                        content={this.props.edition}/>
+//                </Col>
+//            </Row>
+//        );
+//    }
+//});
+//
+//let FileUploader = React.createClass({
+//    propTypes: {
+//        edition: React.PropTypes.object,
+//        setIsUploadReady: React.PropTypes.func,
+//        submitKey: React.PropTypes.func,
+//        isReadyForFormSubmission: React.PropTypes.func,
+//        editable: React.PropTypes.bool
+//    },
+//
+//    render() {
+//        // Essentially there a three cases important to the fileuploader
+//        //
+//        // 1. there is no other_data => do not show the fileuploader at all
+//        // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
+//        // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
+//        if (!this.props.editable && !this.props.edition.other_data){
+//            return null;
+//        }
+//        return (
+//            <Form>
+//                <Property
+//                    label="Additional files">
+//                    <ReactS3FineUploader
+//                        keyRoutine={{
+//                            url: AppConstants.serverUrl + 's3/key/',
+//                            fileClass: 'otherdata',
+//                            bitcoinId: this.props.edition.bitcoin_id
+//                        }}
+//                        createBlobRoutine={{
+//                            url: apiUrls.blob_otherdatas,
+//                            bitcoinId: this.props.edition.bitcoin_id
+//                        }}
+//                        validation={{
+//                            itemLimit: 100000,
+//                            sizeLimit: '10000000'
+//                        }}
+//                        submitKey={this.props.submitKey}
+//                        setIsUploadReady={this.props.setIsUploadReady}
+//                        isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+//                        session={{
+//                            endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
+//                            customHeaders: {
+//                                'X-CSRFToken': getCookie('csrftoken')
+//                            },
+//                            params: {
+//                                'pk': this.props.edition.other_data ? this.props.edition.other_data.id : null
+//                            },
+//                            cors: {
+//                                expected: true,
+//                                sendCredentials: true
+//                            }
+//                        }}
+//                        signature={{
+//                            endpoint: AppConstants.serverUrl + 's3/signature/',
+//                            customHeaders: {
+//                               'X-CSRFToken': getCookie('csrftoken')
+//                            }
+//                        }}
+//                        deleteFile={{
+//                            enabled: true,
+//                            method: 'DELETE',
+//                            endpoint: AppConstants.serverUrl + 's3/delete',
+//                            customHeaders: {
+//                               'X-CSRFToken': getCookie('csrftoken')
+//                            }
+//                        }}
+//                        areAssetsDownloadable={true}
+//                        areAssetsEditable={this.props.editable}/>
+//                </Property>
+//                <hr />
+//            </Form>
+//        );
+//    }
+//});
 
 let CoaDetails = React.createClass({
     propTypes: {
