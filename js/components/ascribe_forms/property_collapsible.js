@@ -75,7 +75,6 @@ let PropertyCollapsile = React.createClass({
                         onClick={this.handleFocus}
                         onFocus={this.handleFocus}>
                         <input
-                            id="checkboxCollapsible"
                             type="checkbox"
                             ref="checkboxCollapsible"/>
                         {/* PLEASE LEAVE THE SPACE BETWEEN LABEL and this.props.label */}
