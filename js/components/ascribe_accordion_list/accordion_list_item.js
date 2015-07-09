@@ -63,7 +63,7 @@ let AccordionListItem = React.createClass({
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>
                                 <AccordionListItemEditionWidget
-                                    piece={this.props.content} />
+                                    piece={this.props.content}/>
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
                                     {getLangText('%s license', this.props.content.license_type.code)}
                                 </a> */}

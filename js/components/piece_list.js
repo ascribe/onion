@@ -47,7 +47,10 @@ let PieceList = React.createClass({
     },
 
     paginationGoToPage(page) {
+        // if the users clicks a pager of the pagination,
+        // the site should go to the top
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+
         return () => PieceListActions.fetchPieceList(page, this.state.pageSize,
                                                       this.state.search, this.state.orderBy,
                                                       this.state.orderAsc);
@@ -67,6 +70,7 @@ let PieceList = React.createClass({
         let currentPage = parseInt(this.props.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        
         return (
             <div>
                 <PieceListToolbar

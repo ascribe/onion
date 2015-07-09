@@ -92,6 +92,7 @@ let AccordionListItemTableEditions = React.createClass({
         let showExpandOption = false;
 
         let editionsForPiece = this.state.editionList[this.props.parentId];
+        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -177,8 +178,6 @@ let AccordionListItemTableEditions = React.createClass({
             )
         ];
 
-        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
-
         if(show && editionsForPiece && editionsForPiece.length > 0) {
             return (
                 <div className={this.props.className}>
@@ -194,7 +193,7 @@ let AccordionListItemTableEditions = React.createClass({
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.loadFurtherEditions}
-                        message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more {this.state.showMoreLoading ? loadingSpinner : null}</span> : ''} />
+                        message={show && showExpandOption ? <span>{this.state.showMoreLoading ? loadingSpinner : <span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}} />} Show me more</span> : null} />
                 </div>
             );
         } else {
