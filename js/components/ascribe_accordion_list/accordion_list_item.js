@@ -3,7 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import PieceListStore from '../../stores/piece_list_store';
 import PieceListActions from '../../actions/piece_list_actions';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -13,6 +12,8 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
 
 import { getLangText } from '../../utils/lang_utils';
+
+let Link = Router.Link;
 
 let AccordionListItem = React.createClass({
     propTypes: {
@@ -45,20 +46,39 @@ let AccordionListItem = React.createClass({
     },
 
     render() {
+        let linkData;
+
+        if(this.props.content.num_editions === 0) {
+            linkData = {
+                to: 'piece',
+                params: {
+                    pieceId: this.props.content.id
+                }
+            };
+        } else {
+            linkData = {
+                to: 'edition',
+                params: {
+                    editionId: this.props.content.firstEdition ? this.props.content.firstEdition.bitcoin_id : 0
+                }
+            };
+        }
+
         return (
             <div className="row">
                 <div className={this.props.className}>
                     <div className="wrapper">
                         <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
-                            <div className="thumbnail-wrapper" onClick={this.handleClick}>
-                                <img src={this.props.content.thumbnail} />
+                            <div className="thumbnail-wrapper">
+                                <Link {...linkData}>
+                                    <img src={this.props.content.thumbnail} />
+                                </Link>
                             </div>
                         </div>
                         <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
-                            <OverlayTrigger delay={500} placement="left"
-                                overlay={<Tooltip>{this.props.content.title}</Tooltip>}>
-                                <h1 className="truncate" onClick={this.handleClick}>{this.props.content.title}</h1>
-                            </OverlayTrigger>
+                            <Link {...linkData}>
+                                <h1 className="truncate">{this.props.content.title}</h1>
+                            </Link>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span>{this.props.content.date_created.split('-')[0]}</span>

@@ -6,7 +6,6 @@ import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
@@ -75,7 +74,6 @@ let AccordionListItemEditionWidget = React.createClass({
         let numEditions = piece.num_editions;
 
         if(numEditions === 1) {
-            //let firstEditionId = piece && piece.firstEdition ? ', ' + piece.firstEdition.bitcoin_id : '';
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (
