@@ -3,6 +3,7 @@
 import React from 'react';
 
 import requests from '../../utils/requests';
+import { getLangText } from '../../utils/lang_utils.js'
 
 import apiUrls from '../../constants/api_urls';
 
@@ -47,7 +48,7 @@ let PieceExtraDataForm = React.createClass({
                         rows={1}
                         editable={this.props.editable}
                         defaultValue={defaultValue}
-                        placeholder={'Fill in ' + this.props.title}
+                        placeholder={getLangText('Fill in%s', ' ') + this.props.title}
                         required/>
                 </Property>
                 <hr />

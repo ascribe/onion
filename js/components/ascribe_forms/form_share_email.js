@@ -7,6 +7,8 @@ import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import InputTextArea from './input_textarea';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
+import { getLangText } from '../../utils/lang_utils.js'
+
 
 let ShareForm = React.createClass({
     mixins: [FormMixin],
@@ -27,19 +29,19 @@ let ShareForm = React.createClass({
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
-`Hi,
+`${getLangText('Hi')},
 
-I am sharing :
-${title}with you.
+${getLangText('I am sharing')} :
+${title}${getLangText('with you')}.
 
-Truly yours,
+${getLangText('Truly yours')},
 ${username}`;
 
         return (
             <form id="share_modal_content" role="form" key="share_modal_content" onSubmit={this.submit}>
                 <InputText
                     ref="share_emails"
-                    placeHolder="Comma separated emails"
+                    placeHolder={getLangText('Comma separated emails')}
                     required="required"
                     type="text"
                     submitted={this.state.submitted}/>
@@ -49,7 +51,7 @@ ${username}`;
                     required=""
                     />
                 <ButtonSubmitOrClose
-                    text="SHARE"
+                    text={getLangText('SHARE')}
                     onClose={this.props.onRequestHide}
                     submitted={this.state.submitted} />
             </form>

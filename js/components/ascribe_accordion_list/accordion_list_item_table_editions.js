@@ -146,10 +146,10 @@ let AccordionListItemTableEditions = React.createClass({
             new ColumnModel(
                 (item) => {
                     return {
-                        'content': item.edition_number + ' of ' + item.num_editions
+                        'content': item.edition_number + ' ' + getLangText('of') + ' ' + item.num_editions
                     }; },
                     'edition_number',
-                    'Edition',
+                    getLangText('Edition'),
                     TableItemText,
                     1,
                     false,
@@ -172,6 +172,7 @@ let AccordionListItemTableEditions = React.createClass({
                 (item) => {
                     let content = item.acl;
                     if (item.request_action){
+                        // TODO should request be translated?
                         content = [item.request_action + ' request'];
                     }
                     return {
@@ -193,7 +194,7 @@ let AccordionListItemTableEditions = React.createClass({
                 <AccordionListItemTableToggle
                     className="ascribe-accordion-list-table-toggle"
                     onClick={this.toggleTable}
-                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> Hide editions</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> Show editions {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} />
+                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> {getLangText('Hide editions')}</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> {getLangText('Show editions')} {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} />
                 <AccordionListItemTable
                     parentId={this.props.parentId}
                     itemList={editionsForPiece}

@@ -6,6 +6,7 @@ import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 import InputText from './input_text';
 import ButtonSubmit from '../ascribe_buttons/button_submit';
+import { getLangText } from '../../utils/lang_utils.js'
 
 let PasswordResetForm = React.createClass({
     mixins: [FormMixin],
@@ -29,18 +30,18 @@ let PasswordResetForm = React.createClass({
                 <div>Reset the password for {this.props.email}:</div>
                 <InputText
                     ref="password"
-                    placeHolder="Choose a password"
+                    placeHolder={getLangText('Choose a password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 <InputText
                     ref="password_confirm"
-                    placeHolder="Confirm password"
+                    placeHolder={getLangText('Confirm password')}
                     required="required"
                     type="password"
                     submitted={this.state.submitted}/>
                 <ButtonSubmit
-                    text="RESET PASSWORD"
+                    text={getLangText('RESET PASSWORD')}
                     submitted={this.state.submitted} />
             </form>
         );
