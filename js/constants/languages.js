@@ -204,7 +204,8 @@ const languages = {
         'Have someone else sell the artwork': 'Have someone else sell the artwork',
         'Loan History': 'Loan History',
         'Title': 'Title',
-        'Specify editions': 'Specify editions'
+        'Specify editions': 'Specify editions',
+        'Editions': 'Editions',
     },
     'de': {
         'ID': 'ID',
@@ -409,7 +410,8 @@ const languages = {
         'Have someone else sell the artwork': 'Have someone else sell the artwork',
         'Loan History': 'Loan History',
         'Title': 'Titel',
-        'Specify editions': 'Specify editions'
+        'Specify editions': 'Specify editions',
+        'Editions': 'Editions',
     },
     'fr': {
         'ID': 'ID',
@@ -614,7 +616,8 @@ const languages = {
         'Have someone else sell the artwork': 'Demandez à quelqu\'un de vendre l\'oeuvre',
         'Loan History': 'Historique de Prêts',
         'Title': 'Title',
-        'Specify editions': 'Specify editions'
+        'Specify editions': 'Specify editions',
+        'Editions': 'Editions',
     }
 };
 

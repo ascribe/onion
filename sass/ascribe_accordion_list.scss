@@ -140,3 +140,11 @@ span.ascribe-accordion-list-table-toggle {
     font-size: 1.2em;
     padding: 0.3em;
 }
+
+.ascribe-accordion-list-item-edition-widget {
+    cursor: pointer;
+
+    &:hover {
+        color: $ascribe-color-full;
+    }
+}

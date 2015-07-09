@@ -9,7 +9,7 @@ import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
 import SignupModal from '../ascribe_modal/modal_signup';
 import PasswordResetRequestModal from '../ascribe_modal/modal_password_request_reset';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let LoginForm = React.createClass({
     mixins: [FormMixin],
