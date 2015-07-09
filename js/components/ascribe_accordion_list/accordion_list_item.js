@@ -59,15 +59,16 @@ let AccordionListItem = React.createClass({
                                 overlay={<Tooltip>{this.props.content.title}</Tooltip>}>
                                 <h1 className="truncate" onClick={this.handleClick}>{this.props.content.title}</h1>
                             </OverlayTrigger>
-                            <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
+                            <h3 onClick={this.handleClick}>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
-                                <span>{this.props.content.date_created.split('-')[0]}</span>
+                                <span onClick={this.handleClick}>{this.props.content.date_created.split('-')[0]}</span>
+                            </div>
+                            <div>
                                 <AccordionListItemEditionWidget
                                     piece={this.props.content} />
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
                                     {getLangText('%s license', this.props.content.license_type.code)}
                                 </a> */}
-
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>
