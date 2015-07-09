@@ -6,8 +6,6 @@ import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 
 import classNames from 'classnames';
 
-import { getLangText } from '../../utils/lang_utils.js';
-
 
 const CollapsibleParagraph = React.createClass({
 

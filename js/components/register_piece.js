@@ -23,6 +23,7 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import FormPropertyHeader from './ascribe_forms/form_property_header';
 
 import LoginContainer from './login_container';
@@ -221,6 +222,14 @@ let RegisterPiece = React.createClass( {
                                         min={0}
                                         required/>
                                 </Property>
+                                <PropertyCollapsible
+                                    checkboxLabel={getLangText('Specify editions')}>
+                                    <span>{getLangText('Editions')}</span>
+                                    <input
+                                        type="number"
+                                        placeholder="(e.g. 32)"
+                                        min={0}/>
+                                </PropertyCollapsible>
                                 {this.getLicenses()}
                             </Form>
                         </Col>
