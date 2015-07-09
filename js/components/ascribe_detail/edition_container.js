@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import EditionActions from '../actions/edition_actions';
-import EditionStore from '../stores/edition_store';
+import EditionActions from '../../actions/edition_actions';
+import EditionStore from '../../stores/edition_store';
 
 import Edition from './edition';
 

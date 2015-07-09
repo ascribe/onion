@@ -88,7 +88,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
             }
         }
         border-left: 3px solid rgba(0,0,0,0);
-        border-bottom: 1px solid rgba(0,0,0,.1);
+        border-bottom: 1px solid rgba(0,0,0,.05);
     }
     tbody {
         tr {
@@ -98,7 +98,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
                 border-left: 3px solid rgba(2, 182, 163, 0.4);
             }
             border-left: 3px solid rgba(0,0,0,0);
-            border-bottom:  1px solid rgba(0,0,0,.05);
+            border-bottom:  1px solid rgba(0,0,0,.03);
             td {
                 border: none! important;
                 a {
@@ -143,6 +143,7 @@ span.ascribe-accordion-list-table-toggle {
 
 .ascribe-accordion-list-item-edition-widget {
     cursor: pointer;
+    //margin-left: 0.3em;
 
     &:hover {
         color: $ascribe-color-full;

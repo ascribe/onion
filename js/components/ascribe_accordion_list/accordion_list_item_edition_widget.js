@@ -68,22 +68,22 @@ let AccordionListItemEditionWidget = React.createClass({
         let numEditions = piece.num_editions;
 
         if(numEditions === 1) {
-            let firstEditionId = piece && piece.firstEdition ? ', ' + piece.firstEdition.bitcoin_id : '';
+            //let firstEditionId = piece && piece.firstEdition ? ', ' + piece.firstEdition.bitcoin_id : '';
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (
                 <span
                     onClick={this.toggleTable}
-                    className="ascribe-accordion-list-item-edition-widget pull-right">
-                     {this.getGlyphicon()} {editionMapping + ' ' + getLangText('Edition') + firstEditionId}
+                    className="ascribe-accordion-list-item-edition-widget">
+                    {', ' + editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
                 </span>
             );
         } else {
             return (
                 <span
                     onClick={this.toggleTable}
-                    className="ascribe-accordion-list-item-edition-widget pull-right">
-                     {this.getGlyphicon()} {numEditions + ' ' + getLangText('Editions')}
+                    className="ascribe-accordion-list-item-edition-widget">
+                    {', ' + numEditions + ' ' + getLangText('Editions')} {this.getGlyphicon()}
                 </span>
             );
         }
