@@ -75,23 +75,23 @@ let AccordionListItemEditionWidget = React.createClass({
         let piece = this.props.piece;
         let numEditions = piece.num_editions;
 
-        if(numEditions === 0) {
-            if(this.props.creatingEditions) {
-                return (
+        if(numEditions === -1) {
+            return (
+                <span
+                    onClick={this.props.toggleCreateEditionsDialog}
+                    className="ascribe-accordion-list-item-edition-widget">
+                    + Editions
+                </span>
+            );
+        }
+        else if(numEditions === 0) {
+            return (
                     <span>
                         Creating Editions <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
                     </span>
                 );
-            } else {
-                return (
-                    <span
-                        onClick={this.props.toggleCreateEditionsDialog}
-                        className="ascribe-accordion-list-item-edition-widget">
-                        + Editions
-                    </span>
-                );
-            }
-        } else if(numEditions === 1) {
+        }
+        else if(numEditions === 1) {
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (

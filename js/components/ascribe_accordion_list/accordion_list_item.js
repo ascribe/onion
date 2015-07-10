@@ -37,7 +37,7 @@ let AccordionListItem = React.createClass({
     },
 
     componentDidMount() {
-        if(this.props.content.num_editions !== 0) {
+        if(this.props.content.num_editions > 0) {
             PieceListActions.fetchFirstEditionForPiece(this.props.content.id);
         }
     },
@@ -66,6 +66,7 @@ let AccordionListItem = React.createClass({
     handleEditionCreationSuccess(response) {
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+        PieceListActions.updatePropertyForPiece({pieceId: this.props.content.id, key: 'num_editions', value: 0});
 
         this.setState({
             creatingEditions: true
@@ -106,7 +107,7 @@ let AccordionListItem = React.createClass({
     render() {
         let linkData;
 
-        if(this.props.content.num_editions === 0) {
+        if(this.props.content.num_editions < 1) {
             linkData = {
                 to: 'piece',
                 params: {
@@ -157,7 +158,7 @@ let AccordionListItem = React.createClass({
                         </div>
                     </div>
                 </div>
-                {this.props.content.num_editions === 0 && this.state.showCreateEditionsDialog ? <AccordionListItemCreateEditions pieceId={this.props.content.id} handleSuccess={this.handleEditionCreationSuccess}/> : null}
+                {this.props.content.num_editions < 1 && this.state.showCreateEditionsDialog ? <AccordionListItemCreateEditions pieceId={this.props.content.id} handleSuccess={this.handleEditionCreationSuccess}/> : null}
                 
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}
