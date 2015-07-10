@@ -13,7 +13,7 @@ import InputTextAreaToggable from './input_textarea_toggable';
 
 let PieceExtraDataForm = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.int,
+        pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         name: React.PropTypes.string,
@@ -49,7 +49,7 @@ let PieceExtraDataForm = React.createClass({
                         editable={this.props.editable}
                         defaultValue={defaultValue}
                         placeholder={getLangText('Fill in%s', ' ') + this.props.title}
-                        required/>
+                        required="required"/>
                 </Property>
                 <hr />
             </Form>

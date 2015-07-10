@@ -24,7 +24,7 @@ import { getCookie } from '../../utils/fetch_api_utils';
 let FurtherDetails = React.createClass({
     propTypes: {
         editable: React.PropTypes.bool,
-        pieceId: React.PropTypes.int,
+        pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
         otherData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
@@ -105,7 +105,7 @@ let FurtherDetails = React.createClass({
 
 let FileUploader = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.int,
+        pieceId: React.PropTypes.number,
         otherData: React.PropTypes.object,
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,

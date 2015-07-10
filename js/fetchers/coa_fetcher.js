@@ -11,7 +11,6 @@ let CoaFetcher = {
         return requests.get('coa', {'id': id});
     },
     create(bitcoinId) {
-        console.log(bitcoinId);
         return requests.post('coa_create', {body: {'bitcoin_id': bitcoinId}});
     }
 };
