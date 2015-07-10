@@ -275,7 +275,7 @@ let EditionPersonalNote = React.createClass({
                         label={getLangText('Personal note (private)')}
                         editable={true}>
                         <InputTextAreaToggable
-                            rows={3}
+                            rows={1}
                             editable={true}
                             defaultValue={this.props.edition.note_from_user}
                             placeholder={getLangText('Enter a personal note%s', '...')}
@@ -314,7 +314,7 @@ let EditionPublicEditionNote = React.createClass({
                         label={getLangText('Edition note (public)')}
                         editable={isEditable}>
                         <InputTextAreaToggable
-                            rows={3}
+                            rows={1}
                             editable={isEditable}
                             defaultValue={this.props.edition.public_note}
                             placeholder={getLangText('Enter a public note for this edition%', '...')}

@@ -78,7 +78,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 <span
                     onClick={this.toggleTable}
                     className="ascribe-accordion-list-item-edition-widget">
-                    Create editions
+                    + Editions
                 </span>
             );
         } else if(numEditions === 1) {
@@ -91,7 +91,8 @@ let AccordionListItemEditionWidget = React.createClass({
                     {editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
                 </span>
             );
-        } else {
+        }
+        else {
             return (
                 <span
                     onClick={this.toggleTable}

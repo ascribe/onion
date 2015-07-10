@@ -82,7 +82,9 @@ let AccordionListItem = React.createClass({
                             </Link>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
-                                <span>{this.props.content.date_created.split('-')[0]}, </span>
+                                <span>{this.props.content.date_created.split('-')[0]}</span>
+                            </div>
+                            <div>
                                 <AccordionListItemEditionWidget
                                     piece={this.props.content}/>
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
