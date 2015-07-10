@@ -6,7 +6,6 @@ import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
@@ -53,9 +52,16 @@ let AccordionListItemEditionWidget = React.createClass({
         let isEditionListOpen = this.state.isEditionListOpenForPieceId[pieceId] ? this.state.isEditionListOpenForPieceId[pieceId].show : false;
         
         if(isEditionListOpen) {
-            return (
-                <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
-            );
+            if(typeof this.state.editionList[pieceId] === 'undefined') {
+                return (
+                    <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                );
+            } else {
+                return (
+                    <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
+                );
+            }
+            
         } else {
             return (
                 <span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span>
@@ -67,8 +73,15 @@ let AccordionListItemEditionWidget = React.createClass({
         let piece = this.props.piece;
         let numEditions = piece.num_editions;
 
-        if(numEditions === 1) {
-            //let firstEditionId = piece && piece.firstEdition ? ', ' + piece.firstEdition.bitcoin_id : '';
+        if(numEditions === 0) {
+            return (
+                <span
+                    onClick={this.toggleTable}
+                    className="ascribe-accordion-list-item-edition-widget">
+                    Create editions
+                </span>
+            );
+        } else if(numEditions === 1) {
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (

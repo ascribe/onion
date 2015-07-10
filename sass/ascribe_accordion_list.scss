@@ -59,6 +59,10 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     }
 }
 
+.accordion-list-item-header > a {
+    text-decoration: none;
+}
+
 .ascribe-accordion-list-loading {
     padding-top: 30%;
     padding-bottom: 30%;

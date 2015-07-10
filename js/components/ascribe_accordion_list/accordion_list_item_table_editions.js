@@ -92,6 +92,7 @@ let AccordionListItemTableEditions = React.createClass({
         let showExpandOption = false;
 
         let editionsForPiece = this.state.editionList[this.props.parentId];
+        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
@@ -113,7 +114,7 @@ let AccordionListItemTableEditions = React.createClass({
             showExpandOption = true;
         }
 
-        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id');
+        let transition = new TransitionModel('edition', 'editionId', 'bitcoin_id', (e) => e.stopPropagation() );
 
         let columnList = [
             new ColumnModel(
@@ -177,29 +178,27 @@ let AccordionListItemTableEditions = React.createClass({
             )
         ];
 
-        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
-
-        return (
-            <div className={this.props.className}>
-                {/* <AccordionListItemTableToggle
-                    className="ascribe-accordion-list-table-toggle"
-                    onClick={this.toggleTable}
-                    message={show && typeof editionsForPiece !== 'undefined' ? <span><span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span> {getLangText('Hide editions')}</span> : <span><span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span> {getLangText('Show editions')} {show && typeof editionsForPiece === 'undefined' ? loadingSpinner : null}</span>} /> */}
-                <AccordionListItemTable
-                    parentId={this.props.parentId}
-                    itemList={editionsForPiece}
-                    columnList={columnList}
-                    show={show}
-                    orderBy={orderBy}
-                    orderAsc={orderAsc}
-                    changeOrder={this.changeEditionListOrder} 
-                    selectItem={this.selectItem}/>
-                <AccordionListItemTableToggle
-                    className="ascribe-accordion-list-table-toggle"
-                    onClick={this.loadFurtherEditions}
-                    message={show && showExpandOption ? <span><span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}}></span> Show me more {this.state.showMoreLoading ? loadingSpinner : null}</span> : ''} />
-            </div>
-        );
+        if(show && editionsForPiece && editionsForPiece.length > 0) {
+            return (
+                <div className={this.props.className}>
+                    <AccordionListItemTable
+                        parentId={this.props.parentId}
+                        itemList={editionsForPiece}
+                        columnList={columnList}
+                        show={show}
+                        orderBy={orderBy}
+                        orderAsc={orderAsc}
+                        changeOrder={this.changeEditionListOrder}
+                        selectItem={this.selectItem}/>
+                    <AccordionListItemTableToggle
+                        className="ascribe-accordion-list-table-toggle"
+                        onClick={this.loadFurtherEditions}
+                        message={show && showExpandOption ? <span>{this.state.showMoreLoading ? loadingSpinner : <span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}} />} Show me more</span> : null} />
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 });
 
