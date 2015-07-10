@@ -87,7 +87,7 @@ let AccordionListItem = React.createClass({
                 PieceListActions.updatePropertyForPiece({
                     pieceId: this.props.content.id,
                     key: 'num_editions',
-                    value: res.count
+                    value: res.editions[0].num_editions
                 });
 
                 EditionListActions.toggleEditionList(this.props.content.id);
