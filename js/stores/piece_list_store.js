@@ -84,6 +84,19 @@ class PieceListStore {
             throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');
         }
     }
+
+    onUpdatePropertyForPiece({pieceId, key, value}) {
+        let filteredPieceList = this.pieceList.filter((piece) => piece.id === pieceId);
+
+        if(filteredPieceList.length === 1) {
+
+            let piece = filteredPieceList[0];
+            piece[key] = value;
+
+        } else {
+            throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');
+        }
+    }
 }
 
 export default alt.createStore(PieceListStore, 'PieceListStore');

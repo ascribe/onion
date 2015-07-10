@@ -279,7 +279,7 @@ let EditionPersonalNote = React.createClass({
                             editable={true}
                             defaultValue={this.props.edition.note_from_user}
                             placeholder={getLangText('Enter a personal note%s', '...')}
-                            required/>
+                            required="required"/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
                         <input defaultValue={this.props.edition.bitcoin_id}/>
@@ -317,8 +317,8 @@ let EditionPublicEditionNote = React.createClass({
                             rows={1}
                             editable={isEditable}
                             defaultValue={this.props.edition.public_note}
-                            placeholder={getLangText('Enter a public note for this edition%', '...')}
-                            required/>
+                            placeholder={getLangText('Enter a public note for this edition%s', '...')}
+                            required="required"/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
                         <input defaultValue={this.props.edition.bitcoin_id}/>
@@ -345,8 +345,7 @@ let CoaDetails = React.createClass({
         if (this.props.edition.coa) {
             CoaActions.fetchOne(this.props.edition.coa);
         }
-        else{
-            console.log('create coa');
+        else {
             CoaActions.create(this.props.edition);
         }
     },

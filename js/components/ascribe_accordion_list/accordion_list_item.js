@@ -3,13 +3,18 @@
 import React from 'react';
 import Router from 'react-router';
 
-import PieceListActions from '../../actions/piece_list_actions';
-
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
+import AccordionListItemCreateEditions from './accordion_list_item_create_editions';
+
+import PieceListActions from '../../actions/piece_list_actions';
+import EditionListActions from '../../actions/edition_list_actions';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -23,6 +28,13 @@ let AccordionListItem = React.createClass({
     },
 
     mixins: [Router.Navigation],
+
+    getInitialState() {
+        return {
+            showCreateEditionsDialog: false,
+            creatingEditions: false
+        };
+    },
 
     componentDidMount() {
         if(this.props.content.num_editions !== 0) {
@@ -43,6 +55,52 @@ let AccordionListItem = React.createClass({
                 </OverlayTrigger>);
         }
         return null;
+    },
+
+    toggleCreateEditionsDialog() {
+        this.setState({
+            showCreateEditionsDialog: !this.state.showCreateEditionsDialog
+        });
+    },
+
+    handleEditionCreationSuccess(response) {
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.setState({
+            creatingEditions: true
+        });
+
+        this.toggleCreateEditionsDialog();
+
+        // start polling until editions are defined
+        let pollingIntervalIndex = setInterval(() => {
+            EditionListActions.fetchEditionList(this.props.content.id)
+            .then((res) => {
+
+                clearInterval(this.state.pollingIntervalIndex);
+                
+                this.setState({
+                    creatingEditions: false
+                });
+
+                PieceListActions.updatePropertyForPiece({
+                    pieceId: this.props.content.id,
+                    key: 'num_editions',
+                    value: res.editions[0].num_editions
+                });
+
+                EditionListActions.toggleEditionList(this.props.content.id);
+
+            })
+            .catch(() => {
+                /* Ignore and keep going */
+            });
+        }, 5000);
+
+        this.setState({
+            pollingIntervalIndex
+        });
     },
 
     render() {
@@ -85,7 +143,9 @@ let AccordionListItem = React.createClass({
                             </div>
                             <div>
                                 <AccordionListItemEditionWidget
-                                    piece={this.props.content}/>
+                                    piece={this.props.content}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                    creatingEditions={this.state.creatingEditions}/>
                                 {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
                                     {getLangText('%s license', this.props.content.license_type.code)}
                                 </a> */}
@@ -97,6 +157,8 @@ let AccordionListItem = React.createClass({
                         </div>
                     </div>
                 </div>
+                {this.props.content.num_editions === 0 && this.state.showCreateEditionsDialog ? <AccordionListItemCreateEditions pieceId={this.props.content.id} handleSuccess={this.handleEditionCreationSuccess}/> : null}
+                
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}
             </div>
