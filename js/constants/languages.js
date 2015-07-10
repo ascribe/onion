@@ -207,6 +207,8 @@ const languages = {
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
         'Create editions': 'Create editions',
+        'I agree to the Terms of Service': 'I agree to the Terms of Service',
+        'read': 'read',
     },
     'de': {
         'ID': 'ID',
@@ -414,6 +416,8 @@ const languages = {
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
         'Create editions': 'Create editions',
+        'I agree to the Terms of Service': 'I agree to the Terms of Service',
+        'read': 'read',
     },
     'fr': {
         'ID': 'ID',
@@ -621,6 +625,8 @@ const languages = {
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
         'Create editions': 'Create editions',
+        'I agree to the Terms of Service': 'I agree to the Terms of Service',
+        'read': 'read',
     }
 };
 

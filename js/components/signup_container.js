@@ -13,7 +13,9 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import FormPropertyHeader from './ascribe_forms/form_property_header';
 import InputCheckbox from './ascribe_forms/input_checkbox';
+
 
 import apiUrls from '../constants/api_urls';
 
@@ -66,9 +68,6 @@ let SignupContainer = React.createClass({
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
-                <div className="ascribe-login-text ascribe-login-header">
-                    {getLangText('Welcome to')} ascribe...
-                </div>
                 <SignupForm handleSuccess={this.handleSuccess}/>
             </div>
         );
@@ -77,6 +76,10 @@ let SignupContainer = React.createClass({
 
 
 let SignupForm = React.createClass({
+    propTypes: {
+        handleSuccess: React.PropTypes.func
+    },
+
     mixins: [Router.Navigation],
 
     handleSuccess(response){
@@ -94,6 +97,7 @@ let SignupForm = React.createClass({
             getLangText('Store it in a safe place') + '!';
         return (
             <Form
+                className="ascribe-form-bordered"
                 ref='form'
                 url={apiUrls.users_signup}
                 handleSuccess={this.handleSuccess}
@@ -106,6 +110,9 @@ let SignupForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </button>
                     }>
+                <FormPropertyHeader>
+                    <h3>{getLangText('Welcome to ascribe')}</h3>
+                </FormPropertyHeader>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -142,16 +149,12 @@ let SignupForm = React.createClass({
                         type="text"
                         placeholder={getLangText('Enter a promocode here (Optional)')}/>
                 </Property>
-                <hr />
-                <InputCheckbox
-                    name='terms'
-                    required="required"
-                    label={
-                        <div>
-                            <a href="/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                {getLangText('I agree to the')}&nbsp;{getLangText('Terms of Service')}
-                            </a>
-                        </div>}/>
+                <Property
+                    name="terms"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputCheckbox />
+                </Property>
             </Form>
         );
     }
