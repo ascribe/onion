@@ -4,6 +4,10 @@ import React from 'react';
 import Router from 'react-router';
 
 import AscribeApp from './components/ascribe_app';
+
+import getPrizeRoutes from './components/whitelabel/prize/routes';
+import getDefaultRoutes from './components/routes';
+
 import PieceList from './components/piece_list';
 import PieceContainer from './components/ascribe_detail/piece_container';
 import EditionContainer from './components/ascribe_detail/edition_container';
@@ -22,8 +26,9 @@ let Route = Router.Route;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
-let routes = (
-    <Route name="app" path={baseUrl} handler={AscribeApp}>
+
+const COMMON_ROUTES = (
+    <Route>
         <Route name="signup" path="signup" handler={SignupContainer} />
         <Route name="login" path="login" handler={LoginContainer} />
         <Route name="pieces" path="collection" handler={PieceList} />
@@ -33,10 +38,20 @@ let routes = (
         <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-
-        <Redirect from={baseUrl} to="login" />
-        <Redirect from={baseUrl + '/'} to="login" />
     </Route>
 );
 
-export default routes;
+
+function getRoutes(type) {
+    let routes = null;
+    if (type === 'prize') {
+        routes = getPrizeRoutes(COMMON_ROUTES);
+    } else {
+        routes = getDefaultRoutes(COMMON_ROUTES);
+    }
+
+    return routes;
+}
+
+
+export default getRoutes;
