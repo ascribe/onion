@@ -11,7 +11,7 @@ let RouteHandler = Router.RouteHandler;
 let PrizeApp = React.createClass({
     render() {
         return (
-            <div>
+            <div class="whitelabel-prize">
                 <RouteHandler />
                 <Footer />
                 <GlobalNotification />
