@@ -16,12 +16,9 @@ let AccordionListItemCreateEditions = React.createClass({
     },
 
     getFormData(){
-        let data = {};
-        for (let ref in this.refs.form.refs){
-            data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
-        }
-        data.piece_id = parseInt(this.props.pieceId, 10);
-        return data;
+        return {
+            piece_id: parseInt(this.props.pieceId, 10)
+        };
     },
 
     render() {
