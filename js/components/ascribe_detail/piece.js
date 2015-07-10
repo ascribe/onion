@@ -56,7 +56,8 @@ let Piece = React.createClass({
                         title="Further Details"
                         show={this.props.piece.acl.indexOf('edit') > -1
                             || Object.keys(this.props.piece.extra_data).length > 0
-                            || this.props.piece.other_data !== null}>
+                            || this.props.piece.other_data !== null}
+                        defaultExpanded={true}>
                         <FurtherDetails
                             editable={this.props.piece.acl.indexOf('edit') > -1}
                             pieceId={this.props.piece.id}

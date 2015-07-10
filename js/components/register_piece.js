@@ -98,12 +98,9 @@ let RegisterPiece = React.createClass( {
     },
 
     getFormData(){
-        let data = {};
-        for (let ref in this.refs.form.refs){
-            data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
-        }
-        data.digital_work_key = this.state.digitalWorkKey;
-        return data;
+        return {
+            digital_work_key: this.state.digitalWorkKey
+        };
     },
 
     submitKey(key){

@@ -66,12 +66,16 @@ let Header = React.createClass({
     getPoweredBy(){
         if (this.state.whitelabel.logo) {
             return (
-                <div className="row no-margin ascribe-subheader">
-                    <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                        <span id="powered">{getLangText('powered by')} </span>
-                        <span>ascribe </span>
-                        <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                    </a>
+                <div className="row ascribe-subheader">
+                    <div className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
+                        <div className="row">
+                            <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                                <span id="powered">{getLangText('powered by')} </span>
+                                <span>ascribe </span>
+                                <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>);
         }
         return null;

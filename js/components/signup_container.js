@@ -91,6 +91,9 @@ let SignupForm = React.createClass({
                                  ', ' + getLangText('please confirm') + '.');
 
     },
+    getFormData(){
+        return {terms: this.refs.form.refs.terms.refs.input.state.value};
+    },
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
@@ -101,6 +104,7 @@ let SignupForm = React.createClass({
                 ref='form'
                 url={apiUrls.users_signup}
                 handleSuccess={this.handleSuccess}
+                getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
                         {getLangText('Sign up to ascribe')}
@@ -153,7 +157,7 @@ let SignupForm = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox />
+                    <InputCheckbox/>
                 </Property>
             </Form>
         );
