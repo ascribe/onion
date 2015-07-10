@@ -81,7 +81,7 @@ let LoginForm = React.createClass({
     },
 
     handleSuccess(){
-        let notification = new GlobalNotificationModel('Login successsful', 'success', 10000);
+        let notification = new GlobalNotificationModel('Login successful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // register_piece is waiting for a login success as login_container and it is wrapped
