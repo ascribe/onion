@@ -106,9 +106,6 @@ let PasswordResetForm = React.createClass({
 
     getFormData(){
         let data = {};
-        for (let ref in this.refs.form.refs){
-            data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
-        }
         data.email = this.props.email;
         data.token = this.props.token;
         return data;
