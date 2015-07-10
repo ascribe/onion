@@ -10,6 +10,7 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
+import AccordionListItemCreateEditions from './accordion_list_item_create_editions';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -95,6 +96,7 @@ let AccordionListItem = React.createClass({
                         </div>
                     </div>
                 </div>
+                <AccordionListItemCreateEditions />
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}
             </div>

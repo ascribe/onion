@@ -138,8 +138,7 @@ let RegisterPiece = React.createClass( {
                     label={getLangText('Copyright license%s', '...')}
                     onChange={this.onLicenseChange}
                     footer={
-                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-			{getLangText('Learn more')}
+                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">{getLangText('Learn more')}
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {

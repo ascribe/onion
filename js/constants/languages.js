@@ -206,6 +206,7 @@ const languages = {
         'Title': 'Title',
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
+        'Create editions': 'Create editions',
     },
     'de': {
         'ID': 'ID',
@@ -412,6 +413,7 @@ const languages = {
         'Title': 'Titel',
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
+        'Create editions': 'Create editions',
     },
     'fr': {
         'ID': 'ID',
@@ -618,6 +620,7 @@ const languages = {
         'Title': 'Title',
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
+        'Create editions': 'Create editions',
     }
 };
 
