@@ -122,8 +122,11 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
 }
 
 span.ascribe-accordion-list-table-toggle {
-    ::selection { background: transparent; }
-    ::-moz-selection { background: transparent; }
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    
     &:hover {
         color: $ascribe-color-dark;
         cursor:pointer;

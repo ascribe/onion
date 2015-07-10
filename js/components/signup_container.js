@@ -15,6 +15,7 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import InputCheckbox from './ascribe_forms/input_checkbox';
 
+
 import apiUrls from '../constants/api_urls';
 
 
@@ -77,6 +78,10 @@ let SignupContainer = React.createClass({
 
 
 let SignupForm = React.createClass({
+    propTypes: {
+        handleSuccess: React.PropTypes.func
+    },
+
     mixins: [Router.Navigation],
 
     handleSuccess(response){
@@ -142,16 +147,11 @@ let SignupForm = React.createClass({
                         type="text"
                         placeholder={getLangText('Enter a promocode here (Optional)')}/>
                 </Property>
-                <hr />
-                <InputCheckbox
-                    name='terms'
-                    required="required"
-                    label={
-                        <div>
-                            <a href="/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                {getLangText('I agree to the')}&nbsp;{getLangText('Terms of Service')}
-                            </a>
-                        </div>}/>
+                <Property
+                    name="terms"
+                    className="ascribe-settings-property-collapsible-toggle">
+                    <InputCheckbox />
+                </Property>
             </Form>
         );
     }
