@@ -43,7 +43,7 @@ let AccordionListItem = React.createClass({
     },
 
     componentDidUpdate() {
-        if(this.props.content.num_editions === 0) {
+        if(this.props.content.num_editions === 0 && typeof this.state.pollingIntervalIndex == 'undefined') {
             this.startPolling();
         }
     },
