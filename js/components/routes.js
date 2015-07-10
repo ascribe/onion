@@ -14,9 +14,9 @@ let baseUrl = AppConstants.baseUrl;
 function getRoutes(commonRoutes) {
     return (
         <Route name="app" path={baseUrl} handler={App}>
-            {commonRoutes}
             <Redirect from={baseUrl} to="login" />
             <Redirect from={baseUrl + '/'} to="login" />
+            {commonRoutes}
         </Route>
     );
 }

@@ -6,7 +6,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import GlobalNotification from './global_notification';
 
-let Link = Router.Link;
+// let Link = Router.Link;
 let RouteHandler = Router.RouteHandler;
 
 

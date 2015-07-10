@@ -9,7 +9,6 @@ import App from './app';
 import AppConstants from '../../../constants/application_constants';
 
 let Route = Router.Route;
-// let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
 

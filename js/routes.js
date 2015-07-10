@@ -3,8 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import AscribeApp from './components/ascribe_app';
-
 import getPrizeRoutes from './components/whitelabel/prize/routes';
 import getDefaultRoutes from './components/routes';
 
@@ -19,12 +17,9 @@ import PasswordResetContainer from './components/password_reset_container';
 import SettingsContainer from './components/settings_container';
 import CoaVerifyContainer from './components/coa_verify_container';
 
-import AppConstants from './constants/application_constants';
 import RegisterPiece from './components/register_piece';
 
 let Route = Router.Route;
-let Redirect = Router.Redirect;
-let baseUrl = AppConstants.baseUrl;
 
 
 const COMMON_ROUTES = (
