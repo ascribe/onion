@@ -3,29 +3,45 @@
 import React from 'react';
 
 import ApiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
-import InputText from './input_text';
-import InputTextArea from './input_textarea';
-import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
-import { getLangText } from '../../utils/lang_utils.js'
+
+import Form from './form';
+import Property from './property';
+import InputTextAreaToggable from './input_textarea_toggable';
+import Button from 'react-bootstrap/lib/Button';
+
+import AppConstants from '../../constants/application_constants';
+import { getLangText } from '../../utils/lang_utils.js';
 
 
 let ShareForm = React.createClass({
-    mixins: [FormMixin],
-
-    url() {
-        return ApiUrls.ownership_shares;
+    propTypes: {
+        editions: React.PropTypes.array,
+        currentUser: React.PropTypes.object
     },
 
     getFormData() {
         return {
-            bitcoin_id: this.getBitcoinIds().join(),
-            share_emails: this.refs.share_emails.state.value,
-            share_message: this.refs.share_message.state.value
+            bitcoin_id: this.getBitcoinIds().join()
         };
     },
+    handleSuccess(response){
+        if ('handleSuccess' in this.props){
+            this.props.handleSuccess(response);
+        }
+    },
+    getBitcoinIds(){
+        return this.props.editions.map(function(edition){
+            return edition.bitcoin_id;
+        });
+    },
 
-    renderForm() {
+    getTitlesString(){
+        return this.props.editions.map(function(edition){
+            return '- \"' + edition.title + ', ' + getLangText('edition') + ' ' + edition.edition_number + '\"\n';
+        });
+    },
+
+    render() {
         let title = this.getTitlesString().join('');
         let username = this.props.currentUser.username;
         let message =
@@ -36,25 +52,50 @@ ${title}${getLangText('with you')}.
 
 ${getLangText('Truly yours')},
 ${username}`;
-
         return (
-            <form id="share_modal_content" role="form" key="share_modal_content" onSubmit={this.submit}>
-                <InputText
-                    ref="share_emails"
-                    placeHolder={getLangText('Comma separated emails')}
-                    required="required"
-                    type="text"
-                    submitted={this.state.submitted}/>
-                <InputTextArea
-                    ref="share_message"
-                    defaultValue={message}
-                    required=""
-                    />
-                <ButtonSubmitOrClose
-                    text={getLangText('SHARE')}
-                    onClose={this.props.onRequestHide}
-                    submitted={this.state.submitted} />
-            </form>
+            <Form
+                ref='form'
+                url={ApiUrls.ownership_shares_editions}
+                getFormData={this.getFormData}
+                handleSuccess={this.handleSuccess}
+                buttons={
+                    <div className="modal-footer">
+                        <p className="pull-right">
+                            <Button
+                                className="btn btn-default btn-sm ascribe-margin-1px"
+                                type="submit">SHARE</Button>
+                            <Button
+                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
+                                style={{marginLeft: '0'}}
+                                onClick={this.props.onRequestHide}>CLOSE</Button>
+                        </p>
+                    </div>}
+                spinner={
+                    <div className="modal-footer">
+                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    </div>
+                }
+                >
+                <Property
+                    name='share_emails'
+                    label={getLangText('Emails')}>
+                    <input
+                        type="text"
+                        placeholder={getLangText('Comma separated emails')}
+                        required/>
+                </Property>
+                <Property
+                    name='share_message'
+                    label='Personal Message'
+                    editable={true}>
+                    <InputTextAreaToggable
+                        rows={1}
+                        editable={true}
+                        defaultValue={message}
+                        placeholder={getLangText('Enter a message...')}
+                        required="required"/>
+                </Property>
+            </Form>
         );
     }
 });

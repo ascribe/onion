@@ -13,14 +13,14 @@ import AppConstants from '../../constants/application_constants';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 
 let AclButton = React.createClass({
     propTypes: {
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
         availableAcls: React.PropTypes.array.isRequired,
-        editions: React.PropTypes.array.isRequired,
+        pieceOrEditions: React.PropTypes.array.isRequired,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func.isRequired,
         className: React.PropTypes.string
@@ -31,7 +31,7 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Consign artwork'),
                 tooltip: getLangText('Have someone else sell the artwork'),
-                form: <ConsignForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                form: <ConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -39,14 +39,14 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Unconsign artwork'),
                 tooltip: getLangText('Have the owner manage his sales again'),
-                form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
         }else if (this.props.action === 'transfer') {
             return {
                 title: getLangText('Transfer artwork'),
                 tooltip: getLangText('Transfer the ownership of the artwork'),
-                form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -54,7 +54,7 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
-                form: <LoanForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                form: <LoanForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
         }
@@ -62,7 +62,7 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Share artwork'),
                 tooltip: getLangText('Share the artwork'),
-                form: <ShareForm currentUser={ this.props.currentUser } editions={ this.props.editions }/>,
+                form: <ShareForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
         }
