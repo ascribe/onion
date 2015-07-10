@@ -84,7 +84,8 @@ let Edition = React.createClass({
                     <CollapsibleParagraph
                         title="Notes"
                         show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
+                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}
+                        defaultExpanded={true}>
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
