@@ -28,13 +28,13 @@
 .is-error {
     background-color: rgba(169, 68, 66, 0.05);
     border-left: 3px solid rgba(169, 68, 66, 1);
-    div {
-        span {
+    > div {
+        > span {
             color: rgba(169, 68, 66, 1);
             font-size: 0.9em;
             margin-right: 1em;
         }
-        input, textarea {
+        > input, > textarea {
             color: #666;
         }
     }
@@ -46,12 +46,12 @@
 
 .is-fixed {
     cursor: default;
-    div {
+    > div {
         cursor: default;
-        span {
+        > span {
             cursor: default;
         }
-        input, div, pre, textarea {
+        > input, > div, > pre, > textarea {
             cursor: default;
             color: #666;
         }
@@ -70,19 +70,19 @@
 
     cursor:pointer;
     
-    input, div, span:not(.glyphicon), pre, textarea, select {
+    > input, > div, > span:not(.glyphicon), > pre, > textarea, > select {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
    
-    span {
+    > span {
         font-weight: normal;
         font-size: 0.9em;
         color: rgba(0,0,0,.5);
     }
 
-    div {
+    > div {
         /* margin-top: 10px; */
-        div:not(.file-drag-and-drop div) {
+        > div:not(.file-drag-and-drop div) {
           padding-left: 0;
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
           font-weight: normal;
@@ -92,11 +92,11 @@
         }
     }
 
-    .progressbar-container, .progressbar-progress {
+    > .progressbar-container, .progressbar-progress {
         margin-top: 0 !important;
     }
 
-    input, pre, textarea, select {
+    > input, > pre, > textarea, > select {
         font-weight: 400;
         font-size: 1.1em;
         width:100%;
@@ -119,7 +119,7 @@
 
     }
 
-    textarea{
+    > textarea{
         color: #666;
         margin-top: 1em;
         padding: 0;
@@ -143,7 +143,7 @@
     cursor:pointer;
 
     /* Taken from: http://www.htmllion.com/css3-checkbox.html */
-    > .checkbox {
+    .checkbox {
         display: inline-block;
         cursor: pointer;
 
