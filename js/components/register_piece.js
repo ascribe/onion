@@ -94,7 +94,7 @@ let RegisterPiece = React.createClass( {
             this.state.orderBy,
             this.state.orderAsc);
 
-        this.transitionTo('piece', {editionId: response.piece.id});
+        this.transitionTo('piece', {pieceId: response.piece.id});
     },
 
     getFormData(){
