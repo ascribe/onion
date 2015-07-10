@@ -4,7 +4,10 @@ import React from 'react';
 
 let FormPropertyHeader = React.createClass({
     propTypes: {
-        children: React.PropTypes.arrayOf(React.PropTypes.element)
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
     },
 
     render() {

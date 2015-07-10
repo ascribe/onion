@@ -44,7 +44,7 @@ class EditionListActions {
                 })
                 .catch((err) => {
                     reject(err);
-                    console.log(err);
+                    //console.log(err);
                 });
         });
         

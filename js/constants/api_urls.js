@@ -13,6 +13,7 @@ let apiUrls = {
     'edition': AppConstants.apiEndpoint + 'editions/${bitcoin_id}/',
     'edition_delete': AppConstants.apiEndpoint + 'editions/${edition_id}/',
     'edition_remove_from_collection': AppConstants.apiEndpoint + 'ownership/shares/${edition_id}/',
+    'editions': AppConstants.apiEndpoint + 'editions/', // this should be moved to the one below
     'editions_list': AppConstants.apiEndpoint + 'pieces/${piece_id}/editions/',
     'licenses': AppConstants.apiEndpoint + 'ownership/licenses/',
     'note_notes': AppConstants.apiEndpoint + 'note/notes/',
