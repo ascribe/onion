@@ -23,7 +23,8 @@ let SignupForm = React.createClass({
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+        children: React.PropTypes.element
     },
 
     mixins: [Router.Navigation],
@@ -120,13 +121,7 @@ let SignupForm = React.createClass({
                         autoComplete="on"
                         required/>
                 </Property>
-                <Property
-                    name='promo_code'
-                    label={getLangText('Promocode')}>
-                    <input
-                        type="text"
-                        placeholder={getLangText('Enter a promocode here (Optional)')}/>
-                </Property>
+                {this.props.children}
                 <Property
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
@@ -137,5 +132,6 @@ let SignupForm = React.createClass({
         );
     }
 });
+
 
 export default SignupForm;

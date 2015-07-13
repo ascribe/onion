@@ -22,6 +22,7 @@ function getRoutes(commonRoutes) {
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
+            <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         </Route>
     );
 }

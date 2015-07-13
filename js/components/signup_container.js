@@ -2,8 +2,10 @@
 
 import React from 'react';
 import SignupForm from './ascribe_forms/form_signup';
+import Property from './ascribe_forms/property';
 
-// import { getLangText } from '../utils/lang_utils';
+import { getLangText } from '../utils/lang_utils';
+
 
 let SignupContainer = React.createClass({
     getInitialState() {
@@ -33,8 +35,15 @@ let SignupContainer = React.createClass({
         }
         return (
             <div className="ascribe-login-wrapper">
-                <br/>
-                <SignupForm handleSuccess={this.handleSuccess}/>
+                <SignupForm>
+                    <Property
+                        name='promo_code'
+                        label={getLangText('Promocode')}>
+                        <input
+                            type="text"
+                            placeholder={getLangText('Enter a promocode here (Optional)')}/>
+                    </Property>
+                </SignupForm>
             </div>
         );
     }
