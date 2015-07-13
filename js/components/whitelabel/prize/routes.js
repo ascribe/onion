@@ -16,6 +16,7 @@ function getRoutes(commonRoutes) {
     return (
         <Route name="app" path={baseUrl} handler={App}>
             <Route name="landing" path="/" handler={Landing} />
+
             {commonRoutes}
         </Route>
     );
