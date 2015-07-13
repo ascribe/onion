@@ -1,78 +1,130 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
+
+import { getLangText } from '../../utils/lang_utils';
+
+import UserStore from '../../stores/user_store';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import Form from './form';
+import Property from './property';
+import FormPropertyHeader from './form_property_header';
+import InputCheckbox from './input_checkbox';
 
 import apiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
-import InputText from './input_text';
-import InputCheckbox from './input_checkbox';
-import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
-import { getLangText } from '../../utils/lang_utils.js'
+
 
 let SignupForm = React.createClass({
-    mixins: [FormMixin],
 
-    url() {
-        return apiUrls.users_signup;
-    },
-    
-    getFormData() {
-        return {
-            email: this.refs.email.state.value,
-            password: this.refs.password.state.value,
-            password_confirm: this.refs.password_confirm.state.value,
-            terms: this.refs.terms.state.value,
-            promo_code: this.refs.promo_code.state.value
-        };
+    propTypes: {
+        handleSuccess: React.PropTypes.func
     },
 
-    renderForm() {
+    mixins: [Router.Navigation],
+
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+
+        // if user is already logged in, redirect him to piece list
+        if(this.state.currentUser && this.state.currentUser.email) {
+            this.transitionTo('pieces');
+        }
+    },
+
+    handleSuccess(response){
+
+        let notificationText = getLangText('Sign up successful');
+        let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email +
+                                 ', ' + getLangText('please confirm') + '.');
+
+    },
+    getFormData(){
+        return {terms: this.refs.form.refs.terms.refs.input.state.value};
+    },
+    render() {
+        let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
+            getLangText('This password is securing your digital property like a bank account') + '.\n ' +
+            getLangText('Store it in a safe place') + '!';
         return (
-            <form id="signup_modal_content" role="form" onSubmit={this.submit}>
-                <input className="invisible" type="email" name="fake_consignee"/>
-                <input className="invisible" type="password" name="fake_password"/>
-                <InputText
-                    ref="email"
-                    placeHolder={getLangText('Email')}
-                    required="required"
-                    type="email"
-                    submitted={this.state.submitted}/>
-                <InputText
-                    ref="password"
-                    placeHolder={getLangText('Choose a password')}
-                    required="required"
-                    type="password"
-                    submitted={this.state.submitted}/>
-                <InputText
-                    ref="password_confirm"
-                    placeHolder={getLangText('Confirm password')}
-                    required="required"
-                    type="password"
-                    submitted={this.state.submitted}/>
-                <div>
-                    {getLangText('Your password must be at least 10 characters')}.
-                    {getLangText('This password is securing your digital property like a bank account')}.
-                    {getLangText('Store it in a safe place')}!
-                </div>
-                <InputCheckbox
-                    ref="terms"
-                    required="required"
-                    label={
-                        <div>
-                            {getLangText('I agree to the')}&nbsp;
-                            <a href="/terms" target="_blank"> {getLangText('Terms of Service')}</a>
-                        </div>}/>
-                <InputText
-                    ref="promo_code"
-                    placeHolder={getLangText('Promocode (Optional)')}
-                    required=""
-                    type="text"
-                    submitted={this.state.submitted}/>
-                <ButtonSubmitOrClose
-                    text={getLangText('JOIN US')}
-                    onClose={this.props.onRequestHide}
-                    submitted={this.state.submitted} />
-            </form>
+            <Form
+                className="ascribe-form-bordered"
+                ref='form'
+                url={apiUrls.users_signup}
+                handleSuccess={this.handleSuccess}
+                getFormData={this.getFormData}
+                buttons={
+                    <button type="submit" className="btn ascribe-btn ascribe-btn-login">
+                        {getLangText('Sign up to ascribe')}
+                    </button>}
+                spinner={
+                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    </span>
+                    }>
+                <FormPropertyHeader>
+                    <h3>{getLangText('Welcome to ascribe')}</h3>
+                </FormPropertyHeader>
+                <Property
+                    name='email'
+                    label={getLangText('Email')}>
+                    <input
+                        type="email"
+                        placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
+                        autoComplete="on"
+                        required/>
+                </Property>
+                <Property
+                    name='password'
+                    label={getLangText('Password')}
+                    tooltip={tooltipPassword}>
+                    <input
+                        type="password"
+                        placeholder={getLangText('Use a combination of minimum 10 chars and numbers')}
+                        autoComplete="on"
+                        required/>
+                </Property>
+                <Property
+                    name='password_confirm'
+                    label={getLangText('Confirm Password')}
+                    tooltip={tooltipPassword}>
+                    <input
+                        type="password"
+                        placeholder={getLangText('Enter your password once again')}
+                        autoComplete="on"
+                        required/>
+                </Property>
+                <Property
+                    name='promo_code'
+                    label={getLangText('Promocode')}>
+                    <input
+                        type="text"
+                        placeholder={getLangText('Enter a promocode here (Optional)')}/>
+                </Property>
+                <Property
+                    name="terms"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputCheckbox/>
+                </Property>
+            </Form>
         );
     }
 });

@@ -11,6 +11,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_theme';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
+@import 'ascribe_app';
 @import 'ascribe_login';
 @import 'ascribe_table';
 @import 'ascribe_accordion_list';
@@ -28,10 +29,11 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_slides_container';
 @import 'ascribe_form';
 
-body {
-    background-color: #FDFDFD;
-    border-radius: 0;
-    margin-top: 70px;
+@import 'whitelabel/index';
+
+
+html, body {
+    height: 100%;
 }
 
 html {
@@ -40,6 +42,10 @@ html {
 
 hr {
     margin-bottom: 15px;
+}
+
+#main {
+    height: 100%;
 }
 
 .hidden {
