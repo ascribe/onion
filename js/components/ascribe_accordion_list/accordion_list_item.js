@@ -13,9 +13,6 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import PieceListActions from '../../actions/piece_list_actions';
 import EditionListActions from '../../actions/edition_list_actions';
 
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
-
 import { getLangText } from '../../utils/lang_utils';
 
 let Link = Router.Link;

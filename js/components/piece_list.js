@@ -63,7 +63,7 @@ let PieceList = React.createClass({
     },
 
     getPieceListToolbar() {
-        if (this.state.pieceListCount > 10) {
+        if(this.state.pieceListCount > 10) {
             return (
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
