@@ -7,6 +7,8 @@ import Landing from './components/landing';
 import LoginContainer from './components/login_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
+import RegisterPiece from '../../../components/register_piece';
+import PieceList from '../../../components/piece_list';
 
 import App from './app';
 import AppConstants from '../../../constants/application_constants';
@@ -23,6 +25,7 @@ function getRoutes(commonRoutes) {
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
             <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
+            <Route name="pieces" path="collection" handler={PieceList} />
         </Route>
     );
 }

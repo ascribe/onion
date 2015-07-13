@@ -16,9 +16,7 @@ let PrizeApp = React.createClass({
     render() {
         let header = null;
         if (this.isActive('pieces')) {
-            header = (
-                <Header />
-            );
+            header = null;
         }
 
         return (
