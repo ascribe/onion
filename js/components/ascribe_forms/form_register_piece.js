@@ -17,6 +17,12 @@ import { getLangText } from '../../utils/lang_utils';
 
 
 let RegisterPieceForm = React.createClass({
+    propTypes: {
+        handleSuccess: React.PropTypes.func,
+        isFineUploaderEditable: React.PropTypes.bool,
+        children: React.PropTypes.element
+    },
+
     getInitialState(){
         return {
             digitalWorkKey: null,

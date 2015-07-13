@@ -1,10 +1,7 @@
 'use strict';
 
 import React from 'react';
-import SignupForm from './ascribe_forms/form_signup';
-import Property from './ascribe_forms/property';
-
-import { getLangText } from '../utils/lang_utils';
+import SignupForm from '../../../ascribe_forms/form_signup';
 
 
 let SignupContainer = React.createClass({
@@ -35,15 +32,10 @@ let SignupContainer = React.createClass({
         }
         return (
             <div className="ascribe-login-wrapper">
-                <SignupForm>
-                    <Property
-                        name='promo_code'
-                        label={getLangText('Promocode')}>
-                        <input
-                            type="text"
-                            placeholder={getLangText('Enter a promocode here (Optional)')}/>
-                    </Property>
-                </SignupForm>
+                <SignupForm
+                    headerMessage="Sign up to the prize"
+                    submitMessage="Sign up"
+                    handleSuccess={this.handleSuccess}/>
             </div>
         );
     }

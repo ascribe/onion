@@ -39,7 +39,7 @@ let PasswordResetContainer = React.createClass({
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
-                            {getLangText('Reset your ascribe password')}
+                            {getLangText('Reset your password')}
                         </div>
                         <PasswordRequestResetForm
                             handleRequestSuccess={this.handleRequestSuccess}/>

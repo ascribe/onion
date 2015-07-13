@@ -28,7 +28,6 @@ let LoginContainer = React.createClass({
     render() {
         return (
             <div className="ascribe-login-wrapper">
-                <br/>
                 <LoginForm
                     redirectOnLoggedIn={this.props.redirectOnLoggedIn}
                     redirectOnLoginSuccess={this.props.redirectOnLoginSuccess}

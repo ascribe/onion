@@ -27,7 +27,6 @@ import SlidesContainer from './ascribe_slides_container/slides_container';
 
 
 import { mergeOptions } from '../utils/general_utils';
-import { getCookie } from '../utils/fetch_api_utils';
 import { getLangText } from '../utils/lang_utils';
 
 let RegisterPiece = React.createClass( {

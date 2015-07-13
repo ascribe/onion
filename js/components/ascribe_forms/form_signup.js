@@ -21,10 +21,20 @@ import apiUrls from '../../constants/api_urls';
 let SignupForm = React.createClass({
 
     propTypes: {
-        handleSuccess: React.PropTypes.func
+        headerMessage: React.PropTypes.string,
+        submitMessage: React.PropTypes.string,
+        handleSuccess: React.PropTypes.func,
+        children: React.PropTypes.element
     },
 
     mixins: [Router.Navigation],
+
+    getDefaultProps() {
+        return {
+            headerMessage: 'Welcome to ascribe',
+            submitMessage: 'Sign up'
+        };
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -72,7 +82,7 @@ let SignupForm = React.createClass({
                 getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Sign up to ascribe')}
+                        {getLangText(this.props.submitMessage)}
                     </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -80,7 +90,7 @@ let SignupForm = React.createClass({
                     </span>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText('Welcome to ascribe')}</h3>
+                    <h3>{getLangText(this.props.headerMessage)}</h3>
                 </FormPropertyHeader>
                 <Property
                     name='email'
@@ -111,13 +121,7 @@ let SignupForm = React.createClass({
                         autoComplete="on"
                         required/>
                 </Property>
-                <Property
-                    name='promo_code'
-                    label={getLangText('Promocode')}>
-                    <input
-                        type="text"
-                        placeholder={getLangText('Enter a promocode here (Optional)')}/>
-                </Property>
+                {this.props.children}
                 <Property
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
@@ -128,5 +132,6 @@ let SignupForm = React.createClass({
         );
     }
 });
+
 
 export default SignupForm;
