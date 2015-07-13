@@ -31,15 +31,18 @@ let AccordionListItem = React.createClass({
 
     getInitialState() {
         return {
-            showCreateEditionsDialog: false,
-            creatingEditions: false
+            showCreateEditionsDialog: false
         };
     },
 
-    componentDidMount() {
-        if(this.props.content.num_editions > 0) {
-            PieceListActions.fetchFirstEditionForPiece(this.props.content.id);
+    componentDidUpdate() {
+        if(this.props.content.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
+            this.startPolling();
         }
+    },
+
+    componentWillUnmount() {
+        clearInterval(this.state.pollingIntervalIndex);
     },
 
     onChange(state) {
@@ -68,22 +71,16 @@ let AccordionListItem = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
         PieceListActions.updatePropertyForPiece({pieceId: this.props.content.id, key: 'num_editions', value: 0});
 
-        this.setState({
-            creatingEditions: true
-        });
-
         this.toggleCreateEditionsDialog();
+    },
 
+    startPolling() {
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
             EditionListActions.fetchEditionList(this.props.content.id)
             .then((res) => {
 
                 clearInterval(this.state.pollingIntervalIndex);
-                
-                this.setState({
-                    creatingEditions: false
-                });
 
                 PieceListActions.updatePropertyForPiece({
                     pieceId: this.props.content.id,
@@ -118,7 +115,7 @@ let AccordionListItem = React.createClass({
             linkData = {
                 to: 'edition',
                 params: {
-                    editionId: this.props.content.firstEdition ? this.props.content.firstEdition.bitcoin_id : 0
+                    editionId: this.props.content.first_edition ? this.props.content.first_edition.bitcoin_id : 0
                 }
             };
         }
@@ -140,16 +137,11 @@ let AccordionListItem = React.createClass({
                             </Link>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
-                                <span>{this.props.content.date_created.split('-')[0]}</span>
-                            </div>
-                            <div>
+                                <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
                                 <AccordionListItemEditionWidget
+                                    className="pull-right"
                                     piece={this.props.content}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    creatingEditions={this.state.creatingEditions}/>
-                                {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
-                                    {getLangText('%s license', this.props.content.license_type.code)}
-                                </a> */}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}/>
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>

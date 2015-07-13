@@ -7,6 +7,8 @@ import PieceStore from '../../stores/piece_store';
 
 import Piece from './piece';
 
+import AppConstants from '../../constants/application_constants';
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -48,7 +50,9 @@ let PieceContainer = React.createClass({
             );
         } else {
             return (
-                <p>Loading</p>
+                <div className="fullpage-spinner">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                </div>
             );
         }
     }

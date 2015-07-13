@@ -11,6 +11,7 @@ import UserActions from '../actions/user_actions';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import FormPropertyHeader from './ascribe_forms/form_property_header';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
@@ -61,10 +62,8 @@ let LoginContainer = React.createClass({
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
-                <div className="ascribe-login-text ascribe-login-header">
-                    {this.props.message}
-                </div>
-                <LoginForm />
+                <LoginForm
+                    message={this.props.message} />
                 <div className="ascribe-login-text">
                     {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
                     {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
@@ -77,7 +76,8 @@ let LoginContainer = React.createClass({
 
 let LoginForm = React.createClass({
     propTypes: {
-        redirectOnLoginSuccess: React.PropTypes.bool
+        redirectOnLoginSuccess: React.PropTypes.bool,
+        message: React.PropTypes.string
     },
 
     handleSuccess(){
@@ -106,6 +106,7 @@ let LoginForm = React.createClass({
     render() {
         return (
             <Form
+                className="ascribe-form-bordered"
                 ref="loginForm"
                 url={apiUrls.users_login}
                 handleSuccess={this.handleSuccess}
@@ -120,6 +121,9 @@ let LoginForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </button>
                     }>
+                <FormPropertyHeader>
+                    <h3>{this.props.message}</h3>
+                </FormPropertyHeader>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -140,7 +144,6 @@ let LoginForm = React.createClass({
                         name="password"
                         required/>
                 </Property>
-                <hr />
             </Form>
         );
     }

@@ -209,6 +209,7 @@ const languages = {
         'Create editions': 'Create editions',
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
+        'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'If your email address exists in our database, you will receive a password recovery link in a few minutes.',
     },
     'de': {
         'ID': 'ID',
@@ -418,6 +419,7 @@ const languages = {
         'Create editions': 'Create editions',
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
+        'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'If your email address exists in our database, you will receive a password recovery link in a few minutes.',
     },
     'fr': {
         'ID': 'ID',
@@ -627,6 +629,7 @@ const languages = {
         'Create editions': 'Create editions',
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
+        'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'Si votre adresse électronique existe dans notre base de données, vous recevrez un lien de récupération de mot de passe dans quelques minutes.',
     }
 };
 

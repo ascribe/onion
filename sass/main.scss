@@ -346,3 +346,20 @@ hr {
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg);}
 } 
+
+.btn-default {
+    .glyph-ascribe-spool {
+        color: white;
+    }
+}
+
+.fullpage-spinner {
+    padding-top: 30%;
+    padding-bottom: 30%;
+
+    text-align: center;
+
+    > span {
+        font-size: 2em;
+    }
+}
