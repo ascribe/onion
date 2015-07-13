@@ -20,7 +20,7 @@ import AppConstants from '../constants/application_constants';
 
 let PieceList = React.createClass({
     propTypes: {
-        query: React.PropTypes.object
+        redirectTo: React.PropTypes.string
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -30,11 +30,17 @@ let PieceList = React.createClass({
     },
 
     componentDidMount() {
-        let page = this.props.query.page || 1;
+        let page = this.getQuery().page || 1;
         PieceListStore.listen(this.onChange);
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc)
             .then(PieceListActions.fetchPieceRequestActions());
+        }
+    },
+
+    componentDidUpdate() {
+        if (this.props.redirectTo && this.state.pieceListCount === 0) {
+            this.transitionTo(this.props.redirectTo);
         }
     },
 
@@ -67,7 +73,7 @@ let PieceList = React.createClass({
     },
 
     getPagination() {
-        let currentPage = parseInt(this.props.query.page, 10) || 1;
+        let currentPage = parseInt(this.getQuery().page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
         if (this.state.pieceListCount > 10) {
