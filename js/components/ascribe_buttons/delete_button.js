@@ -45,7 +45,7 @@ let DeleteButton = React.createClass({
             content = <EditionDeleteForm editions={ this.props.editions }/>;
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
         }
-        else if (availableAcls.acl_unshare){
+        else if (availableAcls.acl_unshare || (this.props.editions.constructor !== Array && this.props.editions.acl.acl_unshare)){
             content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
         }

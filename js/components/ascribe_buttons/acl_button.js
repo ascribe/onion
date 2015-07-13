@@ -88,7 +88,7 @@ let AclButton = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    // plz move to share form 
+    // plz move to share form
     getTitlesString(){
         if (this.isPiece()){
             return '\"' + this.props.pieceOrEditions.title + '\"';

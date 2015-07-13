@@ -67,7 +67,7 @@ let CreateEditionsButton = React.createClass({
 
         let availableAcls = getAvailableAcls(piece);
 
-        if (availableAcls.editions || piece.num_editions > 0){
+        if (!piece.acl.acl_editions || piece.num_editions > 0){
             return null;
         }
 

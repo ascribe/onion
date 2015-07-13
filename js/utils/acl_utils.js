@@ -8,7 +8,9 @@ function intersectAcls(a, b) {
 
 export function getAvailableAcls(editions) {
     let availableAcls = [];
-
+    if (editions.constructor !== Array){
+        return [];
+    }
     // if you copy a javascript array of objects using slice, then
     // the object reference is still there.
     // Therefore we need to do this ugly copying

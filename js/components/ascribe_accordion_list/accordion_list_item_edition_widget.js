@@ -73,31 +73,28 @@ let AccordionListItemEditionWidget = React.createClass({
         let numEditions = piece.num_editions;
 
         if(numEditions <= 0) {
-            return (
-                <CreateEditionsButton
-                    label={getLangText('Create editions')}
-                    className="btn-xs pull-right"
-                    piece={piece}
-                    toggleCreateEditionsDialog={this.props.toggleCreateEditionsDialog}
-                    onPollingSuccess={this.props.onPollingSuccess}/>
-            );
-        } else if(numEditions === 1) {
-            let editionMapping = piece && piece.first_edition ? piece.first_edition.edition_number + '/' + piece.num_editions : '';
+            if (piece.acl.acl_editions){
+                return (
+                    <CreateEditionsButton
+                        label={getLangText('Create editions')}
+                        className="btn-xs pull-right"
+                        piece={piece}
+                        toggleCreateEditionsDialog={this.props.toggleCreateEditionsDialog}
+                        onPollingSuccess={this.props.onPollingSuccess}/>
+                );
+            }
+            else {
+                return null;
+            }
+
+        } else {
+            let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
 
             return (
                 <button
                     onClick={this.toggleTable}
                     className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
-                    {editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
-                </button>
-            );
-        }
-        else {
-            return (
-                <button
-                    onClick={this.toggleTable}
-                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
-                    {numEditions + ' ' + getLangText('Editions')} {this.getGlyphicon()}
+                    {editionMapping + ' ' + getLangText('Editions')} {this.getGlyphicon()}
                 </button>
             );
         }
