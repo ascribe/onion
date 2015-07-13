@@ -58,7 +58,7 @@ let AccordionListItemEditionWidget = React.createClass({
         if(isEditionListOpen) {
             if(typeof this.state.editionList[pieceId] === 'undefined') {
                 return (
-                    <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                    <span className="glyph-ascribe-spool-chunked spin"/>
                 );
             } else {
                 return (
@@ -89,7 +89,7 @@ let AccordionListItemEditionWidget = React.createClass({
         else if(numEditions === 0) {
             return (
                     <button className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
-                        Creating Editions <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                        Creating Editions <span className="glyph-ascribe-spool-chunked spin"/>
                     </button>
                 );
         }
