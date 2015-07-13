@@ -21,10 +21,19 @@ import apiUrls from '../../constants/api_urls';
 let SignupForm = React.createClass({
 
     propTypes: {
+        headerMessage: React.PropTypes.string,
+        submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func
     },
 
     mixins: [Router.Navigation],
+
+    getDefaultProps() {
+        return {
+            headerMessage: 'Welcome to ascribe',
+            submitMessage: 'Sign up'
+        };
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -72,7 +81,7 @@ let SignupForm = React.createClass({
                 getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Sign up to ascribe')}
+                        {getLangText(this.props.submitMessage)}
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -80,7 +89,7 @@ let SignupForm = React.createClass({
                     </button>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText('Welcome to ascribe')}</h3>
+                    <h3>{getLangText(this.props.headerMessage)}</h3>
                 </FormPropertyHeader>
                 <Property
                     name='email'

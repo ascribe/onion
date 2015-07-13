@@ -11,6 +11,7 @@ import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
+import FormPropertyHeader from './form_property_header';
 
 import apiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -19,19 +20,24 @@ import { getLangText } from '../../utils/lang_utils';
 
 
 let LoginForm = React.createClass({
+
     propTypes: {
+        headerMessage: React.PropTypes.string,
+        submitMessage: React.PropTypes.string,
         redirectOnLoggedIn: React.PropTypes.bool,
         redirectOnLoginSuccess: React.PropTypes.bool
     },
 
+    mixins: [Router.Navigation],
+
     getDefaultProps() {
         return {
+            headerMessage: 'Enter ascribe',
+            submitMessage: 'Log in',
             redirectOnLoggedIn: true,
             redirectOnLoginSuccess: true
         };
     },
-
-    mixins: [Router.Navigation],
 
     getInitialState() {
         return UserStore.getState();
@@ -80,6 +86,7 @@ let LoginForm = React.createClass({
     render() {
         return (
             <Form
+                className="ascribe-form-bordered"
                 ref="loginForm"
                 url={apiUrls.users_login}
                 handleSuccess={this.handleSuccess}
@@ -87,13 +94,16 @@ let LoginForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Enter')} ascribe
+                        {getLangText(this.props.submitMessage)}
                     </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </button>
                     }>
+                <FormPropertyHeader>
+                    <h3>{getLangText(this.props.headerMessage)}</h3>
+                </FormPropertyHeader>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -114,7 +124,6 @@ let LoginForm = React.createClass({
                         name="password"
                         required/>
                 </Property>
-                <hr />
             </Form>
         );
     }

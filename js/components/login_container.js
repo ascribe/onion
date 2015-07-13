@@ -24,7 +24,6 @@ let LoginContainer = React.createClass({
     render() {
         return (
             <div className="ascribe-login-wrapper">
-                <br/>
                 <LoginForm
                     message={this.props.message} />
                 <div className="ascribe-login-text">
