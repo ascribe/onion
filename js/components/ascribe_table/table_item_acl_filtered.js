@@ -5,7 +5,7 @@ import React from 'react';
 
 let TableItemAclFiltered = React.createClass({
     propTypes: {
-        content: React.PropTypes.array.isRequired
+        content: React.PropTypes.object.isRequired
     },
 
     render() {

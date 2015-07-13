@@ -19,8 +19,11 @@ import apiUrls from '../../constants/api_urls';
 let AclButton = React.createClass({
     propTypes: {
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
-        availableAcls: React.PropTypes.array.isRequired,
-        pieceOrEditions: React.PropTypes.object.isRequired,
+        availableAcls: React.PropTypes.object.isRequired,
+        pieceOrEditions: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ]).isRequired,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func.isRequired,
         className: React.PropTypes.string
@@ -29,8 +32,9 @@ let AclButton = React.createClass({
     isPiece(){
         return !(this.props.pieceOrEditions.constructor === Array);
     },
+
     actionProperties(){
-        if (this.props.action === 'consign'){
+        if (this.props.action === 'acl_consign'){
             return {
                 title: getLangText('Consign artwork'),
                 tooltip: getLangText('Have someone else sell the artwork'),
@@ -38,14 +42,14 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }
-        if (this.props.action === 'unconsign'){
+        if (this.props.action === 'acl_unconsign'){
             return {
                 title: getLangText('Unconsign artwork'),
                 tooltip: getLangText('Have the owner manage his sales again'),
                 form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
                 handleSuccess: this.showNotification
             };
-        }else if (this.props.action === 'transfer') {
+        }else if (this.props.action === 'acl_transfer') {
             return {
                 title: getLangText('Transfer artwork'),
                 tooltip: getLangText('Transfer the ownership of the artwork'),
@@ -53,7 +57,7 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }
-        else if (this.props.action === 'loan'){
+        else if (this.props.action === 'acl_loan'){
             return {
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
@@ -61,7 +65,7 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }
-        else if (this.props.action === 'share'){
+        else if (this.props.action === 'acl_share'){
             return {
                 title: getLangText('Share artwork'),
                 tooltip: getLangText('Share the artwork'),
@@ -73,6 +77,8 @@ let AclButton = React.createClass({
                     ),
                 handleSuccess: this.showNotification
             };
+        } else {
+            throw new Error('Your specified action did not match a form.');
         }
     },
 
@@ -82,6 +88,7 @@ let AclButton = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
+    // plz move to share form 
     getTitlesString(){
         if (this.isPiece()){
             return '\"' + this.props.pieceOrEditions.title + '\"';
@@ -105,6 +112,7 @@ let AclButton = React.createClass({
         }
     },
 
+// plz move to share form
     getShareMessage(){
         return (
             `
@@ -119,14 +127,19 @@ ${this.props.currentUser.username}
         );
     },
 
+    // Removes the acl_ prefix and converts to upper case
+    sanitizeAction() {
+        return this.props.action.split('acl_')[1].toUpperCase();
+    },
+
     render() {
-        let shouldDisplay = this.props.availableAcls.indexOf(this.props.action) > -1;
+        let shouldDisplay = this.props.availableAcls[this.props.action];
         let aclProps = this.actionProperties();
         return (
             <ModalWrapper
                 button={
                     <button className={shouldDisplay ? 'btn btn-default btn-sm ' : 'hidden'}>
-                        {this.props.action.toUpperCase()}
+                        {this.sanitizeAction()}
                     </button>
                 }
                 handleSuccess={ aclProps.handleSuccess }
