@@ -120,7 +120,7 @@ ${this.props.currentUser.username}
     },
 
     render() {
-        let shouldDisplay = this.props.availableAcls.indexOf(this.props.action) > -1;
+        let shouldDisplay = this.props.availableAcls[this.props.action];
         let aclProps = this.actionProperties();
         return (
             <ModalWrapper

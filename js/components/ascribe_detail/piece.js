@@ -126,12 +126,12 @@ let Piece = React.createClass({
 
                     <CollapsibleParagraph
                         title="Further Details"
-                        show={this.props.piece.acl.indexOf('edit') > -1
+                        show={this.props.piece.acl.acl_edit
                             || Object.keys(this.props.piece.extra_data).length > 0
                             || this.props.piece.other_data !== null}
                         defaultExpanded={true}>
                         <FurtherDetails
-                            editable={this.props.piece.acl.indexOf('edit') > -1}
+                            editable={this.props.piece.acl.acl_edit}
                             pieceId={this.props.piece.id}
                             extraData={this.props.piece.extra_data}
                             otherData={this.props.piece.other_data}

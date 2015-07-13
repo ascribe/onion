@@ -85,7 +85,7 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
-                        show={this.props.edition.acl.indexOf('coa') > -1}>
+                        show={this.props.edition.acl.acl_coa}>
                         <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
@@ -114,7 +114,7 @@ let Edition = React.createClass({
                     <CollapsibleParagraph
                         title="Notes"
                         show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
+                                (this.props.edition.acl.acl_edit || this.props.edition.public_note)}>
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
@@ -126,11 +126,11 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={this.props.edition.acl.indexOf('edit') > -1
+                        show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data !== null}>
                         <EditionFurtherDetails
-                            editable={this.props.edition.acl.indexOf('edit') > -1}
+                            editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
@@ -170,7 +170,7 @@ let EditionSummary = React.createClass({
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join().replace(/_/, ' ');
             status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
-            if (this.props.edition.pending_new_owner && this.props.edition.acl.indexOf('withdraw_transfer') > -1){
+            if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
                     <Form
                         url={apiUrls.ownership_transfers_withdraw}
@@ -304,8 +304,8 @@ let EditionPublicEditionNote = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
     render() {
-        let isEditable = this.props.edition.acl.indexOf('edit') > -1;
-        if (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note){
+        let isEditable = this.props.edition.acl.acl_edit;
+        if (isEditable || this.props.edition.public_note){
             return (
                 <Form
                     url={apiUrls.note_edition}
