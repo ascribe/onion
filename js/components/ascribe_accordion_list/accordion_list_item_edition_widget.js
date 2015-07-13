@@ -93,7 +93,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 );
         }
         else if(numEditions === 1) {
-            let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
+            let editionMapping = piece && piece.first_edition ? piece.first_edition.edition_number + '/' + piece.num_editions : '';
 
             return (
                 <button

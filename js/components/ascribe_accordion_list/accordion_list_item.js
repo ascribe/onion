@@ -115,7 +115,7 @@ let AccordionListItem = React.createClass({
             linkData = {
                 to: 'edition',
                 params: {
-                    editionId: this.props.content.firstEdition ? this.props.content.firstEdition.bitcoin_id : 0
+                    editionId: this.props.content.first_edition ? this.props.content.first_edition.bitcoin_id : 0
                 }
             };
         }
