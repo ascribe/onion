@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
@@ -9,6 +10,7 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
+        className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
         toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
         creatingEditions: React.PropTypes.bool.isRequired
@@ -77,38 +79,38 @@ let AccordionListItemEditionWidget = React.createClass({
 
         if(numEditions === -1) {
             return (
-                <span
+                <button
                     onClick={this.props.toggleCreateEditionsDialog}
-                    className="ascribe-accordion-list-item-edition-widget">
+                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                     + Editions
-                </span>
+                </button>
             );
         }
         else if(numEditions === 0) {
             return (
-                    <span>
+                    <button className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
                         Creating Editions <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
-                    </span>
+                    </button>
                 );
         }
         else if(numEditions === 1) {
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (
-                <span
+                <button
                     onClick={this.toggleTable}
-                    className="ascribe-accordion-list-item-edition-widget">
+                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                     {editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
-                </span>
+                </button>
             );
         }
         else {
             return (
-                <span
+                <button
                     onClick={this.toggleTable}
-                    className="ascribe-accordion-list-item-edition-widget">
+                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                     {numEditions + ' ' + getLangText('Editions')} {this.getGlyphicon()}
-                </span>
+                </button>
             );
         }
     }

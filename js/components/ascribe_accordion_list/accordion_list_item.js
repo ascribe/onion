@@ -48,6 +48,10 @@ let AccordionListItem = React.createClass({
         }
     },
 
+    componentWillUnmount() {
+        clearInterval(this.state.pollingIntervalIndex);
+    },
+
     onChange(state) {
         this.setState(state);
     },
@@ -79,11 +83,10 @@ let AccordionListItem = React.createClass({
         });
 
         this.toggleCreateEditionsDialog();
-
-        this.startPolling();
     },
 
     startPolling() {
+        console.log('start polling');
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
             EditionListActions.fetchEditionList(this.props.content.id)
@@ -150,16 +153,12 @@ let AccordionListItem = React.createClass({
                             </Link>
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
-                                <span>{this.props.content.date_created.split('-')[0]}</span>
-                            </div>
-                            <div>
+                                <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
                                 <AccordionListItemEditionWidget
+                                    className="pull-right"
                                     piece={this.props.content}
                                     toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
                                     creatingEditions={this.state.creatingEditions}/>
-                                {/* <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
-                                    {getLangText('%s license', this.props.content.license_type.code)}
-                                </a> */}
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>
