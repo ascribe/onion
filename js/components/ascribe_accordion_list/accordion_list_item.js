@@ -31,15 +31,8 @@ let AccordionListItem = React.createClass({
 
     getInitialState() {
         return {
-            showCreateEditionsDialog: false,
-            creatingEditions: false
+            showCreateEditionsDialog: false
         };
-    },
-
-    componentDidMount() {
-        if(this.props.content.num_editions > 0) {
-            PieceListActions.fetchFirstEditionForPiece(this.props.content.id);
-        }
     },
 
     componentDidUpdate() {
@@ -78,10 +71,6 @@ let AccordionListItem = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
         PieceListActions.updatePropertyForPiece({pieceId: this.props.content.id, key: 'num_editions', value: 0});
 
-        this.setState({
-            creatingEditions: true
-        });
-
         this.toggleCreateEditionsDialog();
     },
 
@@ -92,10 +81,6 @@ let AccordionListItem = React.createClass({
             .then((res) => {
 
                 clearInterval(this.state.pollingIntervalIndex);
-                
-                this.setState({
-                    creatingEditions: false
-                });
 
                 PieceListActions.updatePropertyForPiece({
                     pieceId: this.props.content.id,
@@ -156,8 +141,7 @@ let AccordionListItem = React.createClass({
                                 <AccordionListItemEditionWidget
                                     className="pull-right"
                                     piece={this.props.content}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    creatingEditions={this.state.creatingEditions}/>
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}/>
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>

@@ -12,8 +12,7 @@ let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
-        toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
-        creatingEditions: React.PropTypes.bool.isRequired
+        toggleCreateEditionsDialog: React.PropTypes.func.isRequired
     },
 
     getInitialState() {
