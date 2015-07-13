@@ -10,8 +10,11 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import DetailProperty from './detail_property';
 
 import FurtherDetails from './further_details';
+
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
+
+import PieceActions from '../../actions/piece_actions';
 
 import MediaContainer from './media_container';
 
@@ -61,6 +64,11 @@ let Piece = React.createClass({
         });
     },
 
+    handleEditionCreationSuccess() {
+        PieceActions.updateProperty({key: 'num_editions', value: 0});
+        this.toggleCreateEditionsDialog();
+    },
+
     getCreateEditionsDialog() {
         if(this.props.piece.num_editions < 1 && this.state.showCreateEditionsDialog) {
             return (
@@ -74,6 +82,13 @@ let Piece = React.createClass({
         } else {
             return (<hr/>);
         }
+    },
+
+    handlePollingSuccess(pieceId, numEditions) {
+        PieceActions.updateProperty({
+            key: 'num_editions',
+            value: numEditions
+        });
     },
 
     render() {
@@ -101,8 +116,10 @@ let Piece = React.createClass({
                         editions={this.props.piece}
                         handleSuccess={this.props.handleSuccess}>
                             <CreateEditionsButton
+                                className="btn-sm"
                                 piece={this.props.piece}
-                                toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}/>
+                                toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                onPollingSuccess={this.handlePollingSuccess}/>
                     </AclButtonList>
 
                     {this.getCreateEditionsDialog()}

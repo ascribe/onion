@@ -3,28 +3,41 @@
 import React from 'react';
 
 import EditionListActions from '../../actions/edition_list_actions';
-import PieceListActions from '../../actions/piece_list_actions';
+import EditionListStore from '../../stores/edition_list_store';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
 
+import classNames from 'classnames';
+
 let CreateEditionsButton = React.createClass({
     propTypes: {
+        className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
-        toggleCreateEditionsDialog: React.PropTypes.func.isRequired
+        toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
+        onPollingSuccess: React.PropTypes.func
     },
 
     getInitialState() {
-        return {};
+        return EditionListStore.getState();
+    },
+
+    componentDidMount() {
+        EditionListStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        EditionListStore.unlisten(this.onChange);
+        clearInterval(this.state.pollingIntervalIndex);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     componentDidUpdate() {
         if(this.props.piece.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
             this.startPolling();
         }
-    },
-
-    componentWillUnmount() {
-        clearInterval(this.state.pollingIntervalIndex);
     },
 
     startPolling() {
@@ -35,13 +48,7 @@ let CreateEditionsButton = React.createClass({
 
                 clearInterval(this.state.pollingIntervalIndex);
 
-                PieceListActions.updatePropertyForPiece({
-                    pieceId: this.props.piece.id,
-                    key: 'num_editions',
-                    value: res.editions[0].num_editions
-                });
-
-                EditionListActions.toggleEditionList(this.props.piece.id);
+                this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
 
             })
             .catch(() => {
@@ -58,20 +65,23 @@ let CreateEditionsButton = React.createClass({
         let piece = this.props.piece;
 
         let availableAcls = getAvailableAcls(piece);
+
         if (availableAcls.indexOf('editions') < -1 || piece.num_editions > 0){
             return null;
         }
 
-        if(piece.num_editions === 0) {
+        if(piece.num_editions === 0 && typeof this.state.editionList[piece.id] === 'undefined') {
             return (
-                <button disabled className="btn btn-default btn-sm">
+                <button
+                    disabled
+                    className={classNames('btn', 'btn-default', this.props.className)}>
                     CREATING EDITIONS <span className="glyph-ascribe-spool-chunked spin"/>
                 </button>
             );
         } else {
             return (
-                <button 
-                    className="btn btn-default btn-sm"
+                <button
+                    className={classNames('btn', 'btn-default', this.props.className)}
                     onClick={this.props.toggleCreateEditionsDialog}>
                     CREATE EDITIONS
                 </button>
