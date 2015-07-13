@@ -48,7 +48,9 @@ let PieceContainer = React.createClass({
             );
         } else {
             return (
-                <p>Loading</p>
+                <div className="fullpage-spinner">
+                    <span className="glyph-ascribe-spool-chunked spin"/>
+                </div>
             );
         }
     }

@@ -53,8 +53,7 @@ let EditionContainer = React.createClass({
             );
         } else {
             return (
-                // TODO translate?
-                <p>Loading</p>
+                <span className="glyph-ascribe-spool-chunked spin"/>
             );
         }
     }
