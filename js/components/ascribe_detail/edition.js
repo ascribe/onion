@@ -5,7 +5,6 @@ import Router from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import Button from 'react-bootstrap/lib/Button';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import UserActions from '../../actions/user_actions';
@@ -22,7 +21,6 @@ import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
 import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
-import EditionHeader from './header';
 import EditionFurtherDetails from './further_details';
 
 //import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
@@ -38,7 +36,6 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import apiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
-import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 let Link = Router.Link;
@@ -76,7 +73,12 @@ let Edition = React.createClass({
                         content={this.props.edition}/>
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
-                    <EditionHeader content={this.props.edition}/>
+                    <div className="ascribe-detail-header">
+                        <EditionDetailProperty label="TITLE" value={<div className="ascribe-detail-title">{this.props.edition.title}</div>} />
+                        <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
+                        <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
+                        <hr/>
+                    </div>
                     <EditionSummary
                         currentUser={this.state.currentUser}
                         edition={this.props.edition} />

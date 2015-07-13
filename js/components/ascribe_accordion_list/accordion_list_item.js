@@ -8,7 +8,7 @@ import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
-import AccordionListItemCreateEditions from './accordion_list_item_create_editions';
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 
 import PieceListActions from '../../actions/piece_list_actions';
 import EditionListActions from '../../actions/edition_list_actions';
@@ -101,6 +101,18 @@ let AccordionListItem = React.createClass({
         });
     },
 
+    getCreateEditionsDialog() {
+        if(this.props.content.num_editions < 1 && this.state.showCreateEditionsDialog) {
+            return (
+                <div className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
+                    <CreateEditionsForm
+                        pieceId={this.props.content.id}
+                        handleSuccess={this.handleEditionCreationSuccess} />
+                </div>
+            );
+        }
+    },
+
     render() {
         let linkData;
 
@@ -150,8 +162,9 @@ let AccordionListItem = React.createClass({
                         </div>
                     </div>
                 </div>
-                {this.props.content.num_editions < 1 && this.state.showCreateEditionsDialog ? <AccordionListItemCreateEditions pieceId={this.props.content.id} handleSuccess={this.handleEditionCreationSuccess}/> : null}
                 
+                {this.getCreateEditionsDialog()}
+
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}
             </div>

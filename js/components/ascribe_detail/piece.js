@@ -15,21 +15,14 @@ import UserStore from '../../stores/user_store';
 
 import MediaContainer from './media_container';
 
-import Header from './header';
+import EditionDetailProperty from './detail_property';
 
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
-
-import RequestActionForm from './../ascribe_forms/form_request_action';
-import EditionActions from '../../actions/edition_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
+import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 
-
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
-
-import apiUrls from '../../constants/api_urls';
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 /**
  * This is the component that implements display-specific functionality
@@ -41,7 +34,12 @@ let Piece = React.createClass({
     },
 
     getInitialState() {
-        return UserStore.getState();
+        return mergeOptions(
+            UserStore.getState(),
+            {
+                showCreateEditionsDialog: false
+            }
+        );
     },
 
     componentDidMount() {
@@ -57,8 +55,28 @@ let Piece = React.createClass({
         this.setState(state);
     },
 
-    render() {
+    toggleCreateEditionsDialog() {
+        this.setState({
+            showCreateEditionsDialog: !this.state.showCreateEditionsDialog
+        });
+    },
 
+    getCreateEditionsDialog() {
+        if(this.props.piece.num_editions < 1 && this.state.showCreateEditionsDialog) {
+            return (
+                <div style={{marginTop: '1em'}}>
+                    <CreateEditionsForm
+                        pieceId={this.props.piece.id}
+                        handleSuccess={this.handleEditionCreationSuccess} />
+                    <hr/>
+                </div>
+            );
+        } else {
+            return (<hr/>);
+        }
+    },
+
+    render() {
         return (
             <Row>
                 <Col md={6}>
@@ -66,12 +84,29 @@ let Piece = React.createClass({
                         content={this.props.piece}/>
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
-                    <Header
-                        content={this.props.piece}/>
-                    <PieceSummary
-                        currentUser={this.state.currentUser}
-                        piece={this.props.piece}
-                        handleSuccess={this.props.loadPiece}/>
+                    <div className="ascribe-detail-header">
+                        <EditionDetailProperty label="TITLE" value={<div className="ascribe-detail-title">{this.props.piece.title}</div>} />
+                        <EditionDetailProperty label="BY" value={this.props.piece.artist_name} />
+                        <EditionDetailProperty label="DATE" value={ this.props.piece.date_created.slice(0, 4) } />
+                        {this.props.piece.num_editions > 0 ? <EditionDetailProperty label="NUMBER OF EDITIONS" value={ this.props.piece.num_editions } /> : null}
+                        <hr/>
+                    </div>
+                    <div className="ascribe-detail-header">
+                        <DetailProperty label={getLangText('REGISTREE')} value={ this.props.piece.user_registered } />
+                    </div>
+
+                    <AclButtonList
+                        className="text-center ascribe-button-list"
+                        availableAcls={this.props.piece.acl}
+                        editions={this.props.piece}
+                        handleSuccess={this.props.handleSuccess}>
+                            <CreateEditionsButton
+                                piece={this.props.piece}
+                                toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}/>
+                    </AclButtonList>
+
+                    {this.getCreateEditionsDialog()}
+
                     <CollapsibleParagraph
                         title="Further Details"
                         show={this.props.piece.acl.indexOf('edit') > -1
@@ -85,42 +120,10 @@ let Piece = React.createClass({
                             otherData={this.props.piece.other_data}
                             handleSuccess={this.props.loadPiece}/>
                     </CollapsibleParagraph>
-
                 </Col>
             </Row>
         );
     }
 });
-
-let PieceSummary = React.createClass({
-    propTypes: {
-        piece: React.PropTypes.object
-    },
-    getActions(){
-        let actions = (
-            <Row>
-                <Col md={12}>
-                    <AclButtonList
-                        className="text-center ascribe-button-list"
-                        availableAcls={this.props.piece.acl}
-                        editions={this.props.piece}
-                        handleSuccess={this.props.handleSuccess} />
-                </Col>
-            </Row>);
-        return actions;
-        //return null;
-    },
-    render() {
-        return (
-            <div className="ascribe-detail-header">
-                <DetailProperty label={getLangText('REGISTREE')} value={ this.props.piece.user_registered } />
-                {this.getActions()}
-                <hr/>
-            </div>
-        );
-
-    }
-});
-
 
 export default Piece;
