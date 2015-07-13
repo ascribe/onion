@@ -68,6 +68,11 @@ hr {
     font-size: 0.8em;
 }
 
+.img-brand {
+    padding: 0;
+    height: 45px;
+    margin: 5px 0 5px 0;
+}
 .truncate {
     white-space: nowrap;
     width: 4em;
@@ -98,12 +103,13 @@ hr {
     padding-right:0;
 }
 
-.ascribe-color {
-    color: $ascribe-color;
+.clear-margins {
+    margin-top:0;
+    margin-bottom:0;
 }
 
-.img-brand{
-    height: 25px;
+.ascribe-color {
+    color: $ascribe-color;
 }
 
 .ascribe-subheader{

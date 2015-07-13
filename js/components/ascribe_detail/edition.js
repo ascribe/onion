@@ -84,7 +84,8 @@ let Edition = React.createClass({
                     <CollapsibleParagraph
                         title="Notes"
                         show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
+                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}
+                        defaultExpanded={true}>
                         <EditionPersonalNote
                             currentUser={this.state.currentUser}
                             handleSuccess={this.props.loadEdition}
@@ -217,7 +218,6 @@ let EditionSummary = React.createClass({
                 <EditionDetailProperty label={getLangText('ID')} value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label={getLangText('OWNER')} value={ this.props.edition.owner } />
                 {this.getStatus()}
-                <br/>
                 {this.getActions()}
                 <hr/>
             </div>
@@ -275,11 +275,11 @@ let EditionPersonalNote = React.createClass({
                         label={getLangText('Personal note (private)')}
                         editable={true}>
                         <InputTextAreaToggable
-                            rows={3}
+                            rows={1}
                             editable={true}
                             defaultValue={this.props.edition.note_from_user}
                             placeholder={getLangText('Enter a personal note%s', '...')}
-                            required/>
+                            required="required"/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
                         <input defaultValue={this.props.edition.bitcoin_id}/>
@@ -314,11 +314,11 @@ let EditionPublicEditionNote = React.createClass({
                         label={getLangText('Edition note (public)')}
                         editable={isEditable}>
                         <InputTextAreaToggable
-                            rows={3}
+                            rows={1}
                             editable={isEditable}
                             defaultValue={this.props.edition.public_note}
-                            placeholder={getLangText('Enter a public note for this edition%', '...')}
-                            required/>
+                            placeholder={getLangText('Enter a public note for this edition%s', '...')}
+                            required="required"/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
                         <input defaultValue={this.props.edition.bitcoin_id}/>
@@ -345,8 +345,7 @@ let CoaDetails = React.createClass({
         if (this.props.edition.coa) {
             CoaActions.fetchOne(this.props.edition.coa);
         }
-        else{
-            console.log('create coa');
+        else {
             CoaActions.create(this.props.edition);
         }
     },

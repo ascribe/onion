@@ -8,7 +8,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
 
     padding-left:0;
     padding-right:0;
-    margin-top: 3em;
+    margin-top: 1.5em;
     &::first-child {
         margin-top:0;
     }
@@ -44,13 +44,14 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
                 }
         }
         h1 {
-            margin-top: .3em;
-            font-size: 2.25em;
+            margin: .1em 0 .1em 0;
+            font-size: 2.2em;
             cursor: pointer;
         }
         h3 {
-            font-size: 1.1em;
-            margin: .2em 0 0 0;
+            font-size: 1.3em;
+            margin: .2em 0 .3em 0;
+            cursor: pointer;
         }
         a {
             color: #666;
@@ -92,6 +93,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
             }
         }
         border-left: 3px solid rgba(0,0,0,0);
+        //border-top: 1px solid rgba(0,0,0,.1);
         border-bottom: 1px solid rgba(0,0,0,.05);
     }
     tbody {
@@ -120,8 +122,11 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
 }
 
 span.ascribe-accordion-list-table-toggle {
-    ::selection { background: transparent; }
-    ::-moz-selection { background: transparent; }
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+    
     &:hover {
         color: $ascribe-color-dark;
         cursor:pointer;
@@ -147,9 +152,17 @@ span.ascribe-accordion-list-table-toggle {
 
 .ascribe-accordion-list-item-edition-widget {
     cursor: pointer;
-    //margin-left: 0.3em;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
 
     &:hover {
-        color: $ascribe-color-full;
+        color: $ascribe-color-dark;
+    }
+    .glyphicon {
+        top: 1px !important;
+        font-size: 0.8em;
     }
 }

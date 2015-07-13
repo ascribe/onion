@@ -94,16 +94,13 @@ let RegisterPiece = React.createClass( {
             this.state.orderBy,
             this.state.orderAsc);
 
-        this.transitionTo('piece', {editionId: response.piece.id});
+        this.transitionTo('piece', {pieceId: response.piece.id});
     },
 
     getFormData(){
-        let data = {};
-        for (let ref in this.refs.form.refs){
-            data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
-        }
-        data.digital_work_key = this.state.digitalWorkKey;
-        return data;
+        return {
+            digital_work_key: this.state.digitalWorkKey
+        };
     },
 
     submitKey(key){
@@ -138,8 +135,7 @@ let RegisterPiece = React.createClass( {
                     label={getLangText('Copyright license%s', '...')}
                     onChange={this.onLicenseChange}
                     footer={
-                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">
-			{getLangText('Learn more')}
+                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">{getLangText('Learn more')}
                         </a>}>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {

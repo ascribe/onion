@@ -105,13 +105,10 @@ let PasswordResetForm = React.createClass({
     mixins: [Router.Navigation],
 
     getFormData(){
-        let data = {};
-        for (let ref in this.refs.form.refs){
-            data[this.refs.form.refs[ref].props.name] = this.refs.form.refs[ref].state.value;
-        }
-        data.email = this.props.email;
-        data.token = this.props.token;
-        return data;
+        return {
+            email: this.props.email,
+            token: this.props.token
+        };
     },
     handleSuccess() {
         this.transitionTo('pieces');

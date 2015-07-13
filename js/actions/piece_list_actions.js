@@ -9,7 +9,8 @@ class PieceListActions {
         this.generateActions(
             'updatePieceList',
             'updatePieceListRequestActions',
-            'addFirstEditionToPiece'
+            'addFirstEditionToPiece',
+            'updatePropertyForPiece'
         );
     }
 

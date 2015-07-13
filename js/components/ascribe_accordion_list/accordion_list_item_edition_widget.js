@@ -9,7 +9,9 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object.isRequired
+        piece: React.PropTypes.object.isRequired,
+        toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
+        creatingEditions: React.PropTypes.bool.isRequired
     },
 
     getInitialState() {
@@ -73,15 +75,23 @@ let AccordionListItemEditionWidget = React.createClass({
         let piece = this.props.piece;
         let numEditions = piece.num_editions;
 
-        if(numEditions === 0) {
+        if(numEditions === -1) {
             return (
                 <span
-                    onClick={this.toggleTable}
+                    onClick={this.props.toggleCreateEditionsDialog}
                     className="ascribe-accordion-list-item-edition-widget">
-                    Create editions
+                    + Editions
                 </span>
             );
-        } else if(numEditions === 1) {
+        }
+        else if(numEditions === 0) {
+            return (
+                    <span>
+                        Creating Editions <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                    </span>
+                );
+        }
+        else if(numEditions === 1) {
             let editionMapping = piece && piece.firstEdition ? piece.firstEdition.edition_number + '/' + piece.num_editions : '';
 
             return (
@@ -91,7 +101,8 @@ let AccordionListItemEditionWidget = React.createClass({
                     {editionMapping + ' ' + getLangText('Edition')} {this.getGlyphicon()}
                 </span>
             );
-        } else {
+        }
+        else {
             return (
                 <span
                     onClick={this.toggleTable}

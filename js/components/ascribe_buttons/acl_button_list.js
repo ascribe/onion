@@ -7,11 +7,12 @@ import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
+import CreateEditionButton from '../ascribe_buttons/create_editions_button';
 
 let AclButtonList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        editions: React.PropTypes.array,
+        editions: React.PropTypes.object,
         availableAcls: React.PropTypes.array,
         handleSuccess: React.PropTypes.func
     },
@@ -39,34 +40,37 @@ let AclButtonList = React.createClass({
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="transfer"
-                    editions={this.props.editions}
+                    pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess}/>
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="consign"
-                    editions={this.props.editions}
+                    pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="unconsign"
-                    editions={this.props.editions}
+                    pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="loan"
-                    editions={this.props.editions}
+                    pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
                     action="share"
-                    editions={this.props.editions}
+                    pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
-                <DeleteButton editions={this.props.editions}/>
+                <DeleteButton
+                    editions={this.props.editions}/>
+                <CreateEditionButton
+                    piece={this.props.editions}/>
             </div>
         );
     }

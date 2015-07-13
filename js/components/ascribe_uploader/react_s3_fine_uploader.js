@@ -24,11 +24,17 @@ var ReactS3FineUploader = React.createClass({
         keyRoutine: React.PropTypes.shape({
             url: React.PropTypes.string,
             fileClass: React.PropTypes.string,
-            pieceId: React.PropTypes.string
+            pieceId: React.PropTypes.oneOfType([
+                React.PropTypes.string,
+                React.PropTypes.number
+            ])
         }),
         createBlobRoutine: React.PropTypes.shape({
             url: React.PropTypes.string,
-            pieceId: React.PropTypes.string
+            pieceId: React.PropTypes.oneOfType([
+                React.PropTypes.string,
+                React.PropTypes.number
+            ])
         }),
         submitKey: React.PropTypes.func,
         autoUpload: React.PropTypes.bool,
@@ -70,7 +76,10 @@ var ReactS3FineUploader = React.createClass({
             customHeaders: React.PropTypes.object
         }).isRequired,
         session: React.PropTypes.shape({
-            endpoint: React.PropTypes.bool
+            customHeaders: React.PropTypes.object,
+            endpoint: React.PropTypes.string,
+            params: React.PropTypes.object,
+            refreshOnRequests: React.PropTypes.bool
         }),
         validation: React.PropTypes.shape({
             itemLimit: React.PropTypes.number,
@@ -276,7 +285,7 @@ var ReactS3FineUploader = React.createClass({
             body: JSON.stringify({
                 'filename': file.name,
                 'key': file.key,
-                'bitcoin_id': this.props.createBlobRoutine.pieceId
+                'piece_id': this.props.createBlobRoutine.pieceId
             })
         })
         .then((res) => {
