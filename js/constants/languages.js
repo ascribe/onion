@@ -210,6 +210,7 @@ const languages = {
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
         'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'If your email address exists in our database, you will receive a password recovery link in a few minutes.',
+        'REGISTREE': 'REGISTREE',
     },
     'de': {
         'ID': 'ID',
@@ -420,6 +421,7 @@ const languages = {
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
         'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'If your email address exists in our database, you will receive a password recovery link in a few minutes.',
+        'REGISTREE': 'REGISTREE',
     },
     'fr': {
         'ID': 'ID',
@@ -630,6 +632,7 @@ const languages = {
         'I agree to the Terms of Service': 'I agree to the Terms of Service',
         'read': 'read',
         'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'Si votre adresse électronique existe dans notre base de données, vous recevrez un lien de récupération de mot de passe dans quelques minutes.',
+        'REGISTREE': 'REGISTREE',
     }
 };
 

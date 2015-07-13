@@ -97,9 +97,9 @@ let LoginForm = React.createClass({
                         {getLangText(this.props.submitMessage)}
                     </button>}
                 spinner={
-                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </button>
+                    </span>
                     }>
                 <FormPropertyHeader>
                     <h3>{getLangText(this.props.headerMessage)}</h3>

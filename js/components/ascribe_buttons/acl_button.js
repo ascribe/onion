@@ -105,6 +105,20 @@ let AclButton = React.createClass({
         }
     },
 
+    getShareMessage(){
+        return (
+            `
+${getLangText('Hi')},
+
+${getLangText('I am sharing')}:
+${this.getTitlesString()} ${getLangText('with you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
     render() {
         let shouldDisplay = this.props.availableAcls.indexOf(this.props.action) > -1;
         let aclProps = this.actionProperties();
@@ -120,18 +134,6 @@ let AclButton = React.createClass({
                 tooltip={ aclProps.tooltip }>
                 { aclProps.form }
             </ModalWrapper>
-        );
-    },
-
-    getShareMessage(){
-        return (
-`${getLangText('Hi')},
-
-${getLangText('I am sharing')} :
-${this.getTitlesString()}${getLangText('with you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}`
         );
     }
 });

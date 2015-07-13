@@ -6,13 +6,16 @@ import classNames from 'classnames';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
+import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
+
 import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
-        toggleCreateEditionsDialog: React.PropTypes.func.isRequired
+        toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
+        onPollingSuccess: React.PropTypes.func
     },
 
     getInitialState() {
@@ -55,16 +58,9 @@ let AccordionListItemEditionWidget = React.createClass({
         let isEditionListOpen = this.state.isEditionListOpenForPieceId[pieceId] ? this.state.isEditionListOpenForPieceId[pieceId].show : false;
         
         if(isEditionListOpen) {
-            if(typeof this.state.editionList[pieceId] === 'undefined') {
-                return (
-                    <span className="glyph-ascribe-spool-chunked spin"/>
-                );
-            } else {
-                return (
-                    <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
-                );
-            }
-            
+            return (
+                <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
+            );
         } else {
             return (
                 <span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span>
@@ -76,23 +72,16 @@ let AccordionListItemEditionWidget = React.createClass({
         let piece = this.props.piece;
         let numEditions = piece.num_editions;
 
-        if(numEditions === -1) {
+        if(numEditions <= 0) {
             return (
-                <button
-                    onClick={this.props.toggleCreateEditionsDialog}
-                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
-                    + Editions
-                </button>
+                <CreateEditionsButton
+                    label={getLangText('Create editions')}
+                    className="btn-xs pull-right"
+                    piece={piece}
+                    toggleCreateEditionsDialog={this.props.toggleCreateEditionsDialog}
+                    onPollingSuccess={this.props.onPollingSuccess}/>
             );
-        }
-        else if(numEditions === 0) {
-            return (
-                    <button disabled className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
-                        Creating Editions <span className="glyph-ascribe-spool-chunked spin"/>
-                    </button>
-                );
-        }
-        else if(numEditions === 1) {
+        } else if(numEditions === 1) {
             let editionMapping = piece && piece.first_edition ? piece.first_edition.edition_number + '/' + piece.num_editions : '';
 
             return (
