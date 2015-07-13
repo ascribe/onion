@@ -13,7 +13,7 @@ let RouteHandler = Router.RouteHandler;
 let AscribeApp = React.createClass({
     render() {
         return (
-            <div>
+            <div className="container ascribe-default-app">
                 <Header />
                 <RouteHandler />
                 <Footer />

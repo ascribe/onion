@@ -8,6 +8,7 @@ import Router from 'react-router';
 import fetch from 'isomorphic-fetch';
 
 import ApiUrls from './constants/api_urls';
+import constants from './constants/application_constants';
 import getRoutes from './routes';
 import requests from './utils/requests';
 
@@ -40,7 +41,7 @@ class AppGateway {
 
     loadSubdomain(data) {
         let settings = data.whitelabel;
-
+        constants.whitelabel = settings;
         this.load('prize');
     }
 

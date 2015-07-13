@@ -10,7 +10,10 @@ let constants = {
     'serverUrl': window.SERVER_URL,
     'baseUrl': window.BASE_URL,
     'aclList': ['edit', 'consign', 'consign_request', 'unconsign', 'unconsign_request', 'transfer',
-                'loan', 'loan_request', 'share', 'download', 'view', 'delete', 'del_from_collection', 'add_to_collection']
+                'loan', 'loan_request', 'share', 'download', 'view', 'delete', 'del_from_collection', 'add_to_collection'],
+
+    // in case of whitelabel cusomization, we store stuff here
+    'whitelabel': {}
 };
 
 export default constants;

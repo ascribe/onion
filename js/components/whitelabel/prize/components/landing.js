@@ -2,21 +2,31 @@
 
 import React from 'react';
 import Router from 'react-router';
+import constants from '../../../../constants/application_constants';
 
-let Link = Router.Link;
+import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 
 let Landing = React.createClass({
     render() {
         return (
             <div>
-                <div class="hero">
-                    Yay art prize!
+                <div className="hero">
+                    <img className="logo" src={constants.whitelabel.logo} alt="Sluice Art Prize" />
+                    <h1>Sluice Art Prize 2015</h1>
                 </div>
 
-                <div class="buttons">
-                    <Link to="login">Login</Link>
-                    <Link to="signup">Signup</Link>
+                <div className="container">
+                    <ButtonGroup className="enter" bsSize="large" vertical block>
+                        <ButtonLink to="signup">
+                            Signup
+                        </ButtonLink>
+
+                        <ButtonLink to="login">
+                            Login
+                        </ButtonLink>
+                    </ButtonGroup>
                 </div>
             </div>
         );
