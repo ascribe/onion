@@ -9,8 +9,7 @@ let constants = {
     'apiEndpoint': window.API_ENDPOINT,
     'serverUrl': window.SERVER_URL,
     'baseUrl': window.BASE_URL,
-    'aclList': ['edit', 'consign', 'consign_request', 'unconsign', 'unconsign_request', 'transfer',
-                'loan', 'loan_request', 'share', 'download', 'view', 'delete', 'del_from_collection', 'add_to_collection'],
+    'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_editions', 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view', 'acl_withdraw_transfer'],
 
     // in case of whitelabel cusomization, we store stuff here
     'whitelabel': {}

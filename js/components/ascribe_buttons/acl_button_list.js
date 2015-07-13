@@ -15,7 +15,7 @@ let AclButtonList = React.createClass({
             React.PropTypes.object,
             React.PropTypes.array
         ]),
-        availableAcls: React.PropTypes.array,
+        availableAcls: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -45,31 +45,31 @@ let AclButtonList = React.createClass({
             <div className={this.props.className}>
                 <AclButton
                     availableAcls={this.props.availableAcls}
-                    action="transfer"
+                    action="acl_transfer"
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess}/>
                 <AclButton
                     availableAcls={this.props.availableAcls}
-                    action="consign"
+                    action="acl_consign"
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
-                    action="unconsign"
+                    action="acl_unconsign"
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
-                    action="loan"
+                    action="acl_loan"
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <AclButton
                     availableAcls={this.props.availableAcls}
-                    action="share"
+                    action="acl_share"
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />

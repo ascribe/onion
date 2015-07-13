@@ -16,7 +16,7 @@ import { getLangText } from '../../utils/lang_utils.js';
 let ShareForm = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
-        id: React.PropTypes.string,
+        id: React.PropTypes.object,
         message: React.PropTypes.string,
         editions: React.PropTypes.array,
         currentUser: React.PropTypes.object,
