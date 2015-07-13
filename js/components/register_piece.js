@@ -139,6 +139,7 @@ let RegisterPiece = React.createClass( {
         if (this.props.canSpecifyEditions) {
             return (
                 <PropertyCollapsible
+                    name="num_editions"
                     checkboxLabel={getLangText('Specify editions')}>
                     <span>{getLangText('Editions')}</span>
                     <input
