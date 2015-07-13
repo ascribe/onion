@@ -82,33 +82,6 @@ let Edition = React.createClass({
                         edition={this.props.edition} />
 
                     <CollapsibleParagraph
-                        title="Notes"
-                        show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}
-                        defaultExpanded={true}>
-                        <EditionPersonalNote
-                            currentUser={this.state.currentUser}
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                        <EditionPublicEditionNote
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                    </CollapsibleParagraph>
-
-                    <CollapsibleParagraph
-                        title={getLangText('Further Details')}
-                        show={this.props.edition.acl.indexOf('edit') > -1
-                            || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data !== null}>
-                        <EditionFurtherDetails
-                            editable={this.props.edition.acl.indexOf('edit') > -1}
-                            pieceId={this.props.edition.parent}
-                            extraData={this.props.edition.extra_data}
-                            otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}/>
-                    </CollapsibleParagraph>
-
-                    <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.indexOf('coa') > -1}>
                         <CoaDetails
@@ -134,6 +107,32 @@ let Edition = React.createClass({
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
                         <EditionDetailHistoryIterator
                             history={this.props.edition.loan_history} />
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title="Notes"
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.props.edition.acl.indexOf('edit') > -1 || this.props.edition.public_note)}>
+                        <EditionPersonalNote
+                            currentUser={this.state.currentUser}
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                        <EditionPublicEditionNote
+                            handleSuccess={this.props.loadEdition}
+                            edition={this.props.edition}/>
+                    </CollapsibleParagraph>
+
+                    <CollapsibleParagraph
+                        title={getLangText('Further Details')}
+                        show={this.props.edition.acl.indexOf('edit') > -1
+                            || Object.keys(this.props.edition.extra_data).length > 0
+                            || this.props.edition.other_data !== null}>
+                        <EditionFurtherDetails
+                            editable={this.props.edition.acl.indexOf('edit') > -1}
+                            pieceId={this.props.edition.parent}
+                            extraData={this.props.edition.extra_data}
+                            otherData={this.props.edition.other_data}
+                            handleSuccess={this.props.loadEdition}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
