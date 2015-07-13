@@ -7,6 +7,8 @@ import PieceStore from '../../stores/piece_store';
 
 import Piece from './piece';
 
+import AppConstants from '../../constants/application_constants';
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -49,7 +51,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <span className="glyph-ascribe-spool-chunked spin"/>
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
                 </div>
             );
         }

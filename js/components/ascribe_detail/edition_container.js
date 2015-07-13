@@ -7,6 +7,8 @@ import EditionStore from '../../stores/edition_store';
 
 import Edition from './edition';
 
+import AppConstants from '../../constants/application_constants';
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -53,7 +55,9 @@ let EditionContainer = React.createClass({
             );
         } else {
             return (
-                <span className="glyph-ascribe-spool-chunked spin"/>
+                <div className="fullpage-spinner">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                </div>
             );
         }
     }
