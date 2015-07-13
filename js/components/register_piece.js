@@ -29,8 +29,25 @@ import SlidesContainer from './ascribe_slides_container/slides_container';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
+
 let RegisterPiece = React.createClass( {
+
+    propTypes: {
+        headerMessage: React.PropTypes.string,
+        submitMessage: React.PropTypes.string,
+        canSpecifyEditions: React.PropTypes.bool,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element])
+    },
+
     mixins: [Router.Navigation],
+
+    getDefaultProps() {
+        return {
+            canSpecifyEditions: true
+        };
+    },
 
     getInitialState(){
         return mergeOptions(
@@ -118,6 +135,21 @@ let RegisterPiece = React.createClass( {
         return null;
     },
 
+    getSpecifyEditions() {
+        if (this.props.canSpecifyEditions) {
+            return (
+                <PropertyCollapsible
+                    checkboxLabel={getLangText('Specify editions')}>
+                    <span>{getLangText('Editions')}</span>
+                    <input
+                        type="number"
+                        placeholder="(e.g. 32)"
+                        min={0}/>
+                </PropertyCollapsible>
+            );
+        }
+    },
+
     changeSlide() {
         // only transition to the login store, if user is not logged in
         // ergo the currentUser object is not properly defined
@@ -135,16 +167,11 @@ let RegisterPiece = React.createClass( {
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                {...this.props}
                                 isFineUploaderEditable={this.state.isFineUploaderEditable}
                                 handleSuccess={this.handleSuccess}>
-                                <PropertyCollapsible
-                                    checkboxLabel={getLangText('Specify editions')}>
-                                    <span>{getLangText('Editions')}</span>
-                                    <input
-                                        type="number"
-                                        placeholder="(e.g. 32)"
-                                        min={0}/>
-                                </PropertyCollapsible>
+                                {this.getSpecifyEditions()}
+                                {this.props.children}
                                 {this.getLicenses()}
                             </RegisterPieceForm>
                         </Col>

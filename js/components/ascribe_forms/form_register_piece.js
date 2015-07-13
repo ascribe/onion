@@ -18,9 +18,18 @@ import { getLangText } from '../../utils/lang_utils';
 
 let RegisterPieceForm = React.createClass({
     propTypes: {
+        headerMessage: React.PropTypes.string,
+        submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
         isFineUploaderEditable: React.PropTypes.bool,
         children: React.PropTypes.element
+    },
+
+    getDefaultProps() {
+        return {
+            headerMessage: getLangText('Register your work'),
+            submitMessage: getLangText('Register work')
+        };
     },
 
     getInitialState(){
@@ -69,7 +78,7 @@ let RegisterPieceForm = React.createClass({
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
                             disabled={!this.state.isUploadReady}>
-                            {getLangText('Register work')}
+                            {this.props.submitMessage}
                         </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -77,7 +86,7 @@ let RegisterPieceForm = React.createClass({
                     </span>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText('Register your work')}</h3>
+                    <h3>{this.props.headerMessage}</h3>
                 </FormPropertyHeader>
                 <Property
                     ignoreFocus={true}>

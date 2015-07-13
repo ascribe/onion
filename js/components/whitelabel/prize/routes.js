@@ -7,7 +7,7 @@ import Landing from './components/landing';
 import LoginContainer from './components/login_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
-import RegisterPiece from '../../../components/register_piece';
+import PrizeRegisterPiece from './components/register_piece';
 import PrizePieceList from './components/piece_list';
 
 import App from './app';
@@ -24,7 +24,7 @@ function getRoutes(commonRoutes) {
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
+            <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} />
             <Route name="pieces" path="collection" handler={PrizePieceList} />
         </Route>
     );
