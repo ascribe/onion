@@ -28,14 +28,14 @@ let SignupContainer = React.createClass({
                 <div className="ascribe-login-wrapper">
                     <br/>
                     <div className="ascribe-login-text ascribe-login-header">
-                    {this.state.message}
+                        {this.state.message}
                     </div>
                 </div>
             );
         }
         return (
             <div className="ascribe-login-wrapper">
-                <SignupForm>
+                <SignupForm handleSuccess={this.handleSuccess}>
                     <Property
                         name='promo_code'
                         label={getLangText('Promocode')}>

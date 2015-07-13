@@ -35,7 +35,7 @@ let SignupContainer = React.createClass({
                 <SignupForm
                     headerMessage="Sign up to the prize"
                     submitMessage="Sign up"
-                    handleSuccess={this.handleSuccess}/>
+                    handleSuccess={this.handleSuccess} />
             </div>
         );
     }
