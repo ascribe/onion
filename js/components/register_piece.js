@@ -298,42 +298,4 @@ let FileUploader = React.createClass({
     }
 });
 
-
-let InputDate = React.createClass({
-    propTypes: {
-        placeholderText: React.PropTypes.string,
-        onChange: React.PropTypes.func
-    },
-
-    getInitialState() {
-        return {
-            value: null,
-            value_formatted: null
-        };
-    },
-
-    handleChange(date) {
-        this.setState({
-            value: date,
-            value_formatted: date.format('YYYY')});
-        let event = document.createEvent('HTMLEvents');
-        event.initEvent('click', false, true);
-        document.dispatchEvent(event);
-        event.target.value = date;
-        this.props.onChange(event);
-    },
-
-    render: function () {
-        return (
-            <DatePicker
-                key="example2"
-                dateFormat="YYYY"
-                selected={this.state.value}
-                onChange={this.handleChange}
-                onBlur={this.props.onBlur}
-                placeholderText={this.props.placeholderText}/>
-        );
-    }
-});
-
 export default RegisterPiece;

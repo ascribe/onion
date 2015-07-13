@@ -9,7 +9,6 @@ class PieceListActions {
         this.generateActions(
             'updatePieceList',
             'updatePieceListRequestActions',
-            'addFirstEditionToPiece',
             'updatePropertyForPiece'
         );
     }
@@ -40,17 +39,6 @@ class PieceListActions {
             .then((res) => {
                 this.actions.updatePieceListRequestActions(res.piece_ids);
             });
-    }
-
-    fetchFirstEditionForPiece(pieceId) {
-        return new Promise((resolve, reject) => {
-            PieceListFetcher.fetchFirstEditionForPiece(pieceId)
-                .then((firstEdition) => {
-                    this.actions.addFirstEditionToPiece({pieceId, firstEdition});
-                    resolve();
-                })
-                .catch((err) => reject(err));
-        });
     }
 }
 
