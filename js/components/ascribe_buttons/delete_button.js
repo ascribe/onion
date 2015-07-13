@@ -13,7 +13,7 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 import EditionListActions from '../../actions/edition_list_actions';
 
@@ -41,11 +41,11 @@ let DeleteButton = React.createClass({
         let btnDelete = null;
         let content = null;
 
-        if (availableAcls.delete) {
+        if (availableAcls.acl_delete) {
             content = <EditionDeleteForm editions={ this.props.editions }/>;
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
         }
-        else if (availableAcls.unshare){
+        else if (availableAcls.acl_unshare || (this.props.editions.constructor !== Array && this.props.editions.acl.acl_unshare)){
             content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
         }

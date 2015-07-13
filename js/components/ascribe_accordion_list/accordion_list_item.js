@@ -80,7 +80,7 @@ let AccordionListItem = React.createClass({
     render() {
         let linkData;
 
-        if(this.props.content.num_editions < 1) {
+        if(this.props.content.num_editions < 1 || !this.props.content.first_edition) {
             linkData = {
                 to: 'piece',
                 params: {
@@ -91,7 +91,7 @@ let AccordionListItem = React.createClass({
             linkData = {
                 to: 'edition',
                 params: {
-                    editionId: this.props.content.first_edition ? this.props.content.first_edition.bitcoin_id : 0
+                    editionId: this.props.content.first_edition.bitcoin_id
                 }
             };
         }

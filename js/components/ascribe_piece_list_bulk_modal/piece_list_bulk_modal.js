@@ -15,7 +15,7 @@ import AclButtonList from '../ascribe_buttons/acl_button_list';
 
 
 import { getAvailableAcls } from '../../utils/acl_utils';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let PieceListBulkModal = React.createClass({
     propTypes: {
@@ -84,7 +84,7 @@ let PieceListBulkModal = React.createClass({
         let selectedEditions = this.fetchSelectedEditionList();
         let availableAcls = getAvailableAcls(selectedEditions);
 
-        if(availableAcls.length > 0) {
+        if(Object.keys(availableAcls).length > 0) {
             return (
                 <div className={this.props.className}>
                     <div className="row no-margin">
