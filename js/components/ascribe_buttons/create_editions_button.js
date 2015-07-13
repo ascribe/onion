@@ -6,11 +6,13 @@ import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 import classNames from 'classnames';
 
 let CreateEditionsButton = React.createClass({
     propTypes: {
+        label: React.PropTypes.string,
         className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
         toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
@@ -47,7 +49,6 @@ let CreateEditionsButton = React.createClass({
             .then((res) => {
 
                 clearInterval(this.state.pollingIntervalIndex);
-
                 this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
 
             })
@@ -75,7 +76,7 @@ let CreateEditionsButton = React.createClass({
                 <button
                     disabled
                     className={classNames('btn', 'btn-default', this.props.className)}>
-                    CREATING EDITIONS <span className="glyph-ascribe-spool-chunked spin"/>
+                    {getLangText('Creating editions')} <span className="glyph-ascribe-spool-chunked spin"/>
                 </button>
             );
         } else {
@@ -83,7 +84,7 @@ let CreateEditionsButton = React.createClass({
                 <button
                     className={classNames('btn', 'btn-default', this.props.className)}
                     onClick={this.props.toggleCreateEditionsDialog}>
-                    CREATE EDITIONS
+                    {this.props.label}
                 </button>
             );
         }

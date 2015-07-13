@@ -30,7 +30,7 @@ let CreateEditionsForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         if(this.props.handleSuccess) {
-            this.props.handleSuccess();
+            this.props.handleSuccess(response);
         }
     },
 

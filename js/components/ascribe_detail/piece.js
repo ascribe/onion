@@ -113,9 +113,9 @@ let Piece = React.createClass({
                     <AclButtonList
                         className="text-center ascribe-button-list"
                         availableAcls={this.props.piece.acl}
-                        editions={this.props.piece}
-                        handleSuccess={this.props.handleSuccess}>
+                        editions={this.props.piece}>
                             <CreateEditionsButton
+                                label={getLangText('CREATE EDITIONS')}
                                 className="btn-sm"
                                 piece={this.props.piece}
                                 toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
