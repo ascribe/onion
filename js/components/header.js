@@ -27,7 +27,7 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let Header = React.createClass({
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getInitialState() {
         return mergeOptions(WhitelabelStore.getState(), UserStore.getState());
@@ -97,7 +97,8 @@ let Header = React.createClass({
                     <MenuItem eventKey="3" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
                   </DropdownButton>
             );
-            collection = <NavItemLink to="pieces">{getLangText('COLLECTION')}</NavItemLink>;
+
+            collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
             addNewWork = <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink>;
         }
         else {
