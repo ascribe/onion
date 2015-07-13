@@ -50,7 +50,7 @@ let PasswordResetContainer = React.createClass({
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
-                            {getLangText('An email has been sent to')} "{this.state.isRequested}"
+                            {getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.')}
                         </div>
                     </div>
                 );
@@ -64,7 +64,7 @@ let PasswordResetContainer = React.createClass({
 
 let PasswordRequestResetForm = React.createClass({
     handleSuccess() {
-        let notificationText = getLangText('Request successfully sent, check your email');
+        let notificationText = getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.');
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.props.handleRequestSuccess(this.refs.form.refs.email.state.value);
