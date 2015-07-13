@@ -19,6 +19,7 @@ class PieceListStore {
          * the number of items the resource actually - without pagination - provides.
          */
         this.pieceList = [];
+        // -1 specifies that the store is currently loading
         this.pieceListCount = -1;
         this.page = 1;
         this.pageSize = 10;

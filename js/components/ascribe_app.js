@@ -6,14 +6,14 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import GlobalNotification from './global_notification';
 
-let Link = Router.Link;
+// let Link = Router.Link;
 let RouteHandler = Router.RouteHandler;
 
 
 let AscribeApp = React.createClass({
     render() {
         return (
-            <div>
+            <div className="container ascribe-default-app">
                 <Header />
                 <RouteHandler />
                 <Footer />

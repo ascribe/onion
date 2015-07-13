@@ -1,6 +1,6 @@
 'use strict';
 
-require("babel/polyfill");
+require('babel/polyfill');
 
 import React from 'react';
 import Router from 'react-router';
@@ -8,7 +8,8 @@ import Router from 'react-router';
 import fetch from 'isomorphic-fetch';
 
 import ApiUrls from './constants/api_urls';
-import routes from './routes';
+import constants from './constants/application_constants';
+import getRoutes from './routes';
 import requests from './utils/requests';
 
 let headers = {
@@ -28,9 +29,38 @@ requests.defaults({
     }
 });
 
-Router.run(routes, Router.HistoryLocation, (AscribeApp) => {
-    React.render(
-        <AscribeApp />,
-        document.getElementById('main')
-    );
-});
+
+class AppGateway {
+
+    start() {
+        console.log('start');
+        let subdomain = window.location.host.split('.')[0];
+        requests.get('whitelabel_settings', {'subdomain': subdomain})
+            .then(this.loadSubdomain.bind(this))
+            .catch(this.loadDefault.bind(this));
+    }
+
+    loadSubdomain(data) {
+        let settings = data.whitelabel;
+        constants.whitelabel = settings;
+        this.load('prize');
+    }
+
+    loadDefault(error) {
+        console.log('Loading default app, error'. error);
+        this.load('default');
+    }
+
+    load(type) {
+        console.log('loading', type);
+        Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
+            React.render(
+                <App />,
+                document.getElementById('main')
+            );
+        });
+    }
+}
+
+let ag = new AppGateway();
+ag.start();

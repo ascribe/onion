@@ -14,6 +14,21 @@ class PieceListActions {
     }
 
     fetchPieceList(page, pageSize, search, orderBy, orderAsc) {
+        // To prevent flickering on a pagination request,
+        // we overwrite the piecelist with an empty list before
+        // pieceListCount === -1 defines the loading state
+        this.actions.updatePieceList({
+            page,
+            pageSize,
+            search,
+            orderBy,
+            orderAsc,
+            'pieceList': [],
+            'pieceListCount': -1
+        });
+
+        // afterwards, we can load the list
+
         return new Promise((resolve, reject) => {
             PieceListFetcher
                 .fetch(page, pageSize, search, orderBy, orderAsc)

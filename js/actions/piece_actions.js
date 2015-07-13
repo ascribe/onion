@@ -7,7 +7,8 @@ import PieceFetcher from '../fetchers/piece_fetcher';
 class PieceActions {
     constructor() {
         this.generateActions(
-            'updatePiece'
+            'updatePiece',
+            'updateProperty'
         );
     }
 

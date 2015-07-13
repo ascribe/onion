@@ -39,7 +39,7 @@ let PasswordResetContainer = React.createClass({
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
-                            {getLangText('Reset your ascribe password')}
+                            {getLangText('Reset your password')}
                         </div>
                         <PasswordRequestResetForm
                             handleRequestSuccess={this.handleRequestSuccess}/>
@@ -82,9 +82,9 @@ let PasswordRequestResetForm = React.createClass({
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </button>
+                    </span>
                     }>
                 <Property
                     name='email'
@@ -129,9 +129,9 @@ let PasswordResetForm = React.createClass({
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </button>
+                    </span>
                     }>
                 <Property
                     name='password'
