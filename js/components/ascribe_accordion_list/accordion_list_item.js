@@ -86,7 +86,6 @@ let AccordionListItem = React.createClass({
     },
 
     startPolling() {
-        console.log('start polling');
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
             EditionListActions.fetchEditionList(this.props.content.id)

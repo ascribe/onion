@@ -88,7 +88,7 @@ let AccordionListItemEditionWidget = React.createClass({
         }
         else if(numEditions === 0) {
             return (
-                    <button className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
+                    <button disabled className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
                         Creating Editions <span className="glyph-ascribe-spool-chunked spin"/>
                     </button>
                 );

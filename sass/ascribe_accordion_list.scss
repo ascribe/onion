@@ -59,8 +59,12 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     }
 }
 
-.accordion-list-item-header > a {
-    text-decoration: none;
+.accordion-list-item-header {
+    margin-top:.65em;
+
+    > a {
+        text-decoration: none;
+    }
 }
 
 .ascribe-accordion-list-loading {
