@@ -20,7 +20,7 @@ import AppConstants from '../constants/application_constants';
 
 let PieceList = React.createClass({
     propTypes: {
-        query: React.PropTypes.object
+        redirectTo: React.PropTypes.string
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -30,11 +30,17 @@ let PieceList = React.createClass({
     },
 
     componentDidMount() {
-        let page = this.props.query.page || 1;
+        let page = this.getQuery().page || 1;
         PieceListStore.listen(this.onChange);
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc)
             .then(PieceListActions.fetchPieceRequestActions());
+        }
+    },
+
+    componentDidUpdate() {
+        if (this.props.redirectTo && this.state.pieceListCount === 0) {
+            this.transitionTo(this.props.redirectTo);
         }
     },
 
@@ -56,6 +62,30 @@ let PieceList = React.createClass({
                                                       this.state.orderAsc);
     },
 
+    getPieceListToolbar() {
+        if(this.state.pieceListCount > 10) {
+            return (
+                <PieceListToolbar
+                    className="ascribe-piece-list-toolbar"
+                    searchFor={this.searchFor} />
+            );
+        }
+    },
+
+    getPagination() {
+        let currentPage = parseInt(this.getQuery().page, 10) || 1;
+        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+
+        if (this.state.pieceListCount > 10) {
+            return (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    goToPage={this.paginationGoToPage} />
+            );
+        }
+    },
+
     searchFor(searchTerm) {
          PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
          this.transitionTo(this.getPathname(), {page: 1});
@@ -67,15 +97,11 @@ let PieceList = React.createClass({
     },
 
     render() {
-        let currentPage = parseInt(this.props.query.page, 10) || 1;
-        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
         
         return (
             <div>
-                <PieceListToolbar
-                    className="ascribe-piece-list-toolbar"
-                    searchFor={this.searchFor} />
+                {this.getPieceListToolbar()}
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"
@@ -101,10 +127,7 @@ let PieceList = React.createClass({
                         );
                     })}
                 </AccordionList>
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    goToPage={this.paginationGoToPage} />
+                {this.getPagination()}
             </div>
         );
     }

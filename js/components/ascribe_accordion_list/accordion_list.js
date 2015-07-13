@@ -22,7 +22,7 @@ let AccordionList = React.createClass({
         } else if(this.props.count === 0) {
             return (
                 <div>
-                    <p className="text-center">{getLangText('We could not find any works related to you%s', '...')}</p>
+                    <p className="text-center">{getLangText('We could not find any works related to you...')}</p>
                     <p className="text-center">{getLangText('To register one, click')} <a href="register_piece">{getLangText('here')}</a>!</p>
                 </div>
             );

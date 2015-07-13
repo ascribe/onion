@@ -23,9 +23,8 @@ let SignupContainer = React.createClass({
         if (this.state.submitted){
             return (
                 <div className="ascribe-login-wrapper">
-                    <br/>
                     <div className="ascribe-login-text ascribe-login-header">
-                    {this.state.message}
+                        {this.state.message}
                     </div>
                 </div>
             );

@@ -33,6 +33,7 @@ requests.defaults({
 class AppGateway {
 
     start() {
+        console.log('start');
         let subdomain = window.location.host.split('.')[0];
         requests.get('whitelabel_settings', {'subdomain': subdomain})
             .then(this.loadSubdomain.bind(this))
@@ -45,11 +46,13 @@ class AppGateway {
         this.load('prize');
     }
 
-    loadDefault() {
+    loadDefault(error) {
+        console.log('Loading default app, error'. error);
         this.load('default');
     }
 
     load(type) {
+        console.log('loading', type);
         Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
             React.render(
                 <App />,
