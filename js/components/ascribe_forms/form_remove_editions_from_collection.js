@@ -16,7 +16,7 @@ let EditionRemoveFromCollectionForm = React.createClass({
             return requests.prepareUrl(apiUrls.edition_remove_from_collection, {edition_id: this.getBitcoinIds().join()});
         }
         else {
-            return requests.prepareUrl(apiUrls.piece_remove_from_collection, {piece_id: this.editions.piece_id});
+            return requests.prepareUrl(apiUrls.piece_remove_from_collection, {piece_id: this.props.editions.id});
         }
     },
     httpVerb(){

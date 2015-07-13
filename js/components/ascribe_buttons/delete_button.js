@@ -19,18 +19,25 @@ import EditionListActions from '../../actions/edition_list_actions';
 
 let DeleteButton = React.createClass({
     propTypes: {
-        editions: React.PropTypes.array.isRequired
+        editions: React.PropTypes.array.isRequired,
+        handleSuccess: React.PropTypes.func
     },
 
     mixins: [Router.Navigation],
 
     showNotification(response) {
-        this.props.editions
-            .forEach((edition) => {
-                EditionListActions.fetchEditionList(edition.parent);
-            });
+        if (this.props.editions.constructor === Array){
+            this.props.editions
+                .forEach((edition) => {
+                    EditionListActions.fetchEditionList(edition.parent);
+                });
+        }
+        else {
+            EditionListActions.fetchEditionList(this.props.editions.id);
+        }
         EditionListActions.clearAllEditionSelections();
         EditionListActions.closeAllEditionLists();
+        this.props.handleSuccess();
         this.transitionTo('pieces');
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);

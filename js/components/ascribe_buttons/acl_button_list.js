@@ -74,6 +74,7 @@ let AclButtonList = React.createClass({
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 <DeleteButton
+                    handleSuccess={this.props.handleSuccess}
                     editions={this.props.editions}/>
                 {this.props.children}
             </div>
