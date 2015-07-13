@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import ApiUrls from '../../constants/api_urls';
+
 
 import Form from './form';
 import Property from './property';
@@ -15,49 +15,27 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let ShareForm = React.createClass({
     propTypes: {
+        url: React.PropTypes.string,
+        id: React.PropTypes.string,
+        message: React.PropTypes.string,
         editions: React.PropTypes.array,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object,
+        onRequestHide: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func
     },
 
-    getFormData() {
-        return {
-            bitcoin_id: this.getBitcoinIds().join()
-        };
-    },
-    handleSuccess(response){
-        if ('handleSuccess' in this.props){
-            this.props.handleSuccess(response);
-        }
-    },
-    getBitcoinIds(){
-        return this.props.editions.map(function(edition){
-            return edition.bitcoin_id;
-        });
-    },
-
-    getTitlesString(){
-        return this.props.editions.map(function(edition){
-            return '- \"' + edition.title + ', ' + getLangText('edition') + ' ' + edition.edition_number + '\"\n';
-        });
+    getFormData(){
+        return this.props.id;
     },
 
     render() {
-        let title = this.getTitlesString().join('');
-        let username = this.props.currentUser.username;
-        let message =
-`${getLangText('Hi')},
 
-${getLangText('I am sharing')} :
-${title}${getLangText('with you')}.
-
-${getLangText('Truly yours')},
-${username}`;
         return (
             <Form
                 ref='form'
-                url={ApiUrls.ownership_shares_editions}
+                url={this.props.url}
                 getFormData={this.getFormData}
-                handleSuccess={this.handleSuccess}
+                handleSuccess={this.props.handleSuccess}
                 buttons={
                     <div className="modal-footer">
                         <p className="pull-right">
@@ -73,9 +51,7 @@ ${username}`;
                 spinner={
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                    </div>
-                }
-                >
+                    </div>}>
                 <Property
                     name='share_emails'
                     label={getLangText('Emails')}>
@@ -91,7 +67,7 @@ ${username}`;
                     <InputTextAreaToggable
                         rows={1}
                         editable={true}
-                        defaultValue={message}
+                        defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>
                 </Property>

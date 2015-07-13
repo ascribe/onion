@@ -7,11 +7,12 @@ import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
+import CreateEditionButton from '../ascribe_buttons/create_editions_button';
 
 let AclButtonList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        editions: React.PropTypes.array,
+        editions: React.PropTypes.object,
         availableAcls: React.PropTypes.array,
         handleSuccess: React.PropTypes.func
     },
@@ -66,7 +67,10 @@ let AclButtonList = React.createClass({
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
-                <DeleteButton editions={this.props.editions}/>
+                <DeleteButton
+                    editions={this.props.editions}/>
+                <CreateEditionButton
+                    piece={this.props.editions}/>
             </div>
         );
     }

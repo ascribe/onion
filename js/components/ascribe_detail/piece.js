@@ -70,7 +70,8 @@ let Piece = React.createClass({
                         content={this.props.piece}/>
                     <PieceSummary
                         currentUser={this.state.currentUser}
-                        piece={this.props.piece} />
+                        piece={this.props.piece}
+                        handleSuccess={this.props.loadPiece}/>
                     <CollapsibleParagraph
                         title="Further Details"
                         show={this.props.piece.acl.indexOf('edit') > -1
@@ -95,26 +96,24 @@ let PieceSummary = React.createClass({
     propTypes: {
         piece: React.PropTypes.object
     },
-
     getActions(){
-        //let actions = (
-        //    <Row>
-        //        <Col md={12}>
-        //            <AclButtonList
-        //                className="text-center ascribe-button-list"
-        //                availableAcls={this.props.piece.acl}
-        //                editions={[this.props.piece]}
-        //                handleSuccess={this.handleSuccess} />
-        //        </Col>
-        //    </Row>);
-        //return actions;
-        return null;
+        let actions = (
+            <Row>
+                <Col md={12}>
+                    <AclButtonList
+                        className="text-center ascribe-button-list"
+                        availableAcls={this.props.piece.acl}
+                        editions={this.props.piece}
+                        handleSuccess={this.props.handleSuccess} />
+                </Col>
+            </Row>);
+        return actions;
+        //return null;
     },
     render() {
         return (
             <div className="ascribe-detail-header">
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.props.piece.user_registered } />
-                <br/>
                 {this.getActions()}
                 <hr/>
             </div>

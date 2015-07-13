@@ -218,7 +218,6 @@ let EditionSummary = React.createClass({
                 <EditionDetailProperty label={getLangText('ID')} value={ this.props.edition.bitcoin_id } />
                 <EditionDetailProperty label={getLangText('OWNER')} value={ this.props.edition.owner } />
                 {this.getStatus()}
-                <br/>
                 {this.getActions()}
                 <hr/>
             </div>
