@@ -14,6 +14,8 @@ import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils.js';
 
+import requests from '../../utils/requests';
+
 let PieceSubmitToPrizeForm = React.createClass({
     propTypes: {
         piece: React.PropTypes.object,
@@ -33,7 +35,7 @@ let PieceSubmitToPrizeForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={ApiUrls.pieces_list}
+                url={requests.prepareUrl(ApiUrls.piece_submit_to_prize, {piece_id: this.props.piece.id})}
                 getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
                 buttons={
