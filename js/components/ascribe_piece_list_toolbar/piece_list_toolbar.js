@@ -4,16 +4,17 @@ import React from 'react';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
 import { getLangText } from '../../utils/lang_utils';
 
 let PieceListToolbar = React.createClass({
 
     propTypes: {
         className: React.PropTypes.string,
-        searchFor: React.PropTypes.func
+        searchFor: React.PropTypes.func,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
     },
 
     searchFor() {
@@ -29,6 +30,9 @@ let PieceListToolbar = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
                         <div className="row">
+                            <span className="pull-left">
+                                {this.props.children}
+                            </span>
                             <span className="pull-right search-bar">
                                 <Input
                                     type='text'

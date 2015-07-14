@@ -20,7 +20,8 @@ import AppConstants from '../constants/application_constants';
 
 let PieceList = React.createClass({
     propTypes: {
-        redirectTo: React.PropTypes.string
+        redirectTo: React.PropTypes.string,
+        customSubmitButton: React.PropTypes.element
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -93,7 +94,9 @@ let PieceList = React.createClass({
             <div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
-                    searchFor={this.searchFor} />
+                    searchFor={this.searchFor}>
+                    {this.props.customSubmitButton}
+                </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"
