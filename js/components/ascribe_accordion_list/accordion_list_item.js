@@ -16,6 +16,9 @@ import EditionListActions from '../../actions/edition_list_actions';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import AclProxy from '../acl_proxy';
+import SubmitToPrizeButton from '../ascribe_buttons/submit_to_prize_button';
+
 import { getLangText } from '../../utils/lang_utils';
 
 let Link = Router.Link;
@@ -125,6 +128,20 @@ let AccordionListItem = React.createClass({
                                     piece={this.props.content}
                                     toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
                                     onPollingSuccess={this.onPollingSuccess}/>
+                                <AclProxy
+                                    show={this.props.content.prize_name === null}>
+                                    <SubmitToPrizeButton
+                                        className="pull-right"
+                                        piece={this.props.content} />
+                                </AclProxy>
+                                <AclProxy
+                                    show={this.props.content.prize_name}>
+                                    <button
+                                        disabled
+                                        className="btn btn-default btn-xs pull-right">
+                                        {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    </button>
+                                </AclProxy>
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>

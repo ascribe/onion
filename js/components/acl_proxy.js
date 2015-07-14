@@ -15,23 +15,35 @@ let AclProxy = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]).isRequired,
-        aclObject: React.PropTypes.object.isRequired,
-        aclName: React.PropTypes.string.isRequired
+        aclObject: React.PropTypes.object,
+        aclName: React.PropTypes.string,
+        show: React.PropTypes.bool
     },
 
     render() {
-        if(this.props.aclObject[this.props.aclName]) {
+        if(this.props.show) {
             return (
                 <span>
                     {this.props.children}
                 </span>
             );
         } else {
-            if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
-                console.warn('The aclName you\'re filtering for was not present (undefined) in the aclObject.');
+            if(this.props.aclObject) {
+                if(this.props.aclObject[this.props.aclName]) {
+                    return (
+                        <span>
+                            {this.props.children}
+                        </span>
+                    );
+                } else {
+                    if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
+                        console.warn('The aclName you\'re filtering for was not present (undefined) in the aclObject.');
+                    }
+                    return null;
+                }
             }
-            return null;
         }
+        return null;
     }
 });
 

@@ -27,7 +27,17 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let Header = React.createClass({
+    propTypes: {
+        showAddWork: React.PropTypes.bool
+    },
+
     mixins: [Router.Navigation, Router.State],
+
+    getDefaultProps() {
+        return {
+            showAddWork: true
+        };
+    },
 
     getInitialState() {
         return mergeOptions(WhitelabelStore.getState(), UserStore.getState());
@@ -48,6 +58,8 @@ let Header = React.createClass({
     handleLogout(){
         UserActions.logoutCurrentUser();
         Alt.flush();
+        // kill intercom (with fire)
+        window.Intercom('shutdown');
         this.transitionTo('login');
     },
 
@@ -66,22 +78,30 @@ let Header = React.createClass({
     getPoweredBy(){
         if (this.state.whitelabel.logo) {
             return (
-                <div className="row ascribe-subheader">
-                    <div className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
-                        <div className="row">
-                            <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                                <span id="powered">{getLangText('powered by')} </span>
-                                <span>ascribe </span>
-                                <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>);
+                <li>
+                    <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                        <span id="powered">{getLangText('powered by')} </span>
+                        <span>ascribe </span>
+                        <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                    </a>
+                </li>
+            );
         }
         return null;
     },
     onChange(state) {
         this.setState(state);
+
+        if(this.state.currentUser && this.state.currentUser.email) {
+            // bootup intercom if the user is logged in
+            window.Intercom('boot', {
+               app_id: 'oboxh5w1',
+               email: this.state.currentUser.email,
+               widget: {
+                  activator: '#IntercomDefaultWidget'
+               }  
+            });
+        }
     },
 
     render() {
@@ -99,7 +119,7 @@ let Header = React.createClass({
             );
 
             collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
-            addNewWork = <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink>;
+            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink> : null;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -115,7 +135,9 @@ let Header = React.createClass({
                     toggleNavKey={0}
                     fixedTop={true}>
                     <CollapsibleNav eventKey={0}>
-                        <Nav navbar left />
+                        <Nav navbar left>
+                            {this.getPoweredBy()}
+                        </Nav>
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false}/>
                             {addNewWork}
@@ -125,7 +147,6 @@ let Header = React.createClass({
                         </Nav>
                     </CollapsibleNav>
                 </Navbar>
-                {this.getPoweredBy()}
             </div>
         );
     }

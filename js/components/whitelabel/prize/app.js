@@ -9,21 +9,23 @@ import GlobalNotification from '../../global_notification';
 
 let RouteHandler = Router.RouteHandler;
 
-
 let PrizeApp = React.createClass({
     mixins: [Router.State],
 
     render() {
         let header = null;
-        if (this.isActive('pieces')) {
-            header = null;
+        if (this.isActive('landing') || this.isActive('login') || this.isActive('signup')) {
+            header = <Hero />;
+        } else {
+            header = <Header showAddWork={false} />;
         }
 
         return (
-            <div className="wp">
-                <Hero />
+            <div className="ascribe-prize-app">
                 {header}
-                <RouteHandler />
+                <div className="wp">
+                    <RouteHandler />
+                </div>
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
             </div>

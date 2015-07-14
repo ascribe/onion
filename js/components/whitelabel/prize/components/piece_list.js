@@ -10,11 +10,13 @@ let PrizePieceList = React.createClass({
     render() {
         return (
             <div>
-                <ButtonLink to="register_piece">
-                    Submit a new artwork to the prize
-                </ButtonLink>
-
-                <PieceList redirectTo="register_piece" />
+                <PieceList
+                    redirectTo="register_piece"
+                    customSubmitButton={
+                        <ButtonLink to="register_piece">
+                            Submit a new artwork to the prize
+                        </ButtonLink>
+                    }/>
             </div>
         );
     }

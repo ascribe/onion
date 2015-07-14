@@ -1,17 +1,34 @@
 .wp {
-    background-color: #CCC;
-
     height: 100%;
-    width: 100%;
 
-    > .hero {
-        overflow: hidden;
-        text-align: center;
+    /* We need this, otherwise piece list will have a scrollbar */
+    overflow-x: hidden;
+}
+
+.hero {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+
+    overflow: hidden;
+    text-align: center;
+
+    > img {
+        margin-top: 5em;
+        margin-bottom: 5em;
     }
 }
 
 .wp-landing-wrapper {
     text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+
+    > .enter {
+        margin-top: 2em;
+        > p {
+            margin-top: 2em;
+        }
+    }
 }
 
 
