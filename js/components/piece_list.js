@@ -62,16 +62,6 @@ let PieceList = React.createClass({
                                                       this.state.orderAsc);
     },
 
-    getPieceListToolbar() {
-        if(this.state.pieceListCount > 10) {
-            return (
-                <PieceListToolbar
-                    className="ascribe-piece-list-toolbar"
-                    searchFor={this.searchFor} />
-            );
-        }
-    },
-
     getPagination() {
         let currentPage = parseInt(this.getQuery().page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
@@ -101,7 +91,9 @@ let PieceList = React.createClass({
         
         return (
             <div>
-                {this.getPieceListToolbar()}
+                <PieceListToolbar
+                    className="ascribe-piece-list-toolbar"
+                    searchFor={this.searchFor} />
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"
