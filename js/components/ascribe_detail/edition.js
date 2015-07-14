@@ -6,6 +6,7 @@ import Router from 'react-router';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import Button from 'react-bootstrap/lib/Button';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
@@ -172,18 +173,9 @@ let EditionSummary = React.createClass({
             status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
-                    <Form
-                        url={apiUrls.ownership_transfers_withdraw}
-                        getFormData={this.getTransferWithdrawData}
-                        handleSuccess={this.showNotification}>
-                        <EditionDetailProperty label="STATUS" value={ statusStr }>
-                            <button
-                                type="submit"
-                                className="pull-right btn btn-default btn-sm">
-                                WITHDRAW
-                            </button>
-                        </EditionDetailProperty>
-                    </Form>
+
+                        <EditionDetailProperty label="STATUS" value={ statusStr } />
+
                 );
             }
         }
@@ -197,7 +189,22 @@ let EditionSummary = React.createClass({
                     editions={ [this.props.edition] }
                     handleSuccess={this.showNotification}/>);
         }
+
         else {
+            let withdrawButton = null;
+            if (this.props.edition.status.length > 0 && this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer) {
+                withdrawButton = (
+                    <Form
+                        url={apiUrls.ownership_transfers_withdraw}
+                        getFormData={this.getTransferWithdrawData}
+                        handleSuccess={this.showNotification}
+                        className='inline'>
+                        <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                            WITHDRAW TRANSFER
+                        </Button>
+                    </Form>
+                );
+            }
             actions = (
                 <Row>
                     <Col md={12}>
@@ -205,7 +212,9 @@ let EditionSummary = React.createClass({
                             className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
-                            handleSuccess={this.handleSuccess} />
+                            handleSuccess={this.handleSuccess}>
+                            {withdrawButton}
+                        </AclButtonList>
                     </Col>
                 </Row>);
         }

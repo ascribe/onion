@@ -8,7 +8,7 @@ import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
 import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let RequestActionForm = React.createClass({
     mixins: [FormMixin],
