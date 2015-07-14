@@ -154,14 +154,14 @@ let AccordionListItem = React.createClass({
                                     toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
                                     onPollingSuccess={this.onPollingSuccess}/>
                                 <AclProxy
-                                    show={this.props.content.prize_name === null}>
+                                    show={this.props.content.prize === null}>
                                     <SubmitToPrizeButton
                                         className="pull-right"
                                         piece={this.props.content}
                                         handleSuccess={this.handleSubmitPrizeSuccess}/>
                                 </AclProxy>
                                 <AclProxy
-                                    show={this.props.content.prize_name}>
+                                    show={this.props.content.prize}>
                                     <button
                                         disabled
                                         className="btn btn-default btn-xs pull-right">
