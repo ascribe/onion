@@ -50,10 +50,21 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }else if (this.props.action === 'acl_transfer') {
+            //return {
+            //    title: getLangText('Transfer artwork'),
+            //    tooltip: getLangText('Transfer the ownership of the artwork'),
+            //    form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+            //    handleSuccess: this.showNotification
+            //};
             return {
                 title: getLangText('Transfer artwork'),
                 tooltip: getLangText('Transfer the ownership of the artwork'),
-                form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (
+                    <TransferForm
+                        message={this.getTransferMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_transfers}/>
+                    ),
                 handleSuccess: this.showNotification
             };
         }
@@ -113,10 +124,23 @@ let AclButton = React.createClass({
     },
 
 // plz move to share form
+    getTransferMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I transfer ownership of')}:
+${this.getTitlesString()} ${getLangText('to you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
+// plz move to share form
     getShareMessage(){
         return (
-            `
-${getLangText('Hi')},
+            `${getLangText('Hi')},
 
 ${getLangText('I am sharing')}:
 ${this.getTitlesString()} ${getLangText('with you')}.
