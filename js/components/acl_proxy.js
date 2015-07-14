@@ -2,6 +2,13 @@
 
 import React from 'react';
 
+/**
+ * This component can easily be used to present another component conditionally
+ * - dependent on their acl.
+ *
+ * In order to do that, just wrap AclProxy around the component, add aclObject and
+ * the acl name you're looking for.
+ */
 let AclProxy = React.createClass({
     propTypes: {
         children: React.PropTypes.oneOfType([
