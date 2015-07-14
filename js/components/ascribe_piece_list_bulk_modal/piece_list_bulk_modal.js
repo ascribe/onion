@@ -10,9 +10,12 @@ import EditionListActions from '../../actions/edition_list_actions';
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
 
+import PieceListStore from '../../stores/piece_list_store';
+import PieceListActions from '../../actions/piece_list_actions';
+
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
-
+import DeleteButton from '../ascribe_buttons/delete_button';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
 import { getLangText } from '../../utils/lang_utils.js';
@@ -23,7 +26,11 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(EditionListStore.getState(), UserStore.getState());
+        return mergeOptions(
+            EditionListStore.getState(),
+            UserStore.getState(),
+            PieceListStore.getState()
+        );
     },
 
     onChange(state) {
@@ -69,20 +76,18 @@ let PieceListBulkModal = React.createClass({
     },
 
     handleSuccess() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                let editionsForPiece = this.state.editionList[pieceId];
-                for(let i = 1; i <= editionsForPiece.page; i++) {
-                    EditionListActions.fetchEditionList(pieceId, i, editionsForPiece.pageSize, editionsForPiece.orderBy, editionsForPiece.orderAsc);
-                }
-                
+                EditionListActions.refreshEditionList(pieceId);
             });
         EditionListActions.clearAllEditionSelections();
     },
 
     render() {
         let selectedEditions = this.fetchSelectedEditionList();
-        let availableAcls = getAvailableAcls(selectedEditions);
+        let availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         if(Object.keys(availableAcls).length > 0) {
             return (
@@ -106,7 +111,11 @@ let PieceListBulkModal = React.createClass({
                                     availableAcls={availableAcls}
                                     editions={selectedEditions}
                                     handleSuccess={this.handleSuccess}
-                                    className="text-center ascribe-button-list collapse-group"/>
+                                    className="text-center ascribe-button-list collapse-group">
+                                    <DeleteButton
+                                        handleSuccess={this.handleSuccess}
+                                        editions={selectedEditions}/>
+                                </AclButtonList>
                             </div>
                         </div>
                     </div>

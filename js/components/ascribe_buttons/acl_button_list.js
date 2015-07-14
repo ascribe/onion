@@ -6,7 +6,6 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
-import DeleteButton from '../ascribe_buttons/delete_button';
 
 let AclButtonList = React.createClass({
     propTypes: {
@@ -73,8 +72,6 @@ let AclButtonList = React.createClass({
                     pieceOrEditions={this.props.editions}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.props.handleSuccess} />
-                <DeleteButton
-                    editions={this.props.editions}/>
                 {this.props.children}
             </div>
         );

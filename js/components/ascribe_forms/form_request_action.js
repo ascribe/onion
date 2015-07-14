@@ -7,8 +7,10 @@ import Alert from 'react-bootstrap/lib/Alert';
 import apiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
+import AclButton from './../ascribe_buttons/acl_button';
+
 import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let RequestActionForm = React.createClass({
     mixins: [FormMixin],
@@ -52,15 +54,31 @@ let RequestActionForm = React.createClass({
 
     renderForm() {
         let edition = this.props.editions[0];
+        let buttonAccept = (
+            <div id="request_accept"
+                onClick={this.handleRequest}
+                className='btn btn-default btn-sm ascribe-margin-1px'>{getLangText('ACCEPT')}
+            </div>);
+        if (edition.request_action === 'unconsign'){
+            console.log(this.props)
+            buttonAccept = (
+                <AclButton
+                    availableAcls={{'acl_unconsign': true}}
+                    action="acl_unconsign"
+                    pieceOrEditions={this.props.editions}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                );
+        }
         let buttons = (
+            <span>
                 <span>
-                    <span>
-                        <div id="request_accept" onClick={this.handleRequest} className='btn btn-default btn-sm ascribe-margin-1px'>{getLangText('ACCEPT')}</div>
-                    </span>
-                    <span>
-                        <div id="request_deny" onClick={this.handleRequest} className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>{getLangText('REJECT')}</div>
-                    </span>
+                    {buttonAccept}
                 </span>
+                <span>
+                    <div id="request_deny" onClick={this.handleRequest} className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>{getLangText('REJECT')}</div>
+                </span>
+            </span>
         );
         if (this.state.submitted){
             buttons = (
@@ -72,7 +90,7 @@ let RequestActionForm = React.createClass({
         return (
             <Alert bsStyle='warning'>
                 <div style={{textAlign: 'center'}}>
-                <div>{ edition.owner } {getFormData('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
+                <div>{ edition.owner } {getLangText('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
                 {buttons}
                 </div>
             </Alert>

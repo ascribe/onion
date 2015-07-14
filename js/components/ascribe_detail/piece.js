@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -14,6 +15,11 @@ import FurtherDetails from './further_details';
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
+import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+
+import EditionListActions from '../../actions/edition_list_actions';
+
 import PieceActions from '../../actions/piece_actions';
 
 import MediaContainer from './media_container';
@@ -23,6 +29,10 @@ import EditionDetailProperty from './detail_property';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
+import DeleteButton from '../ascribe_buttons/delete_button';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -36,9 +46,12 @@ let Piece = React.createClass({
         loadPiece: React.PropTypes.func
     },
 
+    mixins: [Router.Navigation],
+
     getInitialState() {
         return mergeOptions(
             UserStore.getState(),
+            PieceListStore.getState(),
             {
                 showCreateEditionsDialog: false
             }
@@ -47,11 +60,13 @@ let Piece = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -67,6 +82,20 @@ let Piece = React.createClass({
     handleEditionCreationSuccess() {
         PieceActions.updateProperty({key: 'num_editions', value: 0});
         this.toggleCreateEditionsDialog();
+    },
+
+    handleDeleteSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+
+        // since we're deleting a piece, we just need to close
+        // all editions dialogs and not reload them
+        EditionListActions.closeAllEditionLists();
+        EditionListActions.clearAllEditionSelections();
+
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.transitionTo('pieces');
     },
 
     getCreateEditionsDialog() {
@@ -89,6 +118,9 @@ let Piece = React.createClass({
             key: 'num_editions',
             value: numEditions
         });
+
+        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {
@@ -121,6 +153,9 @@ let Piece = React.createClass({
                                 piece={this.props.piece}
                                 toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
                                 onPollingSuccess={this.handlePollingSuccess}/>
+                            <DeleteButton
+                                handleSuccess={this.handleDeleteSuccess}
+                                piece={this.props.piece}/>
                     </AclButtonList>
 
                     {this.getCreateEditionsDialog()}

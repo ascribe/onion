@@ -6,59 +6,71 @@ import Router from 'react-router';
 import Button from 'react-bootstrap/lib/Button';
 
 import EditionDeleteForm from '../ascribe_forms/form_delete_edition';
-import EditionRemoveFromCollectionForm from '../ascribe_forms/form_remove_editions_from_collection';
-import ModalWrapper from '../ascribe_modal/modal_wrapper';
+import PieceDeleteForm from '../ascribe_forms/form_delete_piece';
 
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
+import EditionRemoveFromCollectionForm from '../ascribe_forms/form_remove_editions_from_collection';
+import PieceRemoveFromCollectionForm from '../ascribe_forms/form_remove_piece_from_collection';
+
+import ModalWrapper from '../ascribe_modal/modal_wrapper';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
 import { getLangText } from '../../utils/lang_utils.js';
 
-import EditionListActions from '../../actions/edition_list_actions';
 
 let DeleteButton = React.createClass({
     propTypes: {
-        editions: React.PropTypes.array.isRequired
+        editions: React.PropTypes.array,
+        piece: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
     },
 
     mixins: [Router.Navigation],
 
-    showNotification(response) {
-        this.props.editions
-            .forEach((edition) => {
-                EditionListActions.fetchEditionList(edition.parent);
-            });
-        EditionListActions.clearAllEditionSelections();
-        EditionListActions.closeAllEditionLists();
-        this.transitionTo('pieces');
-        let notification = new GlobalNotificationModel(response.notification, 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
     render: function () {
-        let availableAcls = getAvailableAcls(this.props.editions);
-        let btnDelete = null;
-        let content = null;
+        let availableAcls;
+        let btnDelete;
+        let content;
+        let title;
 
-        if (availableAcls.acl_delete) {
-            content = <EditionDeleteForm editions={ this.props.editions }/>;
-            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
+        if(this.props.piece && !this.props.editions) {
+            availableAcls = getAvailableAcls([this.props.piece]);
+        } else {
+            availableAcls = getAvailableAcls(this.props.editions);
         }
-        else if (availableAcls.acl_unshare || (this.props.editions.constructor !== Array && this.props.editions.acl.acl_unshare)){
-            content = <EditionRemoveFromCollectionForm editions={ this.props.editions }/>;
+
+        if(availableAcls.acl_delete) {
+
+            if(this.props.piece && !this.props.editions) {
+                content = <PieceDeleteForm pieceId={this.props.piece.id}/>;
+                title = getLangText('Remove Piece');
+            } else {
+                content = <EditionDeleteForm editions={this.props.editions}/>;
+                title = getLangText('Remove Edition');
+            }
+
+            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
+        
+        } else if(availableAcls.acl_unshare){
+            
+            if(this.props.editions && this.props.editions.constructor !== Array && this.props.editions.acl.acl_unshare) {
+                content = <EditionRemoveFromCollectionForm editions={this.props.editions}/>;
+                title = getLangText('Remove Edition from Collection');
+            } else {
+                content = <PieceRemoveFromCollectionForm pieceId={this.props.piece.id}/>;
+                title = getLangText('Remove Piece from Collection');
+            }
+
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
         }
-        else{
+        else {
             return null;
         }
         return (
             <ModalWrapper
-                button={ btnDelete }
-                handleSuccess={ this.showNotification }
-                title={getLangText('Remove Edition')}
-                tooltip={getLangText('Click to remove edition')}>
-                { content }
+                button={btnDelete}
+                handleSuccess={this.props.handleSuccess}
+                title={title}>
+                {content}
             </ModalWrapper>
         );
     }

@@ -17,24 +17,41 @@ let ModalWrapper = React.createClass({
         handleSuccess: React.PropTypes.func.isRequired,
         button: React.PropTypes.object.isRequired,
         children: React.PropTypes.object,
-        tooltip: React.PropTypes.string.isRequired
+        tooltip: React.PropTypes.string
+    },
+
+    getModalTrigger() {
+        return (
+            <ModalTrigger modal={
+                <ModalBody
+                    title={this.props.title}
+                    handleSuccess={this.props.handleSuccess}>
+                    {this.props.children}
+                </ModalBody>
+            }>
+            {this.props.button}
+            </ModalTrigger>
+        );
     },
 
     render() {
-        return (
-            <OverlayTrigger delay={500} placement="left"
-                            overlay={<Tooltip>{this.props.tooltip}</Tooltip>}>
-                <ModalTrigger modal={
-                    <ModalBody
-                        title={this.props.title}
-                        handleSuccess={this.props.handleSuccess}>
-                    {this.props.children}
-                    </ModalBody>
-                }>
-                {this.props.button}
-                </ModalTrigger>
-            </OverlayTrigger>
-        );
+        if(this.props.tooltip) {
+            return (
+                <OverlayTrigger
+                    delay={500}
+                    placement="left"
+                    overlay={<Tooltip>{this.props.tooltip}</Tooltip>}>
+                    {this.getModalTrigger()}
+                </OverlayTrigger>
+            );
+        } else {
+             return (
+                <span>
+                    {/* This needs to be some kind of inline-block */}
+                    {this.getModalTrigger()}
+                </span>
+            );
+        }
     }
 });
 

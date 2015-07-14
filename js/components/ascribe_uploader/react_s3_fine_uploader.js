@@ -2,11 +2,6 @@
 
 import React from 'react/addons';
 
-import promise from 'es6-promise';
-promise.polyfill();
-
-import fetch from 'isomorphic-fetch';
-
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 
@@ -96,7 +91,8 @@ var ReactS3FineUploader = React.createClass({
         setIsUploadReady: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         areAssetsDownloadable: React.PropTypes.bool,
-        areAssetsEditable: React.PropTypes.bool
+        areAssetsEditable: React.PropTypes.bool,
+        defaultErrorMessage: React.PropTypes.string
     },
 
     getDefaultProps() {
@@ -141,7 +137,8 @@ var ReactS3FineUploader = React.createClass({
                 }
                 return name;
             },
-            multiple: false
+            multiple: false,
+            defaultErrorMessage: 'Unexpected error. Please contact us if this happens repeatedly.'
         };
     },
 
@@ -188,55 +185,86 @@ var ReactS3FineUploader = React.createClass({
             multiple: this.props.multiple,
             retry: this.props.retry,
             callbacks: {
-                onSubmit: this.onSubmit,
                 onComplete: this.onComplete,
                 onCancel: this.onCancel,
-                onDelete: this.onDelete,
                 onProgress: this.onProgress,
-                onRetry: this.onRetry,
-                onAutoRetry: this.onAutoRetry,
-                onManualRetry: this.onManualRetry,
                 onDeleteComplete: this.onDeleteComplete,
-                onSessionRequestComplete: this.onSessionRequestComplete
+                onSessionRequestComplete: this.onSessionRequestComplete,
+                onError: this.onError
             }
         };
     },
 
     requestKey(fileId) {
+        let defer = new fineUploader.Promise();
         let filename = this.state.uploader.getName(fileId);
-        return new Promise((resolve, reject) => {
-            fetch(this.props.keyRoutine.url, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    'filename': filename,
-                    'file_class': this.props.keyRoutine.fileClass,
-                    'piece_id': this.props.keyRoutine.pieceId
-                })
+
+        window.fetch(this.props.keyRoutine.url, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                'filename': filename,
+                'file_class': this.props.keyRoutine.fileClass,
+                'piece_id': this.props.keyRoutine.pieceId
             })
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) =>{
-                resolve(res.key);
-            })
-            .catch((err) => {
-                console.error(err);
-                reject(err);
-            });
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) =>{
+            defer.success(res.key);
+        })
+        .catch((err) => {
+            defer.failure(err);
         });
+
+        return defer;
+    },
+
+    createBlob(file) {
+        let defer = new fineUploader.Promise();
+        window.fetch(this.props.createBlobRoutine.url, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                'filename': file.name,
+                'key': file.key,
+                'piece_id': this.props.createBlobRoutine.pieceId
+            })
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) =>{
+            if(res.otherdata) {
+                file.s3Url = res.otherdata.url_safe;
+                file.s3UrlSafe = res.otherdata.url_safe;
+            } else if(res.digitalwork) {
+                file.s3Url = res.digitalwork.url_safe;
+                file.s3UrlSafe = res.digitalwork.url_safe;
+            } else {
+                throw new Error('Could not find a url to download.');
+            }
+            defer.success(res.key);
+        })
+        .catch((err) => {
+            defer.failure(err);
+            console.error(err);
+        });
+        return defer;
     },
 
     /* FineUploader specific callback function handlers */
-
-    onSubmit() {
-        console.log('submit');
-    },
 
     onComplete(id) {
         let files = this.state.filesToUpload;
@@ -272,57 +300,9 @@ var ReactS3FineUploader = React.createClass({
         }
     },
 
-    createBlob(file) {
-        let defer = new fineUploader.Promise();
-        fetch(this.props.createBlobRoutine.url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                'filename': file.name,
-                'key': file.key,
-                'piece_id': this.props.createBlobRoutine.pieceId
-            })
-        })
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) =>{
-            if(res.otherdata) {
-                file.s3Url = res.otherdata.url_safe;
-                file.s3UrlSafe = res.otherdata.url_safe;
-            } else if(res.digitalwork) {
-                file.s3Url = res.digitalwork.url_safe;
-                file.s3UrlSafe = res.digitalwork.url_safe;
-            } else {
-                throw new Error('Could not find a url to download.');
-            }
-            defer.success(res.key);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-        return defer;
-    },
-
-    onRetry() {
-        console.log('retry');
-    },
-
-    onAutoRetry() {
-        console.log('autoretry');
-    },
-
-    onManualRetry() {
-        console.log('manualretry');
-    },
-
-    onDelete() {
-        console.log('delete');
+    onError() {
+        let notification = new GlobalNotificationModel(this.props.defaultErrorMessage, 'danger', 5000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     onCancel(id) {

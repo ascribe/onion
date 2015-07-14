@@ -38,7 +38,12 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Consign artwork'),
                 tooltip: getLangText('Have someone else sell the artwork'),
-                form: <ConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (
+                    <ConsignForm
+                        message={this.getConsignMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_consigns}/>
+                    ),
                 handleSuccess: this.showNotification
             };
         }
@@ -46,14 +51,24 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Unconsign artwork'),
                 tooltip: getLangText('Have the owner manage his sales again'),
-                form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (
+                    <UnConsignForm
+                        message={this.getUnConsignMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_unconsigns}/>
+                    ),
                 handleSuccess: this.showNotification
             };
         }else if (this.props.action === 'acl_transfer') {
             return {
                 title: getLangText('Transfer artwork'),
                 tooltip: getLangText('Transfer the ownership of the artwork'),
-                form: <TransferForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (
+                    <TransferForm
+                        message={this.getTransferMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_transfers}/>
+                    ),
                 handleSuccess: this.showNotification
             };
         }
@@ -112,11 +127,52 @@ let AclButton = React.createClass({
         }
     },
 
+// plz move to transfer form
+    getTransferMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I transfer ownership of')}:
+${this.getTitlesString()} ${getLangText('to you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
+    // plz move to consign form
+    getConsignMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I consign')}:
+${this.getTitlesString()} ${getLangText('to you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
+    // plz move to consign form
+    getUnConsignMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I un-consign')}:
+${this.getTitlesString()} ${getLangText('from you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
 // plz move to share form
     getShareMessage(){
         return (
-            `
-${getLangText('Hi')},
+            `${getLangText('Hi')},
 
 ${getLangText('I am sharing')}:
 ${this.getTitlesString()} ${getLangText('with you')}.
