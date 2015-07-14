@@ -11,6 +11,7 @@ import PrizeRegisterPiece from './components/register_piece';
 import PrizePieceList from './components/piece_list';
 import PieceContainer from '../../ascribe_detail/piece_container';
 import EditionContainer from '../../ascribe_detail/edition_container';
+import SettingsContainer from '../../../components/settings_container';
 
 import App from './app';
 import AppConstants from '../../../constants/application_constants';
@@ -30,6 +31,7 @@ function getRoutes(commonRoutes) {
             <Route name="pieces" path="collection" handler={PrizePieceList} />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>
     );
 }
