@@ -9,7 +9,6 @@ import GlobalNotification from '../../global_notification';
 
 let RouteHandler = Router.RouteHandler;
 
-
 let PrizeApp = React.createClass({
     mixins: [Router.State],
 
