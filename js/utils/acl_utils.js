@@ -6,7 +6,7 @@ function intersectAcls(a, b) {
     return a.filter((val) => b.indexOf(val) > -1);
 }
 
-export function getAvailableAcls(editions) {
+export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];
     if (editions.constructor !== Array){
         return [];
@@ -26,6 +26,13 @@ export function getAvailableAcls(editions) {
 
         edition.acl = sanitize(edition.acl, (val) => !val);
         edition.acl = Object.keys(edition.acl);
+
+        // additionally, the user can specify a filter function for
+        // an acl array
+        if(typeof filterFn === 'function') {
+            edition.acl = edition.acl.filter(filterFn);
+        }
+
         return edition;
     });
 
