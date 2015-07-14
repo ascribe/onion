@@ -32,8 +32,8 @@ let LoginForm = React.createClass({
 
     getDefaultProps() {
         return {
-            headerMessage: 'Enter ascribe',
-            submitMessage: 'Log in',
+            headerMessage: getLangText('Enter ascribe'),
+            submitMessage: getLangText('Log in'),
             redirectOnLoggedIn: true,
             redirectOnLoginSuccess: true
         };
@@ -95,7 +95,7 @@ let LoginForm = React.createClass({
                     <button
                         type="submit"
                         className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText(this.props.submitMessage)}
+                        {this.props.submitMessage}
                     </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -103,7 +103,7 @@ let LoginForm = React.createClass({
                     </span>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText(this.props.headerMessage)}</h3>
+                    <h3>{this.props.headerMessage}</h3>
                 </FormPropertyHeader>
                 <Property
                     name='email'

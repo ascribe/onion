@@ -31,8 +31,8 @@ let SignupForm = React.createClass({
 
     getDefaultProps() {
         return {
-            headerMessage: 'Welcome to ascribe',
-            submitMessage: 'Sign up'
+            headerMessage: getLangText('Welcome to ascribe'),
+            submitMessage: getLangText('Sign up')
         };
     },
 
@@ -82,7 +82,7 @@ let SignupForm = React.createClass({
                 getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText(this.props.submitMessage)}
+                        {this.props.submitMessage}
                     </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -90,7 +90,7 @@ let SignupForm = React.createClass({
                     </span>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText(this.props.headerMessage)}</h3>
+                    <h3>{this.props.headerMessage}</h3>
                 </FormPropertyHeader>
                 <Property
                     name='email'
