@@ -4,7 +4,7 @@ import requests from '../utils/requests';
 import React from 'react';
 
 import AlertDismissable from '../components/ascribe_forms/alert';
-import { getLangText } from '../utils/lang_utils.js'
+import { getLangText } from '../utils/lang_utils.js';
 
 export const FormMixin = {
     propTypes: {

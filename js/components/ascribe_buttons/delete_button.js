@@ -55,7 +55,7 @@ let DeleteButton = React.createClass({
             if(this.props.editions && this.props.editions.constructor !== Array && this.props.editions.acl.acl_unshare) {
                 content = <EditionRemoveFromCollectionForm editions={this.props.editions}/>;
                 title = getLangText('Remove Edition from Collection');
-            } else {
+            } else if(this.props.piece && this.props.piece.acl.acl_unshare) {
                 content = <PieceRemoveFromCollectionForm pieceId={this.props.piece.id}/>;
                 title = getLangText('Remove Piece from Collection');
             }
