@@ -20,7 +20,8 @@ import AppConstants from '../constants/application_constants';
 
 let PieceList = React.createClass({
     propTypes: {
-        redirectTo: React.PropTypes.string
+        redirectTo: React.PropTypes.string,
+        customSubmitButton: React.PropTypes.element
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -40,7 +41,8 @@ let PieceList = React.createClass({
 
     componentDidUpdate() {
         if (this.props.redirectTo && this.state.pieceListCount === 0) {
-            this.transitionTo(this.props.redirectTo);
+            // FIXME: hack to redirect out of the dispatch cycle
+            window.setTimeout(() => this.transitionTo(this.props.redirectTo), 0);
         }
     },
 
@@ -93,7 +95,9 @@ let PieceList = React.createClass({
             <div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
-                    searchFor={this.searchFor} />
+                    searchFor={this.searchFor}>
+                    {this.props.customSubmitButton}
+                </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <AccordionList
                     className="ascribe-accordion-list"

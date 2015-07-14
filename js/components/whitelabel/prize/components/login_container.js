@@ -12,7 +12,7 @@ let LoginContainer = React.createClass({
     render() {
         return (
             <div className="ascribe-login-wrapper">
-                <LoginForm headerMessage="Log in" />
+                <LoginForm headerMessage="Log in with ascribe" />
                 <div className="ascribe-login-text">
                     I'm not a user <Link to="signup">Sign up...</Link><br/>
                     I forgot my password <Link to="password_reset">Rescue me...</Link>

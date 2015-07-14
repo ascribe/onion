@@ -56,7 +56,8 @@ let LoginForm = React.createClass({
 
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email && this.props.redirectOnLoggedIn) {
-            this.transitionTo('pieces');
+            // FIXME: hack to redirect out of the dispatch cycle
+            window.setTimeout(() => this.transitionTo('pieces'), 0);
         }
     },
 
