@@ -8,7 +8,10 @@ let Hero = React.createClass({
     render() {
         return (
             <div className="hero">
-                <img className="logo" src={constants.whitelabel.logo} alt="Sluice Art Prize" />
+                <img
+                    className="logo" src={constants.whitelabel.logo}
+                    alt="Sluice Art Prize"
+                    height="300px"/>
                 <h1>Sluice Art Prize 2015</h1>
             </div>
         );

@@ -39,7 +39,7 @@ const COMMON_ROUTES = (
 
 function getRoutes(type) {
     let routes = null;
-    console.log(type)
+
     if (type === 'prize') {
         routes = getPrizeRoutes(COMMON_ROUTES);
     } else {
