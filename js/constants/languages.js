@@ -223,7 +223,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     },
     'de': {
         'ID': 'ID',
@@ -447,7 +451,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     },
     'fr': {
         'ID': 'ID',
@@ -671,7 +679,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     }
 };
 

@@ -9,6 +9,9 @@ import Row from 'react-bootstrap/lib/Row';
 import LicenseActions from '../actions/license_actions';
 import LicenseStore from '../stores/license_store';
 
+import WhitelabelActions from '../actions/whitelabel_actions';
+import WhitelabelStore from '../stores/whitelabel_store';
+
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
@@ -35,7 +38,6 @@ let RegisterPiece = React.createClass( {
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        canSpecifyEditions: React.PropTypes.bool,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element])
@@ -53,6 +55,7 @@ let RegisterPiece = React.createClass( {
         return mergeOptions(
             LicenseStore.getState(),
             UserStore.getState(),
+            WhitelabelStore.getState(),
             PieceListStore.getState(),
             {
                 selectedLicense: 0,
@@ -62,15 +65,18 @@ let RegisterPiece = React.createClass( {
 
     componentDidMount() {
         LicenseActions.fetchLicense();
+        WhitelabelActions.fetchWhitelabel();
         LicenseStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         LicenseStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -136,7 +142,7 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if (this.props.canSpecifyEditions) {
+        if (this.state.whitelabel.acl_editions) {
             return (
                 <PropertyCollapsible
                     name="num_editions"
