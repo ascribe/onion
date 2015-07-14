@@ -41,7 +41,7 @@ class AppGateway {
         try {
             settings = getSubdomainSettings(subdomain);
             appConstants.whitelabel = settings;
-            this.load('prize');
+            this.load(settings.type);
         } catch(err) {
             // if there are no matching subdomains, we're routing
             // to the default frontend

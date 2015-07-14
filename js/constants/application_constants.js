@@ -18,28 +18,32 @@ let constants = {
             'subdomain': 'cc',
             'name': 'Creative Commons France',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection']
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
         },
         {
             'user': 22,
             'subdomain': 'cc-staging',
             'name': 'Creative Commons France',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection']
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
         },
         {
             'user': 1,
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection']
+            'logo': 'http://sluice.info/images/logo.gif',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'prize'
         },
         {
             'user': 1,
             'subdomain': 'sluice-staging',
             'name': 'Sluice Art Fair',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection']
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'prize'
         }
     ],
 

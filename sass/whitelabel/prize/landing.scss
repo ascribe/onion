@@ -1,16 +1,17 @@
-.whitelabel-prize {
-    .hero {
+.wp {
+    background-color: #CCC;
+
+    height: 100%;
+    width: 100%;
+
+    > .hero {
         overflow: hidden;
-
-        .logo {
-            float: left;
-            padding-right: 2em;
-        }
+        text-align: center;
     }
+}
 
-    .enter {
-
-    }
+.wp-landing-wrapper {
+    text-align: center;
 }
 
 
