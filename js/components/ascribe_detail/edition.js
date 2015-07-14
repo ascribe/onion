@@ -12,6 +12,10 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
+import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+import EditionListActions from '../../actions/edition_list_actions';
+
 
 import MediaContainer from './media_container';
 
@@ -24,12 +28,10 @@ import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
 import EditionFurtherDetails from './further_details';
 
-//import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 import RequestActionForm from './../ascribe_forms/form_request_action';
 import EditionActions from '../../actions/edition_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
-
-//import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
+import DeleteButton from '../ascribe_buttons/delete_button';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -38,6 +40,7 @@ import apiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 let Link = Router.Link;
 /**
@@ -49,8 +52,13 @@ let Edition = React.createClass({
         loadEdition: React.PropTypes.func
     },
 
+    mixins: [Router.Navigation],
+
     getInitialState() {
-        return UserStore.getState();
+        return mergeOptions(
+            UserStore.getState(),
+            PieceListStore.getState()
+        );
     },
 
     componentDidMount() {
@@ -64,6 +72,20 @@ let Edition = React.createClass({
 
     onChange(state) {
         this.setState(state);
+    },
+
+    handleDeleteSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+
+        // we don't need to refresh the edition list for a piece here, since its reloaded from
+        // scatch once you click on show-editions anyway
+        EditionListActions.closeAllEditionLists();
+        EditionListActions.clearAllEditionSelections();
+
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.transitionTo('pieces');
     },
 
     render() {
@@ -82,7 +104,8 @@ let Edition = React.createClass({
                     </div>
                     <EditionSummary
                         currentUser={this.state.currentUser}
-                        edition={this.props.edition} />
+                        edition={this.props.edition}
+                        handleDeleteSuccess={this.handleDeleteSuccess}/>
 
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
@@ -152,7 +175,8 @@ let Edition = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object
+        edition: React.PropTypes.object,
+        handleDeleteSuccess: React.PropTypes.func
     },
 
     getTransferWithdrawData(){
@@ -173,14 +197,13 @@ let EditionSummary = React.createClass({
             status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
-
-                        <EditionDetailProperty label="STATUS" value={ statusStr } />
-
+                    <EditionDetailProperty label="STATUS" value={ statusStr } />
                 );
             }
         }
         return status;
     },
+
     getActions(){
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
@@ -214,6 +237,9 @@ let EditionSummary = React.createClass({
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess}>
                             {withdrawButton}
+                            <DeleteButton
+                                handleSuccess={this.props.handleDeleteSuccess}
+                                editions={[this.props.edition]}/>
                         </AclButtonList>
                     </Col>
                 </Row>);

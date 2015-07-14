@@ -8,6 +8,7 @@ class EditionListActions {
     constructor() {
         this.generateActions(
             'updateEditionList',
+            'refreshEditionList',
             'selectEdition',
             'clearAllEditionSelections',
             'closeAllEditionLists',
@@ -16,7 +17,7 @@ class EditionListActions {
     }
 
     fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc) {
-        if(!orderBy && typeof orderAsc == 'undefined') {
+        if(!orderBy && typeof orderAsc === 'undefined') {
             orderBy = 'edition_number';
             orderAsc = true;
         }

@@ -15,6 +15,7 @@ import PieceListActions from '../../actions/piece_list_actions';
 
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
+import DeleteButton from '../ascribe_buttons/delete_button';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
 import { getLangText } from '../../utils/lang_utils.js';
@@ -26,7 +27,7 @@ let PieceListBulkModal = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            EditionListStore.getState(), 
+            EditionListStore.getState(),
             UserStore.getState(),
             PieceListStore.getState()
         );
@@ -79,11 +80,7 @@ let PieceListBulkModal = React.createClass({
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                let editionsForPiece = this.state.editionList[pieceId];
-                for(let i = 1; i <= editionsForPiece.page; i++) {
-                    EditionListActions.fetchEditionList(pieceId, i, editionsForPiece.pageSize, editionsForPiece.orderBy, editionsForPiece.orderAsc);
-                }
-                
+                EditionListActions.refreshEditionList(pieceId);
             });
         EditionListActions.clearAllEditionSelections();
     },
@@ -114,7 +111,11 @@ let PieceListBulkModal = React.createClass({
                                     availableAcls={availableAcls}
                                     editions={selectedEditions}
                                     handleSuccess={this.handleSuccess}
-                                    className="text-center ascribe-button-list collapse-group"/>
+                                    className="text-center ascribe-button-list collapse-group">
+                                    <DeleteButton
+                                        handleSuccess={this.handleSuccess}
+                                        editions={selectedEditions}/>
+                                </AclButtonList>
                             </div>
                         </div>
                     </div>
