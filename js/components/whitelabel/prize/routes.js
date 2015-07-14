@@ -23,7 +23,7 @@ let baseUrl = AppConstants.baseUrl;
 function getRoutes(commonRoutes) {
     return (
         <Route name="app" path={baseUrl} handler={App}>
-            <Route name="landing" path="/" handler={Landing} />
+            <Route name="landing" path={baseUrl} handler={Landing} />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
