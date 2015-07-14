@@ -22,9 +22,9 @@ let AclProxy = React.createClass({
     render() {
         if(this.props.aclObject[this.props.aclName]) {
             return (
-                <div>
+                <span>
                     {this.props.children}
-                </div>
+                </span>
             );
         } else {
             if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
