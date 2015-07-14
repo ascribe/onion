@@ -25,12 +25,6 @@ let PieceSubmitToPrizeForm = React.createClass({
         onRequestHide: React.PropTypes.func
     },
 
-    getFormData() {
-        return {
-            id: this.props.piece.id
-        };
-    },
-
     render() {
         return (
             <Form
