@@ -58,6 +58,8 @@ let Header = React.createClass({
     handleLogout(){
         UserActions.logoutCurrentUser();
         Alt.flush();
+        // kill intercom (with fire)
+        window.Intercom('shutdown');
         this.transitionTo('login');
     },
 
@@ -89,6 +91,17 @@ let Header = React.createClass({
     },
     onChange(state) {
         this.setState(state);
+
+        if(this.state.currentUser && this.state.currentUser.email) {
+            // bootup intercom if the user is logged in
+            window.Intercom('boot', {
+               app_id: 'oboxh5w1',
+               email: this.state.currentUser.email,
+               widget: {
+                  activator: '#IntercomDefaultWidget'
+               }  
+            });
+        }
     },
 
     render() {
