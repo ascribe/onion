@@ -8,6 +8,7 @@ import Router from 'react-router';
 import fetch from 'isomorphic-fetch';
 
 import ApiUrls from './constants/api_urls';
+import { updateApiUrls } from './constants/api_urls';
 import appConstants from './constants/application_constants';
 import getRoutes from './routes';
 import requests from './utils/requests';
@@ -41,6 +42,7 @@ class AppGateway {
         try {
             settings = getSubdomainSettings(subdomain);
             appConstants.whitelabel = settings;
+            updateApiUrls(settings.type, subdomain);
             this.load(settings.type);
         } catch(err) {
             // if there are no matching subdomains, we're routing
