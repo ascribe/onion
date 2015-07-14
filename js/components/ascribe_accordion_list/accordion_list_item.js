@@ -82,7 +82,7 @@ let AccordionListItem = React.createClass({
     handleSubmitPrizeSuccess(response) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
     
-        let notification = new GlobalNotificationModel(response.message, 'success', 10000);
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
