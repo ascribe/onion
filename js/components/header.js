@@ -27,7 +27,17 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let Header = React.createClass({
+    propTypes: {
+        showAddWork: React.PropTypes.bool
+    },
+
     mixins: [Router.Navigation, Router.State],
+
+    getDefaultProps() {
+        return {
+            showAddWork: true
+        };
+    },
 
     getInitialState() {
         return mergeOptions(WhitelabelStore.getState(), UserStore.getState());
@@ -96,7 +106,7 @@ let Header = React.createClass({
             );
 
             collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
-            addNewWork = <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink>;
+            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink> : null;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;

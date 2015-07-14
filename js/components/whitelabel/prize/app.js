@@ -17,7 +17,7 @@ let PrizeApp = React.createClass({
         if (this.isActive('landing') || this.isActive('login') || this.isActive('signup')) {
             header = <Hero />;
         } else {
-            header = <Header />;
+            header = <Header showAddWork={false} />;
         }
 
         return (
