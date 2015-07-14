@@ -34,7 +34,7 @@ let SlidesContainer = React.createClass({
         // check if slide_num was defined, and if not then default to 0
         let queryParams = this.getQuery();
         if(!('slide_num' in queryParams)) {
-            this.transitionTo(this.getPathname(), null, {slide_num: 0});
+            this.replaceWith(this.getPathname(), null, {slide_num: 0});
         }
 
         // init container width
@@ -60,7 +60,7 @@ let SlidesContainer = React.createClass({
     setSlideNum(slideNum) {
         if(slideNum < 0 || slideNum < React.Children.count(this.props.children)) {
 
-            this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
+            this.replaceWith(this.getPathname(), null, {slide_num: slideNum});
             this.setState({
                 slideNum: slideNum
             });
