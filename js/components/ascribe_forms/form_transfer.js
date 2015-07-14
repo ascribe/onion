@@ -115,11 +115,11 @@ let TransferForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">TRANSFER</Button>
+                                type="submit">{getLangText('TRANSFER')}</Button>
                             <Button
                                 className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
                                 style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>CLOSE</Button>
+                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
                         </p>
                     </div>}
                 spinner={
@@ -136,7 +136,7 @@ let TransferForm = React.createClass({
                 </Property>
                 <Property
                     name='transfer_message'
-                    label='Personal Message'
+                    label={getLangText('Personal Message')}
                     editable={true}>
                     <InputTextAreaToggable
                         rows={1}

@@ -72,7 +72,7 @@ let RequestActionForm = React.createClass({
         return (
             <Alert bsStyle='warning'>
                 <div style={{textAlign: 'center'}}>
-                <div>{ edition.owner } {getFormData('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
+                <div>{ edition.owner } {getLangText('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
                 {buttons}
                 </div>
             </Alert>
