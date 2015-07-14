@@ -9,6 +9,8 @@ import MediaPlayer from './../ascribe_media/media_player';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
+import AclProxy from '../acl_proxy';
+
 
 let MediaContainer = React.createClass({
     propTypes: {
@@ -49,9 +51,13 @@ let MediaContainer = React.createClass({
                                         url={this.props.content.digital_work.url}
                                         extraData={extraData} />
                 <p className="text-center">
-                    <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
-                        Download <Glyphicon glyph="cloud-download"/>
-                    </Button>
+                    <AclProxy
+                        aclObject={this.props.content.acl}
+                        aclName="acl_download">
+                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
+                            Download <Glyphicon glyph="cloud-download"/>
+                        </Button>
+                    </AclProxy>
                     {embed}
                 </p>
             </div>
