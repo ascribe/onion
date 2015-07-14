@@ -35,10 +35,6 @@ let PieceSubmitToPrizeForm = React.createClass({
                             <button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
                                 type="submit">{getLangText('SUBMIT TO PRIZE')}</button>
-                            <button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</button>
                         </p>
                     </div>}
                 spinner={
