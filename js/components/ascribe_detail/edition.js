@@ -28,6 +28,7 @@ import EditionFurtherDetails from './further_details';
 import RequestActionForm from './../ascribe_forms/form_request_action';
 import EditionActions from '../../actions/edition_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
+import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 
 //import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
@@ -81,12 +82,13 @@ let Edition = React.createClass({
                         <hr/>
                     </div>
                     <EditionSummary
+                        handleSuccess={this.props.loadEdition}
                         currentUser={this.state.currentUser}
                         edition={this.props.edition} />
 
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
-                        show={this.props.edition.acl.acl_coa}>
+                        show={this.props.edition.acl.acl_coa === true}>
                         <CoaDetails
                             edition={this.props.edition}/>
                     </CollapsibleParagraph>
@@ -152,19 +154,20 @@ let Edition = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object
+        edition: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func,
+        currentUser: React.PropTypes.object
     },
 
     getTransferWithdrawData(){
         return {'bitcoin_id': this.props.edition.bitcoin_id};
     },
-    handleSuccess(){
-        EditionActions.fetchOne(this.props.edition.id);
-    },
     showNotification(response){
-        this.handleSuccess();
-        let notification = new GlobalNotificationModel(response.notification, 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        this.props.handleSuccess();
+        if (response){
+            let notification = new GlobalNotificationModel(response.notification, 'success');
+            GlobalNotificationActions.appendGlobalNotification(notification);
+        }
     },
     getStatus(){
         let status = null;
@@ -186,6 +189,7 @@ let EditionSummary = React.createClass({
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
             actions = (
                 <RequestActionForm
+                    currentUser={this.props.currentUser}
                     editions={ [this.props.edition] }
                     handleSuccess={this.showNotification}/>);
         }
@@ -205,6 +209,15 @@ let EditionSummary = React.createClass({
                     </Form>
                 );
             }
+            let unconsignRequestButton = null;
+            if (this.props.edition.acl.acl_request_unconsign) {
+                unconsignRequestButton = (
+                    <UnConsignRequestButton
+                        currentUser={this.props.currentUser}
+                        edition={this.props.edition}
+                        handleSuccess={this.props.handleSuccess} />
+                    );
+            }
             actions = (
                 <Row>
                     <Col md={12}>
@@ -212,8 +225,9 @@ let EditionSummary = React.createClass({
                             className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
-                            handleSuccess={this.handleSuccess}>
+                            handleSuccess={this.props.handleSuccess}>
                             {withdrawButton}
+                            {unconsignRequestButton}
                         </AclButtonList>
                     </Col>
                 </Row>);

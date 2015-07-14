@@ -51,7 +51,12 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Unconsign artwork'),
                 tooltip: getLangText('Have the owner manage his sales again'),
-                form: <UnConsignForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (
+                    <UnConsignForm
+                        message={this.getUnConsignMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_unconsigns}/>
+                    ),
                 handleSuccess: this.showNotification
             };
         }else if (this.props.action === 'acl_transfer') {
@@ -143,6 +148,20 @@ ${this.props.currentUser.username}
 
 ${getLangText('I consign')}:
 ${this.getTitlesString()} ${getLangText('to you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
+    // plz move to consign form
+    getUnConsignMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I un-consign')}:
+${this.getTitlesString()} ${getLangText('from you')}.
 
 ${getLangText('Truly yours')},
 ${this.props.currentUser.username}
