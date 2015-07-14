@@ -10,11 +10,12 @@ let constants = {
     'apiEndpoint': window.API_ENDPOINT,
     'serverUrl': window.SERVER_URL,
     'baseUrl': window.BASE_URL,
-    'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_editions', 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view', 'acl_withdraw_transfer'],
+    'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_editions',
+                'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
+                'acl_withdraw_transfer'],
 
     'subdomains': [
         {
-            'user': 22,
             'subdomain': 'cc',
             'name': 'Creative Commons France',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
@@ -22,7 +23,6 @@ let constants = {
             'type': 'wallet'
         },
         {
-            'user': 22,
             'subdomain': 'cc-staging',
             'name': 'Creative Commons France',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
@@ -30,7 +30,6 @@ let constants = {
             'type': 'wallet'
         },
         {
-            'user': 1,
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
             'logo': 'http://sluice.info/images/logo.gif',
@@ -38,7 +37,6 @@ let constants = {
             'type': 'prize'
         },
         {
-            'user': 1,
             'subdomain': 'sluice-staging',
             'name': 'Sluice Art Fair',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
