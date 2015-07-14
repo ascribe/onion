@@ -35,15 +35,7 @@ let SignupContainer = React.createClass({
         }
         return (
             <div className="ascribe-login-wrapper">
-                <SignupForm handleSuccess={this.handleSuccess}>
-                    <Property
-                        name='promo_code'
-                        label={getLangText('Promocode')}>
-                        <input
-                            type="text"
-                            placeholder={getLangText('Enter a promocode here (Optional)')}/>
-                    </Property>
-                </SignupForm>
+                <SignupForm handleSuccess={this.handleSuccess} />
             </div>
         );
     }
