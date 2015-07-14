@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactAddons from 'react/addons';
 
 import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
@@ -39,15 +40,17 @@ let PropertyCollapsile = React.createClass({
         });
     },
 
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    },
+
     renderChildren() {
         if(this.state.show) {
-            return (<div
-                        className={classNames(this.getCollapsibleClassSet()) + ' ascribe-settings-property'}
-                        ref="panel">
-                            {this.props.children}
-                    </div>);
-        } else {
-            return null;
+            return ReactAddons.Children.map(this.props.children, (child) => {
+                return ReactAddons.addons.cloneWithProps(child, {
+                    onChange: this.handleChange
+                });
+            });
         }
     },
 
@@ -75,13 +78,18 @@ let PropertyCollapsile = React.createClass({
                         onClick={this.handleFocus}
                         onFocus={this.handleFocus}>
                         <input
+                            onChange={this.handleChange}
                             type="checkbox"
                             ref="checkboxCollapsible"/>
                         {/* PLEASE LEAVE THE SPACE BETWEEN LABEL and this.props.label */}
                         <span className="checkbox"> {this.props.checkboxLabel}</span>
                     </div>
                 </OverlayTrigger>
-                {this.renderChildren()}
+                <div
+                    className={classNames(this.getCollapsibleClassSet()) + ' ascribe-settings-property'}
+                    ref="panel">
+                        {this.renderChildren()}
+                </div>
             </div>
         );
     }
