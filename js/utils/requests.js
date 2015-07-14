@@ -54,6 +54,11 @@ class Requests {
     }
 
     getUrl(url) {
+        // Handle case, that the url string is not defined at all
+        if (!url) {
+            throw new Error('Url was not defined and could therefore not be mapped.');
+        }
+
         let name = url;
         if (!url.match(/^http/)) {
             url = this.urlMap[url];
@@ -66,9 +71,16 @@ class Requests {
     }
 
     prepareUrl(url, params, attachParamsToQuery) {
-        let newUrl = this.getUrl(url);
+        let newUrl;
         let re = /\${(\w+)}/g;
 
+        // catch errors and throw them to react
+        try {
+            newUrl = this.getUrl(url);
+        } catch(err) {
+            throw err;
+        }
+        
         newUrl = newUrl.replace(re, (match, key) => {
             let val = params[key];
             if (!val) {

@@ -56,6 +56,31 @@ class EditionListStore {
         this.editionList[pieceId].count = count;
     }
 
+    /**
+     * We often just have to refresh the edition list for a certain pieceId,
+     * this method provides exactly that functionality without any side effects
+     */
+    onRefreshEditionList(pieceId) {
+        const prevEditionListLength = this.editionList[pieceId].length;
+        const prevEditionListPage = this.editionList[pieceId].page;
+        const prevEditionListPageSize = this.editionList[pieceId].pageSize;
+
+        // to clear an array, david walsh recommends to just set it's length to zero
+        // http://davidwalsh.name/empty-array
+        this.editionList[pieceId].length = 0;
+
+        // refetch editions with adjusted page size
+        EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength, this.editionList[pieceId].orderBy, this.editionList[pieceId].orderAsc)
+            .then(() => {
+                // reset back to the normal pageSize and page
+                this.editionList[pieceId].page = prevEditionListPage;
+                this.editionList[pieceId].pageSize = prevEditionListPageSize;
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
     onSelectEdition({pieceId, editionId, toValue}) {
         this.editionList[pieceId].forEach((edition) => {
 
