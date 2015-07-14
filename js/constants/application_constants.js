@@ -14,48 +14,32 @@ let constants = {
 
     'subdomains': [
         {
-            'fields': {
-                'user': 22,
-                'subdomain': 'cc',
-                'name': 'Creative Commons France',
-                'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-                'permissions': ['register', 'edit', 'share', 'del_from_collection']
-            },
-            'model': 'whitelabel.whitelabelsettings',
-            'pk': 1
+            'user': 22,
+            'subdomain': 'cc',
+            'name': 'Creative Commons France',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection']
         },
         {
-            'fields': {
-                'user': 22,
-                'subdomain': 'cc-staging',
-                'name': 'Creative Commons France',
-                'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-                'permissions': ['register', 'edit', 'share', 'del_from_collection']
-            },
-            'model': 'whitelabel.whitelabelsettings',
-            'pk': 2
-        },
-            {
-            'fields': {
-                'user': 1,
-                'subdomain': 'sluice',
-                'name': 'Sluice Art Fair',
-                'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
-                'permissions': ['register', 'edit', 'share', 'del_from_collection']
-            },
-            'model': 'whitelabel.whitelabelsettings',
-            'pk': 3
+            'user': 22,
+            'subdomain': 'cc-staging',
+            'name': 'Creative Commons France',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection']
         },
         {
-            'fields': {
-                'user': 1,
-                'subdomain': 'sluice-staging',
-                'name': 'Sluice Art Fair',
-                'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
-                'permissions': ['register', 'edit', 'share', 'del_from_collection']
-            },
-            'model': 'whitelabel.whitelabelsettings',
-            'pk': 4
+            'user': 1,
+            'subdomain': 'sluice',
+            'name': 'Sluice Art Fair',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection']
+        },
+        {
+            'user': 1,
+            'subdomain': 'sluice-staging',
+            'name': 'Sluice Art Fair',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection']
         }
     ],
 
