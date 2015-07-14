@@ -148,11 +148,16 @@ let AccordionListItem = React.createClass({
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
-                                <AccordionListItemEditionWidget
-                                    className="pull-right"
-                                    piece={this.props.content}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    onPollingSuccess={this.onPollingSuccess}/>
+                                
+                                <AclProxy
+                                    aclObject={this.props.content.acl}
+                                    aclName="acl_view_editions">
+                                    <AccordionListItemEditionWidget
+                                        className="pull-right"
+                                        piece={this.props.content}
+                                        toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                        onPollingSuccess={this.onPollingSuccess}/>
+                                </AclProxy>
                                 <AclProxy
                                     show={this.props.content.prize === null}>
                                     <SubmitToPrizeButton
