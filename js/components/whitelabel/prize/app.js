@@ -9,7 +9,6 @@ import GlobalNotification from '../../global_notification';
 
 let RouteHandler = Router.RouteHandler;
 
-
 let PrizeApp = React.createClass({
     mixins: [Router.State],
 
@@ -18,7 +17,7 @@ let PrizeApp = React.createClass({
         if (this.isActive('landing') || this.isActive('login') || this.isActive('signup')) {
             header = <Hero />;
         } else {
-            header = <Header />;
+            header = <Header showAddWork={false} />;
         }
 
         return (

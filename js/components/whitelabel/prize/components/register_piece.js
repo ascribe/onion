@@ -40,7 +40,14 @@ let PrizeRegisterPiece = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox/>
+                    <InputCheckbox>
+                        <span>
+                            {' ' + getLangText('I agree to the Terms of Service the art price') + ' '}
+                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/terms.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                {getLangText('read')}
+                            </a>)
+                        </span>
+                    </InputCheckbox>
                 </Property>
             </RegisterPiece>
         );
