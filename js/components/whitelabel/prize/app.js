@@ -20,7 +20,7 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className="whitelabel-prize">
+            <div className="wp">
                 <Hero />
                 {header}
                 <RouteHandler />
