@@ -1,17 +1,33 @@
 .wp {
-    background-color: #CCC;
+    background-color: #FDFDFD;
 
     height: 100%;
     width: 100%;
 
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+
     > .hero {
+
         overflow: hidden;
         text-align: center;
+
+        > img {
+            margin-top: 5em;
+            margin-bottom: 5em;
+        }
     }
 }
 
 .wp-landing-wrapper {
     text-align: center;
+
+    > .enter {
+        margin-top: 2em;
+        > p {
+            margin-top: 2em;
+        }
+    }
 }
 
 
