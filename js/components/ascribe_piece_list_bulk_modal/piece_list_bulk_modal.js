@@ -82,7 +82,7 @@ let PieceListBulkModal = React.createClass({
 
     render() {
         let selectedEditions = this.fetchSelectedEditionList();
-        let availableAcls = getAvailableAcls(selectedEditions);
+        let availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         if(Object.keys(availableAcls).length > 0) {
             return (
