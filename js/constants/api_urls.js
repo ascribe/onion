@@ -1,6 +1,9 @@
 'use strict';
 
 import AppConstants from './application_constants';
+import getPrizeApiUrls from '../components/whitelabel/prize/constants/api_urls';
+import { update } from '../utils/general_utils';
+
 
 let apiUrls = {
     'applications': AppConstants.apiEndpoint + 'applications/',
@@ -49,5 +52,15 @@ let apiUrls = {
     'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
     'delete_s3_file': AppConstants.serverUrl + 's3/delete/'
 };
+
+
+export function updateApiUrls(type, subdomain) {
+    let newUrls = {};
+
+    if (type === 'prize') {
+        newUrls = getPrizeApiUrls(subdomain);
+    }
+    update(apiUrls, newUrls);
+}
 
 export default apiUrls;
