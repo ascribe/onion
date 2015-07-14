@@ -24,6 +24,9 @@ import AclButtonList from './../ascribe_buttons/acl_button_list';
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
@@ -89,6 +92,9 @@ let Piece = React.createClass({
             key: 'num_editions',
             value: numEditions
         });
+
+        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {

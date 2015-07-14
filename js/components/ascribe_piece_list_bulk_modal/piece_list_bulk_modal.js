@@ -10,9 +10,11 @@ import EditionListActions from '../../actions/edition_list_actions';
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
 
+import PieceListStore from '../../stores/piece_list_store';
+import PieceListActions from '../../actions/piece_list_actions';
+
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 import AclButtonList from '../ascribe_buttons/acl_button_list';
-
 
 import { getAvailableAcls } from '../../utils/acl_utils';
 import { getLangText } from '../../utils/lang_utils.js';
@@ -23,7 +25,11 @@ let PieceListBulkModal = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(EditionListStore.getState(), UserStore.getState());
+        return mergeOptions(
+            EditionListStore.getState(), 
+            UserStore.getState(),
+            PieceListStore.getState()
+        );
     },
 
     onChange(state) {
@@ -69,6 +75,8 @@ let PieceListBulkModal = React.createClass({
     },
 
     handleSuccess() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
                 let editionsForPiece = this.state.editionList[pieceId];
