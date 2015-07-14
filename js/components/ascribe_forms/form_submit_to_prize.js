@@ -23,7 +23,6 @@ let PieceSubmitToPrizeForm = React.createClass({
     },
 
     render() {
-        console.log(this.props);
         return (
             <Form
                 ref='form'
@@ -46,7 +45,7 @@ let PieceSubmitToPrizeForm = React.createClass({
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
-                <p>{getLangText('Are you sure you want to submit to the art prize?')}</p>
+                <p>{getLangText('Are you sure you want to submit to the prize?')}</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
             </Form>
         );

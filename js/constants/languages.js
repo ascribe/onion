@@ -148,7 +148,7 @@ const languages = {
         'Hash of Artwork, title, etc': 'Hash of Artwork, title, etc',
         'Owned by SPOOL address': 'Owned by SPOOL address',
         'Are you sure you would like to permanently delete this edition%s': 'Are you sure you would like to permanently delete this edition%s',
-        'This is an irrevocable action%s': 'This is an irrevocable action%s',
+        'This is an irrevocable action%s': 'You can not undo this action%s',
         'DELETE': 'DELETE',
         'YES, DELETE': 'YES, DELETE',
         'CLOSE': 'CLOSE',
