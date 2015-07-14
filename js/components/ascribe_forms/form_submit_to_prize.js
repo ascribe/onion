@@ -30,7 +30,6 @@ let PieceSubmitToPrizeForm = React.createClass({
             <Form
                 ref='form'
                 url={requests.prepareUrl(ApiUrls.piece_submit_to_prize, {piece_id: this.props.piece.id})}
-                getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
                 buttons={
                     <div className="modal-footer">
