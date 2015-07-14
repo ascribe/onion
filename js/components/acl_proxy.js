@@ -28,19 +28,22 @@ let AclProxy = React.createClass({
                 </span>
             );
         } else {
-            if(this.props.aclObject[this.props.aclName]) {
-                return (
-                    <span>
-                        {this.props.children}
-                    </span>
-                );
-            } else {
-                if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
-                    console.warn('The aclName you\'re filtering for was not present (undefined) in the aclObject.');
+            if(this.props.aclObject) {
+                if(this.props.aclObject[this.props.aclName]) {
+                    return (
+                        <span>
+                            {this.props.children}
+                        </span>
+                    );
+                } else {
+                    if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
+                        console.warn('The aclName you\'re filtering for was not present (undefined) in the aclObject.');
+                    }
+                    return null;
                 }
-                return null;
             }
         }
+        return null;
     }
 });
 
