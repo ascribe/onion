@@ -181,7 +181,7 @@ let EditionSummary = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object,
         handleDeleteSuccess: React.PropTypes.func
     },
 
