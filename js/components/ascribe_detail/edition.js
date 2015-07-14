@@ -63,11 +63,13 @@ let Edition = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {

@@ -8,7 +8,7 @@ function intersectAcls(a, b) {
 
 export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];
-    if (editions.constructor !== Array){
+    if (!editions || editions.constructor !== Array){
         return [];
     }
     // if you copy a javascript array of objects using slice, then
