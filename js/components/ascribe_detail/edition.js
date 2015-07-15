@@ -80,8 +80,7 @@ let Edition = React.createClass({
     handleDeleteSuccess(response) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
 
-        // we don't need to refresh the edition list for a piece here, since its reloaded from
-        // scatch once you click on show-editions anyway
+        EditionListActions.refreshEditionList(this.props.edition.parent);
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
