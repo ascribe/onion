@@ -32,7 +32,7 @@ let SettingsContainer = React.createClass({
 
     render() {
         return (
-            <div>
+            <div className="settings-container">
                 <AccountSettings />
                 <APISettings />
                 <BitcoinWalletSettings />
@@ -104,7 +104,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
-                <Form
+                {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
                     <Property
                         name='language'
@@ -121,7 +121,7 @@ let AccountSettings = React.createClass({
                         </select>
                     </Property>
                     <hr />
-                </Form>
+                </Form>*/}
             </CollapsibleParagraph>
         );
     }
@@ -297,10 +297,10 @@ let APISettings = React.createClass({
                         name={app.name}
                         label={app.name}>
                         <div className="row-same-height">
-                            <div className="no-padding col-xs-6 col-xs-height col-middle">
+                            <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
                             {'Bearer ' + app.bearer_token.token}
                             </div>
-                            <div className="col-xs-6 col-xs-height">
+                            <div className="col-xs-6 col-sm-2 col-xs-height">
                                 <button
                                     className="pull-right btn btn-default btn-sm"
                                     onClick={this.handleTokenRefresh}

@@ -14,8 +14,7 @@ let PrizeRegisterPiece = React.createClass({
         return (
             <RegisterPiece
                 headerMessage={getLangText('Submit to the prize')}
-                submitMessage={getLangText('Submit')}
-                canSpecifyEditions={false} >
+                submitMessage={getLangText('Submit')}>
                 <Property
                     name='artist_statement'
                     label={getLangText('Artist statement')}

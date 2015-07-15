@@ -52,7 +52,10 @@ class AppGateway {
     }
 
     load(type) {
-        Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
+        Router.run(getRoutes(type), Router.HistoryLocation, (App, state) => {
+            if (window.ga) {
+                window.ga('send', 'pageview');
+            }
             React.render(
                 <App />,
                 document.getElementById('main')

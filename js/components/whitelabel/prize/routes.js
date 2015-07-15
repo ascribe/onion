@@ -9,7 +9,7 @@ import SignupContainer from './components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
 import PrizeRegisterPiece from './components/register_piece';
 import PrizePieceList from './components/piece_list';
-import PieceContainer from '../../ascribe_detail/piece_container';
+import PrizePieceContainer from './components/ascribe_detail/piece_container';
 import EditionContainer from '../../ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/settings_container';
 
@@ -29,7 +29,7 @@ function getRoutes(commonRoutes) {
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
             <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} />
             <Route name="pieces" path="collection" handler={PrizePieceList} />
-            <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
+            <Route name="piece" path="pieces/:pieceId" handler={PrizePieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>

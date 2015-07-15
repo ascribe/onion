@@ -52,7 +52,7 @@ let CreateEditionsForm = React.createClass({
                     <input
                         type="number"
                         placeholder="(e.g. 32)"
-                        min={0}/>
+                        min={1}/>
                 </Property>
             </Form>
         );

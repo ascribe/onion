@@ -31,8 +31,8 @@ let SignupForm = React.createClass({
 
     getDefaultProps() {
         return {
-            headerMessage: 'Welcome to ascribe',
-            submitMessage: 'Sign up'
+            headerMessage: getLangText('Welcome to ascribe'),
+            submitMessage: getLangText('Sign up')
         };
     },
 
@@ -58,12 +58,9 @@ let SignupForm = React.createClass({
     },
 
     handleSuccess(response){
-
-        let notificationText = getLangText('Sign up successful');
-        let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
+        let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email +
-                                 ', ' + getLangText('please confirm') + '.');
+        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
 
     },
     getFormData(){
@@ -82,7 +79,7 @@ let SignupForm = React.createClass({
                 getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText(this.props.submitMessage)}
+                        {this.props.submitMessage}
                     </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -90,7 +87,7 @@ let SignupForm = React.createClass({
                     </span>
                     }>
                 <FormPropertyHeader>
-                    <h3>{getLangText(this.props.headerMessage)}</h3>
+                    <h3>{this.props.headerMessage}</h3>
                 </FormPropertyHeader>
                 <Property
                     name='email'

@@ -5,7 +5,7 @@ import Router from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
-
+import FormPropertyHeader from './ascribe_forms/form_property_header';
 import apiUrls from '../constants/api_urls';
 
 import GlobalNotificationModel from '../models/global_notification_model';
@@ -25,9 +25,6 @@ let PasswordResetContainer = React.createClass({
         if (this.props.query.email && this.props.query.token) {
             return (
                 <div>
-                    <div className="ascribe-login-text ascribe-login-header">
-                        {getLangText('Reset the password for')} {this.props.query.email}
-                    </div>
                     <PasswordResetForm
                         email={this.props.query.email}
                         token={this.props.query.token}/>
@@ -38,9 +35,6 @@ let PasswordResetContainer = React.createClass({
             if (this.state.isRequested === false) {
                 return (
                     <div>
-                        <div className="ascribe-login-text ascribe-login-header">
-                            {getLangText('Reset your password')}
-                        </div>
                         <PasswordRequestResetForm
                             handleRequestSuccess={this.handleRequestSuccess}/>
                     </div>
@@ -86,6 +80,9 @@ let PasswordRequestResetForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
+                <FormPropertyHeader>
+                    <h3>{getLangText('Reset your password')}</h3>
+                </FormPropertyHeader>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -133,6 +130,9 @@ let PasswordResetForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
+                <FormPropertyHeader>
+                    <h3>{getLangText('Reset the password for')} {this.props.email}</h3>
+                </FormPropertyHeader>
                 <Property
                     name='password'
                     label={getLangText('Password')}>

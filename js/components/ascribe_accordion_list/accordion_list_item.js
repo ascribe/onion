@@ -11,6 +11,11 @@ import AccordionListItemEditionWidget from './accordion_list_item_edition_widget
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 
 import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+
+import WhitelabelStore from '../../stores/whitelabel_store';
+import WhitelabelActions from '../../actions/whitelabel_actions';
+
 import EditionListActions from '../../actions/edition_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -20,6 +25,7 @@ import AclProxy from '../acl_proxy';
 import SubmitToPrizeButton from '../ascribe_buttons/submit_to_prize_button';
 
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 let Link = Router.Link;
 
@@ -33,9 +39,27 @@ let AccordionListItem = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState() {
-        return {
-            showCreateEditionsDialog: false
-        };
+        return mergeOptions(
+            {
+                showCreateEditionsDialog: false
+            },
+            PieceListStore.getState(),
+            WhitelabelStore.getState()
+        );
+    },
+
+    componentDidMount() {
+        PieceListStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        PieceListStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     getGlyphicon(){
@@ -61,6 +85,13 @@ let AccordionListItem = React.createClass({
         this.toggleCreateEditionsDialog();
     },
 
+    handleSubmitPrizeSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+    
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
     onPollingSuccess(pieceId, numEditions) {
         PieceListActions.updatePropertyForPiece({
             pieceId,
@@ -82,6 +113,17 @@ let AccordionListItem = React.createClass({
                         pieceId={this.props.content.id}
                         handleSuccess={this.handleEditionCreationSuccess} />
                 </div>
+            );
+        }
+    },
+
+    getLicences() {
+        // convert this to acl_view_licences later
+        if(this.state.whitelabel.name === 'Creative Commons France') {
+            return (
+                <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
+                    {getLangText('%s license', this.props.content.license_type.code)}
+                </a>
             );
         }
     },
@@ -123,25 +165,32 @@ let AccordionListItem = React.createClass({
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
                             <div>
                                 <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
-                                <AccordionListItemEditionWidget
-                                    className="pull-right"
-                                    piece={this.props.content}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    onPollingSuccess={this.onPollingSuccess}/>
+                                
                                 <AclProxy
-                                    show={this.props.content.prize_name === null}>
-                                    <SubmitToPrizeButton
+                                    aclObject={this.props.content.acl}
+                                    aclName="acl_view_editions">
+                                    <AccordionListItemEditionWidget
                                         className="pull-right"
-                                        piece={this.props.content} />
+                                        piece={this.props.content}
+                                        toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                        onPollingSuccess={this.onPollingSuccess}/>
                                 </AclProxy>
                                 <AclProxy
-                                    show={this.props.content.prize_name}>
+                                    show={this.props.content.prize === null}>
+                                    <SubmitToPrizeButton
+                                        className="pull-right"
+                                        piece={this.props.content}
+                                        handleSuccess={this.handleSubmitPrizeSuccess}/>
+                                </AclProxy>
+                                <AclProxy
+                                    show={this.props.content.prize}>
                                     <button
                                         disabled
                                         className="btn btn-default btn-xs pull-right">
                                         {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                     </button>
                                 </AclProxy>
+                                {this.getLicences()}
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>

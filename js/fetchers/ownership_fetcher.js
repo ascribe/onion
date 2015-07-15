@@ -1,8 +1,8 @@
 'use strict';
 
 import requests from '../utils/requests';
-import AppConstants from '../constants/application_constants';
 
+import ApiUrls from '../constants/api_urls';
 
 let OwnershipFetcher = {
     /**
@@ -10,7 +10,7 @@ let OwnershipFetcher = {
      * If no arg is supplied, load the current user
      */
     fetchLoanContract(email) {
-        return requests.get(AppConstants.apiEndpoint + 'ownership/loans/contract/?loanee=' + email);
+        return requests.get(ApiUrls.ownership_loans_contract + '?loanee=' + email);
     }
 };
 

@@ -37,7 +37,7 @@ let AclProxy = React.createClass({
                     );
                 } else {
                     if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
-                        console.warn('The aclName you\'re filtering for was not present (undefined) in the aclObject.');
+                        console.warn('The aclName you\'re filtering for was not present (or undefined) in the aclObject.');
                     }
                     return null;
                 }

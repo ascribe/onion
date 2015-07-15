@@ -6,6 +6,8 @@ import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
 import Piece from './piece';
+import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
+import FurtherDetails from './further_details';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -46,7 +48,21 @@ let PieceContainer = React.createClass({
             return (
                 <Piece
                     piece={this.state.piece}
-                    loadPiece={this.loadPiece}/>
+                    loadPiece={this.loadPiece}>
+                    <CollapsibleParagraph
+                        title="Further Details"
+                        show={this.state.piece.acl.acl_edit
+                            || Object.keys(this.state.piece.extra_data).length > 0
+                            || this.state.piece.other_data !== null}
+                        defaultExpanded={true}>
+                        <FurtherDetails
+                            editable={this.state.piece.acl.acl_edit}
+                            pieceId={this.state.piece.id}
+                            extraData={this.state.piece.extra_data}
+                            otherData={this.state.piece.other_data}
+                            handleSuccess={this.loadPiece}/>
+                    </CollapsibleParagraph>
+                </Piece>
             );
         } else {
             return (

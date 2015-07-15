@@ -148,7 +148,7 @@ const languages = {
         'Hash of Artwork, title, etc': 'Hash of Artwork, title, etc',
         'Owned by SPOOL address': 'Owned by SPOOL address',
         'Are you sure you would like to permanently delete this edition%s': 'Are you sure you would like to permanently delete this edition%s',
-        'This is an irrevocable action%s': 'This is an irrevocable action%s',
+        'This is an irrevocable action%s': 'You can not undo this action%s',
         'DELETE': 'DELETE',
         'YES, DELETE': 'YES, DELETE',
         'CLOSE': 'CLOSE',
@@ -223,7 +223,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     },
     'de': {
         'ID': 'ID',
@@ -447,7 +451,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     },
     'fr': {
         'ID': 'ID',
@@ -671,7 +679,11 @@ const languages = {
         'Sign up to the prize': 'Sign up to the prize',
         '(e.g. andy@warhol.co.uk)': '(e.g. andy@warhol.co.uk)',
         'Use a combination of minimum 10 chars and numbers': 'Use a combination of minimum 10 chars and numbers',
-        'Log in with ascribe': 'Log in with ascribe'
+        'Log in with ascribe': 'Log in with ascribe',
+        'Submitted to prize': 'Submitted to prize',
+        'Welcome to ascribe': 'Welcome to ascribe',
+        'CREATE EDITIONS': 'CREATE EDITIONS',
+        'Remove Piece': 'Remove Piece'
     }
 };
 
