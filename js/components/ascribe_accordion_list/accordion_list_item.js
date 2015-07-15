@@ -13,6 +13,9 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
+import WhitelabelStore from '../../stores/whitelabel_store';
+import WhitelabelActions from '../../actions/whitelabel_actions';
+
 import EditionListActions from '../../actions/edition_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -40,16 +43,19 @@ let AccordionListItem = React.createClass({
             {
                 showCreateEditionsDialog: false
             },
-            PieceListStore.getState()
+            PieceListStore.getState(),
+            WhitelabelStore.getState()
         );
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -107,6 +113,17 @@ let AccordionListItem = React.createClass({
                         pieceId={this.props.content.id}
                         handleSuccess={this.handleEditionCreationSuccess} />
                 </div>
+            );
+        }
+    },
+
+    getLicences() {
+        // convert this to acl_view_licences later
+        if(this.state.whitelabel.name === 'Creative Commons France') {
+            return (
+                <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
+                    {getLangText('%s license', this.props.content.license_type.code)}
+                </a>
             );
         }
     },
@@ -173,6 +190,7 @@ let AccordionListItem = React.createClass({
                                         {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                     </button>
                                 </AclProxy>
+                                {this.getLicences()}
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>

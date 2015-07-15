@@ -82,7 +82,7 @@ let Property = React.createClass({
             this.props.onChange(event);
         }
 
-        this.setState({value: true});
+        this.setState({value: event.target.value});
     },
 
     handleFocus() {
@@ -104,10 +104,14 @@ let Property = React.createClass({
         });
     },
 
-    handleBlur() {
+    handleBlur(event) {
         this.setState({
             isFocused: false
         });
+
+        if(this.props.onBlur) {
+            this.props.onBlur(event);
+        }
     },
 
     handleSuccess(){

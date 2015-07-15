@@ -14,20 +14,20 @@ let Landing = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
-                        <h1>Sluice Art Prize 2015</h1>
+                        <h1>Sluice_screens ↄc Prize 2015</h1>
                         <p>
-                            This is the submission page for sluice art fair price 2015.
+                            This is the submission page for Sluice_screens ↄc Prize 2015.
                         </p>
                         <ButtonGroup className="enter" bsSize="large" vertical block>
                             <ButtonLink to="signup">
-                                Signup to the prize
+                                Signup to submit
                             </ButtonLink>
 
                             <p>
                                 or, already an ascribe user?
                             </p>
                             <ButtonLink to="login">
-                                Login with ascribe
+                                Login to submit
                             </ButtonLink>
                         </ButtonGroup>
                     </div>
