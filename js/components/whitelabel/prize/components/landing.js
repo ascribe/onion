@@ -20,14 +20,14 @@ let Landing = React.createClass({
                         </p>
                         <ButtonGroup className="enter" bsSize="large" vertical block>
                             <ButtonLink to="signup">
-                                Signup to submit
+                                Sign up to submit
                             </ButtonLink>
 
                             <p>
                                 or, already an ascribe user?
                             </p>
                             <ButtonLink to="login">
-                                Login to submit
+                                Log in to submit
                             </ButtonLink>
                         </ButtonGroup>
                     </div>
