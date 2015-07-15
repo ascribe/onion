@@ -177,9 +177,9 @@ let RegisterPiece = React.createClass( {
                                 {...this.props}
                                 isFineUploaderEditable={this.state.isFineUploaderEditable}
                                 handleSuccess={this.handleSuccess}>
-                                {this.getSpecifyEditions()}
                                 {this.props.children}
                                 {this.getLicenses()}
+                                {this.getSpecifyEditions()}
                             </RegisterPieceForm>
                         </Col>
                     </Row>
