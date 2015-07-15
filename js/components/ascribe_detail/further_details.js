@@ -125,7 +125,7 @@ let FileUploader = React.createClass({
         return (
             <Form>
                 <Property
-                    label="Additional files">
+                    label="Additional files (max. 10MB)">
                     <ReactS3FineUploader
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
