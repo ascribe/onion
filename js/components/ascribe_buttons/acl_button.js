@@ -5,7 +5,7 @@ import React from 'react';
 import ConsignForm from '../ascribe_forms/form_consign';
 import UnConsignForm from '../ascribe_forms/form_unconsign';
 import TransferForm from '../ascribe_forms/form_transfer';
-import LoanForm from '../ascribe_forms/form_loan';
+import LoanForm from '../ascribe_forms/form_loan_new';
 import ShareForm from '../ascribe_forms/form_share_email';
 import ModalWrapper from '../ascribe_modal/modal_wrapper';
 import AppConstants from '../../constants/application_constants';
@@ -30,7 +30,7 @@ let AclButton = React.createClass({
     },
 
     isPiece(){
-        return !(this.props.pieceOrEditions.constructor === Array);
+        return this.props.pieceOrEditions.constructor !== Array;
     },
 
     actionProperties(){
@@ -68,7 +68,7 @@ let AclButton = React.createClass({
                         message={this.getTransferMessage()}
                         id={this.getFormDataId()}
                         url={apiUrls.ownership_transfers}/>
-                    ),
+                ),
                 handleSuccess: this.showNotification
             };
         }
@@ -76,7 +76,11 @@ let AclButton = React.createClass({
             return {
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
-                form: <LoanForm currentUser={ this.props.currentUser } editions={ this.props.pieceOrEditions }/>,
+                form: (<LoanForm
+                        message={this.getLoanMessage()}
+                        id={this.getFormDataId()}
+                        url={apiUrls.ownership_loans}/>
+                ),
                 handleSuccess: this.showNotification
             };
         }
@@ -141,6 +145,20 @@ ${this.props.currentUser.username}
         );
     },
 
+    // plz move to transfer form
+    getLoanMessage(){
+        return (
+            `${getLangText('Hi')},
+
+${getLangText('I loan')}:
+${this.getTitlesString()} ${getLangText('to you')}.
+
+${getLangText('Truly yours')},
+${this.props.currentUser.username}
+            `
+        );
+    },
+
     // plz move to consign form
     getConsignMessage(){
         return (
@@ -191,6 +209,7 @@ ${this.props.currentUser.username}
     render() {
         let shouldDisplay = this.props.availableAcls[this.props.action];
         let aclProps = this.actionProperties();
+
         return (
             <ModalWrapper
                 button={
@@ -198,10 +217,10 @@ ${this.props.currentUser.username}
                         {this.sanitizeAction()}
                     </button>
                 }
-                handleSuccess={ aclProps.handleSuccess }
-                title={ aclProps.title }
-                tooltip={ aclProps.tooltip }>
-                { aclProps.form }
+                handleSuccess={aclProps.handleSuccess}
+                title={aclProps.title}
+                tooltip={aclProps.tooltip}>
+                {aclProps.form}
             </ModalWrapper>
         );
     }
