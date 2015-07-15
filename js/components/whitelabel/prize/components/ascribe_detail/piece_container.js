@@ -71,25 +71,31 @@ let PrizePieceDetails = React.createClass({
         piece: React.PropTypes.object
     },
     render() {
-        if (this.props.piece.prize && this.props.piece.prize.name){
+        if (this.props.piece.prize
+            && this.props.piece.prize.name
+            && Object.keys(this.props.piece.extra_data).length !== 0){
             return (
                 <CollapsibleParagraph
-                        title="Prize Details"
-                        show={true}
-                        defaultExpanded={true}>
-                        <Form
-                            ref='form'>
-                            <Property
-                                name='test'
-                                label='test'
-                                editable={false}>
-                                <InputTextAreaToggable
-                                    rows={1}
-                                    editable={false}
-                                    defaultValue='test'/>
-                            </Property>
-                            <hr />
-                        </Form>
+                    title="Prize Details"
+                    show={true}
+                    defaultExpanded={true}>
+                    <Form ref='form'>
+                        {Object.keys(this.props.piece.extra_data).map((data) => {
+                            let label = data.replace('_', ' ');
+                            return (
+                                <Property
+                                    name={data}
+                                    label={label}
+                                    editable={false}>
+                                    <InputTextAreaToggable
+                                        rows={1}
+                                        editable={false}
+                                        defaultValue={this.props.piece.extra_data[data]}/>
+                                </Property>);
+                            }
+                        )}
+                        <hr />
+                    </Form>
                 </CollapsibleParagraph>
             );
         }
