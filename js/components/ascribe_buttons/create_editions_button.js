@@ -5,7 +5,6 @@ import React from 'react';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
-import { getAvailableAcls } from '../../utils/acl_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 import classNames from 'classnames';
@@ -64,8 +63,6 @@ let CreateEditionsButton = React.createClass({
 
     render: function () {
         let piece = this.props.piece;
-
-        let availableAcls = getAvailableAcls(piece);
 
         if (!piece.acl.acl_editions || piece.num_editions > 0){
             return null;
