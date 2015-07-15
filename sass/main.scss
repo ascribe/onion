@@ -44,6 +44,11 @@ hr {
     margin-bottom: 15px;
 }
 
+form{
+    max-width: 600px;
+    margin: auto;
+}
+
 #main {
     height: 100%;
 }
@@ -215,6 +220,10 @@ hr {
 
 .ascribe-detail-property {
     padding-bottom: 0.4em;
+}
+
+.ascribe-detail-property-label{
+    font-size: 0.8em;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */

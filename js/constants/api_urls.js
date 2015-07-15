@@ -27,7 +27,7 @@ let apiUrls = {
     'ownership_loans': AppConstants.apiEndpoint + 'ownership/loans/',
     'ownership_loans_confirm': AppConstants.apiEndpoint + 'ownership/loans/confirm/',
     'ownership_loans_deny': AppConstants.apiEndpoint + 'ownership/loans/deny/',
-    'ownership_loans_contract': AppConstants.apiEndpoint + 'ownership/loans/contract/',
+    'ownership_loans_contract': AppConstants.apiEndpoint + 'ownership/loans/editions/contract/',
     'ownership_shares_editions': AppConstants.apiEndpoint + 'ownership/shares/editions/',
     'ownership_shares_pieces': AppConstants.apiEndpoint + 'ownership/shares/pieces/',
     'ownership_transfers': AppConstants.apiEndpoint + 'ownership/transfers/',
