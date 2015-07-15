@@ -97,6 +97,7 @@ let Header = React.createClass({
             window.Intercom('boot', {
                app_id: 'oboxh5w1',
                email: this.state.currentUser.email,
+               subdomain: window.location.host.split('.')[0],
                widget: {
                   activator: '#IntercomDefaultWidget'
                }  
