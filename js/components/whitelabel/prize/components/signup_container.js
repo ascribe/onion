@@ -32,7 +32,7 @@ let SignupContainer = React.createClass({
             return (
                 <div className="ascribe-login-wrapper">
                     <SignupForm
-                        headerMessage="Sign up to the prize"
+                        headerMessage="Create account for submission"
                         submitMessage="Sign up"
                         handleSuccess={this.handleSuccess} />
                 </div>
