@@ -14,7 +14,9 @@ import LoanContractStore from '../../stores/loan_contract_store';
 import LoanContractActions from '../../actions/loan_contract_actions';
 
 import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js';
+
+import { mergeOptions } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 
 let LoanForm = React.createClass({
@@ -54,19 +56,34 @@ let LoanForm = React.createClass({
         if(this.state.contractKey && this.state.contractUrl) {
             return (
                 <Property
-                    name='terms'
-                    label={getLangText('Loan contract')}>
+                    name="terms"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
                             <a href={this.state.contractUrl} target="_blank">
-                                {getLangText('terms of')} {this.refs.loaneeEmail.getDomNode().value}
+                                {getLangText('terms of')} {this.state.contractEmail}
                             </a>
                         </span>
                     </InputCheckbox>
                 </Property>
             );
         }
+    },
+
+    onRequestHide() {
+        // Since the modal can be opened without sending it to the server
+        // and therefore clearing the store,
+        // we'll need to make sure to flush the store once the
+        // modal unmounts
+        LoanContractActions.updateLoanContract({
+            contractUrl: null,
+            contractEmail: null,
+            contractKey: null
+        });
+
+        this.props.onRequestHide();
     },
 
     render() {
@@ -86,7 +103,7 @@ let LoanForm = React.createClass({
                             <Button
                                 className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
                                 style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                onClick={this.onRequestHide}>{getLangText('CLOSE')}</Button>
                         </p>
                     </div>}
                 spinner={
@@ -107,9 +124,8 @@ let LoanForm = React.createClass({
                     label={getLangText('Gallery/exhibition (optional)')}
                     onBlur={this.handleOnBlur}>
                     <input
-                        type="email"
-                        placeholder={getLangText('Gallery/exhibition (optional)')}
-                        required/>
+                        type="text"
+                        placeholder={getLangText('Gallery/exhibition (optional)')}/>
                 </Property>
                 <Property
                     name='startdate'
@@ -124,7 +140,7 @@ let LoanForm = React.createClass({
                         placeholderText={getLangText('Loan end date')} />
                 </Property>
                 <Property
-                    name='consign_message'
+                    name='loan_message'
                     label={getLangText('Personal Message')}
                     editable={true}>
                     <InputTextAreaToggable
@@ -134,7 +150,7 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>
                 </Property>
-                {this.getContractCheckbox()}
+                
                 <Property
                     name='password'
                     label={getLangText('Password')}>
@@ -143,7 +159,7 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter your password')}
                         required/>
                 </Property>
-                <hr />
+                {this.getContractCheckbox()}
             </Form>
         );
     }

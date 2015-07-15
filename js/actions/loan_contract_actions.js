@@ -19,13 +19,15 @@ class LoanContractActions {
                     if (contracts && contracts.length > 0) {
                         this.actions.updateLoanContract({
                             contractKey: contracts[0].s3Key,
-                            contractUrl: contracts[0].s3Url
+                            contractUrl: contracts[0].s3Url,
+                            contractEmail: email
                         });
                     }
                     else {
                         this.actions.updateLoanContract({
                             contractKey: null,
-                            contractUrl: null
+                            contractUrl: null,
+                            contractEmail: null
                         });
                     }
                 })
@@ -33,7 +35,8 @@ class LoanContractActions {
                     console.error(err);
                     this.actions.updateLoanContract({
                         contractKey: null,
-                        contractUrl: null
+                        contractUrl: null,
+                        contractEmail: null
                     });
                 });
             } else {

@@ -79,7 +79,7 @@ let AclButton = React.createClass({
                 form: (<LoanForm
                         message={this.getLoanMessage()}
                         id={this.getFormDataId()}
-                        url={apiUrls.ownership_loans}/>
+                        url={this.isPiece() ? apiUrls.ownership_loans_pieces : apiUrls.ownership_loans_editions}/>
                 ),
                 handleSuccess: this.showNotification
             };

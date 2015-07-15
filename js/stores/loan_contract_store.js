@@ -8,12 +8,14 @@ class LoanContractStore {
     constructor() {
         this.contractKey = null;
         this.contractUrl = null;
+        this.contractEmail = null;
         this.bindActions(LoanContractActions);
     }
 
-    onUpdateLoanContract({contractKey, contractUrl}) {
+    onUpdateLoanContract({contractKey, contractUrl, contractEmail}) {
         this.contractKey = contractKey;
         this.contractUrl = contractUrl;
+        this.contractEmail = contractEmail;
     }
 }
 
