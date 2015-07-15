@@ -1,6 +1,7 @@
 .wp {
     height: 100%;
-
+    max-width: 90%;
+    margin: auto;
     /* We need this, otherwise piece list will have a scrollbar */
     overflow-x: hidden;
 }

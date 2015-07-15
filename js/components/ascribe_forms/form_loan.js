@@ -13,7 +13,7 @@ import InputTextArea from './input_textarea';
 import OwnershipFetcher from '../../fetchers/ownership_fetcher';
 import ButtonSubmitOrClose from '../ascribe_buttons/button_submit_close';
 
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let LoanForm = React.createClass({
     
