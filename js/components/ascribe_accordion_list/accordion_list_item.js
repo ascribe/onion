@@ -63,11 +63,11 @@ let AccordionListItem = React.createClass({
     },
 
     getGlyphicon(){
-        if (this.props.content.requestAction){
+        if (this.props.content.requestAction) {
             return (
                 <OverlayTrigger delay={500} placement="left"
-                            overlay={<Tooltip>{getLangText('You have actions pending in one of your editions')}</Tooltip>}>
-                        <Glyphicon glyph='bell' />
+                                overlay={<Tooltip>{getLangText('You have actions pending in one of your editions')}</Tooltip>}>
+                    <Glyphicon glyph='bell'/>
                 </OverlayTrigger>);
         }
         return null;
@@ -87,7 +87,7 @@ let AccordionListItem = React.createClass({
 
     handleSubmitPrizeSuccess(response) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
-    
+
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -106,12 +106,13 @@ let AccordionListItem = React.createClass({
     },
 
     getCreateEditionsDialog() {
-        if(this.props.content.num_editions < 1 && this.state.showCreateEditionsDialog) {
+        if (this.props.content.num_editions < 1 && this.state.showCreateEditionsDialog) {
             return (
-                <div className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
+                <div
+                    className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
                     <CreateEditionsForm
                         pieceId={this.props.content.id}
-                        handleSuccess={this.handleEditionCreationSuccess} />
+                        handleSuccess={this.handleEditionCreationSuccess}/>
                 </div>
             );
         }
@@ -119,11 +120,14 @@ let AccordionListItem = React.createClass({
 
     getLicences() {
         // convert this to acl_view_licences later
-        if(this.state.whitelabel.name === 'Creative Commons France') {
+        if (this.state.whitelabel.name === 'Creative Commons France') {
             return (
-                <a href={this.props.content.license_type.url} target="_blank" className="pull-right">
-                    {getLangText('%s license', this.props.content.license_type.code)}
-                </a>
+                <span>
+                    <span>, </span>
+                    <a href={this.props.content.license_type.url} target="_blank">
+                        {getLangText('%s license', this.props.content.license_type.code)}
+                    </a>
+                </span>
             );
         }
     },
@@ -131,7 +135,7 @@ let AccordionListItem = React.createClass({
     render() {
         let linkData;
 
-        if(this.props.content.num_editions < 1 || !this.props.content.first_edition) {
+        if (this.props.content.num_editions < 1 || !this.props.content.first_edition) {
             linkData = {
                 to: 'piece',
                 params: {
@@ -154,18 +158,21 @@ let AccordionListItem = React.createClass({
                         <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
                             <div className="thumbnail-wrapper">
                                 <Link {...linkData}>
-                                    <img src={this.props.content.thumbnail} />
+                                    <img src={this.props.content.thumbnail}/>
                                 </Link>
                             </div>
                         </div>
-                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
+                        <div
+                            className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
                             <Link {...linkData}>
                                 <h1 className="truncate">{this.props.content.title}</h1>
                             </Link>
+
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
+
                             <div>
                                 <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
-                                
+
                                 <AclProxy
                                     aclObject={this.props.content.acl}
                                     aclName="acl_view_editions">
@@ -187,19 +194,21 @@ let AccordionListItem = React.createClass({
                                     <button
                                         disabled
                                         className="btn btn-default btn-xs pull-right">
-                                        {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
+                                                                                  aria-hidden="true"></span>
                                     </button>
                                 </AclProxy>
                                 {this.getLicences()}
                             </div>
                         </div>
                         <span style={{'clear': 'both'}}></span>
+
                         <div className="request-action-batch">
                             {this.getGlyphicon()}
                         </div>
                     </div>
                 </div>
-                
+
                 {this.getCreateEditionsDialog()}
 
                 {/* this.props.children is AccordionListItemTableEditions */}
