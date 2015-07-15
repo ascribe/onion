@@ -14,21 +14,13 @@ import AclProxy from '../acl_proxy';
 
 let MediaContainer = React.createClass({
     propTypes: {
-        content: React.PropTypes.object
+        digitalWork: React.PropTypes.object.isRequired,
+        thumbnail: React.PropTypes.string
     },
 
-    render() {
-        let thumbnail = this.props.content.thumbnail;
-        let mimetype = this.props.content.digital_work.mime;
-        let embed = null;
-        let extraData = null;
-
-        if (this.props.content.digital_work.encoding_urls) {
-            extraData = this.props.content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
-        }
-
-        if (['video', 'audio'].indexOf(mimetype) > -1){
-            embed = (
+    getEmbed() {
+        if (['video', 'audio'].indexOf(mimetype) > -1) {
+            return (
                 <CollapsibleButton
                     button={
                         <Button bsSize="xsmall" className="ascribe-margin-1px">
@@ -44,21 +36,35 @@ let MediaContainer = React.createClass({
                     }/>
             );
         }
+    },
+
+    render() {
+        if(!this.props.digitalWork) {
+            return null;
+        }
+
+        let extraData = null;
+
+        if (this.props.digitalWork.encoding_urls) {
+            extraData = this.props.digitalWork.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
+        }
+
         return (
             <div>
-                <MediaPlayer mimetype={mimetype}
-                                        preview={thumbnail}
-                                        url={this.props.content.digital_work.url}
-                                        extraData={extraData} />
+                <MediaPlayer
+                    mimetype={this.props.digitalWork.mime}
+                    preview={this.props.thumbnail}
+                    url={this.props.digitalWork.url}
+                    extraData={extraData} />
                 <p className="text-center">
                     <AclProxy
                         aclObject={this.props.content.acl}
                         aclName="acl_download">
-                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
+                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.digitalWork.url} target="_blank">
                             Download <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
-                    {embed}
+                    {this.getEmbed()}
                 </p>
             </div>
         );

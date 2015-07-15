@@ -128,7 +128,8 @@ let Piece = React.createClass({
             <Row>
                 <Col md={6}>
                     <MediaContainer
-                        content={this.props.piece}/>
+                        digitalWork={this.props.piece.digitalWork}
+                        thumbnail={this.props.piece.thumbnail}/>
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
