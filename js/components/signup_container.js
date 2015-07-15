@@ -2,9 +2,6 @@
 
 import React from 'react';
 import SignupForm from './ascribe_forms/form_signup';
-import Property from './ascribe_forms/property';
-
-import { getLangText } from '../utils/lang_utils';
 
 
 let SignupContainer = React.createClass({

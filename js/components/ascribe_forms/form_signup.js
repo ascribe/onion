@@ -58,12 +58,9 @@ let SignupForm = React.createClass({
     },
 
     handleSuccess(response){
-
-        let notificationText = getLangText('Sign up successful');
-        let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
+        let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email +
-                                 ', ' + getLangText('please confirm') + '.');
+        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
 
     },
     getFormData(){

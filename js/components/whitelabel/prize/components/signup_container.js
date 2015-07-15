@@ -28,15 +28,16 @@ let SignupContainer = React.createClass({
                     </div>
                 </div>
             );
+        } else {
+            return (
+                <div className="ascribe-login-wrapper">
+                    <SignupForm
+                        headerMessage="Sign up to the prize"
+                        submitMessage="Sign up"
+                        handleSuccess={this.handleSuccess} />
+                </div>
+            );
         }
-        return (
-            <div className="ascribe-login-wrapper">
-                <SignupForm
-                    headerMessage="Sign up to the prize"
-                    submitMessage="Sign up"
-                    handleSuccess={this.handleSuccess} />
-            </div>
-        );
     }
 });
 
