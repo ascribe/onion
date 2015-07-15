@@ -65,8 +65,10 @@ let AccordionListItem = React.createClass({
     getGlyphicon(){
         if (this.props.content.requestAction) {
             return (
-                <OverlayTrigger delay={500} placement="left"
-                                overlay={<Tooltip>{getLangText('You have actions pending in one of your editions')}</Tooltip>}>
+                <OverlayTrigger
+                    delay={500}
+                    placement="left"
+                    overlay={<Tooltip>{getLangText('You have actions pending in one of your editions')}</Tooltip>}>
                     <Glyphicon glyph='bell'/>
                 </OverlayTrigger>);
         }

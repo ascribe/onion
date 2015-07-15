@@ -58,9 +58,19 @@ let AccordionListItemEditionWidget = React.createClass({
         let isEditionListOpen = this.state.isEditionListOpenForPieceId[pieceId] ? this.state.isEditionListOpenForPieceId[pieceId].show : false;
         
         if(isEditionListOpen) {
-            return (
-                <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
-            );
+            // this is the loading feedback for the editions
+            // button.
+            // 
+            // PLEASE FUTURE TIM, DO NOT FUCKING REMOVE IT AGAIN!
+            if(typeof this.state.editionList[pieceId] === 'undefined') {
+                return (
+                    <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                );
+            } else {
+                return (
+                    <span className="glyphicon glyphicon-menu-up" aria-hidden="true" style={{top: 2}}></span>
+                );
+            }
         } else {
             return (
                 <span className="glyphicon glyphicon-menu-down" aria-hidden="true" style={{top: 2}}></span>
