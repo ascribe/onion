@@ -38,8 +38,8 @@ let DetailProperty = React.createClass({
         return (
             <div className="row ascribe-detail-property">
                 <div className="row-same-height">
-                    <div className={this.props.labelClassName + ' col-xs-height col-bottom'}>
-                        <div>{ this.props.label + this.props.separator}</div>
+                    <div className={this.props.labelClassName + ' col-xs-height col-bottom ascribe-detail-property-label'}>
+                        { this.props.label + this.props.separator}
                     </div>
                     <div className={this.props.valueClassName + ' col-xs-height col-bottom'}>
                         {value}

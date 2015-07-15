@@ -52,7 +52,28 @@ let PieceContainer = React.createClass({
                 <Piece
                     piece={this.state.piece}
                     loadPiece={this.loadPiece}>
-                    <CollapsibleParagraph
+                    <PrizePieceDetails piece={this.state.piece}/>
+                </Piece>
+            );
+        } else {
+            return (
+                <div className="fullpage-spinner">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                </div>
+            );
+        }
+    }
+});
+
+
+let PrizePieceDetails = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object
+    },
+    render() {
+        if (this.props.piece.prize && this.props.piece.prize.name){
+            return (
+                <CollapsibleParagraph
                         title="Prize Details"
                         show={true}
                         defaultExpanded={true}>
@@ -69,16 +90,10 @@ let PieceContainer = React.createClass({
                             </Property>
                             <hr />
                         </Form>
-                    </CollapsibleParagraph>
-                </Piece>
-            );
-        } else {
-            return (
-                <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
-                </div>
+                </CollapsibleParagraph>
             );
         }
+        return null;
     }
 });
 

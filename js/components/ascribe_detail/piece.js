@@ -133,7 +133,7 @@ let Piece = React.createClass({
                         <EditionDetailProperty label="TITLE" value={<div className="ascribe-detail-title">{this.props.piece.title}</div>} />
                         <EditionDetailProperty label="BY" value={this.props.piece.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.piece.date_created.slice(0, 4) } />
-                        {this.props.piece.num_editions > 0 ? <EditionDetailProperty label="NUMBER OF EDITIONS" value={ this.props.piece.num_editions } /> : null}
+                        {this.props.piece.num_editions > 0 ? <EditionDetailProperty label="EDITIONS" value={ this.props.piece.num_editions } /> : null}
                         <hr/>
                     </div>
                     <div className="ascribe-detail-header">
