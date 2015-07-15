@@ -69,6 +69,19 @@ let LoanForm = React.createClass({
                     </InputCheckbox>
                 </Property>
             );
+        } else {
+            return (
+                <Property
+                    hidden={true}
+                    name="terms"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <input
+                        ref="input"
+                        type="checkbox"
+                        defaultValue={true} />
+                </Property>
+            );
         }
     },
 
