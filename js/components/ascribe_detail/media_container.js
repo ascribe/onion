@@ -22,6 +22,7 @@ let MediaContainer = React.createClass({
         let mimetype = this.props.content.digital_work.mime;
         let embed = null;
         let extraData = null;
+        let isEmbedDisabled = mimetype === 'video' && this.props.content.digital_work.isEncoding !== undefined && this.props.content.digital_work.isEncoding !== 100;
 
         if (this.props.content.digital_work.encoding_urls) {
             extraData = this.props.content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
@@ -31,25 +32,26 @@ let MediaContainer = React.createClass({
             embed = (
                 <CollapsibleButton
                     button={
-                        <Button bsSize="xsmall" className="ascribe-margin-1px">
+                        <Button bsSize="xsmall" className="ascribe-margin-1px" disabled={isEmbedDisabled ? '"disabled"' : ''}>
                             Embed
                         </Button>
                     }
                     panel={
                         <pre className="">
                             {'<iframe width="560" height="315" src="http://embed.ascribe.io/content/'
-                                + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'
-                            }
+                                + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
                     }/>
             );
         }
         return (
             <div>
-                <MediaPlayer mimetype={mimetype}
-                                        preview={thumbnail}
-                                        url={this.props.content.digital_work.url}
-                                        extraData={extraData} />
+                <MediaPlayer
+                        mimetype={mimetype}
+                        preview={thumbnail}
+                        url={this.props.content.digital_work.url}
+                        extraData={extraData}
+                        encodingStatus={this.props.content.digital_work.isEncoding} />
                 <p className="text-center">
                     <AclProxy
                         aclObject={this.props.content.acl}
