@@ -21,8 +21,11 @@ let PieceContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
-        let isEncoding = state.piece.digital_work ? state.piece.digital_work.isEncoding : null;
-        if (typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+        if (!state.piece.digital_work) {
+            return;
+        }
+        let isEncoding = state.piece.digital_work.isEncoding;
+        if (state.piece.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
             let timerId = window.setInterval(() => PieceActions.fetchOne(this.props.params.pieceId), 10000);
             this.setState({timerId: timerId});
         }
