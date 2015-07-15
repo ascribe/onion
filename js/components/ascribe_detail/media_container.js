@@ -47,11 +47,11 @@ let MediaContainer = React.createClass({
         return (
             <div>
                 <MediaPlayer
-                        mimetype={mimetype}
-                        preview={thumbnail}
-                        url={this.props.content.digital_work.url}
-                        extraData={extraData}
-                        encodingStatus={this.props.content.digital_work.isEncoding} />
+                    mimetype={mimetype}
+                    preview={thumbnail}
+                    url={this.props.content.digital_work.url}
+                    extraData={extraData}
+                    encodingStatus={this.props.content.digital_work.isEncoding} />
                 <p className="text-center">
                     <AclProxy
                         aclObject={this.props.content.acl}
