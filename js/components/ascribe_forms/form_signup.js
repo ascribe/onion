@@ -126,7 +126,7 @@ let SignupForm = React.createClass({
                     <InputCheckbox>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service') + ' '}
-                            (<a href="/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                            (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                 {getLangText('read')}
                             </a>)
                         </span>
