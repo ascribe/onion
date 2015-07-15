@@ -21,6 +21,11 @@ let PieceContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
+        let isEncoding = state.piece.digital_work ? state.piece.digital_work.isEncoding : null;
+        if (typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            let timerId = window.setInterval(() => PieceActions.fetchOne(this.props.params.pieceId), 10000);
+            this.setState({timerId: timerId});
+        }
     },
 
     componentDidMount() {
@@ -34,7 +39,7 @@ let PieceContainer = React.createClass({
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-        
+        window.clearInterval(this.state.timerId);
         PieceStore.unlisten(this.onChange);
     },
 
