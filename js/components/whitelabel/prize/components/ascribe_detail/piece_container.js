@@ -2,14 +2,17 @@
 
 import React from 'react';
 
-import PieceActions from '../../actions/piece_actions';
-import PieceStore from '../../stores/piece_store';
+import PieceActions from '../../../../../actions/piece_actions';
+import PieceStore from '../../../../../stores/piece_store';
 
-import Piece from './piece';
-import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
-import FurtherDetails from './further_details';
+import Piece from '../../../../../components/ascribe_detail/piece';
 
-import AppConstants from '../../constants/application_constants';
+import AppConstants from '../../../../../constants/application_constants';
+
+import Form from '../../../../../components/ascribe_forms/form';
+import Property from '../../../../../components/ascribe_forms/property';
+import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
+import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -50,17 +53,22 @@ let PieceContainer = React.createClass({
                     piece={this.state.piece}
                     loadPiece={this.loadPiece}>
                     <CollapsibleParagraph
-                        title="Further Details"
-                        show={this.state.piece.acl.acl_edit
-                            || Object.keys(this.state.piece.extra_data).length > 0
-                            || this.state.piece.other_data !== null}
+                        title="Prize Details"
+                        show={true}
                         defaultExpanded={true}>
-                        <FurtherDetails
-                            editable={this.state.piece.acl.acl_edit}
-                            pieceId={this.state.piece.id}
-                            extraData={this.state.piece.extra_data}
-                            otherData={this.state.piece.other_data}
-                            handleSuccess={this.loadPiece}/>
+                        <Form
+                            ref='form'>
+                            <Property
+                                name='test'
+                                label='test'
+                                editable={false}>
+                                <InputTextAreaToggable
+                                    rows={1}
+                                    editable={false}
+                                    defaultValue='test'/>
+                            </Property>
+                            <hr />
+                        </Form>
                     </CollapsibleParagraph>
                 </Piece>
             );
