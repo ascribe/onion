@@ -104,7 +104,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
-                <Form
+                {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
                     <Property
                         name='language'
@@ -121,7 +121,7 @@ let AccountSettings = React.createClass({
                         </select>
                     </Property>
                     <hr />
-                </Form>
+                </Form>*/}
             </CollapsibleParagraph>
         );
     }
