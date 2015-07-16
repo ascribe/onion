@@ -11,7 +11,6 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_theme';
 @import './ascribe-fonts/style';
 @import './ascribe-fonts/ascribe-fonts';
-@import 'ascribe_app';
 @import 'ascribe_login';
 @import 'ascribe_table';
 @import 'ascribe_accordion_list';
@@ -34,10 +33,16 @@ $BASE_URL: '<%= BASE_URL %>';
 
 html, body {
     height: 100%;
+    background-color: #FDFDFD;
 }
 
 html {
     overflow-y: scroll;
+}
+
+.ascribe-default-app {
+    max-width: 90%;
+    padding-top: 70px;
 }
 
 hr {
