@@ -1,7 +1,7 @@
 'use strict';
 
 import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
-
+import AppConstants from '../constants/application_constants';
 
 class UrlMapError extends Error {}
 class ServerError extends Error {}
@@ -100,7 +100,7 @@ class Requests {
     request(verb, url, options) {
         options = options || {};
         let merged = this._merge(this.httpOptions, options);
-        let csrftoken = getCookie('csrftoken');
+        let csrftoken = getCookie(AppConstants.csrftoken);
         if (csrftoken) {
             merged.headers['X-CSRFToken'] = csrftoken;
         }

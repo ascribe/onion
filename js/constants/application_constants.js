@@ -14,6 +14,7 @@ let constants = {
                 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
                 'acl_withdraw_transfer'],
 
+    'csrftoken': 'csrftoken',
     'subdomains': [
         {
             'subdomain': 'cc',

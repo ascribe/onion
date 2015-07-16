@@ -162,7 +162,7 @@ let FileUploader = React.createClass({
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {
-                       'X-CSRFToken': getCookie('csrftoken')
+                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
                 deleteFile={{
@@ -170,7 +170,7 @@ let FileUploader = React.createClass({
                     method: 'DELETE',
                     endpoint: AppConstants.serverUrl + 's3/delete',
                     customHeaders: {
-                       'X-CSRFToken': getCookie('csrftoken')
+                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}/>
         );
