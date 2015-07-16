@@ -29,7 +29,6 @@ import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 import EditionFurtherDetails from './further_details';
 
 import RequestActionForm from './../ascribe_forms/form_request_action';
-import EditionActions from '../../actions/edition_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
@@ -80,6 +79,7 @@ let Edition = React.createClass({
     handleDeleteSuccess(response) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
 
+        console.log(this.props.edition.parent);
         EditionListActions.refreshEditionList(this.props.edition.parent);
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();

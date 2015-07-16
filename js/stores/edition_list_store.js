@@ -61,6 +61,16 @@ class EditionListStore {
      * this method provides exactly that functionality without any side effects
      */
     onRefreshEditionList(pieceId) {
+
+        // It may happen that the user enters the site logged in already
+        // through /editions
+        // If he then tries to delete a piece/edition and this method is called,
+        // we'll not be able to refresh his edition list since its not yet there.
+        // Therefore we can just return, since there is no data to be refreshed
+        if(!this.editionList[pieceId]) {
+            return;
+        }
+
         const prevEditionListLength = this.editionList[pieceId].length;
         const prevEditionListPage = this.editionList[pieceId].page;
         const prevEditionListPageSize = this.editionList[pieceId].pageSize;
@@ -68,6 +78,8 @@ class EditionListStore {
         // to clear an array, david walsh recommends to just set it's length to zero
         // http://davidwalsh.name/empty-array
         this.editionList[pieceId].length = 0;
+
+
 
         // refetch editions with adjusted page size
         EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength, this.editionList[pieceId].orderBy, this.editionList[pieceId].orderAsc)
