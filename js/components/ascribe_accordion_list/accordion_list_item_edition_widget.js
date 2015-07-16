@@ -6,6 +6,10 @@ import classNames from 'classnames';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+import Button from 'react-bootstrap/lib/Button';
+
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -98,15 +102,27 @@ let AccordionListItemEditionWidget = React.createClass({
             }
 
         } else {
-            let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
+            if(piece.first_edition === null) {
+                // user has deleted all his editions and only the piece is showing
+                return (
+                    <Button
+                        disabled
+                        title={getLangText('All editions for this have been deleted already.')}
+                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        {'0 ' + getLangText('Editions')}
+                    </Button>
+                );
+            } else {
+                let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
 
-            return (
-                <button
-                    onClick={this.toggleTable}
-                    className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
-                    {editionMapping + ' ' + getLangText('Editions')} {this.getGlyphicon()}
-                </button>
-            );
+                return (
+                    <button
+                        onClick={this.toggleTable}
+                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        {editionMapping + ' ' + getLangText('Editions')} {this.getGlyphicon()}
+                    </button>
+                );
+            }
         }
     }
 });

@@ -79,8 +79,6 @@ class EditionListStore {
         // http://davidwalsh.name/empty-array
         this.editionList[pieceId].length = 0;
 
-
-
         // refetch editions with adjusted page size
         EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength, this.editionList[pieceId].orderBy, this.editionList[pieceId].orderAsc)
             .then(() => {
