@@ -60,7 +60,7 @@ let AccordionListItemEditionWidget = React.createClass({
         if(isEditionListOpen) {
             // this is the loading feedback for the editions
             // button.
-            // 
+            //
             // PLEASE FUTURE TIM, DO NOT FUCKING REMOVE IT AGAIN!
             if(typeof this.state.editionList[pieceId] === 'undefined') {
                 return (

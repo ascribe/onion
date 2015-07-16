@@ -79,7 +79,7 @@ let Piece = React.createClass({
 
     handleEditionCreationSuccess() {
         PieceActions.updateProperty({key: 'num_editions', value: 0});
-        PieceListStore.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         this.toggleCreateEditionsDialog();
     },
 
