@@ -14,7 +14,7 @@ let PrizePieceList = React.createClass({
                     redirectTo="register_piece"
                     customSubmitButton={
                         <ButtonLink to="register_piece">
-                            Submit a new artwork to the prize
+                            Submit to prize
                         </ButtonLink>
                     }/>
             </div>
