@@ -23,6 +23,8 @@ class Requests {
     unpackResponse(response) {
         if (response.status >= 500) {
             throw new ServerError();
+        } else if(response.status === 403) {
+            Raven.captureException('csrftoken error');
         }
         return response.text();
     }

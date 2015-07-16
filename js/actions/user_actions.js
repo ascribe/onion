@@ -19,6 +19,7 @@ class UserActions {
             })
             .catch((err) => {
                 console.log(err);
+                this.actions.updateCurrentUser({});
             });
     }
     logoutCurrentUser() {

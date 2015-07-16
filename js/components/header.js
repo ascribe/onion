@@ -102,6 +102,10 @@ let Header = React.createClass({
                   activator: '#IntercomDefaultWidget'
                }  
             });
+
+            Raven.setUserContext({
+                email: this.state.currentUser.email
+            });
         }
     },
 

@@ -103,8 +103,10 @@ let AclButton = React.createClass({
 
     showNotification(response){
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel(response.notification, 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        if(response.notification) {
+            let notification = new GlobalNotificationModel(response.notification, 'success');
+            GlobalNotificationActions.appendGlobalNotification(notification);
+        }
     },
 
     // plz move to share form
