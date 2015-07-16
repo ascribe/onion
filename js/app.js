@@ -32,13 +32,13 @@ requests.defaults({
     }
 });
 
-{/* Raven.config('https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351', {
+/* Raven.config('https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351', {
     // pass along the version of your application
     release: '1.0.0'
 }).install();
- */}
-window.onerror = Raven.process;
 
+window.onerror = Raven.process;
+ */
 class AppGateway {
 
     start() {
