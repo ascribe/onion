@@ -95,12 +95,7 @@ let AccordionListItem = React.createClass({
     },
 
     onPollingSuccess(pieceId, numEditions) {
-        PieceListActions.updatePropertyForPiece({
-            pieceId,
-            key: 'num_editions',
-            value: numEditions
-        });
-
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         EditionListActions.toggleEditionList(pieceId);
 
         let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
