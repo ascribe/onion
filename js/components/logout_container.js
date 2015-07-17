@@ -7,6 +7,8 @@ let Link = Router.Link;
 import UserActions from '../actions/user_actions';
 import Alt from '../alt';
 
+import AppConstants from '../constants/application_constants';
+let baseUrl = AppConstants.baseUrl;
 
 let LogoutContainer = React.createClass({
 
@@ -17,7 +19,7 @@ let LogoutContainer = React.createClass({
         Alt.flush();
         // kill intercom (with fire)
         window.Intercom('shutdown');
-        this.transitionTo('/');
+        this.transitionTo(baseUrl);
     },
 
     render() {
