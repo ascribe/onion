@@ -9,8 +9,6 @@ import UserStore from '../stores/user_store';
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
-import Alt from '../alt';
-
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
@@ -31,7 +29,7 @@ let Header = React.createClass({
         showAddWork: React.PropTypes.bool
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [Router.State],
 
     getDefaultProps() {
         return {
@@ -53,14 +51,6 @@ let Header = React.createClass({
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
-    },
-
-    handleLogout(){
-        UserActions.logoutCurrentUser();
-        Alt.flush();
-        // kill intercom (with fire)
-        window.Intercom('shutdown');
-        this.transitionTo('login');
     },
 
     getLogo(){
@@ -119,7 +109,7 @@ let Header = React.createClass({
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
                     <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
                     <MenuItem divider />
-                    <MenuItem eventKey="3" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
+                    <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                   </DropdownButton>
             );
 

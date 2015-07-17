@@ -11,6 +11,7 @@ import PieceContainer from './components/ascribe_detail/piece_container';
 import EditionContainer from './components/ascribe_detail/edition_container';
 
 import LoginContainer from './components/login_container';
+import LogoutContainer from './components/logout_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
@@ -26,6 +27,7 @@ const COMMON_ROUTES = (
     <Route>
         <Route name="signup" path="signup" handler={SignupContainer} />
         <Route name="login" path="login" handler={LoginContainer} />
+        <Route name="logout" path="logout" handler={LogoutContainer} />
         <Route name="pieces" path="collection" handler={PieceList} />
         <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
         <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
