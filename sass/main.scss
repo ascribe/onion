@@ -222,8 +222,14 @@ hr {
     padding-bottom: 0.4em;
 }
 
-.ascribe-detail-property-label{
+.ascribe-detail-property-label {
     font-size: 0.8em;
+}
+
+.ascribe-detail-property-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
