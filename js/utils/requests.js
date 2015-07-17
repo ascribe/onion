@@ -19,9 +19,9 @@ class Requests {
 
     unpackResponse(response) {
         if (response.status >= 500) {
-            console.logGlobal(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
-        } else if(response.status >= 400 && response.status < 500) {
-            console.logGlobal(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
+            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+        } else if(response.status >= 400) {
+            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
         }
         return response.text();
     }
@@ -39,9 +39,9 @@ class Requests {
 
     handleError(err) {
         if (err instanceof TypeError) {
-            console.logGlobal('Server did not respond to the request. (Not even displayed a 500)');
+            throw new Error('Server did not respond to the request. (Not even displayed a 500)');
         } else {
-            console.logGlobal(err);
+            throw err;
         }
     }
 
