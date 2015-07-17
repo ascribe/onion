@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Router from 'react-router';
+import Raven from 'raven-js';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -59,14 +60,14 @@ let Header = React.createClass({
                 <span>ascribe </span>
                 <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
             </span>);
-        if (this.state.whitelabel.logo){
+        if (this.state.whitelabel && this.state.whitelabel.logo){
             logo = <img className="img-brand" src={this.state.whitelabel.logo} />;
         }
         return logo;
     },
 
     getPoweredBy(){
-        if (this.state.whitelabel.logo) {
+        if (this.state.whitelabel && this.state.whitelabel.logo) {
             return (
                 <li>
                     <a className="pull-right" href="https://www.ascribe.io/" target="_blank">

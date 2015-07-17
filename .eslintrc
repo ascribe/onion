@@ -32,10 +32,10 @@
         "react/wrap-multilines": 1
     },
     "globals": {
-        "Raven": true,
         "Intercom": true,
-        "fetch": true
-    }
+        "fetch": true,
+        "require": true
+    },
     "plugins": [
         "react"
     ],

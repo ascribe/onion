@@ -17,7 +17,7 @@ class ApplicationActions {
                 this.actions.updateApplications(res.applications);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
     refreshApplicationToken(applicationName) {
@@ -26,7 +26,7 @@ class ApplicationActions {
                 this.actions.updateApplications(res.applications);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }

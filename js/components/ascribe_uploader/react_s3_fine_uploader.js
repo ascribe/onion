@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import Raven from 'raven-js';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -270,7 +271,7 @@ var ReactS3FineUploader = React.createClass({
         })
         .catch((err) => {
             defer.failure(err);
-            console.error(err);
+            console.logGlobal(err);
         });
         return defer;
     },

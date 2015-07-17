@@ -53,6 +53,11 @@ let GlobalNotification = React.createClass({
     onChange(state) {
         let notification = this.extractFirstElem(state.notificationQue);
 
+        // error handling for notifications
+        if(notification.message && notification.type === 'danger') {
+            console.logGlobal(new Error(notification.message.message));
+        }
+
         if(notification.show) {
             this.setState(notification);
         } else {

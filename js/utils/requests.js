@@ -1,11 +1,8 @@
 'use strict';
 
 import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
-import AppConstants from '../constants/application_constants';
 
-class UrlMapError extends Error {}
-class ServerError extends Error {}
-class APIError extends Error {}
+import AppConstants from '../constants/application_constants';
 
 
 class Requests {
@@ -22,37 +19,45 @@ class Requests {
 
     unpackResponse(response) {
         if (response.status >= 500) {
-            throw new ServerError();
-        } else if(response.status === 403) {
-            Raven.captureException('csrftoken error');
+            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
         }
-        return response.text();
+
+        return new Promise((resolve, reject) => {
+            response.text()
+                .then((responseText) => {
+                    // If the responses' body does not contain any data,
+                    // fetch will resolve responseText to the string 'None'.
+                    // If this is the case, we can not try to parse it as JSON.
+                    if(responseText !== 'None') {
+                        let body = JSON.parse(responseText);
+                        
+                        if(body && body.errors) {
+                            let error = new Error('Form Error');
+                            error.json = body;
+                            reject(error);
+                        } else {
+                            resolve(body);
+                        }
+
+                    } else {
+                        if(response.status >= 400) {
+                            reject(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
+                        } else {
+                            resolve({});
+                        }
+                    }
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
     }
 
-    customJSONparse(responseText) {
-        // If the responses' body does not contain any data,
-        // fetch will resolve responseText to the string 'None'.
-        // If this is the case, we can not try to parse it as JSON.
-        if(responseText !== 'None') {
-            return JSON.parse(responseText);
+    handleError(err) {
+        if (err instanceof TypeError) {
+            throw new Error('Server did not respond to the request. (Not even displayed a 500)');
         } else {
-            return {};
+            throw err;
         }
-    }
-
-    handleFatalError(err) {
-        this.fatalErrorHandler(err);
-        throw new ServerError(err);
-    }
-
-    handleAPIError(json) {
-        if (json.success === false) {
-            let error = new APIError();
-            error.json = json;
-            //console.error(new Error('The \'success\' property is missing in the server\'s response.'));
-            throw error;
-        }
-        return json;
     }
 
     getUrl(url) {
@@ -65,7 +70,7 @@ class Requests {
         if (!url.match(/^http/)) {
             url = this.urlMap[url];
             if (!url) {
-                throw new UrlMapError(`Cannot find a mapping for "${name}"`);
+                throw new Error(`Cannot find a mapping for "${name}"`);
             }
         }
         
@@ -107,11 +112,10 @@ class Requests {
             merged.headers['X-CSRFToken'] = csrftoken;
         }
         merged.method = verb;
+
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .then(this.customJSONparse)
-                    .catch(this.handleFatalError.bind(this))
-                    .then(this.handleAPIError);
+                    .catch(this.handleError);
     }
 
     get(url, params) {
@@ -143,7 +147,6 @@ class Requests {
     defaults(options) {
         this.httpOptions = options.http || {};
         this.urlMap = options.urlMap || {};
-        this.fatalErrorHandler = options.fatalErrorHandler || (() => {});
     }
 }
 

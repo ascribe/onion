@@ -14,6 +14,9 @@ import getRoutes from './routes';
 import requests from './utils/requests';
 
 import { getSubdomainSettings } from './utils/constants_utils';
+import { initLogging } from './utils/error_utils';
+
+initLogging();
 
 let headers = {
     'Accept': 'application/json',
@@ -25,18 +28,10 @@ requests.defaults({
     http: {
         headers: headers,
         credentials: 'include'
-    },
-    fatalErrorHandler: (err) => {
-        console.log(err);
     }
 });
 
-Raven.config('https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351', {
-    // pass along the version of your application
-    release: '1.0.0'
-}).install();
 
-window.onerror = Raven.process;
 
 class AppGateway {
 
@@ -52,12 +47,13 @@ class AppGateway {
         } catch(err) {
             // if there are no matching subdomains, we're routing
             // to the default frontend
+            console.logGlobal(err);
             this.load('default');
         }
     }
 
     load(type) {
-        Router.run(getRoutes(type), Router.HistoryLocation, (App, state) => {
+        Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
             if (window.ga) {
                 window.ga('send', 'pageview');
             }
@@ -71,3 +67,4 @@ class AppGateway {
 
 let ag = new AppGateway();
 ag.start();
+

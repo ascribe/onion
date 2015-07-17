@@ -17,7 +17,7 @@ class CoaActions {
                 this.actions.updateCoa(res.coa);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
     create(edition) {
@@ -26,7 +26,7 @@ class CoaActions {
                 this.actions.updateCoa(res.coa);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }

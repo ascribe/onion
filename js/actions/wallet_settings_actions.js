@@ -17,7 +17,7 @@ class WalletSettingsActions {
                 this.actions.updateWalletSettings(res.wallet_settings);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }

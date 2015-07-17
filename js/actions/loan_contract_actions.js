@@ -32,7 +32,7 @@ class LoanContractActions {
                     }
                 })
                 .catch((err) => {
-                    console.error(err);
+                    console.logGlobal(err);
                     this.actions.updateLoanContract({
                         contractKey: null,
                         contractUrl: null,

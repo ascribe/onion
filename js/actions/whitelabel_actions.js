@@ -14,10 +14,14 @@ class WhitelabelActions {
     fetchWhitelabel() {
         WhitelabelFetcher.fetch()
             .then((res) => {
-                this.actions.updateWhitelabel(res.whitelabel);
+                if(res && res.whitelabel) {
+                    this.actions.updateWhitelabel(res.whitelabel);
+                } else {
+                    this.actions.updateWhitelabel({});
+                }
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }
