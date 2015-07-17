@@ -79,7 +79,6 @@ let Edition = React.createClass({
     handleDeleteSuccess(response) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
 
-        console.log(this.props.edition.parent);
         EditionListActions.refreshEditionList(this.props.edition.parent);
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
@@ -410,7 +409,7 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        if (this.state.coa.url_safe) {
+        if (this.state.coa && this.state.coa.url_safe) {
             return (
                 <div>
                     <p className="text-center ascribe-button-list">
@@ -432,8 +431,8 @@ let CoaDetails = React.createClass({
         return (
             <div className="text-center">
                 <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
-            </div>);
-
+            </div>
+        );
     }
 });
 
