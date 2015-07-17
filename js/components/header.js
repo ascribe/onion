@@ -119,7 +119,7 @@ let Header = React.createClass({
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
                     <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
                     <MenuItem divider />
-                    <MenuItem eventKey="3" onClick={this.handleLogout}>{getLangText('Log out')}</MenuItem>
+                    <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                   </DropdownButton>
             );
 
