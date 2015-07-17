@@ -35,6 +35,8 @@ class Requests {
                             let error = new Error('Form Error');
                             error.json = body;
                             reject(error);
+                        } else if(body && body.detail) {
+                            reject(new Error(body.detail));
                         } else {
                             resolve(body);
                         }
