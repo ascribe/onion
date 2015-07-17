@@ -19,9 +19,9 @@ class Requests {
 
     unpackResponse(response) {
         if (response.status >= 500) {
-            console.logGlobal(new Error(response.status + ': Generic server error - ' + response.statusText));
+            console.logGlobal(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
         } else if(response.status >= 400 && response.status < 500) {
-            console.logGlobal(new Error(response.status + ': Generic request error - ' + response.statusText));
+            console.logGlobal(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
         }
         return response.text();
     }
