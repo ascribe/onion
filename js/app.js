@@ -47,6 +47,7 @@ class AppGateway {
         } catch(err) {
             // if there are no matching subdomains, we're routing
             // to the default frontend
+            console.logGlobal(err);
             this.load('default');
         }
     }

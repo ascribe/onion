@@ -11,9 +11,9 @@ let EditionListFetcher = {
      */
     fetch(pieceId, page, pageSize, orderBy, orderAsc) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
-        return requests.get('editions_list', { 
+        return requests.get('editions_list', {
             'piece_id': pieceId,
-            page, 
+            page,
             pageSize,
             ordering
         });

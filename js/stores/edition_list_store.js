@@ -87,7 +87,7 @@ class EditionListStore {
                 this.editionList[pieceId].pageSize = prevEditionListPageSize;
             })
             .catch((err) => {
-                console.error(err);
+                console.logGlobal(err);
             });
     }
 
