@@ -23,7 +23,7 @@ class UserActions {
             });
     }
     logoutCurrentUser() {
-        UserFetcher.logout()
+        return UserFetcher.logout()
             .then(() => {
                 this.actions.deleteCurrentUser();
             })
