@@ -117,7 +117,7 @@ let AccordionListItem = React.createClass({
 
     getLicences() {
         // convert this to acl_view_licences later
-        if (this.state.whitelabel.name === 'Creative Commons France') {
+        if (this.state.whitelabel && this.state.whitelabel.name === 'Creative Commons France') {
             return (
                 <span>
                     <span>, </span>

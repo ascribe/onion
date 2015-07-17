@@ -18,7 +18,7 @@ class UserActions {
                 this.actions.updateCurrentUser(res.users[0]);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
                 this.actions.updateCurrentUser({});
             });
     }
@@ -28,7 +28,7 @@ class UserActions {
                 this.actions.deleteCurrentUser();
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }

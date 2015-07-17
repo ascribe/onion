@@ -1,11 +1,8 @@
 'use strict';
 
 import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
-import AppConstants from '../constants/application_constants';
 
-class UrlMapError extends Error {}
-class ServerError extends Error {}
-class APIError extends Error {}
+import AppConstants from '../constants/application_constants';
 
 
 class Requests {
@@ -22,9 +19,9 @@ class Requests {
 
     unpackResponse(response) {
         if (response.status >= 500) {
-            throw new ServerError();
-        } else if(response.status === 403) {
-            Raven.captureException('csrftoken error');
+            console.logGlobal(new Error(response.status + ': Generic server error - ' + response.statusText));
+        } else if(response.status >= 400 && response.status < 500) {
+            console.logGlobal(new Error(response.status + ': Generic request error - ' + response.statusText));
         }
         return response.text();
     }
@@ -40,19 +37,12 @@ class Requests {
         }
     }
 
-    handleFatalError(err) {
-        this.fatalErrorHandler(err);
-        throw new ServerError(err);
-    }
-
-    handleAPIError(json) {
-        if (json.success === false) {
-            let error = new APIError();
-            error.json = json;
-            //console.error(new Error('The \'success\' property is missing in the server\'s response.'));
-            throw error;
+    handleError(err) {
+        if (err instanceof TypeError) {
+            console.logGlobal('Server did not respond to the request. (Not even displayed a 500)');
+        } else {
+            console.logGlobal(err);
         }
-        return json;
     }
 
     getUrl(url) {
@@ -65,7 +55,7 @@ class Requests {
         if (!url.match(/^http/)) {
             url = this.urlMap[url];
             if (!url) {
-                throw new UrlMapError(`Cannot find a mapping for "${name}"`);
+                throw new Error(`Cannot find a mapping for "${name}"`);
             }
         }
         
@@ -107,11 +97,11 @@ class Requests {
             merged.headers['X-CSRFToken'] = csrftoken;
         }
         merged.method = verb;
+
         return fetch(url, merged)
                     .then(this.unpackResponse)
                     .then(this.customJSONparse)
-                    .catch(this.handleFatalError.bind(this))
-                    .then(this.handleAPIError);
+                    .catch(this.handleError);
     }
 
     get(url, params) {
@@ -143,7 +133,6 @@ class Requests {
     defaults(options) {
         this.httpOptions = options.http || {};
         this.urlMap = options.urlMap || {};
-        this.fatalErrorHandler = options.fatalErrorHandler || (() => {});
     }
 }
 

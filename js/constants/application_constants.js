@@ -14,6 +14,7 @@ let constants = {
                 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
                 'acl_withdraw_transfer'],
 
+    'version': 0.1,
     'csrftoken': 'csrftoken2',
     'subdomains': [
         {
@@ -47,7 +48,10 @@ let constants = {
     ],
 
     // in case of whitelabel customization, we store stuff here
-    'whitelabel': {}
+    'whitelabel': {},
+    'raven': {
+        'url': 'https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351'
+    }
 };
 
 export default constants;

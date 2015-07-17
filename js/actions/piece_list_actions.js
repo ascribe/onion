@@ -53,7 +53,8 @@ class PieceListActions {
             .fetchRequestActions()
             .then((res) => {
                 this.actions.updatePieceListRequestActions(res.piece_ids);
-            });
+            })
+            .catch((err) => console.logGlobal(err));
     }
 }
 

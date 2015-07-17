@@ -17,7 +17,7 @@ class LicenseActions {
                 this.actions.updateLicenses(res.licenses);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }

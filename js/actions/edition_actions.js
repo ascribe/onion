@@ -17,7 +17,7 @@ class EditionActions {
                 this.actions.updateEdition(res.edition);
             })
             .catch((err) => {
-                console.log(err);
+                console.logGlobal(err);
             });
     }
 }
