@@ -20,21 +20,36 @@ class Requests {
     unpackResponse(response) {
         if (response.status >= 500) {
             throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
-        } else if(response.status >= 400) {
-            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
         }
-        return response.text();
-    }
 
-    customJSONparse(responseText) {
-        // If the responses' body does not contain any data,
-        // fetch will resolve responseText to the string 'None'.
-        // If this is the case, we can not try to parse it as JSON.
-        if(responseText !== 'None') {
-            return JSON.parse(responseText);
-        } else {
-            return {};
-        }
+        return new Promise((resolve, reject) => {
+            response.text()
+                .then((responseText) => {
+                    // If the responses' body does not contain any data,
+                    // fetch will resolve responseText to the string 'None'.
+                    // If this is the case, we can not try to parse it as JSON.
+                    if(responseText !== 'None') {
+                        let body = JSON.parse(responseText);
+                        
+                        if(body && body.errors) {
+                            let error = new Error('Form Error');
+                            error.json = body;
+                            reject(error);
+                        } else {
+                            resolve(body);
+                        }
+
+                    } else {
+                        if(response.status >= 400) {
+                            reject(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
+                        } else {
+                            resolve({});
+                        }
+                    }
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
     }
 
     handleError(err) {
@@ -100,7 +115,6 @@ class Requests {
 
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .then(this.customJSONparse)
                     .catch(this.handleError);
     }
 
