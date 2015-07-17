@@ -5,6 +5,7 @@ import Router from 'react-router';
 
 import Landing from './components/landing';
 import LoginContainer from './components/login_container';
+import LogoutContainer from '../../../components/logout_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
 import PrizeRegisterPiece from './components/register_piece';
@@ -25,6 +26,7 @@ function getRoutes(commonRoutes) {
         <Route name="app" path={baseUrl} handler={App}>
             <Route name="landing" path={baseUrl} handler={Landing} />
             <Route name="login" path="login" handler={LoginContainer} />
+            <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
             <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} />
