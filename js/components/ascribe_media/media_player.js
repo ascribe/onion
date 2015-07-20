@@ -153,7 +153,7 @@ let MediaPlayer = React.createClass({
         if (this.props.mimetype === 'video' && this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
-                    <p><em>Please be patient, the video is been encoded</em></p>
+                    <p><em>Please be patient, the video is being encoded</em></p>
                     <ProgressBar now={this.props.encodingStatus}
                         label='%(percent)s%' />
                 </div>
