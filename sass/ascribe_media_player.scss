@@ -25,7 +25,7 @@
     }
 
     .audiojs .loaded {
-        background-color: $ascribe-color-full;
+        background-color: $ascribe-color-green;
         background-image: none;
     }
     .audiojs .progress {
@@ -48,7 +48,7 @@
 
     .vjs-default-skin .vjs-play-progress,
     .vjs-default-skin .vjs-volume-level {
-        background: $ascribe-color-full;
+        background: $ascribe-color-green;
     }
 
     .vjs-default-skin .vjs-big-play-button {
