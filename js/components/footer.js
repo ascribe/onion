@@ -12,9 +12,9 @@ let Footer = React.createClass({
                 <p className="ascribe-sub-sub-statement">
                   <br />
                   <a href="https://github.com/ascribe/REST-main/" target="_blank">api</a> |
-                  <a href="https://www.ascribe.io/impressum" target="_blank"> impressum</a> |
-                  <a href="https://www.ascribe.io/terms" target="_blank"> {getLangText('terms of service')}</a> |
-                  <a href="https://www.ascribe.io/privacy" target="_blank"> {getLangText('privacy')}</a>
+                  <a href="https://www.ascribe.io/impressum/" target="_blank"> impressum</a> |
+                  <a href="https://www.ascribe.io/terms/" target="_blank"> {getLangText('terms of service')}</a> |
+                  <a href="https://www.ascribe.io/privacy/" target="_blank"> {getLangText('privacy')}</a>
                 </p>
                 <p className="social-icons-wrapper">
                     <a href="https://twitter.com/ascribeIO" className="social social-twitter" target="_blank"></a>
