@@ -328,8 +328,7 @@ let EditionPersonalNote = React.createClass({
                             rows={1}
                             editable={true}
                             defaultValue={this.props.edition.note_from_user}
-                            placeholder={getLangText('Enter a personal note%s', '...')}
-                            required="required"/>
+                            placeholder={getLangText('Enter a personal note%s', '...')}/>
                     </Property>
                     <Property hidden={true} name='bitcoin_id'>
                         <input defaultValue={this.props.edition.bitcoin_id}/>
