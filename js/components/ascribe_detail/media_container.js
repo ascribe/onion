@@ -18,7 +18,8 @@ let MediaContainer = React.createClass({
     },
 
     render() {
-        let thumbnail = this.props.content.thumbnail;
+        let thumbnail = this.props.content.thumbnail.thumbnail_sizes && this.props.content.thumbnail.thumbnail_sizes['600x600'] ?
+            this.props.content.thumbnail.thumbnail_sizes['600x600'] : this.props.content.thumbnail.url_safe;
         let mimetype = this.props.content.digital_work.mime;
         let embed = null;
         let extraData = null;

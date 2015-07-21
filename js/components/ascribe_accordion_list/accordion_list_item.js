@@ -155,7 +155,7 @@ let AccordionListItem = React.createClass({
                         <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
                             <div className="thumbnail-wrapper">
                                 <Link {...linkData}>
-                                    <img src={this.props.content.thumbnail}/>
+                                    <img src={this.props.content.thumbnail.url_safe}/>
                                 </Link>
                             </div>
                         </div>
