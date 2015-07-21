@@ -81,6 +81,13 @@ let RegisterPiece = React.createClass( {
 
     onChange(state) {
         this.setState(state);
+
+        if(this.state.currentUser && this.state.currentUser.email) {
+            // we should also make the fineuploader component editable again
+            this.setState({
+                isFineUploaderActive: true
+            });
+        }
     },
 
     handleSuccess(response){
@@ -166,10 +173,6 @@ let RegisterPiece = React.createClass( {
         // register_piece slide
         if(this.state.currentUser && this.state.currentUser.email) {
             window.history.back();
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
         }
     },
 

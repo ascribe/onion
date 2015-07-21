@@ -82,8 +82,15 @@ let SlidesContainer = React.createClass({
         // if slideNum is within the range of slides and none of the previous cases
         // where matched, we can actually do transitions
         } else if(slideNum >= 0 || slideNum < React.Children.count(this.props.children)) {
-            if(slideNum !== this.state.slideNum - 1 && !document.referrer) {
-                
+            
+            if(slideNum !== this.state.slideNum - 1) {
+                // Bootstrapping the component, getInitialState is called once to save
+                // the tabs history length.
+                // In order to know if we already pushed a new state  on the history stack or not,
+                // we're comparing the old history length with the new one and if it didn't change then
+                // we push a new state on it ONCE (ever).
+                // Otherwise, we're able to use the browsers history.forward() method
+                // to keep the stack clean
                 if(this.state.historyLength === window.history.length) {
                     this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
                 } else {

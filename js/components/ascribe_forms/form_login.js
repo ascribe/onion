@@ -73,16 +73,20 @@ let LoginForm = React.createClass({
         // register_piece is listening to the changes of the user_store.
         UserActions.fetchCurrentUser()
             .then(() => {
-                /* Taken from http://stackoverflow.com/a/14916411 */
-                /*
-                We actually have to trick the Browser into showing the "save password" dialog
-                as Chrome expects the login page to be reloaded after the login.
-                Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
-                Until then, we redirect the HARD way, but reloading the whole page using window.location
-                */
                 if(this.props.redirectOnLoginSuccess) {
+                    /* Taken from http://stackoverflow.com/a/14916411 */
+                    /*
+                    We actually have to trick the Browser into showing the "save password" dialog
+                    as Chrome expects the login page to be reloaded after the login.
+                    Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
+                    Until then, we redirect the HARD way, but reloading the whole page using window.location
+                    */
                     window.location = AppConstants.baseUrl + 'collection';
                 } else if(this.props.onLogin) {
+                    // In some instances we want to give a callback to an outer container,
+                    // to show that the one login action the user triggered actually went through.
+                    // We can not do this by listening on a store's state as it wouldn't really tell us
+                    // if the user did log in or was just fetching the user's data again
                     this.props.onLogin();
                 }
             })
