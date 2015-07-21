@@ -13,6 +13,10 @@ class CoaStore {
     onUpdateCoa(coa) {
         this.coa = coa;
     }
+    onErrorCoa(err) {
+        this.coa = {};
+        //this.coa = err
+    }
 }
 
 export default alt.createStore(CoaStore, 'CoaStore');

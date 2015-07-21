@@ -26,7 +26,9 @@ class CoaActions {
                 this.actions.updateCoa(res.coa);
             })
             .catch((err) => {
+                console.log(err)
                 console.logGlobal(err);
+                this.actions.updateCoa('Something went wrong, please try again later.');
             });
     }
 }

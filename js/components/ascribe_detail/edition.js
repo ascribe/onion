@@ -428,6 +428,13 @@ let CoaDetails = React.createClass({
                 </div>
             );
         }
+        else if (typeof this.state.coa === 'string'){
+            return (
+                <div className="text-center">
+                    {this.state.coa}
+                </div>
+            );
+        }
         return (
             <div className="text-center">
                 <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
