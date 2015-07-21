@@ -81,17 +81,6 @@ let RegisterPiece = React.createClass( {
 
     onChange(state) {
         this.setState(state);
-
-        // once the currentUser object from UserStore is defined (eventually the user was transitioned
-        // to the login form via the slider and successfully logged in), we can direct him back to the
-        // register_piece slide
-        if(state.currentUser && state.currentUser.email || this.state.currentUser && this.state.currentUser.email) {
-            this.refs.slidesContainer.setSlideNum(0);
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleSuccess(response){
@@ -171,6 +160,19 @@ let RegisterPiece = React.createClass( {
         this.refs.slidesContainer.setSlideNum(1);
     },
 
+    onLogin() {
+        // once the currentUser object from UserStore is defined (eventually the user was transitioned
+        // to the login form via the slider and successfully logged in), we can direct him back to the
+        // register_piece slide
+        if(this.state.currentUser && this.state.currentUser.email) {
+            window.history.back();
+            // we should also make the fineuploader component editable again
+            this.setState({
+                isFineUploaderActive: true
+            });
+        }
+    },
+
     render() {
         return (
             <SlidesContainer ref="slidesContainer">
@@ -195,7 +197,8 @@ let RegisterPiece = React.createClass( {
                     <LoginContainer
                         message={getLangText('Please login before ascribing your work%s', '...')}
                         redirectOnLoggedIn={false}
-                        redirectOnLoginSuccess={false}/>
+                        redirectOnLoginSuccess={false}
+                        onLogin={this.onLogin}/>
                 </div>
             </SlidesContainer>
         );

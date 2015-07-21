@@ -17,7 +17,7 @@ let SlidesContainer = React.createClass({
     getInitialState() {
         // handle queryParameters
         let queryParams = this.getQuery();
-        let slideNum = 0;
+        let slideNum = -1;
 
         if(queryParams && 'slide_num' in queryParams) {
             slideNum = parseInt(queryParams.slide_num, 10);
@@ -26,23 +26,24 @@ let SlidesContainer = React.createClass({
 
         return {
             containerWidth: 0,
-            slideNum: slideNum
+            slideNum: slideNum,
+            historyLength: window.history.length
         };
     },
 
     componentDidMount() {
-        // check if slide_num was defined, and if not then default to 0
-        let queryParams = this.getQuery();
-        if(!('slide_num' in queryParams)) {
-            this.replaceWith(this.getPathname(), null, {slide_num: 0});
-        }
-
         // init container width
         this.handleContainerResize();
 
         // we're using an event listener on window here,
         // as it was not possible to listen to the resize events of a dom node
         window.addEventListener('resize', this.handleContainerResize);
+    },
+
+    componentDidUpdate() {
+        // check if slide_num was defined, and if not then default to 0
+        let queryParams = this.getQuery();
+        this.setSlideNum(queryParams.slide_num);
     },
 
     componentWillUnmount() {
@@ -58,9 +59,38 @@ let SlidesContainer = React.createClass({
     // We let every one from the outsite set the page number of the slider,
     // though only if the slideNum is actually in the range of our children-list.
     setSlideNum(slideNum) {
-        if(slideNum < 0 || slideNum < React.Children.count(this.props.children)) {
+
+        // slideNum can in some instances be not a number,
+        // therefore we have to parse it to one and make sure that its not NaN
+        slideNum = parseInt(slideNum, 10);
+
+        // if slideNum is not a number (even after we parsed it to one) and there has
+        // never been a transition to another slide (this.state.slideNum ==== -1 indicates that)
+        // then we want to "replace" (in this case append) the current url with ?slide_num=0
+        if(isNaN(slideNum) && this.state.slideNum === -1) {
+            slideNum = 0;
 
             this.replaceWith(this.getPathname(), null, {slide_num: slideNum});
+            this.setState({slideNum: slideNum});
+            return;
+
+        // slideNum always represents the future state. So if slideNum and
+        // this.state.slideNum are equal, there is no sense in redirecting
+        } else if(slideNum === this.state.slideNum) {
+            return;
+
+        // if slideNum is within the range of slides and none of the previous cases
+        // where matched, we can actually do transitions
+        } else if(slideNum >= 0 || slideNum < React.Children.count(this.props.children)) {
+            if(slideNum !== this.state.slideNum - 1 && !document.referrer) {
+                
+                if(this.state.historyLength === window.history.length) {
+                    this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
+                } else {
+                    window.history.forward();
+                }
+            }
+
             this.setState({
                 slideNum: slideNum
             });

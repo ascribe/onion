@@ -25,7 +25,8 @@ let LoginForm = React.createClass({
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         redirectOnLoggedIn: React.PropTypes.bool,
-        redirectOnLoginSuccess: React.PropTypes.bool
+        redirectOnLoginSuccess: React.PropTypes.bool,
+        onLogin: React.PropTypes.func
     },
 
     mixins: [Router.Navigation],
@@ -70,18 +71,25 @@ let LoginForm = React.createClass({
         // The easiest way to check if the user was successfully logged in is to fetch the user
         // in the user store (which is obviously only possible if the user is logged in), since
         // register_piece is listening to the changes of the user_store.
-        UserActions.fetchCurrentUser();
+        UserActions.fetchCurrentUser()
+            .then(() => {
+                /* Taken from http://stackoverflow.com/a/14916411 */
+                /*
+                We actually have to trick the Browser into showing the "save password" dialog
+                as Chrome expects the login page to be reloaded after the login.
+                Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
+                Until then, we redirect the HARD way, but reloading the whole page using window.location
+                */
+                if(this.props.redirectOnLoginSuccess) {
+                    window.location = AppConstants.baseUrl + 'collection';
+                } else if(this.props.onLogin) {
+                    this.props.onLogin();
+                }
+            })
+            .catch((err) => {
+                console.logGlobal(err);
+            });
 
-        /* Taken from http://stackoverflow.com/a/14916411 */
-        /*
-        We actually have to trick the Browser into showing the "save password" dialog
-        as Chrome expects the login page to be reloaded after the login.
-        Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
-        Until then, we redirect the HARD way, but reloading the whole page using window.location
-        */
-        if(this.props.redirectOnLoginSuccess) {
-            window.location = AppConstants.baseUrl + 'collection';
-        }
     },
 
     render() {
