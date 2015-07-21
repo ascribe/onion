@@ -27,6 +27,11 @@ let EditionContainer = React.createClass({
             let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
             this.setState({timerId: timerId});
         }
+        let thumbnail = state.edition.thumbnail;
+        if (state.edition.digital_work.mime === 'image' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
+            this.setState({timerId: timerId});
+        }
     },
 
     componentDidMount() {
