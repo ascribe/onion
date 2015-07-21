@@ -59,7 +59,7 @@ let RegisterPiece = React.createClass( {
             PieceListStore.getState(),
             {
                 selectedLicense: 0,
-                isFineUploaderEditable: false
+                isFineUploaderActive: false
             });
     },
 
@@ -89,7 +89,7 @@ let RegisterPiece = React.createClass( {
             this.refs.slidesContainer.setSlideNum(0);
             // we should also make the fineuploader component editable again
             this.setState({
-                isFineUploaderEditable: true
+                isFineUploaderActive: true
             });
         }
     },
@@ -105,7 +105,8 @@ let RegisterPiece = React.createClass( {
             this.state.pageSize,
             this.state.searchTerm,
             this.state.orderBy,
-            this.state.orderAsc);
+            this.state.orderAsc
+        );
 
         this.transitionTo('piece', {pieceId: response.piece.id});
     },
@@ -160,9 +161,14 @@ let RegisterPiece = React.createClass( {
     changeSlide() {
         // only transition to the login store, if user is not logged in
         // ergo the currentUser object is not properly defined
-        if(!this.state.currentUser.email) {
+        if(this.state.currentUser && !this.state.currentUser.email) {
             this.refs.slidesContainer.setSlideNum(1);
         }
+    },
+
+    // basically redirects to the second slide (index: 1), when the user is not logged in
+    onLoggedOut() {
+        this.refs.slidesContainer.setSlideNum(1);
     },
 
     render() {
@@ -175,8 +181,9 @@ let RegisterPiece = React.createClass( {
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
                                 {...this.props}
-                                isFineUploaderEditable={this.state.isFineUploaderEditable}
-                                handleSuccess={this.handleSuccess}>
+                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                handleSuccess={this.handleSuccess}
+                                onLoggedOut={this.onLoggedOut}>
                                 {this.props.children}
                                 {this.getLicenses()}
                                 {this.getSpecifyEditions()}
