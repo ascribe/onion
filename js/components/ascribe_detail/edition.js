@@ -392,7 +392,7 @@ let CoaDetails = React.createClass({
 
     componentDidMount() {
         CoaStore.listen(this.onChange);
-        if (this.props.edition.coa) {
+        if(this.props.edition.coa) {
             CoaActions.fetchOne(this.props.edition.coa);
         }
         else {
@@ -401,6 +401,9 @@ let CoaDetails = React.createClass({
     },
 
     componentWillUnmount() {
+        // Flushing the coa state is essential to not displaying the same
+        // data to the user while he's on another edition
+        CoaActions.flushCoa();
         CoaStore.unlisten(this.onChange);
     },
 
@@ -409,7 +412,7 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        if (this.state.coa && this.state.coa.url_safe) {
+        if(this.state.coa && this.state.coa.url_safe) {
             return (
                 <div>
                     <p className="text-center ascribe-button-list">
@@ -427,8 +430,7 @@ let CoaDetails = React.createClass({
                     </p>
                 </div>
             );
-        }
-        else if (typeof this.state.coa === 'string'){
+        } else if(typeof this.state.coa === 'string'){
             return (
                 <div className="text-center">
                     {this.state.coa}

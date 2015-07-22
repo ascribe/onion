@@ -13,9 +13,9 @@ class CoaStore {
     onUpdateCoa(coa) {
         this.coa = coa;
     }
-    onErrorCoa(err) {
+
+    onFlushCoa() {
         this.coa = {};
-        //this.coa = err
     }
 }
 
