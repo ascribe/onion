@@ -184,7 +184,19 @@ function bundle(watch) {
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulpif(!argv.production, sourcemaps.write())) // writes .map file
             .on('error', notify.onError('Error: <%= error.message %>'))
-            .pipe(gulpif(argv.production, uglify()))
+            .pipe(gulpif(argv.production, uglify({
+                mangle: true,
+                compress: {
+                    sequences: true,
+                    dead_code: true,
+                    conditionals: true,
+                    booleans: true,
+                    unused: true,
+                    if_return: true,
+                    join_vars: true,
+                    drop_console: true
+                }
+            })))
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(gulp.dest('./build/js'))
             .on('error', notify.onError('Error: <%= error.message %>'))

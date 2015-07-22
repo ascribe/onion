@@ -12,7 +12,6 @@ class LoanContractActions {
     }
 
     fetchLoanContract(email) {
-
         if(email.match(/.+\@.+\..+/)) {
             OwnershipFetcher.fetchLoanContract(email)
                 .then((contracts) => {
