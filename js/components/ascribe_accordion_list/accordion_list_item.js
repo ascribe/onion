@@ -14,12 +14,13 @@ import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
 import WhitelabelStore from '../../stores/whitelabel_store';
-import WhitelabelActions from '../../actions/whitelabel_actions';
 
 import EditionListActions from '../../actions/edition_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import FlowType from '../react_flow_type/react_flow_type';
 
 import AclProxy from '../acl_proxy';
 import SubmitToPrizeButton from '../ascribe_buttons/submit_to_prize_button';
@@ -94,7 +95,7 @@ let AccordionListItem = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    onPollingSuccess(pieceId, numEditions) {
+    onPollingSuccess(pieceId) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         EditionListActions.toggleEditionList(pieceId);
 
@@ -159,44 +160,47 @@ let AccordionListItem = React.createClass({
                                 </Link>
                             </div>
                         </div>
-                        <div
-                            className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
-                            <Link {...linkData}>
-                                <h1 className="truncate">{this.props.content.title}</h1>
-                            </Link>
+                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
+                            <FlowType
+                                minimum={350}
+                                maximum={500}>
+                                <Link {...linkData}>
+                                    <h1>{this.props.content.title}</h1>
+                                </Link>
 
-                            <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
+                                <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
 
-                            <div>
-                                <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
+                                <div>
+                                    <span className="pull-left">{this.props.content.date_created.split('-')[0]}</span>
 
-                                <AclProxy
-                                    aclObject={this.props.content.acl}
-                                    aclName="acl_view_editions">
-                                    <AccordionListItemEditionWidget
-                                        className="pull-right"
-                                        piece={this.props.content}
-                                        toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                        onPollingSuccess={this.onPollingSuccess}/>
-                                </AclProxy>
-                                <AclProxy
-                                    show={this.props.content.prize === null}>
-                                    <SubmitToPrizeButton
-                                        className="pull-right"
-                                        piece={this.props.content}
-                                        handleSuccess={this.handleSubmitPrizeSuccess}/>
-                                </AclProxy>
-                                <AclProxy
-                                    show={this.props.content.prize}>
-                                    <button
-                                        disabled
-                                        className="btn btn-default btn-xs pull-right">
-                                        {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
-                                                                                  aria-hidden="true"></span>
-                                    </button>
-                                </AclProxy>
-                                {this.getLicences()}
-                            </div>
+                                    <AclProxy
+                                        aclObject={this.props.content.acl}
+                                        aclName="acl_view_editions">
+                                        <AccordionListItemEditionWidget
+                                            className="pull-right"
+                                            piece={this.props.content}
+                                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                            onPollingSuccess={this.onPollingSuccess}/>
+                                    </AclProxy>
+                                    <AclProxy
+                                        show={this.props.content.prize === null}>
+                                        <SubmitToPrizeButton
+                                            className="pull-right"
+                                            piece={this.props.content}
+                                            handleSuccess={this.handleSubmitPrizeSuccess}/>
+                                    </AclProxy>
+                                    <AclProxy
+                                        show={this.props.content.prize}>
+                                        <button
+                                            disabled
+                                            className="btn btn-default btn-xs pull-right">
+                                            {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
+                                                                                      aria-hidden="true"></span>
+                                        </button>
+                                    </AclProxy>
+                                    {this.getLicences()}
+                                </div>
+                            </FlowType>
                         </div>
                         <span style={{'clear': 'both'}}></span>
 

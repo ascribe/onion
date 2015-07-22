@@ -39,12 +39,13 @@ let FlowType = React.createClass({
         return {
             // 32 because that's the default font display size
             // doesn't really matter though
-            fontSize: 32
+            fontSize: 0
         };
     },
 
     componentDidMount() {
         // Make changes upon resize, calculate changes and rerender
+        this.handleResize();
         window.addEventListener('resize', this.handleResize);
     },
 
@@ -67,18 +68,23 @@ let FlowType = React.createClass({
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                style: {
-                    fontSize: this.state.fontSize
-                }
-            });       
+                ref: 'flowTypeFontElement',
+                
+            });
         });
     },
 
     render() {
         return (
-            <span ref="flowTypeElement">
-                {this.renderChildren()}
-            </span>
+            <div
+                ref="flowTypeElement"
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    fontSize: this.state.fontSize
+                }}>
+                {this.props.children}
+            </div>
         );
     }
 });
