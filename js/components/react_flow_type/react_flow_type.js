@@ -25,8 +25,6 @@ let FlowType = React.createClass({
         children: React.PropTypes.element.isRequired // only supporting one child element at once right now
     },
 
-    // Establish default settings/variables
-    // ====================================
     getDefaultProps() {
         return {
             maximum: 9999,
@@ -39,18 +37,33 @@ let FlowType = React.createClass({
 
     getInitialState() {
         return {
-            fontSize: 1
+            // 32 because that's the default font display size
+            // doesn't really matter though
+            fontSize: 32
         };
     },
 
     componentDidMount() {
+        // Make changes upon resize, calculate changes and rerender
         window.addEventListener('resize', this.handleResize);
     },
 
     componentWillUnmount() {
+        // stop listening to window once the component was unmounted
         window.removeEventListener('resize', this.handleResize);
     },
 
+    handleResize() {
+        let elemWidth = this.refs.flowTypeElement.getDOMNode().offsetWidth;
+        let width = elemWidth > this.props.maximum ? this.props.maximum : elemWidth < this.props.minimum ? this.props.minimum : elemWidth;
+        let fontBase = width / this.props.fontRatio;
+        let fontSize = fontBase > this.props.maxFont ? this.props.maxFont : fontBase < this.props.minFont ? this.props.minFont : fontBase;
+
+        this.setState({ fontSize });
+    },
+
+    // The child the user passes to this component needs to have it's
+    // style.fontSize property to be updated
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
@@ -63,7 +76,7 @@ let FlowType = React.createClass({
 
     render() {
         return (
-            <span>
+            <span ref="flowTypeElement">
                 {this.renderChildren()}
             </span>
         );
