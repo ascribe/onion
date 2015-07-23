@@ -55,6 +55,7 @@ let MediaContainer = React.createClass({
                     encodingStatus={this.props.content.digital_work.isEncoding} />
                 <p className="text-center">
                     <AclProxy
+                        show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || this.props.content.acl.acl_download}
                         aclObject={this.props.content.acl}
                         aclName="acl_download">
                         <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
