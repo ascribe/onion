@@ -484,7 +484,6 @@ var ReactS3FineUploader = React.createClass({
         this.state.uploader.addFiles(files);
         let oldFiles = this.state.filesToUpload;
         let oldAndNewFiles = this.state.uploader.getUploads();
-
         // Add fineuploader specific information to new files
         for(let i = 0; i < oldAndNewFiles.length; i++) {
             for(let j = 0; j < files.length; j++) {
@@ -542,6 +541,7 @@ var ReactS3FineUploader = React.createClass({
         });
         this.setState(newState);
     },
+
 
     render() {
         return (
