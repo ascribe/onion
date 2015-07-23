@@ -172,7 +172,8 @@ let FileUploader = React.createClass({
                     customHeaders: {
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
-                }}/>
+                }}
+                localHashing={true} />
         );
     }
 });
