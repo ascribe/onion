@@ -171,7 +171,8 @@ let FileUploader = React.createClass({
                             }
                         }}
                         areAssetsDownloadable={true}
-                        areAssetsEditable={this.props.editable}/>
+                        areAssetsEditable={this.props.editable}/
+                        localHashing={true}>
                 </Property>
                 <hr />
             </Form>

@@ -34,7 +34,8 @@
     "globals": {
         "Intercom": true,
         "fetch": true,
-        "require": true
+        "require": true,
+        "File": true
     },
     "plugins": [
         "react"
