@@ -7,7 +7,8 @@ import CoaFetcher from '../fetchers/coa_fetcher';
 class CoaActions {
     constructor() {
         this.generateActions(
-            'updateCoa'
+            'updateCoa',
+            'flushCoa'
         );
     }
 
@@ -26,9 +27,7 @@ class CoaActions {
                 this.actions.updateCoa(res.coa);
             })
             .catch((err) => {
-                console.log(err)
                 console.logGlobal(err);
-                this.actions.updateCoa('Something went wrong, please try again later.');
             });
     }
 }
