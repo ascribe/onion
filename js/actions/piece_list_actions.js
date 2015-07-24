@@ -1,6 +1,7 @@
 'use strict';
 
 import alt from '../alt';
+import Q from 'q';
 
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
 
@@ -29,7 +30,7 @@ class PieceListActions {
 
         // afterwards, we can load the list
 
-        return new Promise((resolve, reject) => {
+        return Q.Promise((resolve, reject) => {
             PieceListFetcher
                 .fetch(page, pageSize, search, orderBy, orderAsc)
                 .then((res) => {
