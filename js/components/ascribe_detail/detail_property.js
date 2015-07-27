@@ -25,13 +25,6 @@ let DetailProperty = React.createClass({
 
     render() {
         let value = this.props.value;
-        let style;
-
-        if(this.props.breakWord) {
-            style = {
-                wordBreak: 'break-all'
-            };
-        }
 
         if (this.props.children){
             value = (
@@ -39,7 +32,7 @@ let DetailProperty = React.createClass({
                     <div className="col-xs-6 col-xs-height col-bottom no-padding">
                         { this.props.value }
                     </div>
-                    <div className="col-xs-6 col-xs-height" style={style}>
+                    <div className="col-xs-6 col-xs-height">
                         { this.props.children }
                     </div>
                 </div>);
@@ -50,7 +43,7 @@ let DetailProperty = React.createClass({
                     <div className={this.props.labelClassName + ' col-xs-height col-bottom ascribe-detail-property-label'}>
                         { this.props.label + this.props.separator}
                     </div>
-                    <div style={style} className={this.props.valueClassName + ' col-xs-height col-bottom ascribe-detail-property-value'}>
+                    <div className={this.props.valueClassName + ' col-xs-height col-bottom ascribe-detail-property-value'}>
                         {value}
                     </div>
                 </div>
