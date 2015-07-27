@@ -151,7 +151,7 @@ var ReactS3FineUploader = React.createClass({
                 }
                 return name;
             },
-            multiple: true,
+            multiple: false,
             defaultErrorMessage: getLangText('Unexpected error. Please contact us if this happens repeatedly.')
         };
     },
@@ -161,7 +161,9 @@ var ReactS3FineUploader = React.createClass({
             filesToUpload: [],
             uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
             csrfToken: getCookie(AppConstants.csrftoken),
-            hashingProgress: -1 // for hashing feedback
+            hashingProgress: -2
+            // -1: aborted
+            // -2: uninitialized
         };
     },
 
@@ -219,111 +221,123 @@ var ReactS3FineUploader = React.createClass({
     },
 
     requestKey(fileId) {
-        let defer = new fineUploader.Promise();
         let filename = this.state.uploader.getName(fileId);
         let uuid = this.state.uploader.getUuid(fileId);
 
-        window.fetch(this.props.keyRoutine.url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie(AppConstants.csrftoken)
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                'filename': filename,
-                'category': this.props.keyRoutine.fileClass,
-                'uuid': uuid,
-                'piece_id': this.props.keyRoutine.pieceId
+        return Q.Promise((resolve, reject) => {
+            window.fetch(this.props.keyRoutine.url, {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    'filename': filename,
+                    'category': this.props.keyRoutine.fileClass,
+                    'uuid': uuid,
+                    'piece_id': this.props.keyRoutine.pieceId
+                })
             })
-        })
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) =>{
-            defer.success(res.key);
-        })
-        .catch((err) => {
-            defer.failure(err);
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) =>{
+                resolve(res.key);
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
-
-        return defer;
     },
 
     createBlob(file) {
-        let defer = new fineUploader.Promise();
-
-        window.fetch(this.props.createBlobRoutine.url, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie(AppConstants.csrftoken)
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                'filename': file.name,
-                'key': file.key,
-                'piece_id': this.props.createBlobRoutine.pieceId
+        return Q.Promise((resolve, reject) => {
+            window.fetch(this.props.createBlobRoutine.url, {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    'filename': file.name,
+                    'key': file.key,
+                    'piece_id': this.props.createBlobRoutine.pieceId
+                })
             })
-        })
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) =>{
-            if(res.otherdata) {
-                file.s3Url = res.otherdata.url_safe;
-                file.s3UrlSafe = res.otherdata.url_safe;
-            } else if(res.digitalwork) {
-                file.s3Url = res.digitalwork.url_safe;
-                file.s3UrlSafe = res.digitalwork.url_safe;
-            } else {
-                throw new Error(getLangText('Could not find a url to download.'));
-            }
-            defer.success(res.key);
-        })
-        .catch((err) => {
-            defer.failure(err);
-            console.logGlobal(err);
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) =>{
+                if(res.otherdata) {
+                    file.s3Url = res.otherdata.url_safe;
+                    file.s3UrlSafe = res.otherdata.url_safe;
+                } else if(res.digitalwork) {
+                    file.s3Url = res.digitalwork.url_safe;
+                    file.s3UrlSafe = res.digitalwork.url_safe;
+                } else {
+                    throw new Error(getLangText('Could not find a url to download.'));
+                }
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+                console.logGlobal(err);
+            });
         });
-        return defer;
     },
 
     /* FineUploader specific callback function handlers */
 
     onComplete(id) {
         let files = this.state.filesToUpload;
+
+        // Set the state of the completed file to 'upload successful' in order to
+        // remove it from the GUI
         files[id].status = 'upload successful';
         files[id].key = this.state.uploader.getKey(id);
 
         let newState = React.addons.update(this.state, {
             filesToUpload: { $set: files }
         });
-        this.setState(newState);
-        this.createBlob(files[id]);
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
-        // are optional, we'll only trigger them when they're actually defined
-        if(this.props.submitKey) {
-            this.props.submitKey(files[id].key);
-        } else {
-            console.warn('You didn\'t define submitKey in as a prop in react-s3-fine-uploader');
-        }
+        this.setState(newState);
+
+        // Only after the blob has been created server-side, we can make the form submittable.
+        this.createBlob(files[id])
+            .then(() => {
+                // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+                // are optional, we'll only trigger them when they're actually defined
+                if(this.props.submitKey) {
+                    this.props.submitKey(files[id].key);
+                } else {
+                    console.warn('You didn\'t define submitKey in as a prop in react-s3-fine-uploader');
+                }
+                
+                // for explanation, check comment of if statement above
+                if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
+                    // also, lets check if after the completion of this upload,
+                    // the form is ready for submission or not
+                    if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
+                        // if so, set uploadstatus to true
+                        this.props.setIsUploadReady(true);
+                    } else {
+                        this.props.setIsUploadReady(false);
+                    }
+                } else {
+                    console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
+                }
+            })
+            .catch((err) => {
+                console.logGlobal(err);
+                let notification = new GlobalNotificationModel(err.message, 'danger', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+
         
-        // for explanation, check comment of if statement above
-        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-            // also, lets check if after the completion of this upload,
-            // the form is ready for submission or not
-            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                // if so, set uploadstatus to true
-                this.props.setIsUploadReady(true);
-            } else {
-                this.props.setIsUploadReady(false);
-            }
-        } else {
-            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-        }
     },
 
     onError() {
@@ -524,22 +538,41 @@ var ReactS3FineUploader = React.createClass({
             // with the all function for iterables and essentially replace all original files
             // with their txt representative
             Q.all(convertedFilePromises)
-                .progress(({index, value}) => {
-                    // update file's progress
-                    files[index].progress = value;
+                .progress(({index, value: {progress, reject}}) => {
 
-                    // calculate overall progress
-                    let overallHashingProgress = 0;
-                    for(let i = 0; i < files.length; i++) {
-                        let filesSliceOfOverall = files[i].size / overallFileSize;
-
-                        overallHashingProgress += filesSliceOfOverall * files[i].progress;
+                    // hashing progress has been aborted from outside
+                    // To get out of the executing, we need to call reject from the
+                    // inside of the promise's execution.
+                    // This is why we're passing (along with value) a function that essentially
+                    // just does that (calling reject(err))
+                    //
+                    // In the promises catch method, we're then checking if the interruption
+                    // was due to that error or another generic one.
+                    if(this.state.hashingProgress === -1) {
+                        reject(new Error(getLangText('Hashing canceled')));
                     }
 
-                    this.setState({ hashingProgress: overallHashingProgress });
+                    // update file's progress
+                    files[index].progress = progress;
+
+                    // calculate weighted average for overall progress of all
+                    // currently hashing files
+                    let overallHashingProgress = 0;
+                    for(let i = 0; i < files.length; i++) {
+
+                        let filesSliceOfOverall = files[i].size / overallFileSize;
+                        overallHashingProgress += filesSliceOfOverall * files[i].progress;
+
+                    }
+
+                    // Multiply by 100, since react-progressbar expects decimal numbers
+                    this.setState({ hashingProgress: overallHashingProgress * 100});
 
                 })
                 .then((convertedFiles) => {
+
+                    // clear hashing progress, since its done
+                    this.setState({ hashingProgress: -2});
 
                     // actually replacing all files with their txt-hash representative
                     files = convertedFiles;
@@ -551,9 +584,19 @@ var ReactS3FineUploader = React.createClass({
 
                 })
                 .catch((err) => {
-                    // if we're running into an error during the hash creation, we'll tell the user
-                    console.logGlobal(err);
-                    let notification = new GlobalNotificationModel(err.message, 'danger', 5000);
+                    // If the error is that hashing has been canceled, we want to display a success
+                    // message instead of a danger message
+                    let typeOfMessage = 'danger';
+
+                    if(err.message === getLangText('Hashing canceled')) {
+                        typeOfMessage = 'success';
+                        this.setState({ hashingProgress: -2 });
+                    } else {
+                        // if there was a more generic error, we also log it
+                        console.logGlobal(err);
+                    }
+
+                    let notification = new GlobalNotificationModel(err.message, typeOfMessage, 5000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
                 });
 
@@ -563,6 +606,13 @@ var ReactS3FineUploader = React.createClass({
             this.state.uploader.addFiles(files);
             this.synchronizeFileLists(files);
         }
+    },
+
+    handleCancelHashing() {
+        // Every progress tick of the hashing function in handleUploadFile there is a
+        // check if this.state.hashingProgress is -1. If so, there is an error thrown that cancels
+        // the hashing of all files immediately.
+        this.setState({ hashingProgress: -1 });
     },
 
     // ReactFineUploader is essentially just a react layer around s3 fineuploader.
@@ -648,11 +698,13 @@ var ReactS3FineUploader = React.createClass({
                     handleCancelFile={this.handleCancelFile}
                     handlePauseFile={this.handlePauseFile}
                     handleResumeFile={this.handleResumeFile}
+                    handleCancelHashing={this.handleCancelHashing}
                     multiple={this.props.multiple}
                     areAssetsDownloadable={this.props.areAssetsDownloadable}
                     areAssetsEditable={this.props.areAssetsEditable}
                     dropzoneInactive={!this.props.areAssetsEditable || !this.props.multiple && this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0}
-                    hashingProgress={this.state.hashingProgress} />
+                    hashingProgress={this.state.hashingProgress}
+                    localHashing={this.props.localHashing} />
             </div>
         );
     }
