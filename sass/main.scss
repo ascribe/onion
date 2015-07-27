@@ -215,7 +215,8 @@ hr {
 
 .ascribe-detail-title {
     font-size: 2em;
-    margin-bottom: -0.2em;
+    font-weight: bold;
+    margin-top: 0;
 }
 
 .ascribe-detail-property {
@@ -227,8 +228,8 @@ hr {
 }
 
 .ascribe-detail-property-value {
-    white-space: nowrap;
-    overflow: hidden;
+    /* white-space: nowrap;
+    overflow: hidden; */
     text-overflow: ellipsis;
 }
 

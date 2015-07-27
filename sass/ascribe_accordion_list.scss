@@ -48,6 +48,9 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
             margin: .1em 0 .1em 0;
             font-size: 2.2em;
             cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         h3 {
             font-size: 1.3em;
