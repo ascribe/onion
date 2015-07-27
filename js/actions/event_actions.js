@@ -9,8 +9,8 @@ class EventActions {
             'applicationWillBoot',
             'applicationDidBoot',
             'profileDidLoad',
-            'userDidLogin',
-            'userDidLogout',
+            //'userDidLogin',
+            //'userDidLogout',
             'routeDidChange'
         );
     }
