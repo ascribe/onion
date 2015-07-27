@@ -20,6 +20,7 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import InputCheckbox from './ascribe_forms/input_checkbox';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
@@ -68,8 +69,14 @@ let AccountSettings = React.createClass({
         let notification = new GlobalNotificationModel(getLangText('username succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
+    getFormDataProfile(){
+        return {'email': this.state.currentUser.email};
+    },
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let profile = null;
+
         if (this.state.currentUser.username) {
             content = (
                 <Form
@@ -97,6 +104,41 @@ let AccountSettings = React.createClass({
                     <hr />
                 </Form>
             );
+            profile = (
+                <Form
+                    url={apiUrls.users_profile}
+                    handleSuccess={this.handleSuccess}
+                    getFormData={this.getFormDataProfile}>
+                    <Property
+                        name="hash_locally"
+                        className="ascribe-settings-property-collapsible-toggle"
+                        style={{paddingBottom: 0}}>
+                        <InputCheckbox
+                            defaultValue={true}
+                            required={false}>
+                            <span>
+                                {' ' + getLangText('Enable hash option for slow connections. ' +
+                                    'Computes and uploads a hash of the work instead.')}
+                            </span>
+                        </InputCheckbox>
+                    </Property>
+                    {/*<Property
+                        name='language'
+                        label={getLangText('Choose your Language')}
+                        editable={true}>
+                        <select id="select-lang" name="language">
+                            <option value="fr">
+                                Fran&ccedil;ais
+                            </option>
+                            <option value="en"
+                                    selected="selected">
+                                English
+                            </option>
+                        </select>
+                    </Property>*/}
+                    <hr />
+                </Form>
+            );
         }
         return (
             <CollapsibleParagraph
@@ -104,6 +146,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
+                {profile}
                 {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
                     <Property
