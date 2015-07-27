@@ -19,6 +19,16 @@
     outline: 0;
 }
 
+.present-options {
+    > p {
+        margin-bottom: .75em !important;
+    }
+
+    .btn {
+        margin: 0 1em 0 1em;
+    }
+}
+
 .file-drag-and-drop .file-drag-and-drop-dialog > p:first-child {
     font-size: 1.5em !important;
 
