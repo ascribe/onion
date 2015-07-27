@@ -16,6 +16,12 @@ import requests from './utils/requests';
 import { getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 
+import EventActions from './actions/event_actions';
+// require('./third_party/debug');
+require('./third_party/ga');
+require('./third_party/raven');
+require('./third_party/intercom');
+
 initLogging();
 
 let headers = {
@@ -43,25 +49,30 @@ class AppGateway {
             settings = getSubdomainSettings(subdomain);
             appConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
-            this.load(settings.type);
+            this.load(settings);
         } catch(err) {
             // if there are no matching subdomains, we're routing
             // to the default frontend
             console.logGlobal(err);
-            this.load('default');
+            this.load();
         }
     }
 
-    load(type) {
+    load(settings) {
+        let type = 'default';
+        if (settings) {
+            type = settings.type;
+        }
+
+        EventActions.applicationWillBoot(settings);
         Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
-            if (window.ga) {
-                window.ga('send', 'pageview');
-            }
             React.render(
                 <App />,
                 document.getElementById('main')
             );
+            EventActions.routeDidChange();
         });
+        EventActions.applicationDidBoot(settings);
     }
 }
 
