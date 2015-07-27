@@ -10,7 +10,6 @@ class GoogleAnalyticsHandler {
     }
 
     onRouteDidChange() {
-        console.log(window.location.href);
         window.ga('send', 'pageview');
     }
 

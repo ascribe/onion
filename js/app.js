@@ -5,7 +5,9 @@ require('babel/polyfill');
 import React from 'react';
 import Router from 'react-router';
 
+/* eslint-disable */
 import fetch from 'isomorphic-fetch';
+/* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
 import { updateApiUrls } from './constants/api_urls';
@@ -17,10 +19,14 @@ import { getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 
 import EventActions from './actions/event_actions';
-// require('./third_party/debug');
-require('./third_party/ga');
-require('./third_party/raven');
-require('./third_party/intercom');
+
+/* eslint-disable */
+// You can comment out the modules you don't need
+// import DebugHandler from './third_party/debug';
+import GoogleAnalyticsHandler from './third_party/ga';
+import RavenHandler from './third_party/raven';
+import IntercomHandler from './third_party/intercom';
+/* eslint-enable */
 
 initLogging();
 

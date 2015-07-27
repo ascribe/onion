@@ -16,7 +16,7 @@ class IntercomHandler {
         }
 
         /* eslint-disable */
-        window.Intercom('boot', {
+        Intercom('boot', {
             /* eslint-enable */
             app_id: 'oboxh5w1',
             email: profile.email,
