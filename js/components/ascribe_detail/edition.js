@@ -68,6 +68,15 @@ let Edition = React.createClass({
     },
 
     componentWillUnmount() {
+        // Flushing the coa state is essential to not displaying the same
+        // data to the user while he's on another edition
+        //
+        // BUGFIX: Previously we had this line in the componentWillUnmount of
+        // CoaDetails, but since we're reloading the edition after performing an ACL action
+        // on it, this resulted in multiple events occupying the dispatcher, which eventually
+        // resulted in crashing the app.
+        CoaActions.flushCoa();
+
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
     },
@@ -400,9 +409,6 @@ let CoaDetails = React.createClass({
     },
 
     componentWillUnmount() {
-        // Flushing the coa state is essential to not displaying the same
-        // data to the user while he's on another edition
-        CoaActions.flushCoa();
         CoaStore.unlisten(this.onChange);
     },
 
