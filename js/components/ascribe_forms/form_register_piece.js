@@ -174,7 +174,7 @@ let FileUploader = React.createClass({
                     }
                 }}
                 multiple={false}
-                localHashing={false} />
+                enableLocalHashing={true} />
         );
     }
 });
