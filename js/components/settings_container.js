@@ -66,7 +66,7 @@ let AccountSettings = React.createClass({
 
     handleSuccess(){
         UserActions.fetchCurrentUser();
-        let notification = new GlobalNotificationModel(getLangText('username succesfully updated'), 'success', 5000);
+        let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -114,8 +114,7 @@ let AccountSettings = React.createClass({
                         className="ascribe-settings-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
-                            defaultValue={true}
-                            required={false}>
+                            defaultValue={this.state.currentUser.profile.hash_locally}>
                             <span>
                                 {' ' + getLangText('Enable hash option for slow connections. ' +
                                     'Computes and uploads a hash of the work instead.')}
