@@ -30,7 +30,7 @@ let FileDragAndDrop = React.createClass({
         areAssetsDownloadable: React.PropTypes.bool,
         areAssetsEditable: React.PropTypes.bool,
 
-        localHashing: React.PropTypes.bool,
+        enableLocalHashing: React.PropTypes.bool,
 
         // triggers a FileDragAndDrop-global spinner
         hashingProgress: React.PropTypes.number,
@@ -81,6 +81,10 @@ let FileDragAndDrop = React.createClass({
         event.preventDefault();
         event.stopPropagation();
         let files;
+
+        if(this.props.dropzoneInactive) {
+            return;
+        }
 
         // handle Drag and Drop
         if(event.dataTransfer && event.dataTransfer.files.length > 0) {
@@ -157,7 +161,7 @@ let FileDragAndDrop = React.createClass({
                     <p>{getLangText('Computing hash(es)... This may take a few minutes.')}</p>
                     <p>
                         <span>{Math.ceil(this.props.hashingProgress)}%</span>
-                        <span onClick={this.props.handleCancelHashing}> {getLangText('Cancel hashing')}</span>
+                        <a onClick={this.props.handleCancelHashing}> {getLangText('Cancel hashing')}</a>
                     </p>
                     <ProgressBar completed={this.props.hashingProgress} color="#48DACB"/>
                 </div>
@@ -177,7 +181,7 @@ let FileDragAndDrop = React.createClass({
                             multipleFiles={this.props.multiple}
                             hasFiles={hasFiles}
                             onClick={this.handleOnClick}
-                            localHashing={this.props.localHashing}/>
+                            enableLocalHashing={this.props.enableLocalHashing}/>
                         <FileDragAndDropPreviewIterator
                             files={this.props.filesToUpload}
                             handleDeleteFile={this.handleDeleteFile}
