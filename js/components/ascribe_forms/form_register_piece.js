@@ -2,18 +2,21 @@
 
 import React from 'react';
 
-import AppConstants from '../../constants/application_constants';
+import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
 import FormPropertyHeader from './form_property_header';
 
-import apiUrls from '../../constants/api_urls';
-
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
+
+import AppConstants from '../../constants/application_constants';
+import apiUrls from '../../constants/api_urls';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -33,10 +36,26 @@ let RegisterPieceForm = React.createClass({
     },
 
     getInitialState(){
-        return {
-            digitalWorkKey: null,
-            isUploadReady: false
-        };
+        return mergeOptions(
+            {
+                digitalWorkKey: null,
+                isUploadReady: false
+            },
+            UserStore.getState()
+        );
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     getFormData(){
@@ -67,6 +86,9 @@ let RegisterPieceForm = React.createClass({
     },
 
     render() {
+        let currentUser = this.state.currentUser;
+        let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
+
         return (
             <Form
                 className="ascribe-form-bordered"
@@ -94,7 +116,8 @@ let RegisterPieceForm = React.createClass({
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={this.props.isFineUploaderEditable}/>
+                        editable={this.props.isFineUploaderEditable}
+                        enableLocalHashing={enableLocalHashing}/>
                 </Property>
                 <Property
                     name='artist_name'
@@ -136,7 +159,8 @@ let FileUploader = React.createClass({
         // editable is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
         // before login in
-        editable: React.PropTypes.bool
+        editable: React.PropTypes.bool,
+        enableLocalHashing: React.PropTypes.bool
     },
 
     render() {
@@ -174,7 +198,7 @@ let FileUploader = React.createClass({
                     }
                 }}
                 multiple={false}
-                enableLocalHashing={true} />
+                enableLocalHashing={this.props.enableLocalHashing} />
         );
     }
 });
