@@ -21,8 +21,9 @@ let RegisterPieceForm = React.createClass({
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        isFineUploaderEditable: React.PropTypes.bool,
-        children: React.PropTypes.element
+        isFineUploaderActive: React.PropTypes.bool,
+        children: React.PropTypes.element,
+        onLoggedOut: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -94,7 +95,8 @@ let RegisterPieceForm = React.createClass({
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={this.props.isFineUploaderEditable}/>
+                        isFineUploaderActive={this.props.isFineUploaderActive}
+                        onLoggedOut={this.props.onLoggedOut}/>
                 </Property>
                 <Property
                     name='artist_name'
@@ -133,10 +135,11 @@ let FileUploader = React.createClass({
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         onClick: React.PropTypes.func,
-        // editable is used to lock react fine uploader in case
+        // isFineUploaderActive is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
         // before login in
-        editable: React.PropTypes.bool
+        isFineUploaderActive: React.PropTypes.bool,
+        onLoggedOut: React.PropTypes.func
     },
 
     render() {
@@ -158,7 +161,7 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={this.props.editable}
+                areAssetsEditable={this.props.isFineUploaderActive}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {
@@ -172,7 +175,8 @@ let FileUploader = React.createClass({
                     customHeaders: {
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
-                }}/>
+                }}
+                onInactive={this.props.onLoggedOut}/>
         );
     }
 });
