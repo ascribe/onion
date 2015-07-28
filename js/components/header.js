@@ -2,13 +2,13 @@
 
 import React from 'react';
 import Router from 'react-router';
-import Raven from 'raven-js';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
+import EventActions from '../actions/event_actions';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -84,19 +84,7 @@ let Header = React.createClass({
         this.setState(state);
 
         if(this.state.currentUser && this.state.currentUser.email) {
-            // bootup intercom if the user is logged in
-            window.Intercom('boot', {
-               app_id: 'oboxh5w1',
-               email: this.state.currentUser.email,
-               subdomain: window.location.host.split('.')[0],
-               widget: {
-                  activator: '#IntercomDefaultWidget'
-               }  
-            });
-
-            Raven.setUserContext({
-                email: this.state.currentUser.email
-            });
+            EventActions.profileDidLoad.defer(this.state.currentUser);
         }
     },
 

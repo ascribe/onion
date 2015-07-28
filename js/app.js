@@ -5,7 +5,9 @@ require('babel/polyfill');
 import React from 'react';
 import Router from 'react-router';
 
+/* eslint-disable */
 import fetch from 'isomorphic-fetch';
+/* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
 import { updateApiUrls } from './constants/api_urls';
@@ -15,6 +17,16 @@ import requests from './utils/requests';
 
 import { getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
+
+import EventActions from './actions/event_actions';
+
+/* eslint-disable */
+// You can comment out the modules you don't need
+// import DebugHandler from './third_party/debug';
+import GoogleAnalyticsHandler from './third_party/ga';
+import RavenHandler from './third_party/raven';
+import IntercomHandler from './third_party/intercom';
+/* eslint-enable */
 
 initLogging();
 
@@ -43,25 +55,30 @@ class AppGateway {
             settings = getSubdomainSettings(subdomain);
             appConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
-            this.load(settings.type);
+            this.load(settings);
         } catch(err) {
             // if there are no matching subdomains, we're routing
             // to the default frontend
             console.logGlobal(err);
-            this.load('default');
+            this.load();
         }
     }
 
-    load(type) {
+    load(settings) {
+        let type = 'default';
+        if (settings) {
+            type = settings.type;
+        }
+
+        EventActions.applicationWillBoot(settings);
         Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
-            if (window.ga) {
-                window.ga('send', 'pageview');
-            }
             React.render(
                 <App />,
                 document.getElementById('main')
             );
+            EventActions.routeDidChange();
         });
+        EventActions.applicationDidBoot(settings);
     }
 }
 

@@ -22,7 +22,8 @@ let constants = {
             'name': 'Creative Commons France',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'wallet'
+            'type': 'wallet',
+            'ga': 'UA-60614729-4'
         },
         {
             'subdomain': 'cc-staging',
@@ -36,7 +37,8 @@ let constants = {
             'name': 'Sluice Art Fair',
             'logo': 'http://sluice.info/images/logo.gif',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'prize'
+            'type': 'prize',
+            'ga': 'UA-60614729-5'
         },
         {
             'subdomain': 'sluice-staging',
@@ -46,6 +48,10 @@ let constants = {
             'type': 'prize'
         }
     ],
+    'defaultDomain': {
+        'type': 'default',
+        'ga': 'UA-60614729-2'
+    },
 
     // in case of whitelabel customization, we store stuff here
     'whitelabel': {},
