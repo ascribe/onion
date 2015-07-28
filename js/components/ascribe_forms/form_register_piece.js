@@ -197,7 +197,6 @@ let FileUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                multiple={false}
                 enableLocalHashing={this.props.enableLocalHashing} />
         );
     }
