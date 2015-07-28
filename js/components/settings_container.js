@@ -115,7 +115,7 @@ let AccountSettings = React.createClass({
                         className="ascribe-settings-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
-                            defaultValue={this.state.currentUser.profile.hash_locally}>
+                            defaultChecked={this.state.currentUser.profile.hash_locally}>
                             <span>
                                 {' ' + getLangText('Enable hash option for slow connections. ' +
                                     'Computes and uploads a hash of the work instead.')}

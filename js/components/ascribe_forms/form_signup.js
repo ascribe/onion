@@ -123,7 +123,8 @@ let SignupForm = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox>
+                    <InputCheckbox
+                        defaultChecked={true}>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service') + ' '}
                             (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
