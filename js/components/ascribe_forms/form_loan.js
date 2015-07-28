@@ -59,7 +59,8 @@ let LoanForm = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox>
+                    <InputCheckbox
+                        defaultValue={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
                             <a href={this.state.contractUrl} target="_blank">
