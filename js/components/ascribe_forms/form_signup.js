@@ -63,9 +63,7 @@ let SignupForm = React.createClass({
         this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
 
     },
-    getFormData(){
-        return {terms: this.refs.form.refs.terms.refs.input.state.value};
-    },
+
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
@@ -76,7 +74,6 @@ let SignupForm = React.createClass({
                 ref='form'
                 url={apiUrls.users_signup}
                 handleSuccess={this.handleSuccess}
-                getFormData={this.getFormData}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
                         {this.props.submitMessage}
@@ -123,7 +120,8 @@ let SignupForm = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox>
+                    <InputCheckbox
+                        defaultChecked={true}>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service') + ' '}
                             (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
