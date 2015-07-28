@@ -73,6 +73,7 @@ let AccountSettings = React.createClass({
     getFormDataProfile(){
         return {'email': this.state.currentUser.email};
     },
+    
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         let profile = null;
@@ -231,7 +232,6 @@ let LoanContractSettings = React.createClass({
     },
 
     render() {
-
         return (
             <CollapsibleParagraph
                 title="Loan Contract Settings"
@@ -318,26 +318,30 @@ let APISettings = React.createClass({
     onChange(state) {
         this.setState(state);
     },
-    handleCreateSuccess: function(){
+
+    handleCreateSuccess() {
         ApplicationActions.fetchApplication();
         let notification = new GlobalNotificationModel(getLangText('Application successfully created'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    handleTokenRefresh: function(event){
+    handleTokenRefresh(event) {
         let applicationName = event.target.getAttribute('data-id');
         ApplicationActions.refreshApplicationToken(applicationName);
+
         let notification = new GlobalNotificationModel(getLangText('Token refreshed'), 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         if (this.state.applications.length > -1) {
-            content = this.state.applications.map(function(app) {
+            content = this.state.applications.map(function(app, i) {
                 return (
                     <Property
                         name={app.name}
-                        label={app.name}>
+                        label={app.name}
+                        key={i}>
                         <div className="row-same-height">
                             <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
                             {'Bearer ' + app.bearer_token.token}
