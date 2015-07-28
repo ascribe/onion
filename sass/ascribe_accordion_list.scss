@@ -1,6 +1,11 @@
 $ascribe-accordion-list-item-height: 8em;
 $ascribe-accordion-list-font: 'Source Sans Pro';
 
+.ascribe-accordion-list {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .ascribe-accordion-list-item {
     background-color: white;
     border: 1px solid black;
