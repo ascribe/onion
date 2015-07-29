@@ -46,6 +46,13 @@ let constants = {
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'prize'
+        },
+        {
+            'subdomain': 'cyland',
+            'name': 'Cyland',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'prize'
         }
     ],
     'defaultDomain': {

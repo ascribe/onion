@@ -6,6 +6,9 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.sublime-project
+spool-project.sublime-project
+*.sublime-workspace
  
 pids
 logs
