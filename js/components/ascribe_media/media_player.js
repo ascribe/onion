@@ -88,7 +88,28 @@ let Audio = React.createClass({
     }
 });
 
+
 let Video = React.createClass({
+    /**
+     * The solution here is a bit convoluted.
+     * ReactJS is responsible for DOM manipulation but VideoJS updates the DOM
+     * to instal itself to display the video.
+     *
+     * What we do is the following:
+     * 1) set `state.ready = false`
+     * 2) render the cover using the `<Image />` component (because ready is false)
+     * 3) on `componentDidMount`, we load the external `css` and `js` resources using
+     *    the `InjectInHeadMixin`, attaching a function to `Promise.then` to change
+     *    `state.ready` to true
+     * 4) when the promise is succesfully resolved, we change `state.ready` triggering
+     *    a re-render
+     * 5) the new render calls `prepareVideoHTML` to get the raw HTML of the video tag
+     *    (that will be later processed and expanded by VideoJS)
+     * 6) `componentDidUpdate` is called after `render`, setting `state.videoMounted` to true,
+     *    to avoid re-installing the VideoJS library
+     * 7) to close the lifecycle, `componentWillUnmount` is called removing VideoJS from the DOM.
+     */
+
     propTypes: {
         preview: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
@@ -112,7 +133,9 @@ let Video = React.createClass({
     componentDidUpdate() {
         if (this.state.ready && !this.state.videoMounted) {
             window.videojs('#mainvideo');
+            /* eslint-disable */
             this.setState({videoMounted: true});
+            /* eslint-enable*/
         }
     },
 
