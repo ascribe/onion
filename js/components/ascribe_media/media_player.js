@@ -93,7 +93,8 @@ let Video = React.createClass({
     /**
      * The solution here is a bit convoluted.
      * ReactJS is responsible for DOM manipulation but VideoJS updates the DOM
-     * to instal itself to display the video.
+     * to install itself to display the video, therefore ReactJS complains that we are
+     * changing the DOM under its feet.
      *
      * What we do is the following:
      * 1) set `state.ready = false`
