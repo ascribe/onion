@@ -22,10 +22,11 @@
 }
 
 .ascribe-table-item-column {
-    display: table;
     font-family: 'Source Sans Pro';
     font-size: .8em;
     height:3em;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .ascribe-table-item-column > * {
@@ -37,7 +38,8 @@
 }
 
 .ascribe-table-item-column > span > input {
-    margin-top:18px;
+    margin-top:10px;
+    margin-left:2px;
 }
 
 .ascribe-table-item-selected {
