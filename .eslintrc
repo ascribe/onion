@@ -5,6 +5,7 @@
         "es6": true
     },
     "rules": {
+        "new-cap": [2, {newIsCap: true, capIsNew: false}],
         "quotes": [2, "single"],
         "eol-last": [0],
         "no-mixed-requires": [0],
@@ -34,7 +35,8 @@
     "globals": {
         "Intercom": true,
         "fetch": true,
-        "require": true
+        "require": true,
+        "File": true
     },
     "plugins": [
         "react"

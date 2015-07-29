@@ -20,6 +20,7 @@ import ReactS3FineUploader from './ascribe_uploader/react_s3_fine_uploader';
 import CollapsibleParagraph from './ascribe_collapsible/collapsible_paragraph';
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
+import InputCheckbox from './ascribe_forms/input_checkbox';
 
 import apiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
@@ -65,11 +66,18 @@ let AccountSettings = React.createClass({
 
     handleSuccess(){
         UserActions.fetchCurrentUser();
-        let notification = new GlobalNotificationModel(getLangText('username succesfully updated'), 'success', 5000);
+        let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
+    getFormDataProfile(){
+        return {'email': this.state.currentUser.email};
+    },
+    
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let profile = null;
+
         if (this.state.currentUser.username) {
             content = (
                 <Form
@@ -97,6 +105,40 @@ let AccountSettings = React.createClass({
                     <hr />
                 </Form>
             );
+            profile = (
+                <Form
+                    url={apiUrls.users_profile}
+                    handleSuccess={this.handleSuccess}
+                    getFormData={this.getFormDataProfile}>
+                    <Property
+                        name="hash_locally"
+                        className="ascribe-settings-property-collapsible-toggle"
+                        style={{paddingBottom: 0}}>
+                        <InputCheckbox
+                            defaultChecked={this.state.currentUser.profile.hash_locally}>
+                            <span>
+                                {' ' + getLangText('Enable hash option for slow connections. ' +
+                                    'Computes and uploads a hash of the work instead.')}
+                            </span>
+                        </InputCheckbox>
+                    </Property>
+                    {/*<Property
+                        name='language'
+                        label={getLangText('Choose your Language')}
+                        editable={true}>
+                        <select id="select-lang" name="language">
+                            <option value="fr">
+                                Fran&ccedil;ais
+                            </option>
+                            <option value="en"
+                                    selected="selected">
+                                English
+                            </option>
+                        </select>
+                    </Property>*/}
+                    <hr />
+                </Form>
+            );
         }
         return (
             <CollapsibleParagraph
@@ -104,6 +146,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
+                {profile}
                 {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
                     <Property
@@ -189,7 +232,6 @@ let LoanContractSettings = React.createClass({
     },
 
     render() {
-
         return (
             <CollapsibleParagraph
                 title="Loan Contract Settings"
@@ -276,26 +318,30 @@ let APISettings = React.createClass({
     onChange(state) {
         this.setState(state);
     },
-    handleCreateSuccess: function(){
+
+    handleCreateSuccess() {
         ApplicationActions.fetchApplication();
         let notification = new GlobalNotificationModel(getLangText('Application successfully created'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    handleTokenRefresh: function(event){
+    handleTokenRefresh(event) {
         let applicationName = event.target.getAttribute('data-id');
         ApplicationActions.refreshApplicationToken(applicationName);
+
         let notification = new GlobalNotificationModel(getLangText('Token refreshed'), 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         if (this.state.applications.length > -1) {
-            content = this.state.applications.map(function(app) {
+            content = this.state.applications.map(function(app, i) {
                 return (
                     <Property
                         name={app.name}
-                        label={app.name}>
+                        label={app.name}
+                        key={i}>
                         <div className="row-same-height">
                             <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
                             {'Bearer ' + app.bearer_token.token}

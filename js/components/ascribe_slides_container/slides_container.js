@@ -32,6 +32,17 @@ let SlidesContainer = React.createClass({
     },
 
     componentDidMount() {
+        // check if slide_num was defined, and if not then default to 0
+        let queryParams = this.getQuery();
+        if(!('slide_num' in queryParams)) {
+
+            // we're first requiring all the other possible queryParams and then set
+            // the specific one we need instead of overwriting them
+            queryParams.slide_num = 0;
+
+            this.replaceWith(this.getPathname(), null, queryParams);
+        }
+
         // init container width
         this.handleContainerResize();
 
@@ -60,6 +71,9 @@ let SlidesContainer = React.createClass({
     // though only if the slideNum is actually in the range of our children-list.
     setSlideNum(slideNum) {
 
+        // we do not want to overwrite other queryParams
+        let queryParams = this.getQuery();
+
         // slideNum can in some instances be not a number,
         // therefore we have to parse it to one and make sure that its not NaN
         slideNum = parseInt(slideNum, 10);
@@ -70,7 +84,9 @@ let SlidesContainer = React.createClass({
         if(isNaN(slideNum) && this.state.slideNum === -1) {
             slideNum = 0;
 
-            this.replaceWith(this.getPathname(), null, {slide_num: slideNum});
+            queryParams.slide_num = slideNum;
+
+            this.replaceWith(this.getPathname(), null, queryParams);
             this.setState({slideNum: slideNum});
             return;
 
@@ -92,7 +108,10 @@ let SlidesContainer = React.createClass({
                 // Otherwise, we're able to use the browsers history.forward() method
                 // to keep the stack clean
                 if(this.state.historyLength === window.history.length) {
-                    this.transitionTo(this.getPathname(), null, {slide_num: slideNum});
+
+                    queryParams.slide_num = slideNum;
+
+                    this.transitionTo(this.getPathname(), null, queryParams);
                 } else {
                     window.history.forward();
                 }

@@ -1,5 +1,7 @@
 'use strict';
 
+import Q from 'q';
+
 let mapAttr = {
     link: 'href',
     script: 'src'
@@ -25,7 +27,7 @@ let InjectInHeadMixin = {
     },
 
     injectTag(tag, src) {
-        let promise = new Promise((resolve, reject) => {
+        return Q.Promise((resolve, reject) => {
             if (InjectInHeadMixin.isPresent(tag, src)) {
                 resolve();
             } else {
@@ -44,8 +46,6 @@ let InjectInHeadMixin = {
                 }
             }
         });
-
-        return promise;
     },
 
     injectStylesheet(src) {

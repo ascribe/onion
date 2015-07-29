@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import Q from 'q';
+
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
@@ -47,7 +49,7 @@ let Image = React.createClass({
     componentDidMount() {
         this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
-                Promise.all([
+                Q.all([
                     this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
                     this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
                 ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
@@ -99,7 +101,7 @@ let Video = React.createClass({
     },
 
     componentDidMount() {
-        Promise.all([
+        Q.all([
             this.inject('//vjs.zencdn.net/4.12/video-js.css'),
             this.inject('//vjs.zencdn.net/4.12/video.js')
         ]).then(this.ready);
