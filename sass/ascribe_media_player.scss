@@ -47,6 +47,10 @@
         padding-top: 0px;
     }
 
+    .vjs-fullscreen video {
+        max-height: 100%;
+    }
+
     .vjs-default-skin .vjs-play-progress,
     .vjs-default-skin .vjs-volume-level {
         background: $ascribe-color-green;
