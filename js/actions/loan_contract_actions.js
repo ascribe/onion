@@ -7,7 +7,8 @@ import OwnershipFetcher from '../fetchers/ownership_fetcher';
 class LoanContractActions {
     constructor() {
         this.generateActions(
-            'updateLoanContract'
+            'updateLoanContract',
+            'flushLoanContract'
         );
     }
 

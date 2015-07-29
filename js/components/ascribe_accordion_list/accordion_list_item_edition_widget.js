@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Button from 'react-bootstrap/lib/Button';
 
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';

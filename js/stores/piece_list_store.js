@@ -80,7 +80,6 @@ class PieceListStore {
 
             let piece = filteredPieceList[0];
             piece[key] = value;
-
         } else {
             throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');
         }
