@@ -3,6 +3,8 @@
 import React from 'react';
 import Q from 'q';
 
+import { escapeHTML } from '../../utils/general_utils';
+
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
@@ -97,7 +99,7 @@ let Video = React.createClass({
     mixins: [InjectInHeadMixin],
 
     getInitialState() {
-        return { ready: false };
+        return { ready: false, videoMounted: false };
     },
 
     componentDidMount() {
@@ -108,24 +110,38 @@ let Video = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.state.ready && !this.state.videojs) {
-            window.videojs(React.findDOMNode(this.refs.video));
+        if (this.state.ready && !this.state.videoMounted) {
+            window.videojs('#mainvideo');
+            this.setState({videoMounted: true});
         }
     },
 
+    componentWillUnmount() {
+        window.videojs('#mainvideo').dispose();
+    },
+
     ready() {
-        this.setState({ready: true, videojs: false});
+        this.setState({ready: true, videoMounted: false});
+    },
+
+    prepareVideoHTML() {
+        let sources = this.props.extraData.map((data) => '<source type="video/' + data.type + '" src="' + escapeHTML(data.url) + '" />');
+        let html = [
+            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.preview) + '"',
+                   'controls preload="none" width="auto" height="auto">',
+                   sources.join('\n'),
+            '</video>'];
+        return html.join('\n');
+    },
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.videoMounted === false;
     },
 
     render() {
         if (this.state.ready) {
             return (
-                <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
-                       controls preload="none" width="auto" height="auto">
-                    {this.props.extraData.map((data, i) =>
-                    <source key={i} type={'video/' + data.type} src={data.url} />
-                    )}
-                </video>
+                <div dangerouslySetInnerHTML={{__html: this.prepareVideoHTML() }}/>
             );
         } else {
             return (
