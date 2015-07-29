@@ -59,6 +59,7 @@ let LoanForm = React.createClass({
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox
+                        key='contract_terms'
                         defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
@@ -76,6 +77,7 @@ let LoanForm = React.createClass({
                     style={{paddingBottom: 0}}
                     hidden={true}>
                     <InputCheckbox
+                        key='implicit_terms'
                         defaultChecked={true} />
                 </Property>
             );
