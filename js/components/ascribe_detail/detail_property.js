@@ -11,19 +11,21 @@ let DetailProperty = React.createClass({
         ]),
         separator: React.PropTypes.string,
         labelClassName: React.PropTypes.string,
-        valueClassName: React.PropTypes.string
+        valueClassName: React.PropTypes.string,
+        breakWord: React.PropTypes.bool
     },
 
     getDefaultProps() {
         return {
             separator: ':',
-            labelClassName: 'col-xs-3 col-sm-4 col-md-3 col-lg-3',
-            valueClassName: 'col-xs-9 col-sm-8 col-md-9 col-lg-9'
+            labelClassName: 'col-xs-3 col-sm-3 col-md-2 col-lg-2',
+            valueClassName: 'col-xs-9 col-sm-9 col-md-10 col-lg-10'
         };
     },
 
     render() {
         let value = this.props.value;
+
         if (this.props.children){
             value = (
                 <div className="row-same-height">

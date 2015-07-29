@@ -14,7 +14,6 @@ import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
 import WhitelabelStore from '../../stores/whitelabel_store';
-import WhitelabelActions from '../../actions/whitelabel_actions';
 
 import EditionListActions from '../../actions/edition_list_actions';
 
@@ -94,7 +93,7 @@ let AccordionListItem = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    onPollingSuccess(pieceId, numEditions) {
+    onPollingSuccess(pieceId) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
         EditionListActions.toggleEditionList(pieceId);
 
@@ -159,10 +158,9 @@ let AccordionListItem = React.createClass({
                                 </Link>
                             </div>
                         </div>
-                        <div
-                            className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
+                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
                             <Link {...linkData}>
-                                <h1 className="truncate">{this.props.content.title}</h1>
+                                <h1>{this.props.content.title}</h1>
                             </Link>
 
                             <h3>{getLangText('by %s', this.props.content.artist_name)}</h3>
