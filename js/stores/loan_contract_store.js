@@ -17,6 +17,12 @@ class LoanContractStore {
         this.contractUrl = contractUrl;
         this.contractEmail = contractEmail;
     }
+
+    onFlushLoanContract() {
+        this.contractKey = null;
+        this.contractUrl = null;
+        this.contractEmail = null;
+    }
 }
 
 export default alt.createStore(LoanContractStore, 'LoanContractStore');

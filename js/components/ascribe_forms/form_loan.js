@@ -36,6 +36,7 @@ let LoanForm = React.createClass({
     },
 
     componentWillUnmount() {
+        LoanContractActions.flushLoanContract();
         LoanContractStore.unlisten(this.onChange);
     },
 
