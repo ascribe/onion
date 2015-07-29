@@ -53,12 +53,16 @@ let LoanForm = React.createClass({
 
     getContractCheckbox() {
         if(this.state.contractKey && this.state.contractUrl) {
+            // we need to define a key on the InputCheckboxes as otherwise
+            // react is not rerendering them on a store switch and is keeping
+            // the default value of the component (which is in that case true)
             return (
                 <Property
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox
+                        key="terms_explicitly"
                         defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
@@ -76,6 +80,7 @@ let LoanForm = React.createClass({
                     style={{paddingBottom: 0}}
                     hidden={true}>
                     <InputCheckbox
+                        key="terms_implicitly"
                         defaultChecked={true} />
                 </Property>
             );
