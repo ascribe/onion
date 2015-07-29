@@ -13,6 +13,7 @@ let PrizeRegisterPiece = React.createClass({
     render() {
         return (
             <RegisterPiece
+                enableLocalHashing={false}
                 headerMessage={getLangText('Submit to the prize')}
                 submitMessage={getLangText('Submit')}>
                 <Property

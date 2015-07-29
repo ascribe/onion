@@ -25,6 +25,7 @@ let RegisterPieceForm = React.createClass({
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
         isFineUploaderActive: React.PropTypes.bool,
+        enableLocalHashing: React.PropTypes.bool,
         children: React.PropTypes.element,
         onLoggedOut: React.PropTypes.func
     },
@@ -32,7 +33,8 @@ let RegisterPieceForm = React.createClass({
     getDefaultProps() {
         return {
             headerMessage: getLangText('Register your work'),
-            submitMessage: getLangText('Register work')
+            submitMessage: getLangText('Register work'),
+            enableLocalHashing: true
         };
     },
 
@@ -89,7 +91,7 @@ let RegisterPieceForm = React.createClass({
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
-
+        enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
         return (
             <Form
                 className="ascribe-form-bordered"
