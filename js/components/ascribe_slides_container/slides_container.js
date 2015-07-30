@@ -17,7 +17,7 @@ let SlidesContainer = React.createClass({
     getInitialState() {
         // handle queryParameters
         let queryParams = this.getQuery();
-        let slideNum = 0;
+        let slideNum = -1;
 
         if(queryParams && 'slide_num' in queryParams) {
             slideNum = parseInt(queryParams.slide_num, 10);
@@ -26,7 +26,8 @@ let SlidesContainer = React.createClass({
 
         return {
             containerWidth: 0,
-            slideNum: slideNum
+            slideNum: slideNum,
+            historyLength: window.history.length
         };
     },
 
@@ -34,7 +35,12 @@ let SlidesContainer = React.createClass({
         // check if slide_num was defined, and if not then default to 0
         let queryParams = this.getQuery();
         if(!('slide_num' in queryParams)) {
-            this.replaceWith(this.getPathname(), null, {slide_num: 0});
+
+            // we're first requiring all the other possible queryParams and then set
+            // the specific one we need instead of overwriting them
+            queryParams.slide_num = 0;
+
+            this.replaceWith(this.getPathname(), null, queryParams);
         }
 
         // init container width
@@ -45,22 +51,73 @@ let SlidesContainer = React.createClass({
         window.addEventListener('resize', this.handleContainerResize);
     },
 
+    componentDidUpdate() {
+        // check if slide_num was defined, and if not then default to 0
+        let queryParams = this.getQuery();
+        this.setSlideNum(queryParams.slide_num);
+    },
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleContainerResize);
     },
 
     handleContainerResize() {
         this.setState({
-            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth
+            // +30 to get rid of the padding of the container which is 15px + 15px left and right
+            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth + 30
         });
     },
 
     // We let every one from the outsite set the page number of the slider,
     // though only if the slideNum is actually in the range of our children-list.
     setSlideNum(slideNum) {
-        if(slideNum < 0 || slideNum < React.Children.count(this.props.children)) {
 
-            this.replaceWith(this.getPathname(), null, {slide_num: slideNum});
+        // we do not want to overwrite other queryParams
+        let queryParams = this.getQuery();
+
+        // slideNum can in some instances be not a number,
+        // therefore we have to parse it to one and make sure that its not NaN
+        slideNum = parseInt(slideNum, 10);
+
+        // if slideNum is not a number (even after we parsed it to one) and there has
+        // never been a transition to another slide (this.state.slideNum ==== -1 indicates that)
+        // then we want to "replace" (in this case append) the current url with ?slide_num=0
+        if(isNaN(slideNum) && this.state.slideNum === -1) {
+            slideNum = 0;
+
+            queryParams.slide_num = slideNum;
+
+            this.replaceWith(this.getPathname(), null, queryParams);
+            this.setState({slideNum: slideNum});
+            return;
+
+        // slideNum always represents the future state. So if slideNum and
+        // this.state.slideNum are equal, there is no sense in redirecting
+        } else if(slideNum === this.state.slideNum) {
+            return;
+
+        // if slideNum is within the range of slides and none of the previous cases
+        // where matched, we can actually do transitions
+        } else if(slideNum >= 0 || slideNum < React.Children.count(this.props.children)) {
+            
+            if(slideNum !== this.state.slideNum - 1) {
+                // Bootstrapping the component, getInitialState is called once to save
+                // the tabs history length.
+                // In order to know if we already pushed a new state  on the history stack or not,
+                // we're comparing the old history length with the new one and if it didn't change then
+                // we push a new state on it ONCE (ever).
+                // Otherwise, we're able to use the browsers history.forward() method
+                // to keep the stack clean
+                if(this.state.historyLength === window.history.length) {
+
+                    queryParams.slide_num = slideNum;
+
+                    this.transitionTo(this.getPathname(), null, queryParams);
+                } else {
+                    window.history.forward();
+                }
+            }
+
             this.setState({
                 slideNum: slideNum
             });

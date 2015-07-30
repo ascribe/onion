@@ -12,6 +12,11 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 import AclProxy from '../acl_proxy';
 
 
+const EMBED_IFRAME_HEIGHT = {
+    video: 315,
+    audio: 62
+};
+
 let MediaContainer = React.createClass({
     propTypes: {
         content: React.PropTypes.object
@@ -29,7 +34,9 @@ let MediaContainer = React.createClass({
             extraData = this.props.content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
         }
 
-        if (['video', 'audio'].indexOf(mimetype) > -1){
+        if (['video', 'audio'].indexOf(mimetype) > -1) {
+            let height = EMBED_IFRAME_HEIGHT[mimetype];
+
             embed = (
                 <CollapsibleButton
                     button={
@@ -39,7 +46,7 @@ let MediaContainer = React.createClass({
                     }
                     panel={
                         <pre className="">
-                            {'<iframe width="560" height="315" src="http://embed.ascribe.io/content/'
+                            {'<iframe width="560" height="' + height + '" src="http://embed.ascribe.io/content/'
                                 + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
                     }/>
@@ -55,6 +62,7 @@ let MediaContainer = React.createClass({
                     encodingStatus={this.props.content.digital_work.isEncoding} />
                 <p className="text-center">
                     <AclProxy
+                        show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || this.props.content.acl.acl_download}
                         aclObject={this.props.content.acl}
                         aclName="acl_download">
                         <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">

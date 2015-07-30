@@ -13,7 +13,7 @@ class UserActions {
     }
 
     fetchCurrentUser() {
-        UserFetcher.fetchOne()
+        return UserFetcher.fetchOne()
             .then((res) => {
                 this.actions.updateCurrentUser(res.users[0]);
             })

@@ -1,5 +1,7 @@
 'use strict';
 
+import Q from 'q';
+
 import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
 
 import AppConstants from '../constants/application_constants';
@@ -22,7 +24,7 @@ class Requests {
             throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
         }
 
-        return new Promise((resolve, reject) => {
+        return Q.Promise((resolve, reject) => {
             response.text()
                 .then((responseText) => {
                     // If the responses' body does not contain any data,

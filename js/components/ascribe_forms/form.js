@@ -45,7 +45,7 @@ let Form = React.createClass({
         this.setState({submitted: true});
         this.clearErrors();
         let action = (this.httpVerb && this.httpVerb()) || 'post';
-        this[action]();
+        window.setTimeout(() => this[action](), 100);
     },
     post(){
         requests
@@ -59,6 +59,7 @@ let Form = React.createClass({
         for (let ref in this.refs){
             data[this.refs[ref].props.name] = this.refs[ref].state.value;
         }
+
         if ('getFormData' in this.props){
             data = mergeOptionsWithDuplicates(data, this.props.getFormData());
         }
@@ -90,7 +91,7 @@ let Form = React.createClass({
             }
         }
         else {
-            console.logGlobal(err);
+            console.logGlobal(err, false, this.getFormData());
             this.setState({errors: [getLangText('Something went wrong, please try again later')]});
         }
         this.setState({submitted: false});

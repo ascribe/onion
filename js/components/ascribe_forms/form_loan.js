@@ -15,7 +15,6 @@ import LoanContractActions from '../../actions/loan_contract_actions';
 
 import AppConstants from '../../constants/application_constants';
 
-import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -59,7 +58,8 @@ let LoanForm = React.createClass({
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
-                    <InputCheckbox>
+                    <InputCheckbox
+                        defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
                             <a href={this.state.contractUrl} target="_blank">
@@ -72,14 +72,11 @@ let LoanForm = React.createClass({
         } else {
             return (
                 <Property
-                    hidden={true}
                     name="terms"
-                    className="ascribe-settings-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
-                    <input
-                        ref="input"
-                        type="checkbox"
-                        defaultValue={true} />
+                    style={{paddingBottom: 0}}
+                    hidden={true}>
+                    <InputCheckbox
+                        defaultChecked={true} />
                 </Property>
             );
         }
@@ -134,8 +131,7 @@ let LoanForm = React.createClass({
                 </Property>
                 <Property
                     name='gallery_name'
-                    label={getLangText('Gallery/exhibition (optional)')}
-                    onBlur={this.handleOnBlur}>
+                    label={getLangText('Gallery/exhibition (optional)')}>
                     <input
                         type="text"
                         placeholder={getLangText('Gallery/exhibition (optional)')}/>

@@ -49,6 +49,7 @@ let apiUrls = {
     'users_password_reset_request': AppConstants.apiEndpoint + 'users/request_reset_password/',
     'users_signup': AppConstants.apiEndpoint + 'users/',
     'users_username': AppConstants.apiEndpoint + 'users/username/',
+    'users_profile': AppConstants.apiEndpoint + 'users/profile/',
     'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
     'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
     'delete_s3_file': AppConstants.serverUrl + 's3/delete/'

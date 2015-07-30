@@ -14,7 +14,8 @@ let LoginContainer = React.createClass({
     propTypes: {
         message: React.PropTypes.string,
         redirectOnLoggedIn: React.PropTypes.bool,
-        redirectOnLoginSuccess: React.PropTypes.bool
+        redirectOnLoginSuccess: React.PropTypes.bool,
+        onLogin: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -31,7 +32,8 @@ let LoginContainer = React.createClass({
                 <LoginForm
                     redirectOnLoggedIn={this.props.redirectOnLoggedIn}
                     redirectOnLoginSuccess={this.props.redirectOnLoginSuccess}
-                    message={this.props.message} />
+                    message={this.props.message}
+                    onLogin={this.props.onLogin}/>
                 <div className="ascribe-login-text">
                     {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
                     {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
