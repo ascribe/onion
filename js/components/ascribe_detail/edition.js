@@ -264,10 +264,16 @@ let EditionSummary = React.createClass({
     render() {
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label={getLangText('EDITION')}
+                <EditionDetailProperty
+                    label={getLangText('EDITION')}
                     value={this.props.edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label={getLangText('ID')} value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label={getLangText('OWNER')} value={ this.props.edition.owner } />
+                <EditionDetailProperty
+                    label={getLangText('ID')}
+                    value={ this.props.edition.bitcoin_id }
+                    ellipsis={true} />
+                <EditionDetailProperty
+                    label={getLangText('OWNER')}
+                    value={ this.props.edition.owner } />
                 {this.getStatus()}
                 {this.getActions()}
                 <hr/>
