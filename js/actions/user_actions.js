@@ -22,6 +22,7 @@ class UserActions {
                 this.actions.updateCurrentUser({});
             });
     }
+    
     logoutCurrentUser() {
         return UserFetcher.logout()
             .then(() => {
