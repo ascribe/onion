@@ -101,6 +101,9 @@ A: Easily by starting the your gulp process with the following command:
 ONION_BASE_URL='/' ONION_SERVER_URL='http://localhost.com:8000/' gulp serve
 ```
 
+Q: I want to know all dependencies that get bundled into the live build.
+A: ```browserify -e js/app.js --list > webapp-dependencies.txt```
+
 Reading list
 ============
 
