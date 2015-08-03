@@ -2,7 +2,6 @@
 
 import React from 'react/addons';
 import Router from 'react-router';
-import Raven from 'raven-js';
 import Q from 'q';
 
 import { getCookie } from '../../utils/fetch_api_utils';
@@ -302,7 +301,12 @@ var ReactS3FineUploader = React.createClass({
 
     /* FineUploader specific callback function handlers */
 
-    onComplete(id) {
+    onComplete(id, name, res, xhr) {
+        // there has been an issue with the server's connection
+        if(xhr.status === 0) {
+            return;
+        }
+
         let files = this.state.filesToUpload;
 
         // Set the state of the completed file to 'upload successful' in order to
@@ -351,7 +355,9 @@ var ReactS3FineUploader = React.createClass({
     },
 
     onError(id, name, errorReason) {
-        Raven.captureException(errorReason);
+        console.logGlobal(errorReason, false, this.state.filesToUpload);
+        this.state.uploader.cancelAll();
+
         let notification = new GlobalNotificationModel(this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
