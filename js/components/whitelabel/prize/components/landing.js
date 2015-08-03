@@ -6,9 +6,37 @@ import Router from 'react-router';
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
-let Link = Router.Link;
+import UserStore from '../../../../stores/user_store';
+import UserActions from '../../../../actions/user_actions';
+
 
 let Landing = React.createClass({
+
+    mixins: [Router.Navigation],
+
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+
+        // if user is already logged in, redirect him to piece list
+        if(this.state.currentUser && this.state.currentUser.email) {
+            // FIXME: hack to redirect out of the dispatch cycle
+            window.setTimeout(() => this.replaceWith('pieces'), 0);
+        }
+    },
+
     render() {
         return (
             <div className="container">
