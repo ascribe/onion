@@ -12,7 +12,14 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let PieceListToolbarFilterWidgetFilter = React.createClass({
     propTypes: {
-        filterParams: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+        // An array of either strings (which represent acl enums) or objects of the form
+        //
+        // {
+        //      key: <acl enum>,
+        //      label: <a human readable string>
+        // }
+        //
+        filterParams: React.PropTypes.arrayOf(React.PropTypes.any).isRequired
     },
 
     getInitialState() {
@@ -94,14 +101,24 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                     <em>{getLangText('Show works that')}:</em>
                 </li>
                 {this.props.filterParams.map((param, i) => {
-                    let name = param.split('_')[1];
+                    let label;
+
+                    if(typeof param !== 'string') {
+                        label = param.label;
+                        param = param.key;
+                    } else {
+                        param = param;
+                        label = param.split('_')[1];
+                    }
+
                     return (
                         <MenuItem
                             key={i}
+                            onClick={this.filterBy(param)}
                             style={{'textAlign': 'center'}}>
                             <div className="checkbox-line">
-                                <span onClick={this.filterBy(param)}>
-                                    {getLangText('I can') + ' ' + getLangText(name)}
+                                <span>
+                                    {getLangText('I can') + ' ' + getLangText(label)}
                                     <input
                                         readOnly
                                         type="checkbox"
