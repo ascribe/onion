@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import PieceListToolbarFilterWidget from './piece_list_toolbar_filter_widget';
+
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import { getLangText } from '../../utils/lang_utils';
@@ -40,6 +42,9 @@ let PieceListToolbar = React.createClass({
                                     placeholder={getLangText('Search%s', '...')}
                                     onChange={this.searchFor}
                                     addonAfter={searchIcon} />
+                            </span>
+                            <span className="pull-right">
+                                <PieceListToolbarFilterWidget />
                             </span>
                         </div>
                     </div>

@@ -6,4 +6,21 @@
 
 .search-bar {
     max-width: 160px;
+    input {
+        height: 33px;
+    }
+}
+
+.ascribe-piece-list-toolbar-filter-widget {
+    margin-right: 1em;
+    .checkbox-line {
+        label {
+            font-weight: normal;
+        }
+        input {
+            position: relative;
+            top: 2px;
+            margin-left: 10px;
+        }
+    }
 }
