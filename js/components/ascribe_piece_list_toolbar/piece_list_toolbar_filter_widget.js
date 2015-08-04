@@ -103,6 +103,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                                 <span onClick={this.filterBy(param)}>
                                     {getLangText('I can') + ' ' + getLangText(name)}
                                     <input
+                                        readOnly
                                         type="checkbox"
                                         checked={this.state.filterBy[param]} />
                                 </span>
