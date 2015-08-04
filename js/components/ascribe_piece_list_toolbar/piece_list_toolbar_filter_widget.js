@@ -5,7 +5,6 @@ import React from 'react';
 import PieceListStore from '../../stores/piece_list_store';
 import PieceListActions from '../../actions/piece_list_actions';
 
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
@@ -67,8 +66,25 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
         };
     },
 
+    isFilterActive() {
+        let trueValuesOnly = Object.keys(this.state.filterBy).filter((acl) => acl);
+
+        // We're hiding the star in that complicated matter so that,
+        // the surrounding button is not resized up on appearance
+        if(trueValuesOnly.length > 0) {
+            return { visibility: 'visible'};
+        } else {
+            return { visibility: 'hidden' };
+        }
+    },
+
     render() {
-        let filterIcon = <Glyphicon glyph='filter' className="filter-glyph"/>;
+        let filterIcon = (
+            <span>
+                <span className="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <span style={this.isFilterActive()}>*</span>
+            </span>
+        );
 
         return (
             <DropdownButton
