@@ -34,7 +34,8 @@ let PieceList = React.createClass({
         let page = this.getQuery().page || 1;
         PieceListStore.listen(this.onChange);
         if (this.state.pieceList.length === 0){
-            PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc)
+            PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
+                                            this.state.orderBy, this.state.orderAsc, this.state.filterBy)
             .then(PieceListActions.fetchPieceRequestActions());
         }
     },
@@ -59,9 +60,9 @@ let PieceList = React.createClass({
         // the site should go to the top
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
-        return () => PieceListActions.fetchPieceList(page, this.state.pageSize,
-                                                      this.state.search, this.state.orderBy,
-                                                      this.state.orderAsc);
+        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
+                                                    this.state.orderBy, this.state.orderAsc,
+                                                    this.state.filterBy);
     },
 
     getPagination() {
@@ -79,13 +80,14 @@ let PieceList = React.createClass({
     },
 
     searchFor(searchTerm) {
-         PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy, this.state.orderAsc);
+         PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy,
+                                        this.state.orderAsc, this.state.filterBy);
          this.transitionTo(this.getPathname(), {page: 1});
     },
 
     accordionChangeOrder(orderBy, orderAsc) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize,
-                                        this.state.search, orderBy, orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        orderBy, orderAsc, this.state.filterBy);
     },
 
     render() {

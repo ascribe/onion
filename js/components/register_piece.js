@@ -101,7 +101,8 @@ let RegisterPiece = React.createClass( {
             this.state.pageSize,
             this.state.searchTerm,
             this.state.orderBy,
-            this.state.orderAsc
+            this.state.orderAsc,
+            this.state.filterBy
         );
 
         this.transitionTo('piece', {pieceId: response.piece.id});
