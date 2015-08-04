@@ -44,7 +44,8 @@ let PieceListToolbar = React.createClass({
                                     addonAfter={searchIcon} />
                             </span>
                             <span className="pull-right">
-                                <PieceListToolbarFilterWidget />
+                                <PieceListToolbarFilterWidget
+                                    filterParams={['acl_transfer', 'acl_consign']} />
                             </span>
                         </div>
                     </div>

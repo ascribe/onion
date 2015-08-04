@@ -14,7 +14,7 @@ class PieceListActions {
         );
     }
 
-    fetchPieceList(page, pageSize, search, orderBy, orderAsc) {
+    fetchPieceList(page, pageSize, search, orderBy, orderAsc, filterBy) {
         // To prevent flickering on a pagination request,
         // we overwrite the piecelist with an empty list before
         // pieceListCount === -1 defines the loading state
@@ -24,6 +24,7 @@ class PieceListActions {
             search,
             orderBy,
             orderAsc,
+            filterBy,
             'pieceList': [],
             'pieceListCount': -1
         });
@@ -32,7 +33,7 @@ class PieceListActions {
 
         return Q.Promise((resolve, reject) => {
             PieceListFetcher
-                .fetch(page, pageSize, search, orderBy, orderAsc)
+                .fetch(page, pageSize, search, orderBy, orderAsc, filterBy)
                 .then((res) => {
                     this.actions.updatePieceList({
                         page,
@@ -40,6 +41,7 @@ class PieceListActions {
                         search,
                         orderBy,
                         orderAsc,
+                        filterBy,
                         'pieceList': res.pieces,
                         'pieceListCount': res.count
                     });

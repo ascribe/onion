@@ -5,7 +5,7 @@
 }
 
 .search-bar {
-    max-width: 160px;
+    max-width: 200px;
     input {
         height: 33px;
     }
@@ -14,8 +14,8 @@
 .ascribe-piece-list-toolbar-filter-widget {
     margin-right: 1em;
     .checkbox-line {
-        label {
-            font-weight: normal;
+        span {
+            cursor: pointer;
         }
         input {
             position: relative;
