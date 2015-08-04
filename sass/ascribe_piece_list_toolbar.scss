@@ -13,13 +13,32 @@
 
 .ascribe-piece-list-toolbar-filter-widget {
     margin-right: 1em;
-    .checkbox-line {
-        span {
-            cursor: pointer;
+
+    .filter-widget-item {
+
+        > a {
+            padding-left: 0;
+            padding-right: 0;
         }
+    }
+
+    .checkbox-line {
+        position: relative;
+        height: 25px;
+
+        span {
+            position: absolute;
+            left: 9px;
+            top: 3px;
+            cursor: pointer;
+
+            margin-right: 10px;
+        }
+
         input {
-            position: relative;
+            position: absolute;
             top: 2px;
+            right: 9px;
             margin-left: 10px;
         }
     }

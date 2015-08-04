@@ -115,15 +115,15 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                         <MenuItem
                             key={i}
                             onClick={this.filterBy(param)}
-                            style={{'textAlign': 'center'}}>
+                            className="filter-widget-item">
                             <div className="checkbox-line">
                                 <span>
                                     {getLangText('I can') + ' ' + getLangText(label)}
-                                    <input
-                                        readOnly
-                                        type="checkbox"
-                                        checked={this.state.filterBy[param]} />
                                 </span>
+                                <input
+                                    readOnly
+                                    type="checkbox"
+                                    checked={this.state.filterBy[param]} />
                             </div>
                         </MenuItem>
                     );
