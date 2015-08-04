@@ -82,9 +82,9 @@ class EditionListStore {
 
         // refetch editions with adjusted page size
         EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength,
-                                            this.editionList[pieceId].orderBy,
-                                            this.editionList[pieceId].orderAsc,
-                                            this.editionList[pieceId].filterBy)
+                                             this.editionList[pieceId].orderBy,
+                                             this.editionList[pieceId].orderAsc,
+                                             this.editionList[pieceId].filterBy)
             .then(() => {
                 // reset back to the normal pageSize and page
                 this.editionList[pieceId].page = prevEditionListPage;
