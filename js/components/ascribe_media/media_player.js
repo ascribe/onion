@@ -3,6 +3,8 @@
 import React from 'react';
 import Q from 'q';
 
+import { escapeHTML } from '../../utils/general_utils';
+
 import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
@@ -86,7 +88,29 @@ let Audio = React.createClass({
     }
 });
 
+
 let Video = React.createClass({
+    /**
+     * The solution here is a bit convoluted.
+     * ReactJS is responsible for DOM manipulation but VideoJS updates the DOM
+     * to install itself to display the video, therefore ReactJS complains that we are
+     * changing the DOM under its feet.
+     *
+     * What we do is the following:
+     * 1) set `state.ready = false`
+     * 2) render the cover using the `<Image />` component (because ready is false)
+     * 3) on `componentDidMount`, we load the external `css` and `js` resources using
+     *    the `InjectInHeadMixin`, attaching a function to `Promise.then` to change
+     *    `state.ready` to true
+     * 4) when the promise is succesfully resolved, we change `state.ready` triggering
+     *    a re-render
+     * 5) the new render calls `prepareVideoHTML` to get the raw HTML of the video tag
+     *    (that will be later processed and expanded by VideoJS)
+     * 6) `componentDidUpdate` is called after `render`, setting `state.videoMounted` to true,
+     *    to avoid re-installing the VideoJS library
+     * 7) to close the lifecycle, `componentWillUnmount` is called removing VideoJS from the DOM.
+     */
+
     propTypes: {
         preview: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
@@ -97,7 +121,7 @@ let Video = React.createClass({
     mixins: [InjectInHeadMixin],
 
     getInitialState() {
-        return { ready: false };
+        return { ready: false, videoMounted: false };
     },
 
     componentDidMount() {
@@ -108,24 +132,40 @@ let Video = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.state.ready && !this.state.videojs) {
-            window.videojs(React.findDOMNode(this.refs.video));
+        if (this.state.ready && !this.state.videoMounted) {
+            window.videojs('#mainvideo');
+            /* eslint-disable */
+            this.setState({videoMounted: true});
+            /* eslint-enable*/
         }
     },
 
+    componentWillUnmount() {
+        window.videojs('#mainvideo').dispose();
+    },
+
     ready() {
-        this.setState({ready: true, videojs: false});
+        this.setState({ready: true, videoMounted: false});
+    },
+
+    prepareVideoHTML() {
+        let sources = this.props.extraData.map((data) => '<source type="video/' + data.type + '" src="' + escapeHTML(data.url) + '" />');
+        let html = [
+            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.preview) + '"',
+                   'controls preload="none" width="auto" height="auto">',
+                   sources.join('\n'),
+            '</video>'];
+        return html.join('\n');
+    },
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.videoMounted === false;
     },
 
     render() {
         if (this.state.ready) {
             return (
-                <video ref="video" className="video-js vjs-default-skin" poster={this.props.preview}
-                       controls preload="none" width="auto" height="auto">
-                    {this.props.extraData.map((data, i) =>
-                    <source key={i} type={'video/' + data.type} src={data.url} />
-                    )}
-                </video>
+                <div dangerouslySetInnerHTML={{__html: this.prepareVideoHTML() }}/>
             );
         } else {
             return (

@@ -117,8 +117,7 @@ let AccountSettings = React.createClass({
                         <InputCheckbox
                             defaultChecked={this.state.currentUser.profile.hash_locally}>
                             <span>
-                                {' ' + getLangText('Enable hash option for slow connections. ' +
-                                    'Computes and uploads a hash of the work instead.')}
+                                {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
                             </span>
                         </InputCheckbox>
                     </Property>
