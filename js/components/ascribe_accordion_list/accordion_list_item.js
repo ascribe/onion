@@ -21,7 +21,7 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import AclProxy from '../acl_proxy';
-import SubmitToPrizeButton from '../ascribe_buttons/submit_to_prize_button';
+import SubmitToPrizeButton from '../whitelabel/prize/components/ascribe_buttons/submit_to_prize_button';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -178,20 +178,12 @@ let AccordionListItem = React.createClass({
                                         onPollingSuccess={this.onPollingSuccess}/>
                                 </AclProxy>
                                 <AclProxy
-                                    show={this.props.content.prize === null}>
+                                    aclObject={this.props.content.acl}
+                                    aclName="acl_submit_to_prize">
                                     <SubmitToPrizeButton
                                         className="pull-right"
                                         piece={this.props.content}
                                         handleSuccess={this.handleSubmitPrizeSuccess}/>
-                                </AclProxy>
-                                <AclProxy
-                                    show={this.props.content.prize}>
-                                    <button
-                                        disabled
-                                        className="btn btn-default btn-xs pull-right">
-                                        {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
-                                                                                  aria-hidden="true"></span>
-                                    </button>
                                 </AclProxy>
                                 {this.getLicences()}
                             </div>
