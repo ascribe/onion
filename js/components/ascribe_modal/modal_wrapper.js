@@ -5,7 +5,6 @@ import ReactAddons from 'react/addons';
 
 import Modal from 'react-bootstrap/lib/Modal';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import ModalTrigger from 'react-bootstrap/lib/ModalTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 import ModalMixin from '../../mixins/modal_mixin';
@@ -22,15 +21,11 @@ let ModalWrapper = React.createClass({
 
     getModalTrigger() {
         return (
-            <ModalTrigger modal={
-                <ModalBody
-                    title={this.props.title}
-                    handleSuccess={this.props.handleSuccess}>
-                    {this.props.children}
-                </ModalBody>
-            }>
-            {this.props.button}
-            </ModalTrigger>
+            <ModalBody
+                title={this.props.title}
+                handleSuccess={this.props.handleSuccess}>
+                {this.props.children}
+            </ModalBody>
         );
     },
 

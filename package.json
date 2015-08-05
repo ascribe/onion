@@ -71,7 +71,7 @@
     "q": "^1.4.1",
     "raven-js": "^1.1.19",
     "react": "^0.13.2",
-    "react-bootstrap": "~0.22.6",
+    "react-bootstrap": "^0.24.3",
     "react-datepicker": "~0.8.0",
     "react-progressbar": "^1.1.0",
     "react-router": "^0.13.3",
