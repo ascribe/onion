@@ -10,8 +10,9 @@ function getApiUrls(subdomain) {
         'user': AppPrizeConstants.prizeApiEndpoint + subdomain + '/users/',
         'piece_submit_to_prize': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/${piece_id}/submit/',
         'piece': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/${piece_id}/',
-        'prize': AppPrizeConstants.prizeApiEndpoint + 'prize/' + subdomain + '/',
-        'jury': AppPrizeConstants.prizeApiEndpoint + 'prize/' + subdomain + '/jury/'
+        'prize': AppPrizeConstants.prizeApiEndpoint + subdomain + '/',
+        'jury': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/'
+    };
 }
 
 export default getApiUrls;
