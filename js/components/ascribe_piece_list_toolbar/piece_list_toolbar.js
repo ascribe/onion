@@ -46,7 +46,7 @@ let PieceListToolbar = React.createClass({
                             <span className="pull-right">
                                 <PieceListToolbarFilterWidget
                                     filterParams={['acl_transfer', 'acl_consign', {
-                                        key: 'acl_editions',
+                                        key: 'acl_create_editions',
                                         label: 'create editions'
                                 }]} />
                             </span>

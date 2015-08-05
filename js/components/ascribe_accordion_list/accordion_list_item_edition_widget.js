@@ -94,7 +94,7 @@ let AccordionListItemEditionWidget = React.createClass({
         let numEditions = piece.num_editions;
 
         if(numEditions <= 0) {
-            if (piece.acl.acl_editions){
+            if (piece.acl.acl_create_editions){
                 return (
                     <CreateEditionsButton
                         label={getLangText('Create editions')}

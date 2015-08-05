@@ -140,7 +140,7 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if(this.state.whitelabel && this.state.whitelabel.acl_editions || Object.keys(this.state.whitelabel).length === 0) {
+        if(this.state.whitelabel && this.state.whitelabel.acl_create_editions || Object.keys(this.state.whitelabel).length === 0) {
             return (
                 <PropertyCollapsible
                     name="num_editions"
