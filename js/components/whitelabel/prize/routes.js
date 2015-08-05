@@ -21,7 +21,7 @@ let Route = Router.Route;
 let baseUrl = AppConstants.baseUrl;
 
 
-function getRoutes(commonRoutes) {
+function getRoutes() {
     return (
         <Route name="app" path={baseUrl} handler={App}>
             <Route name="landing" path={baseUrl} handler={Landing} />
