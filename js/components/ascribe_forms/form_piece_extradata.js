@@ -3,7 +3,7 @@
 import React from 'react';
 
 import requests from '../../utils/requests';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 import apiUrls from '../../constants/api_urls';
 
@@ -20,6 +20,7 @@ let PieceExtraDataForm = React.createClass({
         title: React.PropTypes.string,
         editable: React.PropTypes.bool
     },
+
     getFormData(){
         let extradata = {};
         extradata[this.props.name] = this.refs.form.refs[this.props.name].state.value;
@@ -28,6 +29,7 @@ let PieceExtraDataForm = React.createClass({
             piece_id: this.props.pieceId
         };
     },
+    
     render() {
         let defaultValue = this.props.extraData[this.props.name] || '';
         if (defaultValue.length === 0 && !this.props.editable){

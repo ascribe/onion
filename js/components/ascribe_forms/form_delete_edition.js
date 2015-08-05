@@ -2,36 +2,60 @@
 
 import React from 'react';
 
-import requests from '../../utils/requests';
+import Form from './form';
+
 import ApiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
+import AppConstants from '../../constants/application_constants';
+
 import { getLangText } from '../../utils/lang_utils';
+
 
 let EditionDeleteForm = React.createClass({
 
-    mixins: [FormMixin],
-
-    url() {
-        return requests.prepareUrl(ApiUrls.edition_delete, {edition_id: this.getBitcoinIds().join()});
-    },
-    httpVerb(){
-        return 'delete';
+    propTypes: {
+        editions: React.PropTypes.arrayOf(React.PropTypes.object),
+        handleSuccess: React.PropTypes.func
     },
 
-    renderForm () {
+    getBitcoinIds(){
+        return this.props.editions.map(function(edition){
+            return edition.bitcoin_id;
+        });
+    },
+
+    getFormData() {
+        return {
+            edition_id: this.getBitcoinIds().join()
+        };
+    },
+
+    render () {
         return (
-            <div className="modal-body">
+            <Form
+                ref='form'
+                url={ApiUrls.edition_delete}
+                getFormData={this.getFormData}
+                handleSuccess={this.props.handleSuccess}
+                buttons={
+                    <div className="modal-footer">
+                        <p className="pull-right">
+                            <button
+                                type="submit"
+                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
+                                onClick={this.submit}>
+                                {getLangText('YES, DELETE')}
+                            </button>
+                        </p>
+                    </div>
+                }
+                spinner={
+                    <div className="modal-footer">
+                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    </div>
+                }>
                 <p>{getLangText('Are you sure you would like to permanently delete this edition')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
-                <div className="modal-footer">
-                    <button
-                        type="submit"
-                        className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                        onClick={this.submit}>
-                        {getLangText('YES, DELETE')}
-                    </button>
-                </div>
-            </div>
+            </Form>
         );
     }
 });

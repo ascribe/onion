@@ -26,7 +26,7 @@ let DeleteButton = React.createClass({
 
     mixins: [Router.Navigation],
 
-    render: function () {
+    render() {
         let availableAcls;
         let btnDelete;
         let content;
@@ -61,10 +61,11 @@ let DeleteButton = React.createClass({
             }
 
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
-        }
-        else {
+        
+        } else {
             return null;
         }
+
         return (
             <ModalWrapper
                 trigger={btnDelete}
