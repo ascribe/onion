@@ -9,7 +9,9 @@ function getApiUrls(subdomain) {
         'users_signup': AppConstants.apiEndpoint + 'prize/' + subdomain + '/users/',
         'user': AppConstants.apiEndpoint + 'prize/' + subdomain + '/users/',
         'piece_submit_to_prize': AppConstants.apiEndpoint + 'prize/' + subdomain + '/pieces/${piece_id}/submit/',
-        'piece': AppConstants.apiEndpoint + 'prize/' + subdomain + '/pieces/${piece_id}/'
+        'piece': AppConstants.apiEndpoint + 'prize/' + subdomain + '/pieces/${piece_id}/',
+        'prize': AppConstants.apiEndpoint + 'prize/' + subdomain + '/',
+        'jury': AppConstants.apiEndpoint + 'prize/' + subdomain + '/jury/'
     };
 }
 

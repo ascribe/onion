@@ -29,12 +29,19 @@ import { getLangText } from '../utils/lang_utils';
 import { getCookie } from '../utils/fetch_api_utils';
 
 let SettingsContainer = React.createClass({
+    propTypes: {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element])
+    },
+
     mixins: [Router.Navigation],
 
     render() {
         return (
             <div className="settings-container">
                 <AccountSettings />
+                {this.props.children}
                 <APISettings />
                 <BitcoinWalletSettings />
                 <LoanContractSettings />
@@ -121,6 +128,7 @@ let AccountSettings = React.createClass({
                             </span>
                         </InputCheckbox>
                     </Property>
+                    <hr />
                     {/*<Property
                         name='language'
                         label={getLangText('Choose your Language')}
@@ -135,7 +143,6 @@ let AccountSettings = React.createClass({
                             </option>
                         </select>
                     </Property>*/}
-                    <hr />
                 </Form>
             );
         }
