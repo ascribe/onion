@@ -44,7 +44,9 @@ let CreateEditionsButton = React.createClass({
     startPolling() {
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
-            EditionListActions.fetchEditionList(this.props.piece.id)
+            let editionsForPiece = this.state.editionList[this.props.piece.id];
+
+            EditionListActions.fetchEditionList(this.props.piece.id, null, null, null, null, editionsForPiece.filterBy)
             .then((res) => {
 
                 clearInterval(this.state.pollingIntervalIndex);
