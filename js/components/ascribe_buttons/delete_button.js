@@ -11,10 +11,10 @@ import PieceDeleteForm from '../ascribe_forms/form_delete_piece';
 import EditionRemoveFromCollectionForm from '../ascribe_forms/form_remove_editions_from_collection';
 import PieceRemoveFromCollectionForm from '../ascribe_forms/form_remove_piece_from_collection';
 
-import AscribeModal from '../ascribe_modal/ascribe_modal';
+import ModalWrapper from '../ascribe_modal/modal_wrapper';
 
 import { getAvailableAcls } from '../../utils/acl_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang_utils.js';
 
 
 let DeleteButton = React.createClass({
@@ -66,14 +66,14 @@ let DeleteButton = React.createClass({
             return null;
         }
         return (
-            <AscribeModal
+            <ModalWrapper
                 trigger={btnDelete}
+                handleSuccess={this.props.handleSuccess}
                 title={title}>
                 {content}
-            </AscribeModal>
+            </ModalWrapper>
         );
     }
 });
 
 export default DeleteButton;
-

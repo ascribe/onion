@@ -21,14 +21,13 @@ let UnConsignRequestButton = React.createClass({
     render: function () {
         return (
             <ModalWrapper
-                button={
+                trigger={
                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
                         REQUEST UNCONSIGN
                     </Button>
                 }
                 handleSuccess={this.props.handleSuccess}
-                title='Request to Un-Consign'
-                tooltip='Ask the consignee to return the ownership of the work back to you'>
+                title='Request to Un-Consign'>
                 <UnConsignRequestForm
                     url={apiUrls.ownership_unconsigns_request}
                     id={{'bitcoin_id': this.props.edition.bitcoin_id}}

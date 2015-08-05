@@ -4,87 +4,73 @@ import React from 'react';
 import ReactAddons from 'react/addons';
 
 import Modal from 'react-bootstrap/lib/Modal';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
-
-import ModalMixin from '../../mixins/modal_mixin';
 
 let ModalWrapper = React.createClass({
     propTypes: {
-        title: React.PropTypes.string.isRequired,
-        onRequestHide: React.PropTypes.func,
+        trigger: React.PropTypes.element.isRequired,
+        title: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element,
+            React.PropTypes.string
+        ]).isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
-        button: React.PropTypes.object.isRequired,
-        children: React.PropTypes.object,
-        tooltip: React.PropTypes.string
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
     },
 
-    getModalTrigger() {
-        return (
-            <ModalBody
-                title={this.props.title}
-                handleSuccess={this.props.handleSuccess}>
-                {this.props.children}
-            </ModalBody>
-        );
+    getInitialState() {
+        return {
+            showModal: false
+        };
     },
 
-    render() {
-        if(this.props.tooltip) {
-            return (
-                <OverlayTrigger
-                    delay={500}
-                    placement="left"
-                    overlay={<Tooltip>{this.props.tooltip}</Tooltip>}>
-                    {this.getModalTrigger()}
-                </OverlayTrigger>
-            );
-        } else {
-             return (
-                <span>
-                    {/* This needs to be some kind of inline-block */}
-                    {this.getModalTrigger()}
-                </span>
-            );
-        }
-    }
-});
-
-
-let ModalBody = React.createClass({
-    propTypes: {
-        onRequestHide: React.PropTypes.func,
-        handleSuccess: React.PropTypes.func,
-        children: React.PropTypes.object,
-        title: React.PropTypes.string.isRequired
+    show() {
+        this.setState({
+            showModal: true
+        });
     },
 
-    mixins: [ModalMixin],
+    hide() {
+        this.setState({
+            showModal: false
+        });
+    },
 
     handleSuccess(response){
         this.props.handleSuccess(response);
-        this.props.onRequestHide();
+        this.hide();
     },
 
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                onRequestHide: this.props.onRequestHide,
+                onRequestHide: this.hide,
                 handleSuccess: this.handleSuccess
             });
         });
     },
 
     render() {
+        let trigger = React.cloneElement(this.props.trigger, {onClick: this.show});
+
         return (
-            <Modal {...this.props} title={this.props.title}>
-                <div className="modal-body">
-                {this.renderChildren()}
-                </div>
-            </Modal>
+            <span>
+                {trigger}
+                <Modal show={this.state.showModal} onHide={this.hide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            {this.props.title}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <div className="modal-body">
+                        {this.renderChildren()}
+                    </div>
+                </Modal>
+            </span>
         );
     }
 });
-
 
 export default ModalWrapper;

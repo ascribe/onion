@@ -27,7 +27,7 @@ let SubmitToPrizeButton = React.createClass({
     render() {
         return (
             <ModalWrapper
-                button={this.getSubmitButton()}
+                trigger={this.getSubmitButton()}
                 handleSuccess={this.props.handleSuccess}
                 title={getLangText('Submit to prize')}>
                 <PieceSubmitToPrizeForm

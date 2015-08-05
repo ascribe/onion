@@ -214,14 +214,13 @@ ${this.props.currentUser.username}
 
         return (
             <ModalWrapper
-                button={
+                trigger={
                     <button className={shouldDisplay ? 'btn btn-default btn-sm ' : 'hidden'}>
                         {this.sanitizeAction()}
                     </button>
                 }
                 handleSuccess={aclProps.handleSuccess}
-                title={aclProps.title}
-                tooltip={aclProps.tooltip}>
+                title={aclProps.title}>
                 {aclProps.form}
             </ModalWrapper>
         );
