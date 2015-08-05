@@ -25,9 +25,9 @@ let EditionRemoveFromCollectionForm = React.createClass({
                 <p>{getLangText('Are you sure you would like to remove these editions from your collection')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
                 <div className="modal-footer">
-                    <button type="submit" className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.submit}>{getLangText('YES, REMOVE')}</button>
-                    <button className="btn btn-default btn-sm ascribe-margin-1px" style={{marginLeft: '0'}}
-                            onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</button>
+                    <button type="submit" className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.submit}>
+                        {getLangText('YES, REMOVE')}
+                    </button>
                 </div>
             </div>
         );

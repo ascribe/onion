@@ -46,13 +46,14 @@ let ModalWrapper = React.createClass({
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                onRequestHide: this.hide,
                 handleSuccess: this.handleSuccess
             });
         });
     },
 
     render() {
+        // this adds the onClick method show of modal_wrapper to the trigger component
+        // which is in most cases a button.
         let trigger = React.cloneElement(this.props.trigger, {onClick: this.show});
 
         return (

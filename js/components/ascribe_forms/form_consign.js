@@ -18,7 +18,6 @@ let ConsignForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
-        onRequestHide: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
     },
 
@@ -39,11 +38,9 @@ let ConsignForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">{getLangText('CONSIGN')}</Button>
-                            <Button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                type="submit">
+                                {getLangText('CONSIGN')}
+                            </Button>
                         </p>
                     </div>}
                 spinner={

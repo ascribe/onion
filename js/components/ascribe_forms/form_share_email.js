@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-
-
 import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
@@ -20,7 +18,6 @@ let ShareForm = React.createClass({
         message: React.PropTypes.string,
         editions: React.PropTypes.array,
         currentUser: React.PropTypes.object,
-        onRequestHide: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
     },
 
@@ -41,11 +38,9 @@ let ShareForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">SHARE</Button>
-                            <Button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>CLOSE</Button>
+                                type="submit">
+                                SHARE
+                            </Button>
                         </p>
                     </div>}
                 spinner={
