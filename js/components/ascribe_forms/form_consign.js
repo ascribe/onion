@@ -26,7 +26,6 @@ let ConsignForm = React.createClass({
     },
 
     render() {
-
         return (
             <Form
                 ref='form'

@@ -17,15 +17,17 @@ let EditionDeleteForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    getBitcoinIds(){
+    getBitcoinIds() {
         return this.props.editions.map(function(edition){
             return edition.bitcoin_id;
         });
     },
 
+    // Since this form can be used for either deleting a single edition or multiple
+    // we need to call getBitcoinIds to get the value of edition_id
     getFormData() {
         return {
-            edition_id: this.getBitcoinIds().join()
+            edition_id: this.getBitcoinIds().join(',')
         };
     },
 
@@ -35,6 +37,7 @@ let EditionDeleteForm = React.createClass({
                 ref='form'
                 url={ApiUrls.edition_delete}
                 getFormData={this.getFormData}
+                method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={
                     <div className="modal-footer">

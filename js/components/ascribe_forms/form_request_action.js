@@ -59,8 +59,7 @@ let RequestActionForm = React.createClass({
                 onClick={this.handleRequest}
                 className='btn btn-default btn-sm ascribe-margin-1px'>{getLangText('ACCEPT')}
             </div>);
-        if (edition.request_action === 'unconsign'){
-            console.log(this.props)
+        if (edition.request_action === 'unconsign') {
             buttonAccept = (
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
