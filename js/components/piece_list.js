@@ -85,6 +85,14 @@ let PieceList = React.createClass({
          this.transitionTo(this.getPathname(), {page: 1});
     },
 
+    applyFilterBy(filterBy) {
+        PieceListActions.fetchPieceList(1, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, filterBy);
+        // we have to redirect the user always to page one as it could be that there is no page two
+        // for filtered pieces
+        this.transitionTo(this.getPathname(), {page: 1});
+    },
+
     accordionChangeOrder(orderBy, orderAsc) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         orderBy, orderAsc, this.state.filterBy);
@@ -97,7 +105,9 @@ let PieceList = React.createClass({
             <div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
-                    searchFor={this.searchFor}>
+                    searchFor={this.searchFor}
+                    filterBy={this.state.filterBy}
+                    applyFilterBy={this.applyFilterBy}>
                     {this.props.customSubmitButton}
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
