@@ -2,38 +2,56 @@
 
 import React from 'react';
 
-import { getLangText } from '../../utils/lang_utils.js';
-import requests from '../../utils/requests';
-import apiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
+import Form from './form';
+
+import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
+
+import { getLangText } from '../../utils/lang_utils';
+
 
 let PieceRemoveFromCollectionForm = React.createClass({
-
     propTypes: {
-        pieceId: React.PropTypes.number
+        pieceId: React.PropTypes.number,
+
+        // Propagated by ModalWrapper in most cases
+        handleSuccess: React.PropTypes.func
     },
 
-    mixins: [FormMixin],
-
-    url() {
-        return requests.prepareUrl(apiUrls.piece_remove_from_collection, {piece_id: this.props.pieceId});
-    },
-    
-    httpVerb(){
-        return 'delete';
+    getFormData() {
+        return {
+            piece_id: this.props.pieceId
+        };
     },
 
-    renderForm () {
+    render () {
         return (
-            <div className="modal-body">
+            <Form
+                ref='form'
+                url={ApiUrls.piece_remove_from_collection}
+                getFormData={this.getFormData}
+                method="delete"
+                handleSuccess={this.props.handleSuccess}
+                buttons={
+                    <div className="modal-footer">
+                        <p className="pull-right">
+                            <button
+                                type="submit"
+                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
+                                onClick={this.submit}>
+                                {getLangText('YES, REMOVE')}
+                            </button>
+                        </p>
+                    </div>
+                }
+                spinner={
+                    <div className="modal-footer">
+                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    </div>
+                }>
                 <p>{getLangText('Are you sure you would like to remove this piece from your collection')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
-                <div className="modal-footer">
-                    <button type="submit" className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.submit}>{getLangText('YES, REMOVE')}</button>
-                    <button className="btn btn-default btn-sm ascribe-margin-1px" style={{marginLeft: '0'}}
-                            onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</button>
-                </div>
-            </div>
+            </Form>
         );
     }
 });
