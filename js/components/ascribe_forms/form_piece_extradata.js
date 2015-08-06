@@ -21,7 +21,7 @@ let PieceExtraDataForm = React.createClass({
         editable: React.PropTypes.bool
     },
 
-    getFormData(){
+    getFormData() {
         let extradata = {};
         extradata[this.props.name] = this.refs.form.refs[this.props.name].state.value;
         return {

@@ -2,34 +2,63 @@
 
 import React from 'react';
 
-import { getLangText } from '../../utils/lang_utils.js';
-import requests from '../../utils/requests';
-import apiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
+import Form from './form';
+
+import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
+
+import { getLangText } from '../../utils/lang_utils';
 
 let EditionRemoveFromCollectionForm = React.createClass({
+    propTypes: {
+        editions: React.PropTypes.arrayOf(React.PropTypes.object),
 
-    mixins: [FormMixin],
-
-    url() {
-        return requests.prepareUrl(apiUrls.edition_remove_from_collection, {edition_id: this.getBitcoinIds().join()});
-    },
-    
-    httpVerb(){
-        return 'delete';
+        // Propagated by ModalWrapper in most cases
+        handleSuccess: React.PropTypes.func
     },
 
-    renderForm () {
+    getBitcoinIds() {
+        return this.props.editions.map(function(edition){
+            return edition.bitcoin_id;
+        });
+    },
+
+    // Since this form can be used for either removing a single edition or multiple
+    // we need to call getBitcoinIds to get the value of edition_id
+    getFormData() {
+        return {
+            edition_id: this.getBitcoinIds().join(',')
+        };
+    },
+
+    render() {
         return (
-            <div className="modal-body">
+            <Form
+                ref='form'
+                url={ApiUrls.edition_remove_from_collection}
+                getFormData={this.getFormData}
+                method="delete"
+                handleSuccess={this.props.handleSuccess}
+                buttons={
+                    <div className="modal-footer">
+                        <p className="pull-right">
+                            <button
+                                type="submit"
+                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
+                                onClick={this.submit}>
+                                {getLangText('YES, REMOVE')}
+                            </button>
+                        </p>
+                    </div>
+                }
+                spinner={
+                    <div className="modal-footer">
+                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    </div>
+                }>
                 <p>{getLangText('Are you sure you would like to remove these editions from your collection')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
-                <div className="modal-footer">
-                    <button type="submit" className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.submit}>
-                        {getLangText('YES, REMOVE')}
-                    </button>
-                </div>
-            </div>
+            </Form>
         );
     }
 });
