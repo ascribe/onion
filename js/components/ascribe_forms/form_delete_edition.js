@@ -14,6 +14,8 @@ let EditionDeleteForm = React.createClass({
 
     propTypes: {
         editions: React.PropTypes.arrayOf(React.PropTypes.object),
+
+        // Propagated by ModalWrapper in most cases
         handleSuccess: React.PropTypes.func
     },
 
