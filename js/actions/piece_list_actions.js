@@ -3,10 +3,14 @@
 import alt from '../alt';
 import Q from 'q';
 
+import ActionQueue from '../utils/action_queue_utils';
+
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
 
-class PieceListActions {
+class PieceListActions extends ActionQueue {
     constructor() {
+        super();
+
         this.generateActions(
             'updatePieceList',
             'updatePieceListRequestActions',
