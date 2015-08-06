@@ -13,6 +13,8 @@ let PieceListToolbar = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         searchFor: React.PropTypes.func,
+        filterBy: React.PropTypes.object,
+        applyFilterBy: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -48,7 +50,9 @@ let PieceListToolbar = React.createClass({
                                     filterParams={['acl_transfer', 'acl_consign', {
                                         key: 'acl_create_editions',
                                         label: 'create editions'
-                                }]} />
+                                    }]}
+                                    filterBy={this.props.filterBy}
+                                    applyFilterBy={this.props.applyFilterBy}/>
                             </span>
                         </div>
                     </div>

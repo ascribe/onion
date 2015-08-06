@@ -2,9 +2,6 @@
 
 import React from 'react';
 
-import PieceListStore from '../../stores/piece_list_store';
-import PieceListActions from '../../actions/piece_list_actions';
-
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
@@ -19,27 +16,13 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
         //      label: <a human readable string>
         // }
         //
-        filterParams: React.PropTypes.arrayOf(React.PropTypes.any).isRequired
-    },
-
-    getInitialState() {
-        return PieceListStore.getState();
-    },
-
-    componentDidMount() {
-        PieceListStore.listen(this.onChange);
-    },
-
-    componentWillUnmount() {
-        PieceListStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        filterParams: React.PropTypes.arrayOf(React.PropTypes.any).isRequired,
+        filterBy: React.PropTypes.object,
+        applyFilterBy: React.PropTypes.func
     },
 
     generateFilterByStatement(param) {
-        let filterBy = this.state.filterBy;
+        let filterBy = this.props.filterBy;
 
         if(filterBy) {
             // we need hasOwnProperty since the values are all booleans
@@ -68,13 +51,12 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
     filterBy(param) {
         return () => {
             let filterBy = this.generateFilterByStatement(param);
-            PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                            this.state.orderBy, this.state.orderAsc, filterBy);
+            this.props.applyFilterBy(filterBy);
         };
     },
 
     isFilterActive() {
-        let trueValuesOnly = Object.keys(this.state.filterBy).filter((acl) => acl);
+        let trueValuesOnly = Object.keys(this.props.filterBy).filter((acl) => acl);
 
         // We're hiding the star in that complicated matter so that,
         // the surrounding button is not resized up on appearance
@@ -123,7 +105,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                                 <input
                                     readOnly
                                     type="checkbox"
-                                    checked={this.state.filterBy[param]} />
+                                    checked={this.props.filterBy[param]} />
                             </div>
                         </MenuItem>
                     );
