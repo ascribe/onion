@@ -9,6 +9,7 @@ import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 
+
 let PieceDeleteForm = React.createClass({
     propTypes: {
         pieceId: React.PropTypes.number,

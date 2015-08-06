@@ -7,7 +7,6 @@ import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
-import FormPropertyHeader from './form_property_header';
 
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
@@ -110,9 +109,9 @@ let RegisterPieceForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     ignoreFocus={true}>
                     <FileUploader

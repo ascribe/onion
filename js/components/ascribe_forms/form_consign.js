@@ -8,7 +8,6 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
-
 import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils.js';
 

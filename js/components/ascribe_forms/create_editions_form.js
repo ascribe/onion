@@ -13,7 +13,6 @@ import apiUrls from '../../constants/api_urls';
 import { getLangText } from '../../utils/lang_utils';
 
 let CreateEditionsForm = React.createClass({
-
     propTypes: {
         handleSuccess: React.PropTypes.func,
         pieceId: React.PropTypes.number
