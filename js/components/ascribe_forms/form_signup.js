@@ -75,7 +75,7 @@ let SignupForm = React.createClass({
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
-
+        let email = this.getQuery().email ? this.getQuery().email : null;
         return (
             <Form
                 className="ascribe-form-bordered"
@@ -102,6 +102,7 @@ let SignupForm = React.createClass({
                         type="email"
                         placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
+                        defaultValue={email}
                         required/>
                 </Property>
                 <Property

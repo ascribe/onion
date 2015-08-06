@@ -16,6 +16,8 @@ import Form from '../../../ascribe_forms/form';
 import Property from '../../../ascribe_forms/property';
 import FormPropertyHeader from '../../../ascribe_forms/form_property_header';
 
+import ActionPanel from '../../../ascribe_panel/action_panel';
+
 import Table from '../../../ascribe_table/table';
 import TableItem from '../../../ascribe_table/table_item';
 import TableItemText from '../../../ascribe_table/table_item_text';
@@ -49,13 +51,13 @@ let Settings = React.createClass({
     },
 
     render() {
-        let prize_settings = null;
+        let prizeSettings = null;
         if (this.state.currentUser.is_admin){
-            prize_settings = <PrizeSettings />;
+            prizeSettings = <PrizeSettings />;
         }
         return (
             <SettingsContainer>
-                {prize_settings}
+                {prizeSettings}
             </SettingsContainer>
         );
     }
@@ -139,6 +141,7 @@ let PrizeJurySettings = React.createClass({
         PrizeJuryActions.fetchJury();
         let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+        this.refs.form.refs.email.refs.input.getDOMNode().value = null;
     },
 
     render() {
@@ -150,30 +153,21 @@ let PrizeJurySettings = React.createClass({
         if (this.state.members.length > -1) {
             content = this.state.members.map(function(member, i) {
                 return (
-                    <Property
+                    <ActionPanel
                         name={member.email}
-                        label={member.email}
-                        key={i}>
-                        <div className="row-same-height">
-                            <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
-                            {member.status}
-                            </div>
-                            <div className="col-xs-6 col-sm-2 col-xs-height">
-                                <button
+                        key={i}
+                        title={member.email}
+                        content={member.status}
+                        buttons={<button
                                     className="pull-right btn btn-default btn-sm"
                                     data-id={member.name}>
                                     {getLangText('RESEND INVITATION')}
-                                </button>
-                            </div>
-                        </div>
-                    </Property>);
+                                </button>}
+                       />);
             }, this);
             content = (
                 <div>
-                    <Form>
-                        {content}
-                        <hr />
-                    </Form>
+                    {content}
                 </div>);
         }
         return (
@@ -181,6 +175,7 @@ let PrizeJurySettings = React.createClass({
                 <Form
                     url={apiUrls.jury}
                     handleSuccess={this.handleCreateSuccess}
+                    ref='form'
                     buttonSubmitText='INVITE'>
                     <FormPropertyHeader>
                         <h4 style={{margin: '30px 0px 10px 10px'}}>Jury Members</h4>
