@@ -5,9 +5,11 @@ import React from 'react';
 import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
+
 import Button from 'react-bootstrap/lib/Button';
 
 import AppConstants from '../../constants/application_constants';
+
 import { getLangText } from '../../utils/lang_utils.js';
 
 

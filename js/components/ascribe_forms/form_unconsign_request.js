@@ -3,7 +3,6 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
-import Alert from 'react-bootstrap/lib/Alert';
 
 import Form from './form';
 import Property from './property';
