@@ -12,7 +12,7 @@ import PrizeRegisterPiece from './components/register_piece';
 import PrizePieceList from './components/piece_list';
 import PrizePieceContainer from './components/ascribe_detail/piece_container';
 import EditionContainer from '../../ascribe_detail/edition_container';
-import SettingsContainer from '../../../components/settings_container';
+import SettingsContainer from './components/settings_container';
 
 import App from './app';
 import AppConstants from '../../../constants/application_constants';
@@ -21,7 +21,7 @@ let Route = Router.Route;
 let baseUrl = AppConstants.baseUrl;
 
 
-function getRoutes(commonRoutes) {
+function getRoutes() {
     return (
         <Route name="app" path={baseUrl} handler={App}>
             <Route name="landing" path={baseUrl} handler={Landing} />

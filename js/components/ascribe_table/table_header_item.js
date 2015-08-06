@@ -7,7 +7,6 @@ import TableHeaderItemCarret from './table_header_item_carret';
 let TableHeaderItem = React.createClass({
 
     propTypes: {
-        columnClasses: React.PropTypes.string.isRequired,
         displayName: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.element
