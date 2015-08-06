@@ -6,10 +6,14 @@ import classNames from 'classnames';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
+import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+
 import Button from 'react-bootstrap/lib/Button';
 
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 
+import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
@@ -21,15 +25,20 @@ let AccordionListItemEditionWidget = React.createClass({
     },
 
     getInitialState() {
-        return EditionListStore.getState();
+        return mergeOptions(
+            EditionListStore.getState(),
+            PieceListStore.getState()
+        );
     },
 
     componentDidMount() {
         EditionListStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -47,7 +56,7 @@ let AccordionListItemEditionWidget = React.createClass({
             EditionListActions.toggleEditionList(pieceId);
         } else {
             EditionListActions.toggleEditionList(pieceId);
-            EditionListActions.fetchEditionList(pieceId);
+            EditionListActions.fetchEditionList(pieceId, null, null, null, null, this.state.filterBy);
         }
     },
 
@@ -85,7 +94,7 @@ let AccordionListItemEditionWidget = React.createClass({
         let numEditions = piece.num_editions;
 
         if(numEditions <= 0) {
-            if (piece.acl.acl_editions){
+            if (piece.acl.acl_create_editions){
                 return (
                     <CreateEditionsButton
                         label={getLangText('Create editions')}

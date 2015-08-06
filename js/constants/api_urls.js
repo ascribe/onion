@@ -52,7 +52,8 @@ let apiUrls = {
     'users_profile': AppConstants.apiEndpoint + 'users/profile/',
     'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
     'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
-    'delete_s3_file': AppConstants.serverUrl + 's3/delete/'
+    'delete_s3_file': AppConstants.serverUrl + 's3/delete/',
+    'prize_list': AppConstants.apiEndpoint + 'prize/'
 };
 
 
