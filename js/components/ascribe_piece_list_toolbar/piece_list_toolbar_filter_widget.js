@@ -80,7 +80,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
                 <li style={{'textAlign': 'center'}}>
-                    <em>{getLangText('Show works that')}:</em>
+                    <em>{getLangText('Show works I can')}:</em>
                 </li>
                 {this.props.filterParams.map((param, i) => {
                     let label;
@@ -100,7 +100,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                             className="filter-widget-item">
                             <div className="checkbox-line">
                                 <span>
-                                    {getLangText('I can') + ' ' + getLangText(label)}
+                                    {getLangText(label)}
                                 </span>
                                 <input
                                     readOnly
