@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-
+import classnames from 'classnames';
 
 let ActionPanel = React.createClass({
     propTypes: {
@@ -37,18 +37,9 @@ let ActionPanel = React.createClass({
         });
     },
 
-    getClassName() {
-        if(this.state.isFocused) {
-            return 'is-focused';
-        } else {
-            return '';
-        }
-    },
-
     render() {
-
         return (
-            <div className={'ascribe-panel-wrapper ' + this.getClassName()}>
+            <div className={classnames('ascribe-panel-wrapper', {'is-focused': this.state.isFocused})}>
                 <div className='row'>
                     <div className='col-xs-7 col-md-8'>
                         <div className='ascribe-panel-content-wrapper'>

@@ -14,7 +14,6 @@ import CollapsibleParagraph from '../../../ascribe_collapsible/collapsible_parag
 
 import Form from '../../../ascribe_forms/form';
 import Property from '../../../ascribe_forms/property';
-import FormPropertyHeader from '../../../ascribe_forms/form_property_header';
 
 import ActionPanel from '../../../ascribe_panel/action_panel';
 
@@ -279,9 +278,9 @@ let PrizeJurySettings = React.createClass({
                     handleSuccess={this.handleCreateSuccess}
                     ref='form'
                     buttonSubmitText='INVITE'>
-                    <FormPropertyHeader>
+                    <div className="ascribe-form-header">
                         <h4 style={{margin: '30px 0px 10px 10px'}}>Jury Members</h4>
-                    </FormPropertyHeader>
+                    </div>
                     <Property
                         name='email'
                         label={getLangText('New jury member')}>
