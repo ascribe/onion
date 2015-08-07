@@ -138,6 +138,10 @@ class EditionListStore {
             show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
         };
 
+        // When loading all editions of a piece, closing the table and then applying the filter
+        // the merge fails, as the edition list is not refreshed when closed.
+        // Therefore in the case of a filter application when closed, we need to reload the
+        // edition list
         if(!this.isEditionListOpenForPieceId[pieceId].show) {
             // to clear an array, david walsh recommends to just set it's length to zero
             // http://davidwalsh.name/empty-array
