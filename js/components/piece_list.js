@@ -6,6 +6,9 @@ import Router from 'react-router';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
+import EditionListStore from '../stores/edition_list_store';
+import EditionListActions from '../actions/edition_list_actions';
+
 import AccordionList from './ascribe_accordion_list/accordion_list';
 import AccordionListItem from './ascribe_accordion_list/accordion_list_item';
 import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_list_item_table_editions';
@@ -17,6 +20,7 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AppConstants from '../constants/application_constants';
 
+import { mergeOptions } from '../utils/general_utils';
 
 let PieceList = React.createClass({
     propTypes: {
@@ -27,16 +31,22 @@ let PieceList = React.createClass({
     mixins: [Router.Navigation, Router.State],
 
     getInitialState() {
-        return PieceListStore.getState();
+        return mergeOptions(
+            PieceListStore.getState(),
+            EditionListStore.getState()
+        );
     },
 
     componentDidMount() {
         let page = this.getQuery().page || 1;
+        
         PieceListStore.listen(this.onChange);
+        EditionListStore.listen(this.onChange);
+
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                             this.state.orderBy, this.state.orderAsc, this.state.filterBy)
-            .then(PieceListActions.fetchPieceRequestActions());
+                            .then(PieceListActions.fetchPieceRequestActions());
         }
     },
 
@@ -49,6 +59,7 @@ let PieceList = React.createClass({
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
+        EditionListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -56,13 +67,14 @@ let PieceList = React.createClass({
     },
 
     paginationGoToPage(page) {
-        // if the users clicks a pager of the pagination,
-        // the site should go to the top
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-
-        return () => PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
+        return () => {
+            // if the users clicks a pager of the pagination,
+            // the site should go to the top
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                                     this.state.orderBy, this.state.orderAsc,
                                                     this.state.filterBy);
+        };
     },
 
     getPagination() {
@@ -86,8 +98,24 @@ let PieceList = React.createClass({
     },
 
     applyFilterBy(filterBy) {
+        // first we need to apply the filter on the piece list
         PieceListActions.fetchPieceList(1, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, filterBy);
+                                        this.state.orderBy, this.state.orderAsc, filterBy)
+                        .then(() => {
+                            // but also, we need to filter all the open edition lists
+                            this.state.pieceList
+                                .forEach((piece) => {
+                                    // but only if they're actually open
+                                    if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                                        EditionListActions.refreshEditionList({
+                                            pieceId: piece.id,
+                                            filterBy
+                                        });
+                                    }
+
+                                });
+                        });
+
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
         this.transitionTo(this.getPathname(), {page: 1});
@@ -100,7 +128,6 @@ let PieceList = React.createClass({
 
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
-        
         return (
             <div>
                 <PieceListToolbar

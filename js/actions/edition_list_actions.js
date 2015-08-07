@@ -13,7 +13,8 @@ class EditionListActions {
             'selectEdition',
             'clearAllEditionSelections',
             'closeAllEditionLists',
-            'toggleEditionList'
+            'toggleEditionList',
+            'applyFilterBy'
         );
     }
 
