@@ -22,10 +22,12 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import InputCheckbox from './ascribe_forms/input_checkbox';
 
+import ActionPanel from './ascribe_panel/action_panel';
+
 import ApiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
-import { getLangText } from '../utils/lang_utils';
 
+import { getLangText } from '../utils/lang_utils';
 import { getCookie } from '../utils/fetch_api_utils';
 
 let SettingsContainer = React.createClass({
@@ -339,20 +341,18 @@ let APISettings = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    render() {
+    getApplications(){
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         if (this.state.applications.length > -1) {
             content = this.state.applications.map(function(app, i) {
                 return (
-                    <Property
+                    <ActionPanel
                         name={app.name}
-                        label={app.name}
-                        key={i}>
-                        <div className="row-same-height">
-                            <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
-                            {'Bearer ' + app.bearer_token.token}
-                            </div>
-                            <div className="col-xs-6 col-sm-2 col-xs-height">
+                        key={i}
+                        title={app.name}
+                        content={'Bearer ' + app.bearer_token.token}
+                        buttons={
+                            <div className="pull-right">
                                 <button
                                     className="pull-right btn btn-default btn-sm"
                                     onClick={this.handleTokenRefresh}
@@ -360,17 +360,14 @@ let APISettings = React.createClass({
                                     {getLangText('REFRESH')}
                                 </button>
                             </div>
-                        </div>
-                    </Property>);
+                        }/>
+                    );
             }, this);
-            content = (
-                <div>
-                    <Form>
-                        {content}
-                        <hr />
-                    </Form>
-                </div>);
         }
+        return content;
+    },
+    render() {
+
         return (
             <CollapsibleParagraph
                 title={getLangText('API Integration')}
@@ -392,7 +389,7 @@ let APISettings = React.createClass({
                 <pre>
                     Usage: curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
                 </pre>
-                {content}
+                {this.getApplications()}
             </CollapsibleParagraph>
         );
     }

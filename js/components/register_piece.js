@@ -39,7 +39,9 @@ let RegisterPiece = React.createClass( {
         submitMessage: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element])
+            React.PropTypes.element,
+            React.PropTypes.string
+        ])
     },
 
     mixins: [Router.Navigation],
