@@ -26,7 +26,7 @@ let SignupForm = React.createClass({
         children: React.PropTypes.element
     },
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getDefaultProps() {
         return {
@@ -34,7 +34,6 @@ let SignupForm = React.createClass({
             submitMessage: getLangText('Sign up')
         };
     },
-
     getInitialState() {
         return UserStore.getState();
     },
@@ -56,22 +55,32 @@ let SignupForm = React.createClass({
         }
     },
 
-    handleSuccess(response){
-        let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
+    getFormData() {
+        return this.getQuery();
+    },
 
+    handleSuccess(response){
+        if (response.user) {
+            let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+            this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
+        }
+        else if (response.redirect) {
+            this.transitionTo('pieces');
+        }
     },
 
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
+        let email = this.getQuery().email ? this.getQuery().email : null;
         return (
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
                 url={apiUrls.users_signup}
+                getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
@@ -92,6 +101,7 @@ let SignupForm = React.createClass({
                         type="email"
                         placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
+                        defaultValue={email}
                         required/>
                 </Property>
                 <Property

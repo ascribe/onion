@@ -27,6 +27,8 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_settings';
 @import 'ascribe_slides_container';
 @import 'ascribe_form';
+@import 'ascribe_panel';
+@import 'ascribe_button';
 
 @import 'whitelabel/index';
 
@@ -322,6 +324,10 @@ hr {
 .ascribe-button-list button, .ascribe-margin-1px {
     margin-right: 1px;
     margin-top: 1px;
+}
+
+.margin-left-2px{
+    margin-left: 2px;
 }
 
 .spin {

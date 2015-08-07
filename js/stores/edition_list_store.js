@@ -12,7 +12,7 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count}) {
+    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy}) {
         
         /*
             Basically there are two modes an edition list can be updated.
@@ -54,14 +54,14 @@ class EditionListStore {
         this.editionList[pieceId].orderBy = orderBy;
         this.editionList[pieceId].orderAsc = orderAsc;
         this.editionList[pieceId].count = count;
+        this.editionList[pieceId].filterBy = filterBy;
     }
 
     /**
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList(pieceId) {
-
+    onRefreshEditionList({pieceId, filterBy}) {
         // It may happen that the user enters the site logged in already
         // through /editions
         // If he then tries to delete a piece/edition and this method is called,
@@ -71,16 +71,28 @@ class EditionListStore {
             return;
         }
 
-        const prevEditionListLength = this.editionList[pieceId].length;
-        const prevEditionListPage = this.editionList[pieceId].page;
-        const prevEditionListPageSize = this.editionList[pieceId].pageSize;
+        let prevEditionListLength = this.editionList[pieceId].length;
+        let prevEditionListPage = this.editionList[pieceId].page;
+        let prevEditionListPageSize = this.editionList[pieceId].pageSize;
+
+        // we can also refresh the edition list using filterBy,
+        // if we decide not to do that then the old filter will just be applied.
+        if(filterBy && Object.keys(filterBy).length <= 0) {
+            filterBy = this.editionList[pieceId].filterBy;
+            prevEditionListLength = 10;
+            prevEditionListPage = 1;
+            prevEditionListPageSize = 10;
+        }
 
         // to clear an array, david walsh recommends to just set it's length to zero
         // http://davidwalsh.name/empty-array
         this.editionList[pieceId].length = 0;
 
         // refetch editions with adjusted page size
-        EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength, this.editionList[pieceId].orderBy, this.editionList[pieceId].orderAsc)
+        EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength,
+                                             this.editionList[pieceId].orderBy,
+                                             this.editionList[pieceId].orderAsc,
+                                             filterBy)
             .then(() => {
                 // reset back to the normal pageSize and page
                 this.editionList[pieceId].page = prevEditionListPage;
@@ -121,9 +133,21 @@ class EditionListStore {
     }
 
     onToggleEditionList(pieceId) {
+
         this.isEditionListOpenForPieceId[pieceId] = {
             show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
         };
+
+        // When loading all editions of a piece, closing the table and then applying the filter
+        // the merge fails, as the edition list is not refreshed when closed.
+        // Therefore in the case of a filter application when closed, we need to reload the
+        // edition list
+        if(!this.isEditionListOpenForPieceId[pieceId].show) {
+            // to clear an array, david walsh recommends to just set it's length to zero
+            // http://davidwalsh.name/empty-array
+            
+            this.editionList[pieceId].length = 0;
+        }
     }
 
     onCloseAllEditionLists() {

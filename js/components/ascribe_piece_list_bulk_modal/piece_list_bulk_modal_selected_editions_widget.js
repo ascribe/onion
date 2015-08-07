@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let PieceListBulkModalSelectedEditionsWidget = React.createClass({
     propTypes: {
