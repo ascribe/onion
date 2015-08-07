@@ -5,7 +5,7 @@ import React from 'react';
 import requests from '../../utils/requests';
 import { getLangText } from '../../utils/lang_utils.js';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 import Form from './form';
 import Property from './property';
@@ -35,7 +35,7 @@ let PieceExtraDataForm = React.createClass({
         if (defaultValue.length === 0 && !this.props.editable){
             return null;
         }
-        let url = requests.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.pieceId});
+        let url = requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.pieceId});
         return (
             <Form
                 ref='form'

@@ -12,7 +12,7 @@ import UserActions from '../../actions/user_actions';
 import Form from './form';
 import Property from './property';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -99,7 +99,7 @@ let LoginForm = React.createClass({
             <Form
                 className="ascribe-form-bordered"
                 ref="loginForm"
-                url={apiUrls.users_login}
+                url={ApiUrls.users_login}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button

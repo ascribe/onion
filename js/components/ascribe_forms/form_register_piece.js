@@ -11,7 +11,7 @@ import Property from './property';
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -95,7 +95,7 @@ let RegisterPieceForm = React.createClass({
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
-                url={apiUrls.pieces_list}
+                url={ApiUrls.pieces_list}
                 getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
                 buttons={<button
@@ -179,7 +179,7 @@ let FileUploader = React.createClass({
                     fileClass: 'digitalwork'
                 }}
                 createBlobRoutine={{
-                    url: apiUrls.blob_digitalworks
+                    url: ApiUrls.blob_digitalworks
                 }}
                 submitKey={this.props.submitKey}
                 validation={{

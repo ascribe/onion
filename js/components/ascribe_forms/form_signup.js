@@ -14,7 +14,7 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 
 let SignupForm = React.createClass({
@@ -79,7 +79,7 @@ let SignupForm = React.createClass({
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
-                url={apiUrls.users_signup}
+                url={ApiUrls.users_signup}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={

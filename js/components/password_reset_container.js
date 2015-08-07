@@ -5,7 +5,7 @@ import Router from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
-import apiUrls from '../constants/api_urls';
+import ApiUrls from '../constants/api_urls';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -74,7 +74,7 @@ let PasswordRequestResetForm = React.createClass({
         return (
             <Form
                 ref="form"
-                url={apiUrls.users_password_reset_request}
+                url={ApiUrls.users_password_reset_request}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button
@@ -130,7 +130,7 @@ let PasswordResetForm = React.createClass({
         return (
             <Form
                 ref="form"
-                url={apiUrls.users_password_reset}
+                url={ApiUrls.users_password_reset}
                 handleSuccess={this.handleSuccess}
                 getFormData={this.getFormData}
                 buttons={

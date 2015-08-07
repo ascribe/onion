@@ -5,7 +5,7 @@ import getPrizeApiUrls from '../components/whitelabel/prize/constants/api_urls';
 import { update } from '../utils/general_utils';
 
 
-let apiUrls = {
+let ApiUrls = {
     'applications': AppConstants.apiEndpoint + 'applications/',
     'application_token_refresh': AppConstants.apiEndpoint + 'applications/refresh_token/',
     'blob_digitalworks': AppConstants.apiEndpoint + 'blob/digitalworks/',
@@ -63,7 +63,7 @@ export function updateApiUrls(type, subdomain) {
     if (type === 'prize') {
         newUrls = getPrizeApiUrls(subdomain);
     }
-    update(apiUrls, newUrls);
+    update(ApiUrls, newUrls);
 }
 
-export default apiUrls;
+export default ApiUrls;

@@ -4,7 +4,7 @@ import React from 'react';
 
 import Alert from 'react-bootstrap/lib/Alert';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
 import AclButton from './../ascribe_buttons/acl_button';
@@ -19,24 +19,24 @@ let RequestActionForm = React.createClass({
         let edition = this.props.editions[0];
         if (e.target.id === 'request_accept'){
             if (edition.request_action === 'consign'){
-                return apiUrls.ownership_consigns_confirm;
+                return ApiUrls.ownership_consigns_confirm;
             }
             else if (edition.request_action === 'unconsign'){
-                return apiUrls.ownership_unconsigns;
+                return ApiUrls.ownership_unconsigns;
             }
             else if (edition.request_action === 'loan'){
-                return apiUrls.ownership_loans_confirm;
+                return ApiUrls.ownership_loans_confirm;
             }
         }
         else if(e.target.id === 'request_deny'){
             if (edition.request_action === 'consign') {
-                return apiUrls.ownership_consigns_deny;
+                return ApiUrls.ownership_consigns_deny;
             }
             else if (edition.request_action === 'unconsign') {
-                return apiUrls.ownership_unconsigns_deny;
+                return ApiUrls.ownership_unconsigns_deny;
             }
             else if (edition.request_action === 'loan') {
-                return apiUrls.ownership_loans_deny;
+                return ApiUrls.ownership_loans_deny;
             }
         }
     },

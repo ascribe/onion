@@ -36,7 +36,7 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -233,7 +233,7 @@ let EditionSummary = React.createClass({
             if (this.props.edition.status.length > 0 && this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer) {
                 withdrawButton = (
                     <Form
-                        url={apiUrls.ownership_transfers_withdraw}
+                        url={ApiUrls.ownership_transfers_withdraw}
                         getFormData={this.getTransferWithdrawData}
                         handleSuccess={this.showNotification}
                         className='inline'>
@@ -335,7 +335,7 @@ let EditionPersonalNote = React.createClass({
         if (this.props.currentUser.username && true || false) {
             return (
                 <Form
-                    url={apiUrls.note_notes}
+                    url={ApiUrls.note_notes}
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'
@@ -373,7 +373,7 @@ let EditionPublicEditionNote = React.createClass({
         if (isEditable || this.props.edition.public_note){
             return (
                 <Form
-                    url={apiUrls.note_edition}
+                    url={ApiUrls.note_edition}
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'

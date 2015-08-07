@@ -14,7 +14,7 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getLangText } from '../../utils/lang_utils.js';
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 let AclButton = React.createClass({
     propTypes: {
@@ -42,7 +42,7 @@ let AclButton = React.createClass({
                     <ConsignForm
                         message={this.getConsignMessage()}
                         id={this.getFormDataId()}
-                        url={apiUrls.ownership_consigns}/>
+                        url={ApiUrls.ownership_consigns}/>
                     ),
                 handleSuccess: this.showNotification
             };
@@ -55,7 +55,7 @@ let AclButton = React.createClass({
                     <UnConsignForm
                         message={this.getUnConsignMessage()}
                         id={this.getFormDataId()}
-                        url={apiUrls.ownership_unconsigns}/>
+                        url={ApiUrls.ownership_unconsigns}/>
                     ),
                 handleSuccess: this.showNotification
             };
@@ -67,7 +67,7 @@ let AclButton = React.createClass({
                     <TransferForm
                         message={this.getTransferMessage()}
                         id={this.getFormDataId()}
-                        url={apiUrls.ownership_transfers}/>
+                        url={ApiUrls.ownership_transfers}/>
                 ),
                 handleSuccess: this.showNotification
             };
@@ -79,7 +79,7 @@ let AclButton = React.createClass({
                 form: (<LoanForm
                         message={this.getLoanMessage()}
                         id={this.getFormDataId()}
-                        url={this.isPiece() ? apiUrls.ownership_loans_pieces : apiUrls.ownership_loans_editions}/>
+                        url={this.isPiece() ? ApiUrls.ownership_loans_pieces : ApiUrls.ownership_loans_editions}/>
                 ),
                 handleSuccess: this.showNotification
             };
@@ -92,7 +92,7 @@ let AclButton = React.createClass({
                     <ShareForm
                         message={this.getShareMessage()}
                         id={this.getFormDataId()}
-                        url={this.isPiece() ? apiUrls.ownership_shares_pieces : apiUrls.ownership_shares_editions }/>
+                        url={this.isPiece() ? ApiUrls.ownership_shares_pieces : ApiUrls.ownership_shares_editions }/>
                     ),
                 handleSuccess: this.showNotification
             };

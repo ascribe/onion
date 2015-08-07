@@ -25,7 +25,7 @@ import GlobalNotificationModel from '../../../../models/global_notification_mode
 import GlobalNotificationActions from '../../../../actions/global_notification_actions';
 
 import AppConstants from '../../../../constants/application_constants';
-import apiUrls from '../../../../constants/api_urls';
+import ApiUrls from '../../../../constants/api_urls';
 
 import { ColumnModel} from '../../../ascribe_table/models/table_models';
 import { getLangText } from '../../../../utils/lang_utils';
@@ -274,7 +274,7 @@ let PrizeJurySettings = React.createClass({
         return (
             <div>
                 <Form
-                    url={apiUrls.jurys}
+                    url={ApiUrls.jurys}
                     handleSuccess={this.handleCreateSuccess}
                     ref='form'
                     buttonSubmitText='INVITE'>
