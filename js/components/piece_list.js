@@ -46,7 +46,7 @@ let PieceList = React.createClass({
         if (this.state.pieceList.length === 0){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                             this.state.orderBy, this.state.orderAsc, this.state.filterBy)
-                            .then(PieceListActions.fetchPieceRequestActions());
+                            .then(() => PieceListActions.fetchPieceRequestActions());
         }
     },
 
