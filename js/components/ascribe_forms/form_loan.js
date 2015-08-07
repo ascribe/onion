@@ -33,10 +33,10 @@ let LoanForm = React.createClass({
 
     componentDidMount() {
         LoanContractStore.listen(this.onChange);
+        LoanContractActions.flushLoanContract();
     },
 
     componentWillUnmount() {
-        LoanContractActions.flushLoanContract();
         LoanContractStore.unlisten(this.onChange);
     },
 
@@ -88,20 +88,6 @@ let LoanForm = React.createClass({
         }
     },
 
-    onRequestHide() {
-        // Since the modal can be opened without sending it to the server
-        // and therefore clearing the store,
-        // we'll need to make sure to flush the store once the
-        // modal unmounts
-        LoanContractActions.updateLoanContract({
-            contractUrl: null,
-            contractEmail: null,
-            contractKey: null
-        });
-
-        this.props.onRequestHide();
-    },
-
     render() {
 
         return (
@@ -119,7 +105,7 @@ let LoanForm = React.createClass({
                             <Button
                                 className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
                                 style={{marginLeft: '0'}}
-                                onClick={this.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
                         </p>
                     </div>}
                 spinner={
