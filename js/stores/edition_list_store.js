@@ -133,9 +133,17 @@ class EditionListStore {
     }
 
     onToggleEditionList(pieceId) {
+
         this.isEditionListOpenForPieceId[pieceId] = {
             show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
         };
+
+        if(!this.isEditionListOpenForPieceId[pieceId].show) {
+            // to clear an array, david walsh recommends to just set it's length to zero
+            // http://davidwalsh.name/empty-array
+            
+            this.editionList[pieceId].length = 0;
+        }
     }
 
     onCloseAllEditionLists() {
