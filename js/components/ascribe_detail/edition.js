@@ -89,7 +89,7 @@ let Edition = React.createClass({
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
-        EditionListActions.refreshEditionList(this.props.edition.parent);
+        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
