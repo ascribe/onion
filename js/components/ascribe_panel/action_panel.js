@@ -48,20 +48,23 @@ let ActionPanel = React.createClass({
     render() {
 
         return (
-            <div
-                className={'ascribe-panel-wrapper ' + this.getClassName()}
-                onClick={this.handleFocus}
-                onFocus={this.handleFocus}>
-                <div className='ascribe-panel-title'>
-                    {this.props.title}
-                </div>
-                <div className='ascribe-panel-content-wrapper'>
-                    <span className="ascribe-panel-content pull-left">
-                        {this.props.content}
-                    </span>
-                    <span className='ascribe-panel-buttons pull-right'>
-                        {this.props.buttons}
-                    </span>
+            <div className={'ascribe-panel-wrapper ' + this.getClassName()}>
+                <div className='row'>
+                    <div className='col-xs-7 col-md-8'>
+                        <div className='ascribe-panel-content-wrapper'>
+                            <div className='ascribe-panel-title'>
+                                {this.props.title}
+                            </div>
+                            <div className="ascribe-panel-content">
+                                {this.props.content}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='col-xs-5 col-md-4'>
+                        <div className='ascribe-panel-buttons'>
+                            {this.props.buttons}
+                        </div>
+                    </div>
                 </div>
             </div>
         );

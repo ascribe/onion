@@ -144,36 +144,138 @@ let PrizeJurySettings = React.createClass({
         this.refs.form.refs.email.refs.input.getDOMNode().value = null;
     },
 
-    render() {
+    handleActivate(event) {
+        let email = event.target.getAttribute('data-id');
+        PrizeJuryActions.activateJury(email).then((response) => {
+                PrizeJuryActions.fetchJury();
+                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+    },
+
+    handleRevoke(event) {
+        let email = event.target.getAttribute('data-id');
+        PrizeJuryActions.revokeJury(email).then((response) => {
+                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+    },
+
+    handleResend(event) {
+        let email = event.target.getAttribute('data-id');
+        PrizeJuryActions.resendJuryInvitation(email).then((response) => {
+                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+    },
+
+    getMembersPending() {
+        return this.state.membersPending.map(function(member, i) {
+            return (
+                <ActionPanel
+                    name={member.email}
+                    key={i}
+                    title={member.email}
+                    content={member.status}
+                    buttons={
+                        <div className="pull-right">
+                            <button
+                                className="btn btn-default btn-sm margin-left-2px"
+                                onClick={this.handleResend}
+                                data-id={member.email}>
+                                {getLangText('RESEND')}
+                            </button>
+                            <button
+                                className="btn btn-default btn-sm ascribe-btn-gray margin-left-2px"
+                                onClick={this.handleRevoke}
+                                data-id={member.email}>
+                                {getLangText('REVOKE')}
+                            </button>
+                        </div>
+                    }/>
+                );
+        }, this);
+    },
+    getMembersActive() {
+        return this.state.membersActive.map(function(member, i) {
+            return (
+                <ActionPanel
+                    name={member.email}
+                    key={i}
+                    title={member.email}
+                    content={member.status}
+                    buttons={
+                        <div className="pull-right">
+                            <button
+                                className="btn btn-default btn-sm ascribe-btn-gray"
+                                onClick={this.handleRevoke}
+                                data-id={member.email}>
+                                {getLangText('REVOKE')}
+                            </button>
+                        </div>
+                    }/>
+                );
+
+        }, this);
+    },
+    getMembersInactive() {
+        return this.state.membersInactive.map(function(member, i) {
+            return (
+                <ActionPanel
+                    name={member.email}
+                    key={i}
+                    title={member.email}
+                    content={member.status}
+                    buttons={
+                        <div className="pull-right">
+                            <button
+                                className="btn btn-default btn-sm"
+                                onClick={this.handleActivate}
+                                data-id={member.email}>
+                                {getLangText('ACTIVATE')}
+                            </button>
+                        </div>
+                    }/>
+                );
+
+        }, this);
+    },
+    getMembers() {
         let content = (
             <div style={{textAlign: 'center'}}>
                 <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
             </div>);
 
         if (this.state.members.length > -1) {
-            content = this.state.members.map(function(member, i) {
-                return (
-                    <ActionPanel
-                        name={member.email}
-                        key={i}
-                        title={member.email}
-                        content={member.status}
-                        buttons={<button
-                                    className="pull-right btn btn-default btn-sm"
-                                    data-id={member.name}>
-                                    {getLangText('RESEND INVITATION')}
-                                </button>}
-                       />);
-            }, this);
             content = (
-                <div>
-                    {content}
+                <div style={{padding: '1em'}}>
+                    <CollapsibleParagraph
+                        title={'Active Jury Members'}
+                        show={true}
+                        defaultExpanded={true}>
+                        {this.getMembersActive()}
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={'Pending Jury Invitations'}
+                        show={true}
+                        defaultExpanded={true}>
+                        {this.getMembersPending()}
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={'Deactivated Jury Members'}
+                        show={true}
+                        defaultExpanded={false}>
+                        {this.getMembersInactive()}
+                    </CollapsibleParagraph>
                 </div>);
         }
+        return content;
+    },
+    render() {
         return (
             <div>
                 <Form
-                    url={apiUrls.jury}
+                    url={apiUrls.jurys}
                     handleSuccess={this.handleCreateSuccess}
                     ref='form'
                     buttonSubmitText='INVITE'>
@@ -190,7 +292,7 @@ let PrizeJurySettings = React.createClass({
                     </Property>
                     <hr />
                 </Form>
-                {content}
+                {this.getMembers()}
             </div>
         );
     }

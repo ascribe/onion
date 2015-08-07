@@ -1,13 +1,18 @@
 .ascribe-panel-wrapper {
-    border: 1px solid #F5F5F5;
+    border: 1px solid #DDD;
+    padding: 1.4em;
+    margin: 1em 0 1em 0;
 }
 
 .ascribe-panel-title {
-    padding: 1em 0 1em 1.5em;
+    margin-bottom: 0.5em;
 }
 
 .ascribe-panel-content {
-    padding: .75em 0 .75em 1em;
-    font-size: 1em;
-    color: #616161;
+    font-size: 0.9em;
+    color: rgba(0,0,0,0.5);
+}
+
+.ascribe-panel-buttons {
+    margin-top: 0.5em;
 }
