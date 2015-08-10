@@ -24,10 +24,10 @@ import InputCheckbox from './ascribe_forms/input_checkbox';
 
 import ActionPanel from './ascribe_panel/action_panel';
 
-import apiUrls from '../constants/api_urls';
+import ApiUrls from '../constants/api_urls';
 import AppConstants from '../constants/application_constants';
-import { getLangText } from '../utils/lang_utils';
 
+import { getLangText } from '../utils/lang_utils';
 import { getCookie } from '../utils/fetch_api_utils';
 
 let SettingsContainer = React.createClass({
@@ -90,7 +90,7 @@ let AccountSettings = React.createClass({
         if (this.state.currentUser.username) {
             content = (
                 <Form
-                    url={apiUrls.users_username}
+                    url={ApiUrls.users_username}
                     handleSuccess={this.handleSuccess}>
                     <Property
                         name='username'
@@ -116,7 +116,7 @@ let AccountSettings = React.createClass({
             );
             profile = (
                 <Form
-                    url={apiUrls.users_profile}
+                    url={ApiUrls.users_profile}
                     handleSuccess={this.handleSuccess}
                     getFormData={this.getFormDataProfile}>
                     <Property
@@ -266,14 +266,14 @@ let FileUploader = React.createClass({
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{
-                            url: apiUrls.ownership_loans_contract
+                            url: ApiUrls.ownership_loans_contract
                         }}
                         validation={{
                             itemLimit: 100000,
                             sizeLimit: '10000000'
                         }}
                         session={{
-                            endpoint: apiUrls.ownership_loans_contract,
+                            endpoint: ApiUrls.ownership_loans_contract,
                             customHeaders: {
                                 'X-CSRFToken': getCookie(AppConstants.csrftoken)
                             },
@@ -349,16 +349,26 @@ let APISettings = React.createClass({
                     <ActionPanel
                         name={app.name}
                         key={i}
-                        title={app.name}
-                        content={'Bearer ' + app.bearer_token.token}
+                        content={
+                            <div>
+                                <div className='ascribe-panel-title'>
+                                    {app.name}
+                                </div>
+                                <div className="ascribe-panel-subtitle">
+                                    {'Bearer ' + app.bearer_token.token}
+                                </div>
+                            </div>
+                        }
                         buttons={
                             <div className="pull-right">
-                                <button
-                                    className="pull-right btn btn-default btn-sm"
-                                    onClick={this.handleTokenRefresh}
-                                    data-id={app.name}>
-                                    {getLangText('REFRESH')}
-                                </button>
+                                <div className="pull-right">
+                                    <button
+                                        className="pull-right btn btn-default btn-sm"
+                                        onClick={this.handleTokenRefresh}
+                                        data-id={app.name}>
+                                        {getLangText('REFRESH')}
+                                    </button>
+                                </div>
                             </div>
                         }/>
                     );
@@ -366,15 +376,15 @@ let APISettings = React.createClass({
         }
         return content;
     },
+    
     render() {
-
         return (
             <CollapsibleParagraph
                 title={getLangText('API Integration')}
                 show={true}
                 defaultExpanded={this.props.defaultExpanded}>
                 <Form
-                    url={apiUrls.applications}
+                    url={ApiUrls.applications}
                     handleSuccess={this.handleCreateSuccess}>
                     <Property
                         name='name'

@@ -14,7 +14,6 @@ import CollapsibleParagraph from '../../../ascribe_collapsible/collapsible_parag
 
 import Form from '../../../ascribe_forms/form';
 import Property from '../../../ascribe_forms/property';
-import FormPropertyHeader from '../../../ascribe_forms/form_property_header';
 
 import ActionPanel from '../../../ascribe_panel/action_panel';
 
@@ -22,7 +21,7 @@ import GlobalNotificationModel from '../../../../models/global_notification_mode
 import GlobalNotificationActions from '../../../../actions/global_notification_actions';
 
 import AppConstants from '../../../../constants/application_constants';
-import apiUrls from '../../../../constants/api_urls';
+import ApiUrls from '../../../../constants/api_urls';
 
 import { getLangText } from '../../../../utils/lang_utils';
 
@@ -170,8 +169,16 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
+                        </div>
+                    }
                     buttons={
                         <div className="pull-right">
                             <button
@@ -197,17 +204,23 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
-                    buttons={
-                        <div className="pull-right">
-                            <button
-                                className="btn btn-default btn-sm ascribe-btn-gray"
-                                onClick={this.handleRevoke}
-                                data-id={member.email}>
-                                {getLangText('REVOKE')}
-                            </button>
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
                         </div>
+                    }
+                    buttons={
+                        <button
+                            className="btn btn-default btn-sm ascribe-btn-gray"
+                            onClick={this.handleRevoke}
+                            data-id={member.email}>
+                            {getLangText('REVOKE')}
+                        </button>
                     }/>
                 );
 
@@ -219,17 +232,23 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
-                    buttons={
-                        <div className="pull-right">
-                            <button
-                                className="btn btn-default btn-sm"
-                                onClick={this.handleActivate}
-                                data-id={member.email}>
-                                {getLangText('ACTIVATE')}
-                            </button>
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
                         </div>
+                    }
+                    buttons={
+                        <button
+                            className="btn btn-default btn-sm"
+                            onClick={this.handleActivate}
+                            data-id={member.email}>
+                            {getLangText('ACTIVATE')}
+                        </button>
                     }/>
                 );
 
@@ -270,13 +289,13 @@ let PrizeJurySettings = React.createClass({
         return (
             <div>
                 <Form
-                    url={apiUrls.jurys}
+                    url={ApiUrls.jurys}
                     handleSuccess={this.handleCreateSuccess}
                     ref='form'
                     buttonSubmitText='INVITE'>
-                    <FormPropertyHeader>
+                    <div className="ascribe-form-header">
                         <h4 style={{margin: '30px 0px 10px 10px'}}>Jury Members</h4>
-                    </FormPropertyHeader>
+                    </div>
                     <Property
                         name='email'
                         label={getLangText('New jury member')}>

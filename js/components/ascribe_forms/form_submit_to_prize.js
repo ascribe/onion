@@ -19,10 +19,7 @@ import requests from '../../utils/requests';
 let PieceSubmitToPrizeForm = React.createClass({
     propTypes: {
         piece: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func,
-
-        // this is set by ModalWrapper automatically
-        onRequestHide: React.PropTypes.func
+        handleSuccess: React.PropTypes.func
     },
 
     render() {
@@ -36,7 +33,9 @@ let PieceSubmitToPrizeForm = React.createClass({
                         <p className="pull-right">
                             <button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">{getLangText('SUBMIT TO PRIZE')}</button>
+                                type="submit">
+                                {getLangText('SUBMIT TO PRIZE')}
+                            </button>
                         </p>
                     </div>}
                 spinner={
@@ -80,7 +79,6 @@ let PieceSubmitToPrizeForm = React.createClass({
                     <p>{getLangText('Are you sure you want to submit to the prize?')}</p>
                     <p>{getLangText('This is an irrevocable action%s', '.')}</p>
                 </Alert>
-                
             </Form>
         );
     }

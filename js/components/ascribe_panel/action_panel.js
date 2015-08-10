@@ -1,12 +1,15 @@
 'use strict';
 
 import React from 'react';
-
+import classnames from 'classnames';
 
 let ActionPanel = React.createClass({
     propTypes: {
         title: React.PropTypes.string,
-        content: React.PropTypes.string,
+        content: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]),
         buttons: React.PropTypes.element,
         onClick: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool
@@ -37,33 +40,17 @@ let ActionPanel = React.createClass({
         });
     },
 
-    getClassName() {
-        if(this.state.isFocused) {
-            return 'is-focused';
-        } else {
-            return '';
-        }
-    },
-
     render() {
-
         return (
-            <div className={'ascribe-panel-wrapper ' + this.getClassName()}>
-                <div className='row'>
-                    <div className='col-xs-7 col-md-8'>
-                        <div className='ascribe-panel-content-wrapper'>
-                            <div className='ascribe-panel-title'>
-                                {this.props.title}
-                            </div>
-                            <div className="ascribe-panel-content">
-                                {this.props.content}
-                            </div>
-                        </div>
+            <div className={classnames('ascribe-panel-wrapper', {'is-focused': this.state.isFocused})}>
+                <div className="ascribe-panel-table">
+                    <div className="ascribe-panel-content">
+                        {this.props.content}
                     </div>
-                    <div className='col-xs-5 col-md-4'>
-                        <div className='ascribe-panel-buttons'>
-                            {this.props.buttons}
-                        </div>
+                </div>
+                <div className="ascribe-panel-table">
+                    <div className="ascribe-panel-content">
+                        {this.props.buttons}
                     </div>
                 </div>
             </div>

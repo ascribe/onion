@@ -16,7 +16,7 @@ import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
@@ -133,7 +133,7 @@ let FileUploader = React.createClass({
                             pieceId: this.props.pieceId
                         }}
                         createBlobRoutine={{
-                            url: apiUrls.blob_otherdatas,
+                            url: ApiUrls.blob_otherdatas,
                             pieceId: this.props.pieceId
                         }}
                         validation={{
