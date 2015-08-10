@@ -349,16 +349,26 @@ let APISettings = React.createClass({
                     <ActionPanel
                         name={app.name}
                         key={i}
-                        title={app.name}
-                        content={'Bearer ' + app.bearer_token.token}
+                        content={
+                            <div>
+                                <div className='ascribe-panel-title'>
+                                    {app.name}
+                                </div>
+                                <div className="ascribe-panel-subtitle">
+                                    {'Bearer ' + app.bearer_token.token}
+                                </div>
+                            </div>
+                        }
                         buttons={
                             <div className="pull-right">
-                                <button
-                                    className="pull-right btn btn-default btn-sm"
-                                    onClick={this.handleTokenRefresh}
-                                    data-id={app.name}>
-                                    {getLangText('REFRESH')}
-                                </button>
+                                <div className="pull-right">
+                                    <button
+                                        className="pull-right btn btn-default btn-sm"
+                                        onClick={this.handleTokenRefresh}
+                                        data-id={app.name}>
+                                        {getLangText('REFRESH')}
+                                    </button>
+                                </div>
                             </div>
                         }/>
                     );
