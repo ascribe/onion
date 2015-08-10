@@ -76,7 +76,7 @@ let RequestActionForm = React.createClass({
         );
     },
 
-    getAcceptButtonForm() {
+    getAcceptButtonForm(urls) {
         let edition = this.props.editions[0];
 
         if(edition.request_action === 'unconsign') {
@@ -109,7 +109,7 @@ let RequestActionForm = React.createClass({
         let edition = this.props.editions[0];
 
         let urls = this.getUrls();
-        let acceptButtonForm = this.getAcceptButtonForm();
+        let acceptButtonForm = this.getAcceptButtonForm(urls);
 
         return (
             <div>
