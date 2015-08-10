@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import FormMixin from '../../mixins/form_mixin';
-
 import AclButton from './../ascribe_buttons/acl_button';
 import ActionPanel from '../ascribe_panel/action_panel';
 import Form from './form';
@@ -78,7 +76,7 @@ let RequestActionForm = React.createClass({
         );
     },
 
-    getAcceptButton() {
+    getAcceptButtonForm() {
         let edition = this.props.editions[0];
 
         if(edition.request_action === 'unconsign') {
@@ -92,11 +90,17 @@ let RequestActionForm = React.createClass({
                 );
         } else {
             return (
-                <button
-                    type="submit"
-                    className='btn btn-default btn-sm ascribe-margin-1px'>
-                    {getLangText('ACCEPT')}
-                </button>
+                <Form
+                    url={urls.accept}
+                    getFormData={this.getFormData}
+                    handleSuccess={this.showNotification(getLangText('denied'), edition.request_action, edition.owner)}
+                    className='inline pull-right'>
+                    <button
+                        type="submit"
+                        className='btn btn-default btn-sm ascribe-margin-1px'>
+                        {getLangText('ACCEPT')}
+                    </button>
+                </Form>
             );
         }
     },
@@ -105,7 +109,7 @@ let RequestActionForm = React.createClass({
         let edition = this.props.editions[0];
 
         let urls = this.getUrls();
-        let acceptButton = this.getAcceptButton();
+        let acceptButtonForm = this.getAcceptButtonForm();
 
         return (
             <div>
@@ -120,13 +124,7 @@ let RequestActionForm = React.createClass({
                             {getLangText('REJECT')}
                     </button>
                 </Form>
-                <Form
-                    url={urls.accept}
-                    getFormData={this.getFormData}
-                    handleSuccess={this.showNotification(getLangText('denied'), edition.request_action, edition.owner)}
-                    className='inline pull-right'>
-                    {acceptButton}
-                </Form>
+                {acceptButtonForm}
             </div>
         );
     },
