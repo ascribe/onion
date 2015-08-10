@@ -8,6 +8,7 @@ import ApiUrls from '../../constants/api_urls';
 import FormMixin from '../../mixins/form_mixin';
 
 import AclButton from './../ascribe_buttons/acl_button';
+import ActionPanel from '../ascribe_panel/action_panel';
 
 import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils.js';
@@ -52,6 +53,17 @@ let RequestActionForm = React.createClass({
         };
     },
 
+    getContent() {
+        let edition = this.props.editions[0];
+        let message = edition.owner + ' ' + getLangText('requests you') + ' ' + edition.request_action + ' ' + getLangText('this edition%s', '.');
+
+        return (
+            <span>
+                {message}
+            </span>
+        );
+    },
+
     renderForm() {
         let edition = this.props.editions[0];
         let buttonAccept = (
@@ -86,13 +98,13 @@ let RequestActionForm = React.createClass({
                 </span>
             );
         }
+
+        
+
         return (
-            <Alert bsStyle='warning'>
-                <div style={{textAlign: 'center'}}>
-                <div>{ edition.owner } {getLangText('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
-                {buttons}
-                </div>
-            </Alert>
+            <ActionPanel
+                content={this.getContent()}
+                buttons={buttons}/>
         );
     }
 });

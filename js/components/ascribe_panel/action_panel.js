@@ -40,21 +40,14 @@ let ActionPanel = React.createClass({
     render() {
         return (
             <div className={classnames('ascribe-panel-wrapper', {'is-focused': this.state.isFocused})}>
-                <div className='row'>
-                    <div className='col-xs-7 col-md-8'>
-                        <div className='ascribe-panel-content-wrapper'>
-                            <div className='ascribe-panel-title'>
-                                {this.props.title}
-                            </div>
-                            <div className="ascribe-panel-content">
-                                {this.props.content}
-                            </div>
-                        </div>
+                <div className="ascribe-panel-table">
+                    <div className="ascribe-panel-content">
+                        {this.props.content}
                     </div>
-                    <div className='col-xs-5 col-md-4'>
-                        <div className='ascribe-panel-buttons'>
-                            {this.props.buttons}
-                        </div>
+                </div>
+                <div className="ascribe-panel-table">
+                    <div className="ascribe-panel-content">
+                        {this.props.buttons}
                     </div>
                 </div>
             </div>

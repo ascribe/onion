@@ -174,8 +174,16 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
+                        </div>
+                    }
                     buttons={
                         <div className="pull-right">
                             <button
@@ -201,17 +209,23 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
-                    buttons={
-                        <div className="pull-right">
-                            <button
-                                className="btn btn-default btn-sm ascribe-btn-gray"
-                                onClick={this.handleRevoke}
-                                data-id={member.email}>
-                                {getLangText('REVOKE')}
-                            </button>
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
                         </div>
+                    }
+                    buttons={
+                        <button
+                            className="btn btn-default btn-sm ascribe-btn-gray"
+                            onClick={this.handleRevoke}
+                            data-id={member.email}>
+                            {getLangText('REVOKE')}
+                        </button>
                     }/>
                 );
 
@@ -223,17 +237,23 @@ let PrizeJurySettings = React.createClass({
                 <ActionPanel
                     name={member.email}
                     key={i}
-                    title={member.email}
-                    content={member.status}
-                    buttons={
-                        <div className="pull-right">
-                            <button
-                                className="btn btn-default btn-sm"
-                                onClick={this.handleActivate}
-                                data-id={member.email}>
-                                {getLangText('ACTIVATE')}
-                            </button>
+                    content={
+                        <div>
+                            <div className='ascribe-panel-title'>
+                                {member.email}
+                            </div>
+                            <div className="ascribe-panel-subtitle">
+                                {member.status}
+                            </div>
                         </div>
+                    }
+                    buttons={
+                        <button
+                            className="btn btn-default btn-sm"
+                            onClick={this.handleActivate}
+                            data-id={member.email}>
+                            {getLangText('ACTIVATE')}
+                        </button>
                     }/>
                 );
 
