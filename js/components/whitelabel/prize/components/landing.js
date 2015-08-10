@@ -46,7 +46,7 @@ let Landing = React.createClass({
                         <p>
                             This is the submission page for Sluice_screens ↄc Prize 2015.
                         </p>
-                        <ButtonGroup className="enter" bsSize="large" vertical block>
+                        <ButtonGroup className="enter" bsSize="large" vertical>
                             <ButtonLink to="signup">
                                 Sign up to submit
                             </ButtonLink>
