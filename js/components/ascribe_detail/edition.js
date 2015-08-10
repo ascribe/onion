@@ -236,7 +236,8 @@ let EditionSummary = React.createClass({
                         url={ApiUrls.ownership_transfers_withdraw}
                         getFormData={this.getTransferWithdrawData}
                         handleSuccess={this.showNotification}
-                        className='inline'>
+                        className='inline'
+                        isInline={true}>
                         <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
                             WITHDRAW TRANSFER
                         </Button>
