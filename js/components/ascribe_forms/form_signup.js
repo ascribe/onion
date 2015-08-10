@@ -55,10 +55,6 @@ let SignupForm = React.createClass({
         }
     },
 
-    getFormData() {
-        return this.getQuery();
-    },
-
     handleSuccess(response){
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
@@ -80,7 +76,7 @@ let SignupForm = React.createClass({
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.users_signup}
-                getFormData={this.getFormData}
+                getFormData={this.getQuery}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
