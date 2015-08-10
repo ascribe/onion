@@ -13,8 +13,10 @@ import AppConstants from '../../constants/application_constants';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import { getLangText } from '../../utils/lang_utils.js';
 import ApiUrls from '../../constants/api_urls';
+
+import { getAclFormMessage } from '../../utils/form_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 let AclButton = React.createClass({
     propTypes: {
@@ -34,13 +36,16 @@ let AclButton = React.createClass({
     },
 
     actionProperties(){
+
+        let message = getAclFormMessage(this.props.action, this.getTitlesString(), this.props.currentUser.username);
+
         if (this.props.action === 'acl_consign'){
             return {
                 title: getLangText('Consign artwork'),
                 tooltip: getLangText('Have someone else sell the artwork'),
                 form: (
                     <ConsignForm
-                        message={this.getConsignMessage()}
+                        message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_consigns}/>
                     ),
@@ -53,7 +58,7 @@ let AclButton = React.createClass({
                 tooltip: getLangText('Have the owner manage his sales again'),
                 form: (
                     <UnConsignForm
-                        message={this.getUnConsignMessage()}
+                        message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_unconsigns}/>
                     ),
@@ -65,7 +70,7 @@ let AclButton = React.createClass({
                 tooltip: getLangText('Transfer the ownership of the artwork'),
                 form: (
                     <TransferForm
-                        message={this.getTransferMessage()}
+                        message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_transfers}/>
                 ),
@@ -77,7 +82,7 @@ let AclButton = React.createClass({
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
                 form: (<LoanForm
-                        message={this.getLoanMessage()}
+                        message={message}
                         id={this.getFormDataId()}
                         url={this.isPiece() ? ApiUrls.ownership_loans_pieces : ApiUrls.ownership_loans_editions}/>
                 ),
@@ -90,7 +95,7 @@ let AclButton = React.createClass({
                 tooltip: getLangText('Share the artwork'),
                 form: (
                     <ShareForm
-                        message={this.getShareMessage()}
+                        message={message}
                         id={this.getFormDataId()}
                         url={this.isPiece() ? ApiUrls.ownership_shares_pieces : ApiUrls.ownership_shares_editions }/>
                     ),
@@ -131,76 +136,6 @@ let AclButton = React.createClass({
                 return edition.bitcoin_id;
             }).join()};
         }
-    },
-
-// plz move to transfer form
-    getTransferMessage(){
-        return (
-            `${getLangText('Hi')},
-
-${getLangText('I transfer ownership of')}:
-${this.getTitlesString()} ${getLangText('to you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}
-            `
-        );
-    },
-
-    // plz move to transfer form
-    getLoanMessage(){
-        return (
-            `${getLangText('Hi')},
-
-${getLangText('I loan')}:
-${this.getTitlesString()} ${getLangText('to you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}
-            `
-        );
-    },
-
-    // plz move to consign form
-    getConsignMessage(){
-        return (
-            `${getLangText('Hi')},
-
-${getLangText('I consign')}:
-${this.getTitlesString()} ${getLangText('to you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}
-            `
-        );
-    },
-
-    // plz move to consign form
-    getUnConsignMessage(){
-        return (
-            `${getLangText('Hi')},
-
-${getLangText('I un-consign')}:
-${this.getTitlesString()} ${getLangText('from you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}
-            `
-        );
-    },
-
-// plz move to share form
-    getShareMessage(){
-        return (
-            `${getLangText('Hi')},
-
-${getLangText('I am sharing')}:
-${this.getTitlesString()} ${getLangText('with you')}.
-
-${getLangText('Truly yours')},
-${this.props.currentUser.username}
-            `
-        );
     },
 
     // Removes the acl_ prefix and converts to upper case
