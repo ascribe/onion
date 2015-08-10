@@ -112,14 +112,6 @@ let PrizePieceDetails = React.createClass({
                     title="Prize Details"
                     show={true}
                     defaultExpanded={true}>
-                    <StarRating
-                        name="airbnb-rating"
-                        caption=""
-                        step={1}
-                        size='lg'
-                        rating={this.state.currentRating}
-                        onRatingClick={this.onRatingClick}
-                        ratingAmount={5} />
                     <Form ref='form'>
                         {Object.keys(this.props.piece.extra_data).map((data) => {
                             let label = data.replace('_', ' ');
