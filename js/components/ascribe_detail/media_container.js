@@ -46,7 +46,7 @@ let MediaContainer = React.createClass({
                     }
                     panel={
                         <pre className="">
-                            {'<iframe width="560" height="' + height + '" src="http://embed.ascribe.io/content/'
+                            {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
                                 + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
                     }/>
