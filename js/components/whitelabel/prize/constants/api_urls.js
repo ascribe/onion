@@ -14,7 +14,9 @@ function getApiUrls(subdomain) {
         'jurys': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/',
         'jury': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/${email}/',
         'jury_activate': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/${email}/activate/',
-        'jury_resend': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/${email}/resend/'
+        'jury_resend': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/${email}/resend/',
+        'ratings': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/',
+        'rating': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/${piece_id}/'
     };
 }
 
