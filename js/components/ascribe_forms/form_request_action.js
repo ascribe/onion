@@ -93,7 +93,7 @@ let RequestActionForm = React.createClass({
                 <Form
                     url={urls.accept}
                     getFormData={this.getFormData}
-                    handleSuccess={this.showNotification(getLangText('denied'), edition.request_action, edition.owner)}
+                    handleSuccess={this.showNotification(getLangText('accepted'), edition.request_action, edition.owner)}
                     isInline={true}
                     className='inline pull-right'>
                     <button
@@ -118,7 +118,7 @@ let RequestActionForm = React.createClass({
                     url={urls.deny}
                     isInline={true}
                     getFormData={this.getFormData}
-                    handleSuccess={this.showNotification(getLangText('accepted'), edition.request_action, edition.owner)}
+                    handleSuccess={this.showNotification(getLangText('denied'), edition.request_action, edition.owner)}
                     className='inline pull-right'>
                     <button
                         type="submit"
