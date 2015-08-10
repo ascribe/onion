@@ -14,6 +14,8 @@ import Property from '../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import StarRating from 'react-star-rating';
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -70,6 +72,10 @@ let PrizePieceDetails = React.createClass({
     propTypes: {
         piece: React.PropTypes.object
     },
+
+    onRatingClick(event, position, rating, caption, name) {
+        console.log(rating);
+    },
     render() {
         if (this.props.piece.prize
             && this.props.piece.prize.name
@@ -79,6 +85,13 @@ let PrizePieceDetails = React.createClass({
                     title="Prize Details"
                     show={true}
                     defaultExpanded={true}>
+                    <StarRating
+                        name="airbnb-rating"
+                        caption=""
+                        step={1}
+                        size='lg'
+                        onRatingClick={this.onRatingClick}
+                        ratingAmount={5} />
                     <Form ref='form'>
                         {Object.keys(this.props.piece.extra_data).map((data) => {
                             let label = data.replace('_', ' ');
