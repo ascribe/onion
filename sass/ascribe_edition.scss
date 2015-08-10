@@ -16,33 +16,35 @@
     margin-top: 20px;
 }
 .ascribe-edition-collapsible-wrapper > div > span {
-  font-size: 1.2em;
-  margin-right: .5em;
+    font-size: 1.2em;
+    margin-right: .5em;
 }
 .ascribe-edition-collapsible-wrapper > div > span:nth-child(2) {
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
 
-.ascribe-edition-collapible-content {
-  width:100%;
+.ascribe-edition-collapsible-content {
+    width:100%;
+    background: none;
+    border: none;
 }
 
-.coa-file-wrapper{
-  display: table;
-  height: 200px;
-  overflow: hidden;
-  margin: 0 auto;
-  width: 100%;
-  padding: 1em;
+.coa-file-wrapper {
+    display: table;
+    height: 200px;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1em;
 }
 
 .coa-file {
-  display: table-cell;
-  vertical-align: middle;
-  border: 1px solid #CCC;
-  background-color: #F8F8F8;
+    display: table-cell;
+    vertical-align: middle;
+    border: 1px solid #CCC;
+    background-color: #F8F8F8;
 }
 
 .ascribe-button-list {
-  margin-top: 1em;
+    margin-top: 1em;
 }
