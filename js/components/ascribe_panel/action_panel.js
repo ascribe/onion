@@ -6,7 +6,10 @@ import classnames from 'classnames';
 let ActionPanel = React.createClass({
     propTypes: {
         title: React.PropTypes.string,
-        content: React.PropTypes.string,
+        content: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]),
         buttons: React.PropTypes.element,
         onClick: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool
