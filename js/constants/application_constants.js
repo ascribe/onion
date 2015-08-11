@@ -52,7 +52,7 @@ let constants = {
             'name': 'Cyland media art lab',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/logo.gif',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'prize'
+            'type': 'wallet'
         }
     ],
     'defaultDomain': {
