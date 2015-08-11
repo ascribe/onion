@@ -3,7 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 import Header from '../../header';
-// import Footer from '../../footer';
 import GlobalNotification from '../../global_notification';
 
 let RouteHandler = Router.RouteHandler;

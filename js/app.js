@@ -65,12 +65,15 @@ class AppGateway {
 
     load(settings) {
         let type = 'default';
+        let subdomain = 'www';
+
         if (settings) {
             type = settings.type;
+            subdomain = settings.subdomain;
         }
 
         EventActions.applicationWillBoot(settings);
-        Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
+        Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
             React.render(
                 <App />,
                 document.getElementById('main')

@@ -1,15 +1,15 @@
 'use strict';
 
 import React from 'react';
-import RegisterPiece from '../../../register_piece';
-import Property from '../../../ascribe_forms/property';
-import InputTextAreaToggable from '../../../ascribe_forms/input_textarea_toggable';
-import InputCheckbox from '../../../ascribe_forms/input_checkbox';
+import RegisterPiece from '../../../../register_piece';
+import Property from '../../../../ascribe_forms/property';
+import InputTextAreaToggable from '../../../../ascribe_forms/input_textarea_toggable';
+import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
 
-import { getLangText } from '../../../../utils/lang_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
-let WalletRegisterPiece = React.createClass({
+let CylandRegisterPiece = React.createClass({
     render() {
         return (
             <RegisterPiece
@@ -54,4 +54,4 @@ let WalletRegisterPiece = React.createClass({
     }
 });
 
-export default WalletRegisterPiece;
+export default CylandRegisterPiece;
