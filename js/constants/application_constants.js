@@ -10,9 +10,9 @@ let constants = {
     'apiEndpoint': window.API_ENDPOINT,
     'serverUrl': window.SERVER_URL,
     'baseUrl': window.BASE_URL,
-    'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_editions',
+    'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
                 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
-                'acl_withdraw_transfer'],
+                'acl_withdraw_transfer', 'acl_submit_to_prize'],
 
     'version': 0.1,
     'csrftoken': 'csrftoken2',

@@ -23,7 +23,6 @@ let LoanForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
-        onRequestHide: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
     },
 
@@ -33,6 +32,7 @@ let LoanForm = React.createClass({
 
     componentDidMount() {
         LoanContractStore.listen(this.onChange);
+        LoanContractActions.flushLoanContract();
     },
 
     componentWillUnmount() {
@@ -53,13 +53,16 @@ let LoanForm = React.createClass({
 
     getContractCheckbox() {
         if(this.state.contractKey && this.state.contractUrl) {
+            // we need to define a key on the InputCheckboxes as otherwise
+            // react is not rerendering them on a store switch and is keeping
+            // the default value of the component (which is in that case true)
             return (
                 <Property
                     name="terms"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox
-                        key='contract_terms'
+                        key="terms_explicitly"
                         defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
@@ -77,25 +80,11 @@ let LoanForm = React.createClass({
                     style={{paddingBottom: 0}}
                     hidden={true}>
                     <InputCheckbox
-                        key='implicit_terms'
+                        key="terms_implicitly"
                         defaultChecked={true} />
                 </Property>
             );
         }
-    },
-
-    onRequestHide() {
-        // Since the modal can be opened without sending it to the server
-        // and therefore clearing the store,
-        // we'll need to make sure to flush the store once the
-        // modal unmounts
-        LoanContractActions.updateLoanContract({
-            contractUrl: null,
-            contractEmail: null,
-            contractKey: null
-        });
-
-        this.props.onRequestHide();
     },
 
     render() {
@@ -111,11 +100,9 @@ let LoanForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">{getLangText('LOAN')}</Button>
-                            <Button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                type="submit">
+                                {getLangText('LOAN')}
+                            </Button>
                         </p>
                     </div>}
                 spinner={

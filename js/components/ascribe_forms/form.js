@@ -4,23 +4,46 @@ import React from 'react';
 import ReactAddons from 'react/addons';
 
 import Button from 'react-bootstrap/lib/Button';
+import AlertDismissable from './alert';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import requests from '../../utils/requests';
+
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptionsWithDuplicates } from '../../utils/general_utils';
-import AlertDismissable from './alert';
 
 
 let Form = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
+        method: React.PropTypes.string,
+        buttonSubmitText: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
         getFormData: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]),
-        className: React.PropTypes.string
+        className: React.PropTypes.string,
+        spinner: React.PropTypes.element,
+        buttons: React.PropTypes.oneOfType([
+            React.PropTypes.element,
+            React.PropTypes.arrayOf(React.PropTypes.element)
+        ]),
+
+        // You can use the form for inline requests, like the submit click on a button.
+        // For the form to then not display the error on top, you need to enable this option.
+        // It will make use of the GlobalNotification
+        isInline: React.PropTypes.bool
+    },
+
+    getDefaultProps() {
+        return {
+            method: 'post',
+            buttonSubmitText: 'SAVE'
+        };
     },
 
     getInitialState() {
@@ -30,6 +53,7 @@ let Form = React.createClass({
             errors: []
         };
     },
+
     reset(){
         for (let ref in this.refs){
             if (typeof this.refs[ref].reset === 'function'){
@@ -38,18 +62,34 @@ let Form = React.createClass({
         }
         this.setState(this.getInitialState());
     },
+
     submit(event){
-        if (event) {
+        
+        if(event) {
             event.preventDefault();
         }
+
         this.setState({submitted: true});
         this.clearErrors();
-        let action = (this.httpVerb && this.httpVerb()) || 'post';
-        window.setTimeout(() => this[action](), 100);
+
+        // selecting http method based on props
+        if(this[this.props.method]) {
+            window.setTimeout(() => this[this.props.method](), 100);
+        } else {
+            throw new Error('This HTTP method is not supported by form.js (' + this.props.method + ')');
+        }
     },
-    post(){
+
+    post() {
         requests
             .post(this.props.url, { body: this.getFormData() })
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    delete() {
+        requests
+            .delete(this.props.url, this.getFormData())
             .then(this.handleSuccess)
             .catch(this.handleError);
     },
@@ -69,6 +109,7 @@ let Form = React.createClass({
     handleChangeChild(){
         this.setState({edited: true});
     },
+
     handleSuccess(response){
         if ('handleSuccess' in this.props){
             this.props.handleSuccess(response);
@@ -78,8 +119,12 @@ let Form = React.createClass({
                 this.refs[ref].handleSuccess();
             }
         }
-        this.setState({edited: false, submitted: false});
+        this.setState({
+            edited: false,
+            submitted: false
+        });
     },
+
     handleError(err){
         if (err.json) {
             for (var input in err.json.errors){
@@ -91,11 +136,26 @@ let Form = React.createClass({
             }
         }
         else {
-            console.logGlobal(err, false, this.getFormData());
-            this.setState({errors: [getLangText('Something went wrong, please try again later')]});
+            let formData = this.getFormData();
+
+            // sentry shouldn't post the user's password
+            if(formData.password) {
+                delete formData.password;
+            }
+
+            console.logGlobal(err, false, formData);
+
+            if(this.props.isInline) {
+                let notification = new GlobalNotificationModel(getLangText('Something went wrong, please try again later'), 'danger');
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            } else {
+                this.setState({errors: [getLangText('Something went wrong, please try again later')]});
+            }
+
         }
         this.setState({submitted: false});
     },
+
     clearErrors(){
         for (var ref in this.refs){
             if ('clearErrors' in this.refs[ref]){
@@ -104,6 +164,7 @@ let Form = React.createClass({
         }
         this.setState({errors: []});
     },
+
     getButtons() {
         if (this.state.submitted){
             return this.props.spinner;
@@ -117,7 +178,7 @@ let Form = React.createClass({
             buttons = (
                 <div className="row" style={{margin: 0}}>
                     <p className="pull-right">
-                        <Button className="btn btn-default btn-sm ascribe-margin-1px" type="submit">SAVE</Button>
+                        <Button className="btn btn-default btn-sm ascribe-margin-1px" type="submit">{this.props.buttonSubmitText}</Button>
                         <Button className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.reset}>CANCEL</Button>
                     </p>
                 </div>
@@ -126,6 +187,7 @@ let Form = React.createClass({
         }
         return buttons;
     },
+
     getErrors() {
         let errors = null;
         if (this.state.errors.length > 0){
@@ -135,6 +197,7 @@ let Form = React.createClass({
         }
         return errors;
     },
+
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             if (child) {
@@ -145,6 +208,7 @@ let Form = React.createClass({
             }
         });
     },
+
     render() {
         let className = 'ascribe-form';
 

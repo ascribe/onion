@@ -36,7 +36,7 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -86,9 +86,10 @@ let Edition = React.createClass({
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
-        EditionListActions.refreshEditionList(this.props.edition.parent);
+        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
@@ -232,10 +233,11 @@ let EditionSummary = React.createClass({
             if (this.props.edition.status.length > 0 && this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer) {
                 withdrawButton = (
                     <Form
-                        url={apiUrls.ownership_transfers_withdraw}
+                        url={ApiUrls.ownership_transfers_withdraw}
                         getFormData={this.getTransferWithdrawData}
                         handleSuccess={this.showNotification}
-                        className='inline'>
+                        className='inline'
+                        isInline={true}>
                         <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
                             WITHDRAW TRANSFER
                         </Button>
@@ -273,10 +275,16 @@ let EditionSummary = React.createClass({
     render() {
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty label={getLangText('EDITION')}
+                <EditionDetailProperty
+                    label={getLangText('EDITION')}
                     value={this.props.edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
-                <EditionDetailProperty label={getLangText('ID')} value={ this.props.edition.bitcoin_id } />
-                <EditionDetailProperty label={getLangText('OWNER')} value={ this.props.edition.owner } />
+                <EditionDetailProperty
+                    label={getLangText('ID')}
+                    value={ this.props.edition.bitcoin_id }
+                    ellipsis={true} />
+                <EditionDetailProperty
+                    label={getLangText('OWNER')}
+                    value={ this.props.edition.owner } />
                 {this.getStatus()}
                 {this.getActions()}
                 <hr/>
@@ -328,7 +336,7 @@ let EditionPersonalNote = React.createClass({
         if (this.props.currentUser.username && true || false) {
             return (
                 <Form
-                    url={apiUrls.note_notes}
+                    url={ApiUrls.note_notes}
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'
@@ -366,7 +374,7 @@ let EditionPublicEditionNote = React.createClass({
         if (isEditable || this.props.edition.public_note){
             return (
                 <Form
-                    url={apiUrls.note_edition}
+                    url={ApiUrls.note_edition}
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'

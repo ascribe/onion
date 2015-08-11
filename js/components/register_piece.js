@@ -23,7 +23,6 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import Property from './ascribe_forms/property';
 import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
-//import FormPropertyHeader from './ascribe_forms/form_property_header';
 
 import LoginContainer from './login_container';
 import SlidesContainer from './ascribe_slides_container/slides_container';
@@ -40,7 +39,9 @@ let RegisterPiece = React.createClass( {
         submitMessage: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element])
+            React.PropTypes.element,
+            React.PropTypes.string
+        ])
     },
 
     mixins: [Router.Navigation],
@@ -101,7 +102,8 @@ let RegisterPiece = React.createClass( {
             this.state.pageSize,
             this.state.searchTerm,
             this.state.orderBy,
-            this.state.orderAsc
+            this.state.orderAsc,
+            this.state.filterBy
         );
 
         this.transitionTo('piece', {pieceId: response.piece.id});
@@ -139,7 +141,7 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if(this.state.whitelabel && this.state.whitelabel.acl_editions || Object.keys(this.state.whitelabel).length === 0) {
+        if(this.state.whitelabel && this.state.whitelabel.acl_create_editions || Object.keys(this.state.whitelabel).length === 0) {
             return (
                 <PropertyCollapsible
                     name="num_editions"

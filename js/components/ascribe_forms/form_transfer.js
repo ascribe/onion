@@ -21,7 +21,6 @@ let TransferForm = React.createClass({
         message: React.PropTypes.string,
         editions: React.PropTypes.array,
         currentUser: React.PropTypes.object,
-        onRequestHide: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
     },
 
@@ -42,11 +41,9 @@ let TransferForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">{getLangText('TRANSFER')}</Button>
-                            <Button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                type="submit">
+                                {getLangText('TRANSFER')}
+                            </Button>
                         </p>
                     </div>}
                 spinner={

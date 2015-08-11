@@ -7,9 +7,12 @@ lib-cov
 *.pid
 *.gz
 *.sublime-project
+
 spool-project.sublime-project
 *.sublime-workspace
- 
+*.sublime-workspace
+webapp-dependencies.txt
+
 pids
 logs
 results

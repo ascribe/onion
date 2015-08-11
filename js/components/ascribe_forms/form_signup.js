@@ -12,10 +12,9 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import Form from './form';
 import Property from './property';
-import FormPropertyHeader from './form_property_header';
 import InputCheckbox from './input_checkbox';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 
 let SignupForm = React.createClass({
@@ -27,7 +26,7 @@ let SignupForm = React.createClass({
         children: React.PropTypes.element
     },
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getDefaultProps() {
         return {
@@ -35,7 +34,6 @@ let SignupForm = React.createClass({
             submitMessage: getLangText('Sign up')
         };
     },
-
     getInitialState() {
         return UserStore.getState();
     },
@@ -58,21 +56,27 @@ let SignupForm = React.createClass({
     },
 
     handleSuccess(response){
-        let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-        this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
-
+        if (response.user) {
+            let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+            this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
+        }
+        else if (response.redirect) {
+            this.transitionTo('pieces');
+        }
     },
 
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
+        let email = this.getQuery().email ? this.getQuery().email : null;
         return (
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
-                url={apiUrls.users_signup}
+                url={ApiUrls.users_signup}
+                getFormData={this.getQuery}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
@@ -83,9 +87,9 @@ let SignupForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -93,6 +97,7 @@ let SignupForm = React.createClass({
                         type="email"
                         placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
+                        defaultValue={email}
                         required/>
                 </Property>
                 <Property

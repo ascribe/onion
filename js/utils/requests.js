@@ -91,7 +91,7 @@ class Requests {
         } catch(err) {
             throw err;
         }
-        
+
         newUrl = newUrl.replace(re, (match, key) => {
             let val = params[key];
             if (!val) {

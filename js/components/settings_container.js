@@ -22,19 +22,28 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import InputCheckbox from './ascribe_forms/input_checkbox';
 
-import apiUrls from '../constants/api_urls';
-import AppConstants from '../constants/application_constants';
-import { getLangText } from '../utils/lang_utils';
+import ActionPanel from './ascribe_panel/action_panel';
 
+import ApiUrls from '../constants/api_urls';
+import AppConstants from '../constants/application_constants';
+
+import { getLangText } from '../utils/lang_utils';
 import { getCookie } from '../utils/fetch_api_utils';
 
 let SettingsContainer = React.createClass({
+    propTypes: {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element])
+    },
+
     mixins: [Router.Navigation],
 
     render() {
         return (
             <div className="settings-container">
                 <AccountSettings />
+                {this.props.children}
                 <APISettings />
                 <BitcoinWalletSettings />
                 <LoanContractSettings />
@@ -81,7 +90,7 @@ let AccountSettings = React.createClass({
         if (this.state.currentUser.username) {
             content = (
                 <Form
-                    url={apiUrls.users_username}
+                    url={ApiUrls.users_username}
                     handleSuccess={this.handleSuccess}>
                     <Property
                         name='username'
@@ -107,7 +116,7 @@ let AccountSettings = React.createClass({
             );
             profile = (
                 <Form
-                    url={apiUrls.users_profile}
+                    url={ApiUrls.users_profile}
                     handleSuccess={this.handleSuccess}
                     getFormData={this.getFormDataProfile}>
                     <Property
@@ -117,11 +126,11 @@ let AccountSettings = React.createClass({
                         <InputCheckbox
                             defaultChecked={this.state.currentUser.profile.hash_locally}>
                             <span>
-                                {' ' + getLangText('Enable hash option for slow connections. ' +
-                                    'Computes and uploads a hash of the work instead.')}
+                                {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
                             </span>
                         </InputCheckbox>
                     </Property>
+                    <hr />
                     {/*<Property
                         name='language'
                         label={getLangText('Choose your Language')}
@@ -136,7 +145,6 @@ let AccountSettings = React.createClass({
                             </option>
                         </select>
                     </Property>*/}
-                    <hr />
                 </Form>
             );
         }
@@ -258,14 +266,14 @@ let FileUploader = React.createClass({
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{
-                            url: apiUrls.ownership_loans_contract
+                            url: ApiUrls.ownership_loans_contract
                         }}
                         validation={{
                             itemLimit: 100000,
                             sizeLimit: '10000000'
                         }}
                         session={{
-                            endpoint: apiUrls.ownership_loans_contract,
+                            endpoint: ApiUrls.ownership_loans_contract,
                             customHeaders: {
                                 'X-CSRFToken': getCookie(AppConstants.csrftoken)
                             },
@@ -333,45 +341,50 @@ let APISettings = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    render() {
+    getApplications(){
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         if (this.state.applications.length > -1) {
             content = this.state.applications.map(function(app, i) {
                 return (
-                    <Property
+                    <ActionPanel
                         name={app.name}
-                        label={app.name}
-                        key={i}>
-                        <div className="row-same-height">
-                            <div className="no-padding col-xs-6 col-sm-10 col-xs-height col-middle">
-                            {'Bearer ' + app.bearer_token.token}
+                        key={i}
+                        content={
+                            <div>
+                                <div className='ascribe-panel-title'>
+                                    {app.name}
+                                </div>
+                                <div className="ascribe-panel-subtitle">
+                                    {'Bearer ' + app.bearer_token.token}
+                                </div>
                             </div>
-                            <div className="col-xs-6 col-sm-2 col-xs-height">
-                                <button
-                                    className="pull-right btn btn-default btn-sm"
-                                    onClick={this.handleTokenRefresh}
-                                    data-id={app.name}>
-                                    {getLangText('REFRESH')}
-                                </button>
+                        }
+                        buttons={
+                            <div className="pull-right">
+                                <div className="pull-right">
+                                    <button
+                                        className="pull-right btn btn-default btn-sm"
+                                        onClick={this.handleTokenRefresh}
+                                        data-id={app.name}>
+                                        {getLangText('REFRESH')}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </Property>);
+                        }/>
+                    );
             }, this);
-            content = (
-                <div>
-                    <Form>
-                        {content}
-                        <hr />
-                    </Form>
-                </div>);
         }
+        return content;
+    },
+    
+    render() {
         return (
             <CollapsibleParagraph
                 title={getLangText('API Integration')}
                 show={true}
                 defaultExpanded={this.props.defaultExpanded}>
                 <Form
-                    url={apiUrls.applications}
+                    url={ApiUrls.applications}
                     handleSuccess={this.handleCreateSuccess}>
                     <Property
                         name='name'
@@ -386,7 +399,7 @@ let APISettings = React.createClass({
                 <pre>
                     Usage: curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
                 </pre>
-                {content}
+                {this.getApplications()}
             </CollapsibleParagraph>
         );
     }

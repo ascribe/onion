@@ -8,12 +8,11 @@ import Property from '../ascribe_forms/property';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 
 let CreateEditionsForm = React.createClass({
-
     propTypes: {
         handleSuccess: React.PropTypes.func,
         pieceId: React.PropTypes.number
@@ -38,7 +37,7 @@ let CreateEditionsForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={apiUrls.editions}
+                url={ApiUrls.editions}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 spinner={

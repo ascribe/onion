@@ -3,11 +3,9 @@
 import React from 'react';
 import ReactAddons from 'react/addons';
 
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
-
-import classNames from 'classnames';
+import Panel from 'react-bootstrap/lib/Panel';
 
 
 let PropertyCollapsile = React.createClass({
@@ -17,20 +15,10 @@ let PropertyCollapsile = React.createClass({
         tooltip: React.PropTypes.string
     },
 
-    mixins: [CollapsibleMixin],
-
     getInitialState() {
         return {
             show: false
         };
-    },
-
-    getCollapsibleDOMNode(){
-        return React.findDOMNode(this.refs.panel);
-    },
-
-    getCollapsibleDimensionValue(){
-        return React.findDOMNode(this.refs.panel).scrollHeight;
     },
 
     handleFocus() {
@@ -85,11 +73,14 @@ let PropertyCollapsile = React.createClass({
                         <span className="checkbox"> {this.props.checkboxLabel}</span>
                     </div>
                 </OverlayTrigger>
-                <div
-                    className={classNames(this.getCollapsibleClassSet()) + ' ascribe-settings-property'}
-                    ref="panel">
+                <Panel
+                    collapsible
+                    expanded={this.state.show}
+                    className="bs-custom-panel">
+                    <div className="ascribe-settings-property">
                         {this.renderChildren()}
-                </div>
+                    </div>
+                </Panel>
             </div>
         );
     }

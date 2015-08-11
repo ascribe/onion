@@ -1,4 +1,45 @@
 
+.ascribe-piece-list-toolbar {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .search-bar {
     max-width: 200px;
+    input {
+        height: 33px;
+    }
+}
+
+.ascribe-piece-list-toolbar-filter-widget {
+    margin-right: 1em;
+
+    .filter-widget-item {
+
+        > a {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    .checkbox-line {
+        position: relative;
+        height: 25px;
+
+        span {
+            position: absolute;
+            left: 9px;
+            top: 3px;
+            cursor: pointer;
+
+            margin-right: 10px;
+        }
+
+        input {
+            position: absolute;
+            top: 2px;
+            right: 9px;
+            margin-left: 10px;
+        }
+    }
 }

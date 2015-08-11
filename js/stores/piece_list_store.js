@@ -26,16 +26,18 @@ class PieceListStore {
         this.search = '';
         this.orderBy = 'artist_name';
         this.orderAsc = true;
+        this.filterBy = {};
         this.bindActions(PieceListActions);
     }
     
-    onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount }) {
+    onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount, filterBy }) {
         this.page = page;
         this.pageSize = pageSize;
         this.search = search;
         this.orderAsc = orderAsc;
         this.orderBy = orderBy;
         this.pieceListCount = pieceListCount;
+        this.filterBy = filterBy;
 
         /**
          * Pagination - Known Issue:
@@ -80,7 +82,6 @@ class PieceListStore {
 
             let piece = filteredPieceList[0];
             piece[key] = value;
-
         } else {
             throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');
         }

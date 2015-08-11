@@ -76,11 +76,12 @@ let PieceListBulkModal = React.createClass({
     },
 
     handleSuccess() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search, this.state.orderBy, this.state.orderAsc);
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                EditionListActions.refreshEditionList(pieceId);
+                EditionListActions.refreshEditionList({pieceId, filterBy: {}});
             });
         EditionListActions.clearAllEditionSelections();
     },
