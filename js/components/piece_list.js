@@ -10,7 +10,7 @@ import EditionListStore from '../stores/edition_list_store';
 import EditionListActions from '../actions/edition_list_actions';
 
 import AccordionList from './ascribe_accordion_list/accordion_list';
-import AccordionListItem from './ascribe_accordion_list/accordion_list_item';
+import AccordionListItemWallet from './ascribe_accordion_list/accordion_list_item_wallet';
 import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_list_item_table_editions';
 
 import Pagination from './ascribe_pagination/pagination';
@@ -24,11 +24,18 @@ import { mergeOptions } from '../utils/general_utils';
 
 let PieceList = React.createClass({
     propTypes: {
+        accordionListItemType: React.PropTypes.object,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element
     },
 
     mixins: [Router.Navigation, Router.State],
+
+    getDefaultProps() {
+        return {
+            accordionListItemType: AccordionListItemWallet
+        };
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -128,6 +135,7 @@ let PieceList = React.createClass({
 
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        let AccordionListItemType = this.props.accordionListItemType;
         return (
             <div>
                 <PieceListToolbar
@@ -151,14 +159,14 @@ let PieceList = React.createClass({
                     loadingElement={loadingElement}>
                     {this.state.pieceList.map((piece, i) => {
                         return (
-                            <AccordionListItem
+                            <AccordionListItemType
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
                                 key={i}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />
-                            </AccordionListItem>
+                            </AccordionListItemType>
                         );
                     })}
                 </AccordionList>
