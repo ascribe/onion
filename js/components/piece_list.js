@@ -24,7 +24,7 @@ import { mergeOptions } from '../utils/general_utils';
 
 let PieceList = React.createClass({
     propTypes: {
-        accordionListItemType: React.PropTypes.object,
+        accordionListItemType: React.PropTypes.func,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element
     },

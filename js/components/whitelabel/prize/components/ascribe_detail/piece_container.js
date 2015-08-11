@@ -7,6 +7,9 @@ import StarRating from 'react-star-rating';
 import PieceActions from '../../../../../actions/piece_actions';
 import PieceStore from '../../../../../stores/piece_store';
 
+import PieceListStore from '../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../actions/piece_list_actions';
+
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
@@ -19,16 +22,16 @@ import Property from '../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import DetailProperty from '../../../../ascribe_detail/detail_property';
+
+import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
     getInitialState() {
         return PieceStore.getState();
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     componentDidMount() {
@@ -42,10 +45,12 @@ let PieceContainer = React.createClass({
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-        
         PieceStore.unlisten(this.onChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
@@ -56,7 +61,19 @@ let PieceContainer = React.createClass({
             return (
                 <Piece
                     piece={this.state.piece}
-                    loadPiece={this.loadPiece}>
+                    loadPiece={this.loadPiece}
+                    header={
+                        <div className="ascribe-detail-header">
+                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <hr/>
+                            <DetailProperty label="BY" value={this.state.piece.artist_name} />
+                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            <hr/>
+                        </div>
+                        }
+                    subheader={
+                        <PrizePieceRatings piece={this.state.piece}/>
+                    }>
                     <PrizePieceDetails piece={this.state.piece}/>
                 </Piece>
             );
@@ -70,23 +87,22 @@ let PieceContainer = React.createClass({
     }
 });
 
-
-let PrizePieceDetails = React.createClass({
+let PrizePieceRatings = React.createClass({
     propTypes: {
         piece: React.PropTypes.object
     },
 
     getInitialState() {
-        return PrizeRatingStore.getState();
-    },
-
-    onChange(state) {
-        this.setState(state);
+        return mergeOptions(
+            PieceListStore.getState(),
+            PrizeRatingStore.getState()
+        );
     },
 
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
         PrizeRatingActions.fetchOne(this.props.piece.id);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -96,11 +112,52 @@ let PrizePieceDetails = React.createClass({
         // the piece detail a second time
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+        if (this.refs.rating) {
+            this.refs.rating.state.ratingCache = {
+                pos: this.refs.rating.state.pos,
+                rating: this.state.currentRating,
+                caption: this.refs.rating.props.caption,
+                name: this.refs.rating.props.name
+            };
+        }
     },
 
     onRatingClick(event, args) {
         event.preventDefault();
-        PrizeRatingActions.createRating(this.props.piece.id, args.rating);
+        PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
+            PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                            this.state.orderBy, this.state.orderAsc, this.state.filterBy)
+        );
+    },
+    render(){
+        return (
+            <DetailProperty
+                labelClassName='col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xs-height col-middle ascribe-detail-property-label'
+                label={
+                    <span>YOUR VOTE</span>
+                }
+                value={
+                    <StarRating
+                        ref='rating'
+                        name="prize-rating"
+                        caption=""
+                        step={1}
+                        size='md'
+                        rating={this.state.currentRating}
+                        onRatingClick={this.onRatingClick}
+                        ratingAmount={5} />}
+                />);
+    }
+});
+
+let PrizePieceDetails = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object
     },
 
     render() {

@@ -23,7 +23,7 @@ const CollapsibleParagraph = React.createClass({
 
     getInitialState() {
         return {
-            expanded: false
+            expanded: this.props.defaultExpanded
         };
     },
 
