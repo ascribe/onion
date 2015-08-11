@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Router from 'react-router';
-import Hero from './components/hero';
+import Hero from './components/prize_hero';
 import Header from '../../header';
 // import Footer from '../../footer';
 import GlobalNotification from '../../global_notification';

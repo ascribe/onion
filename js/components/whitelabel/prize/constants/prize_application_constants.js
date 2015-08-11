@@ -2,8 +2,8 @@
 
 import AppConstants from '../../../../constants/application_constants';
 
-let constants = {
+let prizeConstants = {
     prizeApiEndpoint: AppConstants.apiEndpoint + 'prizes/'
 };
 
-export default constants;
+export default prizeConstants;

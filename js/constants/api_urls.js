@@ -1,7 +1,10 @@
 'use strict';
 
 import AppConstants from './application_constants';
-import getPrizeApiUrls from '../components/whitelabel/prize/constants/api_urls';
+
+import getPrizeApiUrls from '../components/whitelabel/prize/constants/prize_api_urls';
+import getWalletApiUrls from '../components/whitelabel/wallet/constants/wallet_api_urls';
+
 import { update } from '../utils/general_utils';
 
 
@@ -62,6 +65,8 @@ export function updateApiUrls(type, subdomain) {
 
     if (type === 'prize') {
         newUrls = getPrizeApiUrls(subdomain);
+    } else if(type === 'wallet') {
+        newUrls = getWalletApiUrls(subdomain);
     }
     update(ApiUrls, newUrls);
 }

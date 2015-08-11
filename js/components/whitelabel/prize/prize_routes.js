@@ -3,18 +3,18 @@
 import React from 'react';
 import Router from 'react-router';
 
-import Landing from './components/landing';
-import LoginContainer from './components/login_container';
+import Landing from './components/prize_landing';
+import LoginContainer from './components/prize_login_container';
 import LogoutContainer from '../../../components/logout_container';
-import SignupContainer from './components/signup_container';
+import SignupContainer from './components/prize_signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
-import PrizeRegisterPiece from './components/register_piece';
-import PrizePieceList from './components/piece_list';
-import PrizePieceContainer from './components/ascribe_detail/piece_container';
+import PrizeRegisterPiece from './components/prize_register_piece';
+import PrizePieceList from './components/prize_piece_list';
+import PrizePieceContainer from './components/ascribe_detail/prize_piece_container';
 import EditionContainer from '../../ascribe_detail/edition_container';
-import SettingsContainer from './components/settings_container';
+import SettingsContainer from './components/prize_settings_container';
 
-import App from './app';
+import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
 
 let Route = Router.Route;

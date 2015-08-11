@@ -44,7 +44,6 @@ requests.defaults({
 });
 
 
-
 class AppGateway {
 
     start() {

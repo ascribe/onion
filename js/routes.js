@@ -3,7 +3,8 @@
 import React from 'react';
 import Router from 'react-router';
 
-import getPrizeRoutes from './components/whitelabel/prize/routes';
+import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
+import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
 import getDefaultRoutes from './components/routes';
 
 import PieceList from './components/piece_list';
@@ -47,6 +48,8 @@ function getRoutes(type) {
 
     if (type === 'prize') {
         routes = getPrizeRoutes(COMMON_ROUTES);
+    } else if(type === 'wallet') {
+        routes = getWalletRoutes(COMMON_ROUTES);
     } else {
         routes = getDefaultRoutes(COMMON_ROUTES);
     }
