@@ -9,7 +9,6 @@ import Row from 'react-bootstrap/lib/Row';
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import Property from '../../../../ascribe_forms/property';
-import InputTextAreaToggable from '../../../../ascribe_forms/input_textarea_toggable';
 import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
 
 import PieceListStore from '../../../../../stores/piece_list_store';
@@ -18,36 +17,51 @@ import PieceListActions from '../../../../../actions/piece_list_actions';
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
+import PieceStore from '../../../../../stores/piece_store';
+import PieceActions from '../../../../../actions/piece_actions';
+
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
+import CylandAdditionalDataForm from '../ascribe_forms/cyland_additional_data_form';
+
+import LoanForm from '../../../../ascribe_forms/form_loan';
+
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import ApiUrls from '../../../../../constants/api_urls';
+
 import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { mergeOptions, dateToString } from '../../../../../utils/general_utils';
+import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 let CylandRegisterPiece = React.createClass({
+
+    mixins: [Router.Navigation],
 
     getInitialState(){
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
+            PieceStore.getState(),
             {
                 selectedLicense: 0,
                 isFineUploaderActive: false
             });
     },
 
-    mixins: [Router.Navigation],
-
     componentDidMount() {
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        PieceStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        PieceStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -61,9 +75,7 @@ let CylandRegisterPiece = React.createClass({
         }
     },
 
-    handleSuccess(response){
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+    handleRegisterSuccess(response){
 
         // once the user was able to register a piece successfully, we need to make sure to keep
         // the piece list up to date
@@ -76,7 +88,16 @@ let CylandRegisterPiece = React.createClass({
             this.state.filterBy
         );
 
-        this.transitionTo('piece', {pieceId: response.piece.id});
+        // also start loading the piece for the next step
+        if(response && response.piece) {
+            PieceActions.updatePiece(response.piece);
+        }
+
+        this.refs.slidesContainer.setSlideNum(1);
+    },
+
+    handleAdditionalDataSuccess() {
+        this.refs.slidesContainer.setSlideNum(2);
     },
 
     changeSlide() {
@@ -93,11 +114,14 @@ let CylandRegisterPiece = React.createClass({
     },
 
     render() {
+
+        let today = new Date();
+        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Date();
+        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.setFullYear(3000);
+
         return (
             <SlidesContainer ref="slidesContainer">
-                <div
-                    onClick={this.changeSlide}
-                    onFocus={this.changeSlide}>
+                <div>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
@@ -105,7 +129,7 @@ let CylandRegisterPiece = React.createClass({
                                 headerMessage={getLangText('Submit to Cyland Archive')}
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
-                                handleSuccess={this.handleSuccess}
+                                handleSuccess={this.handleRegisterSuccess}
                                 onLoggedOut={this.onLoggedOut}>
                                 <Property
                                     name="terms"
@@ -114,7 +138,7 @@ let CylandRegisterPiece = React.createClass({
                                     <InputCheckbox>
                                         <span>
                                             {' ' + getLangText('I agree to the Terms of Service the art price') + ' '}
-                                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/terms.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/terms_and_contract.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                                 {getLangText('read')}
                                             </a>)
                                         </span>
@@ -125,7 +149,28 @@ let CylandRegisterPiece = React.createClass({
                     </Row>
                 </div>
                 <div>
-                    {/* next slide */}
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <CylandAdditionalDataForm
+                                handleSuccess={this.handleAdditionalDataSuccess}
+                                piece={this.state.piece}/>
+                        </Col>
+                    </Row>
+                </div>
+                <div>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <LoanForm
+                                fullform={true}
+                                message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
+                                id={{piece_id: this.state.piece.id}}
+                                url={ApiUrls.ownership_loans_pieces}
+                                email="videoarchive@cyland.org"
+                                gallery="Cyland Archive"
+                                startdate={dateToString(today)}
+                                enddate={dateToString(datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain)}/>
+                        </Col>
+                    </Row>
                 </div>
             </SlidesContainer>
         );

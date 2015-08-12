@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import classnames from 'classnames';
+
 import Button from 'react-bootstrap/lib/Button';
 
 import Form from './form';
@@ -20,10 +22,23 @@ import { getLangText } from '../../utils/lang_utils';
 
 let LoanForm = React.createClass({
     propTypes: {
+        fullform: React.PropTypes.bool,
+        email: React.PropTypes.string,
+        gallery: React.PropTypes.string,
+        startdate: React.PropTypes.string,
+        enddate: React.PropTypes.string,
+        showPersonalMessage: React.PropTypes.bool,
+
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
         handleSuccess: React.PropTypes.func
+    },
+
+    getDefaultProps() {
+        return {
+            fullform: false
+        };
     },
 
     getInitialState() {
@@ -87,60 +102,87 @@ let LoanForm = React.createClass({
         }
     },
 
-    render() {
+    getButtons() {
+        if(this.props.fullform) {
+            return (
+                <button
+                    type="submit"
+                    className="btn ascribe-btn ascribe-btn-login">
+                    {getLangText('Finish process')}
+                </button>
+            );
+        } else {
+            return (
+                <div className="modal-footer">
+                    <p className="pull-right">
+                        <Button
+                            className="btn btn-default btn-sm ascribe-margin-1px"
+                            type="submit">
+                            {getLangText('LOAN')}
+                        </Button>
+                    </p>
+                </div>
+            );
+        }
+    },
 
+    render() {
         return (
             <Form
+                className={classnames({'ascribe-form-bordered': this.props.fullform})}
                 ref='form'
                 url={this.props.url}
                 getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <div className="modal-footer">
-                        <p className="pull-right">
-                            <Button
-                                className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">
-                                {getLangText('LOAN')}
-                            </Button>
-                        </p>
-                    </div>}
+                buttons={this.getButtons()}
                 spinner={
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
+                <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.fullform})}>
+                    <h3>Loan</h3>
+                </div>
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    onBlur={this.handleOnBlur}>
+                    onBlur={this.handleOnBlur}
+                    editable={!this.props.email}>
                     <input
+                        value={this.props.email}
                         type="email"
                         placeholder={getLangText('Email of the loanee')}
                         required/>
                 </Property>
                 <Property
                     name='gallery_name'
-                    label={getLangText('Gallery/exhibition (optional)')}>
+                    label={getLangText('Gallery/exhibition (optional)')}
+                    editable={!this.props.gallery}>
                     <input
+                        value={this.props.gallery}
                         type="text"
                         placeholder={getLangText('Gallery/exhibition (optional)')}/>
                 </Property>
                 <Property
                     name='startdate'
-                    label={getLangText('Start date')}>
+                    label={getLangText('Start date')}
+                    hidden={!this.props.startdate}>
                     <InputDate
+                        value={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
                 </Property>
                 <Property
                     name='enddate'
-                    label={getLangText('End date')}>
+                    label={getLangText('End date')}
+                    hidden={!this.props.enddate}>
                     <InputDate
+                        value={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
                 </Property>
                 <Property
                     name='loan_message'
                     label={getLangText('Personal Message')}
-                    editable={true}>
+                    editable={true}
+                    hidden={this.props.showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
                         editable={true}
