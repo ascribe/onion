@@ -54,7 +54,6 @@ let RegisterPiece = React.createClass( {
 
     getInitialState(){
         return mergeOptions(
-            LicenseStore.getState(),
             UserStore.getState(),
             WhitelabelStore.getState(),
             PieceListStore.getState(),
@@ -65,16 +64,13 @@ let RegisterPiece = React.createClass( {
     },
 
     componentDidMount() {
-        LicenseActions.fetchLicense();
         WhitelabelActions.fetchWhitelabel();
-        LicenseStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
-        LicenseStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
@@ -107,37 +103,6 @@ let RegisterPiece = React.createClass( {
         );
 
         this.transitionTo('piece', {pieceId: response.piece.id});
-    },
-
-    onLicenseChange(event){
-        //console.log(this.state.licenses[event.target.selectedIndex].url);
-        this.setState({selectedLicense: event.target.selectedIndex});
-    },
-    getLicenses() {
-        if (this.state.licenses && this.state.licenses.length > 1) {
-            return (
-                <Property
-                    name='license'
-                    label={getLangText('Copyright license%s', '...')}
-                    onChange={this.onLicenseChange}
-                    footer={
-                        <a className="pull-right" href={this.state.licenses[this.state.selectedLicense].url} target="_blank">{getLangText('Learn more')}
-                        </a>}>
-                    <select name="license">
-                        {this.state.licenses.map((license, i) => {
-                            return (
-                                <option
-                                    name={i}
-                                    key={i}
-                                    value={ license.code }>
-                                    { license.code.toUpperCase() }: { license.name }
-                                </option>
-                            );
-                        })}
-                    </select>
-                </Property>);
-        }
-        return null;
     },
 
     getSpecifyEditions() {
@@ -192,7 +157,6 @@ let RegisterPiece = React.createClass( {
                                 handleSuccess={this.handleSuccess}
                                 onLoggedOut={this.onLoggedOut}>
                                 {this.props.children}
-                                {this.getLicenses()}
                                 {this.getSpecifyEditions()}
                             </RegisterPieceForm>
                         </Col>

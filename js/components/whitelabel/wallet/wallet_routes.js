@@ -3,17 +3,19 @@
 import React from 'react';
 import Router from 'react-router';
 
+// general components
 import LoginContainer from '../../../components/login_container';
 import LogoutContainer from '../../../components/logout_container';
 import SignupContainer from '../../../components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
-import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/settings_container';
 
-import RegisterPiece from '../../../components/register_piece';
+// specific components
+import CylandRegisterPiece from './components/cyland/cyland_register_piece';
+import CCRegisterPiece from './components/cc/cc_register_piece';
 
 import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
@@ -46,7 +48,7 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
+            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} />
             <Route name="pieces" path="collection" handler={PieceList} />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
