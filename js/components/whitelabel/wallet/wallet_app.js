@@ -12,9 +12,7 @@ let WalletApp = React.createClass({
         return (
             <div className="ascribe-prize-app">
                 <Header />
-                <div className="wp">
-                    <RouteHandler />
-                </div>
+                <RouteHandler />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
             </div>

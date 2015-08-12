@@ -137,7 +137,7 @@ let RegisterPiece = React.createClass( {
 
     render() {
         return (
-            <SlidesContainer 
+            <SlidesContainer
                 ref="slidesContainer"
                 forwardProcess={false}>
                 <div
