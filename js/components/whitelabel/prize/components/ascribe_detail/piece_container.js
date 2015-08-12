@@ -63,6 +63,13 @@ let PieceContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     onChange(state) {
         this.setState(state);
     },
@@ -72,7 +79,6 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        console.log(this.props)
         if('title' in this.state.piece) {
             return (
                 <Piece
@@ -120,12 +126,12 @@ let NavigationHeader = React.createClass({
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
-                        <Link to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
+                        <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
                             <span className="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true">
                             Previous
                             </span>
                         </Link>
-                        <Link to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
+                        <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
                             <span className="pull-right">
                                 Next
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
