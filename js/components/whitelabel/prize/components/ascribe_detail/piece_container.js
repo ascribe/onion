@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import StarRating from 'react-star-rating';
 
@@ -32,17 +33,23 @@ import DetailProperty from '../../../../ascribe_detail/detail_property';
 import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
+
+let Link = Router.Link;
+
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
     getInitialState() {
-        return PieceStore.getState();
+        return mergeOptions(
+            PieceStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
+        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -52,6 +59,16 @@ let PieceContainer = React.createClass({
         // the piece detail a second time
         PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
+    },
+
+    componentDidUpdate() {
+        console.log('call me    ')
+        PieceActions.fetchOne(this.props.params.pieceId);
+    },
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.params.pieceId !== nextProps.params.pieceId
     },
 
     onChange(state) {
@@ -63,6 +80,7 @@ let PieceContainer = React.createClass({
     },
 
     render() {
+        console.log(this.props)
         if('title' in this.state.piece) {
             return (
                 <Piece
@@ -70,7 +88,9 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
-                            <NavigationHeader/>
+                            <NavigationHeader
+                                piece={this.state.piece}
+                                currentUser={this.state.currentUser}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <hr/>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
@@ -79,7 +99,9 @@ let PieceContainer = React.createClass({
                         </div>
                         }
                     subheader={
-                        <PrizePieceRatings piece={this.state.piece}/>
+                        <PrizePieceRatings
+                            piece={this.state.piece}
+                            currentUser={this.state.currentUser}/>
                     }>
                     <PrizePieceDetails piece={this.state.piece}/>
                 </Piece>
@@ -96,13 +118,26 @@ let PieceContainer = React.createClass({
 
 let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
     },
 
     render() {
         return (
-            <div>
-                navigation
+            <div style={{marginBottom: '1em'}}>
+                <div className="row no-margin">
+                    <Link to='piece' params={{pieceId: this.props.piece.navigation.prev_index}}>
+                        <span className="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true">
+                        Previous
+                        </span>
+                    </Link>
+                    <Link to='piece' params={{pieceId: this.props.piece.navigation.next_index}}>
+                        <span className="pull-right">
+                            Next
+                            <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </span>
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -111,14 +146,14 @@ let NavigationHeader = React.createClass({
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
     },
 
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState(),
-            UserStore.getState()
+            PrizeRatingStore.getState()
         );
     },
 
@@ -126,7 +161,6 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingStore.listen(this.onChange);
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -137,7 +171,6 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -160,7 +193,7 @@ let PrizePieceRatings = React.createClass({
         );
     },
     render(){
-        if (this.state.currentUser && this.state.currentUser.is_jury) {
+        if (this.props.currentUser && this.props.currentUser.is_jury) {
             return (
                 <div>
                     <DetailProperty
@@ -181,7 +214,7 @@ let PrizePieceRatings = React.createClass({
                     }/>
                     <PersonalNote
                         piece={this.props.piece}
-                        currentUser={this.state.currentUser}/>
+                        currentUser={this.props.currentUser}/>
                 </div>);
         }
         return null;

@@ -17,7 +17,7 @@ let DetailProperty = React.createClass({
 
     getDefaultProps() {
         return {
-            separator: ':',
+            separator: '',
             labelClassName: 'col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xs-height col-bottom ascribe-detail-property-label',
             valueClassName: 'col-xs-9 col-sm-9 col-md-10 col-lg-10 col-xs-height col-bottom ascribe-detail-property-value'
         };
