@@ -1,13 +1,10 @@
 'use strict';
 
 import React from 'react';
-
 import Router from 'react-router';
+
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-
-import LicenseActions from '../actions/license_actions';
-import LicenseStore from '../stores/license_store';
 
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
@@ -20,7 +17,6 @@ import UserStore from '../stores/user_store';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import Property from './ascribe_forms/property';
 import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
