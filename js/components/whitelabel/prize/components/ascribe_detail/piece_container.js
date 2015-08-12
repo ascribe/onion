@@ -49,6 +49,7 @@ let PieceContainer = React.createClass({
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
+        PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
     },
 
@@ -60,15 +61,6 @@ let PieceContainer = React.createClass({
         PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
-    },
-
-    componentDidUpdate() {
-        console.log('call me    ')
-        PieceActions.fetchOne(this.props.params.pieceId);
-    },
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.params.pieceId !== nextProps.params.pieceId
     },
 
     onChange(state) {
@@ -123,23 +115,27 @@ let NavigationHeader = React.createClass({
     },
 
     render() {
-        return (
-            <div style={{marginBottom: '1em'}}>
-                <div className="row no-margin">
-                    <Link to='piece' params={{pieceId: this.props.piece.navigation.prev_index}}>
-                        <span className="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true">
-                        Previous
-                        </span>
-                    </Link>
-                    <Link to='piece' params={{pieceId: this.props.piece.navigation.next_index}}>
-                        <span className="pull-right">
-                            Next
-                            <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        </span>
-                    </Link>
+        if (this.props.currentUser && this.props.currentUser.is_jury && this.props.piece.navigation) {
+            let nav = this.props.piece.navigation;
+            return (
+                <div style={{marginBottom: '1em'}}>
+                    <div className="row no-margin">
+                        <Link to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
+                            <span className="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true">
+                            Previous
+                            </span>
+                        </Link>
+                        <Link to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
+                            <span className="pull-right">
+                                Next
+                                <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            </span>
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        return null;
     }
 });
 
