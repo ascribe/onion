@@ -77,6 +77,9 @@ let CylandAdditionalDataForm = React.createClass({
                             <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                         </div>
                     }>
+                    <div className="ascribe-form-header">
+                        <h3>Additional Information</h3>
+                    </div>
                     <FurtherDetailsFileuploader
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}

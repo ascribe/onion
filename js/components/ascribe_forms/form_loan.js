@@ -22,7 +22,7 @@ import { getLangText } from '../../utils/lang_utils';
 
 let LoanForm = React.createClass({
     propTypes: {
-        fullform: React.PropTypes.bool,
+        loanHeading: React.PropTypes.string,
         email: React.PropTypes.string,
         gallery: React.PropTypes.string,
         startdate: React.PropTypes.object,
@@ -37,7 +37,8 @@ let LoanForm = React.createClass({
 
     getDefaultProps() {
         return {
-            fullform: false
+            loanHeading: '',
+            showPersonalMessage: true
         };
     },
 
@@ -103,7 +104,7 @@ let LoanForm = React.createClass({
     },
 
     getButtons() {
-        if(this.props.fullform) {
+        if(this.props.loanHeading) {
             return (
                 <button
                     type="submit"
@@ -129,7 +130,7 @@ let LoanForm = React.createClass({
     render() {
         return (
             <Form
-                className={classnames({'ascribe-form-bordered': this.props.fullform})}
+                className={classnames({'ascribe-form-bordered': this.props.loanHeading})}
                 ref='form'
                 url={this.props.url}
                 getFormData={this.getFormData}
@@ -139,8 +140,8 @@ let LoanForm = React.createClass({
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
-                <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.fullform})}>
-                    <h3>Loan</h3>
+                <div className={classnames({'ascribe-form-header': true, 'hidden': !!this.props.loanHeading})}>
+                    <h3>{this.props.loanHeading}</h3>
                 </div>
                 <Property
                     name='loanee'
@@ -165,7 +166,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='startdate'
                     label={getLangText('Start date')}
-                    hidden={!this.props.startdate}>
+                    hidden={this.props.startdate}>
                     <InputDate
                         defaultValue={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
@@ -173,7 +174,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='enddate'
                     label={getLangText('End date')}
-                    hidden={!this.props.enddate}>
+                    hidden={this.props.enddate}>
                     <InputDate
                         defaultValue={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
@@ -182,7 +183,7 @@ let LoanForm = React.createClass({
                     name='loan_message'
                     label={getLangText('Personal Message')}
                     editable={true}
-                    hidden={this.props.showPersonalMessage}>
+                    hidden={!this.props.showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
                         editable={true}

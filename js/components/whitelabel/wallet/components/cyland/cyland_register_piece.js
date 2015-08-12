@@ -163,14 +163,15 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
-                                fullform={true}
+                                loanHeading="Loan to Cyland archive"
                                 message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email="videoarchive@cyland.org"
+                                email="videoarchive@mailinator.com"
                                 gallery="Cyland Archive"
                                 startdate={today}
-                                enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}/>
+                                enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}
+                                showPersonalMessage={false}/>
                         </Col>
                     </Row>
                 </div>
