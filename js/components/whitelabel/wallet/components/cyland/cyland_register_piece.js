@@ -3,6 +3,8 @@
 import React from 'react';
 import Router from 'react-router';
 
+import Moment from 'moment';
+
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
@@ -32,7 +34,7 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions, dateToString } from '../../../../../utils/general_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 let CylandRegisterPiece = React.createClass({
@@ -115,9 +117,9 @@ let CylandRegisterPiece = React.createClass({
 
     render() {
 
-        let today = new Date();
-        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Date();
-        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.setFullYear(3000);
+        let today = new Moment();
+        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
+        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
 
         return (
             <SlidesContainer ref="slidesContainer">
@@ -167,8 +169,8 @@ let CylandRegisterPiece = React.createClass({
                                 url={ApiUrls.ownership_loans_pieces}
                                 email="videoarchive@cyland.org"
                                 gallery="Cyland Archive"
-                                startdate={dateToString(today)}
-                                enddate={dateToString(datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain)}/>
+                                startdate={today}
+                                enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}/>
                         </Col>
                     </Row>
                 </div>

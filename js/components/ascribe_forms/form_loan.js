@@ -25,8 +25,8 @@ let LoanForm = React.createClass({
         fullform: React.PropTypes.bool,
         email: React.PropTypes.string,
         gallery: React.PropTypes.string,
-        startdate: React.PropTypes.string,
-        enddate: React.PropTypes.string,
+        startdate: React.PropTypes.object,
+        enddate: React.PropTypes.object,
         showPersonalMessage: React.PropTypes.bool,
 
         url: React.PropTypes.string,
@@ -167,7 +167,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Start date')}
                     hidden={!this.props.startdate}>
                     <InputDate
-                        value={this.props.startdate}
+                        defaultValue={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
                 </Property>
                 <Property
@@ -175,7 +175,7 @@ let LoanForm = React.createClass({
                     label={getLangText('End date')}
                     hidden={!this.props.enddate}>
                     <InputDate
-                        value={this.props.enddate}
+                        defaultValue={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
                 </Property>
                 <Property
