@@ -140,7 +140,7 @@ let LoanForm = React.createClass({
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
-                <div className={classnames({'ascribe-form-header': true, 'hidden': !!this.props.loanHeading})}>
+                <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.loanHeading})}>
                     <h3>{this.props.loanHeading}</h3>
                 </div>
                 <Property

@@ -117,17 +117,13 @@ let RegisterPiece = React.createClass( {
         }
     },
 
-    changeSlide() {
+    // basically redirects to the second slide (index: 1), when the user is not logged in
+    onLoggedOut() {
         // only transition to the login store, if user is not logged in
         // ergo the currentUser object is not properly defined
         if(this.state.currentUser && !this.state.currentUser.email) {
             this.refs.slidesContainer.setSlideNum(1);
         }
-    },
-
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.refs.slidesContainer.setSlideNum(1);
     },
 
     onLogin() {
@@ -141,10 +137,12 @@ let RegisterPiece = React.createClass( {
 
     render() {
         return (
-            <SlidesContainer ref="slidesContainer">
+            <SlidesContainer 
+                ref="slidesContainer"
+                forwardProcess={false}>
                 <div
-                    onClick={this.changeSlide}
-                    onFocus={this.changeSlide}>
+                    onClick={this.onLoggedOut}
+                    onFocus={this.onLoggedOut}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm

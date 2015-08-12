@@ -122,7 +122,9 @@ let CylandRegisterPiece = React.createClass({
         datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
 
         return (
-            <SlidesContainer ref="slidesContainer">
+            <SlidesContainer
+                ref="slidesContainer"
+                forwardProcess={true}>
                 <div>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -139,7 +141,7 @@ let CylandRegisterPiece = React.createClass({
                                     style={{paddingBottom: 0}}>
                                     <InputCheckbox>
                                         <span>
-                                            {' ' + getLangText('I agree to the Terms of Service the art price') + ' '}
+                                            {' ' + getLangText('I agree to the Terms of Service of Cyland Archive') + ' '}
                                             (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/terms_and_contract.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                                 {getLangText('read')}
                                             </a>)

@@ -78,7 +78,7 @@ let CylandAdditionalDataForm = React.createClass({
                         </div>
                     }>
                     <div className="ascribe-form-header">
-                        <h3>Additional Information</h3>
+                        <h3>Provide supporting materials</h3>
                     </div>
                     <FurtherDetailsFileuploader
                         submitKey={this.submitKey}

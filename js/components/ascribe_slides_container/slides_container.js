@@ -9,7 +9,8 @@ let Navigation = Router.Navigation;
 
 let SlidesContainer = React.createClass({
     propTypes: {
-        children: React.PropTypes.arrayOf(React.PropTypes.element)
+        children: React.PropTypes.arrayOf(React.PropTypes.element),
+        forwardProcess: React.PropTypes.bool.isRequired
     },
 
     mixins: [State, Navigation],
@@ -108,13 +109,17 @@ let SlidesContainer = React.createClass({
                 // we push a new state on it ONCE (ever).
                 // Otherwise, we're able to use the browsers history.forward() method
                 // to keep the stack clean
-                if(this.state.historyLength === window.history.length) {
-
+                
+                if(this.props.forwardProcess) {
                     queryParams.slide_num = slideNum;
-
                     this.transitionTo(this.getPathname(), null, queryParams);
                 } else {
-                    window.history.forward();
+                    if(this.state.historyLength === window.history.length) {
+                        queryParams.slide_num = slideNum;
+                        this.transitionTo(this.getPathname(), null, queryParams);
+                    } else {
+                        window.history.forward();
+                    }
                 }
             }
 
