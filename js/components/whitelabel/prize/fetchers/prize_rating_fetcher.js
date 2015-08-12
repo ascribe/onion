@@ -13,7 +13,7 @@ let PrizeRatingFetcher = {
     },
 
     rate(pieceId, rating) {
-        return requests.post('ratings', {body: {'piece_id': pieceId, 'rating': rating}});
+        return requests.post('ratings', {body: {'piece_id': pieceId, 'value': rating}});
     }
 };
 

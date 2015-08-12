@@ -13,6 +13,8 @@ import PieceListActions from '../../../../../actions/piece_list_actions';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
+import UserStore from '../../../../../stores/user_store';
+
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import AppConstants from '../../../../../constants/application_constants';
@@ -22,8 +24,12 @@ import Property from '../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import GlobalNotificationModel from '../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
+
 import DetailProperty from '../../../../ascribe_detail/detail_property';
 
+import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 /**
@@ -64,6 +70,7 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
+                            <NavigationHeader/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <hr/>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
@@ -87,6 +94,21 @@ let PieceContainer = React.createClass({
     }
 });
 
+let NavigationHeader = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object
+    },
+
+    render() {
+        return (
+            <div>
+                navigation
+            </div>
+        );
+    }
+});
+
+
 let PrizePieceRatings = React.createClass({
     propTypes: {
         piece: React.PropTypes.object
@@ -95,7 +117,8 @@ let PrizePieceRatings = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState()
+            PrizeRatingStore.getState(),
+            UserStore.getState()
         );
     },
 
@@ -103,6 +126,7 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingStore.listen(this.onChange);
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PieceListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -113,6 +137,7 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -135,25 +160,71 @@ let PrizePieceRatings = React.createClass({
         );
     },
     render(){
-        return (
-            <DetailProperty
-                labelClassName='col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xs-height col-middle ascribe-detail-property-label'
-                label={
-                    <span>YOUR VOTE</span>
-                }
-                value={
-                    <StarRating
-                        ref='rating'
-                        name="prize-rating"
-                        caption=""
-                        step={1}
-                        size='md'
-                        rating={this.state.currentRating}
-                        onRatingClick={this.onRatingClick}
-                        ratingAmount={5} />}
-                />);
+        if (this.state.currentUser && this.state.currentUser.is_jury) {
+            return (
+                <div>
+                    <DetailProperty
+                        labelClassName='col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xs-height col-middle ascribe-detail-property-label'
+                        label={
+                        <span>YOUR VOTE</span>
+                    }
+                        value={
+                        <StarRating
+                            ref='rating'
+                            name="prize-rating"
+                            caption=""
+                            step={1}
+                            size='md'
+                            rating={this.state.currentRating}
+                            onRatingClick={this.onRatingClick}
+                            ratingAmount={5} />
+                    }/>
+                    <PersonalNote
+                        piece={this.props.piece}
+                        currentUser={this.state.currentUser}/>
+                </div>);
+        }
+        return null;
     }
 });
+
+let PersonalNote = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+    showNotification(){
+        let notification = new GlobalNotificationModel(getLangText('Jury note saved'), 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    render() {
+        if (this.props.currentUser.username && true || false) {
+            return (
+                <Form
+                    url={ApiUrls.notes}
+                    handleSuccess={this.showNotification}>
+                    <Property
+                        name='value'
+                        label={getLangText('Note')}
+                        editable={true}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            editable={true}
+                            defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                            placeholder={getLangText('Enter a personal note%s', '...')}/>
+                    </Property>
+                    <Property hidden={true} name='piece_id'>
+                        <input defaultValue={this.props.piece.id}/>
+                    </Property>
+                    <hr />
+                </Form>
+            );
+        }
+        return null;
+    }
+});
+
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
