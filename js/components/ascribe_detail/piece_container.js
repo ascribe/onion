@@ -148,8 +148,8 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
-                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <hr/>
+                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
                             {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
@@ -166,7 +166,7 @@ let PieceContainer = React.createClass({
                             className="text-center ascribe-button-list"
                             availableAcls={this.state.piece.acl}
                             editions={this.state.piece}
-                            handleSuccess={this.state.loadPiece}>
+                            handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
                                     label={getLangText('CREATE EDITIONS')}
                                     className="btn-sm"
