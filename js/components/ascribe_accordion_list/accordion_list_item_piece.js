@@ -60,7 +60,8 @@ let AccordionListItemPiece = React.createClass({
                     </Link>}
                 subheading={
                     <h3>
-                        {getLangText('by %s', this.props.piece.artist_name)}
+                        {getLangText('by ')}
+                        {this.props.artistName ? this.props.artistName : this.props.piece.artist_name}
                     </h3>
                 }
                 subsubheading={this.props.subsubheading}

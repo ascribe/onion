@@ -69,7 +69,7 @@ let AccordionListItemPrize = React.createClass({
                 // jury and rating available
                 let rating = parseInt(this.props.content.ratings.rating, 10);
                 return (
-                    <div className="pull-right">
+                    <div id="list-rating" className="pull-right">
                         <Link to='piece' params={{pieceId: this.props.content.id}}>
                             <StarRating
                                 ref='rating'
@@ -109,11 +109,14 @@ let AccordionListItemPrize = React.createClass({
     },
 
     render() {
-
+        let artistName = this.state.currentUser.is_jury ?
+            <span className="glyphicon glyphicon-eye-close" style={{fontSize: '0.75em'}} aria-hidden="true"/> :
+            this.props.content.artist_name;
         return (
             <AccordionListItemPiece
                 className={this.props.className}
                 piece={this.props.content}
+                artistName={artistName}
                 subsubheading={
                     <div className="pull-left">
                         <span>{this.props.content.date_created.split('-')[0]}</span>

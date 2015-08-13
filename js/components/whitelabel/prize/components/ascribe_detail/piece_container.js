@@ -80,6 +80,8 @@ let PieceContainer = React.createClass({
 
     render() {
         if('title' in this.state.piece) {
+            let artistName = this.state.currentUser.is_jury ?
+                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
             return (
                 <Piece
                     piece={this.state.piece}
@@ -89,9 +91,9 @@ let PieceContainer = React.createClass({
                             <NavigationHeader
                                 piece={this.state.piece}
                                 currentUser={this.state.currentUser}/>
-                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <hr/>
-                            <DetailProperty label="BY" value={this.state.piece.artist_name} />
+                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <DetailProperty label="BY" value={artistName} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
                             <hr/>
                         </div>
@@ -121,18 +123,18 @@ let NavigationHeader = React.createClass({
     },
 
     render() {
-        if (this.props.currentUser && this.props.currentUser.is_jury && this.props.piece.navigation) {
+        if (this.props.currentUser && this.props.piece.navigation) {
             let nav = this.props.piece.navigation;
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
                         <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
-                            <span className="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true">
+                            <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
                             Previous
                             </span>
                         </Link>
                         <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
-                            <span className="pull-right">
+                            <span className="pull-right link-ascribe">
                                 Next
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             </span>
@@ -197,13 +199,11 @@ let PrizePieceRatings = React.createClass({
     render(){
         if (this.props.currentUser && this.props.currentUser.is_jury) {
             return (
-                <div>
-                    <DetailProperty
-                        labelClassName='col-xs-3 col-sm-3 col-md-2 col-lg-2 col-xs-height col-middle ascribe-detail-property-label'
-                        label={
-                        <span>YOUR VOTE</span>
-                    }
-                        value={
+                <CollapsibleParagraph
+                    title="Rating"
+                    show={true}
+                    defaultExpanded={true}>
+                        <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
                         <StarRating
                             ref='rating'
                             name="prize-rating"
@@ -213,11 +213,11 @@ let PrizePieceRatings = React.createClass({
                             rating={this.state.currentRating}
                             onRatingClick={this.onRatingClick}
                             ratingAmount={5} />
-                    }/>
+                        </div>
                     <PersonalNote
                         piece={this.props.piece}
                         currentUser={this.props.currentUser}/>
-                </div>);
+                </CollapsibleParagraph>);
         }
         return null;
     }
@@ -241,13 +241,13 @@ let PersonalNote = React.createClass({
                     handleSuccess={this.showNotification}>
                     <Property
                         name='value'
-                        label={getLangText('Note')}
+                        label={getLangText('Jury note')}
                         editable={true}>
                         <InputTextAreaToggable
                             rows={1}
                             editable={true}
                             defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
-                            placeholder={getLangText('Enter a personal note%s', '...')}/>
+                            placeholder={getLangText('Enter your comments...')}/>
                     </Property>
                     <Property hidden={true} name='piece_id'>
                         <input defaultValue={this.props.piece.id}/>
@@ -256,7 +256,7 @@ let PersonalNote = React.createClass({
                 </Form>
             );
         }
-        return null;
+        return nul
     }
 });
 
