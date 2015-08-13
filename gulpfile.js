@@ -54,7 +54,7 @@ var config = {
 };
 
 var SERVER_URL = process.env.ONION_SERVER_URL || 'https://staging.ascribe.io/';
-console.log(SERVER_URL)
+
 var constants = {
     BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
     SERVER_URL: SERVER_URL,
