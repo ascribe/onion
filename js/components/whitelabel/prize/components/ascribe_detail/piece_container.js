@@ -1,14 +1,20 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import StarRating from 'react-star-rating';
 
 import PieceActions from '../../../../../actions/piece_actions';
 import PieceStore from '../../../../../stores/piece_store';
 
+import PieceListStore from '../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../actions/piece_list_actions';
+
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
+
+import UserStore from '../../../../../stores/user_store';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
 
@@ -19,21 +25,32 @@ import Property from '../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import GlobalNotificationModel from '../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
+
+import DetailProperty from '../../../../ascribe_detail/detail_property';
+
+import ApiUrls from '../../../../../constants/api_urls';
+import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+
+let Link = Router.Link;
+
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
     getInitialState() {
-        return PieceStore.getState();
-    },
-
-    onChange(state) {
-        this.setState(state);
+        return mergeOptions(
+            PieceStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
+        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -42,10 +59,20 @@ let PieceContainer = React.createClass({
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-        
         PieceStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
@@ -53,10 +80,29 @@ let PieceContainer = React.createClass({
 
     render() {
         if('title' in this.state.piece) {
+            let artistName = this.state.currentUser.is_jury ?
+                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
             return (
                 <Piece
                     piece={this.state.piece}
-                    loadPiece={this.loadPiece}>
+                    loadPiece={this.loadPiece}
+                    header={
+                        <div className="ascribe-detail-header">
+                            <NavigationHeader
+                                piece={this.state.piece}
+                                currentUser={this.state.currentUser}/>
+                            <hr/>
+                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <DetailProperty label="BY" value={artistName} />
+                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            <hr/>
+                        </div>
+                        }
+                    subheader={
+                        <PrizePieceRatings
+                            piece={this.state.piece}
+                            currentUser={this.state.currentUser}/>
+                    }>
                     <PrizePieceDetails piece={this.state.piece}/>
                 </Piece>
             );
@@ -70,23 +116,55 @@ let PieceContainer = React.createClass({
     }
 });
 
-
-let PrizePieceDetails = React.createClass({
+let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+
+    render() {
+        if (this.props.currentUser && this.props.piece.navigation) {
+            let nav = this.props.piece.navigation;
+            return (
+                <div style={{marginBottom: '1em'}}>
+                    <div className="row no-margin">
+                        <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
+                            <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
+                            Previous
+                            </span>
+                        </Link>
+                        <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
+                            <span className="pull-right link-ascribe">
+                                Next
+                                <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            </span>
+                        </Link>
+                    </div>
+                </div>
+            );
+        }
+        return null;
+    }
+});
+
+
+let PrizePieceRatings = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
     },
 
     getInitialState() {
-        return PrizeRatingStore.getState();
-    },
-
-    onChange(state) {
-        this.setState(state);
+        return mergeOptions(
+            PieceListStore.getState(),
+            PrizeRatingStore.getState()
+        );
     },
 
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
         PrizeRatingActions.fetchOne(this.props.piece.id);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -96,11 +174,96 @@ let PrizePieceDetails = React.createClass({
         // the piece detail a second time
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+        if (this.refs.rating) {
+            this.refs.rating.state.ratingCache = {
+                pos: this.refs.rating.state.pos,
+                rating: this.state.currentRating,
+                caption: this.refs.rating.props.caption,
+                name: this.refs.rating.props.name
+            };
+        }
     },
 
     onRatingClick(event, args) {
         event.preventDefault();
-        PrizeRatingActions.createRating(this.props.piece.id, args.rating);
+        PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
+            PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                            this.state.orderBy, this.state.orderAsc, this.state.filterBy)
+        );
+    },
+    render(){
+        if (this.props.currentUser && this.props.currentUser.is_jury) {
+            return (
+                <CollapsibleParagraph
+                    title="Rating"
+                    show={true}
+                    defaultExpanded={true}>
+                        <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
+                        <StarRating
+                            ref='rating'
+                            name="prize-rating"
+                            caption=""
+                            step={1}
+                            size='md'
+                            rating={this.state.currentRating}
+                            onRatingClick={this.onRatingClick}
+                            ratingAmount={5} />
+                        </div>
+                    <PersonalNote
+                        piece={this.props.piece}
+                        currentUser={this.props.currentUser}/>
+                </CollapsibleParagraph>);
+        }
+        return null;
+    }
+});
+
+let PersonalNote = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+    showNotification(){
+        let notification = new GlobalNotificationModel(getLangText('Jury note saved'), 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    render() {
+        if (this.props.currentUser.username && true || false) {
+            return (
+                <Form
+                    url={ApiUrls.notes}
+                    handleSuccess={this.showNotification}>
+                    <Property
+                        name='value'
+                        label={getLangText('Jury note')}
+                        editable={true}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            editable={true}
+                            defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                            placeholder={getLangText('Enter your comments...')}/>
+                    </Property>
+                    <Property hidden={true} name='piece_id'>
+                        <input defaultValue={this.props.piece.id}/>
+                    </Property>
+                    <hr />
+                </Form>
+            );
+        }
+        return nul
+    }
+});
+
+
+let PrizePieceDetails = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object
     },
 
     render() {

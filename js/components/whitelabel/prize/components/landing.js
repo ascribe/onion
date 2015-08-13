@@ -3,11 +3,16 @@
 import React from 'react';
 import Router from 'react-router';
 
+import PrizeActions from '../actions/prize_actions';
+import PrizeStore from '../stores/prize_store';
+
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import UserStore from '../../../../stores/user_store';
 import UserActions from '../../../../actions/user_actions';
+
+import { mergeOptions } from '../../../../utils/general_utils';
 
 
 let Landing = React.createClass({
@@ -15,16 +20,22 @@ let Landing = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState() {
-        return UserStore.getState();
+        return mergeOptions(
+            PrizeStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
+        PrizeStore.listen(this.onChange);
+        PrizeActions.fetchPrize();
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+        PrizeStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -37,27 +48,61 @@ let Landing = React.createClass({
         }
     },
 
+    getButtons() {
+        if (this.state.prize && this.state.prize.active){
+            return (
+                <ButtonGroup className="enter" bsSize="large" vertical>
+                    <ButtonLink to="signup">
+                        Sign up to submit
+                    </ButtonLink>
+
+                    <p>
+                        or, already an ascribe user?
+                    </p>
+                    <ButtonLink to="login">
+                        Log in to submit
+                    </ButtonLink>
+                </ButtonGroup>
+            );
+        }
+        return (
+            <ButtonGroup className="enter" bsSize="large" vertical>
+                <a className="btn btn-default" href="https://www.ascribe.io/app/signup">
+                    Sign up to ascribe
+                </a>
+
+                <p>
+                    or, already an ascribe user?
+                </p>
+                <ButtonLink to="login">
+                    Log in
+                </ButtonLink>
+            </ButtonGroup>
+        );
+    },
+
+    getTitle() {
+        if (this.state.prize && this.state.prize.active){
+            return (
+                <p>
+                    This is the submission page for Sluice_screens ↄc Prize 2015.
+                </p>
+            );
+        }
+        return (
+            <p>
+                Submissions for Sluice_screens ↄc Prize 2015 are now closed.
+            </p>
+        );
+    },
     render() {
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
                         <h1>Sluice_screens ↄc Prize 2015</h1>
-                        <p>
-                            This is the submission page for Sluice_screens ↄc Prize 2015.
-                        </p>
-                        <ButtonGroup className="enter" bsSize="large" vertical>
-                            <ButtonLink to="signup">
-                                Sign up to submit
-                            </ButtonLink>
-
-                            <p>
-                                or, already an ascribe user?
-                            </p>
-                            <ButtonLink to="login">
-                                Log in to submit
-                            </ButtonLink>
-                        </ButtonGroup>
+                        {this.getTitle()}
+                        {this.getButtons()}
                     </div>
                 </div>
             </div>

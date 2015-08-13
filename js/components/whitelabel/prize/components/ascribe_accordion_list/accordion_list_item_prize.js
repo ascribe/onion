@@ -1,0 +1,131 @@
+'use strict';
+
+import React from 'react';
+import Router from 'react-router';
+import StarRating from 'react-star-rating';
+
+import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
+
+import PieceListActions from '../../../../../actions/piece_list_actions';
+import PieceListStore from '../../../../../stores/piece_list_store';
+
+import UserStore from '../../../../../stores/user_store';
+
+import GlobalNotificationModel from '../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
+
+import AclProxy from '../../../../acl_proxy';
+import SubmitToPrizeButton from './../ascribe_buttons/submit_to_prize_button';
+
+
+import { getLangText } from '../../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
+
+let Link = Router.Link;
+
+
+let AccordionListItemPrize = React.createClass({
+    propTypes: {
+        className: React.PropTypes.string,
+        content: React.PropTypes.object,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
+    },
+
+    getInitialState() {
+        return mergeOptions(
+            PieceListStore.getState(),
+            UserStore.getState()
+        );
+    },
+
+    componentDidMount() {
+        PieceListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
+    },
+
+    componentWillUnmount() {
+        PieceListStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
+    handleSubmitPrizeSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    getPrizeButtons() {
+        if (this.state.currentUser && this.state.currentUser.is_jury){
+            if (this.props.content.ratings && this.props.content.ratings.rating){
+                // jury and rating available
+                let rating = parseInt(this.props.content.ratings.rating, 10);
+                return (
+                    <div id="list-rating" className="pull-right">
+                        <Link to='piece' params={{pieceId: this.props.content.id}}>
+                            <StarRating
+                                ref='rating'
+                                name="prize-rating"
+                                caption="Your rating"
+                                step={1}
+                                size='sm'
+                                rating={rating}
+                                ratingAmount={5} />
+                        </Link>
+                    </div>);
+            }
+            else {
+                // jury and no rating yet
+                return (
+                    <div className="react-rating-caption pull-right">
+                        <Link to='piece' params={{pieceId: this.props.content.id}}>
+                            Submit your rating
+                        </Link>
+                    </div>
+                );
+            }
+        }
+        // participant
+        return (
+            <div>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_submit_to_prize">
+                    <SubmitToPrizeButton
+                        className="pull-right"
+                        piece={this.props.content}
+                        handleSuccess={this.handleSubmitPrizeSuccess}/>
+                </AclProxy>
+            </div>
+        );
+    },
+
+    render() {
+        let artistName = this.state.currentUser.is_jury ?
+            <span className="glyphicon glyphicon-eye-close" style={{fontSize: '0.75em'}} aria-hidden="true"/> :
+            this.props.content.artist_name;
+        return (
+            <AccordionListItemPiece
+                className={this.props.className}
+                piece={this.props.content}
+                artistName={artistName}
+                subsubheading={
+                    <div className="pull-left">
+                        <span>{this.props.content.date_created.split('-')[0]}</span>
+                    </div>}
+                buttons={this.getPrizeButtons()}>
+                {this.props.children}
+            </AccordionListItemPiece>
+        );
+    }
+});
+
+export default AccordionListItemPrize;
