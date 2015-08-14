@@ -80,6 +80,25 @@ hr {
     font-size: 0.8em;
 }
 
+.navbar-default .navbar-nav > .active {
+    a {
+        background-color: transparent!important;
+        > span {color: #02b6a3;}
+        color: #02b6a3;
+        border-bottom: 1px solid #02b6a3;
+
+        &:hover, &:focus{
+            > span {color: #02b6a3;}
+            color: #02b6a3;
+            background-color: transparent;
+            border-bottom: 1px solid #02b6a3;
+        }
+    }
+}
+.navbar-default .navbar-nav > li > a {
+    border: 1px solid rgba(0,0,0,0);
+}
+
 .img-brand {
     padding: 0;
     height: 45px;
