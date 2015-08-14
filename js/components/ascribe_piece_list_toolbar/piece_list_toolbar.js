@@ -3,6 +3,7 @@
 import React from 'react';
 
 import PieceListToolbarFilterWidget from './piece_list_toolbar_filter_widget';
+import PieceListToolbarOrderWidget from './piece_list_toolbar_order_widget';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -13,8 +14,12 @@ let PieceListToolbar = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         searchFor: React.PropTypes.func,
+        filterParams: React.PropTypes.array,
         filterBy: React.PropTypes.object,
         applyFilterBy: React.PropTypes.func,
+        orderParams: React.PropTypes.array,
+        orderBy: React.PropTypes.string,
+        applyOrderBy: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -37,7 +42,7 @@ let PieceListToolbar = React.createClass({
                             <span className="pull-left">
                                 {this.props.children}
                             </span>
-                            <span className="pull-right search-bar">
+                            <span className="pull-right search-bar ascribe-input-glyph">
                                 <Input
                                     type='text'
                                     ref="search"
@@ -46,11 +51,14 @@ let PieceListToolbar = React.createClass({
                                     addonAfter={searchIcon} />
                             </span>
                             <span className="pull-right">
+                                <PieceListToolbarOrderWidget
+                                    orderParams={this.props.orderParams}
+                                    orderBy={this.props.orderBy}
+                                    applyOrderBy={this.props.applyOrderBy}/>
+                            </span>
+                            <span className="pull-right">
                                 <PieceListToolbarFilterWidget
-                                    filterParams={['acl_transfer', 'acl_consign', {
-                                        key: 'acl_create_editions',
-                                        label: 'create editions'
-                                    }]}
+                                    filterParams={this.props.filterParams}
                                     filterBy={this.props.filterBy}
                                     applyFilterBy={this.props.applyFilterBy}/>
                             </span>

@@ -43,6 +43,7 @@ let PrizePieceList = React.createClass({
                 <PieceList
                     redirectTo="register_piece"
                     accordionListItemType={AccordionListItemPrize}
+                    orderParams={['rating', 'title']}
                     customSubmitButton={this.getButtonSubmit()}/>
             </div>
         );
