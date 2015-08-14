@@ -31,6 +31,29 @@ let PieceListToolbar = React.createClass({
          this.props.searchFor(searchTerm);
     },
 
+    getFilterWidget(){
+        if (this.props.filterParams){
+            return (
+                <PieceListToolbarFilterWidget
+                    filterParams={this.props.filterParams}
+                    filterBy={this.props.filterBy}
+                    applyFilterBy={this.props.applyFilterBy} />
+            );
+        }
+        return null;
+    },
+    getOrderWidget(){
+        if (this.props.orderParams){
+            return (
+                <PieceListToolbarOrderWidget
+                    orderParams={this.props.orderParams}
+                    orderBy={this.props.orderBy}
+                    applyOrderBy={this.props.applyOrderBy}/>
+            );
+        }
+        return null;
+    },
+
     render() {
         let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
 
@@ -51,16 +74,8 @@ let PieceListToolbar = React.createClass({
                                     addonAfter={searchIcon} />
                             </span>
                             <span className="pull-right">
-                                <PieceListToolbarOrderWidget
-                                    orderParams={this.props.orderParams}
-                                    orderBy={this.props.orderBy}
-                                    applyOrderBy={this.props.applyOrderBy}/>
-                            </span>
-                            <span className="pull-right">
-                                <PieceListToolbarFilterWidget
-                                    filterParams={this.props.filterParams}
-                                    filterBy={this.props.filterBy}
-                                    applyFilterBy={this.props.applyFilterBy}/>
+                                {this.getOrderWidget()}
+                                {this.getFilterWidget()}
                             </span>
                         </div>
                     </div>

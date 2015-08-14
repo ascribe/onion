@@ -14,11 +14,13 @@
 .ascribe-input-glyph > .form-group > .input-group {
     margin-left: 6px;
     input {
+        box-shadow: none;
+        background-color: transparent;
         border: 1px solid #02b6a3;
         border-right: 0;
     }
     > .input-group-addon {
-        background-color: white;
+        background-color: transparent;
         > .filter-glyph {
             color: #02b6a3;
         }
