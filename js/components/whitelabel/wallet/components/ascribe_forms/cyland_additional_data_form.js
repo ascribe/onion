@@ -80,14 +80,6 @@ let CylandAdditionalDataForm = React.createClass({
                     <div className="ascribe-form-header">
                         <h3>Provide supporting materials</h3>
                     </div>
-                    <FurtherDetailsFileuploader
-                        submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={true}
-                        pieceId={this.props.piece.id}
-                        otherData={this.props.piece.other_data}
-                        multiple={false}/>
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}
@@ -108,6 +100,14 @@ let CylandAdditionalDataForm = React.createClass({
                             placeholder={getLangText('Enter a conceptual overview...')}
                             required="required"/>
                     </Property>
+                    <FurtherDetailsFileuploader
+                        submitKey={this.submitKey}
+                        setIsUploadReady={this.setIsUploadReady}
+                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        editable={true}
+                        pieceId={this.props.piece.id}
+                        otherData={this.props.piece.other_data}
+                        multiple={false}/>
                 </Form>
             );
         } else {

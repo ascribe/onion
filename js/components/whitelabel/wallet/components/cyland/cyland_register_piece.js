@@ -102,6 +102,13 @@ let CylandRegisterPiece = React.createClass({
         this.refs.slidesContainer.setSlideNum(2);
     },
 
+    handleLoanSuccess(response) {
+        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.transitionTo('piece', {pieceId: this.state.piece.id});
+    },
+
     changeSlide() {
         // only transition to the login store, if user is not logged in
         // ergo the currentUser object is not properly defined
@@ -124,6 +131,7 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
+                breadcrumbs={['Register work', 'Additional Details', 'Loan']}
                 forwardProcess={true}>
                 <div>
                     <Row className="no-margin">
@@ -173,7 +181,8 @@ let CylandRegisterPiece = React.createClass({
                                 gallery="Cyland Archive"
                                 startdate={today}
                                 enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}
-                                showPersonalMessage={false}/>
+                                showPersonalMessage={false}
+                                handleSuccess={this.handleLoanSuccess}/>
                         </Col>
                     </Row>
                 </div>
