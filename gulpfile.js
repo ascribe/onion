@@ -53,12 +53,12 @@ var config = {
     ]
 };
 
-var SERVER_URL = process.env.ONION_SERVER_URL || 'http://staging.ascribe.io/';
+var SERVER_URL = process.env.ONION_SERVER_URL || 'https://staging.ascribe.io/';
 
 var constants = {
     BASE_URL: (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })(),
     SERVER_URL: SERVER_URL,
-    API_ENDPOINT: SERVER_URL + 'api/' || 'http://staging.ascribe.io/api/',
+    API_ENDPOINT: SERVER_URL + 'api/' || 'https://staging.ascribe.io/api/',
     DEBUG: !argv.production,
     CREDENTIALS: 'ZGltaUBtYWlsaW5hdG9yLmNvbTowMDAwMDAwMDAw' // dimi@mailinator:0000000000
 };

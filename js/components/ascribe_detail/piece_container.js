@@ -1,37 +1,59 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
+
+import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+
+import UserActions from '../../actions/user_actions';
+import UserStore from '../../stores/user_store';
+
+import EditionListActions from '../../actions/edition_list_actions';
 
 import Piece from './piece';
 import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 import FurtherDetails from './further_details';
 
+import DetailProperty from './detail_property';
+
+import AclButtonList from './../ascribe_buttons/acl_button_list';
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
+import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
+import DeleteButton from '../ascribe_buttons/delete_button';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import AppConstants from '../../constants/application_constants';
+import { mergeOptions } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
-    getInitialState() {
-        return PieceStore.getState();
-    },
 
-    onChange(state) {
-        this.setState(state);
-        if (!state.piece.digital_work) {
-            return;
-        }
-        let isEncoding = state.piece.digital_work.isEncoding;
-        if (state.piece.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(() => PieceActions.fetchOne(this.props.params.pieceId), 10000);
-            this.setState({timerId: timerId});
-        }
+    mixins: [Router.Navigation],
+
+    getInitialState() {
+        return mergeOptions(
+            UserStore.getState(),
+            PieceListStore.getState(),
+            PieceStore.getState(),
+            {
+                showCreateEditionsDialog: false
+            }
+        );
     },
 
     componentDidMount() {
+        UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
     },
@@ -42,13 +64,80 @@ let PieceContainer = React.createClass({
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-        window.clearInterval(this.state.timerId);
         PieceStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
+    },
+
+
+    toggleCreateEditionsDialog() {
+        this.setState({
+            showCreateEditionsDialog: !this.state.showCreateEditionsDialog
+        });
+    },
+
+    handleEditionCreationSuccess() {
+        PieceActions.updateProperty({key: 'num_editions', value: 0});
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        this.toggleCreateEditionsDialog();
+    },
+
+    handleDeleteSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+
+        // since we're deleting a piece, we just need to close
+        // all editions dialogs and not reload them
+        EditionListActions.closeAllEditionLists();
+        EditionListActions.clearAllEditionSelections();
+
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.transitionTo('pieces');
+    },
+
+    getCreateEditionsDialog() {
+        if(this.state.piece.num_editions < 1 && this.state.showCreateEditionsDialog) {
+            return (
+                <div style={{marginTop: '1em'}}>
+                    <CreateEditionsForm
+                        pieceId={this.state.piece.id}
+                        handleSuccess={this.handleEditionCreationSuccess} />
+                    <hr/>
+                </div>
+            );
+        } else {
+            return (<hr/>);
+        }
+    },
+
+    handlePollingSuccess(pieceId, numEditions) {
+
+        // we need to refresh the num_editions property of the actual piece we're looking at
+        PieceActions.updateProperty({
+            key: 'num_editions',
+            value: numEditions
+        });
+
+        // as well as its representation in the collection
+        // btw.: It's not sufficient to just set num_editions to numEditions, since a single accordion
+        // list item also uses the firstEdition property which we can only get from the server in that case.
+        // Therefore we need to at least refetch the changed piece from the server or on our case simply all
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+
+        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {
@@ -56,7 +145,40 @@ let PieceContainer = React.createClass({
             return (
                 <Piece
                     piece={this.state.piece}
-                    loadPiece={this.loadPiece}>
+                    loadPiece={this.loadPiece}
+                    header={
+                        <div className="ascribe-detail-header">
+                            <hr/>
+                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <DetailProperty label="BY" value={this.state.piece.artist_name} />
+                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
+                            <hr/>
+                        </div>
+                        }
+                    subheader={
+                        <div className="ascribe-detail-header">
+                            <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
+                        </div>
+                    }
+                    buttons={
+                        <AclButtonList
+                            className="text-center ascribe-button-list"
+                            availableAcls={this.state.piece.acl}
+                            editions={this.state.piece}
+                            handleSuccess={this.loadPiece}>
+                                <CreateEditionsButton
+                                    label={getLangText('CREATE EDITIONS')}
+                                    className="btn-sm"
+                                    piece={this.state.piece}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                    onPollingSuccess={this.handlePollingSuccess}/>
+                                <DeleteButton
+                                    handleSuccess={this.handleDeleteSuccess}
+                                    piece={this.state.piece}/>
+                        </AclButtonList>
+                    }>
+                    {this.getCreateEditionsDialog()}
                     <CollapsibleParagraph
                         title="Further Details"
                         show={this.state.piece.acl.acl_edit
