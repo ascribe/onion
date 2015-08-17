@@ -131,7 +131,7 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                breadcrumbs={['Register work', 'Additional Details', 'Loan']}
+                breadcrumbs={['Register work', 'Additional details', 'Loan']}
                 forwardProcess={true}>
                 <div>
                     <Row className="no-margin">

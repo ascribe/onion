@@ -148,7 +148,7 @@ let SlidesContainer = React.createClass({
                                     <Col className="no-padding" sm={columnWidth}>
                                         <div className="ascribe-breadcrumb">
                                             <a className={this.state.slideNum === i ? 'active' : ''}>
-                                                {i + 1}. {this.props.breadcrumbs[i]}
+                                                {this.props.breadcrumbs[i]}
                                             <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right glyphicon glyphicon-chevron-right'}>
                                             </span>
                                             </a>
