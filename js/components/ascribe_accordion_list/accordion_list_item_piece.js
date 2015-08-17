@@ -13,6 +13,7 @@ let Link = Router.Link;
 let AccordionListItemPiece = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
+        artistName: React.PropTypes.string,
         piece: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -26,24 +27,12 @@ let AccordionListItemPiece = React.createClass({
     mixins: [Router.Navigation],
 
     getLinkData(){
-        let linkData;
-
-        if (this.props.piece.num_editions < 1 || !this.props.piece.first_edition) {
-            linkData = {
-                to: 'piece',
-                params: {
-                    pieceId: this.props.piece.id
-                }
-            };
-        } else {
-            linkData = {
-                to: 'edition',
-                params: {
-                    editionId: this.props.piece.first_edition.bitcoin_id
-                }
-            };
-        }
-        return linkData;
+        return {
+            to: 'piece',
+            params: {
+                pieceId: this.props.piece.id
+            }
+        };
     },
 
     render() {

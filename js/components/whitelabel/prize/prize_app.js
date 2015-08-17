@@ -21,7 +21,7 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className="ascribe-prize-app">
+            <div className="container ascribe-prize-app">
                 {header}
                 <div className="wp">
                     <RouteHandler />

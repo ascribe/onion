@@ -10,7 +10,7 @@ let RouteHandler = Router.RouteHandler;
 let WalletApp = React.createClass({
     render() {
         return (
-            <div className="ascribe-prize-app">
+            <div className="container ascribe-prize-app">
                 <Header />
                 <RouteHandler />
                 <GlobalNotification />

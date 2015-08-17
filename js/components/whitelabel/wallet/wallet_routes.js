@@ -14,7 +14,10 @@ import EditionContainer from '../../../components/ascribe_detail/edition_contain
 import SettingsContainer from '../../../components/settings_container';
 
 // specific components
+import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
+import CylandPieceList from './components/cyland/cyland_piece_list';
+
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
 import WalletApp from './wallet_app';
@@ -34,8 +37,8 @@ let ROUTES = {
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
             <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} />
-            <Route name="pieces" path="collection" handler={PieceList} />
-            <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
+            <Route name="pieces" path="collection" handler={CylandPieceList} />
+            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>

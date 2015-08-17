@@ -14,7 +14,7 @@ import { getCookie } from '../../utils/fetch_api_utils';
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
         pieceId: React.PropTypes.number,
-        otherData: React.PropTypes.object,
+        otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
@@ -37,6 +37,8 @@ let FurtherDetailsFileuploader = React.createClass({
         if (!this.props.editable && !this.props.otherData){
             return null;
         }
+        let otherDataIds = this.props.otherData ? this.props.otherData.map((data)=>{return data.id; }).join() : null;
+
         return (
             <Property
                 label="Additional files (max. 10MB)">
@@ -63,7 +65,7 @@ let FurtherDetailsFileuploader = React.createClass({
                             'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         },
                         params: {
-                            'pk': this.props.otherData ? this.props.otherData.id : null
+                            'pk': otherDataIds
                         },
                         cors: {
                             expected: true,

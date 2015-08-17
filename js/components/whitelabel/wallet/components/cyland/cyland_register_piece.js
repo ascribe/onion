@@ -13,6 +13,9 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import Property from '../../../../ascribe_forms/property';
 import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
 
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
 
@@ -25,7 +28,7 @@ import PieceActions from '../../../../../actions/piece_actions';
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import CylandAdditionalDataForm from '../ascribe_forms/cyland_additional_data_form';
+import CylandAdditionalDataForm from './ascribe_forms/cyland_additional_data_form';
 
 import LoanForm from '../../../../ascribe_forms/form_loan';
 
@@ -46,6 +49,7 @@ let CylandRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
+            WhitelabelStore.getState(),
             {
                 selectedLicense: 0,
                 isFineUploaderActive: false
@@ -56,14 +60,16 @@ let CylandRegisterPiece = React.createClass({
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-
+        WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -105,7 +111,7 @@ let CylandRegisterPiece = React.createClass({
     handleLoanSuccess(response) {
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-
+        PieceActions.fetchOne(this.state.piece.id);
         this.transitionTo('piece', {pieceId: this.state.piece.id});
     },
 
@@ -177,7 +183,7 @@ let CylandRegisterPiece = React.createClass({
                                 message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email="videoarchive@mailinator.com"
+                                email={this.state.whitelabel.user}
                                 gallery="Cyland Archive"
                                 startdate={today}
                                 enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}

@@ -148,7 +148,7 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
-                            <hr/>
+                            <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />

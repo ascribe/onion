@@ -20,7 +20,7 @@ let FurtherDetails = React.createClass({
         editable: React.PropTypes.bool,
         pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
-        otherData: React.PropTypes.object,
+        otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         handleSuccess: React.PropTypes.func
     },
 
@@ -91,7 +91,8 @@ let FurtherDetails = React.createClass({
                             isReadyForFormSubmission={this.isReadyForFormSubmission}
                             editable={this.props.editable}
                             pieceId={this.props.pieceId}
-                            otherData={this.props.otherData}/>
+                            otherData={this.props.otherData}
+                            multiple={true}/>
                     </Form>
                 </Col>
             </Row>

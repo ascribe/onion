@@ -2,19 +2,19 @@
 
 import React from 'react';
 
-import Form from '../../../../ascribe_forms/form';
-import Property from '../../../../ascribe_forms/property';
+import Form from '../../../../../ascribe_forms/form';
+import Property from '../../../../../ascribe_forms/property';
 
-import InputTextAreaToggable from '../../../../ascribe_forms/input_textarea_toggable';
+import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-import FurtherDetailsFileuploader from '../../../../ascribe_detail/further_details_fileuploader';
+import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
-import ApiUrls from '../../../../../constants/api_urls';
-import AppConstants from '../../../../../constants/application_constants';
+import ApiUrls from '../../../../../../constants/api_urls';
+import AppConstants from '../../../../../../constants/application_constants';
 
-import requests from '../../../../../utils/requests';
+import requests from '../../../../../../utils/requests';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 
 let CylandAdditionalDataForm = React.createClass({
     propTypes: {
@@ -107,7 +107,7 @@ let CylandAdditionalDataForm = React.createClass({
                         editable={true}
                         pieceId={this.props.piece.id}
                         otherData={this.props.piece.other_data}
-                        multiple={false}/>
+                        multiple={true}/>
                 </Form>
             );
         } else {
