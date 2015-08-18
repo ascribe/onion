@@ -27,7 +27,10 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
-        children: React.PropTypes.element,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ]),
         onLoggedOut: React.PropTypes.func
     },
 
@@ -74,16 +77,11 @@ let RegisterPieceForm = React.createClass({
         });
     },
 
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
-    },
-
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+
         return (
             <Form
                 className="ascribe-form-bordered"
@@ -106,11 +104,11 @@ let RegisterPieceForm = React.createClass({
                     <h3>{this.props.headerMessage}</h3>
                 </div>
                 <Property
-                    ignoreFocus={true}>
+                    name="digital_work_key"
+                    ignoreFocus={true}
+                    required={true}>
                     <FileUploader
                         submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={isReadyForFormSubmission}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
@@ -118,7 +116,8 @@ let RegisterPieceForm = React.createClass({
                 </Property>
                 <Property
                     name='artist_name'
-                    label={getLangText('Artist Name')}>
+                    label={getLangText('Artist Name')}
+                    required={true}>
                     <input
                         type="text"
                         placeholder="(e.g. Andy Warhol)"
@@ -126,7 +125,8 @@ let RegisterPieceForm = React.createClass({
                 </Property>
                 <Property
                     name='title'
-                    label={getLangText('Title')}>
+                    label={getLangText('Title')}
+                    required={true}>
                     <input
                         type="text"
                         placeholder="(e.g. 32 Campbell's Soup Cans)"
@@ -134,7 +134,8 @@ let RegisterPieceForm = React.createClass({
                 </Property>
                 <Property
                     name='date_created'
-                    label={getLangText('Year Created')}>
+                    label={getLangText('Year Created')}
+                    required={true}>
                     <input
                         type="number"
                         placeholder="(e.g. 1962)"
@@ -149,7 +150,6 @@ let RegisterPieceForm = React.createClass({
 
 let FileUploader = React.createClass({
     propTypes: {
-        setIsUploadReady: React.PropTypes.func,
         submitKey: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         onClick: React.PropTypes.func,
@@ -160,7 +160,31 @@ let FileUploader = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         onLoggedOut: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        enableLocalHashing: React.PropTypes.bool
+        enableLocalHashing: React.PropTypes.bool,
+
+        // is provided by Property
+        onChange: React.PropTypes.func
+    },
+
+    getInitialState() {
+        return {
+            value: false
+        };
+    },
+
+    setIsUploadReady(isReady) {
+        this.setState({
+            value: isReady
+        });
+
+        // Property is listening to this.state.value to determine
+        // if the form is ready. As it will access this.state.value directly
+        // we need to call onChange after the state submission has been done.
+        this.props.onChange({
+            target: {
+                value: isReady
+            }
+        });
     },
 
     render() {
@@ -179,8 +203,8 @@ let FileUploader = React.createClass({
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
                 }}
-                setIsUploadReady={this.props.setIsUploadReady}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                setIsUploadReady={this.setIsUploadReady}
+                isReadyForFormSubmission={isReadyForFormSubmission}
                 areAssetsDownloadable={false}
                 areAssetsEditable={this.props.isFineUploaderActive}
                 signature={{
