@@ -74,6 +74,7 @@ let PasswordRequestResetForm = React.createClass({
         return (
             <Form
                 ref="form"
+                className='ascribe-form-wrapper'
                 url={ApiUrls.users_password_reset_request}
                 handleSuccess={this.handleSuccess}
                 buttons={
@@ -130,6 +131,7 @@ let PasswordResetForm = React.createClass({
         return (
             <Form
                 ref="form"
+                className='ascribe-form-wrapper'
                 url={ApiUrls.users_password_reset}
                 handleSuccess={this.handleSuccess}
                 getFormData={this.getFormData}
