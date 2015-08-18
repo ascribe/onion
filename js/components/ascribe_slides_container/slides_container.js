@@ -145,7 +145,10 @@ let SlidesContainer = React.createClass({
                         <div className="no-margin row ascribe-breadcrumb-container">
                             {this.props.breadcrumbs.map((breadcrumb, i) => {
                                 return (
-                                    <Col className="no-padding" sm={columnWidth}>
+                                    <Col
+                                        className="no-padding"
+                                        sm={columnWidth}
+                                        key={i}>
                                         <div className="ascribe-breadcrumb">
                                             <a className={this.state.slideNum === i ? 'active' : ''}>
                                                 {this.props.breadcrumbs[i]}

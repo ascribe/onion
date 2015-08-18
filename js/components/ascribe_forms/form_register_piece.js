@@ -16,6 +16,7 @@ import ApiUrls from '../../constants/api_urls';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -24,6 +25,7 @@ let RegisterPieceForm = React.createClass({
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
         isFineUploaderActive: React.PropTypes.bool,
+        isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
         children: React.PropTypes.element,
         onLoggedOut: React.PropTypes.func
@@ -78,15 +80,6 @@ let RegisterPieceForm = React.createClass({
         });
     },
 
-    isReadyForFormSubmission(files) {
-        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if (files.length > 0 && files[0].status === 'upload successful') {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
@@ -117,7 +110,7 @@ let RegisterPieceForm = React.createClass({
                     <FileUploader
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        isReadyForFormSubmission={isReadyForFormSubmission}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
