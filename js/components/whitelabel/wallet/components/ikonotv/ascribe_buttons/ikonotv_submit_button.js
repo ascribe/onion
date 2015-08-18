@@ -4,7 +4,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
-import CylandPieceSubmitForm from '../ascribe_forms/cyland_form_submit';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
@@ -30,9 +29,7 @@ let IkonotvSubmitButton = React.createClass({
                 trigger={this.getSubmitButton()}
                 handleSuccess={this.props.handleSuccess}
                 title={getLangText('Loan to IkonoTV')}>
-                <CylandPieceSubmitForm
-                    piece={this.props.piece}
-                    handleSuccess={this.props.handleSuccess}/>
+
             </ModalWrapper>
             
         );
