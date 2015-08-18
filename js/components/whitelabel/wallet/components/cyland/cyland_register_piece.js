@@ -85,17 +85,6 @@ let CylandRegisterPiece = React.createClass({
 
     handleRegisterSuccess(response){
 
-        // once the user was able to register a piece successfully, we need to make sure to keep
-        // the piece list up to date
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
-
         // also start loading the piece for the next step
         if(response && response.piece) {
             PieceActions.updatePiece(response.piece);
@@ -111,6 +100,18 @@ let CylandRegisterPiece = React.createClass({
     handleLoanSuccess(response) {
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
+        // once the user was able to register + loan a piece successfully, we need to make sure to keep
+        // the piece list up to date
+        PieceListActions.fetchPieceList(
+            this.state.page,
+            this.state.pageSize,
+            this.state.searchTerm,
+            this.state.orderBy,
+            this.state.orderAsc,
+            this.state.filterBy
+        );
+
         PieceActions.fetchOne(this.state.piece.id);
         this.transitionTo('piece', {pieceId: this.state.piece.id});
     },
