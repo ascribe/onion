@@ -3,6 +3,8 @@
 import React from 'react';
 import Router from 'react-router';
 import Header from '../../header';
+import Footer from '../../footer';
+
 import GlobalNotification from '../../global_notification';
 
 let RouteHandler = Router.RouteHandler;
@@ -15,6 +17,7 @@ let WalletApp = React.createClass({
                 <RouteHandler />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
+                <Footer />
             </div>
         );
     }

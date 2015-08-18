@@ -4,11 +4,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
-import PieceSubmitToPrizeForm from '../../../../../ascribe_forms/form_submit_to_prize';
+import CylandPieceSubmitForm from '../ascribe_forms/cyland_form_submit';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
-let SubmitToPrizeButton = React.createClass({
+let CylandSubmitButton = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
@@ -16,24 +16,12 @@ let SubmitToPrizeButton = React.createClass({
     },
 
     getSubmitButton() {
-        if (this.props.piece.prize) {
-            return (
-                <button
-                    disabled
-                    className="btn btn-default btn-xs pull-right">
-                    {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
-                                                              aria-hidden="true"></span>
-                </button>
-            );
-        }
-        else {
-            return (
-                <button
-                    className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
-                    {getLangText('Submit to Cyland')}
-                </button>
-            );
-        }
+        return (
+            <button
+                className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
+                {getLangText('Submit to Cyland')}
+            </button>
+        );
     },
 
     render() {
@@ -41,8 +29,8 @@ let SubmitToPrizeButton = React.createClass({
             <ModalWrapper
                 trigger={this.getSubmitButton()}
                 handleSuccess={this.props.handleSuccess}
-                title={getLangText('Submit to prize')}>
-                <PieceSubmitToPrizeForm
+                title={getLangText('Submit to Cyland')}>
+                <CylandPieceSubmitForm
                     piece={this.props.piece}
                     handleSuccess={this.props.handleSuccess}/>
             </ModalWrapper>
@@ -51,4 +39,4 @@ let SubmitToPrizeButton = React.createClass({
     }
 });
 
-export default SubmitToPrizeButton;
+export default CylandSubmitButton;
