@@ -39,6 +39,13 @@ let constants = {
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/logo.gif',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
+        },
+        {
+            'subdomain': 'ikonotv',
+            'name': 'IkonoTV',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-logo-black.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
         }
     ],
     'defaultDomain': {

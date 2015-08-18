@@ -57,6 +57,20 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>
+    ),
+    'ikonotv': (
+        <Route name="app" path={baseUrl} handler={WalletApp}>
+            <Route name="landing" path={baseUrl} handler={CylandRegisterPiece} />
+            <Route name="login" path="login" handler={LoginContainer} />
+            <Route name="logout" path="logout" handler={LogoutContainer} />
+            <Route name="signup" path="signup" handler={SignupContainer} />
+            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
+            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} />
+            <Route name="pieces" path="collection" handler={CylandPieceList} />
+            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
+            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="settings" path="settings" handler={SettingsContainer} />
+        </Route>
     )
 };
 
