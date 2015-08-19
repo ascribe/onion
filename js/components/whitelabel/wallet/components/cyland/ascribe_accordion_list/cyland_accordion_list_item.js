@@ -70,6 +70,16 @@ let CylandAccordionListItem = React.createClass({
                         piece={this.props.content}
                         handleSuccess={this.handleSubmitSuccess}/>
                 </AclProxy>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_submitted">
+                    <button
+                    disabled
+                    className="btn btn-default btn-xs pull-right">
+                        {getLangText('Submitted to Cyland')} <span className="glyphicon glyphicon-ok"
+                                                                  aria-hidden="true"></span>
+                    </button>
+                </AclProxy>
             </div>
         );
     },
