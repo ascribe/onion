@@ -15,6 +15,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import FurtherDetailsFileuploader from './further_details_fileuploader';
 
+import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+
 let FurtherDetails = React.createClass({
     propTypes: {
         editable: React.PropTypes.bool,
@@ -48,15 +50,6 @@ let FurtherDetails = React.createClass({
         });
     },
 
-    isReadyForFormSubmission(files) {
-        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if(files.length > 0 && files[0].status === 'upload successful') {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
     render() {
         //return (<span />);
         return (
@@ -88,7 +81,7 @@ let FurtherDetails = React.createClass({
                         <FurtherDetailsFileuploader
                             submitKey={this.submitKey}
                             setIsUploadReady={this.setIsUploadReady}
-                            isReadyForFormSubmission={this.isReadyForFormSubmission}
+                            isReadyForFormSubmission={isReadyForFormSubmission}
                             editable={this.props.editable}
                             pieceId={this.props.pieceId}
                             otherData={this.props.otherData}
