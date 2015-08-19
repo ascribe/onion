@@ -23,9 +23,7 @@ let PrizeApp = React.createClass({
         return (
             <div className="container ascribe-prize-app">
                 {header}
-                <div className="wp">
-                    <RouteHandler />
-                </div>
+                <RouteHandler />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
                 <Footer />

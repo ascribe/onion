@@ -165,7 +165,7 @@ let SlidesContainer = React.createClass({
         let breadcrumbs = [];
 
         ReactAddons.Children.map(this.props.children, (child, i) => {
-            if(i >= this.state.startFrom) {
+            if(i >= this.state.startFrom && child.props['data-slide-title']) {
                 breadcrumbs.push(child.props['data-slide-title']);
             }
         });
