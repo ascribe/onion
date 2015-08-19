@@ -28,7 +28,7 @@ let AccordionList = React.createClass({
             );
         } else {
             return (
-                <div className={this.props.className + ' ascribe-accordion-list-loading'}>
+                <div className={this.props.className + ' ascribe-loading-position'}>
                     {this.props.loadingElement}
                 </div>
             );
