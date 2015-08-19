@@ -36,12 +36,19 @@ let CylandSubmitButton = React.createClass({
     },
 
     render() {
+        let piece = this.props.piece;
+        let startFrom = 1;
+
+        if(piece && piece.extra_data && Object.keys(piece.extra_data).length > 0) {
+            startFrom = 2;
+        }
+
         return (
             <ButtonLink
                 to="register_piece"
                 query={{
                     'slide_num': 0,
-                    'start_from': 1,
+                    'start_from': startFrom,
                     'piece_id': this.props.piece.id
                 }}
                 className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
