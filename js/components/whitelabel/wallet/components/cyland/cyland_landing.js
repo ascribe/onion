@@ -3,6 +3,10 @@
 import React from 'react';
 import Router from 'react-router';
 
+
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
@@ -18,17 +22,21 @@ let CylandLanding = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            UserStore.getState()
+            UserStore.getState(),
+            WhitelabelStore.getState()
         );
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
+        WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -46,22 +54,29 @@ let CylandLanding = React.createClass({
             <div className="container ascribe-form-wrapper">
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
-                        <div className="row">
-                        <img src="https://s3.amazonaws.com/upload.uxpin/files/308247/312701/logo.gif" />
+                        <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
+                            <img src={this.state.whitelabel.logo} width="400px"/>
+                            <div style={{marginTop: '1em'}}>
+                                Submissions to Cyland Archive are powered by
+                                <span>
+                                    <span> ascribe </span>
+                                    <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                                </span>
+                            </div>
                         </div>
-                        <div className="row">
+                        <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
                             <div className="col-sm-6">
-                                <div>
+                                <p>
                                     Existing ascribe user?
-                                </div>
+                                </p>
                                 <ButtonLink to="login">
                                     Log in
                                 </ButtonLink>
                             </div>
                             <div className="col-sm-6">
-                                <div>
+                                <p>
                                     Do you need an account?
-                                </div>
+                                </p>
                                 <ButtonLink to="signup">
                                     Sign up
                                 </ButtonLink>
