@@ -28,7 +28,10 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
         children: React.PropTypes.element,
-        onLoggedOut: React.PropTypes.func
+        onLoggedOut: React.PropTypes.func,
+
+        // For this form to work with SlideContainer, we sometimes have to disable it
+        disabled: React.PropTypes.bool
     },
 
     getDefaultProps() {
@@ -84,9 +87,10 @@ let RegisterPieceForm = React.createClass({
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+
         return (
             <Form
-                disabled={false}
+                disabled={this.props.disabled}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
@@ -95,7 +99,7 @@ let RegisterPieceForm = React.createClass({
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady}>
+                            disabled={!this.state.isUploadReady || this.props.disabled}>
                             {this.props.submitMessage}
                         </button>}
                 spinner={

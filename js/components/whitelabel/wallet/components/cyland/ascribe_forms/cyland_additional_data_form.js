@@ -19,7 +19,9 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 let CylandAdditionalDataForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func.isRequired,
-        piece: React.PropTypes.object.isRequired
+        piece: React.PropTypes.object.isRequired,
+
+        disabled: React.PropTypes.bool
     },
 
     getInitialState() {
@@ -67,6 +69,7 @@ let CylandAdditionalDataForm = React.createClass({
         if(this.props.piece && this.props.piece.id) {
             return (
                 <Form
+                    disabled={this.props.disabled}
                     className="ascribe-form-bordered"
                     ref='form'
                     url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
@@ -76,7 +79,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady}>
+                            disabled={!this.state.isUploadReady || this.props.disabled}>
                             {getLangText('Proceed to loan')}
                         </button>
                     }
