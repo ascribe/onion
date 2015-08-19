@@ -153,8 +153,7 @@ let CylandRegisterPiece = React.createClass({
                                 <Property
                                     name="terms"
                                     className="ascribe-settings-property-collapsible-toggle"
-                                    style={{paddingBottom: 0}}
-                                    required={true}>
+                                    style={{paddingBottom: 0}}>
                                     <InputCheckbox>
                                         <span>
                                             {' ' + getLangText('I agree to the Terms of Service of Cyland Archive') + ' '}
