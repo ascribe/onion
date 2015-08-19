@@ -92,6 +92,12 @@ let SlidesContainer = React.createClass({
         });
     },
 
+    // When the start_from parameter is used, this.setSlideNum can not simply be used anymore.
+    nextSlide() {
+        let nextSlide = this.state.slideNum + 1;
+        this.setSlideNum(nextSlide);
+    },
+
     // We let every one from the outsite set the page number of the slider,
     // though only if the slideNum is actually in the range of our children-list.
     setSlideNum(slideNum) {
@@ -122,7 +128,7 @@ let SlidesContainer = React.createClass({
 
         // if slideNum is within the range of slides and none of the previous cases
         // where matched, we can actually do transitions
-        } else if(slideNum >= 0 || slideNum < React.Children.count(this.props.children)) {
+        } else if(slideNum >= 0 || slideNum < this.customChildrenCount()) {
             
             if(slideNum !== this.state.slideNum - 1) {
                 // Bootstrapping the component, getInitialState is called once to save
@@ -249,7 +255,7 @@ let SlidesContainer = React.createClass({
                 <div
                     className="container ascribe-sliding-container"
                     style={{
-                        width: this.state.containerWidth * React.Children.count(this.props.children),
+                        width: this.state.containerWidth * this.customChildrenCount(),
                         transform: 'translateX(' + (-1) * this.state.containerWidth * this.state.slideNum + 'px)'
                     }}>
                     <div className="row">

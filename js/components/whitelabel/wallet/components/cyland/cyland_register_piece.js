@@ -97,11 +97,11 @@ let CylandRegisterPiece = React.createClass({
             PieceActions.updatePiece(response.piece);
         }
 
-        this.refs.slidesContainer.setSlideNum(1);
+        this.refs.slidesContainer.nextSlide();
     },
 
     handleAdditionalDataSuccess() {
-        this.refs.slidesContainer.setSlideNum(2);
+        this.refs.slidesContainer.nextSlide();
     },
 
     handleLoanSuccess(response) {
