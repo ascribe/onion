@@ -24,7 +24,7 @@ let CylandAdditionalDataForm = React.createClass({
 
     getInitialState() {
         return {
-            isUploadReady: false
+            isUploadReady: true
         };
     },
 
@@ -119,7 +119,11 @@ let CylandAdditionalDataForm = React.createClass({
                 </Form>
             );
         } else {
-            return <span>First register the piece.</span>;
+            return (
+                <div className="ascribe-loading-position">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                </div>
+            );
         }
     }
 });

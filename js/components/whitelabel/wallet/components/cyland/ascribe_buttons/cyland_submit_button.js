@@ -3,18 +3,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Moment from 'moment';
+import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 
 import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../../stores/whitelabel_store';
 
-import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
-import LoanForm from '../../../../../ascribe_forms/form_loan';
-
-import ApiUrls from '../../../../../../constants/api_urls';
-
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { getAclFormMessage } from '../../../../../../utils/form_utils';
 
 let CylandSubmitButton = React.createClass({
     propTypes: {
@@ -41,36 +35,25 @@ let CylandSubmitButton = React.createClass({
         this.setState(state);
     },
 
-    getSubmitButton() {
+    render() {
+        let piece = this.props.piece;
+        let startFrom = 1;
+
+        if(piece && piece.extra_data && Object.keys(piece.extra_data).length > 0) {
+            startFrom = 2;
+        }
+
         return (
-            <button
+            <ButtonLink
+                to="register_piece"
+                query={{
+                    'slide_num': 0,
+                    'start_from': startFrom,
+                    'piece_id': this.props.piece.id
+                }}
                 className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
                 {getLangText('Submit to Cyland')}
-            </button>
-        );
-    },
-
-    render() {
-        let today = new Moment();
-        let loanEndDate = new Moment();
-        loanEndDate.add(1000, 'years');
-
-        return (
-            <ModalWrapper
-                trigger={this.getSubmitButton()}
-                handleSuccess={this.props.handleSuccess}
-                title={getLangText('Submit to Cyland')}>
-                <LoanForm
-                    message={getAclFormMessage('acl_loan', '\"' + this.props.piece.title + '\"', this.props.username)}
-                    id={{piece_id: this.props.piece.id}}
-                    url={ApiUrls.ownership_loans_pieces}
-                    email={this.state.whitelabel.user}
-                    gallery="Cyland Archive"
-                    startdate={today}
-                    enddate={loanEndDate}
-                    showPersonalMessage={false}
-                    handleSuccess={this.props.handleSuccess}/>
-            </ModalWrapper>
+            </ButtonLink>
         );
     }
 });

@@ -40,9 +40,10 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
+
 let CylandRegisterPiece = React.createClass({
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getInitialState(){
         return mergeOptions(
@@ -63,6 +64,12 @@ let CylandRegisterPiece = React.createClass({
         WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
+
+        let queryParams = this.getQuery();
+
+        if(queryParams && 'piece_id' in queryParams) {
+            PieceActions.fetchOne(queryParams.piece_id);
+        }
     },
 
     componentWillUnmount() {
@@ -85,24 +92,32 @@ let CylandRegisterPiece = React.createClass({
 
     handleRegisterSuccess(response){
 
+        this.refreshPieceList();
+
         // also start loading the piece for the next step
         if(response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
 
-        this.refs.slidesContainer.setSlideNum(1);
+        this.refs.slidesContainer.nextSlide();
     },
 
     handleAdditionalDataSuccess() {
-        this.refs.slidesContainer.setSlideNum(2);
+        this.refreshPieceList();
+        this.refs.slidesContainer.nextSlide();
     },
 
     handleLoanSuccess(response) {
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        // once the user was able to register + loan a piece successfully, we need to make sure to keep
-        // the piece list up to date
+        this.refreshPieceList();
+
+        PieceActions.fetchOne(this.state.piece.id);
+        this.transitionTo('piece', {pieceId: this.state.piece.id});
+    },
+
+    refreshPieceList() {
         PieceListActions.fetchPieceList(
             this.state.page,
             this.state.pageSize,
@@ -111,9 +126,6 @@ let CylandRegisterPiece = React.createClass({
             this.state.orderAsc,
             this.state.filterBy
         );
-
-        PieceActions.fetchOne(this.state.piece.id);
-        this.transitionTo('piece', {pieceId: this.state.piece.id});
     },
 
     changeSlide() {
@@ -138,9 +150,8 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                breadcrumbs={['Register work', 'Additional details', 'Loan']}
                 forwardProcess={true}>
-                <div>
+                <div data-slide-title="Register work">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
@@ -167,7 +178,7 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div>
+                <div data-slide-title="Additional details">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
@@ -176,7 +187,7 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div>
+                <div data-slide-title="Loan">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
