@@ -165,7 +165,11 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                forwardProcess={true}>
+                forwardProcess={true}
+                glyphiconClassNames={{
+                    pending: 'glyphicon glyphicon-chevron-right',
+                    completed: 'glyphicon glyphicon-lock'
+                }}>
                 <div data-slide-title="Register work">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>

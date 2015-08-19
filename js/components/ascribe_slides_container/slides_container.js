@@ -12,10 +12,24 @@ let Navigation = Router.Navigation;
 let SlidesContainer = React.createClass({
     propTypes: {
         children: React.PropTypes.arrayOf(React.PropTypes.element),
-        forwardProcess: React.PropTypes.bool.isRequired
+        forwardProcess: React.PropTypes.bool.isRequired,
+
+        glyphiconClassNames: React.PropTypes.shape({
+            pending: React.PropTypes.string,
+            complete: React.PropTypes.string
+        })
     },
 
     mixins: [State, Navigation],
+
+    getDefaultProps() {
+        return {
+            glyphiconClassNames: {
+                pending: 'glyphicon glyphicon-chevron-right',
+                complete: 'glyphicon glyphicon-lock'
+            }
+        };
+    },
 
     getInitialState() {
         // handle queryParameters
@@ -200,6 +214,15 @@ let SlidesContainer = React.createClass({
                     <div className="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div className="no-margin row ascribe-breadcrumb-container">
                             {breadcrumbs.map((breadcrumb, i) => {
+
+                                let glyphiconClassName;
+
+                                if(i >= this.state.slideNum) {
+                                    glyphiconClassName = this.props.glyphiconClassNames.pending;
+                                } else {
+                                    glyphiconClassName = this.props.glyphiconClassNames.completed;
+                                }
+
                                 return (
                                     <Col
                                         className="no-padding"
@@ -208,7 +231,7 @@ let SlidesContainer = React.createClass({
                                         <div className="ascribe-breadcrumb">
                                             <a className={this.state.slideNum === i ? 'active' : ''}>
                                                 {breadcrumb}
-                                            <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right glyphicon glyphicon-chevron-right'}>
+                                            <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right ' + glyphiconClassName}>
                                             </span>
                                             </a>
                                         </div>
