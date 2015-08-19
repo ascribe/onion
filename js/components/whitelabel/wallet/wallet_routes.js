@@ -14,6 +14,7 @@ import EditionContainer from '../../../components/ascribe_detail/edition_contain
 import SettingsContainer from '../../../components/settings_container';
 
 // specific components
+import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
@@ -34,7 +35,7 @@ let baseUrl = AppConstants.baseUrl;
 let ROUTES = {
     'cyland': (
         <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={CylandRegisterPiece} />
+            <Route name="landing" path={baseUrl} handler={CylandLanding} />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />

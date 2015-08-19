@@ -16,6 +16,9 @@ import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
 
 import ContractForm from './ascribe_forms/ikonotv_contract_form';
+import RegisterPieceForm from '../../../../../components/ascribe_forms/form_register_piece';
+import Property from '../../../../../components/ascribe_forms/property';
+import InputCheckbox from '../../../../../components/ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
@@ -31,88 +34,45 @@ let IkonotvRegisterPiece = React.createClass({
     getInitialState(){
         return mergeOptions(
             UserStore.getState(),
-            PieceListStore.getState(),
-            PieceStore.getState(),
             WhitelabelStore.getState());
     },
 
     componentDidMount() {
-        PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
-        PieceStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
-        PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
-        PieceStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
-    handleRegisterSuccess(response){
-
-        // once the user was able to register a piece successfully, we need to make sure to keep
-        // the piece list up to date
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
-
-        // also start loading the piece for the next step
-        if(response && response.piece) {
-            PieceActions.updatePiece(response.piece);
-        }
-
-        this.refs.slidesContainer.setSlideNum(1);
-    },
-
-    handleAdditionalDataSuccess() {
-        this.refs.slidesContainer.setSlideNum(2);
-    },
-
-    handleLoanSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-        PieceActions.fetchOne(this.state.piece.id);
-        this.transitionTo('piece', {pieceId: this.state.piece.id});
-    },
-
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
-    },
-
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.transitionTo('login');
-    },
 
     render() {
-
+        if (this.state.currentUser &&
+            this.state.whitelabel &&
+            this.state.whitelabel.user &&
+            this.state.currentUser.email === this.state.whitelabel.user){
+            return (
+                <ContractForm />
+            );
+        }
         return (
-            <ContractForm />
+            <div className="ascribe-form-bordered ascribe-form-wrapper">
+                <RegisterPieceForm
+                    enableLocalHashing={false}
+                    headerMessage={getLangText('Register your work')}
+                    submitMessage={getLangText('Register')}
+                    handleSuccess={this.handleRegisterSuccess}/>
+            </div>
         );
+
     }
 });
 
