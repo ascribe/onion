@@ -11,7 +11,6 @@ let Navigation = Router.Navigation;
 
 let SlidesContainer = React.createClass({
     propTypes: {
-        breadcrumbs: React.PropTypes.arrayOf(React.PropTypes.string),
         children: React.PropTypes.arrayOf(React.PropTypes.element),
         forwardProcess: React.PropTypes.bool.isRequired
     },
@@ -135,15 +134,31 @@ let SlidesContainer = React.createClass({
         }
     },
 
-    renderBreadCrumbs() {
-        if (this.props.breadcrumbs) {
-            let numSlides = this.props.breadcrumbs.length;
+    extractBreadcrumbs() {
+        let breadcrumbs = [];
+
+        ReactAddons.Children.map(this.props.children, (child) => {
+            breadcrumbs.push(child.props['data-slide-title']);
+        });
+
+        return breadcrumbs;
+    },
+
+    renderBreadcrumbs() {
+        let breadcrumbs = this.extractBreadcrumbs();
+        let numOfChildren = React.Children.count(this.props.children);
+
+        // check if every child/slide has a title,
+        // otherwise do not display the breadcrumbs at all
+        if(breadcrumbs.length === numOfChildren) {
+            let numSlides = breadcrumbs.length;
             let columnWidth = Math.floor(12 / numSlides);
+
             return (
                 <div className="row" style={{width: this.state.containerWidth}}>
                     <div className="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
                         <div className="no-margin row ascribe-breadcrumb-container">
-                            {this.props.breadcrumbs.map((breadcrumb, i) => {
+                            {breadcrumbs.map((breadcrumb, i) => {
                                 return (
                                     <Col
                                         className="no-padding"
@@ -151,7 +166,7 @@ let SlidesContainer = React.createClass({
                                         key={i}>
                                         <div className="ascribe-breadcrumb">
                                             <a className={this.state.slideNum === i ? 'active' : ''}>
-                                                {this.props.breadcrumbs[i]}
+                                                {breadcrumb}
                                             <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right glyphicon glyphicon-chevron-right'}>
                                             </span>
                                             </a>
@@ -163,8 +178,9 @@ let SlidesContainer = React.createClass({
                     </div>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     // Since we need to give the slides a width, we need to call ReactAddons.addons.cloneWithProps
@@ -186,7 +202,7 @@ let SlidesContainer = React.createClass({
             <div
                 className="container ascribe-sliding-container-wrapper"
                 ref="containerWrapper">
-                {this.renderBreadCrumbs()}
+                {this.renderBreadcrumbs()}
                 <div
                     className="container ascribe-sliding-container"
                     style={{

@@ -138,9 +138,8 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                breadcrumbs={['Register work', 'Additional details', 'Loan']}
                 forwardProcess={true}>
-                <div>
+                <div data-slide-title="Register work">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
@@ -167,7 +166,7 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div>
+                <div data-slide-title="Additional details">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
@@ -176,7 +175,7 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div>
+                <div data-slide-title="Loan">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
