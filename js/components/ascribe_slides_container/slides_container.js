@@ -6,6 +6,8 @@ import ReactAddons from 'react/addons';
 
 import Col from 'react-bootstrap/lib/Col';
 
+import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
+
 let State = Router.State;
 let Navigation = Router.Navigation;
 
@@ -21,15 +23,6 @@ let SlidesContainer = React.createClass({
     },
 
     mixins: [State, Navigation],
-
-    getDefaultProps() {
-        return {
-            glyphiconClassNames: {
-                pending: 'glyphicon glyphicon-chevron-right',
-                complete: 'glyphicon glyphicon-lock'
-            }
-        };
-    },
 
     getInitialState() {
         // handle queryParameters
@@ -206,41 +199,13 @@ let SlidesContainer = React.createClass({
         // otherwise do not display the breadcrumbs at all
         // Also, if there is only one child, do not display the breadcrumbs
         if(breadcrumbs.length === numOfChildren && breadcrumbs.length > 1 && numOfChildren > 1) {
-            let numSlides = breadcrumbs.length;
-            let columnWidth = Math.floor(12 / numSlides);
-
             return (
-                <div className="row" style={{width: this.state.containerWidth}}>
-                    <div className="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-                        <div className="no-margin row ascribe-breadcrumb-container">
-                            {breadcrumbs.map((breadcrumb, i) => {
-
-                                let glyphiconClassName;
-
-                                if(i >= this.state.slideNum) {
-                                    glyphiconClassName = this.props.glyphiconClassNames.pending;
-                                } else {
-                                    glyphiconClassName = this.props.glyphiconClassNames.completed;
-                                }
-
-                                return (
-                                    <Col
-                                        className="no-padding"
-                                        sm={columnWidth}
-                                        key={i}>
-                                        <div className="ascribe-breadcrumb">
-                                            <a className={this.state.slideNum === i ? 'active' : ''}>
-                                                {breadcrumb}
-                                            <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right ' + glyphiconClassName}>
-                                            </span>
-                                            </a>
-                                        </div>
-                                    </Col>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
+                <SlidesContainerBreadcrumbs
+                    breadcrumbs={breadcrumbs}
+                    slideNum={this.state.slideNum}
+                    numOfSlides={breadcrumbs.length}
+                    containerWidth={this.state.containerWidth}
+                    glyphiconClassNames={this.props.glyphiconClassNames}/>
             );
         } else {
             return null;
@@ -251,9 +216,9 @@ let SlidesContainer = React.createClass({
     // Also, a key is nice to have!
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child, i) => {
+
             // since the default parameter of startFrom is -1, we do not need to check
             // if its actually present in the url bar, as it will just not match
-
             if(i >= this.state.startFrom) {
                 return ReactAddons.addons.cloneWithProps(child, {
                     className: 'ascribe-slide',
@@ -266,6 +231,7 @@ let SlidesContainer = React.createClass({
                 // Abortions are bad mkay
                 return null;
             }
+
         });
     },
 
