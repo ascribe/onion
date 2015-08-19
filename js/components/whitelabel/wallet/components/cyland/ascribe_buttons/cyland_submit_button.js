@@ -39,7 +39,11 @@ let CylandSubmitButton = React.createClass({
         return (
             <ButtonLink
                 to="register_piece"
-                query={{'slide_num': 1}}
+                query={{
+                    'slide_num': 0,
+                    'start_from': 1,
+                    'piece_id': this.props.piece.id
+                }}
                 className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
                 {getLangText('Submit to Cyland')}
             </ButtonLink>

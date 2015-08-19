@@ -65,7 +65,7 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        a {
+        a:not(.btn) {
             color: #666;
         }
     }
@@ -77,11 +77,6 @@ $ascribe-accordion-list-font: 'Source Sans Pro';
     > a {
         text-decoration: none;
     }
-}
-
-.ascribe-accordion-list-loading {
-    padding-top: 30%;
-    padding-bottom: 30%;
 }
 
 .ascribe-accordion-list-loading img {

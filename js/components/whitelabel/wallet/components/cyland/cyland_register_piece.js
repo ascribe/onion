@@ -40,9 +40,10 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
+
 let CylandRegisterPiece = React.createClass({
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getInitialState(){
         return mergeOptions(
@@ -63,6 +64,12 @@ let CylandRegisterPiece = React.createClass({
         WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
+
+        let queryParams = this.getQuery();
+
+        if(queryParams && 'piece_id' in queryParams) {
+            PieceActions.fetchOne(queryParams.piece_id);
+        }
     },
 
     componentWillUnmount() {

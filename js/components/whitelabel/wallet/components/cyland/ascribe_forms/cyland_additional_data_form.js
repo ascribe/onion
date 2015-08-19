@@ -24,7 +24,7 @@ let CylandAdditionalDataForm = React.createClass({
 
     getInitialState() {
         return {
-            isUploadReady: false
+            isUploadReady: true
         };
     },
 
@@ -64,6 +64,17 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     render() {
+        let artistBio = '';
+        let conceptualOverview = '';
+
+        if (Object.keys(this.props.piece).length !== 0 && Object.keys(this.props.piece.extra_data).length !== 0) {
+            let extraData = this.props.piece.extra_data;
+
+            artistBio = extraData.artist_bio;
+            conceptualOverview = extraData.conceptual_overview;
+        }
+
+
         if(this.props.piece && this.props.piece.id) {
             return (
                 <Form
@@ -96,6 +107,7 @@ let CylandAdditionalDataForm = React.createClass({
                             rows={1}
                             editable={true}
                             placeholder={getLangText('Enter the artist\'s biography...')}
+                            defaultValue={artistBio}
                             required="required"/>
                     </Property>
                     <Property
@@ -106,6 +118,7 @@ let CylandAdditionalDataForm = React.createClass({
                             rows={1}
                             editable={true}
                             placeholder={getLangText('Enter a conceptual overview...')}
+                            defaultValue={conceptualOverview}
                             required="required"/>
                     </Property>
                     <FurtherDetailsFileuploader
@@ -119,7 +132,11 @@ let CylandAdditionalDataForm = React.createClass({
                 </Form>
             );
         } else {
-            return <span>First register the piece.</span>;
+            return (
+                <div className="ascribe-loading-position">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                </div>
+            );
         }
     }
 });

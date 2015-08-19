@@ -138,7 +138,7 @@ let PieceList = React.createClass({
         this.transitionTo(this.getPathname(), {page: 1});
     },
 
-    applyOrderBy(orderBy, orderAsc) {
+    applyOrderBy(orderBy) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         orderBy, this.state.orderAsc, this.state.filterBy);
     },

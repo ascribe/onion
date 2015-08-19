@@ -21,15 +21,22 @@ let SlidesContainer = React.createClass({
         // handle queryParameters
         let queryParams = this.getQuery();
         let slideNum = -1;
+        let startFrom = -1;
 
         if(queryParams && 'slide_num' in queryParams) {
             slideNum = parseInt(queryParams.slide_num, 10);
         }
         // if slide_num is not set, this will be done in componentDidMount
 
+        // the query param 'start_from' removes all slide children before the respective number
+        if(queryParams && 'start_from' in queryParams) {
+            startFrom = parseInt(queryParams.start_from, 10);
+        }
+
         return {
+            slideNum,
+            startFrom,
             containerWidth: 0,
-            slideNum: slideNum,
             historyLength: window.history.length
         };
     },
@@ -54,9 +61,23 @@ let SlidesContainer = React.createClass({
         window.addEventListener('resize', this.handleContainerResize);
     },
 
-    componentDidUpdate() {
-        // check if slide_num was defined, and if not then default to 0
+    componentWillReceiveProps() {
         let queryParams = this.getQuery();
+
+        // also check if start_from was updated
+        // This applies for example when the user tries to submit a already existing piece
+        // (starting from slide 1 for example) and then clicking on + NEW WORK
+        if(queryParams && !('start_from' in queryParams)) {
+            this.setState({
+                startFrom: -1
+            });
+        }
+    },
+
+    componentDidUpdate() {
+        let queryParams = this.getQuery();
+
+        // check if slide_num was defined, and if not then default to 0
         this.setSlideNum(queryParams.slide_num);
     },
 
@@ -137,20 +158,34 @@ let SlidesContainer = React.createClass({
     extractBreadcrumbs() {
         let breadcrumbs = [];
 
-        ReactAddons.Children.map(this.props.children, (child) => {
-            breadcrumbs.push(child.props['data-slide-title']);
+        ReactAddons.Children.map(this.props.children, (child, i) => {
+            if(i >= this.state.startFrom) {
+                breadcrumbs.push(child.props['data-slide-title']);
+            }
         });
 
         return breadcrumbs;
     },
 
+    customChildrenCount() {
+        let count = 0;
+        React.Children.forEach(this.props.children, (child, i) => {
+            if(i >= this.state.startFrom) {
+                count++;
+            }
+        });
+
+        return count;
+    },
+
     renderBreadcrumbs() {
         let breadcrumbs = this.extractBreadcrumbs();
-        let numOfChildren = React.Children.count(this.props.children);
+        let numOfChildren = this.customChildrenCount();
 
         // check if every child/slide has a title,
         // otherwise do not display the breadcrumbs at all
-        if(breadcrumbs.length === numOfChildren) {
+        // Also, if there is only one child, do not display the breadcrumbs
+        if(breadcrumbs.length === numOfChildren && breadcrumbs.length > 1 && numOfChildren > 1) {
             let numSlides = breadcrumbs.length;
             let columnWidth = Math.floor(12 / numSlides);
 
@@ -187,13 +222,21 @@ let SlidesContainer = React.createClass({
     // Also, a key is nice to have!
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child, i) => {
-            return ReactAddons.addons.cloneWithProps(child, {
-                className: 'ascribe-slide',
-                style: {
-                    width: this.state.containerWidth
-                },
-                key: i
-            });
+            // since the default parameter of startFrom is -1, we do not need to check
+            // if its actually present in the url bar, as it will just not match
+
+            if(i >= this.state.startFrom) {
+                return ReactAddons.addons.cloneWithProps(child, {
+                    className: 'ascribe-slide',
+                    style: {
+                        width: this.state.containerWidth
+                    },
+                    key: i
+                });
+            } else {
+                // Abortions are bad mkay
+                return null;
+            }
         });
     },
 

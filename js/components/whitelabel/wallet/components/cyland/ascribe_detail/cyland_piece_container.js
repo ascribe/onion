@@ -20,11 +20,8 @@ import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_de
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
 import { mergeOptions } from '../../../../../../utils/general_utils';
-import { getLangText } from '../../../../../../utils/lang_utils';
 
-/**
- * This is the component that implements resource/data specific functionality
- */
+
 let CylandPieceContainer = React.createClass({
     getInitialState() {
         return mergeOptions(
@@ -106,10 +103,11 @@ let CylandPieceDetails = React.createClass({
                     show={true}
                     defaultExpanded={true}>
                     <Form ref='form'>
-                        {Object.keys(this.props.piece.extra_data).map((data) => {
+                        {Object.keys(this.props.piece.extra_data).map((data, i) => {
                             let label = data.replace('_', ' ');
                             return (
                                 <Property
+                                    key={i}
                                     name={data}
                                     label={label}
                                     editable={false}>
