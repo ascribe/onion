@@ -14,3 +14,12 @@
     margin-bottom: 0;
     color: #616161;
 }
+
+.ascribe-form-wrapper {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 600px;
+    @media (max-width: 550px) {
+        width: 100%;
+    }
+}

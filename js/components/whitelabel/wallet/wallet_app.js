@@ -10,10 +10,19 @@ import GlobalNotification from '../../global_notification';
 let RouteHandler = Router.RouteHandler;
 
 let WalletApp = React.createClass({
+    mixins: [Router.State],
+
     render() {
+        let header = null;
+        if (this.isActive('landing') || this.isActive('login') || this.isActive('signup')) {
+            header = (
+                <div className="hero"/>);
+        } else {
+            header = <Header showAddWork={false} />;
+        }
         return (
             <div className="container ascribe-prize-app">
-                <Header />
+                {header}
                 <RouteHandler />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>

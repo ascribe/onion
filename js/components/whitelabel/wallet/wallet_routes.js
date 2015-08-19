@@ -14,9 +14,13 @@ import EditionContainer from '../../../components/ascribe_detail/edition_contain
 import SettingsContainer from '../../../components/settings_container';
 
 // specific components
+import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
+
+import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
+import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -31,7 +35,7 @@ let baseUrl = AppConstants.baseUrl;
 let ROUTES = {
     'cyland': (
         <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={CylandRegisterPiece} />
+            <Route name="landing" path={baseUrl} handler={CylandLanding} />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
@@ -54,6 +58,20 @@ let ROUTES = {
             <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} />
             <Route name="pieces" path="collection" handler={PieceList} />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
+            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="settings" path="settings" handler={SettingsContainer} />
+        </Route>
+    ),
+    'ikonotv': (
+        <Route name="app" path={baseUrl} handler={WalletApp}>
+            <Route name="landing" path={baseUrl} handler={IkonotvRegisterPiece} />
+            <Route name="login" path="login" handler={LoginContainer} />
+            <Route name="logout" path="logout" handler={LogoutContainer} />
+            <Route name="signup" path="signup" handler={SignupContainer} />
+            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
+            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} />
+            <Route name="pieces" path="collection" handler={IkonotvPieceList} />
+            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>

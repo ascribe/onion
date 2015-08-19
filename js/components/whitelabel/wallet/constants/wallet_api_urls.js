@@ -10,6 +10,12 @@ function getWalletApiUrls(subdomain) {
             'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/'
         };
     }
+    else if (subdomain === 'ikonotv'){
+        return {
+            'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
+            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/'
+        };
+    }
     return {};
 }
 
