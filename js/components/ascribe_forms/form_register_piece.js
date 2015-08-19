@@ -86,6 +86,7 @@ let RegisterPieceForm = React.createClass({
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
         return (
             <Form
+                disabled={false}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
@@ -160,10 +161,23 @@ let FileUploader = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         onLoggedOut: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        enableLocalHashing: React.PropTypes.bool
+        enableLocalHashing: React.PropTypes.bool,
+
+        // provided by Property
+        disabled: React.PropTypes.bool
     },
 
     render() {
+
+        let editable = this.props.isFineUploaderActive;
+
+        // if disabled is actually set by property, we want to override
+        // isFineUploaderActive
+        if(typeof this.props.disabled !== 'undefined') {
+            editable = !this.props.disabled;
+        }
+
+
         return (
             <ReactS3FineUploader
                 onClick={this.props.onClick}
@@ -182,7 +196,7 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={this.props.isFineUploaderActive}
+                areAssetsEditable={editable}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {
