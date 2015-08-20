@@ -53,7 +53,8 @@ let CylandRegisterPiece = React.createClass({
             WhitelabelStore.getState(),
             {
                 selectedLicense: 0,
-                isFineUploaderActive: false
+                isFineUploaderActive: false,
+                step: 0
             });
     },
 
@@ -99,11 +100,16 @@ let CylandRegisterPiece = React.createClass({
             PieceActions.updatePiece(response.piece);
         }
 
+        this.incrementStep();
+
         this.refs.slidesContainer.nextSlide();
     },
 
     handleAdditionalDataSuccess() {
         this.refreshPieceList();
+
+        this.incrementStep();
+
         this.refs.slidesContainer.nextSlide();
     },
 
@@ -115,6 +121,15 @@ let CylandRegisterPiece = React.createClass({
 
         PieceActions.fetchOne(this.state.piece.id);
         this.transitionTo('piece', {pieceId: this.state.piece.id});
+    },
+
+    // We need to increase the step to lock the forms that are already filed out
+    incrementStep() {
+        // also increase step
+        let newStep = this.state.step + 1;
+        this.setState({
+            step: newStep
+        });
     },
 
     refreshPieceList() {
@@ -150,11 +165,16 @@ let CylandRegisterPiece = React.createClass({
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                forwardProcess={true}>
+                forwardProcess={true}
+                glyphiconClassNames={{
+                    pending: 'glyphicon glyphicon-chevron-right',
+                    completed: 'glyphicon glyphicon-lock'
+                }}>
                 <div data-slide-title="Register work">
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                disabled={this.state.step > 0}
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Submit to Cyland Archive')}
                                 submitMessage={getLangText('Submit')}
@@ -182,6 +202,7 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
+                                disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
                                 piece={this.state.piece}/>
                         </Col>

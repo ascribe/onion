@@ -28,7 +28,10 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
         children: React.PropTypes.element,
-        onLoggedOut: React.PropTypes.func
+        onLoggedOut: React.PropTypes.func,
+
+        // For this form to work with SlideContainer, we sometimes have to disable it
+        disabled: React.PropTypes.bool
     },
 
     getDefaultProps() {
@@ -84,8 +87,10 @@ let RegisterPieceForm = React.createClass({
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+
         return (
             <Form
+                disabled={this.props.disabled}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
@@ -94,7 +99,7 @@ let RegisterPieceForm = React.createClass({
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady}>
+                            disabled={!this.state.isUploadReady || this.props.disabled}>
                             {this.props.submitMessage}
                         </button>}
                 spinner={
@@ -160,10 +165,23 @@ let FileUploader = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         onLoggedOut: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        enableLocalHashing: React.PropTypes.bool
+        enableLocalHashing: React.PropTypes.bool,
+
+        // provided by Property
+        disabled: React.PropTypes.bool
     },
 
     render() {
+
+        let editable = this.props.isFineUploaderActive;
+
+        // if disabled is actually set by property, we want to override
+        // isFineUploaderActive
+        if(typeof this.props.disabled !== 'undefined') {
+            editable = !this.props.disabled;
+        }
+
+
         return (
             <ReactS3FineUploader
                 onClick={this.props.onClick}
@@ -182,7 +200,7 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={this.props.isFineUploaderActive}
+                areAssetsEditable={editable}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {
