@@ -16,6 +16,8 @@ import Property from '../../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
+
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
@@ -84,6 +86,14 @@ let CylandPieceContainer = React.createClass({
                             <hr/>
                         </div>
                     }>
+
+                    <CollapsibleParagraph
+                        title={getLangText('Loan History')}
+                        show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
+                        <HistoryIterator
+                            history={this.state.piece.loan_history} />
+                    </CollapsibleParagraph>
+
                     <CylandPieceDetails piece={this.state.piece}/>
                 </Piece>
             );

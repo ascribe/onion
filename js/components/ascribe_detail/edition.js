@@ -16,6 +16,7 @@ import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
+import HistoryIterator from './history_iterator';
 
 import MediaContainer from './media_container';
 
@@ -108,8 +109,8 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <hr/>
+                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
                         <hr/>
@@ -130,21 +131,21 @@ let Edition = React.createClass({
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
                         show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.loan_history} />
                     </CollapsibleParagraph>
 
@@ -294,31 +295,6 @@ let EditionSummary = React.createClass({
     }
 });
 
-
-let EditionDetailHistoryIterator = React.createClass({
-    propTypes: {
-        history: React.PropTypes.array
-    },
-
-    render() {
-        return (
-            <Form>
-                {this.props.history.map((historicalEvent, i) => {
-                    return (
-                        <Property
-                                name={i}
-                                key={i}
-                                label={ historicalEvent[0] }
-                                editable={false}>
-                            <pre className="ascribe-pre">{ historicalEvent[1] }</pre>
-                        </Property>
-                    );
-                })}
-                <hr />
-            </Form>
-        );
-    }
-});
 
 let EditionPersonalNote = React.createClass({
     propTypes: {

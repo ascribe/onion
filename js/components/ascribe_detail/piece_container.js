@@ -19,6 +19,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import FurtherDetails from './further_details';
 
 import DetailProperty from './detail_property';
+import HistoryIterator from './history_iterator';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
@@ -185,6 +186,14 @@ let PieceContainer = React.createClass({
                         </AclButtonList>
                     }>
                     {this.getCreateEditionsDialog()}
+
+                    <CollapsibleParagraph
+                        title={getLangText('Loan History')}
+                        show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
+                        <HistoryIterator
+                            history={this.state.piece.loan_history} />
+                    </CollapsibleParagraph>
+
                     <CollapsibleParagraph
                         title="Further Details"
                         show={this.state.piece.acl.acl_edit
