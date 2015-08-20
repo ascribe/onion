@@ -28,6 +28,11 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
+
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -159,6 +164,7 @@ let PieceContainer = React.createClass({
                     subheader={
                         <div className="ascribe-detail-header">
                             <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
+                            <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
                         </div>
                     }
                     buttons={
@@ -192,6 +198,11 @@ let PieceContainer = React.createClass({
                             otherData={this.state.piece.other_data}
                             handleSuccess={this.loadPiece}/>
                     </CollapsibleParagraph>
+                    {
+                        //<PersonalNote
+                        //    piece={this.state.piece}
+                        //    currentUser={this.state.currentUser}/>
+                    }
                 </Piece>
             );
         } else {
@@ -203,5 +214,44 @@ let PieceContainer = React.createClass({
         }
     }
 });
+
+
+let PersonalNote = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object
+    },
+    showNotification(){
+        let notification = new GlobalNotificationModel(getLangText('Jury note saved'), 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    render() {
+        if (this.props.currentUser.username && true || false) {
+            return (
+                <Form
+                    url={ApiUrls.note_notes}
+                    handleSuccess={this.showNotification}>
+                    <Property
+                        name='value'
+                        label={getLangText('Jury note')}
+                        editable={true}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            editable={true}
+                            defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                            placeholder={getLangText('Enter your comments...')}/>
+                    </Property>
+                    <Property hidden={true} name='piece_id'>
+                        <input defaultValue={this.props.piece.id}/>
+                    </Property>
+                    <hr />
+                </Form>
+            );
+        }
+        return null;
+    }
+});
+
 
 export default PieceContainer;

@@ -256,7 +256,7 @@ let PersonalNote = React.createClass({
                 </Form>
             );
         }
-        return nul
+        return null;
     }
 });
 
