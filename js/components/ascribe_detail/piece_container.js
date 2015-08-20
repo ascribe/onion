@@ -183,7 +183,7 @@ let PieceContainer = React.createClass({
                         title="Further Details"
                         show={this.state.piece.acl.acl_edit
                             || Object.keys(this.state.piece.extra_data).length > 0
-                            || this.state.piece.other_data !== null}
+                            || this.state.piece.other_data.length > 0}
                         defaultExpanded={true}>
                         <FurtherDetails
                             editable={this.state.piece.acl.acl_edit}

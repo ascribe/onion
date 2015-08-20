@@ -165,7 +165,7 @@ let Edition = React.createClass({
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data !== null}>
+                            || this.props.edition.other_data.length > 0}>
                         <EditionFurtherDetails
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}

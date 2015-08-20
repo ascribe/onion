@@ -51,7 +51,6 @@ let FurtherDetails = React.createClass({
     },
 
     render() {
-        //return (<span />);
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">

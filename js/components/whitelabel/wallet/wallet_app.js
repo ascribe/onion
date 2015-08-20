@@ -20,7 +20,7 @@ let WalletApp = React.createClass({
             header = (
                 <div className="hero"/>);
         } else {
-            header = <Header showAddWork={false} />;
+            header = <Header showAddWork={true} />;
         }
         return (
             <div className="container ascribe-prize-app">
