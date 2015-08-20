@@ -19,6 +19,7 @@ import CollapsibleParagraph from '../../../../../../components/ascribe_collapsib
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
+import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
@@ -75,7 +76,14 @@ let CylandPieceContainer = React.createClass({
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
                             <hr/>
                         </div>
-                        }>
+                        }
+                    subheader={
+                        <div className="ascribe-detail-header">
+                            <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
+                            <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
+                            <hr/>
+                        </div>
+                    }>
                     <CylandPieceDetails piece={this.state.piece}/>
                 </Piece>
             );
