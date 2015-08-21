@@ -22,8 +22,10 @@ let ApiUrls = {
     'editions': AppConstants.apiEndpoint + 'editions/', // this should be moved to the one below
     'editions_list': AppConstants.apiEndpoint + 'pieces/${piece_id}/editions/',
     'licenses': AppConstants.apiEndpoint + 'ownership/licenses/',
-    'note_notes': AppConstants.apiEndpoint + 'note/notes/',
-    'note_edition': AppConstants.apiEndpoint + 'note/edition_notes/',
+    'note_private_edition': AppConstants.apiEndpoint + 'note/private/editions/',
+    'note_private_piece': AppConstants.apiEndpoint + 'note/private/pieces/',
+    'note_public_edition': AppConstants.apiEndpoint + 'note/public/editions/',
+    'note_public_piece': AppConstants.apiEndpoint + 'note/public/pieces/',
     'ownership_consigns': AppConstants.apiEndpoint + 'ownership/consigns/',
     'ownership_consigns_confirm': AppConstants.apiEndpoint + 'ownership/consigns/confirm/',
     'ownership_consigns_deny': AppConstants.apiEndpoint + 'ownership/consigns/deny/',
