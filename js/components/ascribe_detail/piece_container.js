@@ -29,9 +29,7 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import Form from '../ascribe_forms/form';
-import Property from '../ascribe_forms/property';
-import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
+import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -146,6 +144,10 @@ let PieceContainer = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
+    getId() {
+        return {'id': this.state.piece.id};
+    },
+
     render() {
         if('title' in this.state.piece) {
             return (
@@ -193,7 +195,20 @@ let PieceContainer = React.createClass({
                         <HistoryIterator
                             history={this.state.piece.loan_history} />
                     </CollapsibleParagraph>
-
+                    <CollapsibleParagraph
+                        title="Notes"
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.state.piece.public_note)}>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
+                            placeholder='Enter your comments ...'
+                            editable={true}
+                            successMessage='Private note saved'
+                            url={ApiUrls.note_private_piece}
+                            currentUser={this.state.currentUser}/>
+                    </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title="Further Details"
                         show={this.state.piece.acl.acl_edit
@@ -207,11 +222,7 @@ let PieceContainer = React.createClass({
                             otherData={this.state.piece.other_data}
                             handleSuccess={this.loadPiece}/>
                     </CollapsibleParagraph>
-                    {
-                        //<PersonalNote
-                        //    piece={this.state.piece}
-                        //    currentUser={this.state.currentUser}/>
-                    }
+
                 </Piece>
             );
         } else {
@@ -223,44 +234,5 @@ let PieceContainer = React.createClass({
         }
     }
 });
-
-
-let PersonalNote = React.createClass({
-    propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
-    },
-    showNotification(){
-        let notification = new GlobalNotificationModel(getLangText('Jury note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    render() {
-        if (this.props.currentUser.username && true || false) {
-            return (
-                <Form
-                    url={ApiUrls.note_notes}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='value'
-                        label={getLangText('Jury note')}
-                        editable={true}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={true}
-                            defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
-                            placeholder={getLangText('Enter your comments...')}/>
-                    </Property>
-                    <Property hidden={true} name='piece_id'>
-                        <input defaultValue={this.props.piece.id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
-        }
-        return null;
-    }
-});
-
 
 export default PieceContainer;

@@ -37,6 +37,8 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import Note from './note';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
@@ -100,7 +102,12 @@ let Edition = React.createClass({
         this.transitionTo('pieces');
     },
 
+    getId() {
+        return {'bitcoin_id': this.props.edition.bitcoin_id};
+    },
+
     render() {
+        console.log(!!this.props.edition.public_note || this.props.edition.acl.acl_edit)
         return (
             <Row>
                 <Col md={6}>
@@ -153,13 +160,25 @@ let Edition = React.createClass({
                         title="Notes"
                         show={(this.state.currentUser.username && true || false) ||
                                 (this.props.edition.acl.acl_edit || this.props.edition.public_note)}>
-                        <EditionPersonalNote
-                            currentUser={this.state.currentUser}
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                        <EditionPublicEditionNote
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
+                            placeholder='Enter your comments ...'
+                            editable={true}
+                            successMessage='Private note saved'
+                            url={ApiUrls.note_private_edition}
+                            currentUser={this.state.currentUser}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Edition note (public)')}
+                            defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
+                            placeholder='Enter your comments ...'
+                            editable={!!this.props.edition.acl.acl_edit}
+                            show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
+                            successMessage='Public edition note saved'
+                            url={ApiUrls.note_public_edition}
+                            currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -312,7 +331,7 @@ let EditionPersonalNote = React.createClass({
         if (this.props.currentUser.username && true || false) {
             return (
                 <Form
-                    url={ApiUrls.note_notes}
+                    url={ApiUrls.note_private_edition}
                     handleSuccess={this.showNotification}>
                     <Property
                         name='note'
