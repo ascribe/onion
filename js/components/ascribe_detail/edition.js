@@ -25,7 +25,6 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
-import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
 import EditionFurtherDetails from './further_details';
 
@@ -163,19 +162,19 @@ let Edition = React.createClass({
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
-                            placeholder='Enter your comments ...'
+                            placeholder={getLangText('Enter your comments ...')}
                             editable={true}
-                            successMessage='Private note saved'
+                            successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={this.getId}
                             label={getLangText('Edition note (public)')}
                             defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
-                            placeholder='Enter your comments ...'
+                            placeholder={getLangText('Enter your comments ...')}
                             editable={!!this.props.edition.acl.acl_edit}
                             show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
-                            successMessage='Public edition note saved'
+                            successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
