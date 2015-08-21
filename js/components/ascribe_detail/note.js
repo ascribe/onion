@@ -39,7 +39,7 @@ let Note = React.createClass({
     },
 
     render() {
-        if ((this.props.currentUser.username && true || false) && this.props.show) {
+        if (!!this.props.currentUser.username && this.props.show) {
             return (
                 <Form
                     url={this.props.url}
