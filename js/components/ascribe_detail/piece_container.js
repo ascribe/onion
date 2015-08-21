@@ -26,6 +26,8 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
+import RequestActionForm from '../ascribe_forms/form_request_action';
+
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
@@ -148,6 +150,34 @@ let PieceContainer = React.createClass({
         return {'id': this.state.piece.id};
     },
 
+    getActions(){
+        if (this.state.piece.request_action && this.state.piece.request_action.length > 0) {
+            return (
+                <RequestActionForm
+                    currentUser={this.state.currentUser}
+                    editions={ [this.state.piece] }
+                    handleSuccess={this.showNotification}/>);
+        }
+        else {
+            return (
+                <AclButtonList
+                    className="text-center ascribe-button-list"
+                    availableAcls={this.state.piece.acl}
+                    editions={this.state.piece}
+                    handleSuccess={this.loadPiece}>
+                        <CreateEditionsButton
+                            label={getLangText('CREATE EDITIONS')}
+                            className="btn-sm"
+                            piece={this.state.piece}
+                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                            onPollingSuccess={this.handlePollingSuccess}/>
+                        <DeleteButton
+                            handleSuccess={this.handleDeleteSuccess}
+                            piece={this.state.piece}/>
+                </AclButtonList>
+            );
+        }
+    },
     render() {
         if('title' in this.state.piece) {
             return (
@@ -170,23 +200,7 @@ let PieceContainer = React.createClass({
                             <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
                         </div>
                     }
-                    buttons={
-                        <AclButtonList
-                            className="text-center ascribe-button-list"
-                            availableAcls={this.state.piece.acl}
-                            editions={this.state.piece}
-                            handleSuccess={this.loadPiece}>
-                                <CreateEditionsButton
-                                    label={getLangText('CREATE EDITIONS')}
-                                    className="btn-sm"
-                                    piece={this.state.piece}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    onPollingSuccess={this.handlePollingSuccess}/>
-                                <DeleteButton
-                                    handleSuccess={this.handleDeleteSuccess}
-                                    piece={this.state.piece}/>
-                        </AclButtonList>
-                    }>
+                    buttons={this.getActions()}>
                     {this.getCreateEditionsDialog()}
 
                     <CollapsibleParagraph
