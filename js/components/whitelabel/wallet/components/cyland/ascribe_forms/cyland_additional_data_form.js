@@ -94,20 +94,20 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}
-                        editable={true}>
+                        editable={!this.props.disabled}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={true}
+                            editable={!this.props.disabled}
                             placeholder={getLangText('Enter the artist\'s biography...')}
                             required="required"/>
                     </Property>
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Conceptual Overview')}
-                        editable={true}>
+                        editable={!this.props.disabled}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={true}
+                            editable={!this.props.disabled}
                             placeholder={getLangText('Enter a conceptual overview...')}
                             required="required"/>
                     </Property>
@@ -115,7 +115,7 @@ let CylandAdditionalDataForm = React.createClass({
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={true}
+                        editable={!this.props.disabled}
                         pieceId={this.props.piece.id}
                         otherData={this.props.piece.other_data}
                         multiple={true}/>

@@ -148,7 +148,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Loanee Email')}
                     onBlur={this.handleOnBlur}
                     editable={!this.props.email}
-                    overrideForm={!this.props.email}>
+                    overrideForm={this.props.email}>
                     <input
                         value={this.props.email}
                         type="email"
@@ -159,7 +159,7 @@ let LoanForm = React.createClass({
                     name='gallery_name'
                     label={getLangText('Gallery/exhibition (optional)')}
                     editable={!this.props.gallery}
-                    overrideForm={!this.props.gallery}>
+                    overrideForm={this.props.gallery}>
                     <input
                         value={this.props.gallery}
                         type="text"
