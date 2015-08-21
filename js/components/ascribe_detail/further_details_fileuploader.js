@@ -13,6 +13,7 @@ import { getCookie } from '../../utils/fetch_api_utils';
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
+        uploadStarted: React.PropTypes.func,
         pieceId: React.PropTypes.number,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
@@ -34,7 +35,7 @@ let FurtherDetailsFileuploader = React.createClass({
         // 1. there is no other_data => do not show the fileuploader at all
         // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
         // 3. both other_data and editable are defined or true => show fileuploader with all action buttons
-        if (!this.props.editable && (!this.props.otherData || this.props.otherData.length == 0)){
+        if (!this.props.editable && (!this.props.otherData || this.props.otherData.length === 0)) {
             return null;
         }
         let otherDataIds = this.props.otherData ? this.props.otherData.map((data)=>{return data.id; }).join() : null;
@@ -43,6 +44,7 @@ let FurtherDetailsFileuploader = React.createClass({
             <Property
                 label="Additional files (max. 10MB)">
                 <ReactS3FineUploader
+                    uploadStarted={this.props.uploadStarted}
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'otherdata',

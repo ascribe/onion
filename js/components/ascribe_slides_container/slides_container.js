@@ -121,7 +121,6 @@ let SlidesContainer = React.createClass({
         // then we want to "replace" (in this case append) the current url with ?slide_num=0
         if(isNaN(slideNum) && this.state.slideNum === -1) {
             slideNum = 0;
-
             queryParams.slide_num = slideNum;
 
             this.replaceWith(this.getPathname(), null, queryParams);
