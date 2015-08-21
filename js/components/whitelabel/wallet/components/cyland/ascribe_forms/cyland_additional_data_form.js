@@ -48,6 +48,12 @@ let CylandAdditionalDataForm = React.createClass({
 
     },
 
+    uploadStarted() {
+        this.setState({
+            isUploadReady: false
+        });
+    },
+
     setIsUploadReady(isReady) {
         this.setState({
             isUploadReady: isReady
@@ -112,6 +118,7 @@ let CylandAdditionalDataForm = React.createClass({
                             required="required"/>
                     </Property>
                     <FurtherDetailsFileuploader
+                        uploadStarted={this.uploadStarted}
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={this.isReadyForFormSubmission}
