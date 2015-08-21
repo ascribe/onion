@@ -28,7 +28,6 @@ let LoanForm = React.createClass({
         startdate: React.PropTypes.object,
         enddate: React.PropTypes.object,
         showPersonalMessage: React.PropTypes.bool,
-
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
@@ -193,7 +192,6 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>
                 </Property>
-                
                 <Property
                     name='password'
                     label={getLangText('Password')}>
@@ -203,6 +201,7 @@ let LoanForm = React.createClass({
                         required/>
                 </Property>
                 {this.getContractCheckbox()}
+                {this.props.children}
             </Form>
         );
     }
