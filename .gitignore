@@ -7,7 +7,7 @@ lib-cov
 *.pid
 *.gz
 *.sublime-project
-
+.idea
 spool-project.sublime-project
 *.sublime-workspace
 *.sublime-workspace
