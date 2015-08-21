@@ -38,6 +38,7 @@ let FurtherDetailsFileuploader = React.createClass({
         if (!this.props.editable && (!this.props.otherData || this.props.otherData.length === 0)) {
             return null;
         }
+
         let otherDataIds = this.props.otherData ? this.props.otherData.map((data)=>{return data.id; }).join() : null;
 
         return (

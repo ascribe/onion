@@ -106,6 +106,12 @@ let CylandRegisterPiece = React.createClass({
     },
 
     handleAdditionalDataSuccess() {
+
+        // We need to refetch the piece again after submitting the additional data
+        // since we want it's otherData to be displayed when the user choses to click
+        // on the browsers back button.
+        PieceActions.fetchOne(this.state.piece.id);
+
         this.refreshPieceList();
 
         this.incrementStep();
@@ -161,7 +167,7 @@ let CylandRegisterPiece = React.createClass({
         let today = new Moment();
         let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
         datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
-        console.log(this.state.piece.id)
+
         return (
             <SlidesContainer
                 ref="slidesContainer"
