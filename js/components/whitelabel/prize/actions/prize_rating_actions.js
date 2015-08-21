@@ -37,7 +37,6 @@ class PrizeRatingActions {
                     resolve(res);
                 })
                 .catch((err) => {
-                    console.logGlobal(err);
                     reject(err);
                 });
         });
@@ -52,7 +51,6 @@ class PrizeRatingActions {
                     resolve(res);
                 })
                 .catch((err) => {
-                    console.logGlobal(err);
                     reject(err);
                 });
         });

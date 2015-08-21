@@ -10,7 +10,7 @@ import EditionListStore from '../stores/edition_list_store';
 import EditionListActions from '../actions/edition_list_actions';
 
 import AccordionList from './ascribe_accordion_list/accordion_list';
-import AccordionListItem from './ascribe_accordion_list/accordion_list_item';
+import AccordionListItemWallet from './ascribe_accordion_list/accordion_list_item_wallet';
 import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_list_item_table_editions';
 
 import Pagination from './ascribe_pagination/pagination';
@@ -24,12 +24,29 @@ import { mergeOptions } from '../utils/general_utils';
 
 let PieceList = React.createClass({
     propTypes: {
+        accordionListItemType: React.PropTypes.func,
         redirectTo: React.PropTypes.string,
-        customSubmitButton: React.PropTypes.element
+        customSubmitButton: React.PropTypes.element,
+        filterParams: React.PropTypes.array,
+        orderParams: React.PropTypes.array
+
     },
 
     mixins: [Router.Navigation, Router.State],
 
+    getDefaultProps() {
+        return {
+            accordionListItemType: AccordionListItemWallet,
+            orderParams: ['artist_name', 'title'],
+            filterParams: [
+                'acl_transfer',
+                'acl_consign',
+                {
+                    key: 'acl_create_editions',
+                    label: 'create editions'
+                }]
+        };
+    },
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
@@ -97,7 +114,7 @@ let PieceList = React.createClass({
          this.transitionTo(this.getPathname(), {page: 1});
     },
 
-    applyFilterBy(filterBy) {
+    applyFilterBy(filterBy){
         // first we need to apply the filter on the piece list
         PieceListActions.fetchPieceList(1, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, filterBy)
@@ -121,20 +138,25 @@ let PieceList = React.createClass({
         this.transitionTo(this.getPathname(), {page: 1});
     },
 
-    accordionChangeOrder(orderBy, orderAsc) {
+    applyOrderBy(orderBy, orderAsc) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        orderBy, orderAsc, this.state.filterBy);
+                                        orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        let AccordionListItemType = this.props.accordionListItemType;
         return (
             <div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
+                    filterParams={this.props.filterParams}
+                    orderParams={this.props.orderParams}
                     filterBy={this.state.filterBy}
-                    applyFilterBy={this.applyFilterBy}>
+                    orderBy={this.state.orderBy}
+                    applyFilterBy={this.applyFilterBy}
+                    applyOrderBy={this.applyOrderBy}>
                     {this.props.customSubmitButton}
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
@@ -151,14 +173,14 @@ let PieceList = React.createClass({
                     loadingElement={loadingElement}>
                     {this.state.pieceList.map((piece, i) => {
                         return (
-                            <AccordionListItem
+                            <AccordionListItemType
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
                                 key={i}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />
-                            </AccordionListItem>
+                            </AccordionListItemType>
                         );
                     })}
                 </AccordionList>
