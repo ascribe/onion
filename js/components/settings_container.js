@@ -270,7 +270,7 @@ let FileUploader = React.createClass({
                         }}
                         validation={{
                             itemLimit: 100000,
-                            sizeLimit: '10000000'
+                            sizeLimit: '50000000'
                         }}
                         session={{
                             endpoint: ApiUrls.ownership_loans_contract,
