@@ -17,9 +17,12 @@ import InputTextAreaToggable from '../../../../../../components/ascribe_forms/in
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
+import Note from '../../../../../ascribe_detail/note';
 
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
+
+import ApiUrls from '../../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
@@ -39,6 +42,13 @@ let CylandPieceContainer = React.createClass({
         UserStore.listen(this.onChange);
     },
 
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     componentWillUnmount() {
         // Every time we're leaving the piece detail page,
         // just reset the piece that is saved in the piece store
@@ -49,13 +59,6 @@ let CylandPieceContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
-    componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
-        }
-    },
-
     onChange(state) {
         this.setState(state);
     },
@@ -63,6 +66,11 @@ let CylandPieceContainer = React.createClass({
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
     },
+
+    getId() {
+        return {'id': this.state.piece.id};
+    },
+
 
     render() {
         if('title' in this.state.piece) {
@@ -93,7 +101,20 @@ let CylandPieceContainer = React.createClass({
                         <HistoryIterator
                             history={this.state.piece.loan_history} />
                     </CollapsibleParagraph>
-
+                    <CollapsibleParagraph
+                        title={getLangText('Notes')}
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.state.piece.public_note)}>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={true}
+                            successMessage={getLangText('Private note saved')}
+                            url={ApiUrls.note_private_piece}
+                            currentUser={this.state.currentUser}/>
+                    </CollapsibleParagraph>
                     <CylandPieceDetails piece={this.state.piece}/>
                 </Piece>
             );
