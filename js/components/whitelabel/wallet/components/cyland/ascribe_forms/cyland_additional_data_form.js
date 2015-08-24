@@ -61,10 +61,9 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     isReadyForFormSubmission(files) {
-        let uploadedFiles = files.filter((file) => file.status === 'upload successful');
         let uploadingFiles = files.filter((file) => file.status === 'submitting');
 
-        if (uploadedFiles.length > 0 && uploadingFiles.length === 0) {
+        if (uploadingFiles.length === 0) {
             return true;
         } else {
             return false;
