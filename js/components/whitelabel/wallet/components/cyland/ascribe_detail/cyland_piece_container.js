@@ -114,10 +114,10 @@ let CylandPieceDetails = React.createClass({
     },
 
     render() {
-        if (Object.keys(this.props.piece.extra_data).length !== 0){
+        if (this.props.piece && Object.keys(this.props.piece.extra_data).length !== 0){
             return (
                 <CollapsibleParagraph
-                    title="Further Details"
+                    title={getLangText('Further Details')}
                     show={true}
                     defaultExpanded={true}>
                     <Form ref='form'>

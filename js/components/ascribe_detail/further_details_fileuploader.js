@@ -32,7 +32,7 @@ let FurtherDetailsFileuploader = React.createClass({
     render() {
         // Essentially there a three cases important to the fileuploader
         //
-        // 1. there is no other_data => do not show the fileuploader at all
+        // 1. there is no other_data => do not show the fileuploader at all (where otherData is now an array)
         // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
         // 3. both other_data and editable are defined or true => show fileuploader with all action buttons
         if (!this.props.editable && (!this.props.otherData || this.props.otherData.length === 0)) {

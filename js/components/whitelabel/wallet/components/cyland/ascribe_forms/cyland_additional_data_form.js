@@ -95,7 +95,9 @@ let CylandAdditionalDataForm = React.createClass({
                         </div>
                     }>
                     <div className="ascribe-form-header">
-                        <h3>Provide supporting materials</h3>
+                        <h3>
+                            {getLangText('Provide supporting materials')}
+                        </h3>
                     </div>
                     <Property
                         name='artist_bio'

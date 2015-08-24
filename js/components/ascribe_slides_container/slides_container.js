@@ -167,6 +167,8 @@ let SlidesContainer = React.createClass({
         }
     },
 
+    // breadcrumbs are defined as attributes of the slides.
+    // To extract them we have to read the DOM element's attributes
     extractBreadcrumbs() {
         let breadcrumbs = [];
 
@@ -179,6 +181,10 @@ let SlidesContainer = React.createClass({
         return breadcrumbs;
     },
 
+    // If startFrom is defined as a URL parameter, this can manipulate
+    // the number of children that are injected into the DOM.
+    // Therefore React.Children.count does not work anymore and we
+    // need to implement our own method.
     customChildrenCount() {
         let count = 0;
         React.Children.forEach(this.props.children, (child, i) => {

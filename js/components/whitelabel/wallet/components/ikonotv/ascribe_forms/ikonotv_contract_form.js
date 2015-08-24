@@ -19,6 +19,10 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
 let ContractForm = React.createClass({
+     propTypes: {
+        handleSuccess: React.PropTypes.func
+     },
+
      getInitialState() {
         return mergeOptions(
             LoanContractListStore.getState(),
@@ -92,7 +96,7 @@ let ContractForm = React.createClass({
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login">
-                            SEND LOAN REQUEST
+                            {getLangText('SEND LOAN REQUEST')}
                         </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -100,14 +104,14 @@ let ContractForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>CONTRACT FORM</h3>
+                    <h3>{getLangText('CONTRACT FORM')}</h3>
                 </div>
                 <Property
                     name='artist_name'
                     label={getLangText('Artist Name')}>
                     <input
                         type="text"
-                        placeholder="(e.g. Andy Warhol)"
+                        placeholder={getLangText('(e.g. Andy Warhol)')}
                         required/>
                 </Property>
                 <Property
@@ -115,7 +119,7 @@ let ContractForm = React.createClass({
                     label={getLangText('Artist Email')}>
                     <input
                         type="email"
-                        placeholder="(e.g. andy@warhol.co.uk)"
+                        placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         required/>
                 </Property>
                 {this.getContracts()}
@@ -124,7 +128,7 @@ let ContractForm = React.createClass({
                     label={getLangText('Appendix')}>
                     <input
                         type="text"
-                        placeholder="Add an appendix to the contract"
+                        placeholder={getLangText('Add an appendix to the contract')}
                         required/>
                 </Property>
             </Form>

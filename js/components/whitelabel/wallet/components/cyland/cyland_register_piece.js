@@ -68,6 +68,10 @@ let CylandRegisterPiece = React.createClass({
 
         let queryParams = this.getQuery();
 
+        // Since every step of this register process is atomic,
+        // we may need to enter the process at step 1 or 2.
+        // If this is the case, we'll need the piece number to complete submission.
+        // It is encoded in the URL as a queryParam and we're checking for it here.
         if(queryParams && 'piece_id' in queryParams) {
             PieceActions.fetchOne(queryParams.piece_id);
         }
@@ -176,7 +180,7 @@ let CylandRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}>
-                <div data-slide-title="Register work">
+                <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
@@ -190,7 +194,7 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div data-slide-title="Additional details">
+                <div data-slide-title={getLangText('Additional details')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
@@ -200,11 +204,11 @@ let CylandRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                <div data-slide-title="Loan">
+                <div data-slide-title={getLangText('Loan')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
-                                loanHeading="Loan to Cyland archive"
+                                loanHeading={getLangText('Loan to Cyland archive')}
                                 message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}

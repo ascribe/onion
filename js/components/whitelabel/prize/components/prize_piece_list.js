@@ -13,6 +13,7 @@ import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 import AccordionListItemPrize from './ascribe_accordion_list/accordion_list_item_prize';
 
 import { mergeOptions } from '../../../../utils/general_utils';
+import { getLangText } from '../../../../utils/lang_utils';
 
 let PrizePieceList = React.createClass({
     getInitialState() {
@@ -37,11 +38,12 @@ let PrizePieceList = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+
     getButtonSubmit() {
         if (this.state.prize && this.state.prize.active){
             return (
                 <ButtonLink to="register_piece">
-                    Submit to prize
+                    {getLangText('Submit to prize')}
                 </ButtonLink>
             );
         }

@@ -142,25 +142,27 @@ let PrizeJurySettings = React.createClass({
         let email = event.target.getAttribute('data-id');
         PrizeJuryActions.activateJury(email).then((response) => {
                 PrizeJuryActions.fetchJury();
-                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
-                GlobalNotificationActions.appendGlobalNotification(notification);
+                this.displayNotification(response);
             });
     },
 
     handleRevoke(event) {
         let email = event.target.getAttribute('data-id');
-        PrizeJuryActions.revokeJury(email).then((response) => {
-                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
-                GlobalNotificationActions.appendGlobalNotification(notification);
-            });
+        PrizeJuryActions
+            .revokeJury(email)
+            .then(this.displayNotification);
     },
 
     handleResend(event) {
         let email = event.target.getAttribute('data-id');
-        PrizeJuryActions.resendJuryInvitation(email).then((response) => {
-                let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
-                GlobalNotificationActions.appendGlobalNotification(notification);
-            });
+        PrizeJuryActions
+            .resendJuryInvitation(email)
+            .then(this.displayNotification);
+    },
+
+    displayNotification(response) {
+        let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getMembersPending() {
@@ -254,6 +256,7 @@ let PrizeJurySettings = React.createClass({
 
         }, this);
     },
+
     getMembers() {
         let content = (
             <div style={{textAlign: 'center'}}>
@@ -264,19 +267,19 @@ let PrizeJurySettings = React.createClass({
             content = (
                 <div style={{padding: '1em'}}>
                     <CollapsibleParagraph
-                        title={'Active Jury Members'}
+                        title={getLangText('Active Jury Members')}
                         show={true}
                         defaultExpanded={true}>
                         {this.getMembersActive()}
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
-                        title={'Pending Jury Invitations'}
+                        title={getLangText('Pending Jury Invitations')}
                         show={true}
                         defaultExpanded={true}>
                         {this.getMembersPending()}
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
-                        title={'Deactivated Jury Members'}
+                        title={getLangText('Deactivated Jury Members')}
                         show={true}
                         defaultExpanded={false}>
                         {this.getMembersInactive()}
@@ -292,9 +295,11 @@ let PrizeJurySettings = React.createClass({
                     url={ApiUrls.jurys}
                     handleSuccess={this.handleCreateSuccess}
                     ref='form'
-                    buttonSubmitText='INVITE'>
+                    buttonSubmitText={getLangText('INVITE')}>
                     <div className="ascribe-form-header">
-                        <h4 style={{margin: '30px 0px 10px 10px'}}>Jury Members</h4>
+                        <h4 style={{margin: '30px 0px 10px 10px'}}>
+                            {getLangText('Jury Members')}
+                        </h4>
                     </div>
                     <Property
                         name='email'

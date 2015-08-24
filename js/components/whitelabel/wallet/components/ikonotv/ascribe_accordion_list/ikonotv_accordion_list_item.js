@@ -75,18 +75,22 @@ let IkonotvAccordionListItem = React.createClass({
     },
 
     render() {
-        return (
-            <AccordionListItemPiece
-                className={this.props.className}
-                piece={this.props.content}
-                subsubheading={
-                    <div className="pull-left">
-                        <span>{this.props.content.date_created.split('-')[0]}</span>
-                    </div>}
-                buttons={this.getSubmitButtons()}>
-                {this.props.children}
-            </AccordionListItemPiece>
-        );
+        if(this.props.content) {
+            return (
+                <AccordionListItemPiece
+                    className={this.props.className}
+                    piece={this.props.content}
+                    subsubheading={
+                        <div className="pull-left">
+                            <span>{this.props.content.date_created.split('-')[0]}</span>
+                        </div>}
+                    buttons={this.getSubmitButtons()}>
+                    {this.props.children}
+                </AccordionListItemPiece>
+            );
+        } else {
+            return null;
+        }
     }
 });
 

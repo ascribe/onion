@@ -8,13 +8,12 @@ import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
-
+import { getLangText } from '../../../../../utils/lang_utils';
 
 let CylandLanding = React.createClass({
 
@@ -57,7 +56,7 @@ let CylandLanding = React.createClass({
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
                             <img src={this.state.whitelabel.logo} width="400px"/>
                             <div style={{marginTop: '1em'}}>
-                                Submissions to Cyland Archive are powered by
+                                {getLangText('Submissions to Cyland Archive are powered by')}
                                 <span>
                                     <span> ascribe </span>
                                     <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
@@ -67,18 +66,18 @@ let CylandLanding = React.createClass({
                         <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
                             <div className="col-sm-6">
                                 <p>
-                                    Existing ascribe user?
+                                    {getLangText('Existing ascribe user?')}
                                 </p>
                                 <ButtonLink to="login">
-                                    Log in
+                                    {getLangText('Log in')}
                                 </ButtonLink>
                             </div>
                             <div className="col-sm-6">
                                 <p>
-                                    Do you need an account?
+                                    {getLangText('Do you need an account?')}
                                 </p>
                                 <ButtonLink to="signup">
-                                    Sign up
+                                    {getLangText('Sign up')}
                                 </ButtonLink>
                             </div>
                         </div>

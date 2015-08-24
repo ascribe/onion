@@ -32,7 +32,7 @@ let PrizeRegisterPiece = React.createClass({
     },
 
     render() {
-        if (this.state.prize.active){
+        if(this.state.prize && this.state.prize.active){
             return (
             <RegisterPiece
                 enableLocalHashing={false}
@@ -77,7 +77,7 @@ let PrizeRegisterPiece = React.createClass({
             return (
                 <div className='row'>
                     <div style={{textAlign: 'center'}}>
-                        The prize is no longer active
+                        {getLangText('The prize is no longer active')}
                     </div>
                 </div>
                 );

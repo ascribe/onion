@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import classnames from 'classnames';
+
 import Col from 'react-bootstrap/lib/Col';
 
 
@@ -59,9 +61,14 @@ let SlidesContainerBreadcrumbs = React.createClass({
                                     sm={columnWidth}
                                     key={i}>
                                     <div className="ascribe-breadcrumb">
-                                        <a className={this.props.slideNum === i ? 'active' : ''}>
+                                        <a className={classnames({'active': this.props.slideNum === i})}>
                                             {breadcrumb}
-                                        <span className={i === numSlides - 1 ? 'invisible' : '' + 'pull-right ' + glyphiconClassName}>
+                                        <span
+                                            className={classnames({
+                                                'invisible': i === numSlides - 1,
+                                                'pull-right': true,
+                                                [glyphiconClassName]: true
+                                            })}>
                                         </span>
                                         </a>
                                     </div>
