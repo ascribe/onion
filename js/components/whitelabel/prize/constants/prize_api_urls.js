@@ -1,14 +1,14 @@
 'use strict';
 
-import AppPrizeConstants from './application_prize_constants';
+import AppPrizeConstants from './prize_application_constants';
 
-function getApiUrls(subdomain) {
+function getPrizeApiUrls(subdomain) {
     return {
-        'pieces_list': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/',
         'users_login': AppPrizeConstants.prizeApiEndpoint + subdomain + '/users/login/',
         'users_signup': AppPrizeConstants.prizeApiEndpoint + subdomain + '/users/',
         'user': AppPrizeConstants.prizeApiEndpoint + subdomain + '/users/',
         'piece_submit_to_prize': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/${piece_id}/submit/',
+        'pieces_list': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/',
         'piece': AppPrizeConstants.prizeApiEndpoint + subdomain + '/pieces/${piece_id}/',
         'prize': AppPrizeConstants.prizeApiEndpoint + subdomain + '/',
         'jurys': AppPrizeConstants.prizeApiEndpoint + subdomain + '/jury/',
@@ -23,4 +23,4 @@ function getApiUrls(subdomain) {
     };
 }
 
-export default getApiUrls;
+export default getPrizeApiUrls;

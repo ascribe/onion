@@ -1,7 +1,10 @@
 'use strict';
 
 import AppConstants from './application_constants';
-import getPrizeApiUrls from '../components/whitelabel/prize/constants/api_urls';
+
+import getPrizeApiUrls from '../components/whitelabel/prize/constants/prize_api_urls';
+import getWalletApiUrls from '../components/whitelabel/wallet/constants/wallet_api_urls';
+
 import { update } from '../utils/general_utils';
 
 
@@ -19,12 +22,16 @@ let ApiUrls = {
     'editions': AppConstants.apiEndpoint + 'editions/', // this should be moved to the one below
     'editions_list': AppConstants.apiEndpoint + 'pieces/${piece_id}/editions/',
     'licenses': AppConstants.apiEndpoint + 'ownership/licenses/',
-    'note_notes': AppConstants.apiEndpoint + 'note/notes/',
-    'note_edition': AppConstants.apiEndpoint + 'note/edition_notes/',
+    'note_private_edition': AppConstants.apiEndpoint + 'note/private/editions/',
+    'note_private_piece': AppConstants.apiEndpoint + 'note/private/pieces/',
+    'note_public_edition': AppConstants.apiEndpoint + 'note/public/editions/',
+    'note_public_piece': AppConstants.apiEndpoint + 'note/public/pieces/',
     'ownership_consigns': AppConstants.apiEndpoint + 'ownership/consigns/',
     'ownership_consigns_confirm': AppConstants.apiEndpoint + 'ownership/consigns/confirm/',
     'ownership_consigns_deny': AppConstants.apiEndpoint + 'ownership/consigns/deny/',
     'ownership_loans_pieces': AppConstants.apiEndpoint + 'ownership/loans/pieces/',
+    'ownership_loans_pieces_confirm': AppConstants.apiEndpoint + 'ownership/loans/pieces/confirm/',
+    'ownership_loans_pieces_deny': AppConstants.apiEndpoint + 'ownership/loans/pieces/deny/',
     'ownership_loans_editions': AppConstants.apiEndpoint + 'ownership/loans/editions/',
     'ownership_loans_confirm': AppConstants.apiEndpoint + 'ownership/loans/editions/confirm/',
     'ownership_loans_deny': AppConstants.apiEndpoint + 'ownership/loans/editions/deny/',
@@ -62,6 +69,8 @@ export function updateApiUrls(type, subdomain) {
 
     if (type === 'prize') {
         newUrls = getPrizeApiUrls(subdomain);
+    } else if(type === 'wallet') {
+        newUrls = getWalletApiUrls(subdomain);
     }
     update(ApiUrls, newUrls);
 }

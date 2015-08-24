@@ -103,7 +103,7 @@ let Header = React.createClass({
             );
 
             collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
-            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece">+ {getLangText('NEW WORK')}</NavItemLink> : null;
+            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece" query={{'slide_num': 0}}>+ {getLangText('NEW WORK')}</NavItemLink> : null;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;

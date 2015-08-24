@@ -63,6 +63,8 @@ let PieceContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
         if(this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
@@ -123,19 +125,20 @@ let NavigationHeader = React.createClass({
     },
 
     render() {
-        if (this.props.currentUser && this.props.piece.navigation) {
+        if (this.props.currentUser && this.props.currentUser.email && this.props.piece && this.props.piece.navigation) {
             let nav = this.props.piece.navigation;
+
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
                         <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
                             <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
-                            Previous
+                            {getLangText('Previous')}
                             </span>
                         </Link>
                         <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
                             <span className="pull-right link-ascribe">
-                                Next
+                                {getLangText('Next')}
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             </span>
                         </Link>
@@ -177,6 +180,10 @@ let PrizePieceRatings = React.createClass({
         PieceListStore.unlisten(this.onChange);
     },
 
+    // The StarRating component does not have a property that lets us set
+    // a default value at initialization. Since the ratingCache would otherwise on
+    // every mouseover be overridden, we need to set it ourselves initially to deal
+    // with the problem.
     onChange(state) {
         this.setState(state);
         if (this.refs.rating) {
@@ -196,6 +203,7 @@ let PrizePieceRatings = React.createClass({
                                             this.state.orderBy, this.state.orderAsc, this.state.filterBy)
         );
     },
+
     render(){
         if (this.props.currentUser && this.props.currentUser.is_jury) {
             return (
@@ -234,7 +242,7 @@ let PersonalNote = React.createClass({
     },
 
     render() {
-        if (this.props.currentUser.username && true || false) {
+        if (this.props.currentUser && this.props.currentUser.username) {
             return (
                 <Form
                     url={ApiUrls.notes}
@@ -246,7 +254,7 @@ let PersonalNote = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             editable={true}
-                            defaultValue={this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                            defaultValue={this.props.piece && this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
                             placeholder={getLangText('Enter your comments...')}/>
                     </Property>
                     <Property hidden={true} name='piece_id'>
@@ -256,7 +264,7 @@ let PersonalNote = React.createClass({
                 </Form>
             );
         }
-        return nul
+        return null;
     }
 });
 
@@ -267,12 +275,13 @@ let PrizePieceDetails = React.createClass({
     },
 
     render() {
-        if (this.props.piece.prize
+        if (this.props.piece
+            && this.props.piece.prize
             && this.props.piece.prize.name
             && Object.keys(this.props.piece.extra_data).length !== 0){
             return (
                 <CollapsibleParagraph
-                    title="Prize Details"
+                    title={getLangText('Prize Details')}
                     show={true}
                     defaultExpanded={true}>
                     <Form ref='form'>

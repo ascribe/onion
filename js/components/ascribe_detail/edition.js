@@ -16,6 +16,7 @@ import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 import EditionListActions from '../../actions/edition_list_actions';
 
+import HistoryIterator from './history_iterator';
 
 import MediaContainer from './media_container';
 
@@ -24,7 +25,6 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
-import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
 import EditionFurtherDetails from './further_details';
 
@@ -35,6 +35,8 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -99,6 +101,10 @@ let Edition = React.createClass({
         this.transitionTo('pieces');
     },
 
+    getId() {
+        return {'bitcoin_id': this.props.edition.bitcoin_id};
+    },
+
     render() {
         return (
             <Row>
@@ -108,8 +114,8 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <hr/>
+                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
                         <hr/>
@@ -130,21 +136,21 @@ let Edition = React.createClass({
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
                         show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
                         show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
-                        <EditionDetailHistoryIterator
+                        <HistoryIterator
                             history={this.props.edition.loan_history} />
                     </CollapsibleParagraph>
 
@@ -152,20 +158,32 @@ let Edition = React.createClass({
                         title="Notes"
                         show={(this.state.currentUser.username && true || false) ||
                                 (this.props.edition.acl.acl_edit || this.props.edition.public_note)}>
-                        <EditionPersonalNote
-                            currentUser={this.state.currentUser}
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
-                        <EditionPublicEditionNote
-                            handleSuccess={this.props.loadEdition}
-                            edition={this.props.edition}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={true}
+                            successMessage={getLangText('Private note saved')}
+                            url={ApiUrls.note_private_edition}
+                            currentUser={this.state.currentUser}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Edition note (public)')}
+                            defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={!!this.props.edition.acl.acl_edit}
+                            show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
+                            successMessage={getLangText('Public edition note saved')}
+                            url={ApiUrls.note_public_edition}
+                            currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data !== null}>
+                            || this.props.edition.other_data.length > 0}>
                         <EditionFurtherDetails
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
@@ -224,7 +242,9 @@ let EditionSummary = React.createClass({
             actions = (
                 <RequestActionForm
                     currentUser={this.props.currentUser}
-                    editions={ [this.props.edition] }
+                    pieceOrEditions={ [this.props.edition] }
+                    requestAction={this.props.edition.request_action}
+                    requestUser={this.props.edition.owner}
                     handleSuccess={this.showNotification}/>);
         }
 
@@ -294,109 +314,6 @@ let EditionSummary = React.createClass({
     }
 });
 
-
-let EditionDetailHistoryIterator = React.createClass({
-    propTypes: {
-        history: React.PropTypes.array
-    },
-
-    render() {
-        return (
-            <Form>
-                {this.props.history.map((historicalEvent, i) => {
-                    return (
-                        <Property
-                                name={i}
-                                key={i}
-                                label={ historicalEvent[0] }
-                                editable={false}>
-                            <pre className="ascribe-pre">{ historicalEvent[1] }</pre>
-                        </Property>
-                    );
-                })}
-                <hr />
-            </Form>
-        );
-    }
-});
-
-let EditionPersonalNote = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
-    },
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel(getLangText('Private note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    render() {
-        if (this.props.currentUser.username && true || false) {
-            return (
-                <Form
-                    url={ApiUrls.note_notes}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='note'
-                        label={getLangText('Personal note (private)')}
-                        editable={true}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={true}
-                            defaultValue={this.props.edition.note_from_user}
-                            placeholder={getLangText('Enter a personal note%s', '...')}/>
-                    </Property>
-                    <Property hidden={true} name='bitcoin_id'>
-                        <input defaultValue={this.props.edition.bitcoin_id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
-        }
-        return null;
-    }
-});
-
-let EditionPublicEditionNote = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
-    },
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel(getLangText('Public note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-    render() {
-        let isEditable = this.props.edition.acl.acl_edit;
-        if (isEditable || this.props.edition.public_note){
-            return (
-                <Form
-                    url={ApiUrls.note_edition}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='note'
-                        label={getLangText('Edition note (public)')}
-                        editable={isEditable}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={isEditable}
-                            defaultValue={this.props.edition.public_note}
-                            placeholder={getLangText('Enter a public note for this edition%s', '...')}
-                            required="required"/>
-                    </Property>
-                    <Property hidden={true} name='bitcoin_id'>
-                        <input defaultValue={this.props.edition.bitcoin_id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
-        }
-        return null;
-    }
-});
 
 let CoaDetails = React.createClass({
     propTypes: {

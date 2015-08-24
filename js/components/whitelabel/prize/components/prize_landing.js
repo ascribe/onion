@@ -13,7 +13,7 @@ import UserStore from '../../../../stores/user_store';
 import UserActions from '../../../../actions/user_actions';
 
 import { mergeOptions } from '../../../../utils/general_utils';
-
+import { getLangText } from '../../../../utils/lang_utils';
 
 let Landing = React.createClass({
 
@@ -53,14 +53,14 @@ let Landing = React.createClass({
             return (
                 <ButtonGroup className="enter" bsSize="large" vertical>
                     <ButtonLink to="signup">
-                        Sign up to submit
+                        {getLangText('Sign up to submit')}
                     </ButtonLink>
 
                     <p>
-                        or, already an ascribe user?
+                        {getLangText('or, already an ascribe user?')}
                     </p>
                     <ButtonLink to="login">
-                        Log in to submit
+                        {getLangText('Log in to submit')}
                     </ButtonLink>
                 </ButtonGroup>
             );
@@ -68,14 +68,14 @@ let Landing = React.createClass({
         return (
             <ButtonGroup className="enter" bsSize="large" vertical>
                 <a className="btn btn-default" href="https://www.ascribe.io/app/signup">
-                    Sign up to ascribe
+                    {getLangText('Sign up to ascribe')}
                 </a>
 
                 <p>
-                    or, already an ascribe user?
+                    {getLangText('or, already an ascribe user?')}
                 </p>
                 <ButtonLink to="login">
-                    Log in
+                    {getLangText('Log in')}
                 </ButtonLink>
             </ButtonGroup>
         );
@@ -85,13 +85,13 @@ let Landing = React.createClass({
         if (this.state.prize && this.state.prize.active){
             return (
                 <p>
-                    This is the submission page for Sluice_screens ↄc Prize 2015.
+                    {getLangText('This is the submission page for Sluice_screens ↄc Prize 2015.')}
                 </p>
             );
         }
         return (
             <p>
-                Submissions for Sluice_screens ↄc Prize 2015 are now closed.
+                {getLangText('Submissions for Sluice_screens ↄc Prize 2015 are now closed.')}
             </p>
         );
     },
@@ -100,7 +100,9 @@ let Landing = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
-                        <h1>Sluice_screens ↄc Prize 2015</h1>
+                        <h1>
+                            {getLangText('Sluice_screens ↄc Prize 2015')}
+                        </h1>
                         {this.getTitle()}
                         {this.getButtons()}
                     </div>

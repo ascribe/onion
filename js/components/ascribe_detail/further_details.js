@@ -5,28 +5,24 @@ import React from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-
 import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
 
 import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 
-import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import FurtherDetailsFileuploader from './further_details_fileuploader';
 
-import { getCookie } from '../../utils/fetch_api_utils';
+import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 let FurtherDetails = React.createClass({
     propTypes: {
         editable: React.PropTypes.bool,
         pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
-        otherData: React.PropTypes.object,
+        otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         handleSuccess: React.PropTypes.func
     },
 
@@ -54,17 +50,7 @@ let FurtherDetails = React.createClass({
         });
     },
 
-    isReadyForFormSubmission(files) {
-        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if(files.length > 0 && files[0].status === 'upload successful') {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
     render() {
-        //return (<span />);
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
@@ -90,93 +76,23 @@ let FurtherDetails = React.createClass({
                         editable={this.props.editable}
                         pieceId={this.props.pieceId}
                         extraData={this.props.extraData} />
-                    <FileUploader
-                        submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        otherData={this.props.otherData}/>
+                    <Form>
+                        <FurtherDetailsFileuploader
+                            submitKey={this.submitKey}
+                            setIsUploadReady={this.setIsUploadReady}
+                            isReadyForFormSubmission={isReadyForFormSubmission}
+                            editable={this.props.editable}
+                            overrideForm={true}
+                            pieceId={this.props.pieceId}
+                            otherData={this.props.otherData}
+                            multiple={true}/>
+                    </Form>
                 </Col>
             </Row>
         );
     }
 });
 
-let FileUploader = React.createClass({
-    propTypes: {
-        pieceId: React.PropTypes.number,
-        otherData: React.PropTypes.object,
-        setIsUploadReady: React.PropTypes.func,
-        submitKey: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func,
-        editable: React.PropTypes.bool
-    },
 
-    render() {
-        // Essentially there a three cases important to the fileuploader
-        //
-        // 1. there is no other_data => do not show the fileuploader at all
-        // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
-        // 3. both other_data and editable are defined or true => show fileuploade with all action buttons
-        if (!this.props.editable && !this.props.otherData){
-            return null;
-        }
-        return (
-            <Form>
-                <Property
-                    label="Additional files (max. 10MB)">
-                    <ReactS3FineUploader
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'otherdata',
-                            pieceId: this.props.pieceId
-                        }}
-                        createBlobRoutine={{
-                            url: ApiUrls.blob_otherdatas,
-                            pieceId: this.props.pieceId
-                        }}
-                        validation={{
-                            itemLimit: 100000,
-                            sizeLimit: '10000000'
-                        }}
-                        submitKey={this.props.submitKey}
-                        setIsUploadReady={this.props.setIsUploadReady}
-                        isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                        session={{
-                            endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
-                            customHeaders: {
-                                'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                            },
-                            params: {
-                                'pk': this.props.otherData ? this.props.otherData.id : null
-                            },
-                            cors: {
-                                expected: true,
-                                sendCredentials: true
-                            }
-                        }}
-                        signature={{
-                            endpoint: AppConstants.serverUrl + 's3/signature/',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                            }
-                        }}
-                        deleteFile={{
-                            enabled: true,
-                            method: 'DELETE',
-                            endpoint: AppConstants.serverUrl + 's3/delete',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                            }
-                        }}
-                        areAssetsDownloadable={true}
-                        areAssetsEditable={this.props.editable}/>
-                </Property>
-                <hr />
-            </Form>
-        );
-    }
-});
 
 export default FurtherDetails;

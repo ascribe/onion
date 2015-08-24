@@ -12,7 +12,7 @@ let constants = {
     'baseUrl': window.BASE_URL,
     'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
                 'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
-                'acl_withdraw_transfer', 'acl_submit_to_prize'],
+                'acl_withdraw_transfer', 'acl_submit'],
 
     'version': 0.1,
     'csrftoken': 'csrftoken2',
@@ -26,13 +26,6 @@ let constants = {
             'ga': 'UA-60614729-4'
         },
         {
-            'subdomain': 'cc-staging',
-            'name': 'Creative Commons France',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'wallet'
-        },
-        {
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
             'logo': 'http://sluice.info/images/logo.gif',
@@ -41,11 +34,18 @@ let constants = {
             'ga': 'UA-60614729-5'
         },
         {
-            'subdomain': 'sluice-staging',
-            'name': 'Sluice Art Fair',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/logo.jpeg',
+            'subdomain': 'cyland',
+            'name': 'Cyland media art lab',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/logo.gif',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'prize'
+            'type': 'wallet'
+        },
+        {
+            'subdomain': 'ikonotv',
+            'name': 'IkonoTV',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-logo-black.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
         }
     ],
     'defaultDomain': {

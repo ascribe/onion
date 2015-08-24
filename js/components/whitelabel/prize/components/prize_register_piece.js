@@ -1,6 +1,10 @@
 'use strict';
 
 import React from 'react';
+
+import PrizeActions from '../actions/prize_actions';
+import PrizeStore from '../stores/prize_store';
+
 import RegisterPiece from '../../../register_piece';
 import Property from '../../../ascribe_forms/property';
 import InputTextAreaToggable from '../../../ascribe_forms/input_textarea_toggable';
@@ -10,8 +14,26 @@ import { getLangText } from '../../../../utils/lang_utils';
 
 
 let PrizeRegisterPiece = React.createClass({
+    getInitialState() {
+        return PrizeStore.getState();
+    },
+
+    componentDidMount() {
+        PrizeStore.listen(this.onChange);
+        PrizeActions.fetchPrize();
+    },
+
+    componentWillUnmount() {
+        PrizeStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
-        return (
+        if(this.state.prize && this.state.prize.active){
+            return (
             <RegisterPiece
                 enableLocalHashing={false}
                 headerMessage={getLangText('Submit to the prize')}
@@ -49,8 +71,17 @@ let PrizeRegisterPiece = React.createClass({
                         </span>
                     </InputCheckbox>
                 </Property>
-            </RegisterPiece>
-        );
+            </RegisterPiece>);
+        }
+        else {
+            return (
+                <div className='row'>
+                    <div style={{textAlign: 'center'}}>
+                        {getLangText('The prize is no longer active')}
+                    </div>
+                </div>
+                );
+        }
     }
 });
 

@@ -153,12 +153,10 @@
     /* Taken from: http://www.htmllion.com/css3-checkbox.html */
     .checkbox {
         display: inline-block;
-        cursor: pointer;
 
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-weight: normal;
         font-size: .9em;
-        color: rgba(0, 0, 0, .5);
         vertical-align:middle;
 
         > span {

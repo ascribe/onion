@@ -60,7 +60,7 @@ let PieceList = React.createClass({
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
 
-        if (this.state.pieceList.length === 0){
+        if (this.state.pieceList.length === 0 || this.state.page !== page){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
                                             this.state.orderBy, this.state.orderAsc, this.state.filterBy)
                             .then(() => PieceListActions.fetchPieceRequestActions());
@@ -138,7 +138,7 @@ let PieceList = React.createClass({
         this.transitionTo(this.getPathname(), {page: 1});
     },
 
-    applyOrderBy(orderBy, orderAsc) {
+    applyOrderBy(orderBy) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         orderBy, this.state.orderAsc, this.state.filterBy);
     },

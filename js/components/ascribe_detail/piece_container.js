@@ -19,15 +19,21 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import FurtherDetails from './further_details';
 
 import DetailProperty from './detail_property';
+import HistoryIterator from './history_iterator';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
+import RequestActionForm from '../ascribe_forms/form_request_action';
+
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import Note from './note';
+
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -140,6 +146,42 @@ let PieceContainer = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
+    getId() {
+        return {'id': this.state.piece.id};
+    },
+
+    getActions(){
+        if (this.state.piece &&
+            this.state.piece.request_action &&
+            this.state.piece.request_action.length > 0) {
+            return (
+                <RequestActionForm
+                    currentUser={this.state.currentUser}
+                    pieceOrEditions={ this.state.piece }
+                    requestAction={this.state.piece.request_action}
+                    requestUser={this.state.piece.user_registered}
+                    handleSuccess={this.loadPiece}/>);
+        }
+        else {
+            return (
+                <AclButtonList
+                    className="text-center ascribe-button-list"
+                    availableAcls={this.state.piece.acl}
+                    editions={this.state.piece}
+                    handleSuccess={this.loadPiece}>
+                        <CreateEditionsButton
+                            label={getLangText('CREATE EDITIONS')}
+                            className="btn-sm"
+                            piece={this.state.piece}
+                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                            onPollingSuccess={this.handlePollingSuccess}/>
+                        <DeleteButton
+                            handleSuccess={this.handleDeleteSuccess}
+                            piece={this.state.piece}/>
+                </AclButtonList>
+            );
+        }
+    },
     render() {
         if('title' in this.state.piece) {
             return (
@@ -148,7 +190,7 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
-                            <hr/>
+                            <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
@@ -159,31 +201,37 @@ let PieceContainer = React.createClass({
                     subheader={
                         <div className="ascribe-detail-header">
                             <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
+                            <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
                         </div>
                     }
-                    buttons={
-                        <AclButtonList
-                            className="text-center ascribe-button-list"
-                            availableAcls={this.state.piece.acl}
-                            editions={this.state.piece}
-                            handleSuccess={this.loadPiece}>
-                                <CreateEditionsButton
-                                    label={getLangText('CREATE EDITIONS')}
-                                    className="btn-sm"
-                                    piece={this.state.piece}
-                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                    onPollingSuccess={this.handlePollingSuccess}/>
-                                <DeleteButton
-                                    handleSuccess={this.handleDeleteSuccess}
-                                    piece={this.state.piece}/>
-                        </AclButtonList>
-                    }>
+                    buttons={this.getActions()}>
                     {this.getCreateEditionsDialog()}
+
                     <CollapsibleParagraph
-                        title="Further Details"
+                        title={getLangText('Loan History')}
+                        show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
+                        <HistoryIterator
+                            history={this.state.piece.loan_history} />
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={getLangText('Notes')}
+                        show={(this.state.currentUser.username && true || false) ||
+                                (this.state.piece.public_note)}>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={true}
+                            successMessage={getLangText('Private note saved')}
+                            url={ApiUrls.note_private_piece}
+                            currentUser={this.state.currentUser}/>
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={getLangText('Further Details')}
                         show={this.state.piece.acl.acl_edit
                             || Object.keys(this.state.piece.extra_data).length > 0
-                            || this.state.piece.other_data !== null}
+                            || this.state.piece.other_data.length > 0}
                         defaultExpanded={true}>
                         <FurtherDetails
                             editable={this.state.piece.acl.acl_edit}
@@ -192,6 +240,7 @@ let PieceContainer = React.createClass({
                             otherData={this.state.piece.other_data}
                             handleSuccess={this.loadPiece}/>
                     </CollapsibleParagraph>
+
                 </Piece>
             );
         } else {

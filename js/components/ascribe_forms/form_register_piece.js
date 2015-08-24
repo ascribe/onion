@@ -16,6 +16,7 @@ import ApiUrls from '../../constants/api_urls';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -24,9 +25,13 @@ let RegisterPieceForm = React.createClass({
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
         isFineUploaderActive: React.PropTypes.bool,
+        isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
         children: React.PropTypes.element,
-        onLoggedOut: React.PropTypes.func
+        onLoggedOut: React.PropTypes.func,
+
+        // For this form to work with SlideContainer, we sometimes have to disable it
+        disabled: React.PropTypes.bool
     },
 
     getDefaultProps() {
@@ -78,21 +83,14 @@ let RegisterPieceForm = React.createClass({
         });
     },
 
-    isReadyForFormSubmission(files) {
-        files = files.filter((file) => file.status !== 'deleted' && file.status !== 'canceled');
-        if (files.length > 0 && files[0].status === 'upload successful') {
-            return true;
-        } else {
-            return false;
-        }
-    },
-
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+
         return (
             <Form
+                disabled={this.props.disabled}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
@@ -101,7 +99,7 @@ let RegisterPieceForm = React.createClass({
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady}>
+                            disabled={!this.state.isUploadReady || this.props.disabled}>
                             {this.props.submitMessage}
                         </button>}
                 spinner={
@@ -117,7 +115,7 @@ let RegisterPieceForm = React.createClass({
                     <FileUploader
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        isReadyForFormSubmission={isReadyForFormSubmission}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
@@ -167,10 +165,23 @@ let FileUploader = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         onLoggedOut: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        enableLocalHashing: React.PropTypes.bool
+        enableLocalHashing: React.PropTypes.bool,
+
+        // provided by Property
+        disabled: React.PropTypes.bool
     },
 
     render() {
+
+        let editable = this.props.isFineUploaderActive;
+
+        // if disabled is actually set by property, we want to override
+        // isFineUploaderActive
+        if(typeof this.props.disabled !== 'undefined') {
+            editable = !this.props.disabled;
+        }
+
+
         return (
             <ReactS3FineUploader
                 onClick={this.props.onClick}
@@ -189,7 +200,7 @@ let FileUploader = React.createClass({
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
-                areAssetsEditable={this.props.isFineUploaderActive}
+                areAssetsEditable={editable}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {

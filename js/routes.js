@@ -3,7 +3,8 @@
 import React from 'react';
 import Router from 'react-router';
 
-import getPrizeRoutes from './components/whitelabel/prize/routes';
+import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
+import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
 import getDefaultRoutes from './components/routes';
 
 import PieceList from './components/piece_list';
@@ -42,11 +43,13 @@ const COMMON_ROUTES = (
 );
 
 
-function getRoutes(type) {
+function getRoutes(type, subdomain) {
     let routes = null;
 
     if (type === 'prize') {
-        routes = getPrizeRoutes(COMMON_ROUTES);
+        routes = getPrizeRoutes(COMMON_ROUTES, subdomain);
+    } else if(type === 'wallet') {
+        routes = getWalletRoutes(COMMON_ROUTES, subdomain);
     } else {
         routes = getDefaultRoutes(COMMON_ROUTES);
     }
