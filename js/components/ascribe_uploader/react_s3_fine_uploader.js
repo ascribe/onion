@@ -229,7 +229,6 @@ var ReactS3FineUploader = React.createClass({
                 onDeleteComplete: this.onDeleteComplete,
                 onSessionRequestComplete: this.onSessionRequestComplete,
                 onError: this.onError,
-                onValidate: this.onValidate,
                 onUploadChunk: this.onUploadChunk,
                 onUploadChunkSuccess: this.onUploadChunkSuccess
             }
@@ -425,13 +424,17 @@ var ReactS3FineUploader = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    onValidate(data) {
-        if(data.size > this.props.validation.sizeLimit) {
-            this.state.uploader.cancelAll();
+    isFileValid(file) {
+        if(file.size > this.props.validation.sizeLimit) {
 
             let fileSizeInMegaBytes = this.props.validation.sizeLimit / 1000000;
-            let notification = new GlobalNotificationModel(getLangText('Your file is bigger than %d MB', fileSizeInMegaBytes), 'danger', 5000);
+
+            let notification = new GlobalNotificationModel(getLangText('A file you submitted is bigger than ' + fileSizeInMegaBytes + 'MB.'), 'danger', 5000);
             GlobalNotificationActions.appendGlobalNotification(notification);
+
+            return false;
+        } else {
+            return true;
         }
     },
 
@@ -581,8 +584,18 @@ var ReactS3FineUploader = React.createClass({
             return;
         }
 
+        // validate each submitted file if it fits the file size
+        let validFiles = [];
+        for(let i = 0; i < files.length; i++) {
+            if(this.isFileValid(files[i])) {
+                validFiles.push(files[i]);
+            }
+        }
+        // override standard files list with only valid files
+        files = validFiles;
+
         // Call this method to signal the outside component that an upload is in progress
-        if(this.props.uploadStarted && typeof this.props.uploadStarted === 'function') {
+        if(this.props.uploadStarted && typeof this.props.uploadStarted === 'function' && files.length > 0) {
             this.props.uploadStarted();
         }
 
@@ -696,8 +709,10 @@ var ReactS3FineUploader = React.createClass({
         // if we're not hashing the files locally, we're just going to hand them over to fineuploader
         // to upload them to the server
         } else {
-            this.state.uploader.addFiles(files);
-            this.synchronizeFileLists(files);
+            if(files.length > 0) {
+                this.state.uploader.addFiles(files);
+                this.synchronizeFileLists(files);
+            }
         }
     },
 
