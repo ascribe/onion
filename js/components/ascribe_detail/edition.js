@@ -25,7 +25,6 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
-import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
 
 import EditionFurtherDetails from './further_details';
 
@@ -107,7 +106,6 @@ let Edition = React.createClass({
     },
 
     render() {
-        console.log(!!this.props.edition.public_note || this.props.edition.acl.acl_edit)
         return (
             <Row>
                 <Col md={6}>
@@ -164,19 +162,19 @@ let Edition = React.createClass({
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
-                            placeholder='Enter your comments ...'
+                            placeholder={getLangText('Enter your comments ...')}
                             editable={true}
-                            successMessage='Private note saved'
+                            successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={this.getId}
                             label={getLangText('Edition note (public)')}
                             defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
-                            placeholder='Enter your comments ...'
+                            placeholder={getLangText('Enter your comments ...')}
                             editable={!!this.props.edition.acl.acl_edit}
                             show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
-                            successMessage='Public edition note saved'
+                            successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
@@ -314,84 +312,6 @@ let EditionSummary = React.createClass({
     }
 });
 
-
-let EditionPersonalNote = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
-    },
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel(getLangText('Private note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    render() {
-        if (this.props.currentUser.username && true || false) {
-            return (
-                <Form
-                    url={ApiUrls.note_private_edition}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='note'
-                        label={getLangText('Personal note (private)')}
-                        editable={true}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={true}
-                            defaultValue={this.props.edition.note_from_user}
-                            placeholder={getLangText('Enter a personal note%s', '...')}/>
-                    </Property>
-                    <Property hidden={true} name='bitcoin_id'>
-                        <input defaultValue={this.props.edition.bitcoin_id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
-        }
-        return null;
-    }
-});
-
-let EditionPublicEditionNote = React.createClass({
-    propTypes: {
-        edition: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
-    },
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel(getLangText('Public note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-    render() {
-        let isEditable = this.props.edition.acl.acl_edit;
-        if (isEditable || this.props.edition.public_note){
-            return (
-                <Form
-                    url={ApiUrls.note_edition}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='note'
-                        label={getLangText('Edition note (public)')}
-                        editable={isEditable}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={isEditable}
-                            defaultValue={this.props.edition.public_note}
-                            placeholder={getLangText('Enter a public note for this edition%s', '...')}
-                            required="required"/>
-                    </Property>
-                    <Property hidden={true} name='bitcoin_id'>
-                        <input defaultValue={this.props.edition.bitcoin_id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
-        }
-        return null;
-    }
-});
 
 let CoaDetails = React.createClass({
     propTypes: {

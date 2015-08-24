@@ -196,21 +196,21 @@ let PieceContainer = React.createClass({
                             history={this.state.piece.loan_history} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
-                        title="Notes"
+                        title={getLangText('Notes')}
                         show={(this.state.currentUser.username && true || false) ||
                                 (this.state.piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
-                            placeholder='Enter your comments ...'
+                            placeholder={getLangText('Enter your comments ...')}
                             editable={true}
-                            successMessage='Private note saved'
+                            successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
-                        title="Further Details"
+                        title={getLangText('Further Details')}
                         show={this.state.piece.acl.acl_edit
                             || Object.keys(this.state.piece.extra_data).length > 0
                             || this.state.piece.other_data.length > 0}
