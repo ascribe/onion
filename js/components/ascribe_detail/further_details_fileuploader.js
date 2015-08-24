@@ -30,6 +30,7 @@ let FurtherDetailsFileuploader = React.createClass({
     },
 
     render() {
+        console.log(this.props)
         // Essentially there a three cases important to the fileuploader
         //
         // 1. there is no other_data => do not show the fileuploader at all

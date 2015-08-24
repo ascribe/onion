@@ -151,11 +151,15 @@ let PieceContainer = React.createClass({
     },
 
     getActions(){
-        if (this.state.piece.request_action && this.state.piece.request_action.length > 0) {
+        if (this.state.piece &&
+            this.state.piece.request_action &&
+            this.state.piece.request_action.length > 0) {
             return (
                 <RequestActionForm
                     currentUser={this.state.currentUser}
-                    editions={ [this.state.piece] }
+                    pieceOrEditions={ this.state.piece }
+                    requestAction={this.state.piece.request_action}
+                    requestUser={this.state.piece.user_registered}
                     handleSuccess={this.showNotification}/>);
         }
         else {
