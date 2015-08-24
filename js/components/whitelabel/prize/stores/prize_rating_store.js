@@ -8,15 +8,21 @@ class PrizeRatingStore {
     constructor() {
         this.ratings = [];
         this.currentRating = null;
+        this.average = null;
         this.bindActions(PrizeRatingActions);
     }
 
-    onUpdatePrizeRatings( ratings ) {
+    onUpdatePrizeRatings(ratings) {
         this.ratings = ratings;
     }
 
-    onUpdatePrizeRating( rating ) {
+    onUpdatePrizeRating(rating) {
         this.currentRating = parseInt(rating, 10);
+    }
+
+    onUpdatePrizeRatingAverage(data) {
+        this.average = data.average;
+        this.ratings = data.ratings;
     }
 }
 

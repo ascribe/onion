@@ -17,6 +17,7 @@ import PrizeRatingStore from '../../stores/prize_rating_store';
 import UserStore from '../../../../../stores/user_store';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
+import Note from '../../../../../components/ascribe_detail/note';
 
 import AppConstants from '../../../../../constants/application_constants';
 
@@ -53,6 +54,15 @@ let PieceContainer = React.createClass({
         UserStore.listen(this.onChange);
     },
 
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces)
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     componentWillUnmount() {
         // Every time we're leaving the piece detail page,
         // just reset the piece that is saved in the piece store
@@ -63,14 +73,6 @@ let PieceContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
-    // This is done to update the container when the user clicks on the prev or next
-    // button to update the URL parameter (and therefore to switch pieces)
-    componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
-        }
-    },
 
     onChange(state) {
         this.setState(state);
@@ -167,6 +169,7 @@ let PrizePieceRatings = React.createClass({
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
         PrizeRatingActions.fetchOne(this.props.piece.id);
+        PrizeRatingActions.fetchAverage(this.props.piece.id);
         PieceListStore.listen(this.onChange);
     },
 
@@ -204,8 +207,35 @@ let PrizePieceRatings = React.createClass({
         );
     },
 
+    getId() {
+        return {'piece_id': this.props.piece.id};
+    },
+
     render(){
-        if (this.props.currentUser && this.props.currentUser.is_jury) {
+        if (this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
+            return (
+                <CollapsibleParagraph
+                    title="Average Rating"
+                    show={true}
+                    defaultExpanded={true}>
+                        <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
+                        <StarRating
+                            ref='average-rating'
+                            name="average-rating"
+                            caption=""
+                            size='md'
+                            step={0.5}
+                            rating={this.state.average}
+                            ratingAmount={5}/>
+                        </div>
+                    <hr />
+                    {this.state.ratings.map((item) => {
+                        return item.user;
+                    })}
+                    <hr />
+                </CollapsibleParagraph>);
+        }
+        else if (this.props.currentUser && this.props.currentUser.is_jury) {
             return (
                 <CollapsibleParagraph
                     title="Rating"
@@ -222,8 +252,14 @@ let PrizePieceRatings = React.createClass({
                             onRatingClick={this.onRatingClick}
                             ratingAmount={5} />
                         </div>
-                    <PersonalNote
-                        piece={this.props.piece}
+                    <Note
+                        id={this.getId}
+                        label={getLangText('Jury note')}
+                        defaultValue={this.props.piece && this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                        placeholder={getLangText('Enter your comments ...')}
+                        editable={true}
+                        successMessage={getLangText('Jury note saved')}
+                        url={ApiUrls.notes}
                         currentUser={this.props.currentUser}/>
                 </CollapsibleParagraph>);
         }

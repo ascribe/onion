@@ -9,16 +9,17 @@ class PrizeRatingActions {
     constructor() {
         this.generateActions(
             'updatePrizeRatings',
+            'updatePrizeRatingAverage',
             'updatePrizeRating'
         );
     }
 
-    fetch() {
+    fetchAverage(pieceId) {
         return Q.Promise((resolve, reject) => {
             PrizeRatingFetcher
-                .fetch()
+                .fetchAverage(pieceId)
                 .then((res) => {
-                    this.actions.updatePrizeRatings(res.ratings);
+                    this.actions.updatePrizeRatingAverage(res.data);
                     resolve(res);
                 })
                 .catch((err) => {

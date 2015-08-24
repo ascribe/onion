@@ -4,8 +4,8 @@ import requests from '../../../../utils/requests';
 
 
 let PrizeRatingFetcher = {
-    fetch() {
-        return requests.get('rating');
+    fetchAverage(pieceId) {
+        return requests.get('rating_average', {'piece_id': pieceId});
     },
 
     fetchOne(pieceId) {
@@ -13,7 +13,7 @@ let PrizeRatingFetcher = {
     },
 
     rate(pieceId, rating) {
-        return requests.post('ratings', {body: {'piece_id': pieceId, 'value': rating}});
+        return requests.post('ratings', {body: {'piece_id': pieceId, 'note': rating}});
     }
 };
 
