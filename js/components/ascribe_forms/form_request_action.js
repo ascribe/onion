@@ -16,40 +16,49 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let RequestActionForm = React.createClass({
     propTypes: {
-        editions: React.PropTypes.arrayOf(React.PropTypes.object),
+        pieceOrEditions: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ]).isRequired,
+        requestAction: React.PropTypes.string,
+        requestUser: React.PropTypes.string,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
+    isPiece(){
+        return this.props.pieceOrEditions.constructor !== Array;
+    },
+
     getUrls() {
-        let edition = this.props.editions[0];
         let urls = {};
 
-
-        if (edition.request_action === 'consign'){
+        if (this.props.requestAction === 'consign'){
             urls.accept = ApiUrls.ownership_consigns_confirm;
             urls.deny = ApiUrls.ownership_consigns_deny;
-        } else if (edition.request_action === 'unconsign'){
+        } else if (this.props.requestAction === 'unconsign'){
             urls.accept = ApiUrls.ownership_unconsigns;
             urls.deny = ApiUrls.ownership_unconsigns_deny;
-        } else if (edition.request_action === 'loan'){
+        } else if (this.props.requestAction === 'loan' && !this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_confirm;
             urls.deny = ApiUrls.ownership_loans_deny;
+        } else if (this.props.requestAction === 'loan' && this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_pieces_confirm;
+            urls.deny = ApiUrls.ownership_loans_pieces_deny;
         }
 
         return urls;
     },
 
-    getBitcoinIds(){
-        return this.props.editions.map(function(edition){
-            return edition.bitcoin_id;
-        });
-    },
-
-    getFormData() {
-        return {
-            bitcoin_id: this.getBitcoinIds().join()
-        };
+    getFormData(){
+        if (this.isPiece()) {
+            return {piece_id: this.props.pieceOrEditions.id};
+        }
+        else {
+            return {bitcoin_id: this.props.pieceOrEditions.map(function(edition){
+                return edition.bitcoin_id;
+            }).join()};
+        }
     },
 
     showNotification(option, action, owner) {
@@ -66,8 +75,7 @@ let RequestActionForm = React.createClass({
     },
 
     getContent() {
-        let edition = this.props.editions[0];
-        let message = edition.owner + ' ' + getLangText('requests you') + ' ' + edition.request_action + ' ' + getLangText('this edition%s', '.');
+        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + getLangText('this edition%s', '.');
 
         return (
             <span>
@@ -77,14 +85,12 @@ let RequestActionForm = React.createClass({
     },
 
     getAcceptButtonForm(urls) {
-        let edition = this.props.editions[0];
-
-        if(edition.request_action === 'unconsign') {
+        if(this.props.requestAction === 'unconsign') {
             return (
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
                     action="acl_unconsign"
-                    pieceOrEditions={this.props.editions}
+                    pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.props.handleSuccess} />
                 );
@@ -93,7 +99,9 @@ let RequestActionForm = React.createClass({
                 <Form
                     url={urls.accept}
                     getFormData={this.getFormData}
-                    handleSuccess={this.showNotification(getLangText('accepted'), edition.request_action, edition.owner)}
+                    handleSuccess={
+                        this.showNotification(getLangText('accepted'), this.props.requestAction, this.props.requestUser)
+                    }
                     isInline={true}
                     className='inline pull-right'>
                     <button
@@ -107,8 +115,6 @@ let RequestActionForm = React.createClass({
     },
 
     getButtonForm() {
-        let edition = this.props.editions[0];
-
         let urls = this.getUrls();
         let acceptButtonForm = this.getAcceptButtonForm(urls);
 
@@ -118,7 +124,9 @@ let RequestActionForm = React.createClass({
                     url={urls.deny}
                     isInline={true}
                     getFormData={this.getFormData}
-                    handleSuccess={this.showNotification(getLangText('denied'), edition.request_action, edition.owner)}
+                    handleSuccess={
+                        this.showNotification(getLangText('denied'), this.props.requestAction, this.props.requestUser)
+                    }
                     className='inline pull-right'>
                     <button
                         type="submit"

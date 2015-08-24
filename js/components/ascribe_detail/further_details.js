@@ -82,6 +82,7 @@ let FurtherDetails = React.createClass({
                             setIsUploadReady={this.setIsUploadReady}
                             isReadyForFormSubmission={isReadyForFormSubmission}
                             editable={this.props.editable}
+                            overrideForm={true}
                             pieceId={this.props.pieceId}
                             otherData={this.props.otherData}
                             multiple={true}/>

@@ -242,7 +242,9 @@ let EditionSummary = React.createClass({
             actions = (
                 <RequestActionForm
                     currentUser={this.props.currentUser}
-                    editions={ [this.props.edition] }
+                    pieceOrEditions={ [this.props.edition] }
+                    requestAction={this.props.edition.request_action}
+                    requestUser={this.props.edition.owner}
                     handleSuccess={this.showNotification}/>);
         }
 
