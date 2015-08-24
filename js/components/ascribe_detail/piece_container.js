@@ -160,7 +160,7 @@ let PieceContainer = React.createClass({
                     pieceOrEditions={ this.state.piece }
                     requestAction={this.state.piece.request_action}
                     requestUser={this.state.piece.user_registered}
-                    handleSuccess={this.showNotification}/>);
+                    handleSuccess={this.loadPiece}/>);
         }
         else {
             return (
