@@ -105,7 +105,6 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             editable={!this.props.disabled}
-                            defaultValue={this.props.piece.extra_data.artist_bio}
                             placeholder={getLangText('Enter the artist\'s biography...')}
                             required="required"/>
                     </Property>
@@ -116,7 +115,6 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             editable={!this.props.disabled}
-                            defaultValue={this.props.piece.extra_data.conceptual_overview}
                             placeholder={getLangText('Enter a conceptual overview...')}
                             required="required"/>
                     </Property>
