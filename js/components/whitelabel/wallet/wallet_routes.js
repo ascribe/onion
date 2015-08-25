@@ -21,6 +21,7 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
+import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -69,6 +70,7 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="Send new contract" />
             <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} />
             <Route name="pieces" path="collection" handler={IkonotvPieceList} />
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />

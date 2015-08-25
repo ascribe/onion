@@ -20,6 +20,7 @@ import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
 import HeaderNotificationDebug from './header_notification_debug';
 
+import NavRoutesLinks from './nav_routes_links';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
@@ -27,7 +28,8 @@ import { getLangText } from '../utils/lang_utils';
 
 let Header = React.createClass({
     propTypes: {
-        showAddWork: React.PropTypes.bool
+        showAddWork: React.PropTypes.bool,
+        routes: React.PropTypes.element
     },
 
     mixins: [Router.State],
@@ -129,6 +131,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
+                        <NavRoutesLinks routes={this.props.routes} navbar right/>
                     </CollapsibleNav>
                 </Navbar>
             </div>

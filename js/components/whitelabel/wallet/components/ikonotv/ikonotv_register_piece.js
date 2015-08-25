@@ -55,14 +55,14 @@ let IkonotvRegisterPiece = React.createClass({
 
 
     render() {
-        if (this.state.currentUser &&
+        /* if (this.state.currentUser &&
             this.state.whitelabel &&
             this.state.whitelabel.user &&
             this.state.currentUser.email === this.state.whitelabel.user){
             return (
                 <ContractForm />
             );
-        }
+        } */
         return (
             <div className="ascribe-form-bordered ascribe-form-wrapper">
                 <RegisterPieceForm
