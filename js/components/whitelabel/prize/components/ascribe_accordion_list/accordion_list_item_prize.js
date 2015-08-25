@@ -94,6 +94,13 @@ let AccordionListItemPrize = React.createClass({
                     </div>);
             }
             else {
+                if (this.state.currentUser.is_judge){
+                    return (
+                        <div className="react-rating-caption pull-right">
+                            No votes yet
+                        </div>
+                    );
+                }
                 // jury and no rating yet
                 return (
                     <div className="react-rating-caption pull-right">
