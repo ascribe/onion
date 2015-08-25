@@ -26,13 +26,24 @@ let AccordionListItemPiece = React.createClass({
 
     mixins: [Router.Navigation],
 
-    getLinkData(){
-        return {
-            to: 'piece',
-            params: {
-                pieceId: this.props.piece.id
-            }
-        };
+    getLinkData() {
+
+        if(this.props.piece && this.props.piece.first_edition) {
+            return {
+                to: 'edition',
+                params: {
+                    editionId: this.props.piece.first_edition.bitcoin_id
+                }
+            };
+        } else {
+            return {
+                to: 'piece',
+                params: {
+                    pieceId: this.props.piece.id
+                }
+            };
+        }
+        
     },
 
     render() {
