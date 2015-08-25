@@ -65,17 +65,28 @@ let AccordionListItemPrize = React.createClass({
 
     getPrizeButtons() {
         if (this.state.currentUser && this.state.currentUser.is_jury){
-            if (this.props.content.ratings && this.props.content.ratings.rating){
+            if (this.props.content.ratings &&
+                (this.props.content.ratings.rating || this.props.content.ratings.average)){
                 // jury and rating available
-                let rating = parseInt(this.props.content.ratings.rating, 10);
+                let rating = null,
+                    caption = null;
+                if (this.props.content.ratings.rating){
+                    rating = parseInt(this.props.content.ratings.rating, 10);
+                    caption = 'Your rating';
+                }
+                else if (this.props.content.ratings.average){
+                    rating = this.props.content.ratings.average;
+                    caption = 'Average (' + this.props.content.ratings.ratings.length + ' ratings)';
+                }
+
                 return (
                     <div id="list-rating" className="pull-right">
                         <Link to='piece' params={{pieceId: this.props.content.id}}>
                             <StarRating
                                 ref='rating'
                                 name="prize-rating"
-                                caption="Your rating"
-                                step={1}
+                                caption={caption}
+                                step={0.5}
                                 size='sm'
                                 rating={rating}
                                 ratingAmount={5} />

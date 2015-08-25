@@ -59,6 +59,7 @@ let PieceContainer = React.createClass({
     componentWillReceiveProps(nextProps) {
         if(this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
+            console.log('update')
             PieceActions.fetchOne(nextProps.params.pieceId);
         }
     },
@@ -218,19 +219,40 @@ let PrizePieceRatings = React.createClass({
                     title="Average Rating"
                     show={true}
                     defaultExpanded={true}>
-                        <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
-                        <StarRating
-                            ref='average-rating'
-                            name="average-rating"
-                            caption=""
-                            size='md'
-                            step={0.5}
-                            rating={this.state.average}
-                            ratingAmount={5}/>
+                        <div id="list-rating" style={{marginLeft: '1.5em', marginBottom: '1em'}}>
+                            <StarRating
+                                ref='average-rating'
+                                name="average-rating"
+                                caption=""
+                                size='md'
+                                step={0.5}
+                                rating={this.state.average}
+                                ratingAmount={5}/>
                         </div>
                     <hr />
-                    {this.state.ratings.map((item) => {
-                        return item.user;
+                    {this.state.ratings.map((item, i) => {
+                        let note = item.note ?
+                            <div className="rating-note">
+                                note: {item.note}
+                            </div> : null;
+                        return (
+                            <div className="rating-list">
+                                <div id="list-rating" className="row no-margin">
+                                <span className="pull-right">
+                                    <StarRating
+                                        ref={'rating' + i}
+                                        name={'rating' + i}
+                                        caption=""
+                                        size='sm'
+                                        step={0.5}
+                                        rating={item.rating}
+                                        ratingAmount={5}/>
+                                </span>
+                                <span> {item.user}</span>
+                                    {note}
+                                </div>
+                            </div>
+                        );
                     })}
                     <hr />
                 </CollapsibleParagraph>);
@@ -262,43 +284,6 @@ let PrizePieceRatings = React.createClass({
                         url={ApiUrls.notes}
                         currentUser={this.props.currentUser}/>
                 </CollapsibleParagraph>);
-        }
-        return null;
-    }
-});
-
-let PersonalNote = React.createClass({
-    propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
-    },
-    showNotification(){
-        let notification = new GlobalNotificationModel(getLangText('Jury note saved'), 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    render() {
-        if (this.props.currentUser && this.props.currentUser.username) {
-            return (
-                <Form
-                    url={ApiUrls.notes}
-                    handleSuccess={this.showNotification}>
-                    <Property
-                        name='value'
-                        label={getLangText('Jury note')}
-                        editable={true}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            editable={true}
-                            defaultValue={this.props.piece && this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
-                            placeholder={getLangText('Enter your comments...')}/>
-                    </Property>
-                    <Property hidden={true} name='piece_id'>
-                        <input defaultValue={this.props.piece.id}/>
-                    </Property>
-                    <hr />
-                </Form>
-            );
         }
         return null;
     }

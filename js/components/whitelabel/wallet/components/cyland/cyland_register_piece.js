@@ -77,6 +77,15 @@ let CylandRegisterPiece = React.createClass({
         }
     },
 
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces)
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
