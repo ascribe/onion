@@ -57,6 +57,20 @@ class PrizeRatingActions {
         });
     }
 
+    toggleShortlist(pieceId) {
+        return Q.Promise((resolve, reject) => {
+            PrizeRatingFetcher
+                .select(pieceId)
+                .then((res) => {
+                    this.actions.updatePrizeRating(res.rating.rating);
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
+
     updateRating(rating) {
         this.actions.updatePrizeRating(rating);
     }

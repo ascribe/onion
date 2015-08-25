@@ -4,12 +4,16 @@ import React from 'react';
 import Router from 'react-router';
 import StarRating from 'react-star-rating';
 
-import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
-
 import PieceListActions from '../../../../../actions/piece_list_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
 
+import PrizeRatingActions from '../../actions/prize_rating_actions';
+
 import UserStore from '../../../../../stores/user_store';
+
+import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
+
+import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
@@ -76,7 +80,7 @@ let AccordionListItemPrize = React.createClass({
                 }
                 else if (this.props.content.ratings.average){
                     rating = this.props.content.ratings.average;
-                    caption = 'Average (' + this.props.content.ratings.ratings.length + ' ratings)';
+                    caption = 'Average of ' + this.props.content.ratings.ratings.length + ' rating(s)';
                 }
 
                 return (
@@ -97,7 +101,7 @@ let AccordionListItemPrize = React.createClass({
                 if (this.state.currentUser.is_judge){
                     return (
                         <div className="react-rating-caption pull-right">
-                            No votes yet
+                            Not rated
                         </div>
                     );
                 }
@@ -126,22 +130,42 @@ let AccordionListItemPrize = React.createClass({
         );
     },
 
+    getPrizeBadge(){
+        if (this.state.currentUser && this.state.currentUser.is_judge) {
+            return (
+                <span className="pull-right ascribe-checkbox-wrapper ascribe-checkbox-badge">
+                    <InputCheckbox
+                        defaultChecked={this.props.content.selected}
+                        onChange={() => {
+                            PrizeRatingActions.toggleShortlist(this.props.content.id).then(
+                                PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                                                this.state.orderBy, this.state.orderAsc, this.state.filterBy)
+                        ); }}/>
+                </span>
+            );
+        }
+        return null;
+    },
+
     render() {
         let artistName = this.state.currentUser.is_jury ?
             <span className="glyphicon glyphicon-eye-close" style={{fontSize: '0.75em'}} aria-hidden="true"/> :
             this.props.content.artist_name;
         return (
-            <AccordionListItemPiece
-                className={this.props.className}
-                piece={this.props.content}
-                artistName={artistName}
-                subsubheading={
-                    <div className="pull-left">
-                        <span>{this.props.content.date_created.split('-')[0]}</span>
-                    </div>}
-                buttons={this.getPrizeButtons()}>
-                {this.props.children}
-            </AccordionListItemPiece>
+            <div>
+                <AccordionListItemPiece
+                    className={this.props.className}
+                    piece={this.props.content}
+                    artistName={artistName}
+                    subsubheading={
+                        <div className="pull-left">
+                            <span>{this.props.content.date_created.split('-')[0]}</span>
+                        </div>}
+                    buttons={this.getPrizeButtons()}
+                    badge={this.getPrizeBadge()}>
+                    {this.props.children}
+                </AccordionListItemPiece>
+            </div>
         );
     }
 });

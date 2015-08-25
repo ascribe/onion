@@ -26,6 +26,8 @@ import Property from '../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
+
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
@@ -81,11 +83,13 @@ let PieceContainer = React.createClass({
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
+        this.setState(this.state);
     },
 
     render() {
         if('title' in this.state.piece) {
-            let artistName = this.state.currentUser.is_jury ?
+            let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
+                (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
             return (
                 <Piece
@@ -105,6 +109,7 @@ let PieceContainer = React.createClass({
                         }
                     subheader={
                         <PrizePieceRatings
+                            loadPiece={this.loadPiece}
                             piece={this.state.piece}
                             currentUser={this.state.currentUser}/>
                     }>
@@ -156,6 +161,7 @@ let NavigationHeader = React.createClass({
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
+        loadPiece: React.PropTypes.func,
         piece: React.PropTypes.object,
         currentUser: React.PropTypes.object
     },
@@ -203,22 +209,50 @@ let PrizePieceRatings = React.createClass({
     onRatingClick(event, args) {
         event.preventDefault();
         PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
-            PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                            this.state.orderBy, this.state.orderAsc, this.state.filterBy)
+            this.refreshPieceData()
         );
     },
 
-    getId() {
-        return {'piece_id': this.props.piece.id};
+    refreshPieceData() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+            this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        this.props.loadPiece();
     },
 
     render(){
-        if (this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
+        if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
             return (
-                <CollapsibleParagraph
-                    title="Average Rating"
-                    show={true}
-                    defaultExpanded={true}>
+                <div>
+                    <CollapsibleParagraph
+                        title="Shortlisting"
+                        show={true}
+                        defaultExpanded={true}>
+                        <div className="row no-margin">
+                            <span className="ascribe-checkbox-wrapper" style={{marginLeft: '1.5em'}}>
+                                <InputCheckbox
+                                    defaultChecked={this.props.piece.selected}
+                                    onChange={() => {
+                                        PrizeRatingActions.toggleShortlist(this.props.piece.id).then(
+                                            this.refreshPieceData()
+                                    ); }}>
+                                    <span>
+                                        Select for the prize
+                                    </span>
+                                </InputCheckbox>
+                            </span>
+                            <span className="pull-right">
+                                {this.props.piece.selected ?
+                                    <button className={'btn btn-default btn-sm '}>
+                                        SEND LOAN REQUEST
+                                    </button> : null}
+                            </span>
+                        </div>
+                        <hr />
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title="Average Rating"
+                        show={true}
+                        defaultExpanded={true}>
                         <div id="list-rating" style={{marginLeft: '1.5em', marginBottom: '1em'}}>
                             <StarRating
                                 ref='average-rating'
@@ -229,33 +263,34 @@ let PrizePieceRatings = React.createClass({
                                 rating={this.state.average}
                                 ratingAmount={5}/>
                         </div>
-                    <hr />
-                    {this.state.ratings.map((item, i) => {
-                        let note = item.note ?
-                            <div className="rating-note">
-                                note: {item.note}
-                            </div> : null;
-                        return (
-                            <div className="rating-list">
-                                <div id="list-rating" className="row no-margin">
-                                <span className="pull-right">
-                                    <StarRating
-                                        ref={'rating' + i}
-                                        name={'rating' + i}
-                                        caption=""
-                                        size='sm'
-                                        step={0.5}
-                                        rating={item.rating}
-                                        ratingAmount={5}/>
-                                </span>
-                                <span> {item.user}</span>
-                                    {note}
+                        <hr />
+                        {this.state.ratings.map((item, i) => {
+                            let note = item.note ?
+                                <div className="rating-note">
+                                    note: {item.note}
+                                </div> : null;
+                            return (
+                                <div className="rating-list">
+                                    <div id="list-rating" className="row no-margin">
+                                    <span className="pull-right">
+                                        <StarRating
+                                            ref={'rating' + i}
+                                            name={'rating' + i}
+                                            caption=""
+                                            size='sm'
+                                            step={0.5}
+                                            rating={item.rating}
+                                            ratingAmount={5}/>
+                                    </span>
+                                    <span> {item.user}</span>
+                                        {note}
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                    <hr />
-                </CollapsibleParagraph>);
+                            );
+                        })}
+                        <hr />
+                    </CollapsibleParagraph>
+                </div>);
         }
         else if (this.props.currentUser && this.props.currentUser.is_jury) {
             return (
@@ -275,7 +310,7 @@ let PrizePieceRatings = React.createClass({
                             ratingAmount={5} />
                         </div>
                     <Note
-                        id={this.getId}
+                        id={() => {return {'piece_id': this.props.piece.id}; }}
                         label={getLangText('Jury note')}
                         defaultValue={this.props.piece && this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
                         placeholder={getLangText('Enter your comments ...')}
