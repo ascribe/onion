@@ -54,13 +54,20 @@ let PrizePieceList = React.createClass({
     },
 
     render() {
+        let orderParams = ['artist_name', 'title'];
+        if (this.state.currentUser.is_jury) {
+            orderParams = ['rating', 'title'];
+        }
+        if (this.state.currentUser.is_judge) {
+            orderParams = ['rating', 'title', 'selected'];
+        }
         return (
             <div>
                 <PieceList
                     ref="list"
                     redirectTo="register_piece"
                     accordionListItemType={AccordionListItemPrize}
-                    orderParams={this.state.currentUser.is_jury ? ['rating', 'title'] : ['artist_name', 'title']}
+                    orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}
                     filterParams={null}
                     customSubmitButton={this.getButtonSubmit()}/>
