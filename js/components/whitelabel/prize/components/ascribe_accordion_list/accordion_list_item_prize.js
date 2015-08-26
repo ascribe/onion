@@ -80,7 +80,7 @@ let AccordionListItemPrize = React.createClass({
                 }
                 else if (this.props.content.ratings.average){
                     rating = this.props.content.ratings.average;
-                    caption = 'Average of ' + this.props.content.ratings.ratings.length + ' rating(s)';
+                    caption = 'Average of ' + this.props.content.ratings.num_ratings + ' rating(s)';
                 }
 
                 return (
