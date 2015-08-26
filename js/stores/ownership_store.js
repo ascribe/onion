@@ -26,7 +26,7 @@ class OwnershipStore {
         }
     }
 
-    flushLoanPieceRequest(){
+    onFlushLoanPieceRequest(){
         this.loanRequestList = [];
         this.loanRequest = null;
     }

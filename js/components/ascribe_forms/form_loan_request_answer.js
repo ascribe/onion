@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-
+import Moment from 'moment';
 import classnames from 'classnames';
 
 import Button from 'react-bootstrap/lib/Button';
@@ -66,8 +66,10 @@ let LoanRequestAnswerForm = React.createClass({
 
 
     render() {
-        console.log(this.state.loanRequest)
         if (this.state.loanRequest) {
+            let startDate = new Moment(this.state.loanRequest.datetime_from, Moment.ISO_8601),
+                endDate = new Moment(this.state.loanRequest.datetime_to, Moment.ISO_8601);
+
             return (
                 <LoanForm
                     loanHeading={null}
@@ -76,6 +78,8 @@ let LoanRequestAnswerForm = React.createClass({
                     url={this.props.url}
                     email={this.state.loanRequest.new_owner}
                     gallery={this.state.loanRequest.gallery}
+                    startdate={startDate}
+                    enddate={endDate}
                     showPassword={true}
                     showPersonalMessage={false}
                     handleSuccess={this.handleLoanSuccess}/>

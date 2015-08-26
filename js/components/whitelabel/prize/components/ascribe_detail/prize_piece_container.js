@@ -264,6 +264,7 @@ let PrizePieceRatings = React.createClass({
     },
 
     handleLoanRequestSuccess(){},
+
     handleShortlistSuccess(message){
         let notification = new GlobalNotificationModel(message, 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);

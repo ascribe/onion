@@ -40,12 +40,15 @@ let PrizePieceList = React.createClass({
     },
 
     getButtonSubmit() {
-        if (this.state.prize && this.state.prize.active){
+        if (this.state.prize && this.state.prize.active && !this.state.currentUser.is_jury){
             return (
                 <ButtonLink to="register_piece">
                     {getLangText('Submit to prize')}
                 </ButtonLink>
             );
+        }
+        else if (this.state.prize && this.state.currentUser.is_judge){
+            return null;
         }
         return null;
     },
@@ -54,9 +57,11 @@ let PrizePieceList = React.createClass({
         return (
             <div>
                 <PieceList
+                    ref="list"
                     redirectTo="register_piece"
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={this.state.currentUser.is_jury ? ['rating', 'title'] : ['artist_name', 'title']}
+                    orderBy={this.state.currentUser.is_jury ? 'rating' : null}
                     filterParams={null}
                     customSubmitButton={this.getButtonSubmit()}/>
             </div>

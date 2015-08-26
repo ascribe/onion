@@ -115,7 +115,11 @@ let AccordionListItemPrize = React.createClass({
                 );
             }
         }
-        // participant
+        return this.getPrizeButtonsParticipant();
+
+    },
+
+    getPrizeButtonsParticipant() {
         return (
             <div>
                 <AclProxy
@@ -130,6 +134,16 @@ let AccordionListItemPrize = React.createClass({
         );
     },
 
+    handleShortlistSuccess(message){
+        let notification = new GlobalNotificationModel(message, 'success', 2000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    refreshPieceData() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+    },
+
     getPrizeBadge(){
         if (this.state.currentUser && this.state.currentUser.is_judge) {
             return (
@@ -137,10 +151,18 @@ let AccordionListItemPrize = React.createClass({
                     <InputCheckbox
                         defaultChecked={this.props.content.selected}
                         onChange={() => {
-                            PrizeRatingActions.toggleShortlist(this.props.content.id).then(
-                                PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                                                this.state.orderBy, this.state.orderAsc, this.state.filterBy)
-                        ); }}/>
+                            PrizeRatingActions.toggleShortlist(this.props.content.id)
+                            .then(
+                                (res) => {
+                                    this.refreshPieceData();
+                                    return res;
+                                })
+                            .then(
+                                (res) => {
+                                    this.handleShortlistSuccess(res.notification);
+                                }
+                            );
+                        }}/>
                 </span>
             );
         }

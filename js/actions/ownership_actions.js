@@ -8,7 +8,8 @@ class OwnershipActions {
     constructor() {
         this.generateActions(
             'updateLoanPieceRequestList',
-            'updateLoanPieceRequest'
+            'updateLoanPieceRequest',
+            'flushLoanPieceRequest'
         );
     }
 
@@ -26,12 +27,10 @@ class OwnershipActions {
     fetchLoanRequest(pieceId) {
         OwnershipFetcher.fetchLoanPieceRequestList()
             .then((data) => {
-                let loanRequests = data.loan_requests;
-                this.actions.updateLoanPieceRequest({loanRequests, pieceId});
+                this.actions.updateLoanPieceRequest({loanRequests: data.loan_requests, pieceId: pieceId});
             })
             .catch((err) => {
                 console.logGlobal(err);
-                this.actions.flushLoanPieceRequest();
             });
     }
 }
