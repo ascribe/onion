@@ -173,6 +173,8 @@ let LoanForm = React.createClass({
                 <Property
                     name='startdate'
                     label={getLangText('Start date')}
+                    editable={!this.props.startdate}
+                    overrideForm={!!this.props.startdate}
                     hidden={!this.props.showStartDate}>
                     <InputDate
                         defaultValue={this.props.startdate}
@@ -180,6 +182,8 @@ let LoanForm = React.createClass({
                 </Property>
                 <Property
                     name='enddate'
+                    editable={!this.props.enddate}
+                    overrideForm={!!this.props.enddate}
                     label={getLangText('End date')}
                     hidden={!this.props.showEndDate}>
                     <InputDate
