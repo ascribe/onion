@@ -41,8 +41,8 @@ let LoanForm = React.createClass({
         return {
             loanHeading: '',
             showPersonalMessage: true,
-            showEndDate: false,
-            showStartDate: false,
+            showEndDate: true,
+            showStartDate: true,
             showPassword: true
         };
     },
@@ -53,7 +53,7 @@ let LoanForm = React.createClass({
 
     componentDidMount() {
         LoanContractStore.listen(this.onChange);
-        LoanContractActions.flushLoanContract();
+        LoanContractActions.flushLoanContract.defer();
     },
 
     componentWillUnmount() {
