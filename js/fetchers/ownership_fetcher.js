@@ -17,8 +17,11 @@ let OwnershipFetcher = {
      */
     fetchLoanContractList(){
         return requests.get(ApiUrls.ownership_loans_contract);
-    }
+    },
 
+    fetchLoanPieceRequestList(){
+        return requests.get(ApiUrls.ownership_loans_pieces_request);
+    }
 };
 
 export default OwnershipFetcher;

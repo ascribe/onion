@@ -6,6 +6,7 @@ import ConsignForm from '../ascribe_forms/form_consign';
 import UnConsignForm from '../ascribe_forms/form_unconsign';
 import TransferForm from '../ascribe_forms/form_transfer';
 import LoanForm from '../ascribe_forms/form_loan';
+import LoanRequestAnswerForm from '../ascribe_forms/form_loan_request_answer';
 import ShareForm from '../ascribe_forms/form_share_email';
 import ModalWrapper from '../ascribe_modal/modal_wrapper';
 import AppConstants from '../../constants/application_constants';
@@ -27,6 +28,8 @@ let AclButton = React.createClass({
             React.PropTypes.array
         ]).isRequired,
         currentUser: React.PropTypes.object,
+        buttonAcceptName: React.PropTypes.string,
+        buttonAcceptClassName: React.PropTypes.string,
         handleSuccess: React.PropTypes.func.isRequired,
         className: React.PropTypes.string
     },
@@ -89,6 +92,18 @@ let AclButton = React.createClass({
                 handleSuccess: this.showNotification
             };
         }
+        else if (this.props.action === 'acl_loan_request'){
+            return {
+                title: getLangText('Loan artwork'),
+                tooltip: getLangText('Loan your artwork for a limited period of time'),
+                form: (<LoanRequestAnswerForm
+                        message={message}
+                        id={this.getFormDataId()}
+                        url={this.isPiece() ? ApiUrls.ownership_loans_pieces : ApiUrls.ownership_loans_editions}/>
+                ),
+                handleSuccess: this.showNotification
+            };
+        }
         else if (this.props.action === 'acl_share'){
             return {
                 title: getLangText('Share artwork'),
@@ -140,17 +155,20 @@ let AclButton = React.createClass({
 
     // Removes the acl_ prefix and converts to upper case
     sanitizeAction() {
+        if (this.props.buttonAcceptName) {
+            return this.props.buttonAcceptName;
+        }
         return this.props.action.split('acl_')[1].toUpperCase();
     },
 
     render() {
         let shouldDisplay = this.props.availableAcls[this.props.action];
         let aclProps = this.actionProperties();
-
+        let buttonClassName = this.props.buttonAcceptClassName ? this.props.buttonAcceptClassName : '';
         return (
             <ModalWrapper
                 trigger={
-                    <button className={shouldDisplay ? 'btn btn-default btn-sm ' : 'hidden'}>
+                    <button className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
                         {this.sanitizeAction()}
                     </button>
                 }

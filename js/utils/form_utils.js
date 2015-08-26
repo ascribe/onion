@@ -23,6 +23,8 @@ export function getAclFormMessage(aclName, entities, senderName) {
         message += getLangText('I un-consign');
     } else if(aclName === 'acl_loan') {
         message += getLangText('I loan');
+    } else if(aclName === 'acl_loan_request') {
+        message += getLangText('I request to loan');
     } else if(aclName === 'acl_share') {
         message += getLangText('I share');
     } else {
@@ -34,7 +36,7 @@ export function getAclFormMessage(aclName, entities, senderName) {
 
     if(aclName === 'acl_transfer' || aclName === 'acl_loan' || aclName === 'acl_consign') {
         message += getLangText('to you');
-    } else if(aclName === 'acl_unconsign') {
+    } else if(aclName === 'acl_unconsign' || aclName === 'acl_loan_request') {
         message += getLangText('from you');
     } else if(aclName === 'acl_share') {
         message += getLangText('with you');

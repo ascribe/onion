@@ -90,6 +90,18 @@ let RequestActionForm = React.createClass({
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
                     action="acl_unconsign"
+                    buttonAcceptClassName='inline pull-right'
+                    pieceOrEditions={this.props.pieceOrEditions}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                );
+        } else if(this.props.requestAction === 'loan_request') {
+            return (
+                <AclButton
+                    availableAcls={{'acl_loan_request': true}}
+                    action="acl_loan_request"
+                    buttonAcceptName="LOAN"
+                    buttonAcceptClassName='inline pull-right'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.props.handleSuccess} />

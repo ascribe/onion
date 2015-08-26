@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Router from 'react-router';
+import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
 
@@ -15,6 +16,7 @@ import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
 import UserStore from '../../../../../stores/user_store';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../components/ascribe_detail/note';
@@ -27,6 +29,9 @@ import InputTextAreaToggable from '../../../../../components/ascribe_forms/input
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
+import LoanForm from '../../../../ascribe_forms/form_loan';
+import RequestActionForm from '../../../../ascribe_forms/form_request_action';
+import ModalWrapper from '../../../../ascribe_modal/modal_wrapper';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
@@ -61,7 +66,6 @@ let PieceContainer = React.createClass({
     componentWillReceiveProps(nextProps) {
         if(this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
-            console.log('update')
             PieceActions.fetchOne(nextProps.params.pieceId);
         }
     },
@@ -86,6 +90,21 @@ let PieceContainer = React.createClass({
         this.setState(this.state);
     },
 
+    getActions(){
+        if (this.state.piece &&
+            this.state.piece.request_action &&
+            this.state.piece.request_action.length > 0) {
+            return (
+                <RequestActionForm
+                    currentUser={this.state.currentUser}
+                    pieceOrEditions={ this.state.piece }
+                    requestAction={this.state.piece.request_action}
+                    requestUser={this.state.piece.user_registered}
+                    handleSuccess={this.loadPiece}/>);
+        }
+        return null;
+    },
+
     render() {
         if('title' in this.state.piece) {
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
@@ -104,6 +123,7 @@ let PieceContainer = React.createClass({
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={artistName} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            {this.getActions()}
                             <hr/>
                         </div>
                         }
@@ -169,7 +189,8 @@ let PrizePieceRatings = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState()
+            PrizeRatingStore.getState(),
+            WhitelabelStore.getState()
         );
     },
 
@@ -178,6 +199,7 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PrizeRatingActions.fetchAverage(this.props.piece.id);
         PieceListStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -188,6 +210,7 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     // The StarRating component does not have a property that lets us set
@@ -212,6 +235,39 @@ let PrizePieceRatings = React.createClass({
             this.refreshPieceData()
         );
     },
+
+    getLoanButton(){
+        let today = new Moment();
+        let endDate = new Moment();
+        endDate.add(6, 'months');
+        return (
+            <ModalWrapper
+                trigger={
+                    <button className='btn btn-default btn-sm'>
+                        SEND LOAN REQUEST
+                    </button>
+                }
+                handleSuccess={this.handleLoanRequestSuccess}
+                title='REQUEST LOAN'>
+                    <LoanForm
+                        loanHeading={null}
+                        message={'Congratulations,\nYou have been selected for the sluice screens.\n' +
+                         'Please accept the loan request to proceed\n\nBest regards,\n\nSluice.'}
+                        id={{piece_id: this.props.piece.id}}
+                        url={ApiUrls.ownership_loans_pieces_request}
+                        email={this.state.whitelabel.user}
+                        gallery={this.props.piece.prize.name}
+                        startdate={today}
+                        enddate={endDate}
+                        showPersonalMessage={true}
+                        showStartDate={true}
+                        showEndDate={true}
+                        showPassword={false}
+                        handleSuccess={this.handleLoanSuccess} />
+            </ModalWrapper>);
+    },
+
+    handleLoanRequestSuccess(){},
 
     refreshPieceData() {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
@@ -241,10 +297,7 @@ let PrizePieceRatings = React.createClass({
                                 </InputCheckbox>
                             </span>
                             <span className="pull-right">
-                                {this.props.piece.selected ?
-                                    <button className={'btn btn-default btn-sm '}>
-                                        SEND LOAN REQUEST
-                                    </button> : null}
+                                {this.props.piece.selected ? this.getLoanButton() : null}
                             </span>
                         </div>
                         <hr />

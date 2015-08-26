@@ -28,6 +28,9 @@ let LoanForm = React.createClass({
         startdate: React.PropTypes.object,
         enddate: React.PropTypes.object,
         showPersonalMessage: React.PropTypes.bool,
+        showEndDate: React.PropTypes.bool,
+        showStartDate: React.PropTypes.bool,
+        showPassword: React.PropTypes.bool,
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
@@ -37,7 +40,10 @@ let LoanForm = React.createClass({
     getDefaultProps() {
         return {
             loanHeading: '',
-            showPersonalMessage: true
+            showPersonalMessage: true,
+            showEndDate: false,
+            showStartDate: false,
+            showPassword: true
         };
     },
 
@@ -155,7 +161,7 @@ let LoanForm = React.createClass({
                         required/>
                 </Property>
                 <Property
-                    name='gallery_name'
+                    name='gallery'
                     label={getLangText('Gallery/exhibition (optional)')}
                     editable={!this.props.gallery}
                     overrideForm={!!this.props.gallery}>
@@ -167,7 +173,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='startdate'
                     label={getLangText('Start date')}
-                    hidden={this.props.startdate}>
+                    hidden={!this.props.showStartDate}>
                     <InputDate
                         defaultValue={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
@@ -175,7 +181,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='enddate'
                     label={getLangText('End date')}
-                    hidden={this.props.enddate}>
+                    hidden={!this.props.showEndDate}>
                     <InputDate
                         defaultValue={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
@@ -194,11 +200,12 @@ let LoanForm = React.createClass({
                 </Property>
                 <Property
                     name='password'
-                    label={getLangText('Password')}>
+                    label={getLangText('Password')}
+                    hidden={!this.props.showPassword}>
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        required/>
+                        required={this.props.showPassword ? 'required' : ''}/>
                 </Property>
                 {this.getContractCheckbox()}
                 {this.props.children}
