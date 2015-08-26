@@ -264,9 +264,15 @@ let PrizePieceRatings = React.createClass({
     },
 
     handleLoanRequestSuccess(){},
+    handleShortlistSuccess(message){
+        let notification = new GlobalNotificationModel(message, 'success', 2000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
 
     refreshPieceData() {
         this.props.loadPiece();
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
     render(){
@@ -282,9 +288,17 @@ let PrizePieceRatings = React.createClass({
                                 <InputCheckbox
                                     defaultChecked={this.props.piece.selected}
                                     onChange={() => {
-                                        PrizeRatingActions.toggleShortlist(this.props.piece.id).then(
-                                            this.refreshPieceData()
-                                    ); }}>
+                                        PrizeRatingActions.toggleShortlist(this.props.piece.id)
+                                        .then(
+                                            (res) => {
+                                                this.refreshPieceData();
+                                                return res;
+                                            })
+                                        .then(
+                                            (res) => {
+                                                this.handleShortlistSuccess(res.notification);
+                                            }
+                                        ); }}>
                                     <span>
                                         Select for the prize
                                     </span>

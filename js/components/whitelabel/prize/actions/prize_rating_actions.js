@@ -62,7 +62,7 @@ class PrizeRatingActions {
             PrizeRatingFetcher
                 .select(pieceId)
                 .then((res) => {
-                    this.actions.updatePrizeRating(res.rating.rating);
+                    this.actions.updatePrizeRatings(res.data.ratings);
                     resolve(res);
                 })
                 .catch((err) => {
