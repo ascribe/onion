@@ -64,11 +64,16 @@ let LoanRequestAnswerForm = React.createClass({
         this.setState(state);
     },
 
+    handleLoanSuccess() {},
+
 
     render() {
+        let startDate = null;
+        let endDate = null;
+
         if (this.state.loanRequest) {
-            let startDate = new Moment(this.state.loanRequest.datetime_from, Moment.ISO_8601),
-                endDate = new Moment(this.state.loanRequest.datetime_to, Moment.ISO_8601);
+            startDate = new Moment(this.state.loanRequest.datetime_from, Moment.ISO_8601);
+            endDate = new Moment(this.state.loanRequest.datetime_to, Moment.ISO_8601);
 
             return (
                 <LoanForm
@@ -76,16 +81,18 @@ let LoanRequestAnswerForm = React.createClass({
                     message={''}
                     id={this.props.id}
                     url={this.props.url}
-                    email={this.state.loanRequest.new_owner}
-                    gallery={this.state.loanRequest.gallery}
+                    email={this.state.loanRequest ? this.state.loanRequest.new_owner : null}
+                    gallery={this.state.loanRequest ? this.state.loanRequest.gallery : null}
                     startdate={startDate}
                     enddate={endDate}
+                    //showStartDate={false}
+                    //showEndDate={false}
                     showPassword={true}
                     showPersonalMessage={false}
                     handleSuccess={this.handleLoanSuccess}/>
             );
         }
-        return null;
+        return <span/>;
     }
 });
 
