@@ -170,9 +170,9 @@ let AccordionListItemPrize = React.createClass({
     },
 
     render() {
-        let artistName = this.state.currentUser.is_jury ?
-            <span className="glyphicon glyphicon-eye-close" style={{fontSize: '0.75em'}} aria-hidden="true"/> :
-            this.props.content.artist_name;
+        let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
+                (this.state.currentUser.is_judge && !this.props.content.selected )) ?
+                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.props.content.artist_name;
         return (
             <div>
                 <AccordionListItemPiece
