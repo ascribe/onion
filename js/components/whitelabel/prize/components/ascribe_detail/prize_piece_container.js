@@ -16,7 +16,6 @@ import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
 import UserStore from '../../../../../stores/user_store';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../components/ascribe_detail/note';
@@ -189,8 +188,7 @@ let PrizePieceRatings = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState(),
-            WhitelabelStore.getState()
+            PrizeRatingStore.getState()
         );
     },
 
@@ -199,7 +197,6 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PrizeRatingActions.fetchAverage(this.props.piece.id);
         PieceListStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
@@ -210,7 +207,6 @@ let PrizePieceRatings = React.createClass({
         PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     // The StarRating component does not have a property that lets us set
@@ -255,7 +251,7 @@ let PrizePieceRatings = React.createClass({
                          'Please accept the loan request to proceed\n\nBest regards,\n\nSluice.'}
                         id={{piece_id: this.props.piece.id}}
                         url={ApiUrls.ownership_loans_pieces_request}
-                        email={this.state.whitelabel.user}
+                        email={this.props.currentUser.email}
                         gallery={this.props.piece.prize.name}
                         startdate={today}
                         enddate={endDate}
@@ -270,8 +266,6 @@ let PrizePieceRatings = React.createClass({
     handleLoanRequestSuccess(){},
 
     refreshPieceData() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-            this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         this.props.loadPiece();
     },
 
