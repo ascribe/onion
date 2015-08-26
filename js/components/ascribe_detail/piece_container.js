@@ -76,7 +76,27 @@ let PieceContainer = React.createClass({
     },
 
     onChange(state) {
-        this.setState(state);
+        /*
+        
+            ATTENTION:
+            THIS IS JUST A TEMPORARY USABILITY FIX THAT ESSENTIALLY REMOVES THE LOAN BUTTON
+            FROM THE PIECE DETAIL PAGE SO THAT USERS DO NOT CONFUSE A PIECE WITH AN EDITION.
+
+            IT SHOULD BE REMOVED AND REPLACED WITH A BETTER SOLUTION ASAP!
+
+         */
+        if(state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
+
+            let pieceState = mergeOptions({}, state.piece);
+            pieceState.acl.acl_loan = false;
+
+            this.setState({
+                piece: pieceState
+            });
+
+        } else {
+            this.setState(state);
+        }
     },
 
     loadPiece() {
