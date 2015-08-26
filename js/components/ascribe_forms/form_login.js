@@ -101,6 +101,7 @@ let LoginForm = React.createClass({
                 ref="loginForm"
                 url={ApiUrls.users_login}
                 handleSuccess={this.handleSuccess}
+                autoComplete="on"
                 buttons={
                     <button
                         type="submit"
@@ -121,7 +122,6 @@ let LoginForm = React.createClass({
                     <input
                         type="email"
                         placeholder={getLangText('Enter your email')}
-                        autoComplete="on"
                         name="username"
                         required/>
                 </Property>
@@ -131,7 +131,6 @@ let LoginForm = React.createClass({
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        autoComplete="on"
                         name="password"
                         required/>
                 </Property>
