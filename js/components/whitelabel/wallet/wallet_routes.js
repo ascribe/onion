@@ -41,8 +41,8 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} />
-            <Route name="pieces" path="collection" handler={CylandPieceList} />
+            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route name="pieces" path="collection" handler={CylandPieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
@@ -56,8 +56,8 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} />
-            <Route name="pieces" path="collection" handler={PieceList} />
+            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
@@ -70,9 +70,9 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="Send new contract" />
-            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} />
-            <Route name="pieces" path="collection" handler={IkonotvPieceList} />
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" />
+            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} headerTitle="+ NEW WORK"/>
+            <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />

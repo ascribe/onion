@@ -93,8 +93,6 @@ let Header = React.createClass({
     render() {
         let account = null;
         let signup = null;
-        let collection = null;
-        let addNewWork = null;
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
@@ -103,9 +101,6 @@ let Header = React.createClass({
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                   </DropdownButton>
             );
-
-            collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
-            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece" query={{'slide_num': 0}}>+ {getLangText('NEW WORK')}</NavItemLink> : null;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -126,8 +121,6 @@ let Header = React.createClass({
                         </Nav>
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false}/>
-                            {addNewWork}
-                            {collection}
                             {account}
                             {signup}
                         </Nav>

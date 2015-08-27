@@ -16,6 +16,9 @@ let NavRoutesLinks = React.createClass({
     },
 
     extractLinksFromRoutes(node, i) {
+        if(!node) {
+            return;
+        }
 
         node = node.props;
 
@@ -35,11 +38,11 @@ let NavRoutesLinks = React.createClass({
                     // if the node's child is actually a node of level one (a child of a node), we're
                     // returning a DropdownButton matching MenuItemLink
                     return (
-                        <MenuItemLink to={child.props.path} key={j}>{child.props.headerTitle}</MenuItemLink>
+                        <MenuItemLink to={child.props.name} key={j}>{child.props.headerTitle}</MenuItemLink>
                     );
                 } else if(i === 0) {
                     return (
-                        <NavItemLink to={child.props.path} key={j}>{child.props.headerTitle}</NavItemLink>
+                        <NavItemLink to={child.props.name} key={j}>{child.props.headerTitle}</NavItemLink>
                     );
                 } else {
                     return null;

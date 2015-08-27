@@ -29,8 +29,8 @@ function getRoutes() {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} />
-            <Route name="pieces" path="collection" handler={PrizePieceList} />
+            <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route name="pieces" path="collection" handler={PrizePieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={PrizePieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
