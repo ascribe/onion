@@ -7,7 +7,8 @@ function getWalletApiUrls(subdomain) {
     if (subdomain === 'cyland'){
         return {
             'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
-            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/'
+            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/',
+            'piece_extradata': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/extradata/'
         };
     }
     else if (subdomain === 'ikonotv'){

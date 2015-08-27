@@ -4,12 +4,16 @@ import React from 'react';
 import Router from 'react-router';
 import StarRating from 'react-star-rating';
 
-import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
-
 import PieceListActions from '../../../../../actions/piece_list_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
 
+import PrizeRatingActions from '../../actions/prize_rating_actions';
+
 import UserStore from '../../../../../stores/user_store';
+
+import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
+
+import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
@@ -65,17 +69,28 @@ let AccordionListItemPrize = React.createClass({
 
     getPrizeButtons() {
         if (this.state.currentUser && this.state.currentUser.is_jury){
-            if (this.props.content.ratings && this.props.content.ratings.rating){
+            if ((this.props.content.ratings) &&
+                (this.props.content.ratings.rating || this.props.content.ratings.average)){
                 // jury and rating available
-                let rating = parseInt(this.props.content.ratings.rating, 10);
+                let rating = null,
+                    caption = null;
+                if (this.props.content.ratings.rating){
+                    rating = parseInt(this.props.content.ratings.rating, 10);
+                    caption = getLangText('Your rating');
+                }
+                else if (this.props.content.ratings.average){
+                    rating = this.props.content.ratings.average;
+                    caption = getLangText('Average of ' + this.props.content.ratings.num_ratings + ' rating(s)');
+                }
+
                 return (
                     <div id="list-rating" className="pull-right">
                         <Link to='piece' params={{pieceId: this.props.content.id}}>
                             <StarRating
                                 ref='rating'
                                 name="prize-rating"
-                                caption="Your rating"
-                                step={1}
+                                caption={caption}
+                                step={0.5}
                                 size='sm'
                                 rating={rating}
                                 ratingAmount={5} />
@@ -83,17 +98,28 @@ let AccordionListItemPrize = React.createClass({
                     </div>);
             }
             else {
+                if (this.state.currentUser.is_judge){
+                    return (
+                        <div className="react-rating-caption pull-right">
+                            {getLangText('Not rated')}
+                        </div>
+                    );
+                }
                 // jury and no rating yet
                 return (
                     <div className="react-rating-caption pull-right">
                         <Link to='piece' params={{pieceId: this.props.content.id}}>
-                            Submit your rating
+                            {getLangText('Submit your rating')}
                         </Link>
                     </div>
                 );
             }
         }
-        // participant
+        return this.getPrizeButtonsParticipant();
+
+    },
+
+    getPrizeButtonsParticipant() {
         return (
             <div>
                 <AclProxy
@@ -108,22 +134,64 @@ let AccordionListItemPrize = React.createClass({
         );
     },
 
+    handleShortlistSuccess(message){
+        let notification = new GlobalNotificationModel(message, 'success', 2000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    refreshPieceData() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+    },
+
+    onSelectChange(){
+        PrizeRatingActions.toggleShortlist(this.props.content.id)
+        .then(
+            (res) => {
+                this.refreshPieceData();
+                return res;
+            })
+        .then(
+            (res) => {
+                this.handleShortlistSuccess(res.notification);
+            }
+        );
+
+    },
+
+    getPrizeBadge(){
+        if (this.state.currentUser && this.state.currentUser.is_judge) {
+            return (
+                <span className="pull-right ascribe-checkbox-wrapper ascribe-checkbox-badge">
+                    <InputCheckbox
+                        defaultChecked={this.props.content.selected}
+                        onChange={this.onSelectChange}/>
+                </span>
+            );
+        }
+        return null;
+    },
+
     render() {
-        let artistName = this.state.currentUser.is_jury ?
-            <span className="glyphicon glyphicon-eye-close" style={{fontSize: '0.75em'}} aria-hidden="true"/> :
-            this.props.content.artist_name;
+        // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
+        let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
+                (this.state.currentUser.is_judge && !this.props.content.selected )) ?
+                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.props.content.artist_name;
         return (
-            <AccordionListItemPiece
-                className={this.props.className}
-                piece={this.props.content}
-                artistName={artistName}
-                subsubheading={
-                    <div className="pull-left">
-                        <span>{this.props.content.date_created.split('-')[0]}</span>
-                    </div>}
-                buttons={this.getPrizeButtons()}>
-                {this.props.children}
-            </AccordionListItemPiece>
+            <div>
+                <AccordionListItemPiece
+                    className={this.props.className}
+                    piece={this.props.content}
+                    artistName={artistName}
+                    subsubheading={
+                        <div className="pull-left">
+                            <span>{this.props.content.date_created.split('-')[0]}</span>
+                        </div>}
+                    buttons={this.getPrizeButtons()}
+                    badge={this.getPrizeBadge()}>
+                    {this.props.children}
+                </AccordionListItemPiece>
+            </div>
         );
     }
 });

@@ -28,7 +28,8 @@ let PieceList = React.createClass({
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
         filterParams: React.PropTypes.array,
-        orderParams: React.PropTypes.array
+        orderParams: React.PropTypes.array,
+        orderBy: React.PropTypes.string
 
     },
 
@@ -59,10 +60,10 @@ let PieceList = React.createClass({
         
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
-
+        let orderBy = this.props.orderBy ? this.props.orderBy : this.state.orderBy;
         if (this.state.pieceList.length === 0 || this.state.page !== page){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                            this.state.orderBy, this.state.orderAsc, this.state.filterBy)
+                                            orderBy, this.state.orderAsc, this.state.filterBy)
                             .then(() => PieceListActions.fetchPieceRequestActions());
         }
     },

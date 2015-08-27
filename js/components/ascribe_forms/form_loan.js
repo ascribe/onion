@@ -28,6 +28,9 @@ let LoanForm = React.createClass({
         startdate: React.PropTypes.object,
         enddate: React.PropTypes.object,
         showPersonalMessage: React.PropTypes.bool,
+        showEndDate: React.PropTypes.bool,
+        showStartDate: React.PropTypes.bool,
+        showPassword: React.PropTypes.bool,
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
@@ -37,7 +40,10 @@ let LoanForm = React.createClass({
     getDefaultProps() {
         return {
             loanHeading: '',
-            showPersonalMessage: true
+            showPersonalMessage: true,
+            showEndDate: true,
+            showStartDate: true,
+            showPassword: true
         };
     },
 
@@ -47,7 +53,7 @@ let LoanForm = React.createClass({
 
     componentDidMount() {
         LoanContractStore.listen(this.onChange);
-        LoanContractActions.flushLoanContract();
+        LoanContractActions.flushLoanContract.defer();
     },
 
     componentWillUnmount() {
@@ -155,7 +161,7 @@ let LoanForm = React.createClass({
                         required/>
                 </Property>
                 <Property
-                    name='gallery_name'
+                    name='gallery'
                     label={getLangText('Gallery/exhibition (optional)')}
                     editable={!this.props.gallery}
                     overrideForm={!!this.props.gallery}>
@@ -167,15 +173,19 @@ let LoanForm = React.createClass({
                 <Property
                     name='startdate'
                     label={getLangText('Start date')}
-                    hidden={this.props.startdate}>
+                    editable={!this.props.startdate}
+                    overrideForm={!!this.props.startdate}
+                    hidden={!this.props.showStartDate}>
                     <InputDate
                         defaultValue={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
                 </Property>
                 <Property
                     name='enddate'
+                    editable={!this.props.enddate}
+                    overrideForm={!!this.props.enddate}
                     label={getLangText('End date')}
-                    hidden={this.props.enddate}>
+                    hidden={!this.props.showEndDate}>
                     <InputDate
                         defaultValue={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
@@ -190,15 +200,16 @@ let LoanForm = React.createClass({
                         editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required={this.props.showPersonalMessage ? 'required' : ''}/>
                 </Property>
                 <Property
                     name='password'
-                    label={getLangText('Password')}>
+                    label={getLangText('Password')}
+                    hidden={!this.props.showPassword}>
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        required/>
+                        required={this.props.showPassword ? 'required' : ''}/>
                 </Property>
                 {this.getContractCheckbox()}
                 {this.props.children}

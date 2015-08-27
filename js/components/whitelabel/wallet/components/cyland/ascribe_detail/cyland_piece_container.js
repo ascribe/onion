@@ -67,11 +67,6 @@ let CylandPieceContainer = React.createClass({
         PieceActions.fetchOne(this.props.params.pieceId);
     },
 
-    getId() {
-        return {'id': this.state.piece.id};
-    },
-
-
     render() {
         if('title' in this.state.piece) {
             return (
@@ -106,7 +101,7 @@ let CylandPieceContainer = React.createClass({
                         show={(this.state.currentUser.username && true || false) ||
                                 (this.state.piece.public_note)}>
                         <Note
-                            id={this.getId}
+                            id={() => {return {'id': this.state.piece.id}; }}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
                             placeholder={getLangText('Enter your comments ...')}

@@ -28,7 +28,7 @@ import EditionDetailProperty from './detail_property';
 
 import EditionFurtherDetails from './further_details';
 
-import RequestActionForm from './../ascribe_forms/form_request_action';
+import ListRequestActions from './../ascribe_forms/list_form_request_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
@@ -101,10 +101,6 @@ let Edition = React.createClass({
         this.transitionTo('pieces');
     },
 
-    getId() {
-        return {'bitcoin_id': this.props.edition.bitcoin_id};
-    },
-
     render() {
         return (
             <Row>
@@ -159,7 +155,7 @@ let Edition = React.createClass({
                         show={(this.state.currentUser.username && true || false) ||
                                 (this.props.edition.acl.acl_edit || this.props.edition.public_note)}>
                         <Note
-                            id={this.getId}
+                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
                             placeholder={getLangText('Enter your comments ...')}
@@ -168,7 +164,7 @@ let Edition = React.createClass({
                             url={ApiUrls.note_private_edition}
                             currentUser={this.state.currentUser}/>
                         <Note
-                            id={this.getId}
+                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
                             label={getLangText('Edition note (public)')}
                             defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
                             placeholder={getLangText('Enter your comments ...')}
@@ -240,12 +236,11 @@ let EditionSummary = React.createClass({
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
             actions = (
-                <RequestActionForm
+                <ListRequestActions
+                    pieceOrEditions={[this.props.edition]}
                     currentUser={this.props.currentUser}
-                    pieceOrEditions={ [this.props.edition] }
-                    requestAction={this.props.edition.request_action}
-                    requestUser={this.props.edition.owner}
-                    handleSuccess={this.showNotification}/>);
+                    handleSuccess={this.showNotification}
+                    requestActions={this.props.edition.request_action}/>);
         }
 
         else {

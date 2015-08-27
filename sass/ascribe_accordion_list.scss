@@ -152,11 +152,11 @@ span.ascribe-accordion-list-table-toggle {
     }
 }
 
-.request-action-batch {
+.request-action-badge {
     position: absolute;
     top: 0px;
     right: 0px;
-    color: #666;
+    color: $ascribe-color-green;
     font-size: 1.2em;
     padding: 0.3em;
 }

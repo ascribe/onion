@@ -9,16 +9,17 @@ class PrizeRatingActions {
     constructor() {
         this.generateActions(
             'updatePrizeRatings',
+            'updatePrizeRatingAverage',
             'updatePrizeRating'
         );
     }
 
-    fetch() {
+    fetchAverage(pieceId) {
         return Q.Promise((resolve, reject) => {
             PrizeRatingFetcher
-                .fetch()
+                .fetchAverage(pieceId)
                 .then((res) => {
-                    this.actions.updatePrizeRatings(res.ratings);
+                    this.actions.updatePrizeRatingAverage(res.data);
                     resolve(res);
                 })
                 .catch((err) => {
@@ -48,6 +49,20 @@ class PrizeRatingActions {
                 .rate(pieceId, rating)
                 .then((res) => {
                     this.actions.updatePrizeRating(res.rating.rating);
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
+
+    toggleShortlist(pieceId) {
+        return Q.Promise((resolve, reject) => {
+            PrizeRatingFetcher
+                .select(pieceId)
+                .then((res) => {
+                    this.actions.updatePrizeRatings(res.data.ratings);
                     resolve(res);
                 })
                 .catch((err) => {

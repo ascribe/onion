@@ -145,8 +145,15 @@
     display: inline-block;
     width: 100%;
     border-top: 1px solid rgba(0,0,0,.05);
-    
+
     padding: .5em 1.5em .5em 1.5em;
+}
+
+.ascribe-checkbox-wrapper{
+    .checkbox > span {color: black;}
+}
+
+.ascribe-settings-property-collapsible-toggle, .ascribe-checkbox-wrapper {
 
     cursor:pointer;
 
@@ -195,5 +202,11 @@
         content: "\2713";
         font-size: 20px;
         color: rgba(2, 182, 163, 1);
+    }
+}
+
+.ascribe-checkbox-badge{
+    > span > span {
+        margin-top: 0;
     }
 }
