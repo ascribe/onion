@@ -21,7 +21,6 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
-import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';

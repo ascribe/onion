@@ -2,20 +2,20 @@
 
 import React from 'react';
 
-import Property from '../../../../../ascribe_forms/property';
+import Property from './property';
 
-import LoanContractListActions from '../../../../../../actions/loan_contract_list_actions';
-import LoanContractListStore from '../../../../../../stores/loan_contract_list_store';
+import LoanContractListActions from '../../actions/loan_contract_list_actions';
+import LoanContractListStore from '../../stores/loan_contract_list_store';
 
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import Form from '../../../../../ascribe_forms/form';
+import Form from './form';
 
-import ApiUrls from '../../../../../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 
 let ContractForm = React.createClass({
