@@ -28,7 +28,7 @@ import EditionDetailProperty from './detail_property';
 
 import EditionFurtherDetails from './further_details';
 
-import RequestActionForm from './../ascribe_forms/form_request_action';
+import ListRequestActions from './../ascribe_forms/list_form_request_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
@@ -236,12 +236,11 @@ let EditionSummary = React.createClass({
         let actions = null;
         if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
             actions = (
-                <RequestActionForm
+                <ListRequestActions
+                    pieceOrEditions={[this.props.edition]}
                     currentUser={this.props.currentUser}
-                    pieceOrEditions={ [this.props.edition] }
-                    requestAction={this.props.edition.request_action}
-                    requestUser={this.props.edition.owner}
-                    handleSuccess={this.showNotification}/>);
+                    handleSuccess={this.showNotification}
+                    requestActions={this.props.edition.request_action}/>);
         }
 
         else {

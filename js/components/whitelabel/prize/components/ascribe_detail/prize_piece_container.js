@@ -29,7 +29,7 @@ import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/
 
 import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
 import LoanForm from '../../../../ascribe_forms/form_loan';
-import RequestActionForm from '../../../../ascribe_forms/form_request_action';
+import ListRequestActions from '../../../../ascribe_forms/list_form_request_actions';
 import ModalWrapper from '../../../../ascribe_modal/modal_wrapper';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
@@ -89,21 +89,6 @@ let PieceContainer = React.createClass({
         this.setState(this.state);
     },
 
-    getActions(){
-        if (this.state.piece &&
-            this.state.piece.request_action &&
-            this.state.piece.request_action.length > 0) {
-            return (
-                <RequestActionForm
-                    currentUser={this.state.currentUser}
-                    pieceOrEditions={ this.state.piece }
-                    requestAction={this.state.piece.request_action}
-                    requestUser={this.state.piece.user_registered}
-                    handleSuccess={this.loadPiece}/>);
-        }
-        return null;
-    },
-
     render() {
         if('title' in this.state.piece) {
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
@@ -112,7 +97,7 @@ let PieceContainer = React.createClass({
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
-                <DetailProperty label="REGISTREE" value={ this.state.piece.user_registered } /> : null;
+                <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
             return (
                 <Piece
                     piece={this.state.piece}
@@ -124,10 +109,14 @@ let PieceContainer = React.createClass({
                                 currentUser={this.state.currentUser}/>
                             <hr/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
-                            <DetailProperty label="BY" value={artistName} />
-                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            <DetailProperty label={getLangText('BY')} value={artistName} />
+                            <DetailProperty label={getLangText('DATE')} value={ this.state.piece.date_created.slice(0, 4) } />
                             {artistEmail}
-                            {this.getActions()}
+                            <ListRequestActions
+                                pieceOrEditions={this.state.piece}
+                                currentUser={this.state.currentUser}
+                                handleSuccess={this.loadPiece}
+                                requestActions={this.state.piece.request_action}/>
                             <hr/>
                         </div>
                         }
@@ -237,6 +226,11 @@ let PrizePieceRatings = React.createClass({
         );
     },
 
+    handleLoanRequestSuccess(message){
+        let notification = new GlobalNotificationModel(message, 'success', 4000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
     getLoanButton(){
         let today = new Moment();
         let endDate = new Moment();
@@ -245,15 +239,15 @@ let PrizePieceRatings = React.createClass({
             <ModalWrapper
                 trigger={
                     <button className='btn btn-default btn-sm'>
-                        SEND LOAN REQUEST
+                        {getLangText('SEND LOAN REQUEST')}
                     </button>
                 }
                 handleSuccess={this.handleLoanRequestSuccess}
                 title='REQUEST LOAN'>
                     <LoanForm
                         loanHeading={null}
-                        message={'Congratulations,\nYou have been selected for the sluice screens.\n' +
-                         'Please accept the loan request to proceed\n\nBest regards,\n\nSluice.'}
+                        message={getLangText('Congratulations,\nYou have been selected for the prize.\n' +
+                         'Please accept the loan request to proceed.')}
                         id={{piece_id: this.props.piece.id}}
                         url={ApiUrls.ownership_loans_pieces_request}
                         email={this.props.currentUser.email}
@@ -265,8 +259,6 @@ let PrizePieceRatings = React.createClass({
                         handleSuccess={this.handleLoanSuccess} />
             </ModalWrapper>);
     },
-
-    handleLoanRequestSuccess(){},
 
     handleShortlistSuccess(message){
         let notification = new GlobalNotificationModel(message, 'success', 2000);

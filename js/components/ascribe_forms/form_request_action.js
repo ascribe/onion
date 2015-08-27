@@ -78,8 +78,11 @@ let RequestActionForm = React.createClass({
     },
 
     getContent() {
-        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + getLangText('this edition%s', '.');
-
+        let pieceOrEditionStr = this.isPiece() ? getLangText('this work%s', '.') : getLangText('this edition%s', '.');
+        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + pieceOrEditionStr;
+        if (this.props.requestAction === 'loan_request'){
+            message = this.props.requestUser + ' ' + getLangText('requests you to loan') + ' ' + pieceOrEditionStr;
+        }
         return (
             <span>
                 {message}

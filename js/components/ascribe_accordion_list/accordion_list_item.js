@@ -39,7 +39,7 @@ let AccordionListItem = React.createClass({
                         </div>
                         <span style={{'clear': 'both'}}></span>
 
-                        <div className="request-action-batch">
+                        <div className="request-action-badge">
                             {this.props.badge}
                         </div>
                     </div>

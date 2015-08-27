@@ -2,15 +2,8 @@
 
 import React from 'react';
 import Moment from 'moment';
-import classnames from 'classnames';
-
-import Button from 'react-bootstrap/lib/Button';
 
 import LoanForm from './form_loan';
-import Property from './property';
-import InputTextAreaToggable from './input_textarea_toggable';
-import InputDate from './input_date';
-import InputCheckbox from './input_checkbox';
 
 import OwnershipActions from '../../actions/ownership_actions';
 import OwnershipStore from '../../stores/ownership_store';

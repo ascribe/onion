@@ -26,7 +26,7 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
-import RequestActionForm from '../ascribe_forms/form_request_action';
+import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -175,12 +175,12 @@ let PieceContainer = React.createClass({
             this.state.piece.request_action &&
             this.state.piece.request_action.length > 0) {
             return (
-                <RequestActionForm
+                <ListRequestActions
+                    pieceOrEditions={this.state.piece}
                     currentUser={this.state.currentUser}
-                    pieceOrEditions={ this.state.piece }
-                    requestAction={this.state.piece.request_action}
-                    requestUser={this.state.piece.user_registered}
-                    handleSuccess={this.loadPiece}/>);
+                    handleSuccess={this.loadPiece}
+                    requestActions={this.state.piece.request_action}/>
+                );
         }
         else {
             return (
