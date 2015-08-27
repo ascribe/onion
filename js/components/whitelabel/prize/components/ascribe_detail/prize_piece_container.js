@@ -365,7 +365,7 @@ let PrizePieceRatings = React.createClass({
             // Jury can set rating and note
             return (
                 <CollapsibleParagraph
-                    title="Rating"
+                    title={getLangText('Rating')}
                     show={true}
                     defaultExpanded={true}>
                         <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
