@@ -109,6 +109,8 @@ let PieceContainer = React.createClass({
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
+            let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
+                <DetailProperty label="REGISTREE" value={ this.state.piece.user_registered } /> : null;
             return (
                 <Piece
                     piece={this.state.piece}
@@ -122,6 +124,7 @@ let PieceContainer = React.createClass({
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={artistName} />
                             <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            {artistEmail}
                             {this.getActions()}
                             <hr/>
                         </div>
@@ -256,8 +259,6 @@ let PrizePieceRatings = React.createClass({
                         startdate={today}
                         enddate={endDate}
                         showPersonalMessage={true}
-                        showStartDate={true}
-                        showEndDate={true}
                         showPassword={false}
                         handleSuccess={this.handleLoanSuccess} />
             </ModalWrapper>);
