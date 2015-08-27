@@ -106,9 +106,11 @@ let PieceContainer = React.createClass({
 
     render() {
         if('title' in this.state.piece) {
+            // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
+            // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label="REGISTREE" value={ this.state.piece.user_registered } /> : null;
             return (
@@ -277,32 +279,36 @@ let PrizePieceRatings = React.createClass({
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
+    onSelectChange() {
+        PrizeRatingActions.toggleShortlist(this.props.piece.id)
+        .then(
+            (res) => {
+                this.refreshPieceData();
+                return res;
+            })
+        .then(
+            (res) => {
+                this.handleShortlistSuccess(res.notification);
+            }
+        );
+    },
+
     render(){
         if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
+            // Judge sees shortlisting, average and per-jury notes
             return (
                 <div>
                     <CollapsibleParagraph
-                        title="Shortlisting"
+                        title={getLangText('Shortlisting')}
                         show={true}
                         defaultExpanded={true}>
                         <div className="row no-margin">
                             <span className="ascribe-checkbox-wrapper" style={{marginLeft: '1.5em'}}>
                                 <InputCheckbox
                                     defaultChecked={this.props.piece.selected}
-                                    onChange={() => {
-                                        PrizeRatingActions.toggleShortlist(this.props.piece.id)
-                                        .then(
-                                            (res) => {
-                                                this.refreshPieceData();
-                                                return res;
-                                            })
-                                        .then(
-                                            (res) => {
-                                                this.handleShortlistSuccess(res.notification);
-                                            }
-                                        ); }}>
+                                    onChange={this.onSelectChange}>
                                     <span>
-                                        Select for the prize
+                                        {getLangText('Select for the prize')}
                                     </span>
                                 </InputCheckbox>
                             </span>
@@ -313,7 +319,7 @@ let PrizePieceRatings = React.createClass({
                         <hr />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
-                        title="Average Rating"
+                        title={getLangText('Average Rating')}
                         show={true}
                         defaultExpanded={true}>
                         <div id="list-rating" style={{marginLeft: '1.5em', marginBottom: '1em'}}>
@@ -356,6 +362,7 @@ let PrizePieceRatings = React.createClass({
                 </div>);
         }
         else if (this.props.currentUser && this.props.currentUser.is_jury) {
+            // Jury can set rating and note
             return (
                 <CollapsibleParagraph
                     title="Rating"

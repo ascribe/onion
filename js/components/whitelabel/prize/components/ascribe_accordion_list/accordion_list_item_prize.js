@@ -69,18 +69,18 @@ let AccordionListItemPrize = React.createClass({
 
     getPrizeButtons() {
         if (this.state.currentUser && this.state.currentUser.is_jury){
-            if (this.props.content.ratings &&
+            if ((this.props.content.ratings) &&
                 (this.props.content.ratings.rating || this.props.content.ratings.average)){
                 // jury and rating available
                 let rating = null,
                     caption = null;
                 if (this.props.content.ratings.rating){
                     rating = parseInt(this.props.content.ratings.rating, 10);
-                    caption = 'Your rating';
+                    caption = getLangText('Your rating');
                 }
                 else if (this.props.content.ratings.average){
                     rating = this.props.content.ratings.average;
-                    caption = 'Average of ' + this.props.content.ratings.num_ratings + ' rating(s)';
+                    caption = getLangText('Average of ' + this.props.content.ratings.num_ratings + ' rating(s)');
                 }
 
                 return (
@@ -101,7 +101,7 @@ let AccordionListItemPrize = React.createClass({
                 if (this.state.currentUser.is_judge){
                     return (
                         <div className="react-rating-caption pull-right">
-                            Not rated
+                            {getLangText('Not rated')}
                         </div>
                     );
                 }
@@ -109,7 +109,7 @@ let AccordionListItemPrize = React.createClass({
                 return (
                     <div className="react-rating-caption pull-right">
                         <Link to='piece' params={{pieceId: this.props.content.id}}>
-                            Submit your rating
+                            {getLangText('Submit your rating')}
                         </Link>
                     </div>
                 );
@@ -144,25 +144,28 @@ let AccordionListItemPrize = React.createClass({
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
+    onSelectChange(){
+        PrizeRatingActions.toggleShortlist(this.props.content.id)
+        .then(
+            (res) => {
+                this.refreshPieceData();
+                return res;
+            })
+        .then(
+            (res) => {
+                this.handleShortlistSuccess(res.notification);
+            }
+        );
+
+    },
+
     getPrizeBadge(){
         if (this.state.currentUser && this.state.currentUser.is_judge) {
             return (
                 <span className="pull-right ascribe-checkbox-wrapper ascribe-checkbox-badge">
                     <InputCheckbox
                         defaultChecked={this.props.content.selected}
-                        onChange={() => {
-                            PrizeRatingActions.toggleShortlist(this.props.content.id)
-                            .then(
-                                (res) => {
-                                    this.refreshPieceData();
-                                    return res;
-                                })
-                            .then(
-                                (res) => {
-                                    this.handleShortlistSuccess(res.notification);
-                                }
-                            );
-                        }}/>
+                        onChange={this.onSelectChange}/>
                 </span>
             );
         }
@@ -170,6 +173,7 @@ let AccordionListItemPrize = React.createClass({
     },
 
     render() {
+        // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
         let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.props.content.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.props.content.artist_name;
