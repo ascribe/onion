@@ -45,6 +45,9 @@ let RequestActionForm = React.createClass({
         } else if (this.props.requestAction === 'loan' && this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_pieces_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_deny;
+        } else if (this.props.requestAction === 'loan_request' && this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
+            urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
         }
 
         return urls;
@@ -75,8 +78,11 @@ let RequestActionForm = React.createClass({
     },
 
     getContent() {
-        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + getLangText('this edition%s', '.');
-
+        let pieceOrEditionStr = this.isPiece() ? getLangText('this work%s', '.') : getLangText('this edition%s', '.');
+        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + pieceOrEditionStr;
+        if (this.props.requestAction === 'loan_request'){
+            message = this.props.requestUser + ' ' + getLangText('requests you to loan') + ' ' + pieceOrEditionStr;
+        }
         return (
             <span>
                 {message}
@@ -90,6 +96,18 @@ let RequestActionForm = React.createClass({
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
                     action="acl_unconsign"
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
+                    pieceOrEditions={this.props.pieceOrEditions}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.props.handleSuccess} />
+                );
+        } else if(this.props.requestAction === 'loan_request') {
+            return (
+                <AclButton
+                    availableAcls={{'acl_loan_request': true}}
+                    action="acl_loan_request"
+                    buttonAcceptName="LOAN"
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.props.handleSuccess} />

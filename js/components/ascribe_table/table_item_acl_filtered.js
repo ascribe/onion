@@ -11,10 +11,10 @@ let TableItemAclFiltered = React.createClass({
 
     render() {
         var availableAcls = ['acl_consign', 'acl_loan', 'acl_transfer', 'acl_view', 'acl_share', 'acl_unshare', 'acl_delete'];
-        if (this.props.requestAction){
+        if (this.props.requestAction && this.props.requestAction.length > 0){
             return (
                 <span>
-                    {this.props.requestAction + ' request pending'}
+                    {this.props.requestAction[0].action + ' request pending'}
                 </span>
             );
         }
