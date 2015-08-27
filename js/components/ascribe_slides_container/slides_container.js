@@ -241,6 +241,16 @@ let SlidesContainer = React.createClass({
     },
 
     render() {
+
+        let translateXValue = 'translateX(' + (-1) * this.state.containerWidth * this.state.slideNum + 'px)';
+
+        /*
+            According to the react documentation,
+            all browser vendor prefixes need to be upper cases in the beginning except for
+            the Microsoft one *bigfuckingsurprise*
+            https://facebook.github.io/react/tips/inline-styles.html
+        */
+
         return (
             <div
                 className="container ascribe-sliding-container-wrapper"
@@ -250,7 +260,11 @@ let SlidesContainer = React.createClass({
                     className="container ascribe-sliding-container"
                     style={{
                         width: this.state.containerWidth * this.customChildrenCount(),
-                        transform: 'translateX(' + (-1) * this.state.containerWidth * this.state.slideNum + 'px)'
+                        transform: translateXValue,
+                        WebkitTransform: translateXValue,
+                        MozTransform: translateXValue,
+                        OTransform: translateXValue,
+                        mstransform: translateXValue
                     }}>
                     <div className="row">
                         {this.renderChildren()}
