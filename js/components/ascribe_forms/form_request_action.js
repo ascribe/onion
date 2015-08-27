@@ -45,6 +45,9 @@ let RequestActionForm = React.createClass({
         } else if (this.props.requestAction === 'loan' && this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_pieces_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_deny;
+        } else if (this.props.requestAction === 'loan_request' && this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
+            urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
         }
 
         return urls;
@@ -90,7 +93,7 @@ let RequestActionForm = React.createClass({
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
                     action="acl_unconsign"
-                    buttonAcceptClassName='inline pull-right'
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.props.handleSuccess} />
@@ -101,7 +104,7 @@ let RequestActionForm = React.createClass({
                     availableAcls={{'acl_loan_request': true}}
                     action="acl_loan_request"
                     buttonAcceptName="LOAN"
-                    buttonAcceptClassName='inline pull-right'
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.props.handleSuccess} />

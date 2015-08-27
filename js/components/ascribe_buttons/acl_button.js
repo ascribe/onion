@@ -95,11 +95,11 @@ let AclButton = React.createClass({
         else if (this.props.action === 'acl_loan_request'){
             return {
                 title: getLangText('Loan artwork'),
-                tooltip: getLangText('Loan your artwork for a limited period of time'),
+                tooltip: getLangText('Someone requested you to loan your artwork for a limited period of time'),
                 form: (<LoanRequestAnswerForm
                         message={message}
                         id={this.getFormDataId()}
-                        url={this.isPiece() ? ApiUrls.ownership_loans_pieces : ApiUrls.ownership_loans_editions}/>
+                        url={ApiUrls.ownership_loans_pieces_request_confirm}/>
                 ),
                 handleSuccess: this.showNotification
             };

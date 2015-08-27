@@ -22,19 +22,10 @@ import { getLangText } from '../../utils/lang_utils';
 
 let LoanRequestAnswerForm = React.createClass({
     propTypes: {
-        loanHeading: React.PropTypes.string,
-        email: React.PropTypes.string,
-        gallery: React.PropTypes.string,
-        startdate: React.PropTypes.object,
-        enddate: React.PropTypes.object,
-        showPersonalMessage: React.PropTypes.bool,
-        showEndDate: React.PropTypes.bool,
-        showStartDate: React.PropTypes.bool,
-        showPassword: React.PropTypes.bool,
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func.required
     },
 
     getDefaultProps() {
@@ -64,8 +55,6 @@ let LoanRequestAnswerForm = React.createClass({
         this.setState(state);
     },
 
-    handleLoanSuccess() {},
-
 
     render() {
         let startDate = null;
@@ -87,7 +76,7 @@ let LoanRequestAnswerForm = React.createClass({
                     enddate={endDate}
                     showPassword={true}
                     showPersonalMessage={false}
-                    handleSuccess={this.handleLoanSuccess}/>
+                    handleSuccess={this.props.handleSuccess}/>
             );
         }
         return <span/>;

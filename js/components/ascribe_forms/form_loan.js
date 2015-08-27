@@ -200,7 +200,7 @@ let LoanForm = React.createClass({
                         editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required={this.props.showPersonalMessage ? 'required' : ''}/>
                 </Property>
                 <Property
                     name='password'
