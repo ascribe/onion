@@ -19,9 +19,9 @@ import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piec
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 
-import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
+import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -74,7 +74,7 @@ let ROUTES = {
             <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
             <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
-            <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
+            <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>

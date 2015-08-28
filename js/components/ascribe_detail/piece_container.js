@@ -205,6 +205,7 @@ let PieceContainer = React.createClass({
             );
         }
     },
+
     render() {
         if('title' in this.state.piece) {
             return (

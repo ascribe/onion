@@ -25,7 +25,7 @@ let IkonotvSubmitButton = React.createClass({
     getSubmitButton() {
         return (
             <button
-                className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
+                className={classNames('btn', 'btn-default', this.props.className)}>
                 {getLangText('Loan to IkonoTV')}
             </button>
         );

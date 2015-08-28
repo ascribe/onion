@@ -65,7 +65,7 @@ let IkonotvAccordionListItem = React.createClass({
     getSubmitButtons() {
         return (
             <IkonotvSubmitButton
-                className="pull-right"
+                className="btn-xs pull-right"
                 handleSuccess={this.handleSubmitSuccess}
                 piece={this.props.content}/>
         );
