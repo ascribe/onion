@@ -64,14 +64,26 @@ let IkonotvAccordionListItem = React.createClass({
 
     getSubmitButtons() {
         return (
-            <AclProxy
-                aclObject={this.props.content.acl}
-                aclName="acl_submit">
-                <IkonotvSubmitButton
-                    className="btn-xs pull-right"
-                    handleSuccess={this.handleSubmitSuccess}
-                    piece={this.props.content}/>
-            </AclProxy>
+            <div>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_submit">
+                    <IkonotvSubmitButton
+                        className="btn-xs pull-right"
+                        handleSuccess={this.handleSubmitSuccess}
+                        piece={this.props.content}/>
+                </AclProxy>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_submitted">
+                    <button
+                    disabled
+                    className="btn btn-default btn-xs pull-right">
+                        {getLangText('Submitted to IkonoTV')} <span className="glyphicon glyphicon-ok"
+                                                                  aria-hidden="true"></span>
+                    </button>
+                </AclProxy>
+            </div>
         );
     },
 
