@@ -91,8 +91,9 @@ let Header = React.createClass({
     },
 
     render() {
-        let account = null;
-        let signup = null;
+        let account;
+        let signup;
+        let navRoutesLinks;
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
@@ -101,6 +102,7 @@ let Header = React.createClass({
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                   </DropdownButton>
             );
+            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} navbar right/>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -124,7 +126,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
-                        <NavRoutesLinks routes={this.props.routes} navbar right/>
+                        {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
             </div>
