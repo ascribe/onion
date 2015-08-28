@@ -14,7 +14,10 @@ import GlobalNotificationModel from '../../../../../../models/global_notificatio
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+
 import AclProxy from '../../../../../acl_proxy';
+
+import AclButton from '../../../../../ascribe_buttons/acl_button';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
@@ -61,16 +64,10 @@ let IkonotvAccordionListItem = React.createClass({
 
     getSubmitButtons() {
         return (
-            <div>
-                <AclProxy
-                    aclObject={this.props.content.acl}
-                    aclName="acl_submit">
-                    <IkonotvSubmitButton
-                        className="pull-right"
-                        piece={this.props.content}
-                        handleSuccess={this.handleSubmitSuccess}/>
-                </AclProxy>
-            </div>
+            <IkonotvSubmitButton
+                className="pull-right"
+                handleSuccess={this.handleSubmitSuccess}
+                piece={this.props.content}/>
         );
     },
 

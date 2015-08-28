@@ -65,12 +65,13 @@ let ROUTES = {
     ),
     'ikonotv': (
         <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={IkonotvLanding} />
+            <Redirect from={baseUrl} to="login" />
+            <Redirect from={baseUrl + '/'} to="login" />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT"/>
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
             <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
