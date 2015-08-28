@@ -28,6 +28,7 @@ import DetailProperty from '../../../../../ascribe_detail/detail_property';
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
+import AclProxy from '../../../../../acl_proxy';
 
 import AppConstants from '../../../../../../constants/application_constants';
 
@@ -99,7 +100,7 @@ let IkonotvPieceContainer = React.createClass({
         }
         else {
 
-            // This is just because we're inserting a custom acl_loan button
+            //We need to disable the normal acl_loan because we're inserting a custom acl_loan button
             let availableAcls;
 
             if(this.state.piece && this.state.piece.acl && typeof this.state.piece.acl.acl_loan !== 'undefined') {
@@ -114,10 +115,14 @@ let IkonotvPieceContainer = React.createClass({
                     availableAcls={availableAcls}
                     editions={this.state.piece}
                     handleSuccess={this.loadPiece}>
-                        <IkonotvSubmitButton
-                            className="btn-sm"
-                            handleSuccess={this.handleSubmitSuccess}
-                            piece={this.state.piece}/>
+                        <AclProxy
+                            aclObject={availableAcls}
+                            aclName="acl_submit">
+                            <IkonotvSubmitButton
+                                className="btn-sm"
+                                handleSuccess={this.handleSubmitSuccess}
+                                piece={this.state.piece}/>
+                        </AclProxy>
                         <DeleteButton
                             handleSuccess={this.handleDeleteSuccess}
                             piece={this.state.piece}/>
