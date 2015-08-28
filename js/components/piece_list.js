@@ -147,8 +147,34 @@ let PieceList = React.createClass({
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
         let AccordionListItemType = this.props.accordionListItemType;
+
+        let pieceActions = null;
+        if (this.state.requestActions && this.state.requestActions.pieces){
+            pieceActions = this.state.requestActions.pieces.map((item) => {
+                return (
+                    <div className="ascribe-global-action">
+                        test
+                    </div>);
+            });
+        }
+        let editionActions = null;
+        if (this.state.requestActions && this.state.requestActions.editions){
+            for (let pieceId in this.state.requestActions.editions) {
+                editionActions = this.state.requestActions.editions[pieceId].map((item) => {
+                    return (
+                        <div className="ascribe-global-action">
+                            test
+                        </div>);
+                });
+            }
+        }
+
         return (
             <div>
+                <div className="ascribe-global-action-wrapper">
+                    {pieceActions}
+                    {editionActions}
+                </div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
