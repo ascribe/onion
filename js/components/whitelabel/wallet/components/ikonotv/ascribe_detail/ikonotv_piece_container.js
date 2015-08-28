@@ -82,6 +82,7 @@ let IkonotvPieceContainer = React.createClass({
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
+        this.loadPiece();
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },

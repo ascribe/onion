@@ -216,6 +216,8 @@ let CylandRegisterPiece = React.createClass({
                                 gallery="Cyland Archive"
                                 startdate={today}
                                 enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}
+                                showStartDate={false}
+                                showEndDate={false}
                                 showPersonalMessage={false}
                                 handleSuccess={this.handleLoanSuccess}>
                                 <Property
