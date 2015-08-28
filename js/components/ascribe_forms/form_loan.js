@@ -68,8 +68,12 @@ let LoanForm = React.createClass({
         return this.props.id;
     },
 
-    handleOnBlur(event) {
-        LoanContractActions.fetchLoanContract(event.target.value);
+    handleOnChange(event) {
+        let potentialEmail = event.target.value;
+
+        if(potentialEmail.match(/.*@.*/)) {
+            LoanContractActions.fetchLoanContract(potentialEmail);
+        }
     },
 
     getContractCheckbox() {
@@ -151,7 +155,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    onBlur={this.handleOnBlur}
+                    onChange={this.handleOnChange}
                     editable={!this.props.email}
                     overrideForm={!!this.props.email}>
                     <input
