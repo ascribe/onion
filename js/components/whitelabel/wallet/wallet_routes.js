@@ -12,15 +12,16 @@ import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/settings_container';
+import RegisterPiece from '../../../components/register_piece';
 
-// specific components
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
-import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
+import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
+import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -40,8 +41,8 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} />
-            <Route name="pieces" path="collection" handler={CylandPieceList} />
+            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route name="pieces" path="collection" handler={CylandPieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
@@ -55,8 +56,8 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} />
-            <Route name="pieces" path="collection" handler={PieceList} />
+            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
@@ -64,14 +65,16 @@ let ROUTES = {
     ),
     'ikonotv': (
         <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={IkonotvRegisterPiece} />
+            <Redirect from={baseUrl} to="login" />
+            <Redirect from={baseUrl + '/'} to="login" />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} />
-            <Route name="pieces" path="collection" handler={IkonotvPieceList} />
-            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
+            <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
+            <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
+            <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>

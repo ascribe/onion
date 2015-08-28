@@ -5,7 +5,8 @@ import Router from 'react-router';
 
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
-import getDefaultRoutes from './components/routes';
+
+import App from './components/ascribe_app';
 
 import PieceList from './components/piece_list';
 import PieceContainer from './components/ascribe_detail/piece_container';
@@ -23,19 +24,25 @@ import RegisterPiece from './components/register_piece';
 
 import PrizesDashboard from './components/ascribe_prizes_dashboard/prizes_dashboard';
 
+import AppConstants from './constants/application_constants';
+
 let Route = Router.Route;
+let Redirect = Router.Redirect;
+let baseUrl = AppConstants.baseUrl;
 
 
 const COMMON_ROUTES = (
-    <Route>
+    <Route name="app" path={baseUrl} handler={App}>
+        <Redirect from={baseUrl} to="login" />
+        <Redirect from={baseUrl + '/'} to="login" />
         <Route name="signup" path="signup" handler={SignupContainer} />
         <Route name="login" path="login" handler={LoginContainer} />
         <Route name="logout" path="logout" handler={LogoutContainer} />
-        <Route name="pieces" path="collection" handler={PieceList} />
+        <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK" />
+        <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
         <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
         <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-        <Route name="register_piece" path="register_piece" handler={RegisterPiece} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
         <Route name="prizes" path="prizes" handler={PrizesDashboard} />
@@ -51,7 +58,7 @@ function getRoutes(type, subdomain) {
     } else if(type === 'wallet') {
         routes = getWalletRoutes(COMMON_ROUTES, subdomain);
     } else {
-        routes = getDefaultRoutes(COMMON_ROUTES);
+        routes = COMMON_ROUTES;
     }
 
     return routes;
