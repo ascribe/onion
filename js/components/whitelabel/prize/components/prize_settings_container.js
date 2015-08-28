@@ -190,7 +190,7 @@ let PrizeJurySettings = React.createClass({
                                 {getLangText('RESEND')}
                             </button>
                             <button
-                                className="btn btn-default btn-sm ascribe-btn-gray margin-left-2px"
+                                className="btn btn-warning btn-sm margin-left-2px"
                                 onClick={this.handleRevoke}
                                 data-id={member.email}>
                                 {getLangText('REVOKE')}
@@ -218,7 +218,7 @@ let PrizeJurySettings = React.createClass({
                     }
                     buttons={
                         <button
-                            className="btn btn-default btn-sm ascribe-btn-gray"
+                            className="btn btn-warning btn-sm"
                             onClick={this.handleRevoke}
                             data-id={member.email}>
                             {getLangText('REVOKE')}
