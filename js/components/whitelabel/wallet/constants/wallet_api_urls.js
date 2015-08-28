@@ -13,8 +13,8 @@ function getWalletApiUrls(subdomain) {
     }
     else if (subdomain === 'ikonotv'){
         return {
-            'pieces_list': walletConstants.walletApiEndpoint + 'cyland' + '/pieces/',
-            'piece': walletConstants.walletApiEndpoint + 'cyland' + '/pieces/${piece_id}/'
+            'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
+            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/'
         };
     }
     return {};

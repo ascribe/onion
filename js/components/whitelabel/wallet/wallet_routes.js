@@ -74,7 +74,7 @@ let ROUTES = {
             <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
             <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
-            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
+            <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>
