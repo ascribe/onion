@@ -4,27 +4,27 @@ import alt from '../alt';
 import OwnershipFetcher from '../fetchers/ownership_fetcher';
 
 
-class LoanContractActions {
+class ContractActions {
     constructor() {
         this.generateActions(
-            'updateLoanContract',
-            'flushLoanContract'
+            'updateContract',
+            'flushContract'
         );
     }
 
     fetchLoanContract(email) {
         if(email.match(/.+\@.+\..+/)) {
-            OwnershipFetcher.fetchLoanContract(email)
+            OwnershipFetcher.fetchContract(email)
                 .then((contracts) => {
                     if (contracts && contracts.length > 0) {
-                        this.actions.updateLoanContract({
+                        this.actions.updateContract({
                             contractKey: contracts[0].s3Key,
                             contractUrl: contracts[0].s3Url,
                             contractEmail: email
                         });
                     }
                     else {
-                        this.actions.updateLoanContract({
+                        this.actions.updateContract({
                             contractKey: null,
                             contractUrl: null,
                             contractEmail: null
@@ -33,7 +33,7 @@ class LoanContractActions {
                 })
                 .catch((err) => {
                     console.logGlobal(err);
-                    this.actions.updateLoanContract({
+                    this.actions.updateContract({
                         contractKey: null,
                         contractUrl: null,
                         contractEmail: null
@@ -45,4 +45,4 @@ class LoanContractActions {
     }
 }
 
-export default alt.createActions(LoanContractActions);
+export default alt.createActions(ContractActions);

@@ -1,28 +1,28 @@
 'use strict';
 
 import alt from '../alt';
-import LoanContractActions from '../actions/loan_contract_actions';
+import ContractActions from '../actions/contract_actions';
 
 
-class LoanContractStore {
+class ContractStore {
     constructor() {
         this.contractKey = null;
         this.contractUrl = null;
         this.contractEmail = null;
-        this.bindActions(LoanContractActions);
+        this.bindActions(ContractActions);
     }
 
-    onUpdateLoanContract({contractKey, contractUrl, contractEmail}) {
+    onUpdateContract({contractKey, contractUrl, contractEmail}) {
         this.contractKey = contractKey;
         this.contractUrl = contractUrl;
         this.contractEmail = contractEmail;
     }
 
-    onFlushLoanContract() {
+    onFlushContract() {
         this.contractKey = null;
         this.contractUrl = null;
         this.contractEmail = null;
     }
 }
 
-export default alt.createStore(LoanContractStore, 'LoanContractStore');
+export default alt.createStore(ContractStore, 'ContractStore');

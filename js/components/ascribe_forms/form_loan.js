@@ -12,8 +12,8 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import InputDate from './input_date';
 import InputCheckbox from './input_checkbox';
 
-import LoanContractStore from '../../stores/loan_contract_store';
-import LoanContractActions from '../../actions/loan_contract_actions';
+import ContractStore from '../../stores/contract_store';
+import ContractActions from '../../actions/contract_actions';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -48,16 +48,16 @@ let LoanForm = React.createClass({
     },
 
     getInitialState() {
-        return LoanContractStore.getState();
+        return ContractStore.getState();
     },
 
     componentDidMount() {
-        LoanContractStore.listen(this.onChange);
-        LoanContractActions.flushLoanContract.defer();
+        ContractStore.listen(this.onChange);
+        ContractActions.flushContract.defer();
     },
 
     componentWillUnmount() {
-        LoanContractStore.unlisten(this.onChange);
+        ContractStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -72,7 +72,7 @@ let LoanForm = React.createClass({
         let potentialEmail = event.target.value;
 
         if(potentialEmail.match(/.*@.*/)) {
-            LoanContractActions.fetchLoanContract(potentialEmail);
+            ContractActions.fetchContract(potentialEmail);
         }
     },
 
