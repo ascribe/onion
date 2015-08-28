@@ -4,7 +4,10 @@ import React from 'react';
 
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
+
 import PieceListActions from '../../../../../../actions/piece_list_actions';
+import PieceListStore from '../../../../../../stores/piece_list_store';
+
 import UserStore from '../../../../../../stores/user_store';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
@@ -36,7 +39,8 @@ let IkonotvPieceContainer = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
-            UserStore.getState()
+            UserStore.getState(),
+            PieceListStore.getState()
         );
     },
 
@@ -44,6 +48,7 @@ let IkonotvPieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
     },
 
     componentWillReceiveProps(nextProps) {
@@ -61,6 +66,7 @@ let IkonotvPieceContainer = React.createClass({
         PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -143,7 +149,6 @@ let IkonotvPieceContainer = React.createClass({
                         </div>
                     }
                     buttons={this.getActions()}>
-
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
