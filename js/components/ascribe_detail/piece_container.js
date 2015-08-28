@@ -84,6 +84,8 @@ let PieceContainer = React.createClass({
 
             IT SHOULD BE REMOVED AND REPLACED WITH A BETTER SOLUTION ASAP!
 
+            ALSO, WE ENABLED THE LOAN BUTTON FOR IKONOTV TO LET THEM LOAN ON A PIECE LEVEL
+
          */
         if(state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
 
@@ -202,6 +204,7 @@ let PieceContainer = React.createClass({
             );
         }
     },
+
     render() {
         if('title' in this.state.piece) {
             return (

@@ -2,20 +2,21 @@
 
 import React from 'react';
 
-import Property from '../../../../../ascribe_forms/property';
+import LoanContractListActions from '../../actions/loan_contract_list_actions';
+import LoanContractListStore from '../../stores/loan_contract_list_store';
 
-import LoanContractListActions from '../../../../../../actions/loan_contract_list_actions';
-import LoanContractListStore from '../../../../../../stores/loan_contract_list_store';
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+import Form from './form';
+import Property from './property';
+import PropertyCollapsible from './property_collapsible';
+import InputTextAreaToggable from './input_textarea_toggable';
 
-import Form from '../../../../../ascribe_forms/form';
+import ApiUrls from '../../constants/api_urls';
 
-import ApiUrls from '../../../../../../constants/api_urls';
-
-import { getLangText } from '../../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
 
 
 let ContractForm = React.createClass({
@@ -96,7 +97,7 @@ let ContractForm = React.createClass({
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login">
-                            {getLangText('SEND LOAN REQUEST')}
+                            {getLangText('Send loan request')}
                         </button>}
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
@@ -104,7 +105,7 @@ let ContractForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>{getLangText('CONTRACT FORM')}</h3>
+                    <h3>{getLangText('Contract form')}</h3>
                 </div>
                 <Property
                     name='artist_name'
@@ -123,14 +124,15 @@ let ContractForm = React.createClass({
                         required/>
                 </Property>
                 {this.getContracts()}
-                <Property
+                <PropertyCollapsible
                     name='appendix'
-                    label={getLangText('Appendix')}>
-                    <input
-                        type="text"
-                        placeholder={getLangText('Add an appendix to the contract')}
-                        required/>
-                </Property>
+                    checkboxLabel={getLangText('Add appendix to the contract')}>
+                    <span>{getLangText('Appendix')}</span>
+                    <InputTextAreaToggable
+                        rows={1}
+                        editable={true}
+                        placeholder={getLangText('This will be appended to the contract selected above')}/>
+                </PropertyCollapsible>
             </Form>
         );
     }
