@@ -1,11 +1,11 @@
 .ascribe-table {
-    margin-bottom:0;
+    margin-bottom: 0;
     font-size: 1.1em;
 }
 
-/*This is aligning the first checkbox in pieclist detail with all the other ones*/
+// This is aligning the first checkbox in pieclist detail with all the other ones
 .table > thead:first-child > tr:first-child > th {
-    padding-left:0;
+    padding-left: 0;
 }
 
 
@@ -14,36 +14,34 @@
 }
 
 .ascribe-table-header-column > span {
-    display: table-cell;
-    vertical-align: middle;
-    font-family: 'Source Sans Pro';
-    font-weight: 600;
     color: #424242;
+    display: table-cell;
+    font-weight: 600;
+    vertical-align: middle;
 }
 
 .ascribe-table-item-column {
-    font-family: 'Source Sans Pro';
+    display: table-cell;
     font-size: .8em;
-    height:3em;
+    height: 3em;
     vertical-align: middle;
-    display: table-cell;
-}
 
-.ascribe-table-item-column > * {
-    display: table-cell;
-    vertical-align: middle;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    > * {
+        display: table-cell;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
 
-.ascribe-table-item-column > span > input {
-    margin-top:10px;
-    margin-left:2px;
+    > span > input {
+        margin-left: 2px;
+        margin-top: 10px;
+    }
 }
 
 .ascribe-table-item-selected {
-    background-color: rgba(2, 182, 163, 0.5);
+    background-color: rgba(2, 182, 163, .5);
 }
 
 .ascribe-table-item-selectable {
