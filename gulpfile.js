@@ -23,7 +23,7 @@ var argv = require('yargs').argv;
 var server = require('./server.js').app;
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
-
+var opn = require('opn');
 
 
 var config = {
@@ -73,6 +73,7 @@ gulp.task('js:build', function() {
 
 gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
+    opn('http://www.localhost.com:3000');
 });
 
 gulp.task('jest', function(done) {
@@ -93,7 +94,8 @@ gulp.task('browser-sync', function() {
     browserSync({
         files: config.filesToWatch,
         proxy: 'http://localhost:4000',
-        port: 3000
+        port: 3000,
+        open: false
     });
 });
 
