@@ -9,7 +9,7 @@ let OwnershipFetcher = {
      * Fetch the default, public contract of a user from the API.
      */
     fetchContract(email) {
-        return requests.get(ApiUrls.ownership_contract + '?loanee=' + email);
+        return requests.get(ApiUrls.blob_contracts + '?loanee=' + email);
     },
 
     /**

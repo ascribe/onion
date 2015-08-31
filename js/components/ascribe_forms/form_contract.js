@@ -92,7 +92,7 @@ let ContractForm = React.createClass({
             <Form
                 className="ascribe-form-bordered ascribe-form-wrapper"
                 ref='form'
-                url={ApiUrls.ownership_contract}
+                url={ApiUrls.blob_contracts}
                 handleSuccess={this.props.handleSuccess}
                 buttons={<button
                             type="submit"

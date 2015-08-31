@@ -36,14 +36,14 @@ let ContractSettings = React.createClass({
                                 fileClass: 'contract'
                             }}
                             createBlobRoutine={{
-                                url: ApiUrls.blob_otherdatas
+                                url: ApiUrls.blob_contracts
                             }}
                             validation={{
                                 itemLimit: 100000,
                                 sizeLimit: '50000000'
                             }}
                             session={{
-                                endpoint: ApiUrls.blob_otherdatas,
+                                endpoint: ApiUrls.blob_contracts,
                                 customHeaders: {
                                     'X-CSRFToken': getCookie(AppConstants.csrftoken)
                                 },
