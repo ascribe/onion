@@ -46,7 +46,7 @@ let SettingsContainer = React.createClass({
                 {this.props.children}
                 <APISettings />
                 <BitcoinWalletSettings />
-                <LoanContractSettings />
+                <ContractSettings />
                 <br />
                 <br />
             </div>
@@ -234,7 +234,7 @@ let BitcoinWalletSettings = React.createClass({
     }
 });
 
-let LoanContractSettings = React.createClass({
+let ContractSettings = React.createClass({
     propTypes: {
         defaultExpanded: React.PropTypes.bool
     },
@@ -242,7 +242,7 @@ let LoanContractSettings = React.createClass({
     render() {
         return (
             <CollapsibleParagraph
-                title="Loan Contract Settings"
+                title={getLangText('Contract Settings')}
                 show={true}
                 defaultExpanded={this.props.defaultExpanded}>
                     <FileUploader />
@@ -266,14 +266,14 @@ let FileUploader = React.createClass({
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{
-                            url: ApiUrls.ownership_loans_contract
+                            url: ApiUrls.ownership_contract
                         }}
                         validation={{
                             itemLimit: 100000,
                             sizeLimit: '50000000'
                         }}
                         session={{
-                            endpoint: ApiUrls.ownership_loans_contract,
+                            endpoint: ApiUrls.ownership_contract,
                             customHeaders: {
                                 'X-CSRFToken': getCookie(AppConstants.csrftoken)
                             },
