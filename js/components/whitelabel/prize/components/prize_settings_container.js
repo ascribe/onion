@@ -9,7 +9,7 @@ import PrizeStore from '../stores/prize_store';
 import PrizeJuryActions from '../actions/prize_jury_actions';
 import PrizeJuryStore from '../stores/prize_jury_store';
 
-import SettingsContainer from '../../../settings_container';
+import SettingsContainer from '../../../ascribe_settings/settings_container';
 import CollapsibleParagraph from '../../../ascribe_collapsible/collapsible_paragraph';
 
 import Form from '../../../ascribe_forms/form';

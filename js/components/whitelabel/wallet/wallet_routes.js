@@ -11,7 +11,7 @@ import PasswordResetContainer from '../../../components/password_reset_container
 import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
-import SettingsContainer from '../../../components/settings_container';
+import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import RegisterPiece from '../../../components/register_piece';
 
 import CylandLanding from './components/cyland/cyland_landing';
