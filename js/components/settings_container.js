@@ -266,14 +266,14 @@ let FileUploader = React.createClass({
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{
-                            url: ApiUrls.ownership_contract
+                            url: ApiUrls.blob_otherdatas
                         }}
                         validation={{
                             itemLimit: 100000,
                             sizeLimit: '50000000'
                         }}
                         session={{
-                            endpoint: ApiUrls.ownership_contract,
+                            endpoint: ApiUrls.blob_otherdatas,
                             customHeaders: {
                                 'X-CSRFToken': getCookie(AppConstants.csrftoken)
                             },
