@@ -69,7 +69,7 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.props.redirectTo && this.state.pieceListCount === 0) {
+        if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
             // FIXME: hack to redirect out of the dispatch cycle
             window.setTimeout(() => this.transitionTo(this.props.redirectTo), 0);
         }

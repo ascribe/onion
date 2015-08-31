@@ -14,7 +14,10 @@ import GlobalNotificationModel from '../../../../../../models/global_notificatio
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+
 import AclProxy from '../../../../../acl_proxy';
+
+import AclButton from '../../../../../ascribe_buttons/acl_button';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
@@ -66,9 +69,19 @@ let IkonotvAccordionListItem = React.createClass({
                     aclObject={this.props.content.acl}
                     aclName="acl_submit">
                     <IkonotvSubmitButton
-                        className="pull-right"
-                        piece={this.props.content}
-                        handleSuccess={this.handleSubmitSuccess}/>
+                        className="btn-xs pull-right"
+                        handleSuccess={this.handleSubmitSuccess}
+                        piece={this.props.content}/>
+                </AclProxy>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_submitted">
+                    <button
+                    disabled
+                    className="btn btn-default btn-xs pull-right">
+                        {getLangText('Loaned to IkonoTV')} <span className="glyphicon glyphicon-ok"
+                                                                  aria-hidden="true"></span>
+                    </button>
                 </AclProxy>
             </div>
         );

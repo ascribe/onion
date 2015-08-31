@@ -20,6 +20,7 @@ import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
 import HeaderNotificationDebug from './header_notification_debug';
 
+import NavRoutesLinks from './nav_routes_links';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
@@ -27,7 +28,8 @@ import { getLangText } from '../utils/lang_utils';
 
 let Header = React.createClass({
     propTypes: {
-        showAddWork: React.PropTypes.bool
+        showAddWork: React.PropTypes.bool,
+        routes: React.PropTypes.element
     },
 
     mixins: [Router.State],
@@ -89,10 +91,9 @@ let Header = React.createClass({
     },
 
     render() {
-        let account = null;
-        let signup = null;
-        let collection = null;
-        let addNewWork = null;
+        let account;
+        let signup;
+        let navRoutesLinks;
         if (this.state.currentUser.username){
             account = (
                 <DropdownButton eventKey="1" title={this.state.currentUser.username}>
@@ -101,9 +102,7 @@ let Header = React.createClass({
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                   </DropdownButton>
             );
-
-            collection = <NavItemLink to="pieces" query={this.getQuery()}>{getLangText('COLLECTION')}</NavItemLink>;
-            addNewWork = this.props.showAddWork ? <NavItemLink to="register_piece" query={{'slide_num': 0}}>+ {getLangText('NEW WORK')}</NavItemLink> : null;
+            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} navbar right/>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -124,11 +123,10 @@ let Header = React.createClass({
                         </Nav>
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false}/>
-                            {addNewWork}
-                            {collection}
                             {account}
                             {signup}
                         </Nav>
+                        {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
             </div>
