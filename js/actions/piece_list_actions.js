@@ -25,8 +25,9 @@ class PieceListActions {
             orderBy,
             orderAsc,
             filterBy,
-            'pieceList': [],
-            'pieceListCount': -1
+            pieceList: [],
+            pieceListCount: -1,
+            unfilteredPieceListCount: -1
         });
 
         // afterwards, we can load the list
@@ -42,8 +43,9 @@ class PieceListActions {
                         orderBy,
                         orderAsc,
                         filterBy,
-                        'pieceList': res.pieces,
-                        'pieceListCount': res.count
+                        pieceList: res.pieces,
+                        pieceListCount: res.count,
+                        unfilteredPieceListCount: res.unfiltered_count
                     });
                     resolve();
                 })
