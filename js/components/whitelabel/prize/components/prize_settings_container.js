@@ -265,7 +265,7 @@ let PrizeJurySettings = React.createClass({
 
         if (this.state.members.length > -1) {
             content = (
-                <div style={{padding: '1em'}}>
+                <div>
                     <CollapsibleParagraph
                         title={getLangText('Active Jury Members')}
                         show={true}

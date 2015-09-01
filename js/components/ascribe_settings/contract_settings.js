@@ -27,50 +27,55 @@ let ContractSettings = React.createClass({
                 title={getLangText('Contract Settings')}
                 show={true}
                 defaultExpanded={this.props.defaultExpanded}>
-                <Form>
-                    <Property
-                        label="Contract file">
-                        <ReactS3FineUploader
-                            keyRoutine={{
-                                url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'contract'
-                            }}
-                            createBlobRoutine={{
-                                url: ApiUrls.blob_contracts
-                            }}
-                            validation={{
-                                itemLimit: 100000,
-                                sizeLimit: '50000000'
-                            }}
-                            session={{
-                                endpoint: ApiUrls.blob_contracts,
-                                customHeaders: {
-                                    'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                                },
-                                cors: {
-                                    expected: true,
-                                    sendCredentials: true
-                                }
-                            }}
-                            signature={{
-                                endpoint: AppConstants.serverUrl + 's3/signature/',
-                                customHeaders: {
-                                   'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                                }
-                            }}
-                            deleteFile={{
-                                enabled: true,
-                                method: 'DELETE',
-                                endpoint: AppConstants.serverUrl + 's3/delete',
-                                customHeaders: {
-                                   'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                                }
-                            }}
-                            areAssetsDownloadable={true}
-                            areAssetsEditable={true}/>
-                    </Property>
-                    <hr />
-                </Form>
+                <CollapsibleParagraph
+                    title={getLangText('Create new Contract')}
+                    show={true}
+                    defaultExpanded={this.props.defaultExpanded}>
+                    <Form>
+                        <Property
+                            label="Contract file">
+                            <ReactS3FineUploader
+                                keyRoutine={{
+                                    url: AppConstants.serverUrl + 's3/key/',
+                                    fileClass: 'contract'
+                                }}
+                                createBlobRoutine={{
+                                    url: ApiUrls.blob_contracts
+                                }}
+                                validation={{
+                                    itemLimit: 100000,
+                                    sizeLimit: '50000000'
+                                }}
+                                session={{
+                                    endpoint: ApiUrls.blob_contracts,
+                                    customHeaders: {
+                                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                                    },
+                                    cors: {
+                                        expected: true,
+                                        sendCredentials: true
+                                    }
+                                }}
+                                signature={{
+                                    endpoint: AppConstants.serverUrl + 's3/signature/',
+                                    customHeaders: {
+                                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                                    }
+                                }}
+                                deleteFile={{
+                                    enabled: true,
+                                    method: 'DELETE',
+                                    endpoint: AppConstants.serverUrl + 's3/delete',
+                                    customHeaders: {
+                                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                                    }
+                                }}
+                                areAssetsDownloadable={true}
+                                areAssetsEditable={true}/>
+                        </Property>
+                        <hr />
+                    </Form>
+                </CollapsibleParagraph>
             </CollapsibleParagraph>
         );
     }
