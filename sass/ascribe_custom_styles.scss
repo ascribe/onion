@@ -1,0 +1,98 @@
+body {
+    background-color: $ascribe-color-background
+}
+
+.btn-default {
+    color: white;
+    background-color: $ascribe-brand-color;
+    border-color: $ascribe-brand-color;
+    &:hover, &:focus {
+        background-color: darken($ascribe-brand-color, 10%);
+        border-color: darken($ascribe-brand-color, 10%);
+    }
+}
+
+.btn-default:active:hover,
+.btn-default:active:focus,
+.btn-default:active.focus,
+.btn-default.active:hover,
+.btn-default.active:focus,
+.btn-default.active.focus,
+.open > .btn-default.dropdown-toggle:hover,
+.open > .btn-default.dropdown-toggle:focus,
+.open > .btn-default.dropdown-toggle.focus {
+        background-color: darken($ascribe-brand-color, 20%);
+        border-color: darken($ascribe-brand-color, 20%);
+}
+
+.btn-default.disabled,
+.btn-default.disabled:hover,
+.btn-default.disabled:focus,
+.btn-default.disabled.focus,
+.btn-default.disabled:active,
+.btn-default.disabled.active,
+.btn-default[disabled],
+.btn-default[disabled]:hover,
+.btn-default[disabled]:focus,
+.btn-default[disabled].focus,
+.btn-default[disabled]:active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default,
+fieldset[disabled] .btn-default:hover,
+fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-default:active,
+fieldset[disabled] .btn-default.active {
+    background-color: lighten($ascribe-brand-color, 10%);
+    border-color: lighten($ascribe-brand-color, 10%);
+}
+
+.ascribe-piece-list-toolbar-filter-widget {
+    button {
+        color: $ascribe-brand-color;
+        background-color: transparent;
+        border-color: transparent;
+        &:hover, &:active {
+            color: white;
+            background-color: $ascribe-brand-color;
+            border-color: $ascribe-brand-color;
+        }
+    }
+}
+
+.navbar-default {
+    background-color: white;
+    border-color: $ascribe-color-borders;
+}
+
+.navbar-default .navbar-nav > .active > {
+    a, a:hover, a:focus {
+        background-color: transparent;
+        color: $ascribe-brand-color;
+        border-bottom: 1px solid $ascribe-brand-color;
+    }
+}
+
+.ascribe-settings-wrapper {
+    background-color: white;
+    &:hover{
+        border-left-color: rgba($ascribe-brand-color, .4);
+    }
+    &:last-of-type {
+        border-bottom-color: rgba(0, 0, 0, .05);
+    }
+}
+
+.ascribe-settings-wrapper.is-focused {
+    background-color: rgba($ascribe-brand-color, .05);
+    border-left-color: rgba($ascribe-brand-color, 1);
+}
+
+.ascribe-settings-property-collapsible-toggle input[type=checkbox]:checked + .checkbox:before {
+    color: $ascribe-brand-color;
+}
+
+#intercom-container .intercom-launcher-button {
+    background-color: $ascribe-brand-color !important;
+    border-color: $ascribe-brand-color !important;
+}
