@@ -4,6 +4,7 @@ import React from 'react';
 
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
+import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
@@ -93,6 +94,19 @@ let CreateContractForm = React.createClass({
                         type="text"
                         placeholder="(e.g. Loan agreement #1)"
                         required/>
+                </Property>
+                <Property
+                    name="public"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputCheckbox>
+                        <span>
+                            {' ' + getLangText('I agree to the Terms of Service') + ' '}
+                            (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                {getLangText('read')}
+                            </a>)
+                        </span>
+                    </InputCheckbox>
                 </Property>
             </Form>
         );
