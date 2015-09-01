@@ -71,21 +71,7 @@ class PieceListStore {
     }
 
     onUpdatePieceListRequestActions(res) {
-        this.requestActions.pieces = res.piece_actions;
-        this.requestActions.editions = res.edition_actions;
-        for (let pieceId in res.edition_actions){
-            try {
-                this.onUpdatePropertyForPiece({
-                    pieceId: parseInt(pieceId, 10),
-                    key: 'request_action_editions',
-                    value: res.edition_actions[pieceId]
-                });
-            }
-            catch(err) {
-                console.warn('couldnt match request action with piecelist, maybe on other page');
-            }
-
-        }
+        this.requestActions = res.actions;
     }
 
     onUpdatePropertyForPiece({pieceId, key, value}) {

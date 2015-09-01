@@ -1,73 +1,25 @@
+$break-small: 764px;
+$break-medium: 991px;
+$break-medium: 1200px;
+
 .ascribe-global-action-wrapper {
     position: fixed;
     width: 100%;
+    max-width: 500px;
     height:3.5em;
     left:0;
+    right: 0;
     top:0;
     z-index: 2000;
     display:table;
+    margin: 1px auto;
 }
 
 .ascribe-global-action {
-    width: 40%;
-    margin: 1px auto;
     text-align: center;
     padding: 1em;
     color: black;
     border: 1px solid #cccccc;
     background-color: white;
-}
-
-.ascribe-global-notification-off {
-    bottom: -3.5em;
-}
-
-.ascribe-global-notification-on {
-    bottom: 0;
-}
-
-.ascribe-global-notification > div, .ascribe-global-notification-bubble > div {
-    display:table-cell;
-    vertical-align: middle;
-    font-size: 1.25em;
-    font-family: 'Source Sans Pro';
-    text-align: right;
-    padding-right: 3em;
-}
-
-.ascribe-global-notification-bubble > div {
-    padding: .75em 1.5em .75em 1.5em;
-}
-
-.ascribe-global-notification-bubble {
-    position: fixed;
-    bottom: 3em;
-    right: -50em;
-
-    display:table;
-
-    height: 3.5em;
-
-    background-color: #212121;
-    border-radius: 2px;
-
-    color: white;
-
-    transition: 1s right ease;
-}
-
-.ascribe-global-notification-bubble-off {
-    right: -100em;
-}
-
-.ascribe-global-notification-bubble-on {
-    right: 3.5em;
-}
-
-.ascribe-global-notification-danger {
-    background-color: #d9534f;
-}
-
-.ascribe-global-notification-success {
-    background-color: rgba(2, 182, 163, 1);
+    margin-top: 1px;
 }
