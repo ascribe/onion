@@ -102,7 +102,9 @@ let Header = React.createClass({
         let navRoutesLinks;
         if (this.state.currentUser.username){
             account = (
-                <DropdownButton eventKey="1" title={this.state.currentUser.username}>
+                <DropdownButton
+                    eventKey="1"
+                    title={this.state.currentUser.username}>
                     <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
                     <MenuItem divider />
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
