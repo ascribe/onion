@@ -29,14 +29,15 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_slides_container';
 @import 'ascribe_form';
 @import 'ascribe_panel';
-@import 'ascribe_button';
 
 @import 'whitelabel/index';
 
 
-html, body {
+html,
+body {
+    background-color: #fdfdfd;
+    font-family: 'Source Sans Pro';
     height: 100%;
-    background-color: #FDFDFD;
 }
 
 html {
@@ -44,8 +45,8 @@ html {
 }
 
 .ascribe-default-app {
-    padding-top: 70px;
     overflow-x: hidden;
+    padding-top: 70px;
 }
 
 hr {
@@ -60,153 +61,180 @@ hr {
     display: none;
 }
 
-.no-margin{
+.no-margin {
     margin: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
-.no-padding{
+
+.no-padding {
     padding: 0;
 }
-.inline{
+
+.inline {
     display: inline;
 }
 
 .navbar-default {
-    border: none;
-    border-left:0;
-    border-right:0;
+    border: 0;
+    border-color: #ccc;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    font-size: .8em;
     margin-bottom: 1.5em;
-    border-top:0;
-    border-color: #CCC;
-    font-size: 0.8em;
-}
 
-.navbar-default .navbar-nav > .active {
-    a {
-        background-color: transparent!important;
-        > span {color: #02b6a3;}
-        color: #02b6a3;
-        border-bottom: 1px solid #02b6a3;
+    .navbar-nav > li > a {
+        border: 1px solid rgba(0, 0, 0, 0);
+    }
 
-        &:hover, &:focus{
-            > span {color: #02b6a3;}
-            color: #02b6a3;
-            background-color: transparent;
+    .navbar-nav > .active {
+        a {
+            background-color: transparent !important;
             border-bottom: 1px solid #02b6a3;
+            color: #02b6a3;
+
+            > span {
+                color: #02b6a3;
+            }
+
+            &:hover,
+            &:focus {
+                background-color: transparent;
+                border-bottom: 1px solid #02b6a3;
+                color: #02b6a3;
+
+                > span {
+                    color: #02b6a3;
+                }
+            }
         }
     }
 }
-.navbar-default .navbar-nav > li > a {
-    border: 1px solid rgba(0,0,0,0);
-}
+
+
 
 .img-brand {
     height: 60px;
 }
 
 .truncate {
-    white-space: nowrap;
-    width: 4em;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 4em;
+
     @media only screen and (min-width: 400px) {
         width: 8em;
     }
+
     @media only screen and (min-width: 600px) {
         width: 12em;
     }
+
     @media only screen and (min-width: 1000px) {
         width: 14em;
     }
+
     @media only screen and (min-width: 1200px) {
         width: 16em;
     }
+
     @media only screen and (min-width: 1400px) {
         width: 18em;
     }
 }
+
 .navbar-right {
     margin-right: 0;
 }
 
 .clear-paddings {
-    padding-left:0;
-    padding-right:0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .clear-margins {
-    margin-top:0;
-    margin-bottom:0;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .ascribe-color {
     color: $ascribe-color-green;
 }
 
-.ascribe-subheader{
+.ascribe-subheader {
     padding-bottom: 10px;
     margin-top: -10px;
+
     a {
-        cursor: pointer;
-        font-size: 0.8em;
         color: #222;
+        cursor: pointer;
+        font-size: .8em;
     }
 }
 
-.tooltip-inner{
+.tooltip-inner {
+    background-color: #fcfafa;
+    border: 1px solid;
+    border-radius: 0;
+    color: #000;
     max-width: 300px;
     padding: 3px 8px;
-    color: #000;
     text-align: center;
     text-decoration: none;
-    background-color: #FCFAFA;
-    border-radius: 0;
-    border: 1px solid;
 }
 
-/* Taken from http://stackoverflow.com/a/20548578 */
+// Taken from http://stackoverflow.com/a/20548578
 .vcenter {
     display: inline-block;
-    vertical-align: middle;
     float: none;
+    vertical-align: middle;
 }
-.filter-glyph{
+
+.filter-glyph {
     color: white;
 }
-.no-margin {
-    margin-right: 0;
-    margin-left: 0;
-}
-.btn-delete{
-    background-color: rgba(0,0,0,0);
+
+.btn-delete {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
     color: #888;
-    border: 1px solid rgba(0,0,0,0);
-    &:hover{
+
+    &:hover {
         border: 1px solid $ascribe-brand-danger;
     }
 }
-.btn-ascribe, .btn-ascribe-inv {
+
+.btn-ascribe,
+.btn-ascribe-inv {
     border: 1px solid #444;
-    line-height: 2em;
-    margin-right: 1px;
-    margin-left: 0 !important;
-    font-family: sans-serif !important;
     border-radius: 0 !important;
+    font-family: sans-serif !important;
+    line-height: 2em;
+    margin-left: 0 !important;
+    margin-right: 1px;
 }
 
-.btn-ascribe, .btn-ascribe-inv:active, .btn-ascribe-inv:hover {
+.btn-ascribe,
+.btn-ascribe-inv:active,
+.btn-ascribe-inv:hover {
+    background-color: #fff;
     color: #222 !important;
-    background-color: #FFF;
 }
 
-.btn-ascribe:active, .btn-ascribe:hover, .btn-ascribe-inv {
-    color: #FFF !important;
+.btn-ascribe:active,
+.btn-ascribe:hover,
+.btn-ascribe-inv {
     background-color: #444;
+    color: #fff !important;
 }
 
-.btn-ascribe-inv:disabled, .btn-ascribe-inv:focus {
-    color: #444 !important;
+.btn-ascribe-inv:disabled,
+.btn-ascribe-inv:focus {
     background-color: #BBB !important;
     border: 1px solid #444 !important;
+    color: #444 !important;
 }
 
 .btn-ascribe-sm {
@@ -214,24 +242,29 @@ hr {
     line-height: 1.3em;
 }
 
-.btn-ascribe-green, .btn-ascribe-green-inv {
-    border: 1px solid #48DACB;
+.btn-ascribe-green,
+.btn-ascribe-green-inv {
+    border: 1px solid #48dacb;
+    border-radius: 0 !important;
+    font-family: sans-serif !important;
     line-height: 2em;
     margin-left: 0 !important;
-    font-family: sans-serif !important;
-    border-radius: 0 !important;
 }
 
-.btn-ascribe-green, .btn-ascribe-green-inv:active, .btn-ascribe-green-inv:hover {
-    background-color: #FFF;
-    border: 1px solid rgba(2, 182, 163, 0.5);
+.btn-ascribe-green,
+.btn-ascribe-green-inv:active,
+.btn-ascribe-green-inv:hover {
+    background-color: #fff;
+    border: 1px solid rgba(2, 182, 163, .5);
     color: rgba(2, 182, 163, 0.5);
 }
 
-.btn-ascribe-green:active, .btn-ascribe-green:hover, .btn-ascribe-green-inv {
-    border: 1px solid rgba(2, 182, 163, 0.5);
+.btn-ascribe-green:active,
+.btn-ascribe-green:hover,
+.btn-ascribe-green-inv {
+    background-color: rgba(2, 182, 163, .5);
+    border: 1px solid rgba(2, 182, 163, .5);
     color: white;
-    background-color: rgba(2, 182, 163, 0.5);
 }
 
 .ascribe-detail-title {
@@ -240,33 +273,34 @@ hr {
 }
 
 .ascribe-detail-property {
-    padding-bottom: 0.4em;
+    padding-bottom: .4em;
 }
 
 .ascribe-detail-property-label {
-    font-size: 0.8em;
+    font-size: .8em;
 }
 
 .ascribe-detail-property-value {
-    /* white-space: nowrap;
-    overflow: hidden; */
     text-overflow: ellipsis;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    font-size: 0.9em;
+::-webkit-input-placeholder { // WebKit browsers
+    font-size: .9em;
     font-style: italic;
 }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    font-size: 0.9em;
+
+:-moz-placeholder { // Mozilla Firefox 4 to 18
+    font-size: .9em;
     font-style: italic;
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    font-size: 0.9em;
+
+::-moz-placeholder { // Mozilla Firefox 19+
+    font-size: .9em;
     font-style: italic;
 }
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-    font-size: 0.9em;
+
+:-ms-input-placeholder { // Internet Explorer 10+
+    font-size: .9em;
     font-style: italic;
 }
 
@@ -275,15 +309,15 @@ hr {
 }
 
 .input-checkbox-ascribe {
-    text-align: left;
     line-height: 1.6;
-    width: 90%;
     margin-left: 1.6em;
     margin-right: auto;
+    text-align: left;
+    width: 90%;
 }
 
-/* columns of same height styles */
-/* http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-columns-of-same-height */
+// columns of same height styles
+// http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-columns-of-same-height
 .row-full-height {
     height: 100%;
 }
@@ -295,9 +329,9 @@ hr {
 
 .row-same-height {
     display: table;
-    width: 100%;
-    /* fix overflow */
+    // fix overflow
     table-layout: fixed;
+    width: 100%;
 }
 
 .col-xs-height {
@@ -326,7 +360,7 @@ hr {
     }
 }
 
-/* vertical alignment styles */
+// vertical alignment styles
 
 .col-top {
     vertical-align: top;
@@ -345,45 +379,49 @@ hr {
     margin-top: 1px;
 }
 
-.margin-left-2px{
+.margin-left-2px {
     margin-left: 2px;
 }
 
 .spin {
-    display:inline-block;
-    -webkit-animation: spin 1s infinite linear;
     -moz-animation: spin 1s infinite linear;
-    -o-animation: spin 1s infinite linear;
     -ms-animation: spin 1s infinite linear;
+    -o-animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
     animation: spin 1s infinite linear;
-    -webkit-transform-origin: 55% 70%;
     -moz-transform-origin: 55% 70%;
     -o-transform-origin: 55% 70%;
+    -webkit-transform-origin: 55% 70%;
+    display: inline-block;
     transform-origin: 55% 70%;
     width: 10px;
     height: 10px;
 }
 
 @-webkit-keyframes spin {
-0% { -webkit-transform: rotate(0deg);}
-100% { -webkit-transform: rotate(360deg);}
+    0% { -webkit-transform: rotate(0deg);}
+    100% { -webkit-transform: rotate(360deg);}
 }
+
 @-moz-keyframes spin {
-0% { -moz-transform: rotate(0deg); }
-100% { -moz-transform: rotate(360deg);}
+    0% { -moz-transform: rotate(0deg); }
+    100% { -moz-transform: rotate(360deg);}
 }
+
 @-o-keyframes spin {
-0% { -o-transform: rotate(0deg);}
-100% { -o-transform: rotate(360deg);}
+    0% { -o-transform: rotate(0deg);}
+    100% { -o-transform: rotate(360deg);}
 }
+
 @-ms-keyframes spin {
-0% { -ms-transform: rotate(0deg);}
-100% { -ms-transform: rotate(360deg);}
+    0% { -ms-transform: rotate(0deg);}
+    100% { -ms-transform: rotate(360deg);}
 }
+
 @-keyframes spin {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg);}
-} 
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg);}
+}
 
 .btn-default {
     .glyph-ascribe-spool {
@@ -392,9 +430,8 @@ hr {
 }
 
 .fullpage-spinner {
-    padding-top: 30%;
     padding-bottom: 30%;
-
+    padding-top: 30%;
     text-align: center;
 
     > span {
@@ -404,21 +441,22 @@ hr {
 
 
 .disable-select {
-    -webkit-user-select: none;  
-    -moz-user-select: none;    
-    -ms-user-select: none;      
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
 }
 
 .link-ascribe {
     color: #666;
+
     &:hover {
         color: #000;
     }
 }
 
 .ascribe-loading-position {
-    padding-top: 30%;
     padding-bottom: 30%;
+    padding-top: 30%;
     text-align: center;
 }

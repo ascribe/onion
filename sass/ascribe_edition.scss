@@ -5,44 +5,46 @@
 
 .ascribe-edition-collapsible-wrapper {
     vertical-align: bottom;
-    width:100%;
-}
-
-.ascribe-edition-collapsible-wrapper > div:first-child {
     width: 100%;
-    cursor: pointer;
-    background-color: rgba(0,0,0,0);
-    padding: 0 10px 10px 0;
-    margin-top: 20px;
-}
-.ascribe-edition-collapsible-wrapper > div > span {
-    font-size: 1.2em;
-    margin-right: .5em;
-}
-.ascribe-edition-collapsible-wrapper > div > span:nth-child(2) {
-    font-size: 0.9em;
+
+    > div:first-child {
+        background-color: rgba(0, 0, 0, 0);
+        cursor: pointer;
+        margin-top: 20px;
+        padding: 0 10px 10px 0;
+        width: 100%;
+    }
+
+    > div > span {
+        font-size: 1.2em;
+        margin-right: .5em;
+    }
+
+    > div > span:nth-child(2) {
+        font-size: .9em;
+    }
 }
 
 .ascribe-edition-collapsible-content {
-    width:100%;
     background: none;
-    border: none;
+    border: 0;
+    width: 100%;
 }
 
 .coa-file-wrapper {
     display: table;
     height: 200px;
-    overflow: hidden;
     margin: 0 auto;
-    width: 100%;
+    overflow: hidden;
     padding: 1em;
+    width: 100%;
 }
 
 .coa-file {
+    background-color: #F8F8F8;
+    border: 1px solid #CCC;
     display: table-cell;
     vertical-align: middle;
-    border: 1px solid #CCC;
-    background-color: #F8F8F8;
 }
 
 .ascribe-button-list {
