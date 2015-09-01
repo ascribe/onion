@@ -3,16 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-import EventActions from '../actions/event_actions';
-
-import PieceListStore from '../stores/piece_list_store';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -22,14 +12,21 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
+import WhitelabelActions from '../actions/whitelabel_actions';
+import WhitelabelStore from '../stores/whitelabel_store';
+import EventActions from '../actions/event_actions';
+
+import HeaderNotifications from './header_notification';
+
 import HeaderNotificationDebug from './header_notification_debug';
 
 import NavRoutesLinks from './nav_routes_links';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-
-let Link = Router.Link;
 
 
 let Header = React.createClass({
@@ -49,8 +46,7 @@ let Header = React.createClass({
     getInitialState() {
         return mergeOptions(
             WhitelabelStore.getState(),
-            UserStore.getState(),
-            PieceListStore.getState()
+            UserStore.getState()
         );
     },
 
@@ -59,13 +55,11 @@ let Header = React.createClass({
         UserStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel();
         WhitelabelStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
-        PieceListStore.unlisten(this.onChange);
     },
 
     getLogo(){
@@ -102,34 +96,6 @@ let Header = React.createClass({
         }
     },
 
-    getNotifications() {
-        if (this.state.requestActions && this.state.requestActions.length > 0) {
-            return (
-
-                <DropdownButton
-                    eventKey="1"
-                    title={
-                        <span>
-                            <Glyphicon glyph='envelope' color="green"/>
-                            <span className="notification-amount">({this.state.requestActions.length})</span>
-                        </span>
-                    }
-                    className="notification-menu">
-                    {this.state.requestActions.map((pieceOrEdition, i) => {
-                        return (
-                            <MenuItem eventKey={i + 2}>
-                                <NotificationListItem
-                                    ref={i}
-                                    pieceOrEdition={pieceOrEdition}/>
-                            </MenuItem>);
-                    })
-                    }
-                </DropdownButton>
-            );
-        }
-        return null;
-    },
-
     render() {
         let account;
         let signup;
@@ -162,69 +128,16 @@ let Header = React.createClass({
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            {this.getNotifications()}
                             <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>
+                        <HeaderNotifications />
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
             </div>
         );
-    }
-});
-
-let NotificationListItem = React.createClass({
-    propTypes: {
-        pieceOrEdition: React.PropTypes.object
-    },
-
-    getLinkData() {
-
-        if(this.props.pieceOrEdition && this.props.pieceOrEdition.bitcoin_id) {
-            return {
-                to: 'edition',
-                params: {
-                    editionId: this.props.pieceOrEdition.bitcoin_id
-                }
-            };
-        } else {
-            return {
-                to: 'piece',
-                params: {
-                    pieceId: this.props.pieceOrEdition.id
-                }
-            };
-        }
-
-    },
-
-    render() {
-        if (this.props.pieceOrEdition) {
-            return (
-                <Link {...this.getLinkData()}>
-                    <div className="row notification-wrapper">
-                        <div className="col-xs-4 clear-paddings">
-                            <div className="thumbnail-wrapper">
-                                <img src={this.props.pieceOrEdition.thumbnail.url_safe}/>
-                            </div>
-                        </div>
-                        <div className="col-xs-8 notification-list-item-header">
-                            <h1>{this.props.pieceOrEdition.title}</h1>
-                            <div className="sub-header">by {this.props.pieceOrEdition.artist_name}</div>
-                            <div className="notification-action">
-                                {
-                                    this.props.pieceOrEdition.request_action.map((requestAction) => {
-                                        return 'Pending ' + requestAction.action + ' request';
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </Link>);
-        }
-        return null;
     }
 });
 
