@@ -125,7 +125,8 @@ var ReactS3FineUploader = React.createClass({
                 bucket: 'ascribe0'
             },
             request: {
-                endpoint: 'https://ascribe0.s3.amazonaws.com',
+                endpoint: 'https://www.ascribe.io.global.prod.fastly.net',
+                //endpoint: 'https://ascribe0.s3.amazonaws.com',
                 accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
             },
             uploadSuccess: {
