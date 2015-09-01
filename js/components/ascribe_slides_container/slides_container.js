@@ -241,8 +241,8 @@ let SlidesContainer = React.createClass({
     },
 
     render() {
-
-        let translateXValue = 'translateX(' + (-1) * this.state.containerWidth * this.state.slideNum + 'px)';
+        let spacing = this.state.containerWidth * this.state.slideNum;
+        let translateXValue = 'translateX(' + (-1) * spacing + 'px)';
 
         /*
             According to the react documentation,
