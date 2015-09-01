@@ -23,7 +23,7 @@ var argv = require('yargs').argv;
 var server = require('./server.js').app;
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
-
+var opn = require('opn');
 
 
 var config = {
@@ -48,8 +48,7 @@ var config = {
     },
     filesToWatch: [
         'build/css/*.css',
-        'build/js/*.js',
-        'node_modules/react-s3-fine_uploader/*.js'
+        'build/js/*.js'
     ]
 };
 
@@ -73,6 +72,9 @@ gulp.task('js:build', function() {
 
 gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
+
+    // opens the browser window with the correct url, which is localhost.com
+    opn('http://www.localhost.com:3000');
 });
 
 gulp.task('jest', function(done) {
@@ -93,7 +95,9 @@ gulp.task('browser-sync', function() {
     browserSync({
         files: config.filesToWatch,
         proxy: 'http://localhost:4000',
-        port: 3000
+        port: 3000,
+        open: false, // does not open the browser-window anymore (handled manually)
+        ghostMode: false
     });
 });
 
