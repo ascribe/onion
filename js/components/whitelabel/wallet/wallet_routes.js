@@ -11,7 +11,7 @@ import PasswordResetContainer from '../../../components/password_reset_container
 import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
-import SettingsContainer from '../../../components/settings_container';
+import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import RegisterPiece from '../../../components/register_piece';
 
 import CylandLanding from './components/cyland/cyland_landing';
@@ -71,7 +71,7 @@ let ROUTES = {
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" />
             <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />

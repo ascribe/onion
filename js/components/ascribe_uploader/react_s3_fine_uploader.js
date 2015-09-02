@@ -297,6 +297,9 @@ var ReactS3FineUploader = React.createClass({
                 } else if(res.digitalwork) {
                     file.s3Url = res.digitalwork.url_safe;
                     file.s3UrlSafe = res.digitalwork.url_safe;
+                } else if(res.contractblob) {
+                    file.s3Url = res.contractblob.url_safe;
+                    file.s3UrlSafe = res.contractblob.url_safe;
                 } else {
                     throw new Error(getLangText('Could not find a url to download.'));
                 }
@@ -531,7 +534,7 @@ var ReactS3FineUploader = React.createClass({
 
     handleDeleteFile(fileId) {
         // In some instances (when the file was already uploaded and is just displayed to the user
-        // - for example in the loan contract or additional files dialog)
+        // - for example in the contract or additional files dialog)
         // fineuploader does not register an id on the file (we do, don't be confused by this!).
         // Since you can only delete a file by its id, we have to implement this method ourselves
         //

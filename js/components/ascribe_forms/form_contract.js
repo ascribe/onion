@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import LoanContractListActions from '../../actions/loan_contract_list_actions';
-import LoanContractListStore from '../../stores/loan_contract_list_store';
+import ContractListActions from '../../actions/contract_list_actions';
+import ContractListStore from '../../stores/contract_list_store';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -26,7 +26,7 @@ let ContractForm = React.createClass({
 
      getInitialState() {
         return mergeOptions(
-            LoanContractListStore.getState(),
+            ContractListStore.getState(),
             {
                 selectedContract: 0
             }
@@ -34,12 +34,12 @@ let ContractForm = React.createClass({
     },
 
     componentDidMount() {
-        LoanContractListStore.listen(this.onChange);
-        LoanContractListActions.fetchLoanContractList();
+        ContractListStore.listen(this.onChange);
+        ContractListActions.fetchContractList();
     },
 
     componentWillUnmount() {
-        LoanContractListStore.unlisten(this.onChange);
+        ContractListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -92,7 +92,7 @@ let ContractForm = React.createClass({
             <Form
                 className="ascribe-form-bordered ascribe-form-wrapper"
                 ref='form'
-                url={ApiUrls.ownership_loans_contract}
+                url={ApiUrls.blob_contracts}
                 handleSuccess={this.props.handleSuccess}
                 buttons={<button
                             type="submit"

@@ -15,6 +15,8 @@ import AppConstants from '../../../../../../constants/application_constants';
 import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
+import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
+
 
 let CylandAdditionalDataForm = React.createClass({
     propTypes: {
@@ -58,16 +60,6 @@ let CylandAdditionalDataForm = React.createClass({
         this.setState({
             isUploadReady: isReady
         });
-    },
-
-    isReadyForFormSubmission(files) {
-        let uploadingFiles = files.filter((file) => file.status === 'submitting');
-
-        if (uploadingFiles.length === 0) {
-            return true;
-        } else {
-            return false;
-        }
     },
 
     render() {
@@ -122,7 +114,7 @@ let CylandAdditionalDataForm = React.createClass({
                         uploadStarted={this.uploadStarted}
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={this.isReadyForFormSubmission}
+                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         editable={!this.props.disabled}
                         pieceId={this.props.piece.id}
                         otherData={this.props.piece.other_data}

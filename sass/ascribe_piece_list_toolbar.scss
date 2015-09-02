@@ -6,6 +6,7 @@
 
 .search-bar {
     max-width: 200px;
+
     input {
         height: 33px;
     }
@@ -13,37 +14,45 @@
 
 .ascribe-input-glyph > .form-group > .input-group {
     margin-left: 6px;
+
     input {
-        box-shadow: none;
         background-color: transparent;
         border: 1px solid #02b6a3;
         border-right: 0;
+        box-shadow: none;
     }
+
     > .input-group-addon {
         background-color: transparent;
+
         > .filter-glyph {
             color: #02b6a3;
         }
+
         border: 1px solid #02b6a3;
         border-left: 0;
     }
 }
 
 .ascribe-piece-list-toolbar-filter-widget {
+
     button {
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
+        border: 1px solid rgba(0, 0, 0, 0);
         color: #02b6a3;
-        border: 1px solid rgba(0,0,0,0);
         padding: 6px 4px 6px 8px;
-        &:hover, &:active {
+
+        &:hover,
+        &:active {
             background-color: #02b6a3 !important;
-            color: white;
             border: 1px solid #02b6a3 !important;
+            color: white;
         }
         .caret {
             display: none;
         }
     }
+
     .filter-widget-item {
 
         > a {
@@ -53,23 +62,22 @@
     }
 
     .checkbox-line {
-        position: relative;
         height: 25px;
+        position: relative;
 
         span {
-            position: absolute;
-            left: 9px;
-            top: 3px;
             cursor: pointer;
-
+            left: 9px;
             margin-right: 10px;
+            position: absolute;
+            top: 3px;
         }
 
         input {
-            position: absolute;
-            top: 2px;
-            right: 9px;
             margin-left: 10px;
+            position: absolute;
+            right: 9px;
+            top: 2px;
         }
     }
 }

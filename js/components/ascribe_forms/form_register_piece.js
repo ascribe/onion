@@ -16,7 +16,7 @@ import ApiUrls from '../../constants/api_urls';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -115,7 +115,7 @@ let RegisterPieceForm = React.createClass({
                     <FileUploader
                         submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={isReadyForFormSubmission}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
@@ -192,11 +192,11 @@ let FileUploader = React.createClass({
                 createBlobRoutine={{
                     url: ApiUrls.blob_digitalworks
                 }}
-                submitKey={this.props.submitKey}
                 validation={{
                     itemLimit: 100000,
                     sizeLimit: '25000000000'
                 }}
+                submitKey={this.props.submitKey}
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}

@@ -9,7 +9,7 @@ import PrizeStore from '../stores/prize_store';
 import PrizeJuryActions from '../actions/prize_jury_actions';
 import PrizeJuryStore from '../stores/prize_jury_store';
 
-import SettingsContainer from '../../../settings_container';
+import SettingsContainer from '../../../ascribe_settings/settings_container';
 import CollapsibleParagraph from '../../../ascribe_collapsible/collapsible_paragraph';
 
 import Form from '../../../ascribe_forms/form';
@@ -190,7 +190,7 @@ let PrizeJurySettings = React.createClass({
                                 {getLangText('RESEND')}
                             </button>
                             <button
-                                className="btn btn-default btn-sm ascribe-btn-gray margin-left-2px"
+                                className="btn btn-warning btn-sm margin-left-2px"
                                 onClick={this.handleRevoke}
                                 data-id={member.email}>
                                 {getLangText('REVOKE')}
@@ -218,7 +218,7 @@ let PrizeJurySettings = React.createClass({
                     }
                     buttons={
                         <button
-                            className="btn btn-default btn-sm ascribe-btn-gray"
+                            className="btn btn-warning btn-sm"
                             onClick={this.handleRevoke}
                             data-id={member.email}>
                             {getLangText('REVOKE')}
@@ -265,7 +265,7 @@ let PrizeJurySettings = React.createClass({
 
         if (this.state.members.length > -1) {
             content = (
-                <div style={{padding: '1em'}}>
+                <div>
                     <CollapsibleParagraph
                         title={getLangText('Active Jury Members')}
                         show={true}

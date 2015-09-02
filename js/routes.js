@@ -17,7 +17,7 @@ import LogoutContainer from './components/logout_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
-import SettingsContainer from './components/settings_container';
+import SettingsContainer from './components/ascribe_settings/settings_container';
 import CoaVerifyContainer from './components/coa_verify_container';
 
 import RegisterPiece from './components/register_piece';

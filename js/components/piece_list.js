@@ -61,6 +61,7 @@ let PieceList = React.createClass({
         
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
+
         let orderBy = this.props.orderBy ? this.props.orderBy : this.state.orderBy;
         if (this.state.pieceList.length === 0 || this.state.page !== page){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
@@ -70,7 +71,7 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.props.redirectTo && this.state.pieceListCount === 0) {
+        if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
             // FIXME: hack to redirect out of the dispatch cycle
             window.setTimeout(() => this.transitionTo(this.props.redirectTo), 0);
         }

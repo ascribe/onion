@@ -1,17 +1,32 @@
 
 .ascribe-footer {
     text-align: center;
-}
 
-.ascribe-footer hr {
-    border: 0;
-    border-top: 1px solid #eee;
-    background-color: rgba(0,0,0,0);
-    margin-bottom: 0 !important;
-}
+    hr {
+        background-color: rgba(0, 0, 0, 0);
+        border-top: 1px solid #eee;
+        border: 0;
+        margin-bottom: 0 !important;
+    }
 
-.ascribe-footer .btn-ascribe-landing {
-    margin-top: 2em;
+    .btn-ascribe-landing {
+        margin-top: 2em;
+    }
+
+    .social-icons-wrapper {
+        margin-top: 1em;
+
+        a {
+            color: #424242;
+            font-size: 1.3em;
+            margin-left: 1em;
+        }
+
+        a:hover {
+            color: #48DACB;
+        }
+    }
+
 }
 
 .ascribe-footer-statement {
@@ -21,7 +36,8 @@
     margin-top: 0;
 }
 
-.ascribe-footer-statement a, .ascribe-footer-sub-statement a {
+.ascribe-footer-statement a,
+.ascribe-footer-sub-statement a {
     color: #424242;
 }
 
@@ -30,23 +46,7 @@
     margin-bottom: 2.5em;
 }
 
-.ascribe-footer-statement a, .ascribe-footer-sub-statement a {
-    color: #424242;
-}
-.ascribe-footer-statement a:hover, .ascribe-footer-sub-statement a:hover {
-    color: #48DACB;
-}
-
-.ascribe-footer .social-icons-wrapper {
-    margin-top: 1em;
-}
-
-.ascribe-footer .social-icons-wrapper a {
-    color: #424242;
-    margin-left: 1em;
-    font-size: 1.3em;
-}
-
-.ascribe-footer .social-icons-wrapper a:hover {
-    color: #48DACB;
+.ascribe-footer-statement a:hover,
+.ascribe-footer-sub-statement a:hover {
+    color: #48dacb;
 }

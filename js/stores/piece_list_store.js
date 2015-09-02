@@ -21,6 +21,7 @@ class PieceListStore {
         this.pieceList = [];
         // -1 specifies that the store is currently loading
         this.pieceListCount = -1;
+        this.unfilteredPieceListCount = -1;
         this.page = 1;
         this.pageSize = 10;
         this.search = '';
@@ -31,13 +32,14 @@ class PieceListStore {
         this.bindActions(PieceListActions);
     }
     
-    onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount, filterBy }) {
+    onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount, unfilteredPieceListCount, filterBy }) {
         this.page = page;
         this.pageSize = pageSize;
         this.search = search;
         this.orderAsc = orderAsc;
         this.orderBy = orderBy;
         this.pieceListCount = pieceListCount;
+        this.unfilteredPieceListCount = unfilteredPieceListCount;
         this.filterBy = filterBy;
 
         /**
