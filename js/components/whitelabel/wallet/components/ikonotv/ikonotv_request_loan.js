@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-import ContractForm from '../../../../../components/ascribe_forms/form_contract';
+import ContractAgreementForm from '../../../../ascribe_forms/form_contract_agreement';
 
 
 let IkonotvRequestLoan = React.createClass({
     render() {
         return (
-            <ContractForm />
+            <ContractAgreementForm />
         );
     }
 });
