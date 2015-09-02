@@ -9,6 +9,8 @@ import Edition from './edition';
 
 import AppConstants from '../../constants/application_constants';
 
+
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -50,6 +52,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
+        console.log(this.state);
         if('title' in this.state.edition) {
             return (
                 <Edition

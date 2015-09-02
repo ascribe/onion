@@ -305,7 +305,6 @@ let EditionSummary = React.createClass({
                 <hr/>
             </div>
         );
-
     }
 });
 
