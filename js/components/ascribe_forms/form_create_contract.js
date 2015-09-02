@@ -5,6 +5,9 @@ import React from 'react';
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
@@ -41,11 +44,18 @@ let CreateContractForm = React.createClass({
         });
     },
 
+    handleCreateSuccess(response) {
+        let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+
     render() {
         return (
             <Form
                 url={ApiUrls.ownership_contract}
                 getFormData={this.getFormData}
+                handleSuccess={this.handleCreateSuccess}
                 buttons={
                     <button
                         type="submit"
@@ -94,7 +104,7 @@ let CreateContractForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}/>
                 </Property>
                 <Property
-                    name='contract_name'
+                    name='name'
                     label={getLangText('Contract name')}>
                     <input
                         type="text"
