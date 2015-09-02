@@ -3,12 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-import EventActions from '../actions/event_actions';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -17,6 +11,15 @@ import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
+
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
+import WhitelabelActions from '../actions/whitelabel_actions';
+import WhitelabelStore from '../stores/whitelabel_store';
+import EventActions from '../actions/event_actions';
+
+import HeaderNotifications from './header_notification';
 
 import HeaderNotificationDebug from './header_notification_debug';
 
@@ -41,7 +44,10 @@ let Header = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(WhitelabelStore.getState(), UserStore.getState());
+        return mergeOptions(
+            WhitelabelStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
@@ -96,11 +102,13 @@ let Header = React.createClass({
         let navRoutesLinks;
         if (this.state.currentUser.username){
             account = (
-                <DropdownButton eventKey="1" title={this.state.currentUser.username}>
+                <DropdownButton
+                    eventKey="1"
+                    title={this.state.currentUser.username}>
                     <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
                     <MenuItem divider />
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
-                  </DropdownButton>
+                </DropdownButton>
             );
             navRoutesLinks = <NavRoutesLinks routes={this.props.routes} navbar right/>;
         }
@@ -126,6 +134,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
+                        <HeaderNotifications />
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>

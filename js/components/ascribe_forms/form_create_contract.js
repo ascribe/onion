@@ -18,14 +18,20 @@ let CreateContractForm = React.createClass({
 
     getInitialState() {
         return {
-            digitalWorkKey: null,
+            contractKey: null,
             isUploadReady: false
+        };
+    },
+
+    getFormData(){
+        return {
+            blob: this.state.contractKey
         };
     },
 
     submitKey(key) {
         this.setState({
-            digitalWorkKey: key
+            contractKey: key
         });
     },
 
@@ -39,6 +45,7 @@ let CreateContractForm = React.createClass({
         return (
             <Form
                 url={ApiUrls.ownership_contract}
+                getFormData={this.getFormData}
                 buttons={
                     <button
                         type="submit"
@@ -87,7 +94,7 @@ let CreateContractForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}/>
                 </Property>
                 <Property
-                    name='contract_ name'
+                    name='contract_name'
                     label={getLangText('Contract name')}>
                     <input
                         type="text"

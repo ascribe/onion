@@ -6,6 +6,8 @@ import AclButton from './../ascribe_buttons/acl_button';
 import ActionPanel from '../ascribe_panel/action_panel';
 import Form from './form';
 
+import PieceListActions from '../../actions/piece_list_actions';
+
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
@@ -71,10 +73,16 @@ let RequestActionForm = React.createClass({
             let notification = new GlobalNotificationModel(message, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
 
-            if(this.props.handleSuccess) {
-                this.props.handleSuccess();
-            }
+            this.handleSuccess();
+
         };
+    },
+
+    handleSuccess() {
+        PieceListActions.fetchPieceRequestActions();
+        if(this.props.handleSuccess) {
+            this.props.handleSuccess();
+        }
     },
 
     getContent() {
@@ -99,7 +107,7 @@ let RequestActionForm = React.createClass({
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
+                    handleSuccess={this.handleSuccess} />
                 );
         } else if(this.props.requestAction === 'loan_request') {
             return (
@@ -110,7 +118,7 @@ let RequestActionForm = React.createClass({
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
+                    handleSuccess={this.handleSuccess} />
                 );
         } else {
             return (

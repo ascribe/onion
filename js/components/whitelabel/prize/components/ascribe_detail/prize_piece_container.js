@@ -86,7 +86,6 @@ let PieceContainer = React.createClass({
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
-        this.setState(this.state);
     },
 
     render() {
