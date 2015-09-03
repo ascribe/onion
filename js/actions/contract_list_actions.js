@@ -2,6 +2,7 @@
 
 import alt from '../alt';
 import OwnershipFetcher from '../fetchers/ownership_fetcher';
+import Q from 'q';
 
 class ContractListActions {
     constructor() {
@@ -23,13 +24,17 @@ class ContractListActions {
     }
 
     makeContractPublic(contract){
-        OwnershipFetcher.makeContractPublic(contract)
-            .then((res) =>{
-                return res;
-            })
-            .catch((err)=>{
-                console.logGlobal(err);
-            });
+        contract.public=true;
+        return Q.Promise((resolve, reject) => {
+            OwnershipFetcher.makeContractPublic(contract)
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err)=> {
+                    console.logGlobal(err);
+                    reject(err);
+                });
+        });
     }
 }
 

@@ -11,6 +11,8 @@ import ContractListActions from '../../actions/contract_list_actions';
 import ActionPanel from '../ascribe_panel/action_panel';
 
 import { getLangText } from '../../utils/lang_utils';
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 let ContractSettings = React.createClass({
     propTypes: {
@@ -33,7 +35,10 @@ let ContractSettings = React.createClass({
         console.log(contract);
         ContractListActions.makeContractPublic(contract)
             .then(( ) => ContractListActions.fetchContractList())
-            .catch((error)=>{console.log("Error ", error)})
+            .catch((error)=>{console.log("Error ", error);
+                                let notification = new GlobalNotificationModel("Service is unavailable", 'danger', 10000);
+                            GlobalNotificationActions.appendGlobalNotification(notification);
+})
     },
     getPublicContracts(){
         return this.state.contractList.filter((contract) => contract.public);
