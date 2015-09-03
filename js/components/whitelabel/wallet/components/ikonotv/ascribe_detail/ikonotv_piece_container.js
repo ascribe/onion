@@ -10,6 +10,9 @@ import PieceListStore from '../../../../../../stores/piece_list_store';
 
 import UserStore from '../../../../../../stores/user_store';
 
+import NotificationStore from '../../../../../../stores/notification_store';
+import NotificationActions from '../../../../../../actions/notification_actions.js';
+
 import Piece from '../../../../../../components/ascribe_detail/piece';
 
 import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
@@ -41,7 +44,8 @@ let IkonotvPieceContainer = React.createClass({
         return mergeOptions(
             PieceStore.getState(),
             UserStore.getState(),
-            PieceListStore.getState()
+            PieceListStore.getState(),
+            NotificationStore.getState()
         );
     },
 
@@ -50,6 +54,8 @@ let IkonotvPieceContainer = React.createClass({
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
+        NotificationStore.listen(this.onChange);
+        NotificationActions.fetchPieceNotifications(this.props.params.pieceId);
     },
 
     componentWillReceiveProps(nextProps) {
@@ -68,6 +74,7 @@ let IkonotvPieceContainer = React.createClass({
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        NotificationStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -89,15 +96,14 @@ let IkonotvPieceContainer = React.createClass({
 
     getActions(){
         if (this.state.piece &&
-            this.state.piece.request_action &&
-            this.state.piece.request_action.length > 0) {
+            this.state.pieceNotifications &&
+            this.state.pieceNotifications.notification) {
             return (
                 <ListRequestActions
                     pieceOrEditions={this.state.piece}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.loadPiece}
-                    requestActions={this.state.piece.request_action}/>
-                );
+                    requestActions={this.state.pieceNotifications.notification}/>);
         }
         else {
 

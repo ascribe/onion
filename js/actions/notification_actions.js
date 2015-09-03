@@ -8,7 +8,9 @@ class NotificationActions {
     constructor() {
         this.generateActions(
             'updatePieceListNotifications',
-            'updateEditionListNotifications'
+            'updateEditionListNotifications',
+            'updateEditionNotifications',
+            'updatePieceNotifications'
         );
     }
 
@@ -21,11 +23,29 @@ class NotificationActions {
             .catch((err) => console.logGlobal(err));
     }
 
+    fetchPieceNotifications(pieceId) {
+        NotificationFetcher
+            .fetchPieceNotifications(pieceId)
+            .then((res) => {
+                this.actions.updatePieceNotifications(res);
+            })
+            .catch((err) => console.logGlobal(err));
+    }
+
     fetchEditionListNotifications() {
         NotificationFetcher
             .fetchEditionListNotifications()
             .then((res) => {
                 this.actions.updateEditionListNotifications(res);
+            })
+            .catch((err) => console.logGlobal(err));
+    }
+
+    fetchEditionNotifications(editionId) {
+        NotificationFetcher
+            .fetchEditionNotifications(editionId)
+            .then((res) => {
+                this.actions.updateEditionNotifications(res);
             })
             .catch((err) => console.logGlobal(err));
     }

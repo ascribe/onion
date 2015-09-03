@@ -15,6 +15,9 @@ import PieceListActions from '../../../../../actions/piece_list_actions';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
+import NotificationStore from '../../../../../stores/notification_store';
+import NotificationActions from '../../../../../actions/notification_actions.js';
+
 import UserStore from '../../../../../stores/user_store';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
@@ -50,7 +53,8 @@ let PieceContainer = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
-            UserStore.getState()
+            UserStore.getState(),
+            NotificationStore.getState()
         );
     },
 
@@ -58,6 +62,8 @@ let PieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
+        NotificationStore.listen(this.onChange);
+        NotificationActions.fetchPieceNotifications(this.props.params.pieceId);
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -77,6 +83,7 @@ let PieceContainer = React.createClass({
         PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        NotificationStore.unlisten(this.onChange);
     },
 
 
@@ -86,6 +93,19 @@ let PieceContainer = React.createClass({
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
+    },
+
+    getActions() {
+        if (this.state.piece &&
+            this.state.pieceNotifications &&
+            this.state.pieceNotifications.notification) {
+            return (
+                <ListRequestActions
+                    pieceOrEditions={this.state.piece}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.loadPiece}
+                    requestActions={this.state.pieceNotifications.notification}/>);
+        }
     },
 
     render() {
@@ -111,11 +131,7 @@ let PieceContainer = React.createClass({
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={ this.state.piece.date_created.slice(0, 4) } />
                             {artistEmail}
-                            <ListRequestActions
-                                pieceOrEditions={this.state.piece}
-                                currentUser={this.state.currentUser}
-                                handleSuccess={this.loadPiece}
-                                requestActions={this.state.piece.request_action}/>
+                            {this.getActions()}
                             <hr/>
                         </div>
                         }

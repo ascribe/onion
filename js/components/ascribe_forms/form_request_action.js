@@ -6,7 +6,7 @@ import AclButton from './../ascribe_buttons/acl_button';
 import ActionPanel from '../ascribe_panel/action_panel';
 import Form from './form';
 
-import PieceListActions from '../../actions/piece_list_actions';
+import NotificationActions from '../../actions/notification_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -79,7 +79,14 @@ let RequestActionForm = React.createClass({
     },
 
     handleSuccess() {
-        PieceListActions.fetchPieceRequestActions();
+        if (this.isPiece()){
+            NotificationActions.fetchPieceListNotifications();
+            //NotificationActions.fetchPieceNotifications(this.props.pieceOrEditions.id);
+        }
+        else {
+            NotificationActions.fetchEditionListNotifications();
+            NotificationActions.fetchEditionNotifications(this.props.pieceOrEditions[0].bitcoin_id);
+        }
         if(this.props.handleSuccess) {
             this.props.handleSuccess();
         }
