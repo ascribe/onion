@@ -205,36 +205,20 @@ hr {
         border: 1px solid $ascribe-brand-danger;
     }
 }
-
-.btn-ascribe,
-.btn-ascribe-inv {
+.btn-ascribe {
+    background-color: #fff;
     border: 1px solid #444;
     border-radius: 0 !important;
+    color: #222 !important;
     font-family: sans-serif !important;
     line-height: 2em;
     margin-left: 0 !important;
-    margin-right: 1px;
-}
-
-.btn-ascribe,
-.btn-ascribe-inv:active,
-.btn-ascribe-inv:hover {
-    background-color: #fff;
-    color: #222 !important;
 }
 
 .btn-ascribe:active,
-.btn-ascribe:hover,
-.btn-ascribe-inv {
+.btn-ascribe:hover {
     background-color: #444;
     color: #fff !important;
-}
-
-.btn-ascribe-inv:disabled,
-.btn-ascribe-inv:focus {
-    background-color: #BBB !important;
-    border: 1px solid #444 !important;
-    color: #444 !important;
 }
 
 .btn-ascribe-sm {
