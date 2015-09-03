@@ -12,8 +12,13 @@
     }
 
     .media-other {
-        font-size: 500%;
         color: #cccccc;
+        font-size: 500%;
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     .audiojs {
