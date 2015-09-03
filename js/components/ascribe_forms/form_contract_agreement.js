@@ -19,7 +19,7 @@ import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
 
-let ContractForm = React.createClass({
+let ContractAgreementForm = React.createClass({
      propTypes: {
         handleSuccess: React.PropTypes.func
      },
@@ -55,8 +55,13 @@ let ContractForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
+    getFormData(){
+        return {'appendix': {'default': this.refs.form.refs.appendix.state.value}};
+    },
+
     getContracts() {
-        if (this.state.contractList && this.state.contractList.length > 0) {
+        if (this.state.contractList && this.state.contractList.count > 0) {
+            let contractList = this.state.contractList.results;
             return (
                 <Property
                     name='contract'
@@ -65,13 +70,13 @@ let ContractForm = React.createClass({
                     footer={
                         <a
                             className="pull-right"
-                            href={this.state.contractList[this.state.selectedContract].s3UrlSafe}
+                            href={contractList[this.state.selectedContract].blob}
                             target="_blank">
                             {getLangText('Learn more')}
                         </a>
                     }>
                     <select name="contract">
-                        {this.state.contractList.map((contract, i) => {
+                        {contractList.map((contract, i) => {
                             return (
                                 <option
                                     name={i}
@@ -92,7 +97,8 @@ let ContractForm = React.createClass({
             <Form
                 className="ascribe-form-bordered ascribe-form-wrapper"
                 ref='form'
-                url={ApiUrls.blob_contracts}
+                url={ApiUrls.ownership_contract_agreements}
+                getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
                 buttons={<button
                             type="submit"
@@ -108,15 +114,7 @@ let ContractForm = React.createClass({
                     <h3>{getLangText('Contract form')}</h3>
                 </div>
                 <Property
-                    name='artist_name'
-                    label={getLangText('Artist Name')}>
-                    <input
-                        type="text"
-                        placeholder={getLangText('(e.g. Andy Warhol)')}
-                        required/>
-                </Property>
-                <Property
-                    name='artist_email'
+                    name='signee'
                     label={getLangText('Artist Email')}>
                     <input
                         type="email"
@@ -138,4 +136,4 @@ let ContractForm = React.createClass({
     }
 });
 
-export default ContractForm;
+export default ContractAgreementForm;

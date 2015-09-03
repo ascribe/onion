@@ -27,6 +27,7 @@ let ApiUrls = {
     'note_private_piece': AppConstants.apiEndpoint + 'note/private/pieces/',
     'note_public_edition': AppConstants.apiEndpoint + 'note/public/editions/',
     'note_public_piece': AppConstants.apiEndpoint + 'note/public/pieces/',
+    'ownership_contract_agreements': AppConstants.apiEndpoint + 'ownership/contract_agreements/',
     'ownership_consigns': AppConstants.apiEndpoint + 'ownership/consigns/',
     'ownership_consigns_confirm': AppConstants.apiEndpoint + 'ownership/consigns/confirm/',
     'ownership_consigns_deny': AppConstants.apiEndpoint + 'ownership/consigns/deny/',
