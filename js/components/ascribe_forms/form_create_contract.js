@@ -44,7 +44,7 @@ let CreateContractForm = React.createClass({
     render() {
         return (
             <Form
-                url={ApiUrls.ownership_contract}
+                url={ApiUrls.ownership_contract_list}
                 getFormData={this.getFormData}
                 buttons={
                     <button

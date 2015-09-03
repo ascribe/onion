@@ -8,6 +8,8 @@ import CreateContractForm from '../ascribe_forms/form_create_contract';
 import ContractListStore from '../../stores/contract_list_store';
 import ContractListActions from '../../actions/contract_list_actions';
 
+import ActionPanel from '../ascribe_panel/action_panel';
+
 import { getLangText } from '../../utils/lang_utils';
 
 let ContractSettings = React.createClass({
@@ -27,23 +29,73 @@ let ContractSettings = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+    makeContractPublic(contract){
+        console.log(contract);
+        ContractListActions.makeContractPublic(contract)
+            .then(( ) => ContractListActions.fetchContractList())
+            .catch((error)=>{console.log("Error ", error)})
+    },
+    getPublicContracts(){
+        return this.state.contractList.filter((contract) => contract.public);
+    },
+    getPrivateContracts(){
+        return this.state.contractList.filter((contract) => !contract.public);
+    },
+    getblobEndName(contract){
+        return contract.blob.match(/.*\/(.*)/)[1];
+    },
     render() {
+        let publicContracts = this.getPublicContracts();
+        let privateContracts = this.getPrivateContracts();
+        console.log(this.state.contractList);
         return (
             <CollapsibleParagraph
                 title={getLangText('Contract Settings')}
                 show={true}
-                defaultExpanded={true}>
+                defaultExpanded={false}>
                 {/* this should be this.props.defaultExpanded */}
                 <CollapsibleParagraph
                     title={getLangText('List Contracts')}
                     show={true}
-                    defaultExpanded={true}>
-                    {this.state.contractList}
+                    defaultExpanded={false}>
+                    {<div>
+                    <p>Public Contracts</p>
+                    {(publicContracts.length > 0) ?
+                        publicContracts.map(
+                        (contract) => {
+                            return(
+                                <ActionPanel title = {contract.name}
+                                content = {this.getblobEndName(contract)}
+                                buttons = {<span>
+                                           <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
+                                           <button className="btn btn-default btn-sm margin-left-2px">REMOVE</button>
+                                           </span>}
+                            />)
+                        }
+                    ) : null }
+                    </div>}
+
+                    {<div>
+                    <p>Private Contracts</p>
+                    {(privateContracts.length>0) ?
+                        privateContracts.map(
+                        (contract) => {
+                            return(
+                                <ActionPanel title = {contract.name}
+                                content = {this.getblobEndName(contract)}
+                                buttons = {<span> <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
+                                           <button className="btn btn-default btn-sm margin-left-2px" >REMOVE</button>
+                                           <button className="btn btn-default btn-sm margin-left-2px"
+                                           onClick={this.makeContractPublic.bind(this, contract)}>MAKE PUBLIC</button> </span>}
+                            />)
+                        }
+                    ) : null}
+                    </div>}
                 </CollapsibleParagraph>
                 <CollapsibleParagraph
                     title={getLangText('Create Contract')}
                     show={true}
-                    defaultExpanded={true}>
+                    defaultExpanded={false}>
                     <CreateContractForm />
                 </CollapsibleParagraph>
             </CollapsibleParagraph>
