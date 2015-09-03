@@ -61,7 +61,6 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        console.log(this.state);
         if('title' in this.state.edition) {
             return (
                 <Edition

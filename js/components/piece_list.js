@@ -65,8 +65,7 @@ let PieceList = React.createClass({
         let orderBy = this.props.orderBy ? this.props.orderBy : this.state.orderBy;
         if (this.state.pieceList.length === 0 || this.state.page !== page){
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                            orderBy, this.state.orderAsc, this.state.filterBy)
-                            .then(() => PieceListActions.fetchPieceRequestActions());
+                                            orderBy, this.state.orderAsc, this.state.filterBy);
         }
     },
 
