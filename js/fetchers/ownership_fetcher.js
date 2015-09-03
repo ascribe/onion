@@ -16,11 +16,15 @@ let OwnershipFetcher = {
      * Fetch the contracts of the logged-in user from the API.
      */
     fetchContractList(){
-        return requests.get(ApiUrls.ownership_contract);
+        return requests.get(ApiUrls.ownership_contract_list);
     },
 
     fetchLoanPieceRequestList(){
         return requests.get(ApiUrls.ownership_loans_pieces_request);
+    },
+
+    makeContractPublic(contractObj){
+        return requests.put('ownership_contract', { body: contractObj, contract_id: contractObj.id });
     }
 };
 

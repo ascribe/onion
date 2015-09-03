@@ -4,6 +4,7 @@ import React from 'react';
 
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
+import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -53,7 +54,7 @@ let CreateContractForm = React.createClass({
     render() {
         return (
             <Form
-                url={ApiUrls.ownership_contract}
+                url={ApiUrls.ownership_contract_list}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleCreateSuccess}
                 buttons={
@@ -110,6 +111,19 @@ let CreateContractForm = React.createClass({
                         type="text"
                         placeholder="(e.g. Loan agreement #1)"
                         required/>
+                </Property>
+                <Property
+                    name="public"
+                    className="ascribe-settings-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputCheckbox>
+                        <span>
+                            {' ' + getLangText('I agree to the Terms of Service') + ' '}
+                            (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                {getLangText('read')}
+                            </a>)
+                        </span>
+                    </InputCheckbox>
                 </Property>
             </Form>
         );
