@@ -35,10 +35,10 @@ let ContractSettings = React.createClass({
         console.log(contract);
         ContractListActions.makeContractPublic(contract)
             .then(( ) => ContractListActions.fetchContractList())
-            .catch((error)=>{console.log("Error ", error);
-                                let notification = new GlobalNotificationModel("Service is unavailable", 'danger', 10000);
+            .catch((error)=>{console.log('Error ', error);
+                                let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
                             GlobalNotificationActions.appendGlobalNotification(notification);
-})
+});
     },
     getPublicContracts(){
         return this.state.contractList.filter((contract) => contract.public);
@@ -68,31 +68,31 @@ let ContractSettings = React.createClass({
                     {(publicContracts.length > 0) ?
                         publicContracts.map(
                         (contract) => {
-                            return(
+                            return (
                                 <ActionPanel title = {contract.name}
                                 content = {this.getblobEndName(contract)}
                                 buttons = {<span>
                                            <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
                                            <button className="btn btn-default btn-sm margin-left-2px">REMOVE</button>
                                            </span>}
-                            />)
+                            />);
                         }
                     ) : null }
                     </div>}
 
                     {<div>
                     <p>Private Contracts</p>
-                    {(privateContracts.length>0) ?
+                    {(privateContracts.length > 0) ?
                         privateContracts.map(
                         (contract) => {
-                            return(
+                            return (
                                 <ActionPanel title = {contract.name}
                                 content = {this.getblobEndName(contract)}
                                 buttons = {<span> <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
                                            <button className="btn btn-default btn-sm margin-left-2px" >REMOVE</button>
                                            <button className="btn btn-default btn-sm margin-left-2px"
                                            onClick={this.makeContractPublic.bind(this, contract)}>MAKE PUBLIC</button> </span>}
-                            />)
+                            />);
                         }
                     ) : null}
                     </div>}

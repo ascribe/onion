@@ -39,8 +39,6 @@ class ContractActions {
                         contractEmail: null
                     });
                 });
-            } else {
-                /* No email was entered - Ignore and keep going*/
             }
     }
 
