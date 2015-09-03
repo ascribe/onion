@@ -61,8 +61,7 @@ let AccordionListItemWallet = React.createClass({
     },
 
     getGlyphicon(){
-        if ((this.props.content.request_action && this.props.content.request_action.length > 0) ||
-            (this.props.content.request_action_editions)){
+        if ((this.props.content.notifications && this.props.content.notifications.length > 0)){
             return (
                 <OverlayTrigger
                     delay={500}

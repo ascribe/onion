@@ -180,6 +180,19 @@ let NotificationListItem = React.createClass({
     onClick(event){
         this.props.onClick(event);
     },
+
+    getNotificationText(){
+        let numNotifications = null;
+        if (this.props.notification.length > 1){
+            numNotifications = <div>+ {this.props.notification.length - 1} more...</div>;
+        }
+        return (
+            <div className="notification-action">
+                {this.props.notification[0].action_str}
+                {numNotifications}
+            </div>);
+    },
+
     render() {
         if (this.props.pieceOrEdition) {
             return (
@@ -193,9 +206,7 @@ let NotificationListItem = React.createClass({
                         <div className="col-xs-8 notification-list-item-header">
                             <h1>{this.props.pieceOrEdition.title}</h1>
                             <div className="sub-header">by {this.props.pieceOrEdition.artist_name}</div>
-                            <div className="notification-action">
-                                {'Pending ' + this.props.notification[0].action + ' request'}
-                            </div>
+                            {this.getNotificationText()}
                         </div>
                     </div>
                 </Link>);

@@ -14,10 +14,7 @@ import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
-import EditionListActions from '../../actions/edition_list_actions';
-
-import NotificationActions from '../../actions/notification_actions';
-import NotificationStore from '../../stores/notification_store';
+import EditionListActions from '../../actions/edition_list_actions';;
 
 import HistoryIterator from './history_iterator';
 
@@ -211,25 +208,6 @@ let EditionSummary = React.createClass({
         handleDeleteSuccess: React.PropTypes.func
     },
 
-    getInitialState() {
-        return mergeOptions(
-            NotificationStore.getState()
-        );
-    },
-
-    componentDidMount() {
-        NotificationStore.listen(this.onChange);
-        NotificationActions.fetchEditionNotifications(this.props.edition.bitcoin_id);
-    },
-
-    componentWillUnmount() {
-        NotificationStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     getTransferWithdrawData(){
         return {'bitcoin_id': this.props.edition.bitcoin_id};
     },
@@ -256,13 +234,15 @@ let EditionSummary = React.createClass({
 
     getActions(){
         let actions = null;
-        if (this.state.editionNotifications && this.state.editionNotifications.notification){
+        if (this.props.edition &&
+            this.props.edition.notifications &&
+            this.props.edition.notifications.length > 0){
             actions = (
                 <ListRequestActions
                     pieceOrEditions={[this.props.edition]}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.showNotification}
-                    requestActions={this.state.editionNotifications.notification}/>);
+                    notifications={this.props.edition.notifications}/>);
         }
 
         else {

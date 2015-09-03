@@ -9,9 +9,6 @@ import PieceStore from '../../stores/piece_store';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
-import NotificationActions from '../../actions/notification_actions';
-import NotificationStore from '../../stores/notification_store';
-
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
@@ -65,8 +62,6 @@ let PieceContainer = React.createClass({
         UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
-        NotificationStore.listen(this.onChange);
-        NotificationActions.fetchPieceNotifications(this.props.params.pieceId);
     },
 
     componentWillUnmount() {
@@ -78,7 +73,6 @@ let PieceContainer = React.createClass({
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
-        NotificationStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -180,14 +174,14 @@ let PieceContainer = React.createClass({
 
     getActions() {
         if (this.state.piece &&
-            this.state.pieceNotifications &&
-            this.state.pieceNotifications.notification) {
+            this.state.piece.notifications &&
+            this.state.piece.notifications.length > 0) {
             return (
                 <ListRequestActions
                     pieceOrEditions={this.state.piece}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.loadPiece}
-                    requestActions={this.state.pieceNotifications.notification}/>);
+                    notifications={this.state.piece.notifications}/>);
         }
         else {
             return (

@@ -45,9 +45,15 @@ $break-medium: 1200px;
         margin-top: 0.3em;
         margin-bottom: 0.15em;
         font-size: 1.8em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .sub-header{
-        margin-bottom: 1em;
+        margin-bottom: 0.6em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .notification-action{
         color: $ascribe-color-green;
