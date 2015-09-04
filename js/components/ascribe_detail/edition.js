@@ -14,7 +14,7 @@ import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
-import EditionListActions from '../../actions/edition_list_actions';;
+import EditionListActions from '../../actions/edition_list_actions';
 
 import HistoryIterator from './history_iterator';
 
