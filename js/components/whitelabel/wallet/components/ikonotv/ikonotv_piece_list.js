@@ -8,7 +8,6 @@ import UserStore from '../../../../../stores/user_store';
 
 import IkonotvAccordionListItem from './ascribe_accordion_list/ikonotv_accordion_list_item';
 
-
 let IkonotvPieceList = React.createClass({
     getInitialState() {
         return UserStore.getState();
