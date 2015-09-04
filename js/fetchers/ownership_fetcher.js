@@ -24,8 +24,7 @@ let OwnershipFetcher = {
     },
 
     makeContractPublic(contractObj){
-        console.log(contractObj);
-        return requests.put('ownership_contract_list',{ body: contractObj, contract_id:contractObj.id });
+        return requests.put('ownership_contract', { body: contractObj, contract_id: contractObj.id });
     }
 };
 

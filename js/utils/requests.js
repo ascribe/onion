@@ -78,7 +78,6 @@ class Requests {
                 throw new Error(`Cannot find a mapping for "${name}"`);
             }
         }
-        
         return url;
     }
 
@@ -138,9 +137,10 @@ class Requests {
         return this.request('delete', newUrl);
     }
 
-    _putOrPost(url,paramsAndBody,method){
+    _putOrPost(url, paramsAndBody, method){
         let paramsCopy = this._merge(paramsAndBody);
         let params = excludePropFromObject(paramsAndBody,['body']);
+
         let newUrl = this.prepareUrl(url, params);
         let body = null;
         if (paramsCopy && paramsCopy.body) {
@@ -155,7 +155,6 @@ class Requests {
     }
 
     put(url, params){
-        console.log(params);
         return this._putOrPost(url,params,'put')
     }
 
