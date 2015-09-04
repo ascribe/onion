@@ -3,7 +3,6 @@
 import alt from '../alt';
 import EventActions from '../actions/event_actions';
 
-
 class GoogleAnalyticsHandler {
     constructor() {
         this.bindActions(EventActions);

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
@@ -16,8 +15,6 @@ import GlobalNotificationActions from '../../../../../../actions/global_notifica
 import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
 
 import AclProxy from '../../../../../acl_proxy';
-
-import AclButton from '../../../../../ascribe_buttons/acl_button';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';

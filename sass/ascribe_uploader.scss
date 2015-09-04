@@ -29,6 +29,14 @@
     }
 }
 
+.file-drag-and-drop-preview-iterator {
+    text-align: right;
+
+    > div:first-child {
+        text-align: center;
+    }
+}
+
 .file-drag-and-drop .file-drag-and-drop-dialog > p:first-child {
     font-size: 1.5em !important;
 
