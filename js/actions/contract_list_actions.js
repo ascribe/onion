@@ -24,13 +24,15 @@ class ContractListActions {
     }
 
     makeContractPublic(contract){
-        contract.public=true;
+        contract.public = true;
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.makeContractPublic(contract)
                 .then((res) => {
+                    console.log('Here is the result... ');
                     resolve(res);
                 })
                 .catch((err)=> {
+                    console.log('Here we have an error');
                     console.logGlobal(err);
                     reject(err);
                 });
