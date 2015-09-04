@@ -72,7 +72,6 @@ class AppGateway {
             type = settings.type;
             subdomain = settings.subdomain;
         }
-
         EventActions.applicationWillBoot(settings);
         window.appRouter = Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
             React.render(

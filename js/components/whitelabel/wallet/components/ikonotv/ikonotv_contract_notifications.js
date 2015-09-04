@@ -35,7 +35,14 @@ let IkonotvContractNotifications = React.createClass({
         return (
             <div className='container'>
                 <div className='text-center'>
-                    <img src={this.state.whitelabel.logo} />
+                    <div>
+                        <img src={this.state.whitelabel.logo} />
+                    </div>
+                    <div>
+                        <embed src="http://www.orimi.com/pdf-test.pdf"
+                               width="600" height="500" alt="pdf"
+                               pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" />
+                    </div>
                 </div>
             </div>
         );
