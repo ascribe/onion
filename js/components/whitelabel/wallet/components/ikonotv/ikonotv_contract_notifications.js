@@ -39,7 +39,7 @@ let IkonotvContractNotifications = React.createClass({
                         <img src={this.state.whitelabel.logo} />
                     </div>
                     <div>
-                        <embed src="http://www.orimi.com/pdf-test.pdf"
+                        <embed src={this.state.contractAgreementListNotifications[0].contract_agreement.contract.blob}
                                width="600" height="500" alt="pdf"
                                pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" />
                     </div>
