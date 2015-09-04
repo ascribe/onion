@@ -14,7 +14,6 @@ let ActionPanel = React.createClass({
         onClick: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool
     },
-
     getInitialState() {
         return {
             isFocused: false

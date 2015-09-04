@@ -43,6 +43,7 @@ class ContractActions {
                 /* No email was entered - Ignore and keep going*/
             }
     }
+
 }
 
 export default alt.createActions(ContractActions);

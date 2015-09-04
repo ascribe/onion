@@ -6,6 +6,9 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 import InputCheckbox from '../ascribe_forms/input_checkbox';
 
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
@@ -19,14 +22,20 @@ let CreateContractForm = React.createClass({
 
     getInitialState() {
         return {
-            digitalWorkKey: null,
+            contractKey: null,
             isUploadReady: false
+        };
+    },
+
+    getFormData(){
+        return {
+            blob: this.state.contractKey
         };
     },
 
     submitKey(key) {
         this.setState({
-            digitalWorkKey: key
+            contractKey: key
         });
     },
 
@@ -36,10 +45,18 @@ let CreateContractForm = React.createClass({
         });
     },
 
+    handleCreateSuccess(response) {
+        let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+
     render() {
         return (
             <Form
-                url={ApiUrls.ownership_contract}
+                url={ApiUrls.ownership_contract_list}
+                getFormData={this.getFormData}
+                handleSuccess={this.handleCreateSuccess}
                 buttons={
                     <button
                         type="submit"
@@ -88,7 +105,7 @@ let CreateContractForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}/>
                 </Property>
                 <Property
-                    name='contract_ name'
+                    name='name'
                     label={getLangText('Contract name')}>
                     <input
                         type="text"

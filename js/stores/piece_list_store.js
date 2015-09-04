@@ -28,6 +28,7 @@ class PieceListStore {
         this.orderBy = 'artist_name';
         this.orderAsc = true;
         this.filterBy = {};
+        this.requestActions = {};
         this.bindActions(PieceListActions);
     }
     
@@ -71,10 +72,8 @@ class PieceListStore {
         this.pieceList = pieceList;
     }
 
-    onUpdatePieceListRequestActions(requestActions) {
-        this.pieceList.forEach((piece) => {
-            piece.requestAction = requestActions.indexOf(piece.id) > -1;
-        });
+    onUpdatePieceListRequestActions(res) {
+        this.requestActions = res.actions;
     }
 
     onUpdatePropertyForPiece({pieceId, key, value}) {

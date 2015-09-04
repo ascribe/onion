@@ -9,6 +9,8 @@ import Edition from './edition';
 
 import AppConstants from '../../constants/application_constants';
 
+
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -34,6 +36,15 @@ let EditionContainer = React.createClass({
         EditionActions.fetchOne(this.props.params.editionId);
     },
 
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces)
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.editionId !== nextProps.params.editionId) {
+            EditionActions.updateEdition({});
+            EditionActions.fetchOne(nextProps.params.editionId);
+        }
+    },
+
     componentWillUnmount() {
         // Every time we're leaving the edition detail page,
         // just reset the edition that is saved in the edition store
@@ -50,6 +61,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
+        console.log(this.state);
         if('title' in this.state.edition) {
             return (
                 <Edition

@@ -15,6 +15,7 @@ import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_l
 
 import Pagination from './ascribe_pagination/pagination';
 
+import GlobalAction from './global_action';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
@@ -148,6 +149,10 @@ let PieceList = React.createClass({
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
         let AccordionListItemType = this.props.accordionListItemType;
+
+        //<GlobalAction requestActions={this.state.requestActions} />
+
+
         return (
             <div>
                 <PieceListToolbar

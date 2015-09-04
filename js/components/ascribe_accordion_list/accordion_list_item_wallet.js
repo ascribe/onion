@@ -61,12 +61,13 @@ let AccordionListItemWallet = React.createClass({
     },
 
     getGlyphicon(){
-        if (this.props.content.requestAction && this.props.content.requestAction.length > 0) {
+        if ((this.props.content.request_action && this.props.content.request_action.length > 0) ||
+            (this.props.content.request_action_editions)){
             return (
                 <OverlayTrigger
                     delay={500}
                     placement="left"
-                    overlay={<Tooltip>{getLangText('You have actions pending in one of your editions')}</Tooltip>}>
+                    overlay={<Tooltip>{getLangText('You have actions pending')}</Tooltip>}>
                     <Glyphicon glyph='bell' color="green"/>
                 </OverlayTrigger>);
         }
