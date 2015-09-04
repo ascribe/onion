@@ -19,6 +19,10 @@ let NotificationFetcher = {
     
     fetchEditionNotifications(editionId) {
         return requests.get('notification_edition', {'edition_id': editionId});
+    },
+
+    fetchContractAgreementListNotifications() {
+        return requests.get('notification_contractagreementlist');
     }
 };
 

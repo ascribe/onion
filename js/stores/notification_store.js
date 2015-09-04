@@ -10,6 +10,7 @@ class NotificationStore {
     constructor() {
         this.pieceListNotifications = {};
         this.editionListNotifications = {};
+        this.contractAgreementListNotifications = {};
         this.editionNotifications = null;
         this.pieceNotifications = null;
         this.bindActions(NotificationActions);
@@ -29,6 +30,10 @@ class NotificationStore {
 
     onUpdateEditionNotifications(res) {
         this.editionNotifications = res.notification;
+    }
+
+    onUpdateContractAgreementListNotifications(res) {
+        this.contractAgreementListNotifications = res.notifications;
     }
 
 }

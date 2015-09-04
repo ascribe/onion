@@ -1,6 +1,7 @@
 'use strict';
 
 import alt from '../alt';
+import Q from 'q';
 
 import NotificationFetcher from '../fetchers/notification_fetcher';
 
@@ -10,7 +11,8 @@ class NotificationActions {
             'updatePieceListNotifications',
             'updateEditionListNotifications',
             'updateEditionNotifications',
-            'updatePieceNotifications'
+            'updatePieceNotifications',
+            'updateContractAgreementListNotifications'
         );
     }
 
@@ -48,6 +50,18 @@ class NotificationActions {
                 this.actions.updateEditionNotifications(res);
             })
             .catch((err) => console.logGlobal(err));
+    }
+
+    fetchContractAgreementListNotifications() {
+        return Q.Promise((resolve, reject) => {
+                NotificationFetcher
+                    .fetchContractAgreementListNotifications()
+                    .then((res) => {
+                        this.actions.updateContractAgreementListNotifications(res);
+                        resolve(res);
+                    })
+                    .catch((err) => console.logGlobal(err));
+        });
     }
 }
 

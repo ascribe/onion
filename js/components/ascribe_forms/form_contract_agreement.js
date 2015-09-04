@@ -60,8 +60,8 @@ let ContractAgreementForm = React.createClass({
     },
 
     getContracts() {
-        if (this.state.contractList && this.state.contractList.count > 0) {
-            let contractList = this.state.contractList.results;
+        if (this.state.contractList && this.state.contractList.length > 0) {
+            let contractList = this.state.contractList;
             return (
                 <Property
                     name='contract'
@@ -81,7 +81,7 @@ let ContractAgreementForm = React.createClass({
                                 <option
                                     name={i}
                                     key={i}
-                                    value={ contract.name }>
+                                    value={ contract.id }>
                                     { contract.name }
                                 </option>
                             );
