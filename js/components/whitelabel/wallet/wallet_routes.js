@@ -78,7 +78,7 @@ let ROUTES = {
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
-            <Route name="contract_notifications" path="verify" handler={IkonotvContractNotifications} />
+            <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
         </Route>
     )
 };

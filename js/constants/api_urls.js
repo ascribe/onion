@@ -33,6 +33,8 @@ let ApiUrls = {
     'notification_edition': AppConstants.apiEndpoint + 'notifications/editions/${edition_id}/',
     'notification_contractagreementlist': AppConstants.apiEndpoint + 'notifications/contract_agreements/',
     'ownership_contract_agreements': AppConstants.apiEndpoint + 'ownership/contract_agreements/',
+    'ownership_contract_agreements_confirm': AppConstants.apiEndpoint + 'ownership/contract_agreements/${contract_agreement_id}/accept/',
+    'ownership_contract_agreements_deny': AppConstants.apiEndpoint + 'ownership/contract_agreements/${contract_agreement_id}/reject/',
     'ownership_consigns': AppConstants.apiEndpoint + 'ownership/consigns/',
     'ownership_consigns_confirm': AppConstants.apiEndpoint + 'ownership/consigns/confirm/',
     'ownership_consigns_deny': AppConstants.apiEndpoint + 'ownership/consigns/deny/',
