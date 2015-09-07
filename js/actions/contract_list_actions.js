@@ -37,9 +37,9 @@ class ContractListActions {
         });
     }
 
-    removeContract(contract){
+    removeContract(contractId){
         return Q.Promise((resolve, reject) => {
-            OwnershipFetcher.deleteContract(contract)
+            OwnershipFetcher.deleteContract(contractId)
                 .then((res) => {
                     console.log('Contract deleted');
                     resolve(res);

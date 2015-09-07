@@ -32,21 +32,21 @@ let ContractSettings = React.createClass({
         this.setState(state);
     },
     makeContractPublic(contract){
-        console.log(contract);
         ContractListActions.makeContractPublic(contract)
             .then(( ) => ContractListActions.fetchContractList())
             .catch((error)=>{
-                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
+                let notification = new GlobalNotificationModel(error, 'danger', 10000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
         });
     },
     removeContract(contract){
         console.log(contract);
-        ContractListActions.removeContract(contract)
+        ContractListActions.removeContract(contract.id)
             .then(( ) => ContractListActions.fetchContractList())
-            .catch((error) => {console.log('Error', error);
-                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
+            .catch((error) => {
+                console.log('Error', error);
+                let notification = new GlobalNotificationModel(error, 'danger', 10000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
         });
     },
     getPublicContracts(){
@@ -81,9 +81,13 @@ let ContractSettings = React.createClass({
                                 <ActionPanel title = {contract.name}
                                 content = {contract.name}
                                 buttons = {<span>
-                                            <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                           onClick={this.removeContract.bind(this, contract)}>REMOVE</button>
+                                               <button className="btn btn-default btn-sm margin-left-2px">
+                                                    UPDATE
+                                               </button>
+                                               <button className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract.bind(this, contract)}>
+                                                    REMOVE
+                                                </button>
                                            </span>}
                             />);
                         }
@@ -98,11 +102,19 @@ let ContractSettings = React.createClass({
                             return (
                                 <ActionPanel title = {contract.name}
                                 content = {contract.name}
-                                buttons = {<span> <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.removeContract.bind(this, contract)}> REMOVE </button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                           onClick={this.makeContractPublic.bind(this, contract)}>MAKE PUBLIC</button> </span>}
+                                buttons = {<span>
+                                                <button className="btn btn-default btn-sm margin-left-2px">
+                                                    UPDATE
+                                                </button>
+                                                <button className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract.bind(this, contract)}>
+                                                    REMOVE
+                                                </button>
+                                                <button className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.makeContractPublic.bind(this, contract)}>
+                                                    MAKE PUBLIC
+                                                </button>
+                                           </span>}
                             />);
                         }
                     ) : null}

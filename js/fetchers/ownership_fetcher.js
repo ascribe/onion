@@ -27,8 +27,8 @@ let OwnershipFetcher = {
         return requests.put('ownership_csontract', { body: contractObj, contract_id: contractObj.id });
     },
 
-    deleteContract(contractObj){
-        return requests.delete('ownership_contract', {body: contractObj, contract_id: contractObj.id});
+    deleteContract(contractObjId){
+        return requests.delete('ownership_contract', {contract_id: contractObjId});
     }
 };
 
