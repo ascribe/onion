@@ -1,0 +1,56 @@
+/**
+ * Styles for the buttons
+ *
+ * The style of a button is context-dependent. This means that if the button
+ * is placed in a form, for example, and is the only child, it will be displayed
+ * with 100% width. If the button is together with other buttons, it will
+ * be displayed with auto width and pushed on the right.
+ *
+ */
+
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons';
+
+
+// Buttons that are one next to the other will have 1px margin on the left
+.btn + .btn {
+    margin-left: 1px;
+}
+
+// Buttons in the footer of a form are aligned on the right
+form .footer {
+    text-align: right;
+
+    // A single button in the footer of a form will take all the space available
+    > .btn:only-child {
+        width: 100%;
+    }
+}
+
+.btn.loading {
+    background-image: url('//s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    // force transparency so we don't need to go crazy with all the states of the button.
+    color: rgba(0, 0, 0, 0) !important;
+}
+
+/**
+ * Colors
+ */
+
+.btn-primary {
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+
+.btn-secondary {
+    @include button-variant($btn-secondary-color, $btn-secondary-bg, $btn-secondary-border);
+}
+
+.btn-danger {
+    @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+    border-color: transparent;
+    background-color: transparent;
+    color: $btn-secondary-color;
+}

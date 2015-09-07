@@ -1,52 +1,30 @@
+$ascribe-brand-color: #02b6a3;
+
 body {
-    background-color: $ascribe-color-background
+    background-color: #fdfdfd;
 }
 
-.btn-default {
+.btn-primary {
     color: white;
     background-color: $ascribe-brand-color;
     border-color: $ascribe-brand-color;
-    &:hover, &:focus {
-        background-color: darken($ascribe-brand-color, 10%);
-        border-color: darken($ascribe-brand-color, 10%);
-    }
 }
 
-.btn-default:active:hover,
-.btn-default:active:focus,
-.btn-default:active.focus,
-.btn-default.active:hover,
-.btn-default.active:focus,
-.btn-default.active.focus,
-.open > .btn-default.dropdown-toggle:hover,
-.open > .btn-default.dropdown-toggle:focus,
-.open > .btn-default.dropdown-toggle.focus {
+.btn-primary:active:hover,
+.btn-primary:active:focus {
         background-color: darken($ascribe-brand-color, 20%);
         border-color: darken($ascribe-brand-color, 20%);
 }
 
-.btn-default.disabled,
-.btn-default.disabled:hover,
-.btn-default.disabled:focus,
-.btn-default.disabled.focus,
-.btn-default.disabled:active,
-.btn-default.disabled.active,
-.btn-default[disabled],
-.btn-default[disabled]:hover,
-.btn-default[disabled]:focus,
-.btn-default[disabled].focus,
-.btn-default[disabled]:active,
-.btn-default[disabled].active,
-fieldset[disabled] .btn-default,
-fieldset[disabled] .btn-default:hover,
-fieldset[disabled] .btn-default:focus,
-fieldset[disabled] .btn-default.focus,
-fieldset[disabled] .btn-default:active,
-fieldset[disabled] .btn-default.active {
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active {
     background-color: lighten($ascribe-brand-color, 10%);
     border-color: lighten($ascribe-brand-color, 10%);
 }
 
+/*
 .ascribe-piece-list-toolbar-filter-widget {
     button {
         color: $ascribe-brand-color;
@@ -96,3 +74,4 @@ fieldset[disabled] .btn-default.active {
     background-color: $ascribe-brand-color !important;
     border-color: $ascribe-brand-color !important;
 }
+*/
