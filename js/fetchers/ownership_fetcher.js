@@ -25,6 +25,10 @@ let OwnershipFetcher = {
 
     makeContractPublic(contractObj){
         return requests.put('ownership_contract', { body: contractObj, contract_id: contractObj.id });
+    },
+
+    deleteContract(contractObj){
+        return requests.delete('ownership_contract', {body: contractObj, contract_id: contractObj.id});
     }
 };
 

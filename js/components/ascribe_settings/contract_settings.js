@@ -36,9 +36,18 @@ let ContractSettings = React.createClass({
         ContractListActions.makeContractPublic(contract)
             .then(( ) => ContractListActions.fetchContractList())
             .catch((error)=>{console.log('Error ', error);
-                                let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
-                            GlobalNotificationActions.appendGlobalNotification(notification);
-});
+                    let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+        });
+    },
+    removeContract(contract){
+        console.log(contract);
+        ContractListActions.removeContract(contract)
+            .then(( ) => ContractListActions.fetchContractList())
+            .catch((error) => {console.log('Error', error);
+                    let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+        });
     },
     getPublicContracts(){
         return this.state.contractList.filter((contract) => contract.public);
@@ -70,10 +79,11 @@ let ContractSettings = React.createClass({
                         (contract) => {
                             return (
                                 <ActionPanel title = {contract.name}
-                                content = {this.getblobEndName(contract)}
+                                content = {contract.name}
                                 buttons = {<span>
                                            <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
-                                           <button className="btn btn-default btn-sm margin-left-2px">REMOVE</button>
+                                           <button className="btn btn-default btn-sm margin-left-2px"
+                                           onClick={this.removeContract.bind(this, contract)}>REMOVE</button>
                                            </span>}
                             />);
                         }
@@ -87,9 +97,10 @@ let ContractSettings = React.createClass({
                         (contract) => {
                             return (
                                 <ActionPanel title = {contract.name}
-                                content = {this.getblobEndName(contract)}
+                                content = {contract.name}
                                 buttons = {<span> <button className="btn btn-default btn-sm margin-left-2px">UPDATE</button>
-                                           <button className="btn btn-default btn-sm margin-left-2px" >REMOVE</button>
+                                           <button className="btn btn-default btn-sm margin-left-2px"
+                                           onClick={this.removeContract.bind(this, contract)}> REMOVE </button>
                                            <button className="btn btn-default btn-sm margin-left-2px"
                                            onClick={this.makeContractPublic.bind(this, contract)}>MAKE PUBLIC</button> </span>}
                             />);

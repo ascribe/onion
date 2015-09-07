@@ -38,6 +38,21 @@ class ContractListActions {
                 });
         });
     }
+
+    removeContract(contract){
+        return Q.Promise((resolve, reject) => {
+            OwnershipFetcher.deleteContract(contract)
+                .then((res) => {
+                    console.log('Contract deleted');
+                    resolve(res);
+                })
+                .catch( (err) => {
+                    console.log('Error while deleting');
+                    console.logGlobal(err);
+                    reject(err);
+                });
+        });
+    }
 }
 
 export default alt.createActions(ContractListActions);

@@ -48,7 +48,7 @@ let ApiUrls = {
     'ownership_unconsigns_deny': AppConstants.apiEndpoint + 'ownership/unconsigns/deny/',
     'ownership_unconsigns_request': AppConstants.apiEndpoint + 'ownership/unconsigns/request/',
     'ownership_contract': AppConstants.apiEndpoint + 'ownership/contracts/${contract_id}/',
-    "ownership_contract_list": AppConstants.apiEndpoint + 'ownership/contracts/',
+    'ownership_contract_list': AppConstants.apiEndpoint + 'ownership/contracts/',
     'piece': AppConstants.apiEndpoint + 'pieces/${piece_id}/',
     'piece_extradata': AppConstants.apiEndpoint + 'pieces/${piece_id}/extradata/',
     'piece_first_edition_id': AppConstants.apiEndpoint + 'pieces/${piece_id}/edition_index/',
