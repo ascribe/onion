@@ -3,7 +3,7 @@
 import React from 'react';
 
 import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
 let ButtonSubmitOrClose = React.createClass({
     propTypes: {
