@@ -144,18 +144,17 @@ class Requests {
         let newUrl = this.prepareUrl(url, params);
         let body = null;
         if (paramsCopy && paramsCopy.body) {
-            console.log(paramsCopy.body);
             body = JSON.stringify(paramsCopy.body);
         }
         return this.request(method, newUrl, { body });
     }
 
     post(url, params) {
-        return this._putOrPost(url,params,'post')
+        return this._putOrPost(url, params, 'post');
     }
 
     put(url, params){
-        return this._putOrPost(url,params,'put')
+        return this._putOrPost(url, params, 'put');
     }
 
     defaults(options) {
