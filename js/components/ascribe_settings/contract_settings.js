@@ -35,8 +35,8 @@ let ContractSettings = React.createClass({
         console.log(contract);
         ContractListActions.makeContractPublic(contract)
             .then(( ) => ContractListActions.fetchContractList())
-            .catch((error)=>{console.log('Error ', error);
-                    let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
+            .catch((error)=>{
+                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
         });
     },
@@ -45,7 +45,7 @@ let ContractSettings = React.createClass({
         ContractListActions.removeContract(contract)
             .then(( ) => ContractListActions.fetchContractList())
             .catch((error) => {console.log('Error', error);
-                    let notification = new GlobalNotificationModel('Service is unavailable', 'danger', 10000);
+                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
         });
     },
