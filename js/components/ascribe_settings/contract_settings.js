@@ -39,7 +39,7 @@ let ContractSettings = React.createClass({
 
     makeContractPublic(contract) {
         return () => {
-            contract.public = true;
+            contract.is_public = true;
             ContractListActions.changeContract(contract)
                 .then(() => ContractListActions.fetchContractList())
                 .catch((err) => {
