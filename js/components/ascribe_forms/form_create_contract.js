@@ -8,7 +8,9 @@ import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import ContractListActions from '../../actions/contract_list_actions';
+
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
@@ -51,6 +53,9 @@ let CreateContractForm = React.createClass({
         ContractListActions.fetchContractList();
         let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
+        // also refresh contract lists for the rest of the contract settings page
+        ContractListActions.fetchContractList();
     },
 
 
@@ -112,7 +117,7 @@ let CreateContractForm = React.createClass({
                     label={getLangText('Contract name')}>
                     <input
                         type="text"
-                        placeholder="(e.g. Loan agreement #1)"
+                        placeholder="(e.g. Contract - Loan agreement #1)"
                         required/>
                 </Property>
                 <Property
@@ -121,10 +126,7 @@ let CreateContractForm = React.createClass({
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>
-                            {' ' + getLangText('I agree to the Terms of Service') + ' '}
-                            (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                {getLangText('read')}
-                            </a>)
+                            Make contract public (this will replace the current public contract)
                         </span>
                     </InputCheckbox>
                 </Property>

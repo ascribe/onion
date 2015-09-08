@@ -10,122 +10,141 @@ import ContractListActions from '../../actions/contract_list_actions';
 
 import ActionPanel from '../ascribe_panel/action_panel';
 
-import { getLangText } from '../../utils/lang_utils';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import { getLangText } from '../../utils/lang_utils';
 
 let ContractSettings = React.createClass({
     propTypes: {
         defaultExpanded: React.PropTypes.bool
     },
+
     getInitialState(){
         return ContractListStore.getState();
     },
+
     componentDidMount() {
         ContractListStore.listen(this.onChange);
         ContractListActions.fetchContractList();
     },
+
     componentWillUnmount() {
         ContractListStore.unlisten(this.onChange);
     },
+
     onChange(state) {
         this.setState(state);
     },
-    makeContractPublic(contract){
-        ContractListActions.makeContractPublic(contract)
-            .then( ( ) => ContractListActions.fetchContractList())
-            .catch((error)=>{
-                let notification = new GlobalNotificationModel(error, 'danger', 10000);
-                GlobalNotificationActions.appendGlobalNotification(notification);
-        });
+
+    makeContractPublic(contract) {
+        return () => {
+            contract.public = true;
+            ContractListActions.changeContract(contract)
+                .then(() => ContractListActions.fetchContractList())
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+        };
     },
-    removeContract(contract){
-        console.log(contract);
-        ContractListActions.removeContract(contract.id)
-            .then(
-                () => {
-                    ContractListActions.fetchContractList();
-                })
-            .catch((error) => {
-                let notification = new GlobalNotificationModel(error, 'danger', 10000);
-                GlobalNotificationActions.appendGlobalNotification(notification);
-        });
+
+    removeContract(contract) {
+        return () => {
+            ContractListActions.removeContract(contract.id)
+                .then(( ) => ContractListActions.fetchContractList())
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+            });
+        };
     },
+
     getPublicContracts(){
         return this.state.contractList.filter((contract) => contract.public);
     },
+
     getPrivateContracts(){
         return this.state.contractList.filter((contract) => !contract.public);
     },
-    getblobEndName(contract){
-        return contract.blob.match(/.*\/(.*)/)[1];
-    },
+
     render() {
         let publicContracts = this.getPublicContracts();
         let privateContracts = this.getPrivateContracts();
-        console.log(this.state.contractList);
+
         return (
             <CollapsibleParagraph
                 title={getLangText('Contract Settings')}
                 show={true}
-                defaultExpanded={false}>
-                {/* this should be this.props.defaultExpanded */}
+                defaultExpanded={true}>
                 <CollapsibleParagraph
                     title={getLangText('List Contracts')}
                     show={true}
-                    defaultExpanded={false}>
-                    {<div>
-                    <p>Public Contracts</p>
-                    {(publicContracts.length > 0) ?
-                        publicContracts.map(
-                        (contract) => {
+                    defaultExpanded={true}>
+                    <CollapsibleParagraph
+                        title={getLangText('Public Contracts')}
+                        show={true}
+                        defaultExpanded={true}>
+                        {publicContracts.map((contract, i) => {
                             return (
-                                <ActionPanel title = {contract.name}
-                                content = {contract.name}
-                                buttons = {<span>
-                                               <button className="btn btn-default btn-sm margin-left-2px">
-                                                    UPDATE
-                                               </button>
-                                               <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract.bind(this, contract)}>
-                                                    REMOVE
-                                                </button>
-                                           </span>}
-                            />);
-                        }
-                    ) : null }
-                    </div>}
-
-                    {<div>
-                    <p>Private Contracts</p>
-                    {(privateContracts.length > 0) ?
-                        privateContracts.map(
-                        (contract) => {
+                                <ActionPanel
+                                    key={i}
+                                    title={contract.name}
+                                    content={contract.name}
+                                    buttons={
+                                        <div className="pull-right">
+                                           <button className="btn btn-default btn-sm margin-left-2px">
+                                                UPDATE
+                                           </button>
+                                           <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
+                                                REMOVE
+                                            </button>
+                                       </div>
+                                    }
+                                    leftColumnWidth="40%"
+                                    rightColumnWidth="60%"/>
+                            );
+                        })}
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={getLangText('Private Contracts')}
+                        show={true}
+                        defaultExpanded={true}>
+                        {privateContracts.map((contract, i) => {
                             return (
-                                <ActionPanel title = {contract.name}
-                                content = {contract.name}
-                                buttons = {<span>
-                                                <button className="btn btn-default btn-sm margin-left-2px">
-                                                    UPDATE
-                                                </button>
-                                                <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract.bind(this, contract)}>
-                                                    REMOVE
-                                                </button>
-                                                <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.makeContractPublic.bind(this, contract)}>
-                                                    MAKE PUBLIC
-                                                </button>
-                                           </span>}
-                            />);
-                        }
-                    ) : null}
-                    </div>}
+                                <ActionPanel
+                                    key={i}
+                                    title={contract.name}
+                                    content={contract.name}
+                                    buttons={
+                                        <div className="pull-right">
+                                           <button className="btn btn-default btn-sm margin-left-2px">
+                                                UPDATE
+                                            </button>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
+                                                REMOVE
+                                            </button>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.makeContractPublic(contract)}>
+                                                MAKE PUBLIC
+                                            </button>
+                                       </div>
+                                   }
+                                   leftColumnWidth="40%"
+                                   rightColumnWidth="60%"/>
+                            );
+                        })}
+                    </CollapsibleParagraph>
                 </CollapsibleParagraph>
                 <CollapsibleParagraph
                     title={getLangText('Create Contract')}
                     show={true}
-                    defaultExpanded={false}>
+                    defaultExpanded={true}>
                     <CreateContractForm />
                 </CollapsibleParagraph>
             </CollapsibleParagraph>
