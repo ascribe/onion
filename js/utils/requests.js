@@ -116,7 +116,6 @@ class Requests {
             merged.headers['X-CSRFToken'] = csrftoken;
         }
         merged.method = verb;
-
         return fetch(url, merged)
                     .then(this.unpackResponse)
                     .catch( () => {
@@ -136,14 +135,12 @@ class Requests {
     delete(url, params) {
         let paramsCopy = this._merge(params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
-
         return this.request('delete', newUrl);
     }
 
     _putOrPost(url, paramsAndBody, method){
         let paramsCopy = this._merge(paramsAndBody);
         let params = excludePropFromObject(paramsAndBody, ['body']);
-
         let newUrl = this.prepareUrl(url, params);
         let body = null;
         if (paramsCopy && paramsCopy.body) {
