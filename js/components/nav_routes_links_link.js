@@ -22,6 +22,8 @@ let NavRoutesLinksLink = React.createClass({
     render() {
         let { children, headerTitle, depth, routeName } = this.props;
 
+        // if the route has children, we're returning a DropdownButton that will get filled
+        // with MenuItemLinks
         if(children) {
             return (
                 <DropdownButton title={headerTitle}>
