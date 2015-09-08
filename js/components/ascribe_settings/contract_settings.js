@@ -61,49 +61,51 @@ let ContractSettings = React.createClass({
     render() {
         let publicContracts = this.getPublicContracts();
         let privateContracts = this.getPrivateContracts();
-        console.log(this.state.contractList);
+
         return (
             <CollapsibleParagraph
                 title={getLangText('Contract Settings')}
                 show={true}
-                defaultExpanded={false}>
-                {/* this should be this.props.defaultExpanded */}
+                defaultExpanded={true}>
                 <CollapsibleParagraph
                     title={getLangText('List Contracts')}
                     show={true}
-                    defaultExpanded={false}>
-                    {<div>
-                    <p>Public Contracts</p>
-                    {(publicContracts.length > 0) ?
-                        publicContracts.map(
-                        (contract) => {
+                    defaultExpanded={true}>
+                    <CollapsibleParagraph
+                        title={getLangText('Public Contracts')}
+                        show={true}
+                        defaultExpanded={true}>
+                        {publicContracts.map((contract) => {
                             return (
-                                <ActionPanel title = {contract.name}
-                                content = {contract.name}
-                                buttons = {<span>
-                                               <button className="btn btn-default btn-sm margin-left-2px">
-                                                    UPDATE
-                                               </button>
-                                               <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract.bind(this, contract)}>
-                                                    REMOVE
-                                                </button>
-                                           </span>}
-                            />);
-                        }
-                    ) : null }
-                    </div>}
-
-                    {<div>
-                    <p>Private Contracts</p>
-                    {(privateContracts.length > 0) ?
-                        privateContracts.map(
-                        (contract) => {
+                                <ActionPanel
+                                    title={contract.name}
+                                    content={contract.name}
+                                    buttons={
+                                        <span>
+                                           <button className="btn btn-default btn-sm margin-left-2px">
+                                                UPDATE
+                                           </button>
+                                           <button className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.removeContract.bind(this, contract)}>
+                                                REMOVE
+                                            </button>
+                                       </span>
+                                }/>
+                            );
+                        })}
+                    </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={getLangText('Private Contracts')}
+                        show={true}
+                        defaultExpanded={true}>
+                        {privateContracts.map((contract) => {
                             return (
-                                <ActionPanel title = {contract.name}
-                                content = {contract.name}
-                                buttons = {<span>
-                                                <button className="btn btn-default btn-sm margin-left-2px">
+                                <ActionPanel
+                                    title={contract.name}
+                                    content={contract.name}
+                                    buttons={
+                                        <span>
+                                           <button className="btn btn-default btn-sm margin-left-2px">
                                                     UPDATE
                                                 </button>
                                                 <button className="btn btn-default btn-sm margin-left-2px"
@@ -114,16 +116,16 @@ let ContractSettings = React.createClass({
                                                 onClick={this.makeContractPublic.bind(this, contract)}>
                                                     MAKE PUBLIC
                                                 </button>
-                                           </span>}
-                            />);
-                        }
-                    ) : null}
-                    </div>}
+                                       </span>
+                                }/>
+                            );
+                        })}
+                    </CollapsibleParagraph>
                 </CollapsibleParagraph>
                 <CollapsibleParagraph
                     title={getLangText('Create Contract')}
                     show={true}
-                    defaultExpanded={false}>
+                    defaultExpanded={true}>
                     <CreateContractForm />
                 </CollapsibleParagraph>
             </CollapsibleParagraph>
