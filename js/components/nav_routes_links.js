@@ -3,53 +3,63 @@
 import React from 'react';
 
 import Nav from 'react-bootstrap/lib/Nav';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
-import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
+
+import NavRoutesLinksLink from './nav_routes_links_link';
+
+import AclProxy from './acl_proxy';
 
 import { sanitizeList } from '../utils/general_utils';
 
 
 let NavRoutesLinks = React.createClass({
     propTypes: {
-        routes: React.PropTypes.element
+        routes: React.PropTypes.element,
+        userAcl: React.PropTypes.object
     },
 
-    extractLinksFromRoutes(node, i) {
+    extractLinksFromRoutes(node, userAcl, i) {
         if(!node) {
             return;
         }
 
-        node = node.props;
+        let links = node.props.children.map((child, j) => {
 
-        let links = node.children.map((child, j) => {
+            let childrenFn = null;
 
-            // check if this a candidate for a link generation
-            if(child.props.headerTitle && typeof child.props.headerTitle === 'string') {
+            if(child.props.children && child.props.children.length > 0) {
+                childrenFn = this.extractLinksFromRoutes(child, userAcl, i++);
+            }
 
-                // also check if it is a candidate for generating a dropdown menu
-                if(child.props.children && child.props.children.length > 0) {
+            let { aclName, headerTitle, name, children } = child.props;
+            if(headerTitle && typeof headerTitle === 'string') {
+
+                if(aclName && typeof aclName !== 'undefined') {
                     return (
-                        <DropdownButton title={child.props.headerTitle} key={j}>
-                            {this.extractLinksFromRoutes(child, i++)}
-                        </DropdownButton>
-                    );
-                } else if(i === 1) {
-                    // if the node's child is actually a node of level one (a child of a node), we're
-                    // returning a DropdownButton matching MenuItemLink
-                    return (
-                        <MenuItemLink to={child.props.name} key={j}>{child.props.headerTitle}</MenuItemLink>
-                    );
-                } else if(i === 0) {
-                    return (
-                        <NavItemLink to={child.props.name} key={j}>{child.props.headerTitle}</NavItemLink>
+                        <AclProxy
+                            aclName={aclName}
+                            aclObject={this.props.userAcl}>
+                            <NavRoutesLinksLink
+                                key={j}
+                                headerTitle={headerTitle}
+                                routeName={name}
+                                depth={i}
+                                children={childrenFn}/>
+                        </AclProxy>
                     );
                 } else {
-                    return null;
+                    return (
+                        <NavRoutesLinksLink
+                            key={j}
+                            headerTitle={headerTitle}
+                            routeName={name}
+                            depth={i}
+                            children={childrenFn}/>
+                    );
                 }
             } else {
                 return null;
             }
+
         });
 
         // remove all nulls from the list of generated links
@@ -57,9 +67,11 @@ let NavRoutesLinks = React.createClass({
     },
 
     render() {
+        let {routes, userAcl} = this.props;
+
         return (
             <Nav {...this.props}>
-                {this.extractLinksFromRoutes(this.props.routes, 0)}
+                {this.extractLinksFromRoutes(routes, userAcl, 0)}
             </Nav>
         );
     }
