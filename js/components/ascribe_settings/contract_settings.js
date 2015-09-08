@@ -81,7 +81,7 @@ let ContractSettings = React.createClass({
                                     title={contract.name}
                                     content={contract.name}
                                     buttons={
-                                        <span>
+                                        <div className="pull-right">
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                            </button>
@@ -89,8 +89,11 @@ let ContractSettings = React.createClass({
                                             onClick={this.removeContract.bind(this, contract)}>
                                                 REMOVE
                                             </button>
-                                       </span>
-                                }/>
+                                       </div>
+                                    }
+                                    leftColumnWidth="40%"
+                                    rightColumnWidth="60%"
+                                />
                             );
                         })}
                     </CollapsibleParagraph>
@@ -104,20 +107,22 @@ let ContractSettings = React.createClass({
                                     title={contract.name}
                                     content={contract.name}
                                     buttons={
-                                        <span>
+                                        <div className="pull-right">
                                            <button className="btn btn-default btn-sm margin-left-2px">
-                                                    UPDATE
-                                                </button>
-                                                <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract.bind(this, contract)}>
-                                                    REMOVE
-                                                </button>
-                                                <button className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.makeContractPublic.bind(this, contract)}>
-                                                    MAKE PUBLIC
-                                                </button>
-                                       </span>
-                                }/>
+                                                UPDATE
+                                            </button>
+                                            <button className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.removeContract.bind(this, contract)}>
+                                                REMOVE
+                                            </button>
+                                            <button className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.makeContractPublic.bind(this, contract)}>
+                                                MAKE PUBLIC
+                                            </button>
+                                       </div>
+                                   }
+                                   leftColumnWidth="40%"
+                                   rightColumnWidth="60%"/>
                             );
                         })}
                     </CollapsibleParagraph>
