@@ -12,8 +12,8 @@ class ContractListActions {
         );
     }
 
-    fetchContractList() {
-        OwnershipFetcher.fetchContractList()
+    fetchContractList(isActive) {
+        OwnershipFetcher.fetchContractList(isActive)
             .then((contracts) => {
                 this.actions.updateContractList(contracts.results);
             })

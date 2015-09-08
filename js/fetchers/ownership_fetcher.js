@@ -15,8 +15,8 @@ let OwnershipFetcher = {
     /**
      * Fetch the contracts of the logged-in user from the API.
      */
-    fetchContractList(){
-        return requests.get(ApiUrls.ownership_contract_list);
+    fetchContractList(isActive){
+        return requests.get(ApiUrls.ownership_contract_list, isActive);
     },
 
     fetchLoanPieceRequestList(){
