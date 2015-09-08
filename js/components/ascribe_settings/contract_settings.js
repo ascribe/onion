@@ -39,10 +39,11 @@ let ContractSettings = React.createClass({
 
     makeContractPublic(contract) {
         return () => {
-            ContractListActions.makeContractPublic(contract)
+            contract.public = true;
+            ContractListActions.changeContract(contract)
                 .then(() => ContractListActions.fetchContractList())
-                .catch((error) => {
-                    let notification = new GlobalNotificationModel(error, 'success', 10000);
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
             });
         };
@@ -52,8 +53,8 @@ let ContractSettings = React.createClass({
         return () => {
             ContractListActions.removeContract(contract.id)
                 .then(( ) => ContractListActions.fetchContractList())
-                .catch((error) => {
-                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
             });
         };
@@ -95,8 +96,9 @@ let ContractSettings = React.createClass({
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                            </button>
-                                           <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.removeContract(contract)}>
+                                           <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
                                                 REMOVE
                                             </button>
                                        </div>
@@ -121,12 +123,14 @@ let ContractSettings = React.createClass({
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                             </button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.removeContract(contract)}>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
                                                 REMOVE
                                             </button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.makeContractPublic(contract)}>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.makeContractPublic(contract)}>
                                                 MAKE PUBLIC
                                             </button>
                                        </div>

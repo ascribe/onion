@@ -33,7 +33,7 @@ class Requests {
                     // If this is the case, we can not try to parse it as JSON.
                     if(responseText !== 'None') {
                         let body = JSON.parse(responseText);
-                        
+
                         if(body && body.errors) {
                             let error = new Error('Form Error');
                             error.json = body;
@@ -134,12 +134,13 @@ class Requests {
     delete(url, params) {
         let paramsCopy = this._merge(params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
+
         return this.request('delete', newUrl);
     }
 
     _putOrPost(url, paramsAndBody, method){
         let paramsCopy = this._merge(paramsAndBody);
-        let params = excludePropFromObject(paramsAndBody,['body']);
+        let params = excludePropFromObject(paramsAndBody, ['body']);
 
         let newUrl = this.prepareUrl(url, params);
         let body = null;
