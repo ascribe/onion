@@ -8,11 +8,13 @@ import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
-
+import ContractListActions from '../../actions/contract_list_actions';
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
+
+
 
 import { getLangText } from '../../utils/lang_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
@@ -46,6 +48,7 @@ let CreateContractForm = React.createClass({
     },
 
     handleCreateSuccess(response) {
+        ContractListActions.fetchContractList();
         let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },

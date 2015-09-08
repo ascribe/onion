@@ -119,7 +119,9 @@ class Requests {
 
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .catch(this.handleError);
+                    .catch( () => {
+                        this.handleError();
+            });
     }
 
     get(url, params) {
@@ -139,7 +141,7 @@ class Requests {
 
     _putOrPost(url, paramsAndBody, method){
         let paramsCopy = this._merge(paramsAndBody);
-        let params = excludePropFromObject(paramsAndBody,['body']);
+        let params = excludePropFromObject(paramsAndBody, ['body']);
 
         let newUrl = this.prepareUrl(url, params);
         let body = null;

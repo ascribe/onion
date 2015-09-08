@@ -33,7 +33,7 @@ let ContractSettings = React.createClass({
     },
     makeContractPublic(contract){
         ContractListActions.makeContractPublic(contract)
-            .then(( ) => ContractListActions.fetchContractList())
+            .then( ( ) => ContractListActions.fetchContractList())
             .catch((error)=>{
                 let notification = new GlobalNotificationModel(error, 'danger', 10000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
@@ -42,9 +42,11 @@ let ContractSettings = React.createClass({
     removeContract(contract){
         console.log(contract);
         ContractListActions.removeContract(contract.id)
-            .then(( ) => ContractListActions.fetchContractList())
+            .then(
+                () => {
+                    ContractListActions.fetchContractList();
+                })
             .catch((error) => {
-                console.log('Error', error);
                 let notification = new GlobalNotificationModel(error, 'danger', 10000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
         });

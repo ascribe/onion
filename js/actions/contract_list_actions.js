@@ -24,7 +24,6 @@ class ContractListActions {
     }
 
     makeContractPublic(contract){
-        contract.public = true;
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.makeContractPublic(contract)
                 .then((res) => {
@@ -38,14 +37,14 @@ class ContractListActions {
     }
 
     removeContract(contractId){
-        return Q.Promise((resolve, reject) => {
+        return Q.Promise( (resolve, reject) => {
             OwnershipFetcher.deleteContract(contractId)
                 .then((res) => {
-                    console.log('Contract deleted');
+                    console.log('Success...');
                     resolve(res);
                 })
                 .catch( (err) => {
-                    console.log('Error while deleting');
+                    console.log('Bad news...');
                     console.logGlobal(err);
                     reject(err);
                 });
