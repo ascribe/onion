@@ -61,11 +61,11 @@ let ContractSettings = React.createClass({
     },
 
     getPublicContracts(){
-        return this.state.contractList.filter((contract) => contract.public);
+        return this.state.contractList.filter((contract) => contract.is_public);
     },
 
     getPrivateContracts(){
-        return this.state.contractList.filter((contract) => !contract.public);
+        return this.state.contractList.filter((contract) => !contract.is_public);
     },
 
     render() {
