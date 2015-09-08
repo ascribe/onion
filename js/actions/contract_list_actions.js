@@ -23,16 +23,27 @@ class ContractListActions {
             });
     }
 
-    makeContractPublic(contract){
-        contract.public = true;
+
+    changeContract(contract){
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.makeContractPublic(contract)
                 .then((res) => {
-                    console.log('Here is the result... ');
                     resolve(res);
                 })
                 .catch((err)=> {
-                    console.log('Here we have an error');
+                    console.logGlobal(err);
+                    reject(err);
+                });
+        });
+    }
+
+    removeContract(contractId){
+        return Q.Promise( (resolve, reject) => {
+            OwnershipFetcher.deleteContract(contractId)
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch( (err) => {
                     console.logGlobal(err);
                     reject(err);
                 });

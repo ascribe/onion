@@ -33,7 +33,7 @@ class Requests {
                     // If this is the case, we can not try to parse it as JSON.
                     if(responseText !== 'None') {
                         let body = JSON.parse(responseText);
-                        
+
                         if(body && body.errors) {
                             let error = new Error('Form Error');
                             error.json = body;
@@ -119,7 +119,9 @@ class Requests {
 
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .catch(this.handleError);
+                    .catch( () => {
+                        this.handleError();
+            });
     }
 
     get(url, params) {
@@ -134,28 +136,28 @@ class Requests {
     delete(url, params) {
         let paramsCopy = this._merge(params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
+
         return this.request('delete', newUrl);
     }
 
     _putOrPost(url, paramsAndBody, method){
         let paramsCopy = this._merge(paramsAndBody);
-        let params = excludePropFromObject(paramsAndBody,['body']);
+        let params = excludePropFromObject(paramsAndBody, ['body']);
 
         let newUrl = this.prepareUrl(url, params);
         let body = null;
         if (paramsCopy && paramsCopy.body) {
-            console.log(paramsCopy.body);
             body = JSON.stringify(paramsCopy.body);
         }
         return this.request(method, newUrl, { body });
     }
 
     post(url, params) {
-        return this._putOrPost(url,params,'post')
+        return this._putOrPost(url, params, 'post');
     }
 
     put(url, params){
-        return this._putOrPost(url,params,'put')
+        return this._putOrPost(url, params, 'put');
     }
 
     defaults(options) {
