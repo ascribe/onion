@@ -14,7 +14,8 @@ function getWalletApiUrls(subdomain) {
     else if (subdomain === 'ikonotv'){
         return {
             'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
-            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/'
+            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/',
+            'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
         };
     }
     return {};
