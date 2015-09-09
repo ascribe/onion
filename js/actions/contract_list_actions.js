@@ -44,12 +44,8 @@ class ContractListActions {
                     resolve(res);
                 })
                 .catch( (err) => {
-                    if(typeof err === 'undefined') {
-                        resolve(err);
-                    }
-                    else{
-                        reject(err);
-                    }
+                    console.logGlobal(err);
+                    reject(err);
                 });
         });
     }

@@ -56,8 +56,7 @@ let ContractAgreementForm = React.createClass({
     },
 
     getFormData(){
-        return {'appendix': {'default': this.refs.form.refs.appendix.state.value},
-                'contract': this.state.contractList[this.state.selectedContract].id};
+        return {'appendix': {'default': this.refs.form.refs.appendix.state.value}};
     },
 
     getContracts() {

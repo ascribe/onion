@@ -50,12 +50,12 @@ let CreateContractForm = React.createClass({
     },
 
     handleCreateSuccess(response) {
-        ContractListActions.fetchContractList();
+        ContractListActions.fetchContractList({is_active: 'True'});
         let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-
-        // also refresh contract lists for the rest of the contract settings page
-        ContractListActions.fetchContractList();
+        //
+        //// also refresh contract lists for the rest of the contract settings page
+        //ContractListActions.fetchContractList();
     },
 
 
