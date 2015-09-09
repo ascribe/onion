@@ -76,7 +76,9 @@ let IkonotvContractNotifications = React.createClass({
             <div className='notification-contract-download'>
                 <a href={blob.url_safe}>
                     <Glyphicon glyph='download-alt'/>
-                    Download contract
+                    <span style={{padding: '0.3em'}}>
+                        Download contract
+                    </span>
                 </a>
             </div>
         );
@@ -90,7 +92,7 @@ let IkonotvContractNotifications = React.createClass({
 
     handleDeny() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.post(apiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
+        requests.put(apiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
             () => this.handleDenySuccess()
         );
     },
@@ -116,7 +118,12 @@ let IkonotvContractNotifications = React.createClass({
                             </div>
                         </div>
                         {this.displayContract()}
+
                         <div className='notification-contract-footer'>
+                            <h1>{getLangText('Appendix')}</h1>
+                            <pre>
+                                {contractAgreement.appendix.default}
+                            </pre>
                             <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
                             <p>
                                 ARS, DACS, Bildkunst, Pictoright, SODRAC, Copyright Agency/Viscopy, SAVA, Bildrecht GmbH,
