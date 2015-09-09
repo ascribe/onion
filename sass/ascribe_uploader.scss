@@ -10,7 +10,6 @@
 
     cursor: default !important;
 
-    padding: 1.5em 0 1.5em 0;
 }
 
 .inactive-dropzone {
@@ -30,11 +29,24 @@
 }
 
 .file-drag-and-drop-preview-iterator {
+    margin: 2.5em 0 0 0;
     text-align: right;
 
     > div:first-child {
         text-align: center;
     }
+}
+
+.file-drag-and-drop-preview-iterator-spacing {
+    margin-bottom: 1em;
+}
+
+.file-drag-and-drop-dialog {
+    margin: 1.5em 0 1.5em 0;
+}
+
+.file-drag-and-drop-hashing-dialog {
+    margin: 1.5em 0 0 0;
 }
 
 .file-drag-and-drop .file-drag-and-drop-dialog > p:first-child {
