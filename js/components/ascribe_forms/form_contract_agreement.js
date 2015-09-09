@@ -50,8 +50,9 @@ let ContractAgreementForm = React.createClass({
         this.setState({selectedContract: event.target.selectedIndex});
     },
 
-    handleSubmitSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+    handleSubmitSuccess() {
+        let notification = 'Contract agreement send';
+        notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -62,7 +63,6 @@ let ContractAgreementForm = React.createClass({
     getContracts() {
         if (this.state.contractList && this.state.contractList.length > 0) {
             let contractList = this.state.contractList;
-            console.log(contractList)
             return (
                 <Property
                     name='contract'
@@ -100,7 +100,7 @@ let ContractAgreementForm = React.createClass({
                 ref='form'
                 url={ApiUrls.ownership_contract_agreements}
                 getFormData={this.getFormData}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={this.handleSubmitSuccess}
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login">

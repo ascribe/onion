@@ -128,6 +128,7 @@ let IkonotvContractNotifications = React.createClass({
                                 ref='form'
                                 url={requests.prepareUrl(apiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id})}
                                 handleSuccess={this.handleConfirmSuccess}
+                                method='put'
                                 buttons={
                                     <p style={{marginTop: '1em'}}>
                                         <Button type="submit">{getLangText('I agree with the conditions')}</Button>

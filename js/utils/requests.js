@@ -157,6 +157,10 @@ class Requests {
         return this._putOrPost(url, params, 'put');
     }
 
+    patch(url, params){
+        return this._putOrPost(url, params, 'patch');
+    }
+
     defaults(options) {
         this.httpOptions = options.http || {};
         this.urlMap = options.urlMap || {};
