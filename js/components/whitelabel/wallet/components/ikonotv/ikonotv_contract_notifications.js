@@ -53,7 +53,7 @@ let IkonotvContractNotifications = React.createClass({
         this.setState(state);
     },
 
-    displayContract(){
+    getContract(){
         let notifications = this.state.contractAgreementListNotifications[0];
         let blob = notifications.contract_agreement.contract.blob;
         if (blob.mime === 'pdf') {
@@ -62,7 +62,7 @@ let IkonotvContractNotifications = React.createClass({
                     <embed src={blob.url_safe} alt="pdf"
                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
                     <div className='notification-contract-pdf-download'>
-                        <a href={blob.url_safe}>
+                        <a href={blob.url_safe} target="_blank">
                             <Glyphicon glyph='download-alt'/>
                             <span style={{padding: '0.3em'}}>
                                 Download PDF version
@@ -74,7 +74,7 @@ let IkonotvContractNotifications = React.createClass({
         }
         return (
             <div className='notification-contract-download'>
-                <a href={blob.url_safe}>
+                <a href={blob.url_safe} target="_blank">
                     <Glyphicon glyph='download-alt'/>
                     <span style={{padding: '0.3em'}}>
                         Download contract
@@ -82,6 +82,21 @@ let IkonotvContractNotifications = React.createClass({
                 </a>
             </div>
         );
+    },
+
+    getAppendix() {
+        let notifications = this.state.contractAgreementListNotifications[0];
+        let appendix = notifications.contract_agreement.appendix;
+        if (appendix) {
+            return (<div>
+                    <h1>{getLangText('Appendix')}</h1>
+                    <pre>
+                        {appendix.default}
+                    </pre>
+                </div>
+            );
+        }
+        return null;
     },
 
     handleConfirmSuccess() {
@@ -117,13 +132,10 @@ let IkonotvContractNotifications = React.createClass({
                                 {getLangText('Production Contract')}
                             </div>
                         </div>
-                        {this.displayContract()}
+                        {this.getContract()}
 
                         <div className='notification-contract-footer'>
-                            <h1>{getLangText('Appendix')}</h1>
-                            <pre>
-                                {contractAgreement.appendix.default}
-                            </pre>
+                            {this.getAppendix}
                             <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
                             <p>
                                 ARS, DACS, Bildkunst, Pictoright, SODRAC, Copyright Agency/Viscopy, SAVA, Bildrecht GmbH,

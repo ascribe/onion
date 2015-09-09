@@ -54,6 +54,7 @@ let ContractAgreementForm = React.createClass({
         let notification = 'Contract agreement send';
         notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+        this.refs.form.reset();
     },
 
     getFormData(){

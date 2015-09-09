@@ -53,15 +53,14 @@ let CreateContractForm = React.createClass({
         ContractListActions.fetchContractList({is_active: 'True'});
         let notification = new GlobalNotificationModel(getLangText('Contract %s successfully created', response.name), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        //
-        //// also refresh contract lists for the rest of the contract settings page
-        //ContractListActions.fetchContractList();
+        this.refs.form.reset();
     },
 
 
     render() {
         return (
             <Form
+                ref='form'
                 url={ApiUrls.ownership_contract_list}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleCreateSuccess}
@@ -81,6 +80,7 @@ let CreateContractForm = React.createClass({
                 <Property
                     label="Contract file">
                     <ReactS3FineUploader
+                        ref='uploader'
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'contract'
@@ -121,7 +121,7 @@ let CreateContractForm = React.createClass({
                         required/>
                 </Property>
                 <Property
-                    name="public"
+                    name="is_public"
                     className="ascribe-settings-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>

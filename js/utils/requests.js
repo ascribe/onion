@@ -118,9 +118,7 @@ class Requests {
         merged.method = verb;
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .catch( () => {
-                        this.handleError();
-            });
+                    .catch(this.handleError);
     }
 
     get(url, params) {
