@@ -48,7 +48,6 @@ let NavRoutesLinks = React.createClass({
             // We validate if the user has set the title correctly,
             // otherwise we're not going to render his route
             if(headerTitle && typeof headerTitle === 'string') {
-
                 // if there is an aclName present on the route definition,
                 // we evaluate it against the user's acl
                 if(aclName && typeof aclName !== 'undefined') {
