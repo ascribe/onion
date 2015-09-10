@@ -72,6 +72,9 @@ let CylandRegisterPiece = React.createClass({
         // we may need to enter the process at step 1 or 2.
         // If this is the case, we'll need the piece number to complete submission.
         // It is encoded in the URL as a queryParam and we're checking for it here.
+        //
+        // We're using 'in' here as we want to know if 'piece_id' is present in the url,
+        // we don't care about the value.
         if(queryParams && 'piece_id' in queryParams) {
             PieceActions.fetchOne(queryParams.piece_id);
         }
