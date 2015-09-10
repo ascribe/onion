@@ -30,7 +30,6 @@ let InputFileUploader = React.createClass({
     getInitialState() {
         return {
             value: null
-
         };
     },
 
@@ -40,8 +39,11 @@ let InputFileUploader = React.createClass({
         });
     },
 
-    render() {
+    reset() {
+        this.refs.fineuploader.reset();
+    },
 
+    render() {
         let editable = this.props.isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
@@ -50,9 +52,9 @@ let InputFileUploader = React.createClass({
             editable = !this.props.disabled;
         }
 
-
         return (
             <ReactS3FineUploader
+                ref="fineuploader"
                 onClick={this.props.onClick}
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
