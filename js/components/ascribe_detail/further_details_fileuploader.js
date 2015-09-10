@@ -39,7 +39,7 @@ let FurtherDetailsFileuploader = React.createClass({
             return null;
         }
 
-        let otherDataIds = this.props.otherData ? this.props.otherData.map((data)=>{return data.id; }).join() : null;
+        let otherDataIds = this.props.otherData ? this.props.otherData.map((data) => data.id).join() : null;
 
         return (
             <Property

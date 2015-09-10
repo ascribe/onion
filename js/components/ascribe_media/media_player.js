@@ -28,12 +28,20 @@ let Other = React.createClass({
     },
 
     render() {
-        let ext = this.props.url.split('.').pop();
+        let filename = this.props.url.split('/').pop();
+        let tokens = filename.split('.');
+        let preview;
+
+        if (tokens.length > 1) {
+            preview = '.' + tokens.pop();
+        } else {
+            preview = 'file';
+        }
 
         return (
             <Panel className="media-other">
                 <p className="text-center">
-                    .{ext}
+                    {preview}
                 </p>
             </Panel>
         );
