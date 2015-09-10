@@ -12,8 +12,8 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import InputDate from './input_date';
 import InputCheckbox from './input_checkbox';
 
-import ContractStore from '../../stores/contract_store';
-import ContractActions from '../../actions/contract_actions';
+import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
+import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -48,16 +48,24 @@ let LoanForm = React.createClass({
     },
 
     getInitialState() {
-        return ContractStore.getState();
+        return ContractAgreementListStore.getState();
     },
 
     componentDidMount() {
-        ContractStore.listen(this.onChange);
-        ContractActions.flushContract.defer();
+        ContractAgreementListStore.listen(this.onChange);
+        if (this.props.email){
+            ContractAgreementListActions.fetchContractAgreementList(
+                this.props.email, 'True', null);
+        }
+
+        /* @Tim:
+        throws Uncaught TypeError: Cannot read property 'defer' of undefined
+        We might not need this
+        ContractAgreementListActions.flushContractAgreementList().defer();*/
     },
 
     componentWillUnmount() {
-        ContractStore.unlisten(this.onChange);
+        ContractAgreementListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -71,17 +79,19 @@ let LoanForm = React.createClass({
     handleOnChange(event) {
         // event.target.value is the submitted email of the loanee
         if(event && event.target && event.target.value && event.target.value.match(/.*@.*/)) {
-            ContractActions.fetchContract(event.target.value);
+            ContractAgreementListActions.fetchContractAgreementList(event.target.value, 'True', null);
         } else {
-            ContractActions.flushContract();
+            ContractAgreementListActions.flushContractAgreementList();
         }
     },
 
     getContractCheckbox() {
-        if(this.state.contractKey && this.state.contractUrl) {
+        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
             // we need to define a key on the InputCheckboxes as otherwise
             // react is not rerendering them on a store switch and is keeping
             // the default value of the component (which is in that case true)
+            let contract = this.state.contractAgreementList[0].contract;
+
             return (
                 <Property
                     name="terms"
@@ -92,8 +102,8 @@ let LoanForm = React.createClass({
                         defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
-                            <a href={this.state.contractUrl} target="_blank">
-                                {getLangText('terms of')} {this.state.contractEmail}
+                            <a href={contract.blob.url_safe} target="_blank">
+                                {getLangText('terms of')} {contract.issuer}
                             </a>
                         </span>
                     </InputCheckbox>

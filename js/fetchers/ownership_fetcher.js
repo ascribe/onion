@@ -19,6 +19,18 @@ let OwnershipFetcher = {
         return requests.get(ApiUrls.ownership_contract_list, isActive);
     },
 
+    /**
+     * Fetch the contractagreement between the logged-in user and the email from the API.
+     */
+    fetchContractAgreementList(issuer, accepted, pending) {
+        let queryParams = {
+                issuer,
+                accepted,
+                pending
+            };
+        return requests.get(ApiUrls.ownership_contract_agreements, queryParams);
+    },
+
     fetchLoanPieceRequestList(){
         return requests.get(ApiUrls.ownership_loans_pieces_request);
     },
