@@ -105,6 +105,12 @@ let ContractSettings = React.createClass({
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                            </button>
+                                           <a
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                href={contract.blob.url_safe}
+                                                target="_blank">
+                                                DOWNLOAD
+                                           </a>
                                            <button
                                                 className="btn btn-default btn-sm margin-left-2px"
                                                 onClick={this.removeContract(contract)}>
@@ -129,18 +135,24 @@ let ContractSettings = React.createClass({
                                     content={contract.name}
                                     buttons={
                                         <div className="pull-right">
-                                           <button className="btn btn-default btn-sm margin-left-2px">
-                                                UPDATE
-                                            </button>
-                                            <button
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract(contract)}>
-                                                REMOVE
-                                            </button>
                                             <button
                                                 className="btn btn-default btn-sm margin-left-2px"
                                                 onClick={this.makeContractPublic(contract)}>
                                                 MAKE PUBLIC
+                                            </button>
+                                           <button className="btn btn-default btn-sm margin-left-2px">
+                                                UPDATE
+                                            </button>
+                                            <a
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                href={contract.blob.url_safe}
+                                                target="_blank">
+                                                DOWNLOAD
+                                           </a>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
+                                                REMOVE
                                             </button>
                                        </div>
                                    }
