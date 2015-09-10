@@ -71,9 +71,9 @@ let LoanForm = React.createClass({
     handleOnChange(event) {
         // event.target.value is the submitted email of the loanee
         if(event && event.target && event.target.value && event.target.value.match(/.*@.*/)) {
-            LoanContractActions.fetchLoanContract(event.target.value);
+            ContractActions.fetchContract(event.target.value);
         } else {
-            LoanContractActions.flushLoanContract();
+            ContractActions.flushContract();
         }
     },
 
