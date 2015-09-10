@@ -80,19 +80,12 @@ let RegisterPieceForm = React.createClass({
                 url={ApiUrls.pieces_list}
                 handleSuccess={this.props.handleSuccess}
                 buttons={
-                    <span>
-                        <button
-                            type="submit"
-                            className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady || this.props.disabled}>
-                            {this.props.submitMessage}
-                        </button>
-                        <button
-                            type="reset"
-                            className="btn ascribe-btn ascribe-btn-login">
-                            Reset
-                        </button>
-                    </span>
+                    <button
+                        type="submit"
+                        className="btn ascribe-btn ascribe-btn-login"
+                        disabled={!this.state.isUploadReady || this.props.disabled}>
+                        {this.props.submitMessage}
+                    </button>
                 }
                 spinner={
                     <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
