@@ -90,14 +90,23 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        if('title' in this.state.piece) {
+        if(this.state.piece && this.state.piece.title) {
+            /*
+            
+                This really needs a refactor!
+
+                    - Tim
+
+             */
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
+            
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
+
             return (
                 <Piece
                     piece={this.state.piece}
