@@ -42,6 +42,13 @@ let PropertyCollapsile = React.createClass({
         }
     },
 
+    reset() {
+        // If the child input is a native HTML element, it will be reset automatically
+        // by the DOM.
+        // However, we need to collapse this component again.
+        this.setState(this.getInitialState());
+    },
+
     render() {
         let tooltip = <span/>;
         if (this.props.tooltip){

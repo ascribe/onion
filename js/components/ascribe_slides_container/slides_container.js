@@ -4,12 +4,11 @@ import React from 'react';
 import Router from 'react-router';
 import ReactAddons from 'react/addons';
 
-import Col from 'react-bootstrap/lib/Col';
-
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
 let State = Router.State;
 let Navigation = Router.Navigation;
+
 
 let SlidesContainer = React.createClass({
     propTypes: {
@@ -30,12 +29,15 @@ let SlidesContainer = React.createClass({
         let slideNum = -1;
         let startFrom = -1;
 
-        if(queryParams && 'slide_num' in queryParams) {
+        // We can actually need to check if slide_num is present as a key in queryParams.
+        // We do not really care about its value though...
+        if(queryParams && 'slide_num' in queryParams.slide_num) {
             slideNum = parseInt(queryParams.slide_num, 10);
         }
         // if slide_num is not set, this will be done in componentDidMount
 
         // the query param 'start_from' removes all slide children before the respective number
+        // Also, we use the 'in' keyword for the same reason as above in 'slide_num'
         if(queryParams && 'start_from' in queryParams) {
             startFrom = parseInt(queryParams.start_from, 10);
         }
@@ -51,6 +53,9 @@ let SlidesContainer = React.createClass({
     componentDidMount() {
         // check if slide_num was defined, and if not then default to 0
         let queryParams = this.getQuery();
+
+        // We use 'in' to check if the key is present in the user's browser url bar,
+        // we do not really care about its value at this point
         if(!('slide_num' in queryParams)) {
 
             // we're first requiring all the other possible queryParams and then set
