@@ -35,7 +35,7 @@ let ContractAgreementForm = React.createClass({
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        ContractListActions.fetchContractList();
+        ContractListActions.fetchContractList({is_active: 'True'});
     },
 
     componentWillUnmount() {
@@ -50,9 +50,11 @@ let ContractAgreementForm = React.createClass({
         this.setState({selectedContract: event.target.selectedIndex});
     },
 
-    handleSubmitSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+    handleSubmitSuccess() {
+        let notification = 'Contract agreement send';
+        notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+        this.refs.form.reset();
     },
 
     getFormData(){
@@ -60,8 +62,8 @@ let ContractAgreementForm = React.createClass({
     },
 
     getContracts() {
-        if (this.state.contractList && this.state.contractList.count > 0) {
-            let contractList = this.state.contractList.results;
+        if (this.state.contractList && this.state.contractList.length > 0) {
+            let contractList = this.state.contractList;
             return (
                 <Property
                     name='contract'
@@ -81,7 +83,7 @@ let ContractAgreementForm = React.createClass({
                                 <option
                                     name={i}
                                     key={i}
-                                    value={ contract.name }>
+                                    value={ contract.id }>
                                     { contract.name }
                                 </option>
                             );
@@ -99,7 +101,7 @@ let ContractAgreementForm = React.createClass({
                 ref='form'
                 url={ApiUrls.ownership_contract_agreements}
                 getFormData={this.getFormData}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={this.handleSubmitSuccess}
                 buttons={<button
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login">

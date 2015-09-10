@@ -88,15 +88,37 @@ let PieceContainer = React.createClass({
         PieceActions.fetchOne(this.props.params.pieceId);
     },
 
+    getActions() {
+        if (this.state.piece &&
+            this.state.piece.notifications &&
+            this.state.piece.notifications.length > 0) {
+            return (
+                <ListRequestActions
+                    pieceOrEditions={this.state.piece}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.loadPiece}
+                    notifications={this.state.piece.notifications}/>);
+        }
+    },
+
     render() {
-        if('title' in this.state.piece) {
+        if(this.state.piece && this.state.piece.title) {
+            /*
+            
+                This really needs a refactor!
+
+                    - Tim
+
+             */
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
+            
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
+
             return (
                 <Piece
                     piece={this.state.piece}
@@ -111,11 +133,7 @@ let PieceContainer = React.createClass({
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={ this.state.piece.date_created.slice(0, 4) } />
                             {artistEmail}
-                            <ListRequestActions
-                                pieceOrEditions={this.state.piece}
-                                currentUser={this.state.currentUser}
-                                handleSuccess={this.loadPiece}
-                                requestActions={this.state.piece.request_action}/>
+                            {this.getActions()}
                             <hr/>
                         </div>
                         }

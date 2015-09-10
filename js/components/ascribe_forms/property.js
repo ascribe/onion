@@ -29,8 +29,11 @@ let Property = React.createClass({
         handleChange: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool,
         className: React.PropTypes.string,
+
         onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -90,18 +93,28 @@ let Property = React.createClass({
         // maybe do reset by reload instead of front end state?
         this.setState({value: this.state.initialValue});
 
-        // resets the value of a custom react component input
-        this.refs.input.state.value = this.state.initialValue;
+        if (this.refs.input.state && this.refs.input.state.value) {
+            // resets the value of a custom react component input
+            this.refs.input.state.value = this.state.initialValue;
+        }
 
         // resets the value of a plain HTML5 input
         this.refs.input.getDOMNode().value = this.state.initialValue;
 
+        // For some inputs, reseting state.value is not enough to visually reset the
+        // component.
+        //
+        // So if the input actually needs a visual reset, it needs to implement
+        // a dedicated reset method.
+        if(this.refs.input.reset && typeof this.refs.input.reset === 'function') {
+            this.refs.input.reset();
+        }
     },
 
     handleChange(event) {
 
         this.props.handleChange(event);
-        if ('onChange' in this.props) {
+        if (this.props.onChange && typeof this.props.onChange === 'function') {
             this.props.onChange(event);
         }
 
@@ -117,7 +130,7 @@ let Property = React.createClass({
 
         // if onClick is defined from the outside,
         // just call it
-        if(this.props.onClick) {
+        if(this.props.onClick && typeof this.props.onClick === 'function') {
             this.props.onClick();
         }
 
@@ -132,7 +145,7 @@ let Property = React.createClass({
             isFocused: false
         });
 
-        if(this.props.onBlur) {
+        if(this.props.onBlur && typeof this.props.onBlur === 'function') {
             this.props.onBlur(event);
         }
     },
@@ -190,6 +203,7 @@ let Property = React.createClass({
     },
 
     render() {
+        let footer = null;
         let tooltip = <span/>;
         let style = this.props.style ? mergeOptions({}, this.props.style) : {};
 
@@ -199,7 +213,7 @@ let Property = React.createClass({
                     {this.props.tooltip}
                 </Tooltip>);
         }
-        let footer = null;
+        
         if(this.props.footer){
             footer = (
                 <div className="ascribe-property-footer">

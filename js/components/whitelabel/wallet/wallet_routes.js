@@ -22,6 +22,7 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
+import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -77,6 +78,7 @@ let ROUTES = {
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
         </Route>
     )
 };

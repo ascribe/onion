@@ -26,7 +26,7 @@ let ContractSettings = React.createClass({
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        ContractListActions.fetchContractList();
+        ContractListActions.fetchContractList({is_active: 'True'});
     },
 
     componentWillUnmount() {
@@ -39,32 +39,42 @@ let ContractSettings = React.createClass({
 
     makeContractPublic(contract) {
         return () => {
-            ContractListActions.makeContractPublic(contract)
-                .then(() => ContractListActions.fetchContractList())
-                .catch((error) => {
-                    let notification = new GlobalNotificationModel(error, 'success', 10000);
+            contract.is_public = true;
+            ContractListActions.changeContract(contract)
+                .then(() => {
+                    ContractListActions.fetchContractList({is_active: 'True'});
+                    let notification = getLangText('Contract %s is now public', contract.name);
+                    notification = new GlobalNotificationModel(notification, 'success', 4000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
-            });
+                })
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+                });
         };
     },
 
     removeContract(contract) {
         return () => {
             ContractListActions.removeContract(contract.id)
-                .then(( ) => ContractListActions.fetchContractList())
-                .catch((error) => {
-                    let notification = new GlobalNotificationModel(error, 'danger', 10000);
+                .then((response) => {
+                    ContractListActions.fetchContractList({is_active: 'True'});
+                    let notification = new GlobalNotificationModel(response.notification, 'success', 4000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
-            });
+                })
+                .catch((err) => {
+                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+                });
         };
     },
 
     getPublicContracts(){
-        return this.state.contractList.filter((contract) => contract.public);
+        return this.state.contractList.filter((contract) => contract.is_public);
     },
 
     getPrivateContracts(){
-        return this.state.contractList.filter((contract) => !contract.public);
+        return this.state.contractList.filter((contract) => !contract.is_public);
     },
 
     render() {
@@ -95,8 +105,9 @@ let ContractSettings = React.createClass({
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                            </button>
-                                           <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.removeContract(contract)}>
+                                           <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
                                                 REMOVE
                                             </button>
                                        </div>
@@ -121,12 +132,14 @@ let ContractSettings = React.createClass({
                                            <button className="btn btn-default btn-sm margin-left-2px">
                                                 UPDATE
                                             </button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.removeContract(contract)}>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.removeContract(contract)}>
                                                 REMOVE
                                             </button>
-                                            <button className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.makeContractPublic(contract)}>
+                                            <button
+                                                className="btn btn-default btn-sm margin-left-2px"
+                                                onClick={this.makeContractPublic(contract)}>
                                                 MAKE PUBLIC
                                             </button>
                                        </div>

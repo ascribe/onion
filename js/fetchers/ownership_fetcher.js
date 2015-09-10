@@ -15,8 +15,8 @@ let OwnershipFetcher = {
     /**
      * Fetch the contracts of the logged-in user from the API.
      */
-    fetchContractList(){
-        return requests.get(ApiUrls.ownership_contract_list);
+    fetchContractList(isActive){
+        return requests.get(ApiUrls.ownership_contract_list, isActive);
     },
 
     fetchLoanPieceRequestList(){
@@ -24,11 +24,11 @@ let OwnershipFetcher = {
     },
 
     makeContractPublic(contractObj){
-        return requests.put('ownership_csontract', { body: contractObj, contract_id: contractObj.id });
+        return requests.put(ApiUrls.ownership_contract, { body: contractObj, contract_id: contractObj.id });
     },
 
     deleteContract(contractObjId){
-        return requests.delete('ownership_contract', {contract_id: contractObjId});
+        return requests.delete(ApiUrls.ownership_contract, {contract_id: contractObjId});
     }
 };
 

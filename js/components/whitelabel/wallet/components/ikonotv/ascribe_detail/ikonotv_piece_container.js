@@ -89,15 +89,14 @@ let IkonotvPieceContainer = React.createClass({
 
     getActions(){
         if (this.state.piece &&
-            this.state.piece.request_action &&
-            this.state.piece.request_action.length > 0) {
+            this.state.piece.notifications &&
+            this.state.piece.notifications.length > 0) {
             return (
                 <ListRequestActions
                     pieceOrEditions={this.state.piece}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.loadPiece}
-                    requestActions={this.state.piece.request_action}/>
-                );
+                    notifications={this.state.piece.notifications}/>);
         }
         else {
 
@@ -133,7 +132,7 @@ let IkonotvPieceContainer = React.createClass({
     },
 
     render() {
-        if('title' in this.state.piece) {
+        if(this.state.piece && this.state.piece.title) {
             return (
                 <Piece
                     piece={this.state.piece}

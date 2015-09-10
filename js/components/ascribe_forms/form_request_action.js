@@ -6,7 +6,7 @@ import AclButton from './../ascribe_buttons/acl_button';
 import ActionPanel from '../ascribe_panel/action_panel';
 import Form from './form';
 
-import PieceListActions from '../../actions/piece_list_actions';
+import NotificationActions from '../../actions/notification_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -22,8 +22,7 @@ let RequestActionForm = React.createClass({
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
-        requestAction: React.PropTypes.string,
-        requestUser: React.PropTypes.string,
+        notifications: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
@@ -35,19 +34,19 @@ let RequestActionForm = React.createClass({
     getUrls() {
         let urls = {};
 
-        if (this.props.requestAction === 'consign'){
+        if (this.props.notifications.action === 'consign'){
             urls.accept = ApiUrls.ownership_consigns_confirm;
             urls.deny = ApiUrls.ownership_consigns_deny;
-        } else if (this.props.requestAction === 'unconsign'){
+        } else if (this.props.notifications.action === 'unconsign'){
             urls.accept = ApiUrls.ownership_unconsigns;
             urls.deny = ApiUrls.ownership_unconsigns_deny;
-        } else if (this.props.requestAction === 'loan' && !this.isPiece()){
+        } else if (this.props.notifications.action === 'loan' && !this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_confirm;
             urls.deny = ApiUrls.ownership_loans_deny;
-        } else if (this.props.requestAction === 'loan' && this.isPiece()){
+        } else if (this.props.notifications.action === 'loan' && this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_pieces_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_deny;
-        } else if (this.props.requestAction === 'loan_request' && this.isPiece()){
+        } else if (this.props.notifications.action === 'loan_request' && this.isPiece()){
             urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
         }
@@ -70,8 +69,8 @@ let RequestActionForm = React.createClass({
         return () => {
             let message = getLangText('You have successfully') + ' ' + option + ' the ' + action + ' request ' + getLangText('from') + ' ' + owner;
 
-            let notification = new GlobalNotificationModel(message, 'success');
-            GlobalNotificationActions.appendGlobalNotification(notification);
+            let notifications = new GlobalNotificationModel(message, 'success');
+            GlobalNotificationActions.appendGlobalNotification(notifications);
 
             this.handleSuccess();
 
@@ -79,27 +78,27 @@ let RequestActionForm = React.createClass({
     },
 
     handleSuccess() {
-        PieceListActions.fetchPieceRequestActions();
+        if (this.isPiece()){
+            NotificationActions.fetchPieceListNotifications();
+        }
+        else {
+            NotificationActions.fetchEditionListNotifications();
+        }
         if(this.props.handleSuccess) {
             this.props.handleSuccess();
         }
     },
 
     getContent() {
-        let pieceOrEditionStr = this.isPiece() ? getLangText('this work%s', '.') : getLangText('this edition%s', '.');
-        let message = this.props.requestUser + ' ' + getLangText('requests you') + ' ' + this.props.requestAction + ' ' + pieceOrEditionStr;
-        if (this.props.requestAction === 'loan_request'){
-            message = this.props.requestUser + ' ' + getLangText('requests you to loan') + ' ' + pieceOrEditionStr;
-        }
         return (
             <span>
-                {message}
+                {this.props.notifications.action_str + ' by ' + this.props.notifications.by}
             </span>
         );
     },
 
     getAcceptButtonForm(urls) {
-        if(this.props.requestAction === 'unconsign') {
+        if(this.props.notifications.action === 'unconsign') {
             return (
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
@@ -109,7 +108,7 @@ let RequestActionForm = React.createClass({
                     currentUser={this.props.currentUser}
                     handleSuccess={this.handleSuccess} />
                 );
-        } else if(this.props.requestAction === 'loan_request') {
+        } else if(this.props.notifications.action === 'loan_request') {
             return (
                 <AclButton
                     availableAcls={{'acl_loan_request': true}}
@@ -126,7 +125,7 @@ let RequestActionForm = React.createClass({
                     url={urls.accept}
                     getFormData={this.getFormData}
                     handleSuccess={
-                        this.showNotification(getLangText('accepted'), this.props.requestAction, this.props.requestUser)
+                        this.showNotification(getLangText('accepted'), this.props.notifications.action, this.props.notifications.by)
                     }
                     isInline={true}
                     className='inline pull-right'>
@@ -151,7 +150,7 @@ let RequestActionForm = React.createClass({
                     isInline={true}
                     getFormData={this.getFormData}
                     handleSuccess={
-                        this.showNotification(getLangText('denied'), this.props.requestAction, this.props.requestUser)
+                        this.showNotification(getLangText('denied'), this.props.notifications.action, this.props.notifications.by)
                     }
                     className='inline pull-right'>
                     <button

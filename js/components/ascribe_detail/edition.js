@@ -14,7 +14,7 @@ import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
-import EditionListActions from '../../actions/edition_list_actions';
+import EditionListActions from '../../actions/edition_list_actions';;
 
 import HistoryIterator from './history_iterator';
 
@@ -234,13 +234,15 @@ let EditionSummary = React.createClass({
 
     getActions(){
         let actions = null;
-        if (this.props.edition.request_action && this.props.edition.request_action.length > 0){
+        if (this.props.edition &&
+            this.props.edition.notifications &&
+            this.props.edition.notifications.length > 0){
             actions = (
                 <ListRequestActions
                     pieceOrEditions={[this.props.edition]}
                     currentUser={this.props.currentUser}
                     handleSuccess={this.showNotification}
-                    requestActions={this.props.edition.request_action}/>);
+                    notifications={this.props.edition.notifications}/>);
         }
 
         else {

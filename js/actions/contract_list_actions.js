@@ -12,8 +12,8 @@ class ContractListActions {
         );
     }
 
-    fetchContractList() {
-        OwnershipFetcher.fetchContractList()
+    fetchContractList(isActive) {
+        OwnershipFetcher.fetchContractList(isActive)
             .then((contracts) => {
                 this.actions.updateContractList(contracts.results);
             })
@@ -23,8 +23,8 @@ class ContractListActions {
             });
     }
 
-    makeContractPublic(contract){
-        contract.public = true;
+
+    changeContract(contract){
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.makeContractPublic(contract)
                 .then((res) => {
@@ -38,14 +38,12 @@ class ContractListActions {
     }
 
     removeContract(contractId){
-        return Q.Promise((resolve, reject) => {
+        return Q.Promise( (resolve, reject) => {
             OwnershipFetcher.deleteContract(contractId)
                 .then((res) => {
-                    console.log('Contract deleted');
                     resolve(res);
                 })
                 .catch( (err) => {
-                    console.log('Error while deleting');
                     console.logGlobal(err);
                     reject(err);
                 });

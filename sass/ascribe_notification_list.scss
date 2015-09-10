@@ -2,13 +2,27 @@ $break-small: 764px;
 $break-medium: 991px;
 $break-medium: 1200px;
 
-.notification-wrapper {
+.notification-header,.notification-wrapper {
     width: 350px;
-    height:8em;
-    padding: 0.3em;
-    border-bottom: 1px solid #cccccc;
-    margin: -3px -20px;
+}
 
+.notification-header {
+    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    padding: 0.3em 1em;
+    background-color: #eeeeee;
+}
+
+.notification-wrapper {
+    height:8.4em;
+    border-bottom: 1px solid #eeeeee;
+    margin: -3px 0;
+    padding: 0.5em;
+    color: black;
+
+    &:hover{
+        background-color: rgba(2, 182, 163, .05);
+    }
     // ToDo: Include media queries for thumbnail
     .thumbnail-wrapper {
         width: 7.4em;
@@ -31,9 +45,15 @@ $break-medium: 1200px;
         margin-top: 0.3em;
         margin-bottom: 0.15em;
         font-size: 1.8em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .sub-header{
-        margin-bottom: 1em;
+        margin-bottom: 0.6em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .notification-action{
         color: $ascribe-color-green;
@@ -46,6 +66,10 @@ $break-medium: 1200px;
         li a {
             padding-top: 0;
         }
+        border-top: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 70vh;
     }
 }
 
