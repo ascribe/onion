@@ -15,8 +15,21 @@ let OwnershipFetcher = {
     /**
      * Fetch the contracts of the logged-in user from the API.
      */
-    fetchContractList(isActive){
-        return requests.get(ApiUrls.ownership_contract_list, isActive);
+    fetchContractList(isActive, isPublic, issuer){
+        let queryParams = {
+            isActive,
+            isPublic,
+            issuer
+        };
+        return requests.get(ApiUrls.ownership_contract_list, queryParams);
+    },
+
+
+    /**
+     * Create a contractagreement between the logged-in user and the email from the API with contract.
+     */
+    createContractAgreement(signee, contractObj){
+        return requests.post(ApiUrls.ownership_contract_agreements, { body: {signee: signee, contract: contractObj.id }});
     },
 
     /**

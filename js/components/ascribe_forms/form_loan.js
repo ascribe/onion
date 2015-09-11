@@ -54,14 +54,8 @@ let LoanForm = React.createClass({
     componentDidMount() {
         ContractAgreementListStore.listen(this.onChange);
         if (this.props.email){
-            ContractAgreementListActions.fetchContractAgreementList(
-                this.props.email, 'True', null);
+            ContractAgreementListActions.fetchAvailableContractAgreementList.defer(this.props.email);
         }
-
-        /* @Tim:
-        throws Uncaught TypeError: Cannot read property 'defer' of undefined
-        We might not need this
-        ContractAgreementListActions.flushContractAgreementList().defer();*/
     },
 
     componentWillUnmount() {

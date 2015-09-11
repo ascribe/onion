@@ -12,15 +12,19 @@ class ContractListActions {
         );
     }
 
-    fetchContractList(isActive) {
-        OwnershipFetcher.fetchContractList(isActive)
-            .then((contracts) => {
-                this.actions.updateContractList(contracts.results);
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-                this.actions.updateContractList([]);
-            });
+    fetchContractList(isActive, isPublic, issuer) {
+        return Q.Promise((resolve, reject) => {
+            OwnershipFetcher.fetchContractList(isActive, isPublic, issuer)
+                .then((contracts) => {
+                    this.actions.updateContractList(contracts.results);
+                    resolve(contracts.results);
+                })
+                .catch((err) => {
+                    console.logGlobal(err);
+                    this.actions.updateContractList([]);
+                    reject(err);
+                });
+        });
     }
 
 

@@ -4,7 +4,7 @@ import alt from '../alt';
 import Q from 'q';
 
 import OwnershipFetcher from '../fetchers/ownership_fetcher';
-
+import ContractListActions from './contract_list_actions';
 
 class ContractAgreementListActions {
     constructor() {
@@ -16,23 +16,67 @@ class ContractAgreementListActions {
 
     fetchContractAgreementList(issuer, accepted, pending) {
         return Q.Promise((resolve, reject) => {
+            this.actions.updateContractAgreementList(null);
             OwnershipFetcher.fetchContractAgreementList(issuer, accepted, pending)
                 .then((contractAgreementList) => {
                     if (contractAgreementList.count > 0) {
                         this.actions.updateContractAgreementList(contractAgreementList.results);
+                        resolve(contractAgreementList.results);
                     }
-                    else {
-                        this.actions.updateContractAgreementList(null);
+                    else{
+                        resolve(null);
                     }
-                    resolve();
                 })
                 .catch((err) => {
                     console.logGlobal(err);
-                    this.actions.updateContractAgreementList(null);
                     reject(err);
                 });
             }
         );
+    }
+
+    fetchAvailableContractAgreementList(issuer){
+        this.actions.fetchContractAgreementList(issuer, 'True', null)
+            .then((contractAgreementListAccepted) => {
+                if (!contractAgreementListAccepted) {
+                    // fetch pending agreements if no accepted ones
+                    return this.actions.fetchContractAgreementList(issuer, null, 'True');
+                }
+            }).then((contractAgreementListPending) => {
+                // fetch public contract if no accepted nor pending agreements
+                if (!contractAgreementListPending) {
+                    return ContractListActions.fetchContractList(null, null, issuer);
+                }
+            }).then((publicContract) => {
+                // create an agreement with the public contract if there is one
+                if (publicContract && publicContract.length > 0) {
+                    return this.actions.createContractAgreement(null, publicContract[0]);
+                }
+                else {
+                    /*
+                    contractAgreementList in the store is already set to null;
+                     */
+                }
+            }).then((publicContracAgreement) => {
+                if (publicContracAgreement) {
+                    this.actions.updateContractAgreementList([publicContracAgreement]);
+                }
+            }).catch((err) => {
+                console.logGlobal(err);
+            });
+    }
+
+    createContractAgreement(issuer, contract){
+        return Q.Promise((resolve, reject) => {
+            OwnershipFetcher.createContractAgreement(issuer, contract).then(
+                (contractAgreement) => {
+                    resolve(contractAgreement);
+                }
+            ).catch((err) => {
+                console.logGlobal(err);
+                reject(err);
+            });
+        });
     }
 
 }
