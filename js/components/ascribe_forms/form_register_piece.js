@@ -10,10 +10,11 @@ import Property from './property';
 import InputFineUploader from './input_fineuploader';
 
 import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -99,8 +100,19 @@ let RegisterPieceForm = React.createClass({
                     name="digital_work_key"
                     ignoreFocus={true}>
                     <InputFineUploader
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'digitalwork'
+                        }}
+                        createBlobRoutine={{
+                            url: ApiUrls.blob_digitalworks
+                        }}
+                        validation={{
+                            itemLimit: 100000,
+                            sizeLimit: '25000000000'
+                        }}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={isReadyForFormSubmission}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
