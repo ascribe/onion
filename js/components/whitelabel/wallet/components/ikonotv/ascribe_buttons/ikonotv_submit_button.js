@@ -58,7 +58,7 @@ let IkonotvSubmitButton = React.createClass({
                         <InputCheckbox>
                             <span>
                                 {' ' + getLangText('I agree to the Terms of Service of IkonoTV Archive') + ' '}
-                                (<a href="https://d1qjsxua1o9x03.cloudfront.net/live/743394beff4b1282ba735e5e3723ed74/contract/bbc92f1d-4504-49f8-818c-8dd7113c6e06.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-tos.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                     {getLangText('read')}
                                 </a>)
                             </span>

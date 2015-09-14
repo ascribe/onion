@@ -31,7 +31,7 @@ let SlidesContainer = React.createClass({
 
         // We can actually need to check if slide_num is present as a key in queryParams.
         // We do not really care about its value though...
-        if(queryParams && 'slide_num' in queryParams.slide_num) {
+        if(queryParams && 'slide_num' in queryParams) {
             slideNum = parseInt(queryParams.slide_num, 10);
         }
         // if slide_num is not set, this will be done in componentDidMount
