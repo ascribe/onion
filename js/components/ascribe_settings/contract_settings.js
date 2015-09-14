@@ -95,91 +95,86 @@ let ContractSettings = React.createClass({
 
         return (
             <CollapsibleParagraph
-                title={getLangText('Contract Settings')}
+                title={getLangText('Contracts')}
                 show={true}
-                defaultExpanded={true}>
+                defaultExpanded={false}>
                 <CollapsibleParagraph
-                    title={getLangText('List Contracts')}
+                    title={getLangText('Public Contracts')}
                     show={true}
                     defaultExpanded={true}>
-                    <CollapsibleParagraph
-                        title={getLangText('Public Contracts')}
-                        show={true}
-                        defaultExpanded={true}>
-                        {createPublicContractForm}
-                        {publicContracts.map((contract, i) => {
-                            return (
-                                <ActionPanel
-                                    key={i}
-                                    title={contract.name}
-                                    content={contract.name}
-                                    buttons={
-                                        <div className="pull-right">
-                                           <button className="btn btn-default btn-sm margin-left-2px">
-                                                UPDATE
-                                           </button>
-                                           <a
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                href={contract.blob.url_safe}
-                                                target="_blank">
-                                                PREVIEW
-                                           </a>
-                                           <button
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract(contract)}>
-                                                REMOVE
-                                            </button>
-                                       </div>
-                                    }
-                                    leftColumnWidth="40%"
-                                    rightColumnWidth="60%"/>
-                            );
-                        })}
-                    </CollapsibleParagraph>
-                    <CollapsibleParagraph
-                        title={getLangText('Private Contracts')}
-                        show={true}
-                        defaultExpanded={true}>
-                        <CreateContractForm
-                            isPublic={false}
-                            fileClassToUpload={{
-                                singular: 'new private contract',
-                                plural: 'new private contracts'
-                            }}/>
-                        {privateContracts.map((contract, i) => {
-                            return (
-                                <ActionPanel
-                                    key={i}
-                                    title={contract.name}
-                                    content={contract.name}
-                                    buttons={
-                                        <div className="pull-right">
-                                            <button
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.makeContractPublic(contract)}>
-                                                MAKE PUBLIC
-                                            </button>
-                                           <button className="btn btn-default btn-sm margin-left-2px">
-                                                UPDATE
-                                            </button>
-                                            <a
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                href={contract.blob.url_safe}
-                                                target="_blank">
-                                                PREVIEW
-                                           </a>
-                                            <button
-                                                className="btn btn-default btn-sm margin-left-2px"
-                                                onClick={this.removeContract(contract)}>
-                                                REMOVE
-                                            </button>
-                                       </div>
-                                   }
-                                   leftColumnWidth="40%"
-                                   rightColumnWidth="60%"/>
-                            );
-                        })}
-                    </CollapsibleParagraph>
+                    {createPublicContractForm}
+                    {publicContracts.map((contract, i) => {
+                        return (
+                            <ActionPanel
+                                key={i}
+                                title={contract.name}
+                                content={contract.name}
+                                buttons={
+                                    <div className="pull-right">
+                                       <button className="btn btn-default btn-sm margin-left-2px">
+                                            UPDATE
+                                       </button>
+                                       <a
+                                            className="btn btn-default btn-sm margin-left-2px"
+                                            href={contract.blob.url_safe}
+                                            target="_blank">
+                                            PREVIEW
+                                       </a>
+                                       <button
+                                            className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.removeContract(contract)}>
+                                            REMOVE
+                                        </button>
+                                   </div>
+                                }
+                                leftColumnWidth="40%"
+                                rightColumnWidth="60%"/>
+                        );
+                    })}
+                </CollapsibleParagraph>
+                <CollapsibleParagraph
+                    title={getLangText('Private Contracts')}
+                    show={true}
+                    defaultExpanded={true}>
+                    <CreateContractForm
+                        isPublic={false}
+                        fileClassToUpload={{
+                            singular: 'new private contract',
+                            plural: 'new private contracts'
+                        }}/>
+                    {privateContracts.map((contract, i) => {
+                        return (
+                            <ActionPanel
+                                key={i}
+                                title={contract.name}
+                                content={contract.name}
+                                buttons={
+                                    <div className="pull-right">
+                                        <button
+                                            className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.makeContractPublic(contract)}>
+                                            MAKE PUBLIC
+                                        </button>
+                                       <button className="btn btn-default btn-sm margin-left-2px">
+                                            UPDATE
+                                        </button>
+                                        <a
+                                            className="btn btn-default btn-sm margin-left-2px"
+                                            href={contract.blob.url_safe}
+                                            target="_blank">
+                                            PREVIEW
+                                       </a>
+                                        <button
+                                            className="btn btn-default btn-sm margin-left-2px"
+                                            onClick={this.removeContract(contract)}>
+                                            REMOVE
+                                        </button>
+                                   </div>
+                               }
+                               leftColumnWidth="40%"
+                               rightColumnWidth="60%"/>
+                        );
+                    })}
                 </CollapsibleParagraph>
             </CollapsibleParagraph>
         );
