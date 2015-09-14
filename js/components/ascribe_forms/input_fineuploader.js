@@ -37,7 +37,14 @@ let InputFileUploader = React.createClass({
         enableLocalHashing: React.PropTypes.bool,
 
         // provided by Property
-        disabled: React.PropTypes.bool
+        disabled: React.PropTypes.bool,
+
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        })
     },
 
     getInitialState() {
@@ -96,7 +103,8 @@ let InputFileUploader = React.createClass({
                     }
                 }}
                 onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing} />
+                enableLocalHashing={this.props.enableLocalHashing} 
+                fileClassToUpload={this.props.fileClassToUpload}/>
         );
     }
 });

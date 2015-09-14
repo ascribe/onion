@@ -77,7 +77,11 @@ let CreateContractForm = React.createClass({
                         areAssetsEditable={true}
                         submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile} />
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        fileClassToUpload={{
+                            singular: 'contract',
+                            plural: 'contracts'
+                        }}/>
                 </Property>
                 <Property
                     name='name'
