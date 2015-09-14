@@ -12,6 +12,8 @@ let InputFileUploader = React.createClass({
     propTypes: {
         setIsUploadReady: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
+        submitFileName: React.PropTypes.func,
+
         onClick: React.PropTypes.func,
         keyRoutine: React.PropTypes.shape({
             url: React.PropTypes.string,
@@ -22,7 +24,8 @@ let InputFileUploader = React.createClass({
         }),
         validation: React.PropTypes.shape({
             itemLimit: React.PropTypes.number,
-            sizeLimit: React.PropTypes.string
+            sizeLimit: React.PropTypes.string,
+            allowedExtensions: React.PropTypes.arrayOf(React.PropTypes.string)
         }),
 
         // isFineUploaderActive is used to lock react fine uploader in case
@@ -47,6 +50,10 @@ let InputFileUploader = React.createClass({
         this.setState({
             value: file.key
         });
+
+        if(typeof this.props.submitFileName === 'function') {
+            this.props.submitFileName(file.originalName);
+        }
     },
 
     reset() {

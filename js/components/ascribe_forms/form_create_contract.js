@@ -24,7 +24,8 @@ let CreateContractForm = React.createClass({
 
     getInitialState() {
         return {
-            isUploadReady: false
+            isUploadReady: false,
+            contractName: ''
         };
     },
 
@@ -41,30 +42,25 @@ let CreateContractForm = React.createClass({
         this.refs.form.reset();
     },
 
+    submitFileName(fileName) {
+        this.setState({
+            contractName: fileName
+        });
+
+        this.refs.form.submit();
+    },
 
     render() {
         return (
             <Form
                 ref='form'
                 url={ApiUrls.ownership_contract_list}
-                handleSuccess={this.handleCreateSuccess}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login"
-                        disabled={!this.state.isUploadReady}>
-                        {getLangText('Create new contract')}
-                    </button>
-                }
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                }>
+                handleSuccess={this.handleCreateSuccess}>
                 <Property
                     name="blob"
-                    label="Contract file">
+                    label="Contract file (*.pdf)">
                     <InputFineUploader
+                        submitFileName={this.submitFileName}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'contract'
@@ -74,7 +70,8 @@ let CreateContractForm = React.createClass({
                         }}
                         validation={{
                             itemLimit: 100000,
-                            sizeLimit: '50000000'
+                            sizeLimit: '50000000',
+                            allowedExtensions: ['pdf']
                         }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
@@ -84,21 +81,11 @@ let CreateContractForm = React.createClass({
                 </Property>
                 <Property
                     name='name'
-                    label={getLangText('Contract name')}>
+                    label={getLangText('Contract name')}
+                    hidden={true}>
                     <input
                         type="text"
-                        placeholder={getLangText('(e.g. Contract - Loan agreement #1)')}
-                        required/>
-                </Property>
-                <Property
-                    name="is_public"
-                    className="ascribe-settings-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
-                    <InputCheckbox>
-                        <span>
-                            {getLangText('Make contract public (this will replace the current public contract')}
-                        </span>
-                    </InputCheckbox>
+                        value={this.state.contractName}/>
                 </Property>
             </Form>
         );
