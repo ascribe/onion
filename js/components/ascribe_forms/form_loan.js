@@ -17,6 +17,7 @@ import ContractAgreementListActions from '../../actions/contract_agreement_list_
 
 import AppConstants from '../../constants/application_constants';
 
+import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -67,7 +68,10 @@ let LoanForm = React.createClass({
     },
 
     getFormData(){
-        return this.props.id;
+        return mergeOptions(
+            this.props.id,
+            this.getContractAgreementId()
+        );
     },
 
     handleOnChange(event) {
@@ -77,6 +81,13 @@ let LoanForm = React.createClass({
         } else {
             ContractAgreementListActions.flushContractAgreementList();
         }
+    },
+
+    getContractAgreementId() {
+        if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
+            return {'contract_agreement_id': this.state.contractAgreementList[0].id};
+        }
+        return null;
     },
 
     getContractCheckbox() {
@@ -97,7 +108,7 @@ let LoanForm = React.createClass({
                         <span>
                             {getLangText('I agree to the')}&nbsp;
                             <a href={contract.blob.url_safe} target="_blank">
-                                {getLangText('terms of')} {contract.issuer}
+                                {getLangText('terms of ')} {contract.issuer}
                             </a>
                         </span>
                     </InputCheckbox>
