@@ -54,9 +54,7 @@ let LoanForm = React.createClass({
 
     componentDidMount() {
         ContractAgreementListStore.listen(this.onChange);
-        if (this.props.email){
-            ContractAgreementListActions.fetchAvailableContractAgreementList.defer(this.props.email);
-        }
+        this.getContractAgreementsOrCreatePublic(this.props.email);
     },
 
     componentWillUnmount() {
@@ -65,6 +63,18 @@ let LoanForm = React.createClass({
 
     onChange(state) {
         this.setState(state);
+    },
+
+    getContractAgreementsOrCreatePublic(email){
+        if (email) {
+            ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
+                (contractAgreementList) => {
+                    if (!contractAgreementList) {
+                        ContractAgreementListActions.createContractAgreementFromPublicContract.defer(email);
+                    }
+                }
+            );
+        }
     },
 
     getFormData(){
@@ -76,8 +86,8 @@ let LoanForm = React.createClass({
 
     handleOnChange(event) {
         // event.target.value is the submitted email of the loanee
-        if(event && event.target && event.target.value && event.target.value.match(/.*@.*/)) {
-            ContractAgreementListActions.fetchContractAgreementList(event.target.value, 'True', null);
+        if(event && event.target && event.target.value && event.target.value.match(/.*@.*\..*/)) {
+            this.getContractAgreementsOrCreatePublic(event.target.value);
         } else {
             ContractAgreementListActions.flushContractAgreementList();
         }
@@ -172,8 +182,8 @@ let LoanForm = React.createClass({
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    onChange={this.handleOnChange}
                     editable={!this.props.email}
+                    onBlur={this.handleOnChange}
                     overrideForm={!!this.props.email}>
                     <input
                         value={this.props.email}

@@ -36,18 +36,28 @@ class ContractAgreementListActions {
     }
 
     fetchAvailableContractAgreementList(issuer){
-        this.actions.fetchContractAgreementList(issuer, 'True', null)
-            .then((contractAgreementListAccepted) => {
-                if (!contractAgreementListAccepted) {
-                    // fetch pending agreements if no accepted ones
-                    return this.actions.fetchContractAgreementList(issuer, null, 'True');
-                }
-            }).then((contractAgreementListPending) => {
-                // fetch public contract if no accepted nor pending agreements
-                if (!contractAgreementListPending) {
-                    return ContractListActions.fetchContractList(null, null, issuer);
-                }
-            }).then((publicContract) => {
+        return Q.Promise((resolve, reject) => {
+            this.actions.fetchContractAgreementList(issuer, 'True', null)
+                .then((contractAgreementListAccepted) => {
+                    if (!contractAgreementListAccepted) {
+                        // fetch pending agreements if no accepted ones
+                        return this.actions.fetchContractAgreementList(issuer, null, 'True');
+                    }
+                    else {
+                        resolve(contractAgreementListAccepted);
+                    }
+                }).then((contractAgreementListPending) => {
+                    resolve(contractAgreementListPending);
+                }).catch((err) => {
+                    console.logGlobal(err);
+                    reject(err);
+                });
+        });
+    }
+
+    createContractAgreementFromPublicContract(issuer){
+        ContractListActions.fetchContractList(null, null, issuer)
+            .then((publicContract) => {
                 // create an agreement with the public contract if there is one
                 if (publicContract && publicContract.length > 0) {
                     return this.actions.createContractAgreement(null, publicContract[0]);
