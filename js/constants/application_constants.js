@@ -53,6 +53,8 @@ let constants = {
         'ga': 'UA-60614729-2'
     },
 
+    // These are all possible types that are currently supported in HTML5 for the input element
+    // Source: http://www.w3schools.com/tags/att_input_type.asp
     'possibleInputTypes': ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'],
 
     // in case of whitelabel customization, we store stuff here
