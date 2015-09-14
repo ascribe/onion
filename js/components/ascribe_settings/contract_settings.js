@@ -80,6 +80,18 @@ let ContractSettings = React.createClass({
     render() {
         let publicContracts = this.getPublicContracts();
         let privateContracts = this.getPrivateContracts();
+        let createPublicContractForm = null;
+
+        if(publicContracts.length === 0) {
+            createPublicContractForm = (
+                <CreateContractForm
+                    isPublic={true}
+                    fileClassToUpload={{
+                        singular: 'new public contract',
+                        plural: 'new public contracts'
+                    }}/>
+            );
+        }
 
         return (
             <CollapsibleParagraph
@@ -94,6 +106,7 @@ let ContractSettings = React.createClass({
                         title={getLangText('Public Contracts')}
                         show={true}
                         defaultExpanded={true}>
+                        {createPublicContractForm}
                         {publicContracts.map((contract, i) => {
                             return (
                                 <ActionPanel
@@ -109,7 +122,7 @@ let ContractSettings = React.createClass({
                                                 className="btn btn-default btn-sm margin-left-2px"
                                                 href={contract.blob.url_safe}
                                                 target="_blank">
-                                                DOWNLOAD
+                                                PREVIEW
                                            </a>
                                            <button
                                                 className="btn btn-default btn-sm margin-left-2px"
@@ -127,6 +140,12 @@ let ContractSettings = React.createClass({
                         title={getLangText('Private Contracts')}
                         show={true}
                         defaultExpanded={true}>
+                        <CreateContractForm
+                            isPublic={false}
+                            fileClassToUpload={{
+                                singular: 'new private contract',
+                                plural: 'new private contracts'
+                            }}/>
                         {privateContracts.map((contract, i) => {
                             return (
                                 <ActionPanel
@@ -147,7 +166,7 @@ let ContractSettings = React.createClass({
                                                 className="btn btn-default btn-sm margin-left-2px"
                                                 href={contract.blob.url_safe}
                                                 target="_blank">
-                                                DOWNLOAD
+                                                PREVIEW
                                            </a>
                                             <button
                                                 className="btn btn-default btn-sm margin-left-2px"
@@ -161,12 +180,6 @@ let ContractSettings = React.createClass({
                             );
                         })}
                     </CollapsibleParagraph>
-                </CollapsibleParagraph>
-                <CollapsibleParagraph
-                    title={getLangText('Create Contract')}
-                    show={true}
-                    defaultExpanded={true}>
-                    <CreateContractForm />
                 </CollapsibleParagraph>
             </CollapsibleParagraph>
         );

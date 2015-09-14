@@ -4,7 +4,6 @@ import React from 'react';
 
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
-import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -21,6 +20,16 @@ import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uplo
 
 
 let CreateContractForm = React.createClass({
+    propTypes: {
+        isPublic: React.PropTypes.bool,
+
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        })
+    },
 
     getInitialState() {
         return {
@@ -58,7 +67,7 @@ let CreateContractForm = React.createClass({
                 handleSuccess={this.handleCreateSuccess}>
                 <Property
                     name="blob"
-                    label="Contract file (*.pdf)">
+                    label="Contract file (*.pdf only)">
                     <InputFineUploader
                         submitFileName={this.submitFileName}
                         keyRoutine={{
@@ -78,10 +87,7 @@ let CreateContractForm = React.createClass({
                         submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        fileClassToUpload={{
-                            singular: 'contract',
-                            plural: 'contracts'
-                        }}/>
+                        fileClassToUpload={this.props.fileClassToUpload}/>
                 </Property>
                 <Property
                     name='name'
@@ -90,6 +96,13 @@ let CreateContractForm = React.createClass({
                     <input
                         type="text"
                         value={this.state.contractName}/>
+                </Property>
+                <Property
+                    name="is_public"
+                    hidden={true}>
+                    <input
+                        type="checkbox"
+                        value={this.props.isPublic} />
                 </Property>
             </Form>
         );

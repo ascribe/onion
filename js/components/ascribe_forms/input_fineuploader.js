@@ -103,7 +103,7 @@ let InputFileUploader = React.createClass({
                     }
                 }}
                 onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing} 
+                enableLocalHashing={this.props.enableLocalHashing}
                 fileClassToUpload={this.props.fileClassToUpload}/>
         );
     }
