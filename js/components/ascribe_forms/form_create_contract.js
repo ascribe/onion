@@ -78,7 +78,7 @@ let CreateContractForm = React.createClass({
                         }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
-                        submitKey={this.submitKey}
+                        submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile} />
                 </Property>

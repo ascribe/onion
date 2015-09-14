@@ -43,9 +43,9 @@ let InputFileUploader = React.createClass({
         };
     },
 
-    submitKey(key){
+    submitFile(file){
         this.setState({
-            value: key
+            value: file.key
         });
     },
 
@@ -69,7 +69,7 @@ let InputFileUploader = React.createClass({
                 keyRoutine={this.props.keyRoutine}
                 createBlobRoutine={this.props.createBlobRoutine}
                 validation={this.props.validation}
-                submitKey={this.submitKey}
+                submitFile={this.submitFile}
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
