@@ -53,6 +53,8 @@ let constants = {
         'ga': 'UA-60614729-2'
     },
 
+    'possibleInputTypes': ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'],
+
     // in case of whitelabel customization, we store stuff here
     'whitelabel': {},
     'raven': {
