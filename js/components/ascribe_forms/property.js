@@ -6,7 +6,10 @@ import ReactAddons from 'react/addons';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
+import AppConstants from '../../constants/application_constants';
+
 import { mergeOptions } from '../../utils/general_utils';
+
 
 let Property = React.createClass({
     propTypes: {
@@ -29,8 +32,11 @@ let Property = React.createClass({
         handleChange: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool,
         className: React.PropTypes.string,
+
         onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -87,21 +93,41 @@ let Property = React.createClass({
     },
 
     reset() {
+        let input = this.refs.input;
+
         // maybe do reset by reload instead of front end state?
         this.setState({value: this.state.initialValue});
 
-        // resets the value of a custom react component input
-        this.refs.input.state.value = this.state.initialValue;
+        if(input.state && input.state.value) {
+            // resets the value of a custom react component input
+            input.state.value = this.state.initialValue;
+        }
 
-        // resets the value of a plain HTML5 input
-        this.refs.input.getDOMNode().value = this.state.initialValue;
+        // For some reason, if we set the value of a non HTML element (but a custom input),
+        // after a reset, the value will be be propagated to this component.
+        //
+        // Therefore we have to make sure only to reset the initial value
+        // of HTML inputs (which we determine by checking if there 'type' attribute matches
+        // the ones included in AppConstants.possibleInputTypes).
+        let inputDOMNode = input.getDOMNode();
+        if(inputDOMNode.type && typeof inputDOMNode.type === 'string' &&
+           AppConstants.possibleInputTypes.indexOf(inputDOMNode.type.toLowerCase()) > -1) {
+            inputDOMNode.value = this.state.initialValue;
+        }
 
+        // For some inputs, reseting state.value is not enough to visually reset the
+        // component.
+        //
+        // So if the input actually needs a visual reset, it needs to implement
+        // a dedicated reset method.
+        if(typeof input.reset === 'function') {
+            input.reset();
+        }
     },
 
     handleChange(event) {
-
         this.props.handleChange(event);
-        if ('onChange' in this.props) {
+        if (typeof this.props.onChange === 'function') {
             this.props.onChange(event);
         }
 
@@ -117,7 +143,7 @@ let Property = React.createClass({
 
         // if onClick is defined from the outside,
         // just call it
-        if(this.props.onClick) {
+        if(typeof this.props.onClick === 'function') {
             this.props.onClick();
         }
 
@@ -132,7 +158,7 @@ let Property = React.createClass({
             isFocused: false
         });
 
-        if(this.props.onBlur) {
+        if(typeof this.props.onBlur === 'function') {
             this.props.onBlur(event);
         }
     },
@@ -190,6 +216,7 @@ let Property = React.createClass({
     },
 
     render() {
+        let footer = null;
         let tooltip = <span/>;
         let style = this.props.style ? mergeOptions({}, this.props.style) : {};
 
@@ -199,7 +226,7 @@ let Property = React.createClass({
                     {this.props.tooltip}
                 </Tooltip>);
         }
-        let footer = null;
+        
         if(this.props.footer){
             footer = (
                 <div className="ascribe-property-footer">
@@ -223,7 +250,7 @@ let Property = React.createClass({
                     overlay={tooltip}>
                     <div className={'ascribe-settings-property ' + this.props.className}>
                         {this.state.errors}
-                        <span>{ this.props.label}</span>
+                        <span>{this.props.label}</span>
                         {this.renderChildren(style)}
                         {footer}
                     </div>

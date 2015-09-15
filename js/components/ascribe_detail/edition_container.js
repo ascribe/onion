@@ -50,7 +50,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        if('title' in this.state.edition) {
+        if(this.state.edition && this.state.edition.title) {
             return (
                 <Edition
                     edition={this.state.edition}

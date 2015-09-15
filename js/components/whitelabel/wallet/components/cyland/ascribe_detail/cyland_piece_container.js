@@ -68,7 +68,7 @@ let CylandPieceContainer = React.createClass({
     },
 
     render() {
-        if('title' in this.state.piece) {
+        if(this.state.piece && this.state.piece.title) {
             return (
                 <Piece
                     piece={this.state.piece}

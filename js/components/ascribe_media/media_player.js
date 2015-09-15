@@ -28,12 +28,20 @@ let Other = React.createClass({
     },
 
     render() {
-        let ext = this.props.url.split('.').pop();
+        let filename = this.props.url.split('/').pop();
+        let tokens = filename.split('.');
+        let preview;
+
+        if (tokens.length > 1) {
+            preview = '.' + tokens.pop();
+        } else {
+            preview = 'file';
+        }
 
         return (
             <Panel className="media-other">
                 <p className="text-center">
-                    .{ext}
+                    {preview}
                 </p>
             </Panel>
         );
@@ -200,7 +208,8 @@ let MediaPlayer = React.createClass({
                         <br />You can leave this page and check back on the status later.</em>
                     </p>
                     <ProgressBar now={this.props.encodingStatus}
-                        label='%(percent)s%' />
+                        label="%(percent)s%"
+                        className="ascribe-progress-bar" />
                 </div>
             );
         } else {

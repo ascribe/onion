@@ -212,29 +212,20 @@ hr {
         border: 1px solid $ascribe-brand-danger;
     }
 }
-.btn-ascribe, .btn-ascribe-inv {
+.btn-ascribe {
     border: 1px solid #444;
     line-height: 2em;
     margin-right: 1px;
     margin-left: 0 !important;
     font-family: sans-serif !important;
     border-radius: 0 !important;
-}
-
-.btn-ascribe, .btn-ascribe-inv:active, .btn-ascribe-inv:hover {
     color: #222 !important;
     background-color: #FFF;
 }
 
-.btn-ascribe:active, .btn-ascribe:hover, .btn-ascribe-inv {
+.btn-ascribe:active, .btn-ascribe:hover {
     color: #FFF !important;
     background-color: #444;
-}
-
-.btn-ascribe-inv:disabled, .btn-ascribe-inv:focus {
-    color: #444 !important;
-    background-color: #BBB !important;
-    border: 1px solid #444 !important;
 }
 
 .btn-ascribe-sm {
@@ -449,4 +440,15 @@ hr {
     padding-top: 30%;
     padding-bottom: 30%;
     text-align: center;
+}
+
+.ascribe-progress-bar {
+    margin-bottom: 0;
+    > .progress-bar {
+        background-color: $ascribe-color-green;
+    }
+}
+
+.ascribe-progress-bar-xs {
+    height: 12px;
 }
