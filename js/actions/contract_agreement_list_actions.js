@@ -37,11 +37,11 @@ class ContractAgreementListActions {
 
     fetchAvailableContractAgreementList(issuer){
         return Q.Promise((resolve, reject) => {
-            this.actions.fetchContractAgreementList(issuer, 'True', null)
+            this.actions.fetchContractAgreementList(issuer, true, null)
                 .then((contractAgreementListAccepted) => {
                     if (!contractAgreementListAccepted) {
                         // fetch pending agreements if no accepted ones
-                        return this.actions.fetchContractAgreementList(issuer, null, 'True');
+                        return this.actions.fetchContractAgreementList(issuer, null, true);
                     }
                     else {
                         resolve(contractAgreementListAccepted);

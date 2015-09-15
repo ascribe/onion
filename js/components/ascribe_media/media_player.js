@@ -208,7 +208,8 @@ let MediaPlayer = React.createClass({
                         <br />You can leave this page and check back on the status later.</em>
                     </p>
                     <ProgressBar now={this.props.encodingStatus}
-                        label='%(percent)s%' />
+                        label="%(percent)s%"
+                        className="ascribe-progress-bar" />
                 </div>
             );
         } else {
