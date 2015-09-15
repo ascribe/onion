@@ -75,6 +75,7 @@ let LoanForm = React.createClass({
     },
 
     getContractAgreementsOrCreatePublic(email){
+        ContractAgreementListActions.flushContractAgreementList();
         if (email) {
             ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
                 (contractAgreementList) => {
