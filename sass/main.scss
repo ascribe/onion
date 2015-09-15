@@ -413,3 +413,14 @@ hr {
     padding-bottom: 30%;
     text-align: center;
 }
+
+.ascribe-progress-bar {
+    margin-bottom: 0;
+    > .progress-bar {
+        background-color: $ascribe-color-green;
+    }
+}
+
+.ascribe-progress-bar-xs {
+    height: 12px;
+}
