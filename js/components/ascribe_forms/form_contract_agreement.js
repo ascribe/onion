@@ -35,7 +35,7 @@ let ContractAgreementForm = React.createClass({
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        ContractListActions.fetchContractList({is_active: true});
+        ContractListActions.fetchContractList(true);
     },
 
     componentWillUnmount() {
