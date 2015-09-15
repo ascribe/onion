@@ -50,21 +50,7 @@ let IkonotvSubmitButton = React.createClass({
                     enddate={enddate}
                     gallery="IkonoTV archive"
                     showPersonalMessage={false}
-                    handleSuccess={this.props.handleSuccess}>
-                    <Property
-                        name="terms"
-                        className="ascribe-settings-property-collapsible-toggle"
-                        style={{paddingBottom: 0}}>
-                        <InputCheckbox>
-                            <span>
-                                {' ' + getLangText('I agree to the Terms of Service of IkonoTV Archive') + ' '}
-                                (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-tos.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                    {getLangText('read')}
-                                </a>)
-                            </span>
-                        </InputCheckbox>
-                    </Property>
-                </LoanForm>
+                    handleSuccess={this.props.handleSuccess} />
             </ModalWrapper>
             
         );
