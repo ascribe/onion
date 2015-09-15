@@ -67,7 +67,7 @@ let CreateContractForm = React.createClass({
                 handleSuccess={this.handleCreateSuccess}>
                 <Property
                     name="blob"
-                    label="Contract file (*.pdf only)">
+                    label={getLangText('Contract file (*.pdf only, max. 50MB per contract)')}>
                     <InputFineUploader
                         submitFileName={this.submitFileName}
                         keyRoutine={{
