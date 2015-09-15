@@ -46,7 +46,6 @@ requests.defaults({
 
 
 class AppGateway {
-
     start() {
         let settings;
         let subdomain = window.location.host.split('.')[0];

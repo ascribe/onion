@@ -13,7 +13,7 @@ import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -100,7 +100,7 @@ let RegisterPieceForm = React.createClass({
                     ignoreFocus={true}>
                     <InputFineUploader
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={isReadyForFormSubmission}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         editable={this.props.isFineUploaderEditable}
