@@ -9,11 +9,13 @@ import ContractListStore from '../../stores/contract_list_store';
 import ContractListActions from '../../actions/contract_list_actions';
 
 import ActionPanel from '../ascribe_panel/action_panel';
+import ContractSettingsUpdateButton from './contract_settings_update_button';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getLangText } from '../../utils/lang_utils';
+
 
 let ContractSettings = React.createClass({
     propTypes: {
@@ -97,7 +99,7 @@ let ContractSettings = React.createClass({
             <CollapsibleParagraph
                 title={getLangText('Contracts')}
                 show={true}
-                defaultExpanded={false}>
+                defaultExpanded={true}>
                 <CollapsibleParagraph
                     title={getLangText('Public Contracts')}
                     show={true}
@@ -155,9 +157,7 @@ let ContractSettings = React.createClass({
                                             onClick={this.makeContractPublic(contract)}>
                                             MAKE PUBLIC
                                         </button>
-                                       <button className="btn btn-default btn-sm margin-left-2px">
-                                            UPDATE
-                                        </button>
+                                       <ContractSettingsUpdateButton />
                                         <a
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
