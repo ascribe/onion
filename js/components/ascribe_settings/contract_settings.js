@@ -113,9 +113,7 @@ let ContractSettings = React.createClass({
                                 content={contract.name}
                                 buttons={
                                     <div className="pull-right">
-                                       <button className="btn btn-default btn-sm margin-left-2px">
-                                            UPDATE
-                                       </button>
+                                       <ContractSettingsUpdateButton />
                                        <a
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
