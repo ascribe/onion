@@ -28,7 +28,7 @@ let ContractSettings = React.createClass({
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        ContractListActions.fetchContractList({is_active: 'True'});
+        ContractListActions.fetchContractList({is_active: true});
     },
 
     componentWillUnmount() {
@@ -44,7 +44,7 @@ let ContractSettings = React.createClass({
             contract.is_public = true;
             ContractListActions.changeContract(contract)
                 .then(() => {
-                    ContractListActions.fetchContractList({is_active: 'True'});
+                    ContractListActions.fetchContractList({is_active: true});
                     let notification = getLangText('Contract %s is now public', contract.name);
                     notification = new GlobalNotificationModel(notification, 'success', 4000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
@@ -60,7 +60,7 @@ let ContractSettings = React.createClass({
         return () => {
             ContractListActions.removeContract(contract.id)
                 .then((response) => {
-                    ContractListActions.fetchContractList({is_active: 'True'});
+                    ContractListActions.fetchContractList({is_active: true});
                     let notification = new GlobalNotificationModel(response.notification, 'success', 4000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
                 })

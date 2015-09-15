@@ -141,7 +141,7 @@ let Header = React.createClass({
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                 </DropdownButton>
             );
-            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} navbar right/>;
+            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;

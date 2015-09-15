@@ -12,11 +12,12 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import InputDate from './input_date';
 import InputCheckbox from './input_checkbox';
 
-import ContractStore from '../../stores/contract_store';
-import ContractActions from '../../actions/contract_actions';
+import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
+import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
 import AppConstants from '../../constants/application_constants';
 
+import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -48,40 +49,74 @@ let LoanForm = React.createClass({
     },
 
     getInitialState() {
-        return ContractStore.getState();
+        return ContractAgreementListStore.getState();
     },
 
     componentDidMount() {
-        ContractStore.listen(this.onChange);
-        ContractActions.flushContract.defer();
+        ContractAgreementListStore.listen(this.onChange);
+        this.getContractAgreementsOrCreatePublic(this.props.email);
+    },
+
+    componentWillReceiveProps(nextProps) {
+        // however, it can also be that at the time the component is mounting,
+        // the email is not defined (because it's asynchronously fetched from the server).
+        // Then we need to update it as soon as it is included into LoanForm's props.
+        if(nextProps && nextProps.email) {
+            this.getContractAgreementsOrCreatePublic(nextProps.email);
+        }
     },
 
     componentWillUnmount() {
-        ContractStore.unlisten(this.onChange);
+        ContractAgreementListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
     },
 
+    getContractAgreementsOrCreatePublic(email){
+        ContractAgreementListActions.flushContractAgreementList();
+        if (email) {
+            ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
+                (contractAgreementList) => {
+                    if (!contractAgreementList) {
+                        ContractAgreementListActions.createContractAgreementFromPublicContract(email);
+                    }
+                }
+            );
+        }
+    },
+
     getFormData(){
-        return this.props.id;
+        return mergeOptions(
+            this.props.id,
+            this.getContractAgreementId()
+        );
     },
 
     handleOnChange(event) {
         // event.target.value is the submitted email of the loanee
-        if(event && event.target && event.target.value && event.target.value.match(/.*@.*/)) {
-            ContractActions.fetchContract(event.target.value);
+        if(event && event.target && event.target.value && event.target.value.match(/.*@.*\..*/)) {
+            this.getContractAgreementsOrCreatePublic(event.target.value);
         } else {
-            ContractActions.flushContract();
+            ContractAgreementListActions.flushContractAgreementList();
         }
     },
 
+    getContractAgreementId() {
+        if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
+            return {'contract_agreement_id': this.state.contractAgreementList[0].id};
+        }
+        return null;
+    },
+
     getContractCheckbox() {
-        if(this.state.contractKey && this.state.contractUrl) {
+        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
             // we need to define a key on the InputCheckboxes as otherwise
             // react is not rerendering them on a store switch and is keeping
             // the default value of the component (which is in that case true)
+            let contract = this.state.contractAgreementList[0].contract;
+
             return (
                 <Property
                     name="terms"
@@ -92,8 +127,8 @@ let LoanForm = React.createClass({
                         defaultChecked={false}>
                         <span>
                             {getLangText('I agree to the')}&nbsp;
-                            <a href={this.state.contractUrl} target="_blank">
-                                {getLangText('terms of')} {this.state.contractEmail}
+                            <a href={contract.blob.url_safe} target="_blank">
+                                {getLangText('terms of ')} {contract.issuer}
                             </a>
                         </span>
                     </InputCheckbox>
@@ -157,8 +192,8 @@ let LoanForm = React.createClass({
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    onChange={this.handleOnChange}
                     editable={!this.props.email}
+                    onBlur={this.handleOnChange}
                     overrideForm={!!this.props.email}>
                     <input
                         value={this.props.email}

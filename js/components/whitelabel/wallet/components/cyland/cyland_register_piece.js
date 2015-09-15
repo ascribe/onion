@@ -222,21 +222,7 @@ let CylandRegisterPiece = React.createClass({
                                 showStartDate={false}
                                 showEndDate={false}
                                 showPersonalMessage={false}
-                                handleSuccess={this.handleLoanSuccess}>
-                                <Property
-                                    name="terms"
-                                    className="ascribe-settings-property-collapsible-toggle"
-                                    style={{paddingBottom: 0}}>
-                                    <InputCheckbox>
-                                        <span>
-                                            {' ' + getLangText('I agree to the Terms of Service of Cyland Archive') + ' '}
-                                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/terms_and_contract.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                                {getLangText('read')}
-                                            </a>)
-                                        </span>
-                                    </InputCheckbox>
-                                </Property>
-                            </LoanForm>
+                                handleSuccess={this.handleLoanSuccess} />
                         </Col>
                     </Row>
                 </div>
