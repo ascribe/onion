@@ -21,7 +21,7 @@ let AclProxy = React.createClass({
     },
 
     getChildren() {
-        if (this.props.children.length && this.props.children.length > 1){
+        if (React.Children.count(this.props.children) > 1){
             /*
             This might ruin styles for header items in the navbar etc
              */

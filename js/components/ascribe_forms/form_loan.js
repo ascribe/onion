@@ -57,6 +57,15 @@ let LoanForm = React.createClass({
         this.getContractAgreementsOrCreatePublic(this.props.email);
     },
 
+    componentWillReceiveProps(nextProps) {
+        // however, it can also be that at the time the component is mounting,
+        // the email is not defined (because it's asynchronously fetched from the server).
+        // Then we need to update it as soon as it is included into LoanForm's props.
+        if(nextProps && nextProps.email) {
+            this.getContractAgreementsOrCreatePublic(nextProps.email);
+        }
+    },
+
     componentWillUnmount() {
         ContractAgreementListStore.unlisten(this.onChange);
     },
@@ -70,7 +79,7 @@ let LoanForm = React.createClass({
             ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
                 (contractAgreementList) => {
                     if (!contractAgreementList) {
-                        ContractAgreementListActions.createContractAgreementFromPublicContract.defer(email);
+                        ContractAgreementListActions.createContractAgreementFromPublicContract(email);
                     }
                 }
             );
