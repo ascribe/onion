@@ -13,6 +13,8 @@ import Property from '../ascribe_forms/property';
 import InputCheckbox from '../ascribe_forms/input_checkbox';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
+import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
@@ -117,6 +119,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
+                <CopyrightAssociationForm currentUser={this.state.currentUser}/>
                 {profile}
                 {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>

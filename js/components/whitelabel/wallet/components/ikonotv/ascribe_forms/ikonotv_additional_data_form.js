@@ -7,7 +7,7 @@ import Property from '../../../../../ascribe_forms/property';
 
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
+//import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
@@ -15,7 +15,7 @@ import AppConstants from '../../../../../../constants/application_constants';
 import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
+//import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let IkonotvAdditionalDataForm = React.createClass({
@@ -110,15 +110,6 @@ let IkonotvAdditionalDataForm = React.createClass({
                             placeholder={getLangText('Enter a conceptual overview...')}
                             required="required"/>
                     </Property>
-                    <FurtherDetailsFileuploader
-                        uploadStarted={this.uploadStarted}
-                        submitKey={this.submitKey}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
-                        editable={!this.props.disabled}
-                        pieceId={this.props.piece.id}
-                        otherData={this.props.piece.other_data}
-                        multiple={true}/>
                 </Form>
             );
         } else {

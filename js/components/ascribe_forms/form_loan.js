@@ -61,7 +61,7 @@ let LoanForm = React.createClass({
         // however, it can also be that at the time the component is mounting,
         // the email is not defined (because it's asynchronously fetched from the server).
         // Then we need to update it as soon as it is included into LoanForm's props.
-        if(nextProps && nextProps.email) {
+        if(nextProps && nextProps.email && this.props.email !== nextProps.email) {
             this.getContractAgreementsOrCreatePublic(nextProps.email);
         }
     },
@@ -75,16 +75,19 @@ let LoanForm = React.createClass({
     },
 
     getContractAgreementsOrCreatePublic(email){
-        ContractAgreementListActions.flushContractAgreementList();
-        if (email) {
-            ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
-                (contractAgreementList) => {
-                    if (!contractAgreementList) {
-                        ContractAgreementListActions.createContractAgreementFromPublicContract(email);
+        /* a more complex defer (with promises) otherwise we dispatch while an action is being dispatched) */
+        window.setTimeout(() => {
+            ContractAgreementListActions.flushContractAgreementList();
+
+            if (email) {
+                ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
+                    (contractAgreementList) => {
+                        if (!contractAgreementList) {
+                            ContractAgreementListActions.createContractAgreementFromPublicContract(email);
+                        }
                     }
-                }
-            );
-        }
+                );
+            }}, 0);
     },
 
     getFormData(){

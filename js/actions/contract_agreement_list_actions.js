@@ -89,6 +89,17 @@ class ContractAgreementListActions {
         });
     }
 
+    flushContractAgreementList(){
+        return Q.Promise((resolve, reject) => {
+            this.actions.updateContractAgreementList(null).then(
+                resolve()
+            ).catch((err) => {
+                console.logGlobal(err);
+                reject(err);
+            });
+        });
+    }
+
 }
 
 export default alt.createActions(ContractAgreementListActions);
