@@ -29,7 +29,6 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
-        console.log(this.state.currentUser);
         if(this.state.currentUser && this.state.currentUser.email) {
             return (
                 <ButtonLink to="pieces">
