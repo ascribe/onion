@@ -54,8 +54,7 @@
     }
 
     .filter-widget-item {
-
-        > a {
+        a {
             padding-left: 0;
             padding-right: 0;
         }
@@ -64,6 +63,13 @@
     .checkbox-line {
         height: 25px;
         position: relative;
+        color: #333333;
+
+        /* Fuck you react-bootstrap */
+        &:hover {
+            background-color: $dropdown-link-hover-bg;
+            cursor: pointer;
+        }
 
         span {
             cursor: pointer;

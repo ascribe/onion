@@ -16,7 +16,12 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
         //      label: <a human readable string>
         // }
         //
-        filterParams: React.PropTypes.arrayOf(React.PropTypes.any).isRequired,
+        filterParams: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                label: React.PropTypes.string,
+                items: React.PropTypes.array
+            })
+        ).isRequired,
         filterBy: React.PropTypes.object,
         applyFilterBy: React.PropTypes.func
     },
@@ -79,35 +84,43 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
             <DropdownButton
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
-                <li style={{'textAlign': 'center'}}>
-                    <em>{getLangText('Show works I can')}:</em>
-                </li>
-                {this.props.filterParams.map((param, i) => {
-                    let label;
-
-                    if(typeof param !== 'string') {
-                        label = param.label;
-                        param = param.key;
-                    } else {
-                        param = param;
-                        label = param.split('_')[1];
-                    }
-
+                {this.props.filterParams.map(({ label, items }, i) => {
                     return (
-                        <MenuItem
-                            key={i}
-                            onClick={this.filterBy(param)}
-                            className="filter-widget-item">
-                            <div className="checkbox-line">
-                                <span>
-                                    {getLangText(label)}
-                                </span>
-                                <input
-                                    readOnly
-                                    type="checkbox"
-                                    checked={this.props.filterBy[param]} />
-                            </div>
-                        </MenuItem>
+                        <div>
+                            <li
+                                style={{'textAlign': 'center'}}
+                                key={i}>
+                                <em>{label}:</em>
+                            </li>
+                            {items.map((param, j) => {
+                                let label;
+
+                                if(typeof param !== 'string') {
+                                    label = param.label;
+                                    param = param.key;
+                                } else {
+                                    param = param;
+                                    label = param.split('_')[1];
+                                }
+
+                                return (
+                                    <li
+                                        key={j}
+                                        onClick={this.filterBy(param)}
+                                        className="filter-widget-item">
+                                        <div className="checkbox-line">
+                                            <span>
+                                                {getLangText(label)}
+                                            </span>
+                                            <input
+                                                readOnly
+                                                type="checkbox"
+                                                checked={this.props.filterBy[param]} />
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </div>
                     );
                 })}
             </DropdownButton>

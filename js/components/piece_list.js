@@ -35,7 +35,6 @@ let PieceList = React.createClass({
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string
-
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -44,13 +43,20 @@ let PieceList = React.createClass({
         return {
             accordionListItemType: AccordionListItemWallet,
             orderParams: ['artist_name', 'title'],
-            filterParams: [
+            filterParams: [{
+                label: getLangText('Show works I can'),
+                items: [
                 'acl_transfer',
                 'acl_consign',
                 {
                     key: 'acl_create_editions',
                     label: 'create editions'
                 }]
+            },
+            {
+                label: getLangText('Show works I have'),
+                items: ['acl_loaned']
+            }]
         };
     },
     getInitialState() {
@@ -95,8 +101,8 @@ let PieceList = React.createClass({
             // the site should go to the top
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                                    this.state.orderBy, this.state.orderAsc,
-                                                    this.state.filterBy);
+                                            this.state.orderBy, this.state.orderAsc,
+                                            this.state.filterBy);
         };
     },
 
@@ -167,7 +173,9 @@ let PieceList = React.createClass({
                     {this.props.customSubmitButton}
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
-                <PieceListFilterDisplay filterBy={this.state.filterBy} />
+                <PieceListFilterDisplay
+                    filterBy={this.state.filterBy}
+                    filterParams={this.props.filterParams}/>
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
