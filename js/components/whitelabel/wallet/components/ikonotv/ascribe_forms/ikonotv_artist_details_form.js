@@ -15,10 +15,9 @@ import AppConstants from '../../../../../../constants/application_constants';
 import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
-//import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
-let IkonotvAdditionalDataForm = React.createClass({
+let IkonotvArtistDetailsForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func.isRequired,
         piece: React.PropTypes.object.isRequired,
@@ -77,7 +76,7 @@ let IkonotvAdditionalDataForm = React.createClass({
                             type="submit"
                             className="btn ascribe-btn ascribe-btn-login"
                             disabled={!this.state.isUploadReady || this.props.disabled}>
-                            {getLangText('Proceed to loan')}
+                            {getLangText('Proceed to artwork details')}
                         </button>
                     }
                     spinner={
@@ -87,28 +86,49 @@ let IkonotvAdditionalDataForm = React.createClass({
                     }>
                     <div className="ascribe-form-header">
                         <h3>
-                            {getLangText('Provide supporting materials')}
+                            {getLangText('Artist Details')}
                         </h3>
                     </div>
                     <Property
-                        name='artist_bio'
-                        label={getLangText('Artist Biography')}
+                        name='artist_website'
+                        label={getLangText('Artist Website')}
                         editable={!this.props.disabled}>
                         <InputTextAreaToggable
                             rows={1}
                             editable={!this.props.disabled}
-                            placeholder={getLangText('Enter the artist\'s biography...')}
-                            required="required"/>
+                            defaultValue={this.props.piece.extra_data.artist_website}
+                            placeholder={getLangText('The artist\'s website if present...')}/>
+                    </Property>
+                    <Property
+                        name='gallery_website'
+                        label={getLangText('Website of related Gallery, Museum, etc.')}
+                        editable={!this.props.disabled}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            editable={!this.props.disabled}
+                            defaultValue={this.props.piece.extra_data.gallery_website}
+                            placeholder={getLangText('The website of any related Gallery or Museum')}/>
+                    </Property>
+                    <Property
+                        name='additional_websites'
+                        label={getLangText('Additional Websites/Publications')}
+                        editable={!this.props.disabled}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            editable={!this.props.disabled}
+                            defaultValue={this.props.piece.extra_data.additional_websites}
+                            placeholder={getLangText('Enter additional Websites/Publications if any')}/>
                     </Property>
                     <Property
                         name='conceptual_overview'
-                        label={getLangText('Conceptual Overview')}
+                        label={getLangText('Short text about the Artist')}
                         editable={!this.props.disabled}>
                         <InputTextAreaToggable
                             rows={1}
                             editable={!this.props.disabled}
-                            placeholder={getLangText('Enter a conceptual overview...')}
-                            required="required"/>
+                            defaultValue={this.props.piece.extra_data.conceptual_overview}
+                            placeholder={getLangText('Enter a short bio about the Artist')}
+                            />
                     </Property>
                 </Form>
             );
@@ -122,4 +142,4 @@ let IkonotvAdditionalDataForm = React.createClass({
     }
 });
 
-export default IkonotvAdditionalDataForm;
+export default IkonotvArtistDetailsForm;

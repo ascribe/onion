@@ -12,6 +12,7 @@ import NotificationStore from '../../../../../stores/notification_store';
 import UserStore from '../../../../../stores/user_store';
 
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
@@ -42,6 +43,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel();
         if (this.state.contractAgreementListNotifications === null){
             NotificationActions.fetchContractAgreementListNotifications();
         }
@@ -90,7 +92,7 @@ let IkonotvContractNotifications = React.createClass({
     getAppendix() {
         let notifications = this.state.contractAgreementListNotifications[0];
         let appendix = notifications.contract_agreement.appendix;
-        if (appendix) {
+        if (appendix && appendix.default) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Appendix')}</h1>

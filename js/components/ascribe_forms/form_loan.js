@@ -35,6 +35,7 @@ let LoanForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
@@ -44,7 +45,8 @@ let LoanForm = React.createClass({
             showPersonalMessage: true,
             showEndDate: true,
             showStartDate: true,
-            showPassword: true
+            showPassword: true,
+            createPublicContractAgreement: true
         };
     },
 
@@ -82,7 +84,7 @@ let LoanForm = React.createClass({
             if (email) {
                 ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
                     (contractAgreementList) => {
-                        if (!contractAgreementList) {
+                        if (!contractAgreementList && this.props.createPublicContractAgreement) {
                             ContractAgreementListActions.createContractAgreementFromPublicContract(email);
                         }
                     }

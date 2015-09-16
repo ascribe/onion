@@ -67,7 +67,6 @@ let SignupForm = React.createClass({
     },
 
     getFormData() {
-        console.log(this.getQuery());
         if (this.getQuery().token){
             return {token: this.getQuery().token};
         }

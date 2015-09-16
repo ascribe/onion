@@ -21,7 +21,9 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import LoanForm from '../../../../ascribe_forms/form_loan';
-import IkonotvAdditionalDataForm from './ascribe_forms/ikonotv_additional_data_form';
+
+import IkonotvArtistDetailsForm from './ascribe_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from './ascribe_forms/ikonotv_artwork_details_form';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -95,10 +97,14 @@ let IkonotvRegisterPiece = React.createClass({
         if(response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
+        if (!this.canSubmit()) {
+            this.transitionTo('pieces');
+        }
+        else {
+            this.incrementStep();
+            this.refs.slidesContainer.nextSlide();
+        }
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
     },
 
     handleAdditionalDataSuccess() {
@@ -158,12 +164,83 @@ let IkonotvRegisterPiece = React.createClass({
         this.transitionTo('login');
     },
 
+    canSubmit() {
+        if (this.state.currentUser && this.state.currentUser.acl) {
+            return (
+                this.state.currentUser
+                && this.state.currentUser.acl
+                && !!this.state.currentUser.acl.acl_submit
+            );
+        }
+        return false;
+    },
+
+    getSlideArtistDetails() {
+        if (this.canSubmit()) {
+            return (
+                <div data-slide-title={getLangText('Artist details')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <IkonotvArtistDetailsForm
+                                disabled={this.state.step > 1}
+                                handleSuccess={this.handleAdditionalDataSuccess}
+                                piece={this.state.piece}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
+    getSlideArtworkDetails() {
+        if (this.canSubmit()) {
+            return (
+                <div data-slide-title={getLangText('Artwork details')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <IkonotvArtworkDetailsForm
+                                disabled={this.state.step > 1}
+                                handleSuccess={this.handleAdditionalDataSuccess}
+                                piece={this.state.piece}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
+    getSlideLoan() {
+        if (this.canSubmit()) {
+
+            let today = new Moment();
+            let enddate = new Moment();
+            enddate.add(1, 'years');
+            return (
+                <div data-slide-title={getLangText('Loan')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <LoanForm
+                                loanHeading={getLangText('Loan to IkonoTV archive')}
+                                id={{piece_id: this.state.piece.id}}
+                                url={ApiUrls.ownership_loans_pieces}
+                                email="submissions@ikono.org"
+                                startdate={today}
+                                enddate={enddate}
+                                gallery="IkonoTV archive"
+                                showPersonalMessage={false}
+                                createPublicContractAgreement={false}
+                                handleSuccess={this.handleLoanSuccess}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
     render() {
-
-        let today = new Moment();
-        let enddate = new Moment();
-        enddate.add(1, 'years');
-
         return (
             <SlidesContainer
                 ref="slidesContainer"
@@ -178,40 +255,17 @@ let IkonotvRegisterPiece = React.createClass({
                             <RegisterPieceForm
                                 disabled={this.state.step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Submit to IkonoTV')}
-                                submitMessage={getLangText('Submit')}
+                                headerMessage={getLangText('Register work')}
+                                submitMessage={getLangText('Register')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
                                 onLoggedOut={this.onLoggedOut} />
                         </Col>
                     </Row>
                 </div>
-                <div data-slide-title={getLangText('Additional details')}>
-                    <Row className="no-margin">
-                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <IkonotvAdditionalDataForm
-                                disabled={this.state.step > 1}
-                                handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
-                        </Col>
-                    </Row>
-                </div>
-                <div data-slide-title={getLangText('Loan')}>
-                    <Row className="no-margin">
-                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <LoanForm
-                                loanHeading={getLangText('Loan to IkonoTV archive')}
-                                id={{piece_id: this.state.piece.id}}
-                                url={ApiUrls.ownership_loans_pieces}
-                                email="submissions@ikono.org"
-                                startdate={today}
-                                enddate={enddate}
-                                gallery="IkonoTV archive"
-                                showPersonalMessage={false}
-                                handleSuccess={this.handleLoanSuccess} />
-                        </Col>
-                    </Row>
-                </div>
+                {this.getSlideArtistDetails()}
+                {this.getSlideArtworkDetails()}
+                {this.getSlideLoan()}
             </SlidesContainer>
         );
     }
