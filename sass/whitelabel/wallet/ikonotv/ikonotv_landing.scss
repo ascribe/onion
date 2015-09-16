@@ -1,0 +1,81 @@
+.ikonotv-landing {
+    /* center all text on the page */
+    text-align: center;
+    background-color: #c40050;
+    color: white;
+
+    padding: 5em 5em 5em 5em;
+
+    header {
+        /* center all images on the page */
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ikonotv logo */
+        img:first-child {
+            width: 200px;
+        }
+
+        > .tagline {
+            margin-top: 2em;
+            margin-bottom: 2em;
+
+            > h1 {
+                font-size: 9em;
+                font-weight: bold;
+
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    
+        > h2 {
+            font-weight: 600;
+            font-size: 2.75em;
+        }
+
+        > h2 + h2 {
+            margin-top: 0;
+        }
+    }
+
+    article {
+        > section {
+            width: 65%;
+            margin: 3em auto 1em auto;
+
+            > h1 {
+                text-align: center;
+                font-size: 1.35em;
+                font-weight: 600;
+            }
+
+            > p {
+                text-align: left;
+                font-size: 1.3em;
+                line-height: 1.8;
+            }
+        }
+    }
+
+    footer {
+        margin-top: 5em;
+        margin-bottom: 3em;
+
+        > p {
+            font-size: 1.3em;
+        }
+
+        > p + p {
+            margin-bottom: 3em;
+        }
+
+        > .btn-default {
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+    }
+}
