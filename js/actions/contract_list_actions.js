@@ -30,7 +30,7 @@ class ContractListActions {
 
     changeContract(contract){
         return Q.Promise((resolve, reject) => {
-            OwnershipFetcher.makeContractPublic(contract)
+            OwnershipFetcher.changeContract(contract)
                 .then((res) => {
                     resolve(res);
                 })

@@ -4,7 +4,9 @@ import React from 'react';
 
 import FileDragAndDropPreviewImage from './file_drag_and_drop_preview_image';
 import FileDragAndDropPreviewOther from './file_drag_and_drop_preview_other';
-import { getLangText } from '../../utils/lang_utils.js';
+
+
+import { getLangText } from '../../../utils/lang_utils';
 
 let FileDragAndDropPreview = React.createClass({
 
@@ -43,6 +45,7 @@ let FileDragAndDropPreview = React.createClass({
 
     handleDownloadFile() {
         if(this.props.file.s3Url) {
+            // This simply opens a new browser tab with the url provided
             open(this.props.file.s3Url);
         }
     },

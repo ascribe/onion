@@ -6,20 +6,14 @@ import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import FileDragAndDropDialog from './file_drag_and_drop_dialog';
 import FileDragAndDropPreviewIterator from './file_drag_and_drop_preview_iterator';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang_utils';
+
 
 // Taken from: https://github.com/fedosejev/react-file-drag-and-drop
 let FileDragAndDrop = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
-        onDragStart: React.PropTypes.func,
         onDrop: React.PropTypes.func.isRequired,
-        onDrag: React.PropTypes.func,
-        onDragEnter: React.PropTypes.func,
-        onLeave: React.PropTypes.func,
-        onDragLeave: React.PropTypes.func,
         onDragOver: React.PropTypes.func,
-        onDragEnd: React.PropTypes.func,
         onInactive: React.PropTypes.func,
         filesToUpload: React.PropTypes.array,
         handleDeleteFile: React.PropTypes.func,
@@ -37,37 +31,16 @@ let FileDragAndDrop = React.createClass({
         hashingProgress: React.PropTypes.number,
         // sets the value of this.state.hashingProgress in reactfineuploader
         // to -1 which is code for: aborted
-        handleCancelHashing: React.PropTypes.func
-    },
+        handleCancelHashing: React.PropTypes.func,
 
-    handleDragStart(event) {
-        if (typeof this.props.onDragStart === 'function') {
-            this.props.onDragStart(event);
-        }
-    },
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        }),
 
-    handleDrag(event) {
-        if (typeof this.props.onDrag === 'function') {
-            this.props.onDrag(event);
-        }
-    },
-
-    handleDragEnd(event) {
-        if (typeof this.props.onDragEnd === 'function') {
-          this.props.onDragEnd(event);
-        }
-    },
-
-    handleDragEnter(event) {
-        if (typeof this.props.onDragEnter === 'function') {
-            this.props.onDragEnter(event);
-        }
-    },
-
-    handleDragLeave(event) {
-        if (typeof this.props.onDragLeave === 'function') {
-            this.props.onDragLeave(event);
-        }
+        allowedExtensions: React.PropTypes.string
     },
 
     handleDragOver(event) {
@@ -159,14 +132,27 @@ let FileDragAndDrop = React.createClass({
     },
 
     render: function () {
+        let { filesToUpload,
+              dropzoneInactive,
+              className,
+              hashingProgress,
+              handleCancelHashing,
+              multiple,
+              enableLocalHashing,
+              fileClassToUpload,
+              areAssetsDownloadable,
+              areAssetsEditable,
+              allowedExtensions
+            } = this.props;
+
         // has files only is true if there are files that do not have the status deleted or canceled
-        let hasFiles = this.props.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0;
-        let className = hasFiles ? 'has-files ' : '';
-        className += this.props.dropzoneInactive ? 'inactive-dropzone' : 'active-dropzone';
-        className += this.props.className ? ' ' + this.props.className : '';
+        let hasFiles = filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0;
+        let updatedClassName = hasFiles ? 'has-files ' : '';
+        updatedClassName += dropzoneInactive ? 'inactive-dropzone' : 'active-dropzone';
+        updatedClassName += ' file-drag-and-drop';
 
         // if !== -2: triggers a FileDragAndDrop-global spinner
-        if(this.props.hashingProgress !== -2) {
+        if(hashingProgress !== -2) {
             return (
                 <div className={className}>
                     <div className="file-drag-and-drop-hashing-dialog">
@@ -184,29 +170,26 @@ let FileDragAndDrop = React.createClass({
         } else {
             return (
                 <div
-                    className={className}
-                    onDragStart={this.handleDragStart}
+                    className={updatedClassName}
                     onDrag={this.handleDrop}
-                    onDragEnter={this.handleDragEnter}
-                    onDragLeave={this.handleDragLeave}
                     onDragOver={this.handleDragOver}
-                    onDrop={this.handleDrop}
-                    onDragEnd={this.handleDragEnd}>
+                    onDrop={this.handleDrop}>
                         <FileDragAndDropDialog
-                            multipleFiles={this.props.multiple}
+                            multipleFiles={multiple}
                             hasFiles={hasFiles}
                             onClick={this.handleOnClick}
-                            enableLocalHashing={this.props.enableLocalHashing}/>
+                            enableLocalHashing={enableLocalHashing}
+                            fileClassToUpload={fileClassToUpload}/>
                         <FileDragAndDropPreviewIterator
-                            files={this.props.filesToUpload}
+                            files={filesToUpload}
                             handleDeleteFile={this.handleDeleteFile}
                             handleCancelFile={this.handleCancelFile}
                             handlePauseFile={this.handlePauseFile}
                             handleResumeFile={this.handleResumeFile}
-                            areAssetsDownloadable={this.props.areAssetsDownloadable}
-                            areAssetsEditable={this.props.areAssetsEditable}/>
+                            areAssetsDownloadable={areAssetsDownloadable}
+                            areAssetsEditable={areAssetsEditable}/>
                         <input
-                            multiple={this.props.multiple}
+                            multiple={multiple}
                             ref="fileinput"
                             type="file"
                             style={{
@@ -214,7 +197,8 @@ let FileDragAndDrop = React.createClass({
                                 height: 0,
                                 width: 0
                             }}
-                            onChange={this.handleDrop} />
+                            onChange={this.handleDrop}
+                            accept={allowedExtensions}/>
                 </div>
           );
         }

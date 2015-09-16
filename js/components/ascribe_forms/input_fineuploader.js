@@ -5,7 +5,6 @@ import React from 'react';
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
-import ApiUrls from '../../constants/api_urls';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 
@@ -13,7 +12,21 @@ let InputFileUploader = React.createClass({
     propTypes: {
         setIsUploadReady: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
+        submitFileName: React.PropTypes.func,
+
         onClick: React.PropTypes.func,
+        keyRoutine: React.PropTypes.shape({
+            url: React.PropTypes.string,
+            fileClass: React.PropTypes.string
+        }),
+        createBlobRoutine: React.PropTypes.shape({
+            url: React.PropTypes.string
+        }),
+        validation: React.PropTypes.shape({
+            itemLimit: React.PropTypes.number,
+            sizeLimit: React.PropTypes.string,
+            allowedExtensions: React.PropTypes.arrayOf(React.PropTypes.string)
+        }),
 
         // isFineUploaderActive is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
@@ -24,7 +37,14 @@ let InputFileUploader = React.createClass({
         enableLocalHashing: React.PropTypes.bool,
 
         // provided by Property
-        disabled: React.PropTypes.bool
+        disabled: React.PropTypes.bool,
+
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        })
     },
 
     getInitialState() {
@@ -33,10 +53,14 @@ let InputFileUploader = React.createClass({
         };
     },
 
-    submitKey(key){
+    submitFile(file){
         this.setState({
-            value: key
+            value: file.key
         });
+
+        if(typeof this.props.submitFileName === 'function') {
+            this.props.submitFileName(file.originalName);
+        }
     },
 
     reset() {
@@ -56,18 +80,10 @@ let InputFileUploader = React.createClass({
             <ReactS3FineUploader
                 ref="fineuploader"
                 onClick={this.props.onClick}
-                keyRoutine={{
-                    url: AppConstants.serverUrl + 's3/key/',
-                    fileClass: 'digitalwork'
-                }}
-                createBlobRoutine={{
-                    url: ApiUrls.blob_digitalworks
-                }}
-                submitKey={this.submitKey}
-                validation={{
-                    itemLimit: 100000,
-                    sizeLimit: '25000000000'
-                }}
+                keyRoutine={this.props.keyRoutine}
+                createBlobRoutine={this.props.createBlobRoutine}
+                validation={this.props.validation}
+                submitFile={this.submitFile}
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                 areAssetsDownloadable={false}
@@ -87,7 +103,8 @@ let InputFileUploader = React.createClass({
                     }
                 }}
                 onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing} />
+                enableLocalHashing={this.props.enableLocalHashing}
+                fileClassToUpload={this.props.fileClassToUpload}/>
         );
     }
 });

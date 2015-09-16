@@ -48,7 +48,7 @@ let OwnershipFetcher = {
         return requests.get(ApiUrls.ownership_loans_pieces_request);
     },
 
-    makeContractPublic(contractObj){
+    changeContract(contractObj){
         return requests.put(ApiUrls.ownership_contract, { body: contractObj, contract_id: contractObj.id });
     },
 

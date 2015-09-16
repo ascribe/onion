@@ -10,6 +10,7 @@ import Property from './property';
 import InputFineUploader from './input_fineuploader';
 
 import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -99,6 +100,14 @@ let RegisterPieceForm = React.createClass({
                     name="digital_work_key"
                     ignoreFocus={true}>
                     <InputFineUploader
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'digitalwork'
+                        }}
+                        createBlobRoutine={{
+                            url: ApiUrls.blob_digitalworks
+                        }}
+                        validation={AppConstants.fineUploader.validation.registerWork}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
