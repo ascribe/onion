@@ -8,10 +8,11 @@ $BASE_URL: '<%= BASE_URL %>';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/react-star-rating/dist/css/react-star-rating.min';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
+@import 'lib/index';
 @import 'glyphicons-social';
 @import 'ascribe_theme';
-@import './ascribe-fonts/style';
-@import './ascribe-fonts/ascribe-fonts';
+@import 'ascribe-fonts/style';
+@import 'ascribe-fonts/ascribe-fonts';
 @import 'ascribe_login';
 @import 'ascribe_table';
 @import 'ascribe_accordion_list';
@@ -238,18 +239,17 @@ hr {
     }
 }
 .btn-ascribe {
+    background-color: #fff;
     border: 1px solid #444;
     border-radius: 0 !important;
+    color: #222 !important;
     font-family: sans-serif !important;
     line-height: 2em;
     margin-left: 0 !important;
-    font-family: sans-serif !important;
-    border-radius: 0 !important;
-    color: #222 !important;
 }
 
-.btn-ascribe:active, .btn-ascribe:hover {
-    color: #FFF !important;
+.btn-ascribe:active,
+.btn-ascribe:hover {
     background-color: #444;
 }
 

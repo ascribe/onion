@@ -30,6 +30,18 @@ let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
 
+function getDebugRoutes() {
+    let StyleGuideContainer = require('./styleguide/container.js');
+    if (window.DEBUG) {
+        return (
+            <Route name="styleguide" path="styleguide" handler={StyleGuideContainer} headerTitle="Style Guide" />
+        );
+    } else {
+        return null;
+    }
+}
+
+
 const COMMON_ROUTES = (
     <Route name="app" path={baseUrl} handler={App}>
         <Redirect from={baseUrl} to="login" />

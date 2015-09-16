@@ -77,6 +77,10 @@ gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'c
     opn('http://www.localhost.com:3000');
 });
 
+gulp.task('styleguide', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
+    bundle(true, './styleguide/app.js');
+});
+
 gulp.task('jest', function(done) {
     jest.runCLI({ config : config.jestOptions }, ".", function() {
         done();
@@ -153,11 +157,13 @@ gulp.task('lint:watch', function () {
     gulp.watch('js/**/*.js', ['lint']);
 });
 
-function bundle(watch) {
-    var bro;
+function bundle(watch, sourceFile, destDir) {
+    var bro,
+        sourceFile = sourceFile || './js/app.js',
+        destDir = destDir || './build/js';
 
     if (watch) {
-        bro = watchify(browserify('./js/app.js',
+        bro = watchify(browserify(sourceFile,
             // Assigning debug to have sourcemaps
             _.assign(watchify.args, {
                 debug: true
@@ -166,7 +172,7 @@ function bundle(watch) {
             rebundle(bro, true);
         });
     } else {
-        bro = browserify('./js/app.js', {
+        bro = browserify(sourceFile, {
             debug: true
         });
     }
@@ -192,7 +198,7 @@ function bundle(watch) {
                 mangle: true
             })))
             .on('error', notify.onError('Error: <%= error.message %>'))
-            .pipe(gulp.dest('./build/js'))
+            .pipe(gulp.dest(destDir))
             .on('error', notify.onError('Error: <%= error.message %>'))
             .pipe(browserSync.stream())
             .on('error', notify.onError('Error: <%= error.message %>'));
