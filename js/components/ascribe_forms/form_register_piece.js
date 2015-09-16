@@ -107,10 +107,7 @@ let RegisterPieceForm = React.createClass({
                         createBlobRoutine={{
                             url: ApiUrls.blob_digitalworks
                         }}
-                        validation={{
-                            itemLimit: 100000,
-                            sizeLimit: '25000000000'
-                        }}
+                        validation={AppConstants.fineUploader.validation.registerWork}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}

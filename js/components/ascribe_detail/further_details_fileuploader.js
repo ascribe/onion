@@ -55,10 +55,7 @@ let FurtherDetailsFileuploader = React.createClass({
                         url: ApiUrls.blob_otherdatas,
                         pieceId: this.props.pieceId
                     }}
-                    validation={{
-                        itemLimit: 100000,
-                        sizeLimit: '50000000'
-                    }}
+                    validation={AppConstants.fineUploader.validation.additionalData}
                     submitFile={this.props.submitFile}
                     setIsUploadReady={this.props.setIsUploadReady}
                     isReadyForFormSubmission={this.props.isReadyForFormSubmission}

@@ -78,13 +78,12 @@ let CreateContractForm = React.createClass({
                             url: ApiUrls.blob_contracts
                         }}
                         validation={{
-                            itemLimit: 100000,
-                            sizeLimit: '50000000',
+                            itemLimit: AppConstants.fineUploader.validation.additionalData.itemLimit,
+                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
                             allowedExtensions: ['pdf']
                         }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
-                        submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         fileClassToUpload={this.props.fileClassToUpload}/>

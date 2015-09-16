@@ -101,12 +101,12 @@ let ContractSettings = React.createClass({
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
                                             target="_blank">
-                                            PREVIEW
+                                            {getLangText('PREVIEW')}
                                        </a>
                                        <button
                                             className="btn btn-default btn-sm margin-left-2px"
                                             onClick={this.removeContract(contract)}>
-                                            REMOVE
+                                            {getLangText('REMOVE')}
                                         </button>
                                    </div>
                                 }
@@ -122,8 +122,8 @@ let ContractSettings = React.createClass({
                     <CreateContractForm
                         isPublic={false}
                         fileClassToUpload={{
-                            singular: 'new private contract',
-                            plural: 'new private contracts'
+                            singular: getLangText('new private contract'),
+                            plural: getLangText('new private contracts')
                         }}/>
                     {privateContracts.map((contract, i) => {
                         return (
@@ -138,12 +138,12 @@ let ContractSettings = React.createClass({
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
                                             target="_blank">
-                                            PREVIEW
+                                            {getLangText('PREVIEW')}
                                        </a>
                                         <button
                                             className="btn btn-default btn-sm margin-left-2px"
                                             onClick={this.removeContract(contract)}>
-                                            REMOVE
+                                            {getLangText('REMOVE')}
                                         </button>
                                    </div>
                                }

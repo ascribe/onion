@@ -65,8 +65,8 @@ let ContractSettingsUpdateButton = React.createClass({
                     url: ApiUrls.blob_contracts
                 }}
                 validation={{
-                    itemLimit: 100000,
-                    sizeLimit: '50000000',
+                    itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                    sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
                     allowedExtensions: ['pdf']
                 }}
                 setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}

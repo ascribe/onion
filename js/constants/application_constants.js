@@ -57,6 +57,19 @@ let constants = {
     // Source: http://www.w3schools.com/tags/att_input_type.asp
     'possibleInputTypes': ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'],
 
+    'fineUploader': {
+        'validation': {
+            'additionalData': {
+                'itemLimit': 100,
+                'sizeLimit': '50000000'
+            },
+            'registerWork': {
+                'itemLimit': 1,
+                'sizeLimit': '25000000000'
+            }
+        }
+    },
+
     // in case of whitelabel customization, we store stuff here
     'whitelabel': {},
     'raven': {
