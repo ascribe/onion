@@ -66,6 +66,14 @@ let SignupForm = React.createClass({
         }
     },
 
+    getFormData() {
+        console.log(this.getQuery());
+        if (this.getQuery().token){
+            return {token: this.getQuery().token};
+        }
+        return null;
+    },
+
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
@@ -76,7 +84,7 @@ let SignupForm = React.createClass({
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.users_signup}
-                getFormData={this.getQuery}
+                getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">

@@ -178,7 +178,7 @@ let IkonotvRegisterPiece = React.createClass({
                             <RegisterPieceForm
                                 disabled={this.state.step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Submit to Cyland Archive')}
+                                headerMessage={getLangText('Submit to IkonoTV')}
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
