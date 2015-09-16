@@ -33,12 +33,16 @@ let ContractSettingsUpdateButton = React.createClass({
         ContractListActions
             .changeContract(contract)
             .then((res) => {
+
+                // Display feedback to the user
                 let notification = new GlobalNotificationModel(getLangText('Contract %s successfully updated', res.name), 'success', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
 
+                // and refresh the contract list to get the updated contracs
                 return ContractListActions.fetchContractList(true);
             })
             .then(() => {
+                // Also, reset the fineuploader component so that the user can again 'update' his contract
                 this.refs.fineuploader.reset();
             })
             .catch((err) => {
