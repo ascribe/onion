@@ -35,20 +35,8 @@ let ShareForm = React.createClass({
                 url={this.props.url}
                 getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <div className="modal-footer">
-                        <p className="pull-right">
-                            <Button
-                                className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">
-                                SHARE
-                            </Button>
-                        </p>
-                    </div>}
-                spinner={
-                    <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                    </div>}>
+                buttonSubmit={getLangText('share')}>
+
                 <Property
                     name='share_emails'
                     label={getLangText('Emails')}>

@@ -73,21 +73,13 @@ let PasswordRequestResetForm = React.createClass({
     render() {
         return (
             <Form
-                ref="form"
+                ref='form'
                 className='ascribe-form-wrapper'
                 url={ApiUrls.users_password_reset_request}
                 handleSuccess={this.handleSuccess}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Reset your password')}
-                    </button>}
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
+                buttonSubmit={getLangText('Reset your password')}
+                buttonCancel={false} >
+
                 <div className="ascribe-form-header">
                     <h3>{getLangText('Reset your password')}</h3>
                 </div>
@@ -135,17 +127,9 @@ let PasswordResetForm = React.createClass({
                 url={ApiUrls.users_password_reset}
                 handleSuccess={this.handleSuccess}
                 getFormData={this.getFormData}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
-                        {getLangText('Reset your password')}
-                    </button>}
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
+                buttonSubmit={getLangText('Reset your password')}
+                buttonCancel={false}>
+
                 <div className="ascribe-form-header">
                     <h3>{getLangText('Reset the password for')} {this.props.email}</h3>
                 </div>

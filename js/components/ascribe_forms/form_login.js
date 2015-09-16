@@ -102,17 +102,9 @@ let LoginForm = React.createClass({
                 url={ApiUrls.users_login}
                 handleSuccess={this.handleSuccess}
                 autoComplete="on"
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
-                        {this.props.submitMessage}
-                    </button>}
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
+                buttonSubmit={this.props.submitMessage}
+                buttonCancel={false} >
+
                 <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
                 </div>

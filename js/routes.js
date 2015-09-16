@@ -57,6 +57,7 @@ const COMMON_ROUTES = (
         <Route name="settings" path="settings" handler={SettingsContainer} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
         <Route name="contract_notifications" path="verify" handler={ContractNotification} />
+        {getDebugRoutes()}
     </Route>
 );
 

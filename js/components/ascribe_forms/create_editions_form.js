@@ -40,11 +40,8 @@ let CreateEditionsForm = React.createClass({
                 url={ApiUrls.editions}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
-                spinner={
-                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </button>
-                    }>
+                showButtonsOnEdit={true} >
+
                 <Property
                     name='num_editions'
                     label={getLangText('Number of editions')}>

@@ -3,13 +3,14 @@
 import React from 'react';
 import ReactAddons from 'react/addons';
 
-import Button from 'react-bootstrap/lib/Button';
 import AlertDismissable from './alert';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import requests from '../../utils/requests';
+
+import { SubmitButton, SecondaryButton } from '../../lib/buttons';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptionsWithDuplicates } from '../../utils/general_utils';
@@ -18,20 +19,35 @@ import { mergeOptionsWithDuplicates } from '../../utils/general_utils';
 let Form = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
+
         method: React.PropTypes.string,
-        buttonSubmitText: React.PropTypes.string,
+
         handleSuccess: React.PropTypes.func,
+
         getFormData: React.PropTypes.func,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]),
+
         className: React.PropTypes.string,
-        spinner: React.PropTypes.element,
+
         buttons: React.PropTypes.oneOfType([
             React.PropTypes.element,
             React.PropTypes.arrayOf(React.PropTypes.element)
         ]),
+
+        buttonSubmit: React.PropTypes.oneOfType([
+            React.PropTypes.string
+        ]),
+
+        buttonCancel: React.PropTypes.oneOfType([
+            React.PropTypes.bool,
+            React.PropTypes.string
+        ]),
+
+        showButtonsOnEdit: React.PropTypes.bool,
 
         // Can be used to freeze the whole form
         disabled: React.PropTypes.bool,
@@ -49,7 +65,9 @@ let Form = React.createClass({
     getDefaultProps() {
         return {
             method: 'post',
-            buttonSubmitText: 'SAVE',
+            buttonSubmit: 'Submit',
+            buttonCancel: true,
+            showButtonsOnEdit: false,
             autoComplete: 'off'
         };
     },
@@ -77,7 +95,7 @@ let Form = React.createClass({
         this.setState(this.getInitialState());
     },
 
-    submit(event){
+    submit(event) {
         if(event) {
             event.preventDefault();
         }
@@ -195,33 +213,39 @@ let Form = React.createClass({
     },
 
     getButtons() {
-        if (this.state.submitted){
-            return this.props.spinner;
-        }
-        if (this.props.buttons){
-            return this.props.buttons;
-        }
+        let submit = this.props.buttonSubmit;
+        let cancel = this.props.buttonCancel;
         let buttons = null;
 
-        if (this.state.edited){
-            buttons = (
-                <div className="row" style={{margin: 0}}>
-                    <p className="pull-right">
-                        <Button
-                            className="btn btn-default btn-sm ascribe-margin-1px"
-                            type="submit">
-                            {this.props.buttonSubmitText}
-                        </Button>
-                        <Button
-                            className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                            type="reset">
-                            CANCEL
-                        </Button>
-                    </p>
-                </div>
-            );
+        submit = (
+            <SubmitButton>{submit}</SubmitButton>
+        );
 
+        // cancel can be true if we want the button, false
+        // or null if we don't want it. If cancel is a string then
+        // the string itself is used as the label of the button
+        if (cancel === true) {
+            cancel = getLangText('Cancel');
+        } else if (cancel === false || cancel === null) {
+            cancel = null;
         }
+        if (typeof cancel === 'string') {
+            cancel = (
+                <SecondaryButton onClick={this.reset}>{cancel}</SecondaryButton>
+            );
+        }
+
+        buttons = (
+            <div className="footer">
+                {submit}
+                {cancel}
+            </div>
+        );
+
+        if (this.props.showButtonsOnEdit && !this.state.edited ) {
+            return null;
+        }
+
         return buttons;
     },
 
@@ -286,6 +310,7 @@ let Form = React.createClass({
                 {this.getFakeAutocompletableInputs()}
                 {this.getErrors()}
                 {this.renderChildren()}
+
                 {this.getButtons()}
             </form>
 

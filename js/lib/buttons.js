@@ -12,10 +12,14 @@ import classnames from 'classnames';
 const DISABLED_STATUSES = ['loading', 'disabled'];
 
 
-function ButtonFactory(btnClassName) {
+function ButtonFactory(style, btnClassName, options) {
+
+    style = style || 'default';
+    options = options || {};
 
     let GenericButton = React.createClass({
         propTypes: {
+            onClick: React.PropTypes.func,
             status: React.PropTypes.oneOf(['loading', 'disabled']),
             children: React.PropTypes.oneOfType([React.PropTypes.arrayOf(React.PropTypes.element),
                                                  React.PropTypes.element])
@@ -36,7 +40,7 @@ function ButtonFactory(btnClassName) {
             }
 
             return (
-                <_Button bsStyle={btnClassName} className={classnames(className)} disabled={disabled}>
+                <_Button bsStyle={style} onClick={this.props.onClick} className={classnames(btnClassName, className)} type={options.type} disabled={disabled}>
                     {this.props.children}
                 </_Button>
             );
@@ -48,6 +52,7 @@ function ButtonFactory(btnClassName) {
 }
 
 
-export const Button = ButtonFactory('btn-primary');
-export const SecondaryButton = ButtonFactory('btn-secondary');
-export const DangerButton = ButtonFactory('btn-danger');
+export const Button = ButtonFactory('primary', 'btn-primary');
+export const SubmitButton = ButtonFactory('primary', 'btn-primary', { type: 'submit' });
+export const SecondaryButton = ButtonFactory('default', 'btn-secondary');
+export const DangerButton = ButtonFactory('danger', 'btn-danger');

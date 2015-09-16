@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Button, SecondaryButton, DangerButton } from '../../lib/buttons';
+import { Button, SubmitButton, SecondaryButton, DangerButton } from '../../lib/buttons';
 import Panel from 'react-bootstrap/lib/Panel';
 
 
@@ -43,9 +43,9 @@ let Buttons = React.createClass({
                             <p>This is a form with many buttons
                                 <form className="ascribe-form-bordered">
                                     <div className="footer">
-                                        <Button>
+                                        <SubmitButton>
                                             Submit nao
-                                        </Button>
+                                        </SubmitButton>
 
                                         <Button>
                                             Submit later
