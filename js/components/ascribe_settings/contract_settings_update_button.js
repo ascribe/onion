@@ -8,24 +8,50 @@ import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_butto
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
+import ContractListActions from '../../actions/contract_list_actions';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
 let ContractSettingsUpdateButton = React.createClass({
-
-    setIsUploadReady() {
-        console.log('upload done');
+    propTypes: {
+        contract: React.PropTypes.object
     },
 
     submitFile(file) {
-        console.log(file);
+        let contract = this.props.contract;
+
+        // override the blob with the key's value
+        contract.blob = file.key;
+
+        // send it to the server
+        ContractListActions
+            .changeContract(contract)
+            .then((res) => {
+                let notification = new GlobalNotificationModel(getLangText('Contract %s successfully updated', res.name), 'success', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+
+                return ContractListActions.fetchContractList(true);
+            })
+            .then(() => {
+                this.refs.fineuploader.reset();
+            })
+            .catch((err) => {
+                console.logGlobal(err);
+                let notification = new GlobalNotificationModel(getLangText('Contract could not be updated'), 'success', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            });
     },
 
     render() {
         return (
            <ReactS3FineUploader
+                ref="fineuploader"
                 fileInputElement={UploadButton}
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
@@ -39,7 +65,7 @@ let ContractSettingsUpdateButton = React.createClass({
                     sizeLimit: '50000000',
                     allowedExtensions: ['pdf']
                 }}
-                setIsUploadReady={this.setIsUploadReady}
+                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
                     customHeaders: {

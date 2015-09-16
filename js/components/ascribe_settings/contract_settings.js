@@ -39,23 +39,6 @@ let ContractSettings = React.createClass({
         this.setState(state);
     },
 
-    makeContractPublic(contract) {
-        return () => {
-            contract.is_public = true;
-            ContractListActions.changeContract(contract)
-                .then(() => {
-                    ContractListActions.fetchContractList(true);
-                    let notification = getLangText('Contract %s is now public', contract.name);
-                    notification = new GlobalNotificationModel(notification, 'success', 4000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
-                })
-                .catch((err) => {
-                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
-                });
-        };
-    },
-
     removeContract(contract) {
         return () => {
             ContractListActions.removeContract(contract.id)
@@ -113,7 +96,7 @@ let ContractSettings = React.createClass({
                                 content={contract.name}
                                 buttons={
                                     <div className="pull-right">
-                                       <ContractSettingsUpdateButton />
+                                       <ContractSettingsUpdateButton contract={contract}/>
                                        <a
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
@@ -150,12 +133,7 @@ let ContractSettings = React.createClass({
                                 content={contract.name}
                                 buttons={
                                     <div className="pull-right">
-                                        <button
-                                            className="btn btn-default btn-sm margin-left-2px"
-                                            onClick={this.makeContractPublic(contract)}>
-                                            MAKE PUBLIC
-                                        </button>
-                                       <ContractSettingsUpdateButton />
+                                       <ContractSettingsUpdateButton contract={contract} />
                                         <a
                                             className="btn btn-default btn-sm margin-left-2px"
                                             href={contract.blob.url_safe}
