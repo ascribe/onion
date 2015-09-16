@@ -4,43 +4,38 @@ import React from 'react';
 
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
-import InputCheckbox from '../ascribe_forms/input_checkbox';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import ContractListActions from '../../actions/contract_list_actions';
 
-import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
-
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
-
+import InputFineUploader from './input_fineuploader';
 
 import { getLangText } from '../../utils/lang_utils';
-import { getCookie } from '../../utils/fetch_api_utils';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
+
 let CreateContractForm = React.createClass({
+    propTypes: {
+        isPublic: React.PropTypes.bool,
+
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        })
+    },
 
     getInitialState() {
         return {
-            contractKey: null,
-            isUploadReady: false
+            isUploadReady: false,
+            contractName: ''
         };
-    },
-
-    getFormData(){
-        return {
-            blob: this.state.contractKey
-        };
-    },
-
-    submitKey(key) {
-        this.setState({
-            contractKey: key
-        });
     },
 
     setIsUploadReady(isReady) {
@@ -56,31 +51,25 @@ let CreateContractForm = React.createClass({
         this.refs.form.reset();
     },
 
+    submitFileName(fileName) {
+        this.setState({
+            contractName: fileName
+        });
+
+        this.refs.form.submit();
+    },
 
     render() {
         return (
             <Form
                 ref='form'
                 url={ApiUrls.ownership_contract_list}
-                getFormData={this.getFormData}
-                handleSuccess={this.handleCreateSuccess}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login"
-                        disabled={!this.state.isUploadReady}>
-                        {getLangText('Create new contract')}
-                    </button>
-                }
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                }>
+                handleSuccess={this.handleCreateSuccess}>
                 <Property
-                    label="Contract file">
-                    <ReactS3FineUploader
-                        ref='uploader'
+                    name="blob"
+                    label={getLangText('Contract file (*.pdf only, max. 50MB per contract)')}>
+                    <InputFineUploader
+                        submitFileName={this.submitFileName}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'contract'
@@ -89,46 +78,30 @@ let CreateContractForm = React.createClass({
                             url: ApiUrls.blob_contracts
                         }}
                         validation={{
-                            itemLimit: 100000,
-                            sizeLimit: '50000000'
-                        }}
-                        signature={{
-                            endpoint: AppConstants.serverUrl + 's3/signature/',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                            }
-                        }}
-                        deleteFile={{
-                            enabled: true,
-                            method: 'DELETE',
-                            endpoint: AppConstants.serverUrl + 's3/delete',
-                            customHeaders: {
-                               'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                            }
+                            itemLimit: AppConstants.fineUploader.validation.additionalData.itemLimit,
+                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            allowedExtensions: ['pdf']
                         }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
-                        submitKey={this.submitKey}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}/>
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        fileClassToUpload={this.props.fileClassToUpload}/>
                 </Property>
                 <Property
                     name='name'
-                    label={getLangText('Contract name')}>
+                    label={getLangText('Contract name')}
+                    hidden={true}>
                     <input
                         type="text"
-                        placeholder="(e.g. Contract - Loan agreement #1)"
-                        required/>
+                        value={this.state.contractName}/>
                 </Property>
                 <Property
                     name="is_public"
-                    className="ascribe-settings-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
-                    <InputCheckbox>
-                        <span>
-                            Make contract public (this will replace the current public contract)
-                        </span>
-                    </InputCheckbox>
+                    hidden={true}>
+                    <input
+                        type="checkbox"
+                        value={this.props.isPublic} />
                 </Property>
             </Form>
         );

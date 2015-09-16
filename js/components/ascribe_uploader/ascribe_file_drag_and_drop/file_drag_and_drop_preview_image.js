@@ -3,8 +3,8 @@
 import React from 'react';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
-import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js';
+import AppConstants from '../../../constants/application_constants';
+import { getLangText } from '../../../utils/lang_utils';
 
 let FileDragAndDropPreviewImage = React.createClass({
     propTypes: {

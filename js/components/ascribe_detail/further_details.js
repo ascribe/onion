@@ -38,9 +38,9 @@ let FurtherDetails = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitKey(key){
+    submitFile(file){
         this.setState({
-            otherDataKey: key
+            otherDataKey: file.key
         });
     },
 
@@ -78,7 +78,7 @@ let FurtherDetails = React.createClass({
                         extraData={this.props.extraData} />
                     <Form>
                         <FurtherDetailsFileuploader
-                            submitKey={this.submitKey}
+                            submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             editable={this.props.editable}

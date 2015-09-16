@@ -5,7 +5,7 @@ import React from 'react';
 import FileDragAndDropPreview from './file_drag_and_drop_preview';
 import FileDragAndDropPreviewProgress from './file_drag_and_drop_preview_progress';
 
-import { displayValidFilesFilter } from './react_s3_fine_uploader_utils';
+import { displayValidFilesFilter } from '../react_s3_fine_uploader_utils';
 
 
 let FileDragAndDropPreviewIterator = React.createClass({

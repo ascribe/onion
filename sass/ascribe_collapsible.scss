@@ -24,9 +24,8 @@
     background: none;
     border: 0;
     width: 100%;
-    
-    /* Shrink the size of the headline for a nested element */
-    .ascribe-collapsible-wrapper > .ascribe-collapsible-content {
+
+    .ascribe-collapsible-wrapper {
         padding-left: 1em;
         font-size: 95%;
     }

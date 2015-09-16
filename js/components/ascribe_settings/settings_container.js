@@ -26,8 +26,6 @@ let SettingsContainer = React.createClass({
                 <APISettings />
                 <BitcoinWalletSettings />
                 <ContractSettings />
-                <br />
-                <br />
             </div>
         );
     }
