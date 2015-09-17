@@ -36,8 +36,7 @@ let TransferForm = React.createClass({
                 url={this.props.url}
                 getFormData={this.getFormData}
                 handleSuccess={this.props.handleSuccess}
-                buttonSubmit={getLangText('TRANSFER')}
-                buttonCancel={false}>
+                buttonSubmit={getLangText('TRANSFER')}>
                 <Property
                     name='transferee'
                     label={getLangText('Email')}>

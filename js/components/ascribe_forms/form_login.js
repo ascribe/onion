@@ -102,8 +102,7 @@ let LoginForm = React.createClass({
                 url={ApiUrls.users_login}
                 handleSuccess={this.handleSuccess}
                 autoComplete="on"
-                buttonSubmit={this.props.submitMessage}
-                buttonCancel={false} >
+                buttonSubmit={this.props.submitMessage}>
 
                 <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>

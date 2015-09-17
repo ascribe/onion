@@ -54,7 +54,9 @@ let AccountSettings = React.createClass({
             content = (
                 <Form
                     url={ApiUrls.users_username}
-                    handleSuccess={this.handleSuccess}>
+                    handleSuccess={this.handleSuccess}
+                    showButtonsOnEdit={true}
+                    buttonCancel={true}>
                     <Property
                         name='username'
                         label={getLangText('Username')}>
@@ -81,7 +83,9 @@ let AccountSettings = React.createClass({
                 <Form
                     url={ApiUrls.users_profile}
                     handleSuccess={this.handleSuccess}
-                    getFormData={this.getFormDataProfile}>
+                    getFormData={this.getFormDataProfile}
+                    showButtonsOnEdit={true}
+                    buttonCancel={true}>
                     <Property
                         name="hash_locally"
                         className="ascribe-settings-property-collapsible-toggle"

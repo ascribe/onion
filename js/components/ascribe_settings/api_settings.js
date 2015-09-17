@@ -101,7 +101,9 @@ let APISettings = React.createClass({
                 defaultExpanded={this.props.defaultExpanded}>
                 <Form
                     url={ApiUrls.applications}
-                    handleSuccess={this.handleCreateSuccess}>
+                    handleSuccess={this.handleCreateSuccess}
+                    showButtonsOnEdit={true}
+                    buttonCancel={true}>
                     <Property
                         name='name'
                         label={getLangText('Application Name')}>

@@ -28,20 +28,7 @@ let PieceSubmitToPrizeForm = React.createClass({
                 ref='form'
                 url={requests.prepareUrl(ApiUrls.piece_submit_to_prize, {piece_id: this.props.piece.id})}
                 handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <div className="modal-footer">
-                        <p className="pull-right">
-                            <button
-                                className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">
-                                {getLangText('SUBMIT TO PRIZE')}
-                            </button>
-                        </p>
-                    </div>}
-                spinner={
-                    <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                    </div>}>
+                buttonSubmit={getLangText('SUBMIT TO PRIZE')}>
                 <Property
                     name='artist_statement'
                     label={getLangText('Artist statement')}

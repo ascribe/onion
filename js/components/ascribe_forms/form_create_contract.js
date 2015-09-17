@@ -64,7 +64,8 @@ let CreateContractForm = React.createClass({
             <Form
                 ref='form'
                 url={ApiUrls.ownership_contract_list}
-                handleSuccess={this.handleCreateSuccess}>
+                handleSuccess={this.handleCreateSuccess}
+                buttonSubmit={false}>
                 <Property
                     name="blob"
                     label={getLangText('Contract file (*.pdf only, max. 50MB per contract)')}>

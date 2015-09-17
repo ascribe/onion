@@ -1,12 +1,9 @@
 'use strict';
 
 import React from 'react';
-
 import Form from './form';
-
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
-
+import { SubmitDangerButton } from '../../lib/buttons';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -41,23 +38,7 @@ let EditionDeleteForm = React.createClass({
                 getFormData={this.getFormData}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <div className="modal-footer">
-                        <p className="pull-right">
-                            <button
-                                type="submit"
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                onClick={this.submit}>
-                                {getLangText('YES, DELETE')}
-                            </button>
-                        </p>
-                    </div>
-                }
-                spinner={
-                    <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                    </div>
-                }>
+                buttonSubmit={<SubmitDangerButton>{getLangText('YES, DELETE')}</SubmitDangerButton>}>
                 <p>{getLangText('Are you sure you would like to permanently delete this edition')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
             </Form>

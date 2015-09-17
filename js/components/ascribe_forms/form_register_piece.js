@@ -14,6 +14,7 @@ import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+import { SubmitButton } from '../../lib/buttons';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
@@ -71,6 +72,7 @@ let RegisterPieceForm = React.createClass({
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
+        let status = !this.state.isUploadReady || this.props.disabled ? 'disabled' : '';
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
 
         return (
@@ -80,19 +82,8 @@ let RegisterPieceForm = React.createClass({
                 ref='form'
                 url={ApiUrls.pieces_list}
                 handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn ascribe-btn ascribe-btn-login"
-                        disabled={!this.state.isUploadReady || this.props.disabled}>
-                        {this.props.submitMessage}
-                    </button>
-                }
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
+                buttonSubmit={<SubmitButton status={status}>{this.props.submitMessage}</SubmitButton>}>
+
                 <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
                 </div>

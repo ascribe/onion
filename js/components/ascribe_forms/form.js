@@ -39,12 +39,15 @@ let Form = React.createClass({
         ]),
 
         buttonSubmit: React.PropTypes.oneOfType([
-            React.PropTypes.string
+            React.PropTypes.bool,
+            React.PropTypes.string,
+            React.PropTypes.element
         ]),
 
         buttonCancel: React.PropTypes.oneOfType([
             React.PropTypes.bool,
-            React.PropTypes.string
+            React.PropTypes.string,
+            React.PropTypes.element
         ]),
 
         showButtonsOnEdit: React.PropTypes.bool,
@@ -66,7 +69,7 @@ let Form = React.createClass({
         return {
             method: 'post',
             buttonSubmit: 'Submit',
-            buttonCancel: true,
+            buttonCancel: false,
             showButtonsOnEdit: false,
             autoComplete: 'off'
         };
@@ -217,9 +220,19 @@ let Form = React.createClass({
         let cancel = this.props.buttonCancel;
         let buttons = null;
 
-        submit = (
-            <SubmitButton>{submit}</SubmitButton>
-        );
+        // submit can be true if we want the button, false
+        // or null if we don't want it. If submit is a string then
+        // the string itself is used as the label of the button
+        if (submit === true) {
+            submit = getLangText('Submit');
+        } else if (submit === false || submit === null) {
+            submit = null;
+        }
+        if (typeof submit === 'string') {
+            submit = (
+                <SubmitButton>{submit}</SubmitButton>
+            );
+        }
 
         // cancel can be true if we want the button, false
         // or null if we don't want it. If cancel is a string then

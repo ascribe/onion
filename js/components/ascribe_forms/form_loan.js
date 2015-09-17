@@ -150,25 +150,9 @@ let LoanForm = React.createClass({
 
     getButtons() {
         if(this.props.loanHeading) {
-            return (
-                <button
-                    type="submit"
-                    className="btn ascribe-btn ascribe-btn-login">
-                    {getLangText('Finish process')}
-                </button>
-            );
+            return getLangText('Finish process');
         } else {
-            return (
-                <div className="modal-footer">
-                    <p className="pull-right">
-                        <Button
-                            className="btn btn-default btn-sm ascribe-margin-1px"
-                            type="submit">
-                            {getLangText('LOAN')}
-                        </Button>
-                    </p>
-                </div>
-            );
+            return getLangText('LOAN');
         }
     },
 
@@ -181,11 +165,8 @@ let LoanForm = React.createClass({
                 getFormData={this.getFormData}
                 onReset={this.handleOnChange}
                 handleSuccess={this.props.handleSuccess}
-                buttons={this.getButtons()}
-                spinner={
-                    <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                    </div>}>
+                buttonSubmit={this.getButtons()}>
+
                 <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.loanHeading})}>
                     <h3>{this.props.loanHeading}</h3>
                 </div>

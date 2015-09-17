@@ -2,7 +2,6 @@
 
 import React from 'react';
 import ReactAddons from 'react/addons';
-
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Panel from 'react-bootstrap/lib/Panel';

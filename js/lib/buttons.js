@@ -52,7 +52,8 @@ function ButtonFactory(style, btnClassName, options) {
 }
 
 
-export const Button = ButtonFactory('primary', 'btn-primary');
-export const SubmitButton = ButtonFactory('primary', 'btn-primary', { type: 'submit' });
-export const SecondaryButton = ButtonFactory('default', 'btn-secondary');
-export const DangerButton = ButtonFactory('danger', 'btn-danger');
+export let Button = ButtonFactory('primary', 'btn-primary');
+export let SubmitButton = ButtonFactory('primary', 'btn-primary', { type: 'submit' });
+export let SubmitDangerButton = ButtonFactory('danger', 'btn-danger', { type: 'submit' });
+export let SecondaryButton = ButtonFactory('default', 'btn-secondary');
+export let DangerButton = ButtonFactory('danger', 'btn-danger');

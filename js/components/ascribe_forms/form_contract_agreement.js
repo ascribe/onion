@@ -97,21 +97,11 @@ let ContractAgreementForm = React.createClass({
     render() {
         return (
             <Form
-                className="ascribe-form-bordered ascribe-form-wrapper"
                 ref='form'
                 url={ApiUrls.ownership_contract_agreements}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSubmitSuccess}
-                buttons={<button
-                            type="submit"
-                            className="btn ascribe-btn ascribe-btn-login">
-                            {getLangText('Send loan request')}
-                        </button>}
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
+                buttonSubmit={getLangText('Send loan request')}>
                 <div className="ascribe-form-header">
                     <h3>{getLangText('Contract form')}</h3>
                 </div>
