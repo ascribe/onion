@@ -128,7 +128,7 @@ let RegisterPieceForm = React.createClass({
                     <input
                         type="number"
                         placeholder="(e.g. 1962)"
-                        min={0}
+                        min={1}
                         required/>
                 </Property>
                 {this.props.children}
