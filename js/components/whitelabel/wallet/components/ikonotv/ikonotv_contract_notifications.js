@@ -12,6 +12,8 @@ import NotificationStore from '../../../../../stores/notification_store';
 import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
 
+import OwnershipFetcher from '../../../../../fetchers/ownership_fetcher';
+
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 
@@ -21,9 +23,7 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 
 import AppConstants from '../../../../../constants/application_constants';
-import ApiUrls from '../../../../../constants/api_urls';
 
-import requests from '../../../../../utils/requests';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
@@ -110,7 +110,7 @@ let IkonotvContractNotifications = React.createClass({
 
     handleConfirm() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.put(ApiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id}).then(
+        OwnershipFetcher.confirmContractAgreement(contractAgreement).then(
             () => this.handleConfirmSuccess()
         );
     },
@@ -123,7 +123,7 @@ let IkonotvContractNotifications = React.createClass({
 
     handleDeny() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.put(ApiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
+        OwnershipFetcher.denyContractAgreement(contractAgreement).then(
             () => this.handleDenySuccess()
         );
     },
@@ -135,11 +135,9 @@ let IkonotvContractNotifications = React.createClass({
     },
 
     getCopyrightAssociationForm(){
-        if (this.state.currentUser && this.state.currentUser.profile
-            && this.state.currentUser.profile.copyright_association){
-            return null;
-        }
-        if (this.state.currentUser && this.state.currentUser.profile) {
+        let c = this.state.currentUser;
+
+        if (c && c.profile && !c.profile.copyright_association) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Are you a member of any copyright societies?')}</h1>

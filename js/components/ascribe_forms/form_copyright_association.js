@@ -49,7 +49,7 @@ let CopyrightAssociationForm = React.createClass({
                         style={{paddingBottom: 0}}>
                         <select name="contract">
                             <option disabled selected={selectedState === -1}>
-                                {getLangText(' -- select an association -- ')}
+                                {' -- ' + getLangText('select an association') + ' -- '}
                             </option>
                             {AppConstants.copyrightAssociations.map((association, i) => {
                                 return (

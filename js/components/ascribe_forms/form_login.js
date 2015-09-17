@@ -95,7 +95,7 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        let email = this.getQuery().email ? this.getQuery().email : null;
+        let email = this.getQuery().email || null;
         return (
             <Form
                 className="ascribe-form-bordered"

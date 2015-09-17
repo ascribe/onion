@@ -44,6 +44,14 @@ let OwnershipFetcher = {
         return requests.get(ApiUrls.ownership_contract_agreements, queryParams);
     },
 
+    confirmContractAgreement(contractAgreement){
+        return requests.put(ApiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id});
+    },
+
+    denyContractAgreement(contractAgreement){
+        return requests.put(ApiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id});
+    },
+
     fetchLoanPieceRequestList(){
         return requests.get(ApiUrls.ownership_loans_pieces_request);
     },

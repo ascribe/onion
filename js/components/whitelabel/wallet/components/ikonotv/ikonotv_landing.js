@@ -31,7 +31,7 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
-        let redirect = 'signup';
+        let redirect = 'login';
 
         if(this.state.currentUser && this.state.currentUser.email) {
             redirect = 'pieces';
@@ -39,7 +39,6 @@ let IkonotvLanding = React.createClass({
         else if (this.getQuery() && this.getQuery().redirect) {
             redirect = this.getQuery().redirect;
         }
-        console.log(redirect);
         return (
             <ButtonLink to={redirect} query={this.getQuery()}>
                 {getLangText('ENTER')}
