@@ -22,6 +22,12 @@ let PieceListFilterDisplay = React.createClass({
         )
     },
 
+    /**
+     * Takes the above described filterParams prop,
+     * assigns it it's true filterBy value that is derived from the filterBy prop
+     * and also - if there wasn't already one defined - generates a label
+     * @return {object}
+     */
     transformFilterParamsItemsToBools() {
         let { filterParams, filterBy } = this.props;
 
@@ -47,23 +53,40 @@ let PieceListFilterDisplay = React.createClass({
         });
     },
 
+    /**
+     * Takes the list of filters generated in transformFilterParamsItemsToBools and
+     * transforms them into human readable text.
+     * @param  {Object} filtersWithLabel An object of the shape {key: <String>, label: <String>, value: <Bool>}
+     * @return {string} A human readable string
+     */
     getFilterText(filtersWithLabel) {
         let filterTextList = filtersWithLabel
+            // Iterate over all provided filterLabels and generate a list
+            // of human readable strings
             .map((filterWithLabel) => {
                 let activeFilterWithLabel = filterWithLabel
                     .items
+                    // If the filter is active (which it is when its value is true),
+                    // we're going to include it's label into a list,
+                    // otherwise we'll just return nothing
                     .map((filter) => {
                         if(filter.value) {
                             return filter.label;
                         }
                     })
+                    // if nothing is returned, that index is 'undefined'.
+                    // As we only want active filter, we filter out all falsy values e.g. undefined
                     .filter((filterName) => !!filterName)
+                    // and join the result to a string
                     .join(', ');
 
+                // If this actually didn't generate an empty string,
+                // we take the label and concat it to the result.
                 if(activeFilterWithLabel) {
                     return filterWithLabel.label + ': ' + activeFilterWithLabel;
                 }
             })
+            // filter out strings that are undefined, as their filter's were not activated
             .filter((filterText) => !!filterText)
             // if there are multiple sentences, capitalize the first one and lowercase the others
             .map((filterText, i) => i === 0 ? filterText.charAt(0).toUpperCase() + filterText.substr(1) : filterText.charAt(0).toLowerCase() + filterText.substr(1))

@@ -85,6 +85,8 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
             <DropdownButton
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
+                {/* We iterate over filterParams, to receive the label and then for each
+                    label also iterate over its items, to get all filterable options */}
                 {this.props.filterParams.map(({ label, items }, i) => {
                     return (
                         <div>
@@ -94,6 +96,16 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                                 <em>{label}:</em>
                             </li>
                             {items.map((param, j) => {
+
+                                // As can be seen in the PropTypes, a param can either
+                                // be a string or an object of the shape:
+                                //
+                                // {
+                                //     key: <String>,
+                                //     label: <String>
+                                // }
+                                //
+                                // This is why we need to distinguish between both here.
                                 if(typeof param !== 'string') {
                                     label = param.label;
                                     param = param.key;
