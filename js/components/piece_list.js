@@ -52,10 +52,6 @@ let PieceList = React.createClass({
                     key: 'acl_create_editions',
                     label: 'create editions'
                 }]
-            },
-            {
-                label: getLangText('Show works I have'),
-                items: ['acl_loaned']
             }]
         };
     },
