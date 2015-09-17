@@ -79,12 +79,17 @@ let LoanForm = React.createClass({
     getContractAgreementsOrCreatePublic(email){
         /* a more complex defer (with promises) otherwise we dispatch while an action is being dispatched) */
         window.setTimeout(() => {
-            ContractAgreementListActions.flushContractAgreementList();
+            ContractAgreementListActions.flushContractAgreementList()
+                .catch((err) => {
+                    console.logGlobal(err);
+                });
 
             if (email) {
+                // fetch the available contractagreements (pending/accepted)
                 ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
                     (contractAgreementList) => {
                         if (!contractAgreementList && this.props.createPublicContractAgreement) {
+                            // for public contracts: fetch the public contract and create a contractagreement if available
                             ContractAgreementListActions.createContractAgreementFromPublicContract(email);
                         }
                     }

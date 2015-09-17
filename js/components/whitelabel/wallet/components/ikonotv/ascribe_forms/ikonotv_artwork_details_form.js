@@ -7,8 +7,6 @@ import Property from '../../../../../ascribe_forms/property';
 
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-//import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
-
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
@@ -62,7 +60,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
     },
 
     render() {
-        if(this.props.piece && this.props.piece.id) {
+        if(this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
             return (
                 <Form
                     disabled={this.props.disabled}

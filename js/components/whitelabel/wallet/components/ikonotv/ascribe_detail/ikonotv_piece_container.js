@@ -97,7 +97,7 @@ let IkonotvPieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={(this.state.currentUser.username && true || false) ||
+                        show={(!!this.state.currentUser.username) ||
                                 (this.state.piece.public_note)}>
                         <Note
                             id={() => {return {'id': this.state.piece.id}; }}

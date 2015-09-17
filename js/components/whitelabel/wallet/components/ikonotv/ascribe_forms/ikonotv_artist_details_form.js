@@ -62,7 +62,7 @@ let IkonotvArtistDetailsForm = React.createClass({
     },
 
     render() {
-        if(this.props.piece && this.props.piece.id) {
+        if(this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
             return (
                 <Form
                     disabled={this.props.disabled}

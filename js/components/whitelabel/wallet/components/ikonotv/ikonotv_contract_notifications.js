@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/lib/Button';
 import NotificationActions from '../../../../../actions/notification_actions';
 import NotificationStore from '../../../../../stores/notification_store';
 
+import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
 
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
@@ -19,7 +20,8 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 
-import apiUrls from '../../../../../constants/api_urls';
+import AppConstants from '../../../../../constants/application_constants';
+import ApiUrls from '../../../../../constants/api_urls';
 
 import requests from '../../../../../utils/requests';
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -42,6 +44,7 @@ let IkonotvContractNotifications = React.createClass({
     componentDidMount() {
         NotificationStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
         WhitelabelStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel();
         if (this.state.contractAgreementListNotifications === null){
@@ -107,26 +110,26 @@ let IkonotvContractNotifications = React.createClass({
 
     handleConfirm() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.put(apiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id}).then(
+        requests.put(ApiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id}).then(
             () => this.handleConfirmSuccess()
         );
     },
 
     handleConfirmSuccess() {
-        let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 10000);
+        let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.transitionTo('pieces');
     },
 
     handleDeny() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.put(apiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
+        requests.put(ApiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
             () => this.handleDenySuccess()
         );
     },
 
     handleDenySuccess() {
-        let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 10000);
+        let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.transitionTo('pieces');
     },
@@ -136,18 +139,19 @@ let IkonotvContractNotifications = React.createClass({
             && this.state.currentUser.profile.copyright_association){
             return null;
         }
-        return (
-            <div className='notification-contract-footer'>
-                <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
-                <p>
-                    ARS, DACS, Bildkunst, Pictoright, SODRAC, Copyright Agency/Viscopy, SAVA, Bildrecht GmbH,
-                    SABAM, AUTVIS, CREAIMAGEN, SONECA, Copydan, EAU, Kuvasto, GCA, HUNGART, IVARO, SIAE, JASPAR-SPDA,
-                    AKKA/LAA, LATGA-A, SOMAAP, ARTEGESTION, CARIER, BONO, APSAV, SPA, GESTOR, VISaRTA, RAO, LITA,
-                    DALRO, VeGaP, BUS, ProLitteris, AGADU, AUTORARTE, BUBEDRA, BBDA, BCDA, BURIDA, ADAVIS, BSDA
-                </p>
-                <CopyrightAssociationForm currentUser={this.state.currentUser} />
-            </div>
-        );
+        if (this.state.currentUser && this.state.currentUser.profile) {
+            return (
+                <div className='notification-contract-footer'>
+                    <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
+
+                    <p>
+                        {AppConstants.copyrightAssociations.join(', ')}
+                    </p>
+                    <CopyrightAssociationForm currentUser={this.state.currentUser}/>
+                </div>
+            );
+        }
+        return null;
     },
 
     render() {

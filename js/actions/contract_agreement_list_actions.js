@@ -91,12 +91,7 @@ class ContractAgreementListActions {
 
     flushContractAgreementList(){
         return Q.Promise((resolve, reject) => {
-            this.actions.updateContractAgreementList(null).then(
-                resolve()
-            ).catch((err) => {
-                console.logGlobal(err);
-                reject(err);
-            });
+            return this.actions.updateContractAgreementList(null);
         });
     }
 
