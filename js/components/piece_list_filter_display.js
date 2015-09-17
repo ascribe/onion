@@ -39,13 +39,13 @@ let PieceListFilterDisplay = React.createClass({
                         return {
                             key: item.key,
                             label: item.label,
-                            value: filterBy[item.key] ? filterBy[item.key] : false
+                            value: filterBy[item.key] || false
                         };
                     } else {
                         return {
                             key: item,
                             label: item.split('acl_')[1].replace(/_/g, ' '),
-                            value: filterBy[item] ? filterBy[item] : false
+                            value: filterBy[item] || false
                         };
                     }
                 })
