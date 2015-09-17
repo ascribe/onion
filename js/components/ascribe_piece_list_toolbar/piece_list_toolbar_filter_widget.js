@@ -3,23 +3,24 @@
 import React from 'react';
 
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import { getLangText } from '../../utils/lang_utils.js';
 
+
 let PieceListToolbarFilterWidgetFilter = React.createClass({
     propTypes: {
-        // An array of either strings (which represent acl enums) or objects of the form
-        //
-        // {
-        //      key: <acl enum>,
-        //      label: <a human readable string>
-        // }
-        //
         filterParams: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 label: React.PropTypes.string,
-                items: React.PropTypes.array
+                items: React.PropTypes.arrayOf(
+                    React.PropTypes.oneOfType([
+                        React.PropTypes.string,
+                        React.PropTypes.shape({
+                            key: React.PropTypes.string,
+                            label: React.PropTypes.string
+                        })
+                    ])
+                )
             })
         ).isRequired,
         filterBy: React.PropTypes.object,
@@ -93,8 +94,6 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                                 <em>{label}:</em>
                             </li>
                             {items.map((param, j) => {
-                                let label;
-
                                 if(typeof param !== 'string') {
                                     label = param.label;
                                     param = param.key;

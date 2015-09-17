@@ -17,7 +17,15 @@ let PieceListToolbar = React.createClass({
         filterParams: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 label: React.PropTypes.string,
-                items: React.PropTypes.array
+                items: React.PropTypes.arrayOf(
+                    React.PropTypes.oneOfType([
+                        React.PropTypes.string,
+                        React.PropTypes.shape({
+                            key: React.PropTypes.string,
+                            label: React.PropTypes.string
+                        })
+                    ])
+                )
             })
         ),
         filterBy: React.PropTypes.object,

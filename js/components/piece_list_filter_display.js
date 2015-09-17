@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import { getLangText } from '../utils/lang_utils';
-
 
 let PieceListFilterDisplay = React.createClass({
     propTypes: {
@@ -11,7 +9,15 @@ let PieceListFilterDisplay = React.createClass({
         filterParams: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 label: React.PropTypes.string,
-                items: React.PropTypes.array
+                items: React.PropTypes.arrayOf(
+                    React.PropTypes.oneOfType([
+                        React.PropTypes.string,
+                        React.PropTypes.shape({
+                            key: React.PropTypes.string,
+                            label: React.PropTypes.string
+                        })
+                    ])
+                )
             })
         )
     },
@@ -34,10 +40,10 @@ let PieceListFilterDisplay = React.createClass({
                             key: item,
                             label: item.split('acl_')[1].replace(/_/g, ' '),
                             value: filterBy[item] ? filterBy[item] : false
-                        }
+                        };
                     }
                 })
-            }
+            };
         });
     },
 
@@ -55,7 +61,7 @@ let PieceListFilterDisplay = React.createClass({
                     .join(', ');
 
                 if(activeFilterWithLabel) {
-                    return filterWithLabel.label + ': ' + activeFilterWithLabel
+                    return filterWithLabel.label + ': ' + activeFilterWithLabel;
                 }
             })
             .filter((filterText) => !!filterText)
