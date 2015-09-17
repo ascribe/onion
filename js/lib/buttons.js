@@ -22,7 +22,8 @@ function ButtonFactory(style, btnClassName, options) {
             onClick: React.PropTypes.func,
             status: React.PropTypes.oneOf(['loading', 'disabled', null]),
             children: React.PropTypes.oneOfType([React.PropTypes.arrayOf(React.PropTypes.element),
-                                                 React.PropTypes.element])
+                                                 React.PropTypes.element,
+                                                 React.PropTypes.string])
         },
 
         render: function render() {
