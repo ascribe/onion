@@ -6,7 +6,6 @@ import Router from 'react-router';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
@@ -43,6 +42,7 @@ import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+import { SubmitDangerButton } from '../../lib/buttons';
 
 let Link = Router.Link;
 /**
@@ -254,11 +254,8 @@ let EditionSummary = React.createClass({
                         getFormData={this.getTransferWithdrawData}
                         handleSuccess={this.showNotification}
                         className='inline'
-                        isInline={true}>
-                        <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                            WITHDRAW TRANSFER
-                        </Button>
-                    </Form>
+                        isInline={true}
+                        buttonSubmit={<SubmitDangerButton>WITHDRAW TRANSFER</SubmitDangerButton>} />
                 );
             }
             let unconsignRequestButton = null;
@@ -391,7 +388,7 @@ let SpoolDetails = React.createClass({
         );
 
         return (
-            <Form >
+            <Form>
                 <Property
                     name='artwork_id'
                     label={getLangText('Artwork ID')}
