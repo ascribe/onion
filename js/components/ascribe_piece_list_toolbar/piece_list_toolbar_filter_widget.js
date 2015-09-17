@@ -111,7 +111,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
                                     param = param.key;
                                 } else {
                                     param = param;
-                                    label = param.split('_')[1];
+                                    label = param.split('acl_')[1].replace(/_/g, ' ');
                                 }
 
                                 return (

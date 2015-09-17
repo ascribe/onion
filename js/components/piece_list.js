@@ -46,12 +46,10 @@ let PieceList = React.createClass({
             filterParams: [{
                 label: getLangText('Show works I can'),
                 items: [
-                'acl_transfer',
-                'acl_consign',
-                {
-                    key: 'acl_create_editions',
-                    label: 'create editions'
-                }]
+                    'acl_transfer',
+                    'acl_consign',
+                    'acl_create_editions'
+                ]
             }]
         };
     },
