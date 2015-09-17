@@ -20,23 +20,17 @@ function ButtonFactory(style, btnClassName, options) {
     let GenericButton = React.createClass({
         propTypes: {
             onClick: React.PropTypes.func,
-            status: React.PropTypes.oneOf(['loading', 'disabled']),
+            status: React.PropTypes.oneOf(['loading', 'disabled', null]),
             children: React.PropTypes.oneOfType([React.PropTypes.arrayOf(React.PropTypes.element),
                                                  React.PropTypes.element])
         },
 
-        getInitialState: function() {
-            return {
-                status: this.props.status
-            };
-        },
-
         render: function render() {
-            let disabled = DISABLED_STATUSES.indexOf(this.state.status) !== -1;
+            let disabled = DISABLED_STATUSES.indexOf(this.props.status) !== -1;
             let className = '';
 
-            if (this.state.status !== 'disabled') {
-                className = this.state.status;
+            if (this.props.status !== 'disabled' && this.props.status !== null) {
+                className = this.props.status;
             }
 
             return (
