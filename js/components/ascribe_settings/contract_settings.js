@@ -75,8 +75,8 @@ let ContractSettings = React.createClass({
                 <CreateContractForm
                     isPublic={true}
                     fileClassToUpload={{
-                        singular: 'new public contract',
-                        plural: 'new public contracts'
+                        singular: 'new contract',
+                        plural: 'new contracts'
                     }}/>
             );
         }
@@ -92,10 +92,7 @@ let ContractSettings = React.createClass({
                     <AclProxy
                         aclName="acl_edit_public_contract"
                         aclObject={this.props.currentUser.acl}>
-                        <CollapsibleParagraph
-                            title={getLangText('Public Contracts')}
-                            show={true}
-                            defaultExpanded={true}>
+                        <div>
                             {createPublicContractForm}
                             {publicContracts.map((contract, i) => {
                                 return (
@@ -123,21 +120,18 @@ let ContractSettings = React.createClass({
                                         rightColumnWidth="60%"/>
                                 );
                             })}
-                        </CollapsibleParagraph>
+                        </div>
                     </AclProxy>
                     <AclProxy
                         aclName="acl_edit_private_contract"
                         aclObject={this.props.currentUser.acl}>
-                        <CollapsibleParagraph
-                            title={getLangText('Private Contracts')}
-                            show={true}
-                            defaultExpanded={true}>
+                        <div>
                             <CreateContractForm
-                                isPublic={false}
-                                fileClassToUpload={{
-                                    singular: getLangText('new private contract'),
-                                    plural: getLangText('new private contracts')
-                                }}/>
+                            isPublic={false}
+                            fileClassToUpload={{
+                                singular: getLangText('new contract'),
+                                plural: getLangText('new contracts')
+                            }}/>
                             {privateContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel
@@ -164,7 +158,7 @@ let ContractSettings = React.createClass({
                                        rightColumnWidth="60%"/>
                                 );
                             })}
-                        </CollapsibleParagraph>
+                        </div>
                     </AclProxy>
                 </CollapsibleParagraph>
             </AclProxy>
