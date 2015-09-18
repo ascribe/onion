@@ -387,6 +387,7 @@ let SpoolDetails = React.createClass({
             <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
         );
 
+        // FIXME: do not use `Form`s to display static values
         return (
             <Form>
                 <Property

@@ -41,7 +41,9 @@ let PieceExtraDataForm = React.createClass({
                 ref='form'
                 url={url}
                 handleSuccess={this.props.handleSuccess}
-                getFormData={this.getFormData}>
+                getFormData={this.getFormData}
+                showButtonsOnEdit={true}
+                buttonCancel={true}>
                 <Property
                     name={this.props.name}
                     label={this.props.title}

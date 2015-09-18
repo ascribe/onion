@@ -76,7 +76,8 @@ let FurtherDetails = React.createClass({
                         editable={this.props.editable}
                         pieceId={this.props.pieceId}
                         extraData={this.props.extraData} />
-                    <Form>
+                    <Form
+                        buttonSubmit={false}>
                         <FurtherDetailsFileuploader
                             submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
@@ -85,7 +86,7 @@ let FurtherDetails = React.createClass({
                             overrideForm={true}
                             pieceId={this.props.pieceId}
                             otherData={this.props.otherData}
-                            multiple={true}/>
+                            multiple={true} />
                     </Form>
                 </Col>
             </Row>
