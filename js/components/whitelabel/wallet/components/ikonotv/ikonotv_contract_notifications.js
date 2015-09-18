@@ -135,9 +135,9 @@ let IkonotvContractNotifications = React.createClass({
     },
 
     getCopyrightAssociationForm(){
-        let c = this.state.currentUser;
+        let currentUser = this.state.currentUser;
 
-        if (c && c.profile && !c.profile.copyright_association) {
+        if (currentUser && currentUser.profile && !currentUser.profile.copyright_association) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
@@ -145,7 +145,7 @@ let IkonotvContractNotifications = React.createClass({
                     <p>
                         {AppConstants.copyrightAssociations.join(', ')}
                     </p>
-                    <CopyrightAssociationForm currentUser={this.state.currentUser}/>
+                    <CopyrightAssociationForm currentUser={currentUser}/>
                 </div>
             );
         }

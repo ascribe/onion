@@ -88,11 +88,6 @@ class ContractAgreementListActions {
             });
         });
     }
-
-    flushContractAgreementList(){
-        this.actions.updateContractAgreementList(null);
-    }
-
 }
 
 export default alt.createActions(ContractAgreementListActions);
