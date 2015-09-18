@@ -1,3 +1,7 @@
+.client--ikonotv {
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+
 .client--ikonotv.route--landing {
     background-color: #c40050;
     margin: 0;
@@ -5,11 +9,86 @@
     padding: 5em 1em;
 }
 
-.client--ikonotv .ascribe-login-wrapper {
 
+.client--ikonotv.route--login,
+.client--ikonotv.route--signup {
+    background-color: #c40050;
+
+    button[type='submit'] {
+        display: block;
+        margin: 50px auto 0;
+        width: auto;
+        padding: 10px 30px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .ascribe-form-header {
+        background-image: url(https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png);
+        background-color: transparent;
+        background-position: center 0;
+        background-repeat: no-repeat;
+        background-size: 300px;
+        margin-bottom: 30px;
+        height: 150px;
+        position: relative;
+
+        h3 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+            font-size: 22px;
+        }
+    }
+
+    .ascribe-settings-wrapper {
+        background-color: transparent;
+
+        &:hover {
+            border-left: 3px solid transparent;
+        }
+
+        &.is-focused {
+            border-left: 3px solid transparent !important;
+        }
+    }
+
+    .ascribe-settings-property {
+        border: none;
+    }
+
+    .ascribe-settings-property > span {
+        color: white;
+    }
+
+    .ascribe-settings-property > input {
+        padding: 10px;
+        background-color: #fff;
+        margin-top: .1em;
+
+        &:focus {
+            background-color: #ffff00;
+        }
+    }
+
+    .checkbox,
+    .checkbox a {
+        color: white !important;
+    }
 }
 
-.client--ikonotv.route--landing .ascribe-footer {
+
+.client--ikonotv .ascribe-form-bordered {
+    border: none;
+}
+
+.client--ikonotv .ascribe-login-wrapper {
+}
+
+.client--ikonotv .ascribe-footer {
     display: none;
 }
 

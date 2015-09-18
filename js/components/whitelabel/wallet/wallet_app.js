@@ -32,12 +32,14 @@ let WalletApp = React.createClass({
         }
 
         return (
-            <div className={classNames('container', 'ascribe-wallet-app', 'client--' + subdomain, activeRoutes)}>
-                {header}
-                <RouteHandler />
-                <GlobalNotification />
-                <div id="modal" className="container"></div>
-                <Footer />
+            <div className={classNames('ascribe-wallet-app', 'client--' + subdomain, activeRoutes)}>
+                <div className='container'>
+                    {header}
+                    <RouteHandler />
+                    <GlobalNotification />
+                    <div id="modal" className="container"></div>
+                    <Footer />
+                </div>
             </div>
         );
     }
