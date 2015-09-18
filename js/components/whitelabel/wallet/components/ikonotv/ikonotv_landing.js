@@ -1,16 +1,18 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 
-import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let IkonotvLanding = React.createClass({
+
+    mixins: [Router.Navigation, Router.State],
 
     getInitialState() {
         return UserStore.getState();
@@ -29,19 +31,19 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
+        let redirect = 'login';
+
         if(this.state.currentUser && this.state.currentUser.email) {
-            return (
-                <ButtonLink to="pieces">
-                    {getLangText('ENTER')}
-                </ButtonLink>
-            );
-        } else {
-            return (
-                <ButtonLink to="signup">
-                    {getLangText('ENTER')}
-                </ButtonLink>
-            );
+            redirect = 'pieces';
         }
+        else if (this.getQuery() && this.getQuery().redirect) {
+            redirect = this.getQuery().redirect;
+        }
+        return (
+            <ButtonLink to={redirect} query={this.getQuery()}>
+                {getLangText('ENTER')}
+            </ButtonLink>
+        );
     },
 
     render() {
@@ -52,7 +54,7 @@ let IkonotvLanding = React.createClass({
                     <div className="tagline">
                         <h1>PROTECT</h1>
                         <img src="http://placehold.it/600x300" />
-                        <h1>& SHARE</h1>
+                        <h1>&amp; SHARE</h1>
                     </div>
                     <h2>Welcome to the ikonoTV</h2>
                     <h2>Registration Page</h2>
@@ -93,7 +95,7 @@ let IkonotvLanding = React.createClass({
                     </section>
                     <footer>
                         <p>Elizabeth Markevitch</p>
-                        <p>Founder & CEO Markevitch Media GmbH</p>
+                        <p>Founder &amp; CEO Markevitch Media GmbH</p>
                         {this.getEnterButton()}
                     </footer>
                 </article>

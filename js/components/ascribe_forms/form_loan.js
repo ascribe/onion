@@ -35,6 +35,7 @@ let LoanForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
@@ -44,7 +45,8 @@ let LoanForm = React.createClass({
             showPersonalMessage: true,
             showEndDate: true,
             showStartDate: true,
-            showPassword: true
+            showPassword: true,
+            createPublicContractAgreement: true
         };
     },
 
@@ -61,7 +63,7 @@ let LoanForm = React.createClass({
         // however, it can also be that at the time the component is mounting,
         // the email is not defined (because it's asynchronously fetched from the server).
         // Then we need to update it as soon as it is included into LoanForm's props.
-        if(nextProps && nextProps.email) {
+        if(nextProps && nextProps.email && this.props.email !== nextProps.email) {
             this.getContractAgreementsOrCreatePublic(nextProps.email);
         }
     },
@@ -77,9 +79,11 @@ let LoanForm = React.createClass({
     getContractAgreementsOrCreatePublic(email){
         ContractAgreementListActions.flushContractAgreementList();
         if (email) {
+            // fetch the available contractagreements (pending/accepted)
             ContractAgreementListActions.fetchAvailableContractAgreementList(email).then(
                 (contractAgreementList) => {
-                    if (!contractAgreementList) {
+                    if (!contractAgreementList && this.props.createPublicContractAgreement) {
+                        // for public contracts: fetch the public contract and create a contractagreement if available
                         ContractAgreementListActions.createContractAgreementFromPublicContract(email);
                     }
                 }

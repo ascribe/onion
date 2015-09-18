@@ -98,12 +98,11 @@ let CylandPieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={(this.state.currentUser.username && true || false) ||
-                                (this.state.piece.public_note)}>
+                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
                         <Note
                             id={() => {return {'id': this.state.piece.id}; }}
                             label={getLangText('Personal note (private)')}
-                            defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
+                            defaultValue={this.state.piece.private_note || null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}

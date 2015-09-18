@@ -5,32 +5,23 @@ import React from 'react';
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
 
-import PieceListActions from '../../../../../../actions/piece_list_actions';
-import PieceListStore from '../../../../../../stores/piece_list_store';
-
 import UserStore from '../../../../../../stores/user_store';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
 
-import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
-import AclButtonList from '../../../../../ascribe_buttons/acl_button_list';
-import DeleteButton from '../../../../../ascribe_buttons/delete_button';
+import AppConstants from '../../../../../../constants/application_constants';
 
+import Form from '../../../../../../components/ascribe_forms/form';
+import Property from '../../../../../../components/ascribe_forms/property';
+import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
-
 import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
+import Note from '../../../../../ascribe_detail/note';
 
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
-
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
-
-import AclProxy from '../../../../../acl_proxy';
-
-import AppConstants from '../../../../../../constants/application_constants';
+import ApiUrls from '../../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
@@ -40,8 +31,7 @@ let IkonotvPieceContainer = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
-            UserStore.getState(),
-            PieceListStore.getState()
+            UserStore.getState()
         );
     },
 
@@ -49,7 +39,6 @@ let IkonotvPieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
     },
 
     componentWillReceiveProps(nextProps) {
@@ -67,7 +56,6 @@ let IkonotvPieceContainer = React.createClass({
         PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
-        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -76,59 +64,6 @@ let IkonotvPieceContainer = React.createClass({
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
-    },
-
-    handleSubmitSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
-
-        this.loadPiece();
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    getActions(){
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
-            return (
-                <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
-        }
-        else {
-
-            //We need to disable the normal acl_loan because we're inserting a custom acl_loan button
-            let availableAcls;
-
-            if(this.state.piece && this.state.piece.acl && typeof this.state.piece.acl.acl_loan !== 'undefined') {
-                // make a copy to not have side effects
-                availableAcls = mergeOptions({}, this.state.piece.acl);
-                availableAcls.acl_loan = false;
-            }
-
-            return (
-                <AclButtonList
-                    className="text-center ascribe-button-list"
-                    availableAcls={availableAcls}
-                    editions={this.state.piece}
-                    handleSuccess={this.loadPiece}>
-                        <AclProxy
-                            aclObject={availableAcls}
-                            aclName="acl_submit">
-                            <IkonotvSubmitButton
-                                className="btn-sm"
-                                handleSuccess={this.handleSubmitSuccess}
-                                piece={this.state.piece}/>
-                        </AclProxy>
-                        <DeleteButton
-                            handleSuccess={this.handleDeleteSuccess}
-                            piece={this.state.piece}/>
-                </AclButtonList>
-            );
-        }
     },
 
     render() {
@@ -152,14 +87,28 @@ let IkonotvPieceContainer = React.createClass({
                             <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
                             <hr/>
                         </div>
-                    }
-                    buttons={this.getActions()}>
+                    }>
+
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
                         <HistoryIterator
                             history={this.state.piece.loan_history} />
                     </CollapsibleParagraph>
+                    <CollapsibleParagraph
+                        title={getLangText('Notes')}
+                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
+                        <Note
+                            id={() => {return {'id': this.state.piece.id}; }}
+                            label={getLangText('Personal note (private)')}
+                            defaultValue={this.state.piece.private_note || null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={true}
+                            successMessage={getLangText('Private note saved')}
+                            url={ApiUrls.note_private_piece}
+                            currentUser={this.state.currentUser}/>
+                    </CollapsibleParagraph>
+                    <IkonotvPieceDetails piece={this.state.piece}/>
                 </Piece>
             );
         } else {
@@ -169,6 +118,45 @@ let IkonotvPieceContainer = React.createClass({
                 </div>
             );
         }
+    }
+});
+
+
+let IkonotvPieceDetails = React.createClass({
+    propTypes: {
+        piece: React.PropTypes.object
+    },
+
+    render() {
+        if (this.props.piece && Object.keys(this.props.piece.extra_data).length !== 0){
+            return (
+                <CollapsibleParagraph
+                    title={getLangText('Further Details')}
+                    show={true}
+                    defaultExpanded={true}>
+                    <Form ref='form'>
+                        {Object.keys(this.props.piece.extra_data).map((data, i) => {
+                            let label = data.replace('_', ' ');
+                            return (
+                                <Property
+                                    key={i}
+                                    name={data}
+                                    label={label}
+                                    hidden={!this.props.piece.extra_data[data]}
+                                    editable={false}>
+                                    <InputTextAreaToggable
+                                        rows={1}
+                                        editable={false}
+                                        defaultValue={this.props.piece.extra_data[data]}/>
+                                </Property>);
+                            }
+                        )}
+                        <hr />
+                    </Form>
+                </CollapsibleParagraph>
+            );
+        }
+        return null;
     }
 });
 

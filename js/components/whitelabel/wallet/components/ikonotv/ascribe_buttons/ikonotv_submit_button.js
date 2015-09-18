@@ -1,17 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Moment from 'moment';
 import classNames from 'classnames';
-
-import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
-
-import LoanForm from '../../../../../ascribe_forms/form_loan';
-
-import Property from '../../../../../ascribe_forms/property';
-import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
-
-import ApiUrls from '../../../../../../constants/api_urls';
+import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
@@ -22,37 +13,30 @@ let IkonotvSubmitButton = React.createClass({
         piece: React.PropTypes.object.isRequired
     },
 
-    getSubmitButton() {
-        return (
-            <button
-                className={classNames('btn', 'btn-default', this.props.className)}>
-                {getLangText('Loan to IkonoTV')}
-            </button>
-        );
-    },
-
     render() {
+        let piece = this.props.piece;
+        let startFrom = 1;
 
-        let today = new Moment();
-        let enddate = new Moment();
-        enddate.add(1, 'years');
+        // In the Ikonotv loan page a user has to complete two steps.
+        // Since every one of those steps is atomic a user should always be able to continue
+        // where he left of.
+        // This is why we start the process form slide 1/2 if the user has already finished
+        // it in another session.
+        if(piece && piece.extra_data && Object.keys(piece.extra_data).length > 0) {
+            startFrom = 1;
+        }
 
         return (
-            <ModalWrapper
-                trigger={this.getSubmitButton()}
-                handleSuccess={this.props.handleSuccess}
-                title={getLangText('Loan to IkonoTV archive')}>
-                <LoanForm
-                    id={{piece_id: this.props.piece.id}}
-                    url={ApiUrls.ownership_loans_pieces}
-                    email="submissions@ikono.org"
-                    startdate={today}
-                    enddate={enddate}
-                    gallery="IkonoTV archive"
-                    showPersonalMessage={false}
-                    handleSuccess={this.props.handleSuccess} />
-            </ModalWrapper>
-            
+            <ButtonLink
+                to="register_piece"
+                query={{
+                    'slide_num': 0,
+                    'start_from': startFrom,
+                    'piece_id': piece.id
+                }}
+                className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
+                {getLangText('Loan to IkonoTV')}
+            </ButtonLink>
         );
     }
 });

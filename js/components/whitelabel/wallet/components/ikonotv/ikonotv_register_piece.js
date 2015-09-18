@@ -1,17 +1,11 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
-
 import Moment from 'moment';
+import Router from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
-
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
@@ -25,20 +19,25 @@ import PieceActions from '../../../../../actions/piece_actions';
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import CylandAdditionalDataForm from './ascribe_forms/cyland_additional_data_form';
-
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import LoanForm from '../../../../ascribe_forms/form_loan';
+
+import IkonotvArtistDetailsForm from './ascribe_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from './ascribe_forms/ikonotv_artwork_details_form';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
-import { getAclFormMessage } from '../../../../../utils/form_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
+let IkonotvRegisterPiece = React.createClass({
 
-let CylandRegisterPiece = React.createClass({
+    propTypes: {
+        handleSuccess: React.PropTypes.func,
+        piece: React.PropTypes.object.isRequired
+    },
 
     mixins: [Router.Navigation, Router.State],
 
@@ -47,10 +46,7 @@ let CylandRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
-            WhitelabelStore.getState(),
             {
-                selectedLicense: 0,
-                isFineUploaderActive: false,
                 step: 0
             });
     },
@@ -59,9 +55,7 @@ let CylandRegisterPiece = React.createClass({
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
         let queryParams = this.getQuery();
 
@@ -72,7 +66,7 @@ let CylandRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if(queryParams && 'piece_id' in queryParams) {
+        if (queryParams && 'piece_id' in queryParams) {
             PieceActions.fetchOne(queryParams.piece_id);
         }
     },
@@ -81,7 +75,6 @@ let CylandRegisterPiece = React.createClass({
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -95,6 +88,7 @@ let CylandRegisterPiece = React.createClass({
         }
     },
 
+
     handleRegisterSuccess(response){
 
         this.refreshPieceList();
@@ -103,10 +97,14 @@ let CylandRegisterPiece = React.createClass({
         if(response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
+        if (!this.canSubmit()) {
+            this.transitionTo('pieces');
+        }
+        else {
+            this.incrementStep();
+            this.refs.slidesContainer.nextSlide();
+        }
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
     },
 
     handleAdditionalDataSuccess() {
@@ -166,12 +164,77 @@ let CylandRegisterPiece = React.createClass({
         this.transitionTo('login');
     },
 
+    canSubmit() {
+        let c = this.state.currentUser;
+        return c && c.acl && c.acl.acl_submit;
+    },
+
+    getSlideArtistDetails() {
+        if (this.canSubmit()) {
+            return (
+                <div data-slide-title={getLangText('Artist details')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <IkonotvArtistDetailsForm
+                                disabled={this.state.step > 1}
+                                handleSuccess={this.handleAdditionalDataSuccess}
+                                piece={this.state.piece}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
+    getSlideArtworkDetails() {
+        if (this.canSubmit()) {
+            return (
+                <div data-slide-title={getLangText('Artwork details')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <IkonotvArtworkDetailsForm
+                                disabled={this.state.step > 1}
+                                handleSuccess={this.handleAdditionalDataSuccess}
+                                piece={this.state.piece}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
+    getSlideLoan() {
+        if (this.canSubmit()) {
+
+            let today = new Moment();
+            let enddate = new Moment();
+            enddate.add(1, 'years');
+            return (
+                <div data-slide-title={getLangText('Loan')}>
+                    <Row className="no-margin">
+                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                            <LoanForm
+                                loanHeading={getLangText('Loan to IkonoTV archive')}
+                                id={{piece_id: this.state.piece.id}}
+                                url={ApiUrls.ownership_loans_pieces}
+                                email="submissions@ikono.org"
+                                startdate={today}
+                                enddate={enddate}
+                                gallery="IkonoTV archive"
+                                showPersonalMessage={false}
+                                createPublicContractAgreement={false}
+                                handleSuccess={this.handleLoanSuccess}/>
+                        </Col>
+                    </Row>
+                </div>
+            );
+        }
+        return null;
+    },
+
     render() {
-
-        let today = new Moment();
-        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
-        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
-
         return (
             <SlidesContainer
                 ref="slidesContainer"
@@ -179,53 +242,27 @@ let CylandRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                }}>
+                    }}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
                                 disabled={this.state.step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Submit to Cyland Archive')}
-                                submitMessage={getLangText('Submit')}
+                                headerMessage={getLangText('Register work')}
+                                submitMessage={getLangText('Register')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
                                 onLoggedOut={this.onLoggedOut} />
                         </Col>
                     </Row>
                 </div>
-                <div data-slide-title={getLangText('Additional details')}>
-                    <Row className="no-margin">
-                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <CylandAdditionalDataForm
-                                disabled={this.state.step > 1}
-                                handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
-                        </Col>
-                    </Row>
-                </div>
-                <div data-slide-title={getLangText('Loan')}>
-                    <Row className="no-margin">
-                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <LoanForm
-                                loanHeading={getLangText('Loan to Cyland archive')}
-                                message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
-                                id={{piece_id: this.state.piece.id}}
-                                url={ApiUrls.ownership_loans_pieces}
-                                email={this.state.whitelabel.user}
-                                gallery="Cyland Archive"
-                                startdate={today}
-                                enddate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}
-                                showStartDate={false}
-                                showEndDate={false}
-                                showPersonalMessage={false}
-                                handleSuccess={this.handleLoanSuccess} />
-                        </Col>
-                    </Row>
-                </div>
+                {this.getSlideArtistDetails()}
+                {this.getSlideArtworkDetails()}
+                {this.getSlideLoan()}
             </SlidesContainer>
         );
     }
 });
 
-export default CylandRegisterPiece;
+export default IkonotvRegisterPiece;

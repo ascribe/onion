@@ -6,20 +6,24 @@ import Router from 'react-router';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
 
-import Form from '../../../../ascribe_forms/form';
-import Property from '../../../../ascribe_forms/property';
-import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
-
 import NotificationActions from '../../../../../actions/notification_actions';
 import NotificationStore from '../../../../../stores/notification_store';
+
+import UserActions from '../../../../../actions/user_actions';
+import UserStore from '../../../../../stores/user_store';
+
+import OwnershipFetcher from '../../../../../fetchers/ownership_fetcher';
+
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import apiUrls from '../../../../../constants/api_urls';
+import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 
-import requests from '../../../../../utils/requests';
+import AppConstants from '../../../../../constants/application_constants';
+
 import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
@@ -32,13 +36,17 @@ let IkonotvContractNotifications = React.createClass({
     getInitialState() {
         return mergeOptions(
             NotificationStore.getState(),
+            UserStore.getState(),
             WhitelabelStore.getState()
         );
     },
 
     componentDidMount() {
         NotificationStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
         WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel();
         if (this.state.contractAgreementListNotifications === null){
             NotificationActions.fetchContractAgreementListNotifications();
         }
@@ -87,8 +95,9 @@ let IkonotvContractNotifications = React.createClass({
     getAppendix() {
         let notifications = this.state.contractAgreementListNotifications[0];
         let appendix = notifications.contract_agreement.appendix;
-        if (appendix) {
-            return (<div>
+        if (appendix && appendix.default) {
+            return (
+                <div className='notification-contract-footer'>
                     <h1>{getLangText('Appendix')}</h1>
                     <pre>
                         {appendix.default}
@@ -99,30 +108,54 @@ let IkonotvContractNotifications = React.createClass({
         return null;
     },
 
+    handleConfirm() {
+        let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
+        OwnershipFetcher.confirmContractAgreement(contractAgreement).then(
+            () => this.handleConfirmSuccess()
+        );
+    },
+
     handleConfirmSuccess() {
-        let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 10000);
+        let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.transitionTo('pieces');
     },
 
     handleDeny() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        requests.put(apiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id}).then(
+        OwnershipFetcher.denyContractAgreement(contractAgreement).then(
             () => this.handleDenySuccess()
         );
     },
 
     handleDenySuccess() {
-        let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 10000);
+        let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.transitionTo('pieces');
+    },
+
+    getCopyrightAssociationForm(){
+        let c = this.state.currentUser;
+
+        if (c && c.profile && !c.profile.copyright_association) {
+            return (
+                <div className='notification-contract-footer'>
+                    <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
+
+                    <p>
+                        {AppConstants.copyrightAssociations.join(', ')}
+                    </p>
+                    <CopyrightAssociationForm currentUser={this.state.currentUser}/>
+                </div>
+            );
+        }
+        return null;
     },
 
     render() {
 
         if (this.state.contractAgreementListNotifications &&
             this.state.contractAgreementListNotifications.length > 0) {
-            let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
             return (
                 <div className='container'>
                     <div className='notification-contract-wrapper'>
@@ -133,41 +166,17 @@ let IkonotvContractNotifications = React.createClass({
                             </div>
                         </div>
                         {this.getContract()}
-
                         <div className='notification-contract-footer'>
-                            {this.getAppendix}
-                            <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
-                            <p>
-                                ARS, DACS, Bildkunst, Pictoright, SODRAC, Copyright Agency/Viscopy, SAVA, Bildrecht GmbH,
-                                SABAM, AUTVIS, CREAIMAGEN, SONECA, Copydan, EAU, Kuvasto, GCA, HUNGART, IVARO, SIAE, JASPAR-SPDA,
-                                AKKA/LAA, LATGA-A, SOMAAP, ARTEGESTION, CARIER, BONO, APSAV, SPA, GESTOR, VISaRTA, RAO, LITA,
-                                DALRO, VeGaP, BUS, ProLitteris, AGADU, AUTORARTE, BUBEDRA, BBDA, BCDA, BURIDA, ADAVIS, BSDA
+                            {this.getAppendix()}
+                            {this.getCopyrightAssociationForm()}
+                            <p style={{marginTop: '1em'}}>
+                                <Button type="submit" onClick={this.handleConfirm}>
+                                    {getLangText('I agree with the conditions')}
+                                </Button>
+                                <Button bsStyle="danger" className="btn-delete" bsSize="medium" onClick={this.handleDeny}>
+                                    {getLangText('I disagree')}
+                                </Button>
                             </p>
-                            <Form
-                                ref='form'
-                                url={requests.prepareUrl(apiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id})}
-                                handleSuccess={this.handleConfirmSuccess}
-                                method='put'
-                                buttons={
-                                    <p style={{marginTop: '1em'}}>
-                                        <Button type="submit">{getLangText('I agree with the conditions')}</Button>
-                                        <Button bsStyle="danger" className="btn-delete" bsSize="medium" onClick={this.handleDeny}>
-                                            {getLangText('I disagree')}
-                                        </Button>
-                                    </p>
-                                }>
-                                <Property
-                                    name="terms"
-                                    className="ascribe-settings-property-collapsible-toggle"
-                                    style={{paddingBottom: 0}}>
-                                    <InputCheckbox>
-                                        <span>
-                                            {' ' + getLangText('Yes') }
-                                        </span>
-                                    </InputCheckbox>
-                                </Property>
-
-                            </Form>
                         </div>
                     </div>
                 </div>
