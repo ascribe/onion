@@ -110,7 +110,7 @@ let ContractSettings = React.createClass({
                                                     {getLangText('PREVIEW')}
                                                 </a>
                                                 <button
-                                                    className="btn btn-default btn-sm margin-left-2px"
+                                                    className="btn btn-danger btn-sm margin-left-2px"
                                                     onClick={this.removeContract(contract)}>
                                                     {getLangText('REMOVE')}
                                                 </button>
@@ -148,7 +148,7 @@ let ContractSettings = React.createClass({
                                                     {getLangText('PREVIEW')}
                                                </a>
                                                 <button
-                                                    className="btn btn-default btn-sm margin-left-2px"
+                                                    className="btn btn-danger btn-sm margin-left-2px"
                                                     onClick={this.removeContract(contract)}>
                                                     {getLangText('REMOVE')}
                                                 </button>
