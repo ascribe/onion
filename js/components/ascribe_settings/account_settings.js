@@ -2,9 +2,6 @@
 
 import React from 'react';
 
-import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
@@ -19,38 +16,26 @@ import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils';
 
 let AccountSettings = React.createClass({
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+    propTypes: {
+        currentUser: React.PropTypes.object.required,
+        loadUser: React.PropTypes.func.required
     },
 
     handleSuccess(){
-        UserActions.fetchCurrentUser();
+        this.props.loadUser();
         let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getFormDataProfile(){
-        return {'email': this.state.currentUser.email};
+        return {'email': this.props.currentUser.email};
     },
     
     render() {
         let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
         let profile = null;
 
-        if (this.state.currentUser.username) {
+        if (this.props.currentUser.username) {
             content = (
                 <Form
                     url={ApiUrls.users_username}
@@ -60,7 +45,7 @@ let AccountSettings = React.createClass({
                         label={getLangText('Username')}>
                         <input
                             type="text"
-                            defaultValue={this.state.currentUser.username}
+                            defaultValue={this.props.currentUser.username}
                             placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
@@ -70,7 +55,7 @@ let AccountSettings = React.createClass({
                         editable={false}>
                         <input
                             type="text"
-                            defaultValue={this.state.currentUser.email}
+                            defaultValue={this.props.currentUser.email}
                             placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
@@ -87,7 +72,7 @@ let AccountSettings = React.createClass({
                         className="ascribe-settings-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
-                            defaultChecked={this.state.currentUser.profile.hash_locally}>
+                            defaultChecked={this.props.currentUser.profile.hash_locally}>
                             <span>
                                 {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
                             </span>
