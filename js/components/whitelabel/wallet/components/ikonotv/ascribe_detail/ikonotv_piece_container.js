@@ -11,6 +11,11 @@ import Piece from '../../../../../../components/ascribe_detail/piece';
 
 import AppConstants from '../../../../../../constants/application_constants';
 
+import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
+import AclButtonList from '../../../../../ascribe_buttons/acl_button_list';
+import DeleteButton from '../../../../../ascribe_buttons/delete_button';
+import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+
 import Form from '../../../../../../components/ascribe_forms/form';
 import Property from '../../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
@@ -20,6 +25,8 @@ import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
 import Note from '../../../../../ascribe_detail/note';
 
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
+
+import AclProxy from '../../../../../acl_proxy';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 
@@ -66,6 +73,50 @@ let IkonotvPieceContainer = React.createClass({
         PieceActions.fetchOne(this.props.params.pieceId);
     },
 
+    getActions(){
+        if (this.state.piece &&
+            this.state.piece.notifications &&
+            this.state.piece.notifications.length > 0) {
+            return (
+                <ListRequestActions
+                    pieceOrEditions={this.state.piece}
+                    currentUser={this.state.currentUser}
+                    handleSuccess={this.loadPiece}
+                    notifications={this.state.piece.notifications}/>);
+        }
+        else {
+
+            //We need to disable the normal acl_loan because we're inserting a custom acl_loan button
+            let availableAcls;
+
+            if(this.state.piece && this.state.piece.acl && typeof this.state.piece.acl.acl_loan !== 'undefined') {
+                // make a copy to not have side effects
+                availableAcls = mergeOptions({}, this.state.piece.acl);
+                availableAcls.acl_loan = false;
+            }
+
+            return (
+                <AclButtonList
+                    className="text-center ascribe-button-list"
+                    availableAcls={availableAcls}
+                    editions={this.state.piece}
+                    handleSuccess={this.loadPiece}>
+                        <AclProxy
+                            aclObject={availableAcls}
+                            aclName="acl_submit">
+                            <IkonotvSubmitButton
+                                className="btn-sm"
+                                handleSuccess={this.handleSubmitSuccess}
+                                piece={this.state.piece}/>
+                        </AclProxy>
+                        <DeleteButton
+                            handleSuccess={this.handleDeleteSuccess}
+                            piece={this.state.piece}/>
+                </AclButtonList>
+            );
+        }
+    },
+
     render() {
         if(this.state.piece && this.state.piece.title) {
             return (
@@ -88,7 +139,7 @@ let IkonotvPieceContainer = React.createClass({
                             <hr/>
                         </div>
                     }>
-
+                    {this.getActions()}
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>

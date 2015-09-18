@@ -13,6 +13,12 @@ let IkonotvSubmitButton = React.createClass({
         piece: React.PropTypes.object.isRequired
     },
 
+    getDefaultProps() {
+        return {
+            className: 'btn-xs'
+        };
+    },
+
     render() {
         let piece = this.props.piece;
         let startFrom = 1;
@@ -34,7 +40,7 @@ let IkonotvSubmitButton = React.createClass({
                     'start_from': startFrom,
                     'piece_id': piece.id
                 }}
-                className={classNames('btn', 'btn-default', 'btn-xs', this.props.className)}>
+                className={classNames('btn', 'btn-default', this.props.className)}>
                 {getLangText('Loan to IkonoTV')}
             </ButtonLink>
         );
