@@ -88,7 +88,7 @@ let ContractSettings = React.createClass({
                 <CollapsibleParagraph
                     title={getLangText('Contracts')}
                     show={true}
-                    defaultExpanded={true}>
+                    defaultExpanded={false}>
                     <AclProxy
                         aclName="acl_edit_public_contract"
                         aclObject={this.props.currentUser.acl}>
