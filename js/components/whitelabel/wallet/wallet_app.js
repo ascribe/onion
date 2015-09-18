@@ -8,8 +8,11 @@ import Footer from '../../footer';
 import GlobalNotification from '../../global_notification';
 
 import getRoutes from './wallet_routes';
+import classNames from 'classnames';
+
 
 let RouteHandler = Router.RouteHandler;
+
 
 let WalletApp = React.createClass({
     mixins: [Router.State],
@@ -17,6 +20,7 @@ let WalletApp = React.createClass({
     render() {
         let subdomain = window.location.host.split('.')[0];
         let ROUTES = getRoutes(null, subdomain);
+        let activeRoutes = this.getRoutes().map(elem => 'route--' + elem.name);
 
         let header = null;
         if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup'))
@@ -28,7 +32,7 @@ let WalletApp = React.createClass({
         }
 
         return (
-            <div className="container ascribe-prize-app">
+            <div className={classNames('container', 'ascribe-wallet-app', 'client--' + subdomain, activeRoutes)}>
                 {header}
                 <RouteHandler />
                 <GlobalNotification />
