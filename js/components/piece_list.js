@@ -15,6 +15,8 @@ import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_l
 
 import Pagination from './ascribe_pagination/pagination';
 
+import PieceListFilterDisplay from './piece_list_filter_display';
+
 import GlobalAction from './global_action';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
@@ -22,6 +24,8 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
+import { getLangText } from '../utils/lang_utils';
+
 
 let PieceList = React.createClass({
     propTypes: {
@@ -31,7 +35,6 @@ let PieceList = React.createClass({
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string
-
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -40,13 +43,14 @@ let PieceList = React.createClass({
         return {
             accordionListItemType: AccordionListItemWallet,
             orderParams: ['artist_name', 'title'],
-            filterParams: [
-                'acl_transfer',
-                'acl_consign',
-                {
-                    key: 'acl_create_editions',
-                    label: 'create editions'
-                }]
+            filterParams: [{
+                label: getLangText('Show works I can'),
+                items: [
+                    'acl_transfer',
+                    'acl_consign',
+                    'acl_create_editions'
+                ]
+            }]
         };
     },
     getInitialState() {
@@ -91,8 +95,8 @@ let PieceList = React.createClass({
             // the site should go to the top
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                                    this.state.orderBy, this.state.orderAsc,
-                                                    this.state.filterBy);
+                                            this.state.orderBy, this.state.orderAsc,
+                                            this.state.filterBy);
         };
     },
 
@@ -149,9 +153,6 @@ let PieceList = React.createClass({
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
         let AccordionListItemType = this.props.accordionListItemType;
 
-        //<GlobalAction requestActions={this.state.requestActions} />
-
-
         return (
             <div>
                 <PieceListToolbar
@@ -166,6 +167,9 @@ let PieceList = React.createClass({
                     {this.props.customSubmitButton}
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
+                <PieceListFilterDisplay
+                    filterBy={this.state.filterBy}
+                    filterParams={this.props.filterParams}/>
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
