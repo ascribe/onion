@@ -20,6 +20,7 @@ let WalletApp = React.createClass({
     render() {
         let subdomain = window.location.host.split('.')[0];
         let ROUTES = getRoutes(null, subdomain);
+        let activeRoutes = this.getRoutes().map(elem => 'route--' + elem.name);
 
         let header = null;
         if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup'))
@@ -31,7 +32,7 @@ let WalletApp = React.createClass({
         }
 
         return (
-            <div className={classNames('container', 'ascribe-wallet-app', 'client--' + subdomain, {'page--landing': this.isActive('landing')})}>
+            <div className={classNames('container', 'ascribe-wallet-app', 'client--' + subdomain, activeRoutes)}>
                 {header}
                 <RouteHandler />
                 <GlobalNotification />
