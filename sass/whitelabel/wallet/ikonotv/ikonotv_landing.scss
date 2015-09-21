@@ -1,5 +1,6 @@
-$ikono--bg-color: #0066cc;
-$ikono--button-color: #993399;
+$ikono--landing-bg-color: #06c;
+$ikono--bg-color: #939;
+$ikono--button-color: $ikono--bg-color;
 $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
 
 
@@ -81,27 +82,17 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 }
 
 
-
-.client--ikonotv.route--landing .btn-default,
-.client--ikonotv.route--signup .ascribe-btn-login,
-.client--ikonotv.route--login .ascribe-btn-login {
-    background-color: $ikono--button-color;
-    border: none;
-}
-
-
-
-.client--ikonotv.route--landing {
-    background-color: $ikono--bg-color;
+.client--ikonotv .route--landing {
+    background-color: $ikono--landing-bg-color;
     margin: 0;
     width: 100%;
     padding: 5em 1em;
 }
 
 
-.client--ikonotv.route--login,
-.client--ikonotv.route--signup {
-    background-color: $ikono--bg-color;
+.client--ikonotv .route--login,
+.client--ikonotv .route--signup {
+    background-color: $ikono--landing-bg-color;
 
     .ascribe-btn-login {
         display: block;
@@ -296,5 +287,96 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
             font-size: 1.5em;
             font-weight: 500;
         }
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--ikonotv {
+    .ascribe-piece-list-toolbar-filter-widget button {
+        background-color: transparent;
+        border: 1px solid transparent;
+        color: $ikono--button-color;
+
+        &:hover,
+        &:active {
+            background-color: $ikono--button-color !important;
+            border-color: $ikono--button-color !important;
+            color: white;
+        }
+    }
+
+    .ascribe-btn-login,
+    .btn-default {
+        background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
+
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: darken($ikono--button-color, 20%);
+            border-color: darken($ikono--button-color, 20%);
+        }
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus {
+        background-color: darken($ikono--button-color, 20%);
+        border-color: darken($ikono--button-color, 20%);
+    }
+
+    .pager li > a, .pager li > span {
+        background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
+    }
+}
+
+// inputs!
+.client--ikonotv {
+
+    .ascribe-input-glyph > .form-group > .input-group > .input-group-addon > .filter-glyph {
+        color: $ikono--button-color;
+    }
+
+    .ascribe-input-glyph > .form-group > .input-group > .input-group-addon,
+    .ascribe-input-glyph > .form-group > .input-group input {
+        border-color: $ikono--button-color;
+    }
+
+    .ascribe-settings-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
+    .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
+        color: $ikono--button-color;
+    }
+}
+
+
+// properties!
+.client--ikonotv {
+    .is-focused {
+        border-left-color: $ikono--button-color !important;
+        background-color: rgba($ikono--button-color, .05);
+    }
+    .ascribe-settings-wrapper:hover {
+        border-left-color: rgba($ikono--button-color, .5);
+    }
+}
+
+.client--ikonotv {
+    .ascribe-accordion-list-item .wrapper:hover {
+        background-color: rgba($ikono--button-color, .05);
+    }
+}
+
+
+// intercom stuff
+.client--ikonotv {
+    #intercom-container .intercom-launcher-button {
+        background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
     }
 }

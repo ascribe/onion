@@ -32,7 +32,7 @@ let WalletApp = React.createClass({
         }
 
         return (
-            <div className={classNames('ascribe-wallet-app', 'client--' + subdomain, activeRoutes)}>
+            <div className={classNames('ascribe-wallet-app', activeRoutes)}>
                 <div className='container'>
                     {header}
                     <RouteHandler />
