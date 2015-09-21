@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
