@@ -23,12 +23,6 @@ let IkonotvArtworkDetailsForm = React.createClass({
         disabled: React.PropTypes.bool
     },
 
-    getInitialState() {
-        return {
-            isUploadReady: true
-        };
-    },
-
     getFormData() {
         let extradata = {};
         let formRefs = this.refs.form.refs;
@@ -45,18 +39,6 @@ let IkonotvArtworkDetailsForm = React.createClass({
             piece_id: this.props.piece.id
         };
 
-    },
-
-    uploadStarted() {
-        this.setState({
-            isUploadReady: false
-        });
-    },
-
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
     },
 
     render() {

@@ -16,7 +16,6 @@ class ContractAgreementListActions {
 
     fetchContractAgreementList(issuer, accepted, pending) {
         this.actions.updateContractAgreementList(null);
-
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.fetchContractAgreementList(issuer, accepted, pending)
                 .then((contractAgreementList) => {

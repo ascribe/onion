@@ -7,8 +7,6 @@ import Property from '../../../../../ascribe_forms/property';
 
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-//import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
-
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
@@ -23,12 +21,6 @@ let IkonotvArtistDetailsForm = React.createClass({
         piece: React.PropTypes.object.isRequired,
 
         disabled: React.PropTypes.bool
-    },
-
-    getInitialState() {
-        return {
-            isUploadReady: true
-        };
     },
 
     getFormData() {
@@ -47,18 +39,6 @@ let IkonotvArtistDetailsForm = React.createClass({
             piece_id: this.props.piece.id
         };
 
-    },
-
-    uploadStarted() {
-        this.setState({
-            isUploadReady: false
-        });
-    },
-
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
     },
 
     render() {

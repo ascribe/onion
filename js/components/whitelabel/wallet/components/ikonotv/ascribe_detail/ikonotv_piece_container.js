@@ -21,6 +21,12 @@ import Property from '../../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import IkonotvArtistDetailsForm from '../ascribe_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from '../ascribe_forms/ikonotv_artwork_details_form';
+
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
 import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
 import Note from '../../../../../ascribe_detail/note';
 
@@ -44,23 +50,18 @@ let IkonotvPieceContainer = React.createClass({
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
-    },
 
-    componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
-        }
-    },
-
-    componentWillUnmount() {
         // Every time we're leaving the piece detail page,
         // just reset the piece that is saved in the piece store
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
+
+        this.loadPiece();
+    },
+
+    componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
@@ -159,6 +160,7 @@ let IkonotvPieceContainer = React.createClass({
                             url={ApiUrls.note_private_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
+
                     <IkonotvPieceDetails piece={this.state.piece}/>
                 </Piece>
             );
@@ -176,6 +178,11 @@ let IkonotvPieceContainer = React.createClass({
 let IkonotvPieceDetails = React.createClass({
     propTypes: {
         piece: React.PropTypes.object
+    },
+
+    handleSuccess() {
+        let notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {

@@ -42,13 +42,6 @@ let CylandPieceContainer = React.createClass({
         UserStore.listen(this.onChange);
     },
 
-    componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
-        }
-    },
-
     componentWillUnmount() {
         // Every time we're leaving the piece detail page,
         // just reset the piece that is saved in the piece store
