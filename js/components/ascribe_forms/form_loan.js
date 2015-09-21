@@ -256,10 +256,10 @@ let LoanForm = React.createClass({
                     name='loan_message'
                     label={getLangText('Personal Message')}
                     editable={true}
+                    overrideForm={true}
                     hidden={!this.props.showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required={this.props.showPersonalMessage ? 'required' : ''}/>

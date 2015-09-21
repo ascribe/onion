@@ -129,9 +129,11 @@ let ContractAgreementForm = React.createClass({
                         name='appendix'
                         checkboxLabel={getLangText('Add appendix to the contract')}>
                         <span>{getLangText('Appendix')}</span>
+                        {/* We're using disabled on a form here as PropertyCollapsible currently
+                        does not support the disabled + overrideForm functionality */}
                         <InputTextAreaToggable
                             rows={1}
-                            editable={true}
+                            disabled={false}
                             placeholder={getLangText('This will be appended to the contract selected above')}/>
                     </PropertyCollapsible>
                 </Form>

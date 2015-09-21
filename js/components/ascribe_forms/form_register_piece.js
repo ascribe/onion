@@ -112,7 +112,7 @@ let RegisterPieceForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
-                        editable={this.props.isFineUploaderEditable}
+                        disabled={!this.props.isFineUploaderEditable}
                         enableLocalHashing={enableLocalHashing}/>
                 </Property>
                 <Property

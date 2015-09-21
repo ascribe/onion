@@ -426,10 +426,10 @@ let PrizePieceDetails = React.createClass({
                                 <Property
                                     name={data}
                                     label={label}
-                                    editable={false}>
+                                    editable={false}
+                                    overrideForm={true}>
                                     <InputTextAreaToggable
                                         rows={1}
-                                        editable={false}
                                         defaultValue={this.props.piece.extra_data[data]}/>
                                 </Property>);
                             }

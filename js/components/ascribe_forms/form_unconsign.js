@@ -50,10 +50,10 @@ let UnConsignForm = React.createClass({
                 <Property
                     name='unconsign_message'
                     label={getLangText('Personal Message')}
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>

@@ -89,61 +89,49 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     </div>
                     <Property
                         name='medium'
-                        label={getLangText('Medium')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Medium')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.medium}
                             placeholder={getLangText('The medium of the file (i.e. photo, video, other, ...)')}/>
                     </Property>
                     <Property
                         name='size_duration'
-                        label={getLangText('Size/Duration')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Size/Duration')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.size_duration}
                             placeholder={getLangText('The size of the file in MB or the duration of the movie')}/>
                     </Property>
                     <Property
                         name='copyright'
-                        label={getLangText('Copyright')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Copyright')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.copyright}
                             placeholder={getLangText('Which copyright is attached to this work?')}/>
                     </Property>
                     <Property
                         name='courtesy_of'
-                        label={getLangText('Courtesy of')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Courtesy of')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.courtesy_of}
                             placeholder={getLangText('The current owner of the artwork')}/>
                     </Property>
                     <Property
                         name='copyright_of_photography'
-                        label={getLangText('Copyright of Photography')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Copyright of Photography')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.copyright_of_photography}
                             placeholder={getLangText('Who should be attributed for the photography?')}/>
                     </Property>
                     <Property
                         name='additional_details'
-                        label={getLangText('Additional Details about the artwork')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Additional Details about the artwork')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.additional_details}
                             placeholder={getLangText('Insert artwork overview')}/>
                     </Property>

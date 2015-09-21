@@ -91,41 +91,33 @@ let IkonotvArtistDetailsForm = React.createClass({
                     </div>
                     <Property
                         name='artist_website'
-                        label={getLangText('Artist Website')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Artist Website')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.artist_website}
                             placeholder={getLangText('The artist\'s website if present...')}/>
                     </Property>
                     <Property
                         name='gallery_website'
-                        label={getLangText('Website of related Gallery, Museum, etc.')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Website of related Gallery, Museum, etc.')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.gallery_website}
                             placeholder={getLangText('The website of any related Gallery or Museum')}/>
                     </Property>
                     <Property
                         name='additional_websites'
-                        label={getLangText('Additional Websites/Publications')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Additional Websites/Publications')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.additional_websites}
                             placeholder={getLangText('Enter additional Websites/Publications if any')}/>
                     </Property>
                     <Property
                         name='conceptual_overview'
-                        label={getLangText('Short text about the Artist')}
-                        editable={!this.props.disabled}>
+                        label={getLangText('Short text about the Artist')}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={!this.props.disabled}
                             defaultValue={this.props.piece.extra_data.conceptual_overview}
                             placeholder={getLangText('Enter a short bio about the Artist')}
                             />

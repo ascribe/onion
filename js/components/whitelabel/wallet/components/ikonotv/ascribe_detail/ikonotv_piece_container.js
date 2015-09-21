@@ -185,7 +185,9 @@ let IkonotvPieceDetails = React.createClass({
                     title={getLangText('Further Details')}
                     show={true}
                     defaultExpanded={true}>
-                    <Form ref='form'>
+                    <Form
+                        ref='form'
+                        disabled={!this.props.piece.acl.acl_edit}>
                         {Object.keys(this.props.piece.extra_data).map((data, i) => {
                             let label = data.replace('_', ' ');
                             return (
@@ -193,11 +195,9 @@ let IkonotvPieceDetails = React.createClass({
                                     key={i}
                                     name={data}
                                     label={label}
-                                    hidden={!this.props.piece.extra_data[data]}
-                                    editable={false}>
+                                    hidden={!this.props.piece.extra_data[data]}>
                                     <InputTextAreaToggable
                                         rows={1}
-                                        editable={false}
                                         defaultValue={this.props.piece.extra_data[data]}/>
                                 </Property>);
                             }
