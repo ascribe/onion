@@ -55,6 +55,14 @@ let IkonotvPieceContainer = React.createClass({
         this.loadPiece();
     },
 
+     // We need this for when the user clicks on a notification while being in another piece view
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
