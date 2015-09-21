@@ -3,6 +3,9 @@
 import React from 'react';
 import Router from 'react-router';
 
+import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
+
 import AccountSettings from './account_settings';
 import BitcoinWalletSettings from './bitcoin_wallet_settings';
 import ContractSettings from './contract_settings';
@@ -18,14 +21,35 @@ let SettingsContainer = React.createClass({
 
     mixins: [Router.Navigation],
 
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    loadUser(){
+        UserActions.fetchCurrentUser();
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
         return (
             <div className="settings-container">
-                <AccountSettings />
+                <AccountSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
                 {this.props.children}
                 <APISettings />
                 <BitcoinWalletSettings />
-                <ContractSettings />
+                <ContractSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
             </div>
         );
     }

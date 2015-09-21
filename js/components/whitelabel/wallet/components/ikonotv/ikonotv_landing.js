@@ -41,7 +41,7 @@ let IkonotvLanding = React.createClass({
         }
         return (
             <ButtonLink to={redirect} query={this.getQuery()}>
-                {getLangText('ENTER')}
+                {getLangText('ENTER TO START')}
             </ButtonLink>
         );
     },
@@ -53,11 +53,13 @@ let IkonotvLanding = React.createClass({
                     <img src="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png" />
                     <div className="tagline">
                         <h1>PROTECT</h1>
-                        <img src="http://placehold.it/600x300" />
+                        <div className="poster">
+                            <div className="content">
+                            </div>
+                        </div>
                         <h1>&amp; SHARE</h1>
                     </div>
-                    <h2>Welcome to the ikonoTV</h2>
-                    <h2>Registration Page</h2>
+                    <h2>Welcome to the ikonoTV<br />Registration Page</h2>
                 </header>
                 <article>
                     <section>

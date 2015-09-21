@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Router from 'react-router';
+
 import SignupForm from './ascribe_forms/form_signup';
 
 import { getLangText } from '../utils/lang_utils';
@@ -39,7 +40,6 @@ let SignupContainer = React.createClass({
                 <SignupForm handleSuccess={this.handleSuccess} />
                 <div className="ascribe-login-text">
                     {getLangText('Already an ascribe user')}&#63; <Link to="login">{getLangText('Log in')}...</Link><br/>
-                    {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
                 </div>
             </div>
 

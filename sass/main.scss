@@ -487,3 +487,23 @@ hr {
 .ascribe-progress-bar-xs {
     height: 12px;
 }
+
+
+.ascribe-piece-list-filter-display {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    > span {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #616161;
+
+        padding-left: .3em;
+    }
+
+    > hr {
+        margin-top: .15em;
+        margin-bottom: .1em;
+        border-color: #ccc;
+    }
+}
