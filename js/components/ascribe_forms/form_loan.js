@@ -152,6 +152,23 @@ let LoanForm = React.createClass({
         }
     },
 
+    getAppendix() {
+        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
+            let appendix = this.state.contractAgreementList[0].appendix;
+            if (appendix && appendix.default) {
+                return (
+                    <div className='notification-contract-footer'>
+                        <h1>{getLangText('Appendix')}</h1>
+                        <pre>
+                            {appendix.default}
+                        </pre>
+                    </div>
+                );
+            }
+        }
+        return null;
+    },
+
     getButtons() {
         if(this.props.loanHeading) {
             return (
@@ -257,6 +274,7 @@ let LoanForm = React.createClass({
                         required={this.props.showPassword ? 'required' : ''}/>
                 </Property>
                 {this.getContractCheckbox()}
+                {this.getAppendix()}
                 {this.props.children}
             </Form>
         );
