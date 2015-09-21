@@ -19,8 +19,8 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccountSettings = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.required,
-        loadUser: React.PropTypes.func.required
+        currentUser: React.PropTypes.object.isRequired,
+        loadUser: React.PropTypes.func.isRequired
     },
 
     handleSuccess(){

@@ -57,6 +57,10 @@ let IkonotvRegisterPiece = React.createClass({
         PieceStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
 
+        // Before we load the new piece, we reset the piece store to delete old data that we do
+        // not want to display to the user.
+        PieceActions.updatePiece({});
+
         let queryParams = this.getQuery();
 
         // Since every step of this register process is atomic,
