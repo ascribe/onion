@@ -1,9 +1,98 @@
+$ikono--bg-color: #0066cc;
+$ikono--button-color: #993399;
+$ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
+
+
 .client--ikonotv {
     font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
 }
 
+
+.navbar-default .navbar-nav > .active a:hover, .navbar-default .navbar-nav > .active a:focus {
+
+}
+
+.client--ikonotv .navbar-default {
+    background-color: $ikono--bg-color;
+
+    // this is a horrible hack
+    .navbar-nav > li > a[href="https://www.ascribe.io/"] {
+        font-size: 11px;
+        text-transform: none;
+        font-weight: normal;
+    }
+
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        text-transform: uppercase;
+        border-bottom-color: transparent;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .navbar-nav > li > a {
+        color: white;
+    }
+
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: black;
+        border-bottom-color: transparent;
+    }
+
+    .navbar-nav > .active {
+        background-color: white;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: white;
+    }
+
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: white;
+        background-color: $ikono--bg-color;
+    }
+
+    .img-brand.navbar-brand {
+        width: 0;
+        height: 0;
+        padding-right: 120px;
+        padding-bottom: 36px;
+        padding-left: 30px;
+        background-image: url($ikono--logo);
+        background-color: transparent;
+        background-position: center 4px;
+        background-repeat: no-repeat;
+        background-size: 150px;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+
+
+.client--ikonotv.route--landing .btn-default,
+.client--ikonotv.route--signup .ascribe-btn-login,
+.client--ikonotv.route--login .ascribe-btn-login {
+    background-color: $ikono--button-color;
+    border: none;
+}
+
+
+
 .client--ikonotv.route--landing {
-    background-color: #c40050;
+    background-color: $ikono--bg-color;
     margin: 0;
     width: 100%;
     padding: 5em 1em;
@@ -12,7 +101,7 @@
 
 .client--ikonotv.route--login,
 .client--ikonotv.route--signup {
-    background-color: #c40050;
+    background-color: $ikono--bg-color;
 
     .ascribe-btn-login {
         display: block;
@@ -25,16 +114,16 @@
     }
 
     .ascribe-btn-login-spinner {
-        background-color: #02b6a3;
+        background-color: $ikono--button-color;
     }
 
     .ascribe-form-header {
-        background-image: url(https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png);
+        background-image: url($ikono--logo);
         background-color: transparent;
         background-position: center 0;
         background-repeat: no-repeat;
         background-size: 300px;
-        margin-bottom: 30px;
+        margin-bottom: 0;
         height: 150px;
         position: relative;
 
@@ -46,6 +135,8 @@
             color: white;
             text-align: center;
             font-size: 22px;
+            text-indent: -99999px;
+            font-size: 0;
         }
     }
 
