@@ -9,6 +9,9 @@ import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_t
 
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
@@ -20,10 +23,21 @@ import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_
 
 let CylandAdditionalDataForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func.isRequired,
+        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
+        disabled: React.PropTypes.bool,
+        isInline: React.PropTypes.bool
+    },
 
-        disabled: React.PropTypes.bool
+    getDefaultProps() {
+        return {
+            isInline: false
+        };
+    },
+
+    handleSuccess() {
+        let notification = new GlobalNotificationModel('Further details successfully updated', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getInitialState() {
@@ -63,56 +77,69 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     render() {
-        if(this.props.piece && this.props.piece.id) {
+        let { piece, isInline, disabled, handleSuccess } = this.props;
+        let buttons, spinner, heading;
+
+        if(!isInline) {
+            buttons = (
+                <button
+                    type="submit"
+                    className="btn ascribe-btn ascribe-btn-login"
+                    disabled={!this.state.isUploadReady || disabled}>
+                    {getLangText('Proceed to loan')}
+                </button>
+            );
+
+            spinner = (
+                <div className="modal-footer">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                </div>
+            );
+
+            heading = (
+                <div className="ascribe-form-header">
+                    <h3>
+                        {getLangText('Provide supporting materials')}
+                    </h3>
+                </div>
+            );
+        }
+
+        if(piece && piece.id) {
             return (
                 <Form
-                    disabled={this.props.disabled}
+                    disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
-                    handleSuccess={this.props.handleSuccess}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
+                    handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
-                    buttons={
-                        <button
-                            type="submit"
-                            className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady || this.props.disabled}>
-                            {getLangText('Proceed to loan')}
-                        </button>
-                    }
-                    spinner={
-                        <div className="modal-footer">
-                            <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                        </div>
-                    }>
-                    <div className="ascribe-form-header">
-                        <h3>
-                            {getLangText('Provide supporting materials')}
-                        </h3>
-                    </div>
+                    buttons={buttons}
+                    spinner={spinner}>
+                    {heading}
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}>
                         <InputTextAreaToggable
                             rows={1}
-                            placeholder={getLangText('Enter the artist\'s biography...')}
-                            required="required"/>
+                            defaultValue={piece.extra_data.artist_bio}
+                            placeholder={getLangText('Enter the artist\'s biography...')}/>
                     </Property>
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Conceptual Overview')}>
                         <InputTextAreaToggable
                             rows={1}
-                            placeholder={getLangText('Enter a conceptual overview...')}
-                            required="required"/>
+                            defaultValue={piece.extra_data.conceptual_overview}
+                            placeholder={getLangText('Enter a conceptual overview...')}/>
                     </Property>
                     <FurtherDetailsFileuploader
                         uploadStarted={this.uploadStarted}
                         submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
-                        pieceId={this.props.piece.id}
-                        otherData={this.props.piece.other_data}
+                        pieceId={piece.id}
+                        otherData={piece.other_data}
                         multiple={true}/>
                 </Form>
             );

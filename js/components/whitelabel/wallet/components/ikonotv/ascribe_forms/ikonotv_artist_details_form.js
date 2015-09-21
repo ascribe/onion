@@ -20,7 +20,7 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 
 let IkonotvArtistDetailsForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func.isRequired,
+        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
 
         disabled: React.PropTypes.bool,
@@ -57,10 +57,9 @@ let IkonotvArtistDetailsForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-
     render() {
         let buttons, spinner, heading;
-        let { isInline } = this.props;
+        let { isInline, handleSuccess } = this.props;
         
 
         if(!isInline) {
@@ -95,7 +94,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref='form'
                     url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
-                    handleSuccess={this.handleSuccess}
+                    handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
                     spinner={spinner}>

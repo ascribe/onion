@@ -19,6 +19,8 @@ import CollapsibleParagraph from '../../../../../../components/ascribe_collapsib
 import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
 import Note from '../../../../../ascribe_detail/note';
 
+import CylandAdditionalDataForm from '../../cyland/ascribe_forms/cyland_additional_data_form';
+
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
@@ -102,7 +104,15 @@ let CylandPieceContainer = React.createClass({
                             url={ApiUrls.note_private_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-                    <CylandPieceDetails piece={this.state.piece}/>
+                    <CollapsibleParagraph
+                        title={getLangText('Further Details')}
+                        show={true}
+                        defaultExpanded={true}>
+                        <CylandAdditionalDataForm
+                            piece={this.state.piece}
+                            disabled={!this.state.piece.acl.acl_edit}
+                            isInline={true} />
+                    </CollapsibleParagraph>
                 </Piece>
             );
         } else {
@@ -112,49 +122,6 @@ let CylandPieceContainer = React.createClass({
                 </div>
             );
         }
-    }
-});
-
-
-let CylandPieceDetails = React.createClass({
-    propTypes: {
-        piece: React.PropTypes.object
-    },
-
-    render() {
-        if (this.props.piece && Object.keys(this.props.piece.extra_data).length !== 0){
-            return (
-                <CollapsibleParagraph
-                    title={getLangText('Further Details')}
-                    show={true}
-                    defaultExpanded={true}>
-                    <Form ref='form'>
-                        {Object.keys(this.props.piece.extra_data).map((data, i) => {
-                            let label = data.replace('_', ' ');
-                            return (
-                                <Property
-                                    key={i}
-                                    name={data}
-                                    label={label}
-                                    editable={false}
-                                    overrideForm={true}>
-                                    <InputTextAreaToggable
-                                        rows={1}
-                                        defaultValue={this.props.piece.extra_data[data]}/>
-                                </Property>);
-                            }
-                        )}
-                        <FurtherDetailsFileuploader
-                            editable={false}
-                            pieceId={this.props.piece.id}
-                            otherData={this.props.piece.other_data}
-                            multiple={false}/>
-                        <hr />
-                    </Form>
-                </CollapsibleParagraph>
-            );
-        }
-        return null;
     }
 });
 
