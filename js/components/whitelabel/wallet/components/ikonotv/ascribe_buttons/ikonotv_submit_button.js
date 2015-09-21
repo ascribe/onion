@@ -40,7 +40,7 @@ let IkonotvSubmitButton = React.createClass({
                     'start_from': startFrom,
                     'piece_id': piece.id
                 }}
-                className={classNames('btn', 'btn-default', this.props.className)}>
+                className={classNames('ascribe-margin-1px', this.props.className)}>
                 {getLangText('Loan to IkonoTV')}
             </ButtonLink>
         );
