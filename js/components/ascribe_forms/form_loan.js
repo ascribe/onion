@@ -158,7 +158,7 @@ let LoanForm = React.createClass({
             if (appendix && appendix.default) {
                 return (
                     <div className='notification-contract-footer'>
-                        <h1>{getLangText('Appendix')}</h1>
+                        <h2>{getLangText('Appendix')}</h2>
                         <pre>
                             {appendix.default}
                         </pre>

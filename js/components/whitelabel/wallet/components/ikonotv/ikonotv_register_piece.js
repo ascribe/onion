@@ -180,7 +180,6 @@ let IkonotvRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtistDetailsForm
-                                disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
                                 piece={this.state.piece}/>
                         </Col>
@@ -198,7 +197,6 @@ let IkonotvRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtworkDetailsForm
-                                disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
                                 piece={this.state.piece}/>
                         </Col>
