@@ -7,6 +7,9 @@ import Property from '../../../../../ascribe_forms/property';
 
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
@@ -17,10 +20,17 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 
 let IkonotvArtworkDetailsForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func.isRequired,
         piece: React.PropTypes.object.isRequired,
 
-        disabled: React.PropTypes.bool
+        disabled: React.PropTypes.bool,
+
+        isInline: React.PropTypes.bool
+    },
+
+    getDefaultProps() {
+        return {
+            isInline: false
+        };
     },
 
     getFormData() {
@@ -41,7 +51,40 @@ let IkonotvArtworkDetailsForm = React.createClass({
 
     },
 
+    handleSuccess() {
+        let notification = new GlobalNotificationModel('Artwork details successfully updated', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
     render() {
+        let buttons, spinner, heading;
+        let { isInline } = this.props;
+
+        if(!isInline) {
+            buttons = (
+                <button
+                    type="submit"
+                    className="btn ascribe-btn ascribe-btn-login"
+                    disabled={this.props.disabled}>
+                    {getLangText('Proceed to loan')}
+                </button>
+            );
+
+            spinner = (
+                <div className="modal-footer">
+                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                </div>
+            );
+
+            heading = (
+                <div className="ascribe-form-header">
+                    <h3>
+                        {getLangText('Artwork Details')}
+                    </h3>
+                </div>
+            );
+        }
+
         if(this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
             return (
                 <Form
@@ -49,26 +92,11 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref='form'
                     url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
-                    handleSuccess={this.props.handleSuccess}
+                    handleSuccess={this.handleSuccess}
                     getFormData={this.getFormData}
-                    buttons={
-                        <button
-                            type="submit"
-                            className="btn ascribe-btn ascribe-btn-login"
-                            disabled={!this.state.isUploadReady || this.props.disabled}>
-                            {getLangText('Proceed to loan')}
-                        </button>
-                    }
-                    spinner={
-                        <div className="modal-footer">
-                            <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
-                        </div>
-                    }>
-                    <div className="ascribe-form-header">
-                        <h3>
-                            {getLangText('Artwork Details')}
-                        </h3>
-                    </div>
+                    buttons={buttons}
+                    spinner={spinner}>
+                    {heading}
                     <Property
                         name='medium'
                         label={getLangText('Medium')}>

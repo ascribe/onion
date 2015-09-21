@@ -16,16 +16,10 @@ import AclButtonList from '../../../../../ascribe_buttons/acl_button_list';
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
 import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
 
-import Form from '../../../../../../components/ascribe_forms/form';
-import Property from '../../../../../../components/ascribe_forms/property';
-import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import IkonotvArtistDetailsForm from '../ascribe_forms/ikonotv_artist_details_form';
 import IkonotvArtworkDetailsForm from '../ascribe_forms/ikonotv_artwork_details_form';
-
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import HistoryIterator from '../../../../../ascribe_detail/history_iterator';
 import Note from '../../../../../ascribe_detail/note';
@@ -161,7 +155,19 @@ let IkonotvPieceContainer = React.createClass({
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
 
-                    <IkonotvPieceDetails piece={this.state.piece}/>
+                    <CollapsibleParagraph
+                        title={getLangText('Further Details')}
+                        show={true}
+                        defaultExpanded={true}>
+                        <IkonotvArtistDetailsForm
+                            piece={this.state.piece}
+                            isInline={true}
+                            disabled={!this.state.piece.acl.acl_edit} />
+                        <IkonotvArtworkDetailsForm
+                            piece={this.state.piece}
+                            isInline={true}
+                            disabled={!this.state.piece.acl.acl_edit} />
+                    </CollapsibleParagraph>
                 </Piece>
             );
         } else {
@@ -171,50 +177,6 @@ let IkonotvPieceContainer = React.createClass({
                 </div>
             );
         }
-    }
-});
-
-
-let IkonotvPieceDetails = React.createClass({
-    propTypes: {
-        piece: React.PropTypes.object
-    },
-
-    handleSuccess() {
-        let notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    render() {
-        if (this.props.piece && Object.keys(this.props.piece.extra_data).length !== 0){
-            return (
-                <CollapsibleParagraph
-                    title={getLangText('Further Details')}
-                    show={true}
-                    defaultExpanded={true}>
-                    <Form
-                        ref='form'
-                        disabled={!this.props.piece.acl.acl_edit}>
-                        {Object.keys(this.props.piece.extra_data).map((data, i) => {
-                            let label = data.replace('_', ' ');
-                            return (
-                                <Property
-                                    key={i}
-                                    name={data}
-                                    label={label}
-                                    hidden={!this.props.piece.extra_data[data]}>
-                                    <InputTextAreaToggable
-                                        rows={1}
-                                        defaultValue={this.props.piece.extra_data[data]}/>
-                                </Property>);
-                            }
-                        )}
-                        <hr />
-                    </Form>
-                </CollapsibleParagraph>
-            );
-        }
-        return null;
     }
 });
 
