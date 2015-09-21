@@ -43,15 +43,18 @@ let SettingsContainer = React.createClass({
     },
 
     render() {
-        return (
-            <div className="settings-container">
-                <AccountSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
-                {this.props.children}
-                <APISettings />
-                <BitcoinWalletSettings />
-                <ContractSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
-            </div>
-        );
+        if (this.state.currentUser && this.state.currentUser.username) {
+            return (
+                <div className="settings-container">
+                    <AccountSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
+                    {this.props.children}
+                    <APISettings />
+                    <BitcoinWalletSettings />
+                    <ContractSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
+                </div>
+            );
+        }
+        return null;
     }
 });
 

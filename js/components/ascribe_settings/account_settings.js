@@ -104,7 +104,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
-                <CopyrightAssociationForm currentUser={this.state.currentUser}/>
+                <CopyrightAssociationForm currentUser={this.props.currentUser}/>
                 {profile}
                 {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>
