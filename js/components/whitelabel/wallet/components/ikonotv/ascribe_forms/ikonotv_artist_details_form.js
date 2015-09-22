@@ -119,7 +119,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     </Property>
                     <Property
                         name='additional_websites'
-                        label={getLangText('Additional Websites/Publications')}
+                        label={getLangText('Additional Websites/Publications/Museums/Galleries')}
                         hidden={this.props.disabled && !this.props.piece.extra_data.additional_websites}>
                         <InputTextAreaToggable
                             rows={1}

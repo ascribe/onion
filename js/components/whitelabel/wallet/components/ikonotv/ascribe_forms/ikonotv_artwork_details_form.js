@@ -114,7 +114,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.size_duration}
-                            placeholder={getLangText('The size of the file in MB or the duration of the movie')}/>
+                            placeholder={getLangText('Sizes in centimeters. Durations in minutes.')}/>
                     </Property>
                     <Property
                         name='copyright'
