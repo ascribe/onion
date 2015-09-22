@@ -68,15 +68,7 @@ let ContractAgreementForm = React.createClass({
                 <Property
                     name='contract'
                     label={getLangText('Contract Type')}
-                    onChange={this.onContractChange}
-                    footer={
-                        <a
-                            className="pull-right"
-                            href={contractList[this.state.selectedContract].blob}
-                            target="_blank">
-                            {getLangText('Learn more')}
-                        </a>
-                    }>
+                    onChange={this.onContractChange}>
                     <select name="contract">
                         {contractList.map((contract, i) => {
                             return (
