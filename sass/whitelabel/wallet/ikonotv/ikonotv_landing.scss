@@ -178,8 +178,13 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 }
 
 
-.client--ikonotv .ascribe-form-bordered {
-    border: none;
+.client--ikonotv {
+    .route--login,
+    .route--signup {
+        .ascribe-form-bordered {
+            border: none;
+        }
+    }
 }
 
 .client--ikonotv .ascribe-login-wrapper {
