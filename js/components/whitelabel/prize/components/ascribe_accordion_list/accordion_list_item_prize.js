@@ -124,7 +124,7 @@ let AccordionListItemPrize = React.createClass({
             <div>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_submit">
+                    aclName="acl_wallet_submit">
                     <SubmitToPrizeButton
                         className="pull-right"
                         piece={this.props.content}
