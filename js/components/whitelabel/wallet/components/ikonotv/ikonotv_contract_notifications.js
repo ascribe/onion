@@ -162,7 +162,7 @@ let IkonotvContractNotifications = React.createClass({
                         <div className='notification-contract-logo'>
                             <img src={this.state.whitelabel.logo}/>
                             <div className='notification-contract-header'>
-                                {getLangText('Production Contract')}
+                                {getLangText('Contract')}
                             </div>
                         </div>
                         {this.getContract()}

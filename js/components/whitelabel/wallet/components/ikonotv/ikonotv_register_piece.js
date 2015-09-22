@@ -259,8 +259,8 @@ let IkonotvRegisterPiece = React.createClass({
                         </Col>
                     </Row>
                 </div>
-                {this.getSlideArtistDetails()}
                 {this.getSlideArtworkDetails()}
+                {this.getSlideArtistDetails()}
                 {this.getSlideLoan()}
             </SlidesContainer>
         );
