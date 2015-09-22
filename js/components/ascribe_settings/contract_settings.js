@@ -83,7 +83,7 @@ let ContractSettings = React.createClass({
 
         return (
             <AclProxy
-                aclName="acl_view_contract_settings"
+                aclName="acl_view_settings_contract"
                 aclObject={this.props.currentUser.acl}>
                 <CollapsibleParagraph
                     title={getLangText('Contracts')}
