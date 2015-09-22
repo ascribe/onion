@@ -76,7 +76,7 @@ let IkonotvLanding = React.createClass({
                             NEW SUBSCRIPTION SERVICE
                         </h1>
                         <p>
-                            IkonoTV has developed an app that provides playlists on demand—soon to be available on all online devices and SmartTVs. The app is a paid service; in view of the interest in distributing this service in public spaces (hospitals, airports, hotels, etc.), we can now offer the possibility of a share in revenue to compensate for the artist’s work.
+                            IkonoTV has developed an app that provides playlists on demand—soon to be available on all online devices and SmartTVs. We can now offer the possibility of a share in revenue to compensate for the artist’s work.
                         </p>
                     </section>
                     <section>
@@ -84,7 +84,7 @@ let IkonotvLanding = React.createClass({
                             THE RAPID GROWTH OF IkonoTV
                         </h1>
                         <p>
-                            In October 2014, our first app was installed on Amazon Fire TV. During the first month it was downloaded 200 times, and jumped to 5,000 by the second month. Today, we’re well over the 175,000 mark, making us the number one app in our category in the US, Canada, UK and Germany.
+                            In October 2014, our first app was installed on Amazon Fire TV. During the first month it was downloaded 200 times, and jumped to 5,000 by the second month. Today, we’re well over the 285,000 mark, making us the number one app in our category in the US, Canada, UK and Germany.
                         </p>
                     </section>
                     <section>
