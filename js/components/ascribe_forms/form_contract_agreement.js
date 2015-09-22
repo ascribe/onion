@@ -134,7 +134,7 @@ let ContractAgreementForm = React.createClass({
         return (
             <div>
                 <p className="text-center">
-                    {getLangText('No private contracts found, please go to the ')}
+                    {getLangText('No contracts uploaded yet, please go to the ')}
                     <a href="settings">{getLangText('settings page')}</a>
                     {getLangText(' and create them.')}
                 </p>

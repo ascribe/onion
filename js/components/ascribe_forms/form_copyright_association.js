@@ -29,12 +29,15 @@ let CopyrightAssociationForm = React.createClass({
     },
 
     render() {
-        let selectedState = -1;
-        if (this.props.currentUser
-            && this.props.currentUser.profile
+        let selectedState;
+        let selectDefaultValue = ' -- ' + getLangText('select an association') + ' -- ';
+
+        if (this.props.currentUser && this.props.currentUser.profile
             && this.props.currentUser.profile.copyright_association) {
             selectedState = AppConstants.copyrightAssociations.indexOf(this.props.currentUser.profile.copyright_association);
+            selectedState = selectedState !== -1 ? AppConstants.copyrightAssociations[selectedState] : selectDefaultValue;
         }
+
         if (this.props.currentUser && this.props.currentUser.email){
             return (
                 <Form
@@ -47,17 +50,19 @@ let CopyrightAssociationForm = React.createClass({
                         className="ascribe-settings-property-collapsible-toggle"
                         label={getLangText('Copyright Association')}
                         style={{paddingBottom: 0}}>
-                        <select name="contract">
-                            <option disabled selected={selectedState === -1}>
-                                {' -- ' + getLangText('select an association') + ' -- '}
+                        <select defaultValue={selectedState} name="contract">
+                            <option
+                                name={0}
+                                key={0}
+                                value={selectDefaultValue}>
+                                {selectDefaultValue}
                             </option>
                             {AppConstants.copyrightAssociations.map((association, i) => {
                                 return (
                                     <option
-                                        name={i}
-                                        key={i}
-                                        value={ association }
-                                        selected={selectedState === i}>
+                                        name={i + 1}
+                                        key={i + 1}
+                                        value={association}>
                                         { association }
                                     </option>
                                 );
