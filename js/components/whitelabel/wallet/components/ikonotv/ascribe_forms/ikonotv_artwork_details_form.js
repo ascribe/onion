@@ -67,7 +67,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     type="submit"
                     className="btn ascribe-btn ascribe-btn-login"
                     disabled={this.props.disabled}>
-                    {getLangText('Proceed to loan')}
+                    {getLangText('Proceed to artist details')}
                 </button>
             );
 

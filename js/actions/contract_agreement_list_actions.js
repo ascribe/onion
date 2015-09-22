@@ -35,27 +35,47 @@ class ContractAgreementListActions {
         );
     }
 
-    fetchAvailableContractAgreementList(issuer){
+    fetchAvailableContractAgreementList(issuer, createContractAgreement) {
         return Q.Promise((resolve, reject) => {
-            this.actions.fetchContractAgreementList(issuer, true, null)
-                .then((contractAgreementListAccepted) => {
-                    if (!contractAgreementListAccepted) {
-                        // fetch pending agreements if no accepted ones
-                        return this.actions.fetchContractAgreementList(issuer, null, true);
+            OwnershipFetcher.fetchContractAgreementList(issuer, true, null)
+                .then((acceptedContractAgreementList) => {
+                    // if there is at least an accepted contract agreement, we're going to
+                    // use it
+                    if(acceptedContractAgreementList.count > 0) {
+                        this.actions.updateContractAgreementList(acceptedContractAgreementList.results);
+                    } else {
+                        // otherwise, we're looking for contract agreements that are still pending
+                        //
+                        // Normally nesting promises, but for this conditional one, it makes sense to not
+                        // overcomplicate the method
+                        OwnershipFetcher.fetchContractAgreementList(issuer, null, true)
+                            .then((pendingContractAgreementList) => {
+                                if(pendingContractAgreementList.count > 0) {
+                                    this.actions.updateContractAgreementList(pendingContractAgreementList.results);
+                                } else {
+                                    // if there was neither a pending nor an active contractAgreement
+                                    // found and createContractAgreement is set to true, we create a
+                                    // new contract agreement
+                                    if(createContractAgreement) {
+                                        this.actions.createContractAgreementFromPublicContract(issuer);
+                                    }
+                                }
+                            })
+                            .catch((err) => {
+                                console.logGlobal(err);
+                                reject(err);
+                            });
                     }
-                    else {
-                        resolve(contractAgreementListAccepted);
-                    }
-                }).then((contractAgreementListPending) => {
-                    resolve(contractAgreementListPending);
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.logGlobal(err);
                     reject(err);
                 });
-        });
+            }
+        );
     }
 
-    createContractAgreementFromPublicContract(issuer){
+    createContractAgreementFromPublicContract(issuer) {
         ContractListActions.fetchContractList(null, null, issuer)
             .then((publicContract) => {
                 // create an agreement with the public contract if there is one
