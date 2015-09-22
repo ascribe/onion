@@ -406,3 +406,14 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         border-color: $ikono--button-color;
     }
 }
+
+
+// notifications
+.client--ikonotv .ascribe-global-notification-success {
+    background-color: $ikono--button-color;
+}
+
+// progress bar
+.client--ikonotv .ascribe-progress-bar > .progress-bar {
+    background-color: $ikono--button-color;
+}
