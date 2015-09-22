@@ -1,7 +1,14 @@
-$ikono--landing-bg-color: #06c;
-$ikono--bg-color: #939;
+$ikono--landing-bg-color: #093;
+$ikono--bg-color: #06c;
 $ikono--button-color: $ikono--bg-color;
 $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
+
+
+@include keyframes(color-loop) {
+    0%  { background: $ikono--landing-bg-color; }
+    33% { background: #099; }
+    66% { background: #09f; }
+}
 
 
 .client--ikonotv {
@@ -84,6 +91,10 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
 .client--ikonotv .route--landing {
     background-color: $ikono--landing-bg-color;
+    animation: color-loop 20s;
+    -moz-animation: color-loop 20s infinite;
+    -webkit-animation: color-loop 20s infinite;
+    
     margin: 0;
     width: 100%;
     padding: 5em 1em;
@@ -212,7 +223,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
             margin-bottom: 2em;
 
             > h1 {
-                font-size: 9em;
+                font-size: 7em;
                 font-weight: bold;
 
                 margin-top: 10px;
