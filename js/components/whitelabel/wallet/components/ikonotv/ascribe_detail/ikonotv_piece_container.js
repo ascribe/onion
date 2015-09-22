@@ -65,6 +65,33 @@ let IkonotvPieceContainer = React.createClass({
     },
 
     render() {
+        let furtherDetails = (
+            <CollapsibleParagraph
+                title={getLangText('Further Details')}
+                show={true}
+                defaultExpanded={true}>
+                <span>{getLangText('This piece has been loaned before we started to collect further details.')}</span>
+            </CollapsibleParagraph>
+        );
+
+        if(this.state.piece.extra_data && Object.keys(this.state.piece.extra_data).length > 0 && this.state.piece.acl) {
+            furtherDetails = (
+                <CollapsibleParagraph
+                    title={getLangText('Further Details')}
+                    show={true}
+                    defaultExpanded={true}>
+                    <IkonotvArtistDetailsForm
+                        piece={this.state.piece}
+                        isInline={true}
+                        disabled={!this.state.piece.acl.acl_edit} />
+                    <IkonotvArtworkDetailsForm
+                        piece={this.state.piece}
+                        isInline={true}
+                        disabled={!this.state.piece.acl.acl_edit} />
+                </CollapsibleParagraph>
+            );
+        }
+
         if(this.state.piece && this.state.piece.title) {
             return (
                 <WalletPieceContainer
@@ -72,19 +99,7 @@ let IkonotvPieceContainer = React.createClass({
                     currentUser={this.state.currentUser}
                     loadPiece={this.loadPiece}
                     submitButtonType={IkonotvSubmitButton}>
-                    <CollapsibleParagraph
-                        title={getLangText('Further Details')}
-                        show={true}
-                        defaultExpanded={true}>
-                        <IkonotvArtistDetailsForm
-                            piece={this.state.piece}
-                            isInline={true}
-                            disabled={!this.state.piece.acl.acl_edit} />
-                        <IkonotvArtworkDetailsForm
-                            piece={this.state.piece}
-                            isInline={true}
-                            disabled={!this.state.piece.acl.acl_edit} />
-                    </CollapsibleParagraph>
+                    {furtherDetails}
                 </WalletPieceContainer>
             );
         }
