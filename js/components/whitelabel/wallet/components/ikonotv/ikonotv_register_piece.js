@@ -170,7 +170,7 @@ let IkonotvRegisterPiece = React.createClass({
 
     canSubmit() {
         let currentUser = this.state.currentUser;
-        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit;
+        return currentUser && currentUser.acl && currentUser.acl.acl_submit;
     },
 
     getSlideArtistDetails() {

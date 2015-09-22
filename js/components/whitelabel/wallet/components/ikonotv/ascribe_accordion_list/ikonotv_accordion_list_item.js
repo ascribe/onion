@@ -64,10 +64,10 @@ let IkonotvAccordionListItem = React.createClass({
             <div>
                 <AclProxy
                     aclObject={this.state.currentUser.acl}
-                    aclName="acl_wallet_submit">
+                    aclName="acl_submit">
                     <AclProxy
                         aclObject={this.props.content.acl}
-                        aclName="acl_wallet_submit">
+                        aclName="acl_submit">
                         <IkonotvSubmitButton
                             className="btn-xs pull-right"
                             handleSuccess={this.handleSubmitSuccess}
@@ -76,7 +76,7 @@ let IkonotvAccordionListItem = React.createClass({
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_wallet_submitted">
+                    aclName="acl_submitted">
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
@@ -86,7 +86,7 @@ let IkonotvAccordionListItem = React.createClass({
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_wallet_accepted">
+                    aclName="acl_accepted">
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">

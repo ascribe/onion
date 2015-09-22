@@ -63,7 +63,7 @@ let CylandAccordionListItem = React.createClass({
             <div>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_wallet_submit">
+                    aclName="acl_submit">
                     <CylandSubmitButton
                         className="pull-right"
                         piece={this.props.content}
@@ -71,7 +71,7 @@ let CylandAccordionListItem = React.createClass({
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_wallet_submitted">
+                    aclName="acl_submitted">
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
@@ -81,7 +81,7 @@ let CylandAccordionListItem = React.createClass({
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_wallet_accepted">
+                    aclName="acl_accepted">
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
