@@ -3,6 +3,7 @@
 
 $BASE_URL: '<%= BASE_URL %>';
 
+@import 'mixins';
 @import 'ascribe_variables';
 @import 'variables';
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
