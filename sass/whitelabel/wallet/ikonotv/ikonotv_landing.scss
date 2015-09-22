@@ -350,7 +350,8 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
     .open > .btn-default.dropdown-toggle:hover,
     .open > .btn-default.dropdown-toggle:focus,
-    .open > .btn-default.dropdown-toggle.focus {
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
         background-color: darken($ikono--button-color, 20%);
         border-color: darken($ikono--button-color, 20%);
     }
