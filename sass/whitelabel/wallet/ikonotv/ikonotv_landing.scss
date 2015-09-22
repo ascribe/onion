@@ -290,6 +290,31 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
     }
 }
 
+// disabled buttons
+.client--ikonotv {
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: darken($ikono--button-color, 20%);
+        border-color: darken($ikono--button-color, 20%);
+    }
+}
+
 // buttons!
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
