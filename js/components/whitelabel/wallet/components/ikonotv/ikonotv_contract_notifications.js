@@ -22,6 +22,8 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 
+import Property from '../../../../ascribe_forms/property';
+
 import AppConstants from '../../../../../constants/application_constants';
 
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -67,16 +69,11 @@ let IkonotvContractNotifications = React.createClass({
         if (blob.mime === 'pdf') {
             return (
                 <div className='notification-contract-pdf'>
-                    <embed src={blob.url_safe} alt="pdf"
-                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
-                    <div className='notification-contract-pdf-download'>
-                        <a href={blob.url_safe} target="_blank">
-                            <Glyphicon glyph='download-alt'/>
-                            <span style={{padding: '0.3em'}}>
-                                Download PDF version
-                            </span>
-                        </a>
-                    </div>
+                    <embed
+                        height
+                        src={blob.url_safe}
+                        alt="pdf"
+                        pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
                 </div>
             );
         }
@@ -97,12 +94,11 @@ let IkonotvContractNotifications = React.createClass({
         let appendix = notifications.contract_agreement.appendix;
         if (appendix && appendix.default) {
             return (
-                <div className='notification-contract-footer'>
-                    <h1>{getLangText('Appendix')}</h1>
-                    <pre>
-                        {appendix.default}
-                    </pre>
-                </div>
+                <Property
+                    name='appendix'
+                    label={getLangText('Appendix')}>
+                    <pre className="ascribe-pre">{appendix.default}</pre>
+                </Property>
             );
         }
         return null;
@@ -153,9 +149,12 @@ let IkonotvContractNotifications = React.createClass({
     },
 
     render() {
-
         if (this.state.contractAgreementListNotifications &&
             this.state.contractAgreementListNotifications.length > 0) {
+
+            let notifications = this.state.contractAgreementListNotifications[0];
+            let blob = notifications.contract_agreement.contract.blob;
+
             return (
                 <div className='container'>
                     <div className='notification-contract-wrapper'>
@@ -168,6 +167,14 @@ let IkonotvContractNotifications = React.createClass({
                         {this.getContract()}
                         <div className='notification-contract-footer'>
                             {this.getAppendix()}
+                            <div className='notification-contract-pdf-download'>
+                                <a href={blob.url_safe} target="_blank">
+                                    <Glyphicon glyph='download-alt'/>
+                                    <span style={{padding: '0.3em'}}>
+                                        Download PDF version
+                                    </span>
+                                </a>
+                            </div>
                             {this.getCopyrightAssociationForm()}
                             <p style={{marginTop: '1em'}}>
                                 <Button type="submit" onClick={this.handleConfirm}>
