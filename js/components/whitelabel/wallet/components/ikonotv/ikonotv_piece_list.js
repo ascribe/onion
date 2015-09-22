@@ -37,11 +37,17 @@ let IkonotvPieceList = React.createClass({
                     accordionListItemType={IkonotvAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
-                        items: [{
-                            key: 'acl_loaned',
-                            label: getLangText('loaned to IkonoTV')
-                        }]
-                    }]}/>
+                        items: [
+                            {
+                                key: 'submitted',
+                                label: getLangText('submitted')
+                            },
+                            {
+                                key: 'accepted',
+                                label: getLangText('loaned')
+                            }
+                        ]
+                        }]}/>
             </div>
         );
     }
