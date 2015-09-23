@@ -139,7 +139,7 @@ let Header = React.createClass({
                         {getLangText('Account Settings')}
                     </MenuItemLink>
                     <AclProxy
-                        aclObject={this.state.whitelabel}
+                        aclObject={this.state.currentUser.acl}
                         aclName="acl_view_settings_contract">
                         <MenuItemLink
                             to="contract_settings"

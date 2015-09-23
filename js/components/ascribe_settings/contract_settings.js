@@ -89,86 +89,82 @@ let ContractSettings = React.createClass({
 
         return (
             <div className="settings-container">
-                <AclProxy
-                    aclName="acl_view_settings_contract"
-                    aclObject={this.state.currentUser.acl}>
-                    <CollapsibleParagraph
-                        title={getLangText('Contracts')}
-                        show={true}
-                        defaultExpanded={true}>
-                        <AclProxy
-                            aclName="acl_edit_public_contract"
-                            aclObject={this.state.currentUser.acl}>
-                            <div>
-                                {createPublicContractForm}
-                                {publicContracts.map((contract, i) => {
-                                    return (
-                                        <ActionPanel
-                                            key={i}
-                                            title={contract.name}
-                                            content={contract.name}
-                                            buttons={
-                                                <div className="pull-right">
-                                                    <ContractSettingsUpdateButton contract={contract}/>
-                                                    <a
-                                                        className="btn btn-default btn-sm margin-left-2px"
-                                                        href={contract.blob.url_safe}
-                                                        target="_blank">
-                                                        {getLangText('PREVIEW')}
-                                                    </a>
-                                                    <button
-                                                        className="btn btn-danger btn-sm margin-left-2px"
-                                                        onClick={this.removeContract(contract)}>
-                                                        {getLangText('REMOVE')}
-                                                    </button>
-                                               </div>
-                                            }
-                                            leftColumnWidth="40%"
-                                            rightColumnWidth="60%"/>
-                                    );
-                                })}
-                            </div>
-                        </AclProxy>
-                        <AclProxy
-                            aclName="acl_edit_private_contract"
-                            aclObject={this.state.currentUser.acl}>
-                            <div>
-                                <CreateContractForm
-                                isPublic={false}
-                                fileClassToUpload={{
-                                    singular: getLangText('new contract'),
-                                    plural: getLangText('new contracts')
-                                }}/>
-                                {privateContracts.map((contract, i) => {
-                                    return (
-                                        <ActionPanel
-                                            key={i}
-                                            title={contract.name}
-                                            content={contract.name}
-                                            buttons={
-                                                <div className="pull-right">
-                                                   <ContractSettingsUpdateButton contract={contract} />
-                                                    <a
-                                                        className="btn btn-default btn-sm margin-left-2px"
-                                                        href={contract.blob.url_safe}
-                                                        target="_blank">
-                                                        {getLangText('PREVIEW')}
-                                                   </a>
-                                                    <button
-                                                        className="btn btn-danger btn-sm margin-left-2px"
-                                                        onClick={this.removeContract(contract)}>
-                                                        {getLangText('REMOVE')}
-                                                    </button>
-                                               </div>
-                                           }
-                                           leftColumnWidth="40%"
-                                           rightColumnWidth="60%"/>
-                                    );
-                                })}
-                            </div>
-                        </AclProxy>
-                    </CollapsibleParagraph>
-                </AclProxy>
+                <CollapsibleParagraph
+                    title={getLangText('Contracts')}
+                    show={true}
+                    defaultExpanded={true}>
+                    <AclProxy
+                        aclName="acl_edit_public_contract"
+                        aclObject={this.state.currentUser.acl}>
+                        <div>
+                            {createPublicContractForm}
+                            {publicContracts.map((contract, i) => {
+                                return (
+                                    <ActionPanel
+                                        key={i}
+                                        title={contract.name}
+                                        content={contract.name}
+                                        buttons={
+                                            <div className="pull-right">
+                                                <ContractSettingsUpdateButton contract={contract}/>
+                                                <a
+                                                    className="btn btn-default btn-sm margin-left-2px"
+                                                    href={contract.blob.url_safe}
+                                                    target="_blank">
+                                                    {getLangText('PREVIEW')}
+                                                </a>
+                                                <button
+                                                    className="btn btn-danger btn-sm margin-left-2px"
+                                                    onClick={this.removeContract(contract)}>
+                                                    {getLangText('REMOVE')}
+                                                </button>
+                                           </div>
+                                        }
+                                        leftColumnWidth="40%"
+                                        rightColumnWidth="60%"/>
+                                );
+                            })}
+                        </div>
+                    </AclProxy>
+                    <AclProxy
+                        aclName="acl_edit_private_contract"
+                        aclObject={this.state.currentUser.acl}>
+                        <div>
+                            <CreateContractForm
+                            isPublic={false}
+                            fileClassToUpload={{
+                                singular: getLangText('new contract'),
+                                plural: getLangText('new contracts')
+                            }}/>
+                            {privateContracts.map((contract, i) => {
+                                return (
+                                    <ActionPanel
+                                        key={i}
+                                        title={contract.name}
+                                        content={contract.name}
+                                        buttons={
+                                            <div className="pull-right">
+                                               <ContractSettingsUpdateButton contract={contract} />
+                                                <a
+                                                    className="btn btn-default btn-sm margin-left-2px"
+                                                    href={contract.blob.url_safe}
+                                                    target="_blank">
+                                                    {getLangText('PREVIEW')}
+                                               </a>
+                                                <button
+                                                    className="btn btn-danger btn-sm margin-left-2px"
+                                                    onClick={this.removeContract(contract)}>
+                                                    {getLangText('REMOVE')}
+                                                </button>
+                                           </div>
+                                       }
+                                       leftColumnWidth="40%"
+                                       rightColumnWidth="60%"/>
+                                );
+                            })}
+                        </div>
+                    </AclProxy>
+                </CollapsibleParagraph>
             </div>
         );
     }
