@@ -50,7 +50,6 @@ let SettingsContainer = React.createClass({
                     {this.props.children}
                     <APISettings />
                     <BitcoinWalletSettings />
-                    <ContractSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
                 </div>
             );
         }
