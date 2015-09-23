@@ -11,6 +11,9 @@ import ContractListActions from '../../actions/contract_list_actions';
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
 
+import WhitelabelStore from '../../stores/whitelabel_store';
+import WhitelabelActions from '../../actions/whitelabel_actions';
+
 import ActionPanel from '../ascribe_panel/action_panel';
 import ContractSettingsUpdateButton from './contract_settings_update_button';
 
@@ -34,12 +37,15 @@ let ContractSettings = React.createClass({
     componentDidMount() {
         ContractListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
 
+        WhitelabelActions.fetchWhitelabel();
         UserActions.fetchCurrentUser();
         ContractListActions.fetchContractList(true);
     },
 
     componentWillUnmount() {
+        WhitelabelStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         ContractListStore.unlisten(this.onChange);
     },
@@ -106,7 +112,11 @@ let ContractSettings = React.createClass({
                                         content={contract.name}
                                         buttons={
                                             <div className="pull-right">
-                                                <ContractSettingsUpdateButton contract={contract}/>
+                                                <AclProxy
+                                                    aclObject={this.state.whitelabel}
+                                                    aclName="acl_update_public_contract">
+                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
                                                     href={contract.blob.url_safe}
@@ -144,7 +154,11 @@ let ContractSettings = React.createClass({
                                         content={contract.name}
                                         buttons={
                                             <div className="pull-right">
-                                               <ContractSettingsUpdateButton contract={contract} />
+                                               <AclProxy
+                                                    aclObject={this.state.whitelabel}
+                                                    aclName="acl_update_private_contract">
+                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
                                                     href={contract.blob.url_safe}
