@@ -207,7 +207,7 @@ const languages = {
         'Specify editions': 'Specify editions',
         'Editions': 'Editions',
         'Create editions': 'Create editions',
-        'I agree to the Terms of Service': 'I agree to the Terms of Service',
+        'I agree to the Terms of Service of ascribe': 'I agree to the Terms of Service of ascribe',
         'read': 'read',
         'If your email address exists in our database, you will receive a password recovery link in a few minutes.': 'If your email address exists in our database, you will receive a password recovery link in a few minutes.',
         'REGISTREE': 'REGISTREE',
