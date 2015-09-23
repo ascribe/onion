@@ -7,8 +7,6 @@ import Property from '../../../../../ascribe_forms/property';
 
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
-
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
@@ -18,31 +16,21 @@ import AppConstants from '../../../../../../constants/application_constants';
 import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
-let CylandAdditionalDataForm = React.createClass({
+let IkonotvArtistDetailsForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
+
         disabled: React.PropTypes.bool,
+
         isInline: React.PropTypes.bool
     },
 
     getDefaultProps() {
         return {
             isInline: false
-        };
-    },
-
-    handleSuccess() {
-        let notification = new GlobalNotificationModel('Further details successfully updated', 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
-    getInitialState() {
-        return {
-            isUploadReady: true
         };
     },
 
@@ -64,28 +52,22 @@ let CylandAdditionalDataForm = React.createClass({
 
     },
 
-    uploadStarted() {
-        this.setState({
-            isUploadReady: false
-        });
-    },
-
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
+    handleSuccess() {
+        let notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {
-        let { piece, isInline, disabled, handleSuccess } = this.props;
         let buttons, spinner, heading;
+        let { isInline, handleSuccess } = this.props;
+        
 
         if(!isInline) {
             buttons = (
                 <button
                     type="submit"
                     className="btn ascribe-btn ascribe-btn-login"
-                    disabled={!this.state.isUploadReady || disabled}>
+                    disabled={this.props.disabled}>
                     {getLangText('Proceed to loan')}
                 </button>
             );
@@ -99,48 +81,61 @@ let CylandAdditionalDataForm = React.createClass({
             heading = (
                 <div className="ascribe-form-header">
                     <h3>
-                        {getLangText('Provide supporting materials')}
+                        {getLangText('Artist Details')}
                     </h3>
                 </div>
             );
         }
 
-        if(piece && piece.id) {
+        if(this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
             return (
                 <Form
-                    disabled={disabled}
+                    disabled={this.props.disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
                     spinner={spinner}>
                     {heading}
                     <Property
-                        name='artist_bio'
-                        label={getLangText('Artist Biography')}>
+                        name='artist_website'
+                        label={getLangText('Artist Website')}
+                        hidden={this.props.disabled && !this.props.piece.extra_data.artist_website}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.artist_bio}
-                            placeholder={getLangText('Enter the artist\'s biography...')}/>
+                            defaultValue={this.props.piece.extra_data.artist_website}
+                            placeholder={getLangText('The artist\'s website if present...')}/>
+                    </Property>
+                    <Property
+                        name='gallery_website'
+                        label={getLangText('Website of related Gallery, Museum, etc.')}
+                        hidden={this.props.disabled && !this.props.piece.extra_data.gallery_website}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={this.props.piece.extra_data.gallery_website}
+                            placeholder={getLangText('The website of any related Gallery or Museum')}/>
+                    </Property>
+                    <Property
+                        name='additional_websites'
+                        label={getLangText('Additional Websites/Publications/Museums/Galleries')}
+                        hidden={this.props.disabled && !this.props.piece.extra_data.additional_websites}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={this.props.piece.extra_data.additional_websites}
+                            placeholder={getLangText('Enter additional Websites/Publications if any')}/>
                     </Property>
                     <Property
                         name='conceptual_overview'
-                        label={getLangText('Conceptual Overview')}>
+                        label={getLangText('Short text about the Artist')}
+                        hidden={this.props.disabled && !this.props.piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.conceptual_overview}
-                            placeholder={getLangText('Enter a conceptual overview...')}/>
+                            defaultValue={this.props.piece.extra_data.conceptual_overview}
+                            placeholder={getLangText('Enter a short bio about the Artist')}
+                            />
                     </Property>
-                    <FurtherDetailsFileuploader
-                        uploadStarted={this.uploadStarted}
-                        submitFile={this.submitFile}
-                        setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
-                        pieceId={piece.id}
-                        otherData={piece.other_data}
-                        multiple={true}/>
                 </Form>
             );
         } else {
@@ -153,4 +148,4 @@ let CylandAdditionalDataForm = React.createClass({
     }
 });
 
-export default CylandAdditionalDataForm;
+export default IkonotvArtistDetailsForm;

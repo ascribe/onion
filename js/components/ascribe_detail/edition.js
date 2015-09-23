@@ -152,8 +152,9 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title="Notes"
-                        show={(this.state.currentUser.username && true || false) ||
-                                (this.props.edition.acl.acl_edit || this.props.edition.public_note)}>
+                        show={!!(this.state.currentUser.username
+                                || this.props.edition.acl.acl_edit
+                                || this.props.edition.public_note)}>
                         <Note
                             id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}

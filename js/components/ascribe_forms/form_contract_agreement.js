@@ -35,7 +35,7 @@ let ContractAgreementForm = React.createClass({
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        ContractListActions.fetchContractList(true);
+        ContractListActions.fetchContractList(true, false);
     },
 
     componentWillUnmount() {
@@ -68,15 +68,7 @@ let ContractAgreementForm = React.createClass({
                 <Property
                     name='contract'
                     label={getLangText('Contract Type')}
-                    onChange={this.onContractChange}
-                    footer={
-                        <a
-                            className="pull-right"
-                            href={contractList[this.state.selectedContract].blob}
-                            target="_blank">
-                            {getLangText('Learn more')}
-                        </a>
-                    }>
+                    onChange={this.onContractChange}>
                     <select name="contract">
                         {contractList.map((contract, i) => {
                             return (
@@ -95,45 +87,58 @@ let ContractAgreementForm = React.createClass({
     },
 
     render() {
+        if (this.state.contractList && this.state.contractList.length > 0) {
+            return (
+                <Form
+                    className="ascribe-form-bordered ascribe-form-wrapper"
+                    ref='form'
+                    url={ApiUrls.ownership_contract_agreements}
+                    getFormData={this.getFormData}
+                    handleSuccess={this.handleSubmitSuccess}
+                    buttons={<button
+                                type="submit"
+                                className="btn ascribe-btn ascribe-btn-login">
+                                {getLangText('Send loan request')}
+                            </button>}
+                    spinner={
+                        <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
+                            <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                        </span>
+                        }>
+                    <div className="ascribe-form-header">
+                        <h3>{getLangText('Contract form')}</h3>
+                    </div>
+                    <Property
+                        name='signee'
+                        label={getLangText('Artist Email')}>
+                        <input
+                            type="email"
+                            placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
+                            required/>
+                    </Property>
+                    {this.getContracts()}
+                    <PropertyCollapsible
+                        name='appendix'
+                        checkboxLabel={getLangText('Add appendix to the contract')}>
+                        <span>{getLangText('Appendix')}</span>
+                        {/* We're using disabled on a form here as PropertyCollapsible currently
+                        does not support the disabled + overrideForm functionality */}
+                        <InputTextAreaToggable
+                            rows={1}
+                            disabled={false}
+                            placeholder={getLangText('This will be appended to the contract selected above')}/>
+                    </PropertyCollapsible>
+                </Form>
+            );
+        }
         return (
-            <Form
-                className="ascribe-form-bordered ascribe-form-wrapper"
-                ref='form'
-                url={ApiUrls.ownership_contract_agreements}
-                getFormData={this.getFormData}
-                handleSuccess={this.handleSubmitSuccess}
-                buttons={<button
-                            type="submit"
-                            className="btn ascribe-btn ascribe-btn-login">
-                            {getLangText('Send loan request')}
-                        </button>}
-                spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
-                    </span>
-                    }>
-                <div className="ascribe-form-header">
-                    <h3>{getLangText('Contract form')}</h3>
-                </div>
-                <Property
-                    name='signee'
-                    label={getLangText('Artist Email')}>
-                    <input
-                        type="email"
-                        placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
-                        required/>
-                </Property>
-                {this.getContracts()}
-                <PropertyCollapsible
-                    name='appendix'
-                    checkboxLabel={getLangText('Add appendix to the contract')}>
-                    <span>{getLangText('Appendix')}</span>
-                    <InputTextAreaToggable
-                        rows={1}
-                        editable={true}
-                        placeholder={getLangText('This will be appended to the contract selected above')}/>
-                </PropertyCollapsible>
-            </Form>
+            <div>
+                <p className="text-center">
+                    {getLangText('No contracts uploaded yet, please go to the ')}
+                    <a href="settings">{getLangText('settings page')}</a>
+                    {getLangText(' and create them.')}
+                </p>
+            </div>
         );
     }
 });

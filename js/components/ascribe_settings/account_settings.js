@@ -10,6 +10,8 @@ import Property from '../ascribe_forms/property';
 import InputCheckbox from '../ascribe_forms/input_checkbox';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
+import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
@@ -17,8 +19,8 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccountSettings = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.required,
-        loadUser: React.PropTypes.func.required
+        currentUser: React.PropTypes.object.isRequired,
+        loadUser: React.PropTypes.func.isRequired
     },
 
     handleSuccess(){
@@ -102,6 +104,7 @@ let AccountSettings = React.createClass({
                 show={true}
                 defaultExpanded={true}>
                 {content}
+                <CopyrightAssociationForm currentUser={this.props.currentUser}/>
                 {profile}
                 {/*<Form
                     url={AppConstants.serverUrl + 'api/users/set_language/'}>

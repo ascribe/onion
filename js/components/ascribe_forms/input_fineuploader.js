@@ -8,11 +8,13 @@ import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 
-let InputFileUploader = React.createClass({
+let InputFineUploader = React.createClass({
     propTypes: {
         setIsUploadReady: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         submitFileName: React.PropTypes.func,
+
+        areAssetsDownloadable: React.PropTypes.bool,
 
         onClick: React.PropTypes.func,
         keyRoutine: React.PropTypes.shape({
@@ -33,7 +35,7 @@ let InputFileUploader = React.createClass({
         // before login in
         isFineUploaderActive: React.PropTypes.bool,
         onLoggedOut: React.PropTypes.func,
-        editable: React.PropTypes.bool,
+
         enableLocalHashing: React.PropTypes.bool,
 
         // provided by Property
@@ -86,7 +88,7 @@ let InputFileUploader = React.createClass({
                 submitFile={this.submitFile}
                 setIsUploadReady={this.props.setIsUploadReady}
                 isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                areAssetsDownloadable={false}
+                areAssetsDownloadable={this.props.areAssetsDownloadable}
                 areAssetsEditable={editable}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
@@ -109,4 +111,4 @@ let InputFileUploader = React.createClass({
     }
 });
 
-export default InputFileUploader;
+export default InputFineUploader;

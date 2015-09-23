@@ -23,7 +23,7 @@ let WalletApp = React.createClass({
         let activeRoutes = this.getRoutes().map(elem => 'route--' + elem.name);
 
         let header = null;
-        if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup'))
+        if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup') || this.isActive('contract_notifications'))
             && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
             header = (
                 <div className="hero"/>);

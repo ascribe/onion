@@ -18,7 +18,7 @@ let LoanRequestAnswerForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func.required
+        handleSuccess: React.PropTypes.func.isRequired
     },
 
     getDefaultProps() {
