@@ -13,7 +13,7 @@ import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/ascribe_settings/settings_container';
-import RegisterPiece from '../../../components/register_piece';
+import ContractSettings from '../../../components/ascribe_settings/contract_settings';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
@@ -51,6 +51,7 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
         </Route>
     ),
     'cc': (
@@ -83,6 +84,7 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
             <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
         </Route>
     )

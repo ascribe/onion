@@ -97,7 +97,6 @@ let APISettings = React.createClass({
         return (
             <CollapsibleParagraph
                 title={getLangText('API Integration')}
-                show={true}
                 defaultExpanded={this.props.defaultExpanded}>
                 <Form
                     url={ApiUrls.applications}

@@ -68,7 +68,6 @@ let IkonotvPieceContainer = React.createClass({
         let furtherDetails = (
             <CollapsibleParagraph
                 title={getLangText('Further Details')}
-                show={true}
                 defaultExpanded={true}>
                 <span>{getLangText('This piece has been loaned before we started to collect further details.')}</span>
             </CollapsibleParagraph>
@@ -78,7 +77,6 @@ let IkonotvPieceContainer = React.createClass({
             furtherDetails = (
                 <CollapsibleParagraph
                     title={getLangText('Further Details')}
-                    show={true}
                     defaultExpanded={true}>
                     <IkonotvArtistDetailsForm
                         piece={this.state.piece}

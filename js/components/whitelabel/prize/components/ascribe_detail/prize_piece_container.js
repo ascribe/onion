@@ -309,7 +309,6 @@ let PrizePieceRatings = React.createClass({
                 <div>
                     <CollapsibleParagraph
                         title={getLangText('Shortlisting')}
-                        show={true}
                         defaultExpanded={true}>
                         <div className="row no-margin">
                             <span className="ascribe-checkbox-wrapper" style={{marginLeft: '1.5em'}}>
@@ -329,7 +328,6 @@ let PrizePieceRatings = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Average Rating')}
-                        show={true}
                         defaultExpanded={true}>
                         <div id="list-rating" style={{marginLeft: '1.5em', marginBottom: '1em'}}>
                             <StarRating
@@ -375,7 +373,6 @@ let PrizePieceRatings = React.createClass({
             return (
                 <CollapsibleParagraph
                     title={getLangText('Rating')}
-                    show={true}
                     defaultExpanded={true}>
                         <div style={{marginLeft: '1.5em', marginBottom: '1em'}}>
                         <StarRating
@@ -417,7 +414,6 @@ let PrizePieceDetails = React.createClass({
             return (
                 <CollapsibleParagraph
                     title={getLangText('Prize Details')}
-                    show={true}
                     defaultExpanded={true}>
                     <Form ref='form'>
                         {Object.keys(this.props.piece.extra_data).map((data) => {

@@ -61,7 +61,6 @@ let BitcoinWalletSettings = React.createClass({
         return (
             <CollapsibleParagraph
                 title={getLangText('Crypto Wallet')}
-                show={true}
                 defaultExpanded={this.props.defaultExpanded}>
                 {content}
             </CollapsibleParagraph>
