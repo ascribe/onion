@@ -64,7 +64,6 @@ let CylandPieceContainer = React.createClass({
                     submitButtonType={CylandSubmitButton}>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={true}
                         defaultExpanded={true}>
                         <CylandAdditionalDataForm
                             piece={this.state.piece}

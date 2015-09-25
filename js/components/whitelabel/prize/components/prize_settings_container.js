@@ -79,7 +79,6 @@ let PrizeSettings = React.createClass({
         return (
             <CollapsibleParagraph
                 title={'Prize Settings for ' + this.state.prize.name}
-                show={true}
                 defaultExpanded={true}>
                 <Form >
                     <Property
@@ -268,19 +267,16 @@ let PrizeJurySettings = React.createClass({
                 <div>
                     <CollapsibleParagraph
                         title={getLangText('Active Jury Members')}
-                        show={true}
                         defaultExpanded={true}>
                         {this.getMembersActive()}
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Pending Jury Invitations')}
-                        show={true}
                         defaultExpanded={true}>
                         {this.getMembersPending()}
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Deactivated Jury Members')}
-                        show={true}
                         defaultExpanded={false}>
                         {this.getMembersInactive()}
                     </CollapsibleParagraph>
