@@ -22,8 +22,6 @@ import CoaVerifyContainer from './components/coa_verify_container';
 
 import RegisterPiece from './components/register_piece';
 
-import PrizesDashboard from './components/ascribe_prizes_dashboard/prizes_dashboard';
-
 import AppConstants from './constants/application_constants';
 
 let Route = Router.Route;
@@ -45,7 +43,6 @@ const COMMON_ROUTES = (
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-        <Route name="prizes" path="prizes" handler={PrizesDashboard} />
     </Route>
 );
 
