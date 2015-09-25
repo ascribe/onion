@@ -3,7 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
@@ -11,6 +10,8 @@ import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
+
+import AclProxy from './acl_proxy';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -96,7 +97,7 @@ let Header = React.createClass({
         }
     },
 
-    onMenuItemClick(event) {
+    onMenuItemClick() {
         /*
         This is a hack to make the dropdown close after clicking on an item
         The function just need to be defined
@@ -137,6 +138,15 @@ let Header = React.createClass({
                         onClick={this.onMenuItemClick}>
                         {getLangText('Account Settings')}
                     </MenuItemLink>
+                    <AclProxy
+                        aclObject={this.state.currentUser.acl}
+                        aclName="acl_view_settings_contract">
+                        <MenuItemLink
+                            to="contract_settings"
+                            onClick={this.onMenuItemClick}>
+                            {getLangText('Contract Settings')}
+                        </MenuItemLink>
+                    </AclProxy>
                     <MenuItem divider />
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
                 </DropdownButton>

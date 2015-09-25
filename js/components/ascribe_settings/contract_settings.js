@@ -8,6 +8,12 @@ import CreateContractForm from '../ascribe_forms/form_create_contract';
 import ContractListStore from '../../stores/contract_list_store';
 import ContractListActions from '../../actions/contract_list_actions';
 
+import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
+
+import WhitelabelStore from '../../stores/whitelabel_store';
+import WhitelabelActions from '../../actions/whitelabel_actions';
+
 import ActionPanel from '../ascribe_panel/action_panel';
 import ContractSettingsUpdateButton from './contract_settings_update_button';
 
@@ -17,24 +23,30 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import AclProxy from '../acl_proxy';
 
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions, truncateTextAtCharIndex } from '../../utils/general_utils';
 
 
 let ContractSettings = React.createClass({
-    propTypes: {
-        currentUser: React.PropTypes.object,
-        defaultExpanded: React.PropTypes.bool
-    },
-
     getInitialState(){
-        return ContractListStore.getState();
+        return mergeOptions(
+            ContractListStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
+        UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+
+        WhitelabelActions.fetchWhitelabel();
+        UserActions.fetchCurrentUser();
         ContractListActions.fetchContractList(true);
     },
 
     componentWillUnmount() {
+        WhitelabelStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
         ContractListStore.unlisten(this.onChange);
     },
 
@@ -82,15 +94,13 @@ let ContractSettings = React.createClass({
         }
 
         return (
-            <AclProxy
-                aclName="acl_view_settings_contract"
-                aclObject={this.props.currentUser.acl}>
+            <div className="settings-container">
                 <CollapsibleParagraph
                     title={getLangText('Contracts')}
-                    defaultExpanded={false}>
+                    defaultExpanded={true}>
                     <AclProxy
                         aclName="acl_edit_public_contract"
-                        aclObject={this.props.currentUser.acl}>
+                        aclObject={this.state.currentUser.acl}>
                         <div>
                             {createPublicContractForm}
                             {publicContracts.map((contract, i) => {
@@ -98,10 +108,14 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={i}
                                         title={contract.name}
-                                        content={contract.name}
+                                        content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
-                                                <ContractSettingsUpdateButton contract={contract}/>
+                                                <AclProxy
+                                                    aclObject={this.state.whitelabel}
+                                                    aclName="acl_update_public_contract">
+                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
                                                     href={contract.blob.url_safe}
@@ -123,7 +137,7 @@ let ContractSettings = React.createClass({
                     </AclProxy>
                     <AclProxy
                         aclName="acl_edit_private_contract"
-                        aclObject={this.props.currentUser.acl}>
+                        aclObject={this.state.currentUser.acl}>
                         <div>
                             <CreateContractForm
                             isPublic={false}
@@ -136,10 +150,14 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={i}
                                         title={contract.name}
-                                        content={contract.name}
+                                        content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
-                                               <ContractSettingsUpdateButton contract={contract} />
+                                               <AclProxy
+                                                    aclObject={this.state.whitelabel}
+                                                    aclName="acl_update_private_contract">
+                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
                                                     href={contract.blob.url_safe}
@@ -153,14 +171,14 @@ let ContractSettings = React.createClass({
                                                 </button>
                                            </div>
                                        }
-                                       leftColumnWidth="40%"
-                                       rightColumnWidth="60%"/>
+                                       leftColumnWidth="60%"
+                                       rightColumnWidth="40%"/>
                                 );
                             })}
                         </div>
                     </AclProxy>
                 </CollapsibleParagraph>
-            </AclProxy>
+            </div>
         );
     }
 });
