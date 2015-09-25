@@ -17,6 +17,7 @@ import LogoutContainer from './components/logout_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
+import ContractSettings from './components/ascribe_settings/contract_settings';
 import SettingsContainer from './components/ascribe_settings/settings_container';
 import CoaVerifyContainer from './components/coa_verify_container';
 
@@ -43,6 +44,7 @@ const COMMON_ROUTES = (
         <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
+        <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
         <Route name="contract_notifications" path="verify" handler={ContractNotification} />
     </Route>
