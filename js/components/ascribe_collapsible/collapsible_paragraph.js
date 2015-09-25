@@ -17,7 +17,7 @@ const CollapsibleParagraph = React.createClass({
 
     getDefaultProps() {
         return {
-            show: false
+            show: true
         };
     },
 

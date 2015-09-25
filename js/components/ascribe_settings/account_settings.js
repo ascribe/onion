@@ -101,7 +101,6 @@ let AccountSettings = React.createClass({
         return (
             <CollapsibleParagraph
                 title={getLangText('Account')}
-                show={true}
                 defaultExpanded={true}>
                 {content}
                 <CopyrightAssociationForm currentUser={this.props.currentUser}/>

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Router from 'react-router';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -20,11 +21,13 @@ import { mergeOptions } from '../../utils/general_utils';
 
 
 let ContractAgreementForm = React.createClass({
-     propTypes: {
+    propTypes: {
         handleSuccess: React.PropTypes.func
-     },
+    },
 
-     getInitialState() {
+    mixins: [Router.Navigation, Router.State],
+
+    getInitialState() {
         return mergeOptions(
             ContractListStore.getState(),
             {
@@ -54,7 +57,7 @@ let ContractAgreementForm = React.createClass({
         let notification = 'Contract agreement send';
         notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.refs.form.reset();
+        this.transitionTo('pieces');
     },
 
     getFormData(){
