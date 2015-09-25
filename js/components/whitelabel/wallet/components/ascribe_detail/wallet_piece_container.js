@@ -2,7 +2,6 @@
 
 import React from 'react';
 
-
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import WalletActionPanel from './wallet_action_panel';
@@ -14,10 +13,10 @@ import Note from '../../../../ascribe_detail/note';
 import DetailProperty from '../../../../ascribe_detail/detail_property';
 
 import ApiUrls from '../../../../../constants/api_urls';
+import AppConstants from '../../../../../constants/application_constants';
 
 import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
-import AppConstants from '../../../../../constants/application_constants';
+
 
 let WalletPieceContainer = React.createClass({
 
@@ -34,7 +33,7 @@ let WalletPieceContainer = React.createClass({
             return (
                 <Piece
                     piece={this.props.piece}
-                    loadPiece={this.loadPiece}
+                    loadPiece={this.props.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
                             <hr style={{marginTop: 0}}/>
@@ -54,7 +53,7 @@ let WalletPieceContainer = React.createClass({
                     <WalletActionPanel
                         piece={this.props.piece}
                         currentUser={this.props.currentUser}
-                        loadPiece={this.loadPiece}
+                        loadPiece={this.props.loadPiece}
                         submitButtonType={this.props.submitButtonType}/>
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
