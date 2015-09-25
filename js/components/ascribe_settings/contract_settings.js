@@ -23,7 +23,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import AclProxy from '../acl_proxy';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
+import { mergeOptions, wrapTextAtCharIndex } from '../../utils/general_utils';
 
 
 let ContractSettings = React.createClass({
@@ -109,7 +109,7 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={i}
                                         title={contract.name}
-                                        content={contract.name}
+                                        content={wrapTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
                                                 <AclProxy
@@ -151,7 +151,7 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={i}
                                         title={contract.name}
-                                        content={contract.name}
+                                        content={wrapTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
                                                <AclProxy
@@ -172,8 +172,8 @@ let ContractSettings = React.createClass({
                                                 </button>
                                            </div>
                                        }
-                                       leftColumnWidth="40%"
-                                       rightColumnWidth="60%"/>
+                                       leftColumnWidth="60%"
+                                       rightColumnWidth="40%"/>
                                 );
                             })}
                         </div>
