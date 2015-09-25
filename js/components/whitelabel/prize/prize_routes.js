@@ -13,6 +13,7 @@ import PrizePieceList from './components/prize_piece_list';
 import PrizePieceContainer from './components/ascribe_detail/prize_piece_container';
 import EditionContainer from '../../ascribe_detail/edition_container';
 import SettingsContainer from './components/prize_settings_container';
+import CoaVerifyContainer from '../../../components/coa_verify_container';
 
 import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
@@ -34,6 +35,7 @@ function getRoutes() {
             <Route name="piece" path="pieces/:pieceId" handler={PrizePieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
         </Route>
     );
 }

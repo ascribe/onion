@@ -4,6 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 
 // general components
+import CoaVerifyContainer from '../../../components/coa_verify_container';
 import LoginContainer from '../../../components/login_container';
 import LogoutContainer from '../../../components/logout_container';
 import SignupContainer from '../../../components/signup_container';
@@ -48,6 +49,7 @@ let ROUTES = {
             <Route name="pieces" path="collection" handler={CylandPieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>
     ),
@@ -63,6 +65,7 @@ let ROUTES = {
             <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
             <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
         </Route>
     ),
@@ -78,6 +81,7 @@ let ROUTES = {
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
+            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
         </Route>
