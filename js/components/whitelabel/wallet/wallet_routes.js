@@ -74,7 +74,7 @@ let ROUTES = {
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
             <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
-            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} headerTitle="+ NEW WORK"/>
+            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />

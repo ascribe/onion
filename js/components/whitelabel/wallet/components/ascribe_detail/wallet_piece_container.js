@@ -19,7 +19,6 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let WalletPieceContainer = React.createClass({
-
     propTypes: {
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
