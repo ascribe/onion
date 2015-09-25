@@ -4,12 +4,11 @@
 'use strict';
 
 import React from 'react';
-import CollapsibleButton from '../ascribe_collapsible/collapsible_button';
-import Button from 'react-bootstrap/lib/Button';
+import DropdownButton from 'react-bootstrap/lib/Button';
 
 let aclInformationButton = React.createClass({
-
-    render: function () {
+    getDefaultProps: function() {
+        let rows = [];
         let titleStyle = {
             color: '#02B6A3',
             fontSize: '14px'
@@ -22,12 +21,8 @@ let aclInformationButton = React.createClass({
 
         let infoStyle = {
             color: '#333333',
-            fontSize: '14px'
-        };
 
-        let divStyle = {
-            color: 'white',
-            width: 10
+            fontSize: '14px'
         };
 
         let titleList = ['TRANSFER', 'CONSIGN', 'LOAN', 'SHARE', 'DELETE'];
@@ -43,8 +38,7 @@ let aclInformationButton = React.createClass({
             '- Lets someone view the Work or Edition, but does not give rights to publish or display it.',
 
             '- Removes the Work from your Wallet. Note that the previous registration and transfer ' +
-            'history will still exist on the blockchain and cannot be deleted.'
-        ];
+            'history will still exist on the blockchain and cannot be deleted.'];
 
         let exampleSentenceList = [
             '(e.g. a musician Transfers limited edition 1 of 10 of her new album to a very happy fan)',
@@ -56,31 +50,55 @@ let aclInformationButton = React.createClass({
 
             '(e.g. a photographer Shares proofs of a graduation photo with the graduate\'s grandparents)',
 
-            '(e.g. an artist uploaded the wrong file and doesn\'t want it cluttering his Wallet, so he Deletes it)'
-        ];
-        let createJSXTextSnippet = function (title, info, example) {
-            return [<p>, <Text style={titleStyle}> {title} </Text>,
-                <Text style={infoStyle}> {info} </Text>,
-                <Text style={exampleStyle}> {example} </Text>, </p> ];
-                };
+            '(e.g. an artist uploaded the wrong file and doesn\'t want it cluttering his Wallet, so he Deletes it)'];
+        console.log('Now will initialize the rows prop inside default props');
+        let createJSXTextSnippet = function(title, info, example){
+            console.log('creating text snippets');
+            return (<p> <span style={titleStyle}> {title} </span>
+                <span style={infoStyle}> {info} </span><br></br>
+                <span style={exampleStyle}> {example} </span> </p>);
+        };
 
-        let rows = [];
         for (let i = 0; i < titleList.length; i++){
-            rows.push(rows, createJSXTextSnippet(titleList[i], infoSentenceList[i], exampleSentenceList[i]));
+            rows.push(createJSXTextSnippet(titleList[i], infoSentenceList[i], exampleSentenceList[i],
+                        titleStyle, infoStyle, exampleStyle));
         }
+        return {
+            rows: rows
+        };
+    },
+    getInitialState: function(){
+        return {isVisible: false};
+    },
+    show: function(){
+        console.log('now inside the show function');
+        this.setState({isVisible: true});
+        document.addEventListener('click', this.hide);
+    },
+    hide: function(){
+        this.setState({isVisible: false});
+        document.removeEventListener('click', this.hide);
+    },
+    showInformation: function(){
+        if (this.state.isVisible) {
+            return this.props.rows;
+        }
+    },
+    render: function () {
+        console.log('will start rendering');
         return (
-        <CollapsibleButton
-            button = {
-            <Button bsSize="xsmall" className="ascribe-margin-1px" >
-                ?
-            </Button>
-            }
-            panel={
-            <div style = {divStyle}>
-                {rows}
+            <div className={'dropdown-container' + (this.state.isVisible ? ' show' : '')}>
+                <div className={'dropdown-display' +
+                        (this.state.isVisible ? ' clicked' : '')} onClick={this.show}>
+                    {console.log(this.state.isVisible)}
+                    ?
+                </div>
+                <div className='dropdown-list'>
+                    <div>
+                        {this.showInformation()}
+                    </div>
+                </div>
             </div>
-            }
-        />
         );
     }
 });

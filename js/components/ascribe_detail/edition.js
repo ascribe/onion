@@ -32,7 +32,7 @@ import ListRequestActions from './../ascribe_forms/list_form_request_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
 import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 import DeleteButton from './../ascribe_buttons/delete_button';
-import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
+import AclInformationButton from './../ascribe_buttons/acl_information_button';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -280,83 +280,7 @@ let EditionSummary = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.props.handleDeleteSuccess}
                                 editions={[this.props.edition]}/>
-                            <CollapsibleButton
-                                button={
-                                    <Button bsSize="xsmall" className="ascribe-margin-1px" >
-                                        ?
-                                    </Button>
-                                }
-                                panel = {
-                                    <div>
-                                        <p>
-                                            <span style={{color: '#02B6A3'}}>
-                                                TRANSFER
-                                            </span>
-                                            <span style={{color: '#333333'}}>
-                                                 - Changes ownership of an Edition. As with a physical piece of work,
-                                                 transferring ownership of an Edition does not transfer copyright in the Work.
-                                            </span>
-                                            <br></br>
-                                            <span style={{color: '#B2B2B2'}}>
-                                                 (e.g. a musician Transfers limited edition 1 of 10 of her new album to a very happy fan)
-                                            </span>
-                                        </p>
-                                        <p>
-                                            <span style={{color: '#02B6A3'}}>
-                                                CONSIGN
-                                            </span>
-                                            <span style={{color: '#333333'}}>
-                                                 - Lets someone represent you in dealing with the work, under the terms
-                                                 you agree to.
-                                            </span>
-                                            <br></br>
-                                            <span style={{color: '#B2B2B2'}}>
-                                                (e.g. an artist Consigns 10 Editions of her new Work to a gallery so the gallery can sell
-                                                them on her behalf, under the terms the artist and the gallery have agreed to)
-                                            </span>
-                                        </p>
-                                        <p>
-                                            <span style={{color: '#02B6A3'}}>
-                                                LOAN
-                                            </span>
-                                            <span style={{color: '#333333'}}>
-                                                 - Lets someone use or put the Work on display for a limited amount of time.
-                                            </span>
-                                            <br></br>
-                                            <span style={{color: '#B2B2B2'}}>
-                                                (e.g. a collector Loans a Work to a gallery for one month
-                                                for display in the gallery's show)
-                                            </span>
-                                        </p>
-                                        <p>
-                                            <span style={{color: '#02B6A3'}}>
-                                                SHARE
-                                            </span>
-                                            <span style={{color: '#333333'}}>
-                                                 - Lets someone view the Work or Edition,
-                                                 but does not give rights to publish or display it.
-                                            </span>
-                                            <br></br>
-                                            <span style={{color: '#B2B2B2'}}>
-                                                (e.g. a photographer Shares proofs of a graduation photo with the graduate's grandparents)
-                                            </span>
-                                        </p>
-                                        <p>
-                                            <span style={{color: '#02B6A3'}}>
-                                                DELETE
-                                            </span>
-                                            <span style={{color: '#333333'}}>
-                                                -Removes the Work from your Wallet. Note that the previous registration and
-                                                transfer history will still exist on the blockchain and cannot be deleted.
-                                            </span>
-                                            <br></br>
-                                            <span style={{color: '#B2B2B2'}}>
-                                                (e.g. an artist uploaded the wrong file and doesn't want it cluttering his Wallet, so he Deletes it)
-                                            </span>
-                                        </p>
-                                    </div>
-                                }
-                                />
+                            <AclInformationButton/>
                             {unconsignRequestButton}
                         </AclButtonList>
                     </Col>
