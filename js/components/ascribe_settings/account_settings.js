@@ -54,6 +54,7 @@ let AccountSettings = React.createClass({
                     <Property
                         name='email'
                         label={getLangText('Email')}
+                        overrideForm={true}
                         editable={false}>
                         <input
                             type="text"
