@@ -59,7 +59,10 @@ let SettingsContainer = React.createClass({
         if (this.state.currentUser && this.state.currentUser.username) {
             return (
                 <div className="settings-container">
-                    <AccountSettings currentUser={this.state.currentUser} loadUser={this.loadUser}/>
+                    <AccountSettings
+                        currentUser={this.state.currentUser}
+                        loadUser={this.loadUser}
+                        whitelabel={this.state.whitelabel}/>
                     {this.props.children}
                     <AclProxy
                         aclObject={this.state.whitelabel}

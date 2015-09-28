@@ -10,6 +10,8 @@ import Property from '../ascribe_forms/property';
 import InputCheckbox from '../ascribe_forms/input_checkbox';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
+import AclProxy from '../acl_proxy';
+
 import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
 
 import ApiUrls from '../../constants/api_urls';
@@ -20,7 +22,8 @@ import { getLangText } from '../../utils/lang_utils';
 let AccountSettings = React.createClass({
     propTypes: {
         currentUser: React.PropTypes.object.isRequired,
-        loadUser: React.PropTypes.func.isRequired
+        loadUser: React.PropTypes.func.isRequired,
+        whitelabel: React.PropTypes.object.isRequired
     },
 
     handleSuccess(){
@@ -66,37 +69,26 @@ let AccountSettings = React.createClass({
                 </Form>
             );
             profile = (
-                <Form
-                    url={ApiUrls.users_profile}
-                    handleSuccess={this.handleSuccess}
-                    getFormData={this.getFormDataProfile}>
-                    <Property
-                        name="hash_locally"
-                        className="ascribe-settings-property-collapsible-toggle"
-                        style={{paddingBottom: 0}}>
-                        <InputCheckbox
-                            defaultChecked={this.props.currentUser.profile.hash_locally}>
-                            <span>
-                                {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
-                            </span>
-                        </InputCheckbox>
-                    </Property>
-                    <hr />
-                    {/*<Property
-                        name='language'
-                        label={getLangText('Choose your Language')}
-                        editable={true}>
-                        <select id="select-lang" name="language">
-                            <option value="fr">
-                                Fran&ccedil;ais
-                            </option>
-                            <option value="en"
-                                    selected="selected">
-                                English
-                            </option>
-                        </select>
-                    </Property>*/}
-                </Form>
+                <AclProxy
+                    aclObject={this.props.whitelabel}
+                    aclName="acl_view_settings_account_hash">
+                    <Form
+                        url={ApiUrls.users_profile}
+                        handleSuccess={this.handleSuccess}
+                        getFormData={this.getFormDataProfile}>
+                        <Property
+                            name="hash_locally"
+                            className="ascribe-settings-property-collapsible-toggle"
+                            style={{paddingBottom: 0}}>
+                            <InputCheckbox
+                                defaultChecked={this.props.currentUser.profile.hash_locally}>
+                                <span>
+                                    {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
+                                </span>
+                            </InputCheckbox>
+                        </Property>
+                    </Form>
+                </AclProxy>
             );
         }
         return (
@@ -106,24 +98,6 @@ let AccountSettings = React.createClass({
                 {content}
                 <CopyrightAssociationForm currentUser={this.props.currentUser}/>
                 {profile}
-                {/*<Form
-                    url={AppConstants.serverUrl + 'api/users/set_language/'}>
-                    <Property
-                        name='language'
-                        label={getLangText('Choose your Language')}
-                        editable={true}>
-                        <select id="select-lang" name="language">
-                            <option value="fr">
-                                Fran&ccedil;ais
-                            </option>
-                            <option value="en"
-                                    selected="selected">
-                                English
-                            </option>
-                        </select>
-                    </Property>
-                    <hr />
-                </Form>*/}
             </CollapsibleParagraph>
         );
     }
