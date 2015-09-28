@@ -51,12 +51,16 @@ let WalletActionPanel = React.createClass({
                     editions={this.props.piece}
                     handleSuccess={this.loadPiece}>
                     <AclProxy
-                        aclObject={availableAcls}
+                        aclObject={this.props.currentUser.acl}
                         aclName="acl_wallet_submit">
-                        <SubmitButtonType
-                            className="btn-sm"
-                            handleSuccess={this.handleSubmitSuccess}
-                            piece={this.props.piece}/>
+                        <AclProxy
+                            aclObject={availableAcls}
+                            aclName="acl_wallet_submit">
+                            <SubmitButtonType
+                                className="btn-sm"
+                                handleSuccess={this.handleSubmitSuccess}
+                                piece={this.props.piece}/>
+                        </AclProxy>
                     </AclProxy>
                     <DeleteButton
                         handleSuccess={this.handleDeleteSuccess}
