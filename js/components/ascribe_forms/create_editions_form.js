@@ -40,6 +40,12 @@ let CreateEditionsForm = React.createClass({
                 url={ApiUrls.editions}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
+                buttons={
+                    <button
+                        type="submit"
+                        className="btn ascribe-btn ascribe-btn-login">
+                        {getLangText('Create editions')}
+                    </button>}
                 spinner={
                     <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
