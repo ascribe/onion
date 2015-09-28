@@ -34,7 +34,7 @@ let IkonotvLanding = React.createClass({
 
     getEnterButton() {
         let redirect = 'login';
-        console.log(this.state)
+
         if(this.state.currentUser && this.state.currentUser.email) {
             redirect = 'pieces';
         }
