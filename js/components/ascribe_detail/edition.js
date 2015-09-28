@@ -88,10 +88,8 @@ let Edition = React.createClass({
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        this.refreshCollection();
 
-        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
@@ -99,6 +97,13 @@ let Edition = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.transitionTo('pieces');
+    },
+
+    refreshCollection() {
+        console.log('freshing');
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
     },
 
     render() {
@@ -118,6 +123,7 @@ let Edition = React.createClass({
                     </div>
                     <EditionSummary
                         handleSuccess={this.props.loadEdition}
+                        refreshCollection={this.refreshCollection}
                         currentUser={this.state.currentUser}
                         edition={this.props.edition}
                         handleDeleteSuccess={this.handleDeleteSuccess}/>
@@ -206,14 +212,22 @@ let EditionSummary = React.createClass({
         edition: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         currentUser: React.PropTypes.object,
-        handleDeleteSuccess: React.PropTypes.func
+        handleDeleteSuccess: React.PropTypes.func,
+        refreshCollection: React.PropTypes.func
     },
 
     getTransferWithdrawData(){
         return {'bitcoin_id': this.props.edition.bitcoin_id};
     },
+
+    handleSuccess() {
+        this.props.refreshCollection();
+        this.props.handleSuccess();
+    },
+
     showNotification(response){
         this.props.handleSuccess();
+
         if (response){
             let notification = new GlobalNotificationModel(response.notification, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
@@ -278,7 +292,7 @@ let EditionSummary = React.createClass({
                             className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
-                            handleSuccess={this.props.handleSuccess}>
+                            handleSuccess={this.handleSuccess}>
                             {withdrawButton}
                             <DeleteButton
                                 handleSuccess={this.props.handleDeleteSuccess}

@@ -17,7 +17,6 @@ import Pagination from './ascribe_pagination/pagination';
 
 import PieceListFilterDisplay from './piece_list_filter_display';
 
-import GlobalAction from './global_action';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
@@ -76,7 +75,7 @@ let PieceList = React.createClass({
     componentDidUpdate() {
         if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.transitionTo(this.props.redirectTo), 0);
+            window.setTimeout(() => this.transitionTo(this.props.redirectTo, this.getQuery()));
         }
     },
 
