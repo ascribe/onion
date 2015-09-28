@@ -107,7 +107,7 @@ let LoanForm = React.createClass({
         if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
             return {'contract_agreement_id': this.state.contractAgreementList[0].id};
         }
-        return null;
+        return {};
     },
 
     getContractCheckbox() {
@@ -122,6 +122,7 @@ let LoanForm = React.createClass({
                 return (
                     <Property
                         name="terms"
+                        label={getLangText('Loan Contract')}
                         hidden={false}
                         className="notification-contract-pdf">
                         <embed
