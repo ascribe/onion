@@ -26,6 +26,7 @@
         vertical-align: middle;
 
         &:first-child {
+            word-break: break-all;
             font-size: .9em;
         }
     }
