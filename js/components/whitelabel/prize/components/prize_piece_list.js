@@ -69,7 +69,7 @@ let PrizePieceList = React.createClass({
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}
-                    filterParams={null}
+                    filterParams={[]}
                     customSubmitButton={this.getButtonSubmit()}/>
             </div>
         );
