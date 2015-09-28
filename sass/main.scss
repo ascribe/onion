@@ -212,6 +212,7 @@ hr {
         border: 1px solid $ascribe-brand-danger;
     }
 }
+
 .btn-ascribe {
     border: 1px solid #444;
     line-height: 2em;
@@ -291,6 +292,10 @@ hr {
 
 .textarea-ascribe-message {
     height: 13em !important;
+}
+
+.textarea-ascribe-info {
+    text-align: left;
 }
 
 .input-checkbox-ascribe {
@@ -395,10 +400,12 @@ hr {
 0% { -o-transform: rotate(0deg);}
 100% { -o-transform: rotate(360deg);}
 }
+
 @-ms-keyframes spin {
 0% { -ms-transform: rotate(0deg);}
 100% { -ms-transform: rotate(360deg);}
 }
+
 @-keyframes spin {
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg);}

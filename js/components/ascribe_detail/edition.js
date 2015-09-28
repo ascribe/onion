@@ -175,7 +175,6 @@ let Edition = React.createClass({
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
@@ -188,7 +187,6 @@ let Edition = React.createClass({
                             otherData={this.props.edition.other_data}
                             handleSuccess={this.props.loadEdition}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
@@ -270,7 +268,7 @@ let EditionSummary = React.createClass({
             }
             actions = (
                 <Row>
-                    <Col md={12}>
+                    <Col md={11}>
                         <AclButtonList
                             className="text-center ascribe-button-list"
                             availableAcls={this.props.edition.acl}
@@ -280,8 +278,8 @@ let EditionSummary = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.props.handleDeleteSuccess}
                                 editions={[this.props.edition]}/>
-                            <AclInformationButton/>
                             {unconsignRequestButton}
+                            <AclInformationButton/>
                         </AclButtonList>
                     </Col>
                 </Row>);

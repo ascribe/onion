@@ -6,38 +6,38 @@
 import React from 'react';
 import DropdownButton from 'react-bootstrap/lib/Button';
 
-let aclInformationButton = React.createClass({
+let AclInformationButton = React.createClass({
     getDefaultProps: function() {
         let rows = [];
         let titleStyle = {
             color: '#02B6A3',
-            fontSize: '14px'
-        };
-
-        let exampleStyle = {
-            color: '#B2B2B2',
-            fontSize: '14px'
+            fontSize: '11px'
         };
 
         let infoStyle = {
             color: '#333333',
-
-            fontSize: '14px'
+            fontSize: '11px'
         };
+
+        let exampleStyle = {
+            color: '#B2B2B2',
+            fontSize: '11px'
+        };
+
 
         let titleList = ['TRANSFER', 'CONSIGN', 'LOAN', 'SHARE', 'DELETE'];
 
         let infoSentenceList = [
-            '- Changes ownership of an Edition. As with a physical piece of work, ' +
+            ' - Changes ownership of an Edition. As with a physical piece of work, ' +
             'transferring ownership of an Edition does not transfer copyright in the Work.',
 
-            '- Lets someone represent you in dealing with the work, under the terms you agree to.',
+            ' - Lets someone represent you in dealing with the work, under the terms you agree to.',
 
-            '- Lets someone use or put the Work on display for a limited amount of time.',
+            ' - Lets someone use or put the Work on display for a limited amount of time.',
 
-            '- Lets someone view the Work or Edition, but does not give rights to publish or display it.',
+            ' - Lets someone view the Work or Edition, but does not give rights to publish or display it.',
 
-            '- Removes the Work from your Wallet. Note that the previous registration and transfer ' +
+            ' - Removes the Work from your Wallet. Note that the previous registration and transfer ' +
             'history will still exist on the blockchain and cannot be deleted.'];
 
         let exampleSentenceList = [
@@ -51,7 +51,9 @@ let aclInformationButton = React.createClass({
             '(e.g. a photographer Shares proofs of a graduation photo with the graduate\'s grandparents)',
 
             '(e.g. an artist uploaded the wrong file and doesn\'t want it cluttering his Wallet, so he Deletes it)'];
+
         console.log('Now will initialize the rows prop inside default props');
+
         let createJSXTextSnippet = function(title, info, example){
             console.log('creating text snippets');
             return (<p> <span style={titleStyle}> {title} </span>
@@ -64,7 +66,21 @@ let aclInformationButton = React.createClass({
                         titleStyle, infoStyle, exampleStyle));
         }
         return {
-            rows: rows
+            rows: rows,
+            dropdownButtonStyle: {
+                background: 'none',
+                color: 'black',
+                padding: 0,
+                border: 'none'
+            },
+            dropdownListStyle: {
+                textAlign: 'left',
+                border: '1px solid #02B6A3',
+                borderTop: 'none',
+                borderBottom: 'none',
+                float: 'right',
+                width: '80.8%'
+            }
         };
     },
     getInitialState: function(){
@@ -87,20 +103,18 @@ let aclInformationButton = React.createClass({
     render: function () {
         console.log('will start rendering');
         return (
-            <div className={'dropdown-container' + (this.state.isVisible ? ' show' : '')}>
-                <div className={'dropdown-display' +
+            <span>
+                <DropdownButton style={this.props.dropdownButtonStyle} className={'glyphicon glyphicon-question-sign' +
                         (this.state.isVisible ? ' clicked' : '')} onClick={this.show}>
                     {console.log(this.state.isVisible)}
-                    ?
+                </DropdownButton>
+                <p></p>
+                <div style = {this.props.dropdownListStyle}>
+                    {this.showInformation()}
                 </div>
-                <div className='dropdown-list'>
-                    <div>
-                        {this.showInformation()}
-                    </div>
-                </div>
-            </div>
+            </span>
         );
     }
 });
 
-export default aclInformationButton;
+export default AclInformationButton;

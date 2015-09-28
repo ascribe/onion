@@ -6,6 +6,7 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
+import {getLangText} from '../../utils/lang_utils';
 
 let AclButtonList = React.createClass({
     propTypes: {
@@ -15,13 +16,25 @@ let AclButtonList = React.createClass({
             React.PropTypes.array
         ]),
         availableAcls: React.PropTypes.object,
+        actionsLabelStyle: React.PropTypes.object,
+        buttonsStyle: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ])
     },
-
+    getDefaultProps(){
+        return {
+            actionsLabelStyle: {
+                float: 'left',
+                fontSize: '11.2px'
+                },
+            buttonsStyle: {
+                marginLeft: '0.25cm'
+            }
+        };
+    },
     getInitialState() {
         return UserStore.getState();
     },
@@ -42,37 +55,42 @@ let AclButtonList = React.createClass({
     render() {
         return (
             <div className={this.props.className}>
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_transfer"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess}/>
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_consign"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_unconsign"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_loan"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_share"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                {this.props.children}
+                <span style={this.props.actionsLabelStyle}>
+                    {getLangText('ACTIONS')}
+                </span>
+                <span style={this.props.buttonsStyle}>
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
+                        action="acl_transfer"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess}/>
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
+                        action="acl_consign"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess} />
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
+                        action="acl_unconsign"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess} />
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
+                        action="acl_loan"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess} />
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
+                        action="acl_share"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess} />
+                    {this.props.children}
+                </span>
             </div>
         );
     }
