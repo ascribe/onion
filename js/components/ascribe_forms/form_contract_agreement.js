@@ -101,7 +101,7 @@ let ContractAgreementForm = React.createClass({
                     buttons={<button
                                 type="submit"
                                 className="btn ascribe-btn ascribe-btn-login">
-                                {getLangText('Send loan request')}
+                                {getLangText('Send contract')}
                             </button>}
                     spinner={
                         <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
