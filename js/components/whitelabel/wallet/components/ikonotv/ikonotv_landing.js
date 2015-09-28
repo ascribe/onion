@@ -6,6 +6,7 @@ import Router from 'react-router';
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 
 import UserStore from '../../../../../stores/user_store';
+import UserActions from '../../../../../actions/user_actions';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 
@@ -20,6 +21,7 @@ let IkonotvLanding = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
