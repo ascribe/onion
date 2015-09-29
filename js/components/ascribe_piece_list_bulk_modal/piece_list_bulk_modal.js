@@ -39,7 +39,10 @@ let PieceListBulkModal = React.createClass({
         EditionListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
+
         UserActions.fetchCurrentUser();
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
     componentWillUnmount() {
