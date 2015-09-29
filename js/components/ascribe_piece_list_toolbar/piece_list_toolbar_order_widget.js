@@ -3,7 +3,6 @@
 import React from 'react';
 
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import { getLangText } from '../../utils/lang_utils.js';
 
@@ -62,20 +61,22 @@ let PieceListToolbarOrderWidget = React.createClass({
                 </li>
                 {this.props.orderParams.map((param) => {
                     return (
-                        <MenuItem
-                            key={param}
-                            onClick={this.orderBy(param)}
-                            className="filter-widget-item">
-                            <div className="checkbox-line">
-                                <span>
-                                    {getLangText(param.replace('_', ' '))}
-                                </span>
-                                <input
-                                    readOnly
-                                    type="checkbox"
-                                    checked={param.indexOf(this.props.orderBy) > -1} />
-                            </div>
-                        </MenuItem>
+                        <div>
+                            <li
+                                key={param}
+                                onClick={this.orderBy(param)}
+                                className="filter-widget-item">
+                                <div className="checkbox-line">
+                                    <span>
+                                        {getLangText(param.replace('_', ' '))}
+                                    </span>
+                                    <input
+                                        readOnly
+                                        type="checkbox"
+                                        checked={param.indexOf(this.props.orderBy) > -1} />
+                                </div>
+                            </li>
+                        </div>
                     );
                 })}
             </DropdownButton>
