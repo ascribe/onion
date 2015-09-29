@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
-import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
 import Button from 'react-bootstrap/lib/Button';
@@ -15,6 +14,7 @@ import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
+
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {

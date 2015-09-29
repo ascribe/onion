@@ -61,10 +61,10 @@ let TransferForm = React.createClass({
                 <Property
                     name='transfer_message'
                     label={getLangText('Personal Message')}
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>

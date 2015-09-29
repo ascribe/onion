@@ -17,7 +17,7 @@ let FurtherDetailsFileuploader = React.createClass({
         pieceId: React.PropTypes.number,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
-        submitKey: React.PropTypes.func,
+        submitFile: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         editable: React.PropTypes.bool,
         multiple: React.PropTypes.bool
@@ -55,11 +55,8 @@ let FurtherDetailsFileuploader = React.createClass({
                         url: ApiUrls.blob_otherdatas,
                         pieceId: this.props.pieceId
                     }}
-                    validation={{
-                        itemLimit: 100000,
-                        sizeLimit: '50000000'
-                    }}
-                    submitKey={this.props.submitKey}
+                    validation={AppConstants.fineUploader.validation.additionalData}
+                    submitFile={this.props.submitFile}
                     setIsUploadReady={this.props.setIsUploadReady}
                     isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                     session={{

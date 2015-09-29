@@ -3,8 +3,8 @@
 import React from 'react';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
-import AppConstants from '../../constants/application_constants';
-import { getLangText } from '../../utils/lang_utils.js';
+import AppConstants from '../../../constants/application_constants';
+import { getLangText } from '../../../utils/lang_utils';
 
 let FileDragAndDropPreviewOther = React.createClass({
     propTypes: {
@@ -61,7 +61,7 @@ let FileDragAndDropPreviewOther = React.createClass({
                 <div className="file-drag-and-drop-preview-table-wrapper">
                     <div className="file-drag-and-drop-preview-other">
                         {actionSymbol}
-                        <span>{'.' + this.props.type}</span>
+                        <p>{'.' + this.props.type}</p>
                     </div>
                 </div>
             </div>

@@ -1,13 +1,12 @@
 .ascribe-panel-wrapper {
-    border: 1px solid #DDD;
-    min-height: 5em;
+    border: 1px solid #ddd;
     height: 5em;
-
     margin-top: 1em;
+    min-height: 5em;
 
     > div {
-        height: 100%;
         float: left;
+        height: 100%;
 
         &:first-child {
             width: 60%;
@@ -20,11 +19,16 @@
 }
 
 .ascribe-panel-table {
-    display:table;
+    display: table;
 
     > .ascribe-panel-content {
         display: table-cell;
         vertical-align: middle;
+
+        &:first-child {
+            word-break: break-all;
+            font-size: .9em;
+        }
     }
 
     @media(max-width:767px) {
@@ -32,7 +36,6 @@
             > div {
                 padding-left: 1em;
             }
-            
         }
 
         &:nth-child(2) {
@@ -40,7 +43,7 @@
                 padding-right: 1em;
 
                 > button {
-                    float:right;
+                    float: right;
                 }
             }
         }
@@ -52,7 +55,6 @@
             > div {
                 padding-left: 2em;
             }
-            
         }
 
         &:nth-child(2) {
@@ -60,7 +62,7 @@
                 padding-right: 2em;
 
                 > button {
-                    float:right;
+                    float: right;
                 }
             }
         }
@@ -73,8 +75,8 @@
     }
 
     .ascribe-panel-subtitle {
+        color: rgba(0, 0, 0, .5);
         font-size: .7em;
-        color: rgba(0,0,0,0.5);
     }
 
 }
@@ -85,8 +87,8 @@
     }
 
     .ascribe-panel-subtitle {
+        color: rgba(0, 0, 0, .5);
         font-size: .9em;
-        color: rgba(0,0,0,0.5);
     }
 }
 

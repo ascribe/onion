@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 let InputTextAreaToggable = React.createClass({
     propTypes: {
-        editable: React.PropTypes.bool.isRequired,
+        disabled: React.PropTypes.bool,
         rows: React.PropTypes.number.isRequired,
         required: React.PropTypes.string,
         defaultValue: React.PropTypes.string
@@ -15,8 +15,24 @@ let InputTextAreaToggable = React.createClass({
 
     getInitialState() {
         return {
-            value: this.props.defaultValue
+            value: null
         };
+    },
+
+    componentDidMount() {
+        this.setState({
+            value: this.props.defaultValue
+        });
+    },
+
+    componentDidUpdate() {
+        // If the initial value of state.value is null, we want to set props.defaultValue
+        // as a value. In all other cases TextareaAutosize.onChange is updating.handleChange already
+        if(this.state.value === null && this.props.defaultValue) {
+            this.setState({
+                value: this.props.defaultValue
+            });
+        }
     },
 
     handleChange(event) {
@@ -28,7 +44,7 @@ let InputTextAreaToggable = React.createClass({
         let className = 'form-control ascribe-textarea';
         let textarea = null;
 
-        if(this.props.editable) {
+        if(!this.props.disabled) {
             className = className + ' ascribe-textarea-editable';
             textarea = (
                 <TextareaAutosize

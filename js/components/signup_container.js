@@ -42,6 +42,7 @@ let SignupContainer = React.createClass({
                     {getLangText('Already an ascribe user')}&#63; <Link to="login">{getLangText('Log in')}...</Link><br/>
                 </div>
             </div>
+
         );
     }
 });

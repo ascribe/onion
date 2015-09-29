@@ -41,20 +41,20 @@ let PrizeRegisterPiece = React.createClass({
                 <Property
                     name='artist_statement'
                     label={getLangText('Artist statement')}
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         placeholder={getLangText('Enter your statement')}
                         required="required"/>
                 </Property>
                 <Property
                     name='work_description'
                     label={getLangText('Work description')}
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         placeholder={getLangText('Enter the description for your work')}
                         required="required"/>
                 </Property>
