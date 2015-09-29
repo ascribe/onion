@@ -4,7 +4,11 @@
 'use strict';
 
 import React from 'react';
+import classnames from 'classnames'; 
+
 import DropdownButton from 'react-bootstrap/lib/Button';
+
+
 
 let AclInformationButton = React.createClass({
     getDefaultProps: function() {
@@ -75,10 +79,6 @@ let AclInformationButton = React.createClass({
             },
             dropdownListStyle: {
                 textAlign: 'left',
-                border: '1px solid #02B6A3',
-                borderTop: 'none',
-                borderBottom: 'none',
-                float: 'right',
                 width: '80.8%'
             }
         };
@@ -101,15 +101,14 @@ let AclInformationButton = React.createClass({
         }
     },
     render: function () {
-        console.log('will start rendering');
         return (
             <span>
-                <DropdownButton style={this.props.dropdownButtonStyle} className={'glyphicon glyphicon-question-sign' +
-                        (this.state.isVisible ? ' clicked' : '')} onClick={this.show}>
-                    {console.log(this.state.isVisible)}
-                </DropdownButton>
-                <p></p>
-                <div style = {this.props.dropdownListStyle}>
+                <DropdownButton
+                    style={this.props.dropdownButtonStyle}
+                    className="glyphicon glyphicon-question-sign" onClick={this.show} />
+                <div
+                    style={this.props.dropdownListStyle}
+                    className={classnames({'hidden': !this.state.isVisible})}>
                     {this.showInformation()}
                 </div>
             </span>

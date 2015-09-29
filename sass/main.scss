@@ -265,6 +265,11 @@ hr {
 
 .ascribe-detail-property-label {
     font-size: 0.8em;
+    
+}
+
+.ascribe-detail-property-label.col-bottom {
+    vertical-align: top;
 }
 
 .ascribe-detail-property-value {
@@ -367,6 +372,10 @@ hr {
 .ascribe-button-list button, .ascribe-margin-1px {
     margin-right: 1px;
     margin-top: 1px;
+}
+
+.ascribe-button-list-detail {
+    margin-top:0;
 }
 
 .margin-left-2px{

@@ -270,7 +270,7 @@ let EditionSummary = React.createClass({
                 <Row>
                     <Col md={11}>
                         <AclButtonList
-                            className="text-center ascribe-button-list"
+                            className="ascribe-button-list ascribe-button-list-detail"
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
                             handleSuccess={this.props.handleSuccess}>
@@ -300,6 +300,7 @@ let EditionSummary = React.createClass({
                     label={getLangText('OWNER')}
                     value={ this.props.edition.owner } />
                 {this.getStatus()}
+                <hr />
                 {this.getActions()}
                 <hr/>
             </div>

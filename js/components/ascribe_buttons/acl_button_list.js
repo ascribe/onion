@@ -24,17 +24,7 @@ let AclButtonList = React.createClass({
             React.PropTypes.element
         ])
     },
-    getDefaultProps(){
-        return {
-            actionsLabelStyle: {
-                float: 'left',
-                fontSize: '11.2px'
-                },
-            buttonsStyle: {
-                marginLeft: '0.25cm'
-            }
-        };
-    },
+
     getInitialState() {
         return UserStore.getState();
     },
@@ -55,9 +45,6 @@ let AclButtonList = React.createClass({
     render() {
         return (
             <div className={this.props.className}>
-                <span style={this.props.actionsLabelStyle}>
-                    {getLangText('ACTIONS')}
-                </span>
                 <span style={this.props.buttonsStyle}>
                     <AclButton
                         availableAcls={this.props.availableAcls}
