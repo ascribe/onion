@@ -21,7 +21,7 @@ class Requests {
     }
 
     unpackResponse(response) {
-        if (response.status >= 500) {
+        if (response.status >= 400) {
             throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
         }
 
