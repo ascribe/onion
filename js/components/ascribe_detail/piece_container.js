@@ -19,6 +19,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import FurtherDetails from './further_details';
 
 import DetailProperty from './detail_property';
+import LicenseDetail from './license_detail';
 import HistoryIterator from './history_iterator';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
@@ -224,6 +225,7 @@ let PieceContainer = React.createClass({
                         <div className="ascribe-detail-header">
                             <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
                             <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
+                            <LicenseDetail license={this.state.piece.license_type} />
                         </div>
                     }
                     buttons={this.getActions()}>
