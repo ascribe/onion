@@ -12,11 +12,12 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import InputDate from './input_date';
 import InputCheckbox from './input_checkbox';
 
-import LoanContractStore from '../../stores/loan_contract_store';
-import LoanContractActions from '../../actions/loan_contract_actions';
+import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
+import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
 import AppConstants from '../../constants/application_constants';
 
+import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -34,6 +35,7 @@ let LoanForm = React.createClass({
         url: React.PropTypes.string,
         id: React.PropTypes.object,
         message: React.PropTypes.string,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
@@ -43,62 +45,117 @@ let LoanForm = React.createClass({
             showPersonalMessage: true,
             showEndDate: true,
             showStartDate: true,
-            showPassword: true
+            showPassword: true,
+            createPublicContractAgreement: true
         };
     },
 
     getInitialState() {
-        return LoanContractStore.getState();
+        return ContractAgreementListStore.getState();
     },
 
     componentDidMount() {
-        LoanContractStore.listen(this.onChange);
-        LoanContractActions.flushLoanContract.defer();
+        ContractAgreementListStore.listen(this.onChange);
+        this.getContractAgreementsOrCreatePublic(this.props.email);
+    },
+
+    /**
+     * This method needs to be in form_loan as some whitelabel pages (Cyland) load
+     * the loanee's email async!
+     *
+     * SO LEAVE IT IN!
+     */
+    componentWillReceiveProps(nextProps) {
+        if(nextProps && nextProps.email && this.props.email !== nextProps.email) {
+            this.getContractAgreementsOrCreatePublic(nextProps.email);
+        }
     },
 
     componentWillUnmount() {
-        LoanContractStore.unlisten(this.onChange);
+        ContractAgreementListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
     },
 
+    getContractAgreementsOrCreatePublic(email){
+        ContractAgreementListActions.flushContractAgreementList.defer();
+        if (email) {
+            // fetch the available contractagreements (pending/accepted)
+            ContractAgreementListActions.fetchAvailableContractAgreementList(email, true);
+        }
+    },
+
     getFormData(){
-        return this.props.id;
+        return mergeOptions(
+            this.props.id,
+            this.getContractAgreementId()
+        );
     },
 
     handleOnChange(event) {
         // event.target.value is the submitted email of the loanee
-        if(event && event.target && event.target.value && event.target.value.match(/.*@.*/)) {
-            LoanContractActions.fetchLoanContract(event.target.value);
+        if(event && event.target && event.target.value && event.target.value.match(/.*@.*\..*/)) {
+            this.getContractAgreementsOrCreatePublic(event.target.value);
         } else {
-            LoanContractActions.flushLoanContract();
+            ContractAgreementListActions.flushContractAgreementList();
         }
     },
 
+    getContractAgreementId() {
+        if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
+            return {'contract_agreement_id': this.state.contractAgreementList[0].id};
+        }
+        return {};
+    },
+
     getContractCheckbox() {
-        if(this.state.contractKey && this.state.contractUrl) {
+        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
             // we need to define a key on the InputCheckboxes as otherwise
             // react is not rerendering them on a store switch and is keeping
             // the default value of the component (which is in that case true)
-            return (
-                <Property
-                    name="terms"
-                    className="ascribe-settings-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
-                    <InputCheckbox
-                        key="terms_explicitly"
-                        defaultChecked={false}>
-                        <span>
-                            {getLangText('I agree to the')}&nbsp;
-                            <a href={this.state.contractUrl} target="_blank">
-                                {getLangText('terms of')} {this.state.contractEmail}
-                            </a>
-                        </span>
-                    </InputCheckbox>
-                </Property>
-            );
+            let contractAgreement = this.state.contractAgreementList[0];
+            let contract = contractAgreement.contract;
+
+            if(contractAgreement.datetime_accepted) {
+                return (
+                    <Property
+                        name="terms"
+                        label={getLangText('Loan Contract')}
+                        hidden={false}
+                        className="notification-contract-pdf">
+                        <embed
+                            className="loan-form"
+                            src={contract.blob.url_safe}
+                            alt="pdf"
+                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                        {/* We still need to send the server information that we're accepting */}
+                        <InputCheckbox
+                                style={{'display': 'none'}}
+                                key="terms_implicitly"
+                                defaultChecked={true} />
+                    </Property>
+                );
+            } else {
+                return (
+                    <Property
+                        name="terms"
+                        className="ascribe-settings-property-collapsible-toggle"
+                        style={{paddingBottom: 0}}>
+                        <InputCheckbox
+                            key="terms_explicitly"
+                            defaultChecked={false}>
+                            <span>
+                                {getLangText('I agree to the')}&nbsp;
+                                <a href={contract.blob.url_safe} target="_blank">
+                                    {getLangText('terms of ')} {contract.issuer}
+                                </a>
+                            </span>
+                        </InputCheckbox>
+                    </Property>
+                );
+            }
         } else {
             return (
                 <Property
@@ -111,6 +168,22 @@ let LoanForm = React.createClass({
                 </Property>
             );
         }
+    },
+
+    getAppendix() {
+        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
+            let appendix = this.state.contractAgreementList[0].appendix;
+            if (appendix && appendix.default) {
+                return (
+                    <Property
+                        name='appendix'
+                        label={getLangText('Appendix')}>
+                        <pre className="ascribe-pre">{appendix.default}</pre>
+                    </Property>
+                );
+            }
+        }
+        return null;
     },
 
     getButtons() {
@@ -157,8 +230,8 @@ let LoanForm = React.createClass({
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    onChange={this.handleOnChange}
                     editable={!this.props.email}
+                    onChange={this.handleOnChange}
                     overrideForm={!!this.props.email}>
                     <input
                         value={this.props.email}
@@ -200,14 +273,16 @@ let LoanForm = React.createClass({
                     name='loan_message'
                     label={getLangText('Personal Message')}
                     editable={true}
+                    overrideForm={true}
                     hidden={!this.props.showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required={this.props.showPersonalMessage ? 'required' : ''}/>
                 </Property>
+                {this.getContractCheckbox()}
+                {this.getAppendix()}
                 <Property
                     name='password'
                     label={getLangText('Password')}
@@ -217,7 +292,6 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter your password')}
                         required={this.props.showPassword ? 'required' : ''}/>
                 </Property>
-                {this.getContractCheckbox()}
                 {this.props.children}
             </Form>
         );

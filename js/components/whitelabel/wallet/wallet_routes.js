@@ -12,17 +12,20 @@ import PasswordResetContainer from '../../../components/password_reset_container
 import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
-import SettingsContainer from '../../../components/settings_container';
-import RegisterPiece from '../../../components/register_piece';
+import SettingsContainer from '../../../components/ascribe_settings/settings_container';
+import ContractSettings from '../../../components/ascribe_settings/contract_settings';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 
+import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
+import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
+import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -48,6 +51,7 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
         </Route>
     ),
     'cc': (
@@ -68,19 +72,20 @@ let ROUTES = {
     ),
     'ikonotv': (
         <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Redirect from={baseUrl} to="login" />
-            <Redirect from={baseUrl + '/'} to="login" />
+            <Route name="landing" path={baseUrl} handler={IkonotvLanding} />
             <Route name="login" path="login" handler={LoginContainer} />
             <Route name="logout" path="logout" handler={LogoutContainer} />
             <Route name="signup" path="signup" handler={SignupContainer} />
             <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan}/>
-            <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK"/>
+            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
+            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
             <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
+            <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
         </Route>
     )
 };

@@ -7,7 +7,7 @@ import Q from 'q';
 
 import S3Fetcher from '../../fetchers/s3_fetcher';
 
-import FileDragAndDrop from './file_drag_and_drop';
+import FileDragAndDrop from './ascribe_file_drag_and_drop/file_drag_and_drop';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -15,12 +15,12 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import AppConstants from '../../constants/application_constants';
 
 import { computeHashOfFile } from '../../utils/file_utils';
-import { displayValidFilesFilter } from './react_s3_fine_uploader_utils';
+import { displayValidFilesFilter, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
-var ReactS3FineUploader = React.createClass({
+let ReactS3FineUploader = React.createClass({
     propTypes: {
         keyRoutine: React.PropTypes.shape({
             url: React.PropTypes.string,
@@ -37,7 +37,7 @@ var ReactS3FineUploader = React.createClass({
                 React.PropTypes.number
             ])
         }),
-        submitKey: React.PropTypes.func,
+        submitFile: React.PropTypes.func,
         autoUpload: React.PropTypes.bool,
         debug: React.PropTypes.bool,
         objectProperties: React.PropTypes.shape({
@@ -84,7 +84,8 @@ var ReactS3FineUploader = React.createClass({
         }),
         validation: React.PropTypes.shape({
             itemLimit: React.PropTypes.number,
-            sizeLimit: React.PropTypes.string
+            sizeLimit: React.PropTypes.string,
+            allowedExtensions: React.PropTypes.arrayOf(React.PropTypes.string)
         }),
         messages: React.PropTypes.shape({
             unsupportedBrowser: React.PropTypes.string
@@ -111,7 +112,22 @@ var ReactS3FineUploader = React.createClass({
         enableLocalHashing: React.PropTypes.bool,
 
         // automatically injected by React-Router
-        query: React.PropTypes.object
+        query: React.PropTypes.object,
+
+        // A class of a file the user has to upload
+        // Needs to be defined both in singular as well as in plural
+        fileClassToUpload: React.PropTypes.shape({
+            singular: React.PropTypes.string,
+            plural: React.PropTypes.string
+        }),
+
+        // Uploading functionality of react fineuploader is disconnected from its UI
+        // layer, which means that literally every (properly adjusted) react element
+        // can handle the UI handling.
+        fileInputElement: React.PropTypes.oneOfType([
+            React.PropTypes.func,
+            React.PropTypes.element
+        ])
     },
 
     mixins: [Router.State],
@@ -163,7 +179,12 @@ var ReactS3FineUploader = React.createClass({
                 return name;
             },
             multiple: false,
-            defaultErrorMessage: getLangText('Unexpected error. Please contact us if this happens repeatedly.')
+            defaultErrorMessage: getLangText('Unexpected error. Please contact us if this happens repeatedly.'),
+            fileClassToUpload: {
+                singular: getLangText('file'),
+                plural: getLangText('files')
+            },
+            fileInputElement: FileDragAndDrop
         };
     },
 
@@ -313,6 +334,9 @@ var ReactS3FineUploader = React.createClass({
                 } else if(res.digitalwork) {
                     file.s3Url = res.digitalwork.url_safe;
                     file.s3UrlSafe = res.digitalwork.url_safe;
+                } else if(res.contractblob) {
+                    file.s3Url = res.contractblob.url_safe;
+                    file.s3UrlSafe = res.contractblob.url_safe;
                 } else {
                     throw new Error(getLangText('Could not find a url to download.'));
                 }
@@ -384,12 +408,12 @@ var ReactS3FineUploader = React.createClass({
             // Only after the blob has been created server-side, we can make the form submittable.
             this.createBlob(files[id])
                 .then(() => {
-                    // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+                    // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
                     // are optional, we'll only trigger them when they're actually defined
-                    if(this.props.submitKey) {
-                        this.props.submitKey(files[id].key);
+                    if(this.props.submitFile) {
+                        this.props.submitFile(files[id]);
                     } else {
-                        console.warn('You didn\'t define submitKey in as a prop in react-s3-fine-uploader');
+                        console.warn('You didn\'t define submitFile in as a prop in react-s3-fine-uploader');
                     }
                     
                     // for explanation, check comment of if statement above
@@ -424,7 +448,7 @@ var ReactS3FineUploader = React.createClass({
         });
         this.state.uploader.cancelAll();
 
-        let notification = new GlobalNotificationModel(this.props.defaultErrorMessage, 'danger', 5000);
+        let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -449,7 +473,7 @@ var ReactS3FineUploader = React.createClass({
         let notification = new GlobalNotificationModel(getLangText('File upload canceled'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
         // are optional, we'll only trigger them when they're actually defined
         if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
             if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
@@ -516,7 +540,7 @@ var ReactS3FineUploader = React.createClass({
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitKey
+        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
         // are optional, we'll only trigger them when they're actually defined
         if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
             // also, lets check if after the completion of this upload,
@@ -541,7 +565,7 @@ var ReactS3FineUploader = React.createClass({
         this.setStatusOfFile(fileId, 'deleted');
 
         // In some instances (when the file was already uploaded and is just displayed to the user
-        // - for example in the loan contract or additional files dialog)
+        // - for example in the contract or additional files dialog)
         // fineuploader does not register an id on the file (we do, don't be confused by this!).
         // Since you can only delete a file by its id, we have to implement this method ourselves
         //
@@ -816,27 +840,48 @@ var ReactS3FineUploader = React.createClass({
 
     },
 
+    getAllowedExtensions() {
+        let { validation } = this.props;
+
+        if(validation && validation.allowedExtensions && validation.allowedExtensions.length > 0) {
+            return transformAllowedExtensionsToInputAcceptProp(validation.allowedExtensions);
+        } else {
+            return null;
+        }
+    },
+
     render() {
-        return (
-            <div>
-                <FileDragAndDrop
-                    className="file-drag-and-drop"
-                    onDrop={this.handleUploadFile}
-                    filesToUpload={this.state.filesToUpload}
-                    handleDeleteFile={this.handleDeleteFile}
-                    handleCancelFile={this.handleCancelFile}
-                    handlePauseFile={this.handlePauseFile}
-                    handleResumeFile={this.handleResumeFile}
-                    handleCancelHashing={this.handleCancelHashing}
-                    multiple={this.props.multiple}
-                    areAssetsDownloadable={this.props.areAssetsDownloadable}
-                    areAssetsEditable={this.props.areAssetsEditable}
-                    onInactive={this.props.onInactive}
-                    dropzoneInactive={this.isDropzoneInactive()}
-                    hashingProgress={this.state.hashingProgress}
-                    enableLocalHashing={this.props.enableLocalHashing} />
-            </div>
-        );
+        let {
+             multiple,
+             areAssetsDownloadable,
+             areAssetsEditable,
+             onInactive,
+             enableLocalHashing,
+             fileClassToUpload,
+             validation,
+             fileInputElement
+            } = this.props;
+
+        // Here we initialize the template that has been either provided from the outside
+        // or the default input that is FileDragAndDrop.
+        return React.createElement(fileInputElement, {
+            onDrop: this.handleUploadFile,
+            filesToUpload: this.state.filesToUpload,
+            handleDeleteFile: this.handleDeleteFile,
+            handleCancelFile: this.handleCancelFile,
+            handlePauseFile: this.handlePauseFile,
+            handleResumeFile: this.handleResumeFile,
+            handleCancelHashing: this.handleCancelHashing,
+            multiple: multiple,
+            areAssetsDownloadable: areAssetsDownloadable,
+            areAssetsEditable: areAssetsEditable,
+            onInactive: onInactive,
+            dropzoneInactive: this.isDropzoneInactive(),
+            hashingProgress: this.state.hashingProgress,
+            enableLocalHashing: enableLocalHashing,
+            fileClassToUpload: fileClassToUpload,
+            allowedExtensions: this.getAllowedExtensions()
+        });
     }
 
 });

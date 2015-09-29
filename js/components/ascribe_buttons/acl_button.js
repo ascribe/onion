@@ -162,21 +162,24 @@ let AclButton = React.createClass({
     },
 
     render() {
-        let shouldDisplay = this.props.availableAcls[this.props.action];
-        let aclProps = this.actionProperties();
-        let buttonClassName = this.props.buttonAcceptClassName ? this.props.buttonAcceptClassName : '';
-        return (
-            <ModalWrapper
-                trigger={
-                    <button className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
-                        {this.sanitizeAction()}
-                    </button>
-                }
-                handleSuccess={aclProps.handleSuccess}
-                title={aclProps.title}>
-                {aclProps.form}
-            </ModalWrapper>
-        );
+        if (this.props.availableAcls){
+            let shouldDisplay = this.props.availableAcls[this.props.action];
+            let aclProps = this.actionProperties();
+            let buttonClassName = this.props.buttonAcceptClassName ? this.props.buttonAcceptClassName : '';
+            return (
+                <ModalWrapper
+                    trigger={
+                        <button className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
+                            {this.sanitizeAction()}
+                        </button>
+                    }
+                    handleSuccess={aclProps.handleSuccess}
+                    title={aclProps.title}>
+                    {aclProps.form}
+                </ModalWrapper>
+            );
+        }
+        return null;
     }
 });
 

@@ -17,7 +17,7 @@ const CollapsibleParagraph = React.createClass({
 
     getDefaultProps() {
         return {
-            show: false
+            show: true
         };
     },
 
@@ -38,14 +38,14 @@ const CollapsibleParagraph = React.createClass({
         if(this.props.show) {
             return (
                 <div className="ascribe-detail-header">
-                    <div className="ascribe-edition-collapsible-wrapper">
+                    <div className="ascribe-collapsible-wrapper">
                         <div onClick={this.handleToggle}>
                             <span>{text} {this.props.title}</span>
                         </div>
                         <Panel
                             collapsible
                             expanded={this.state.expanded}
-                            className="ascribe-edition-collapsible-content">
+                            className="ascribe-collapsible-content">
                             {this.props.children}
                         </Panel>
                     </div>

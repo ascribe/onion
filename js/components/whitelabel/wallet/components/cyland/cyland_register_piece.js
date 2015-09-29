@@ -10,9 +10,6 @@ import Row from 'react-bootstrap/lib/Row';
 
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
-import Property from '../../../../ascribe_forms/property';
-import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
-
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
@@ -136,7 +133,7 @@ let CylandRegisterPiece = React.createClass({
         this.transitionTo('piece', {pieceId: this.state.piece.id});
     },
 
-    // We need to increase the step to lock the forms that are already filed out
+    // We need to increase the step to lock the forms that are already filled out
     incrementStep() {
         // also increase step
         let newStep = this.state.step + 1;
@@ -222,21 +219,7 @@ let CylandRegisterPiece = React.createClass({
                                 showStartDate={false}
                                 showEndDate={false}
                                 showPersonalMessage={false}
-                                handleSuccess={this.handleLoanSuccess}>
-                                <Property
-                                    name="terms"
-                                    className="ascribe-settings-property-collapsible-toggle"
-                                    style={{paddingBottom: 0}}>
-                                    <InputCheckbox>
-                                        <span>
-                                            {' ' + getLangText('I agree to the Terms of Service of Cyland Archive') + ' '}
-                                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/terms_and_contract.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                                {getLangText('read')}
-                                            </a>)
-                                        </span>
-                                    </InputCheckbox>
-                                </Property>
-                            </LoanForm>
+                                handleSuccess={this.handleLoanSuccess} />
                         </Col>
                     </Row>
                 </div>

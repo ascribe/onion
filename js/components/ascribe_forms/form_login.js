@@ -27,7 +27,7 @@ let LoginForm = React.createClass({
         onLogin: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getDefaultProps() {
         return {
@@ -95,6 +95,7 @@ let LoginForm = React.createClass({
     },
 
     render() {
+        let email = this.getQuery().email || null;
         return (
             <Form
                 className="ascribe-form-bordered"
@@ -122,7 +123,8 @@ let LoginForm = React.createClass({
                     <input
                         type="email"
                         placeholder={getLangText('Enter your email')}
-                        name="username"
+                        name="email"
+                        defaultValue={email}
                         required/>
                 </Property>
                 <Property

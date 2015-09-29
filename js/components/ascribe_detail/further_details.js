@@ -15,7 +15,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import FurtherDetailsFileuploader from './further_details_fileuploader';
 
-import { isReadyForFormSubmission } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 let FurtherDetails = React.createClass({
     propTypes: {
@@ -38,9 +38,9 @@ let FurtherDetails = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitKey(key){
+    submitFile(file){
         this.setState({
-            otherDataKey: key
+            otherDataKey: file.key
         });
     },
 
@@ -78,9 +78,9 @@ let FurtherDetails = React.createClass({
                         extraData={this.props.extraData} />
                     <Form>
                         <FurtherDetailsFileuploader
-                            submitKey={this.submitKey}
+                            submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
-                            isReadyForFormSubmission={isReadyForFormSubmission}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             editable={this.props.editable}
                             overrideForm={true}
                             pieceId={this.props.pieceId}

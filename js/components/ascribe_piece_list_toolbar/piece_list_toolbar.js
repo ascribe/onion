@@ -14,7 +14,20 @@ let PieceListToolbar = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         searchFor: React.PropTypes.func,
-        filterParams: React.PropTypes.array,
+        filterParams: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                label: React.PropTypes.string,
+                items: React.PropTypes.arrayOf(
+                    React.PropTypes.oneOfType([
+                        React.PropTypes.string,
+                        React.PropTypes.shape({
+                            key: React.PropTypes.string,
+                            label: React.PropTypes.string
+                        })
+                    ])
+                )
+            })
+        ),
         filterBy: React.PropTypes.object,
         applyFilterBy: React.PropTypes.func,
         orderParams: React.PropTypes.array,

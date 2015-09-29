@@ -39,19 +39,18 @@ let Note = React.createClass({
     },
 
     render() {
-        if (!!this.props.currentUser.username && this.props.show) {
+        if ((!!this.props.currentUser.username && this.props.editable || !this.props.editable ) && this.props.show) {
             return (
                 <Form
                     url={this.props.url}
                     getFormData={this.props.id}
-                    handleSuccess={this.showNotification}>
+                    handleSuccess={this.showNotification}
+                    disabled={!this.props.editable}>
                     <Property
                         name='note'
-                        label={this.props.label}
-                        editable={this.props.editable}>
+                        label={this.props.label}>
                         <InputTextAreaToggable
                             rows={1}
-                            editable={this.props.editable}
                             defaultValue={this.props.defaultValue}
                             placeholder={this.props.placeholder}/>
                     </Property>
@@ -63,4 +62,4 @@ let Note = React.createClass({
     }
 });
 
-export default Note
+export default Note;

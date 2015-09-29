@@ -84,10 +84,11 @@ let CoaVerifyForm = React.createClass({
                     </Property>
                     <Property
                         name='signature'
-                        label="Signature">
+                        label="Signature"
+                        editable={true}
+                        overrideForm={true}>
                         <InputTextAreaToggable
                             rows={3}
-                            editable={true}
                             placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
                             required/>
                     </Property>
