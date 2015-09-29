@@ -33,19 +33,23 @@ let PieceListBulkModal = React.createClass({
         );
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
+    
 
     componentDidMount() {
         EditionListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     fetchSelectedPieceEditionList() {
