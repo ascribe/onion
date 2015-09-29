@@ -10,6 +10,8 @@ import GlobalNotification from '../../global_notification';
 import getRoutes from './wallet_routes';
 import classNames from 'classnames';
 
+import { getSubdomain } from '../../../utils/general_utils';
+
 
 let RouteHandler = Router.RouteHandler;
 
@@ -18,7 +20,7 @@ let WalletApp = React.createClass({
     mixins: [Router.State],
 
     render() {
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
         let ROUTES = getRoutes(null, subdomain);
         let activeRoutes = this.getRoutes().map(elem => 'route--' + elem.name);
 

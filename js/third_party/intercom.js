@@ -3,6 +3,8 @@
 import alt from '../alt';
 import EventActions from '../actions/event_actions';
 
+import { getSubdomain } from '../utils/general_utils';
+
 
 class IntercomHandler {
     constructor() {
@@ -20,7 +22,7 @@ class IntercomHandler {
             /* eslint-enable */
             app_id: 'oboxh5w1',
             email: profile.email,
-            subdomain: window.location.host.split('.')[0],
+            subdomain: getSubdomain(),
             widget: {
                 activator: '#IntercomDefaultWidget'
             }  
