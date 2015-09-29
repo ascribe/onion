@@ -38,6 +38,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import Note from './note';
 
+import AclProxy from '../acl_proxy';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
@@ -216,10 +218,6 @@ let EditionSummary = React.createClass({
         refreshCollection: React.PropTypes.func
     },
 
-    getTransferWithdrawData(){
-        return {'bitcoin_id': this.props.edition.bitcoin_id};
-    },
-
     handleSuccess() {
         this.props.refreshCollection();
         this.props.handleSuccess();
@@ -261,30 +259,6 @@ let EditionSummary = React.createClass({
         }
 
         else {
-            let withdrawButton = null;
-            if (this.props.edition.status.length > 0 && this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer) {
-                withdrawButton = (
-                    <Form
-                        url={ApiUrls.ownership_transfers_withdraw}
-                        getFormData={this.getTransferWithdrawData}
-                        handleSuccess={this.showNotification}
-                        className='inline'
-                        isInline={true}>
-                        <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                            WITHDRAW TRANSFER
-                        </Button>
-                    </Form>
-                );
-            }
-            let unconsignRequestButton = null;
-            if (this.props.edition.acl.acl_request_unconsign) {
-                unconsignRequestButton = (
-                    <UnConsignRequestButton
-                        currentUser={this.props.currentUser}
-                        edition={this.props.edition}
-                        handleSuccess={this.props.handleSuccess} />
-                    );
-            }
             actions = (
                 <Row>
                     <Col md={12}>
@@ -293,11 +267,45 @@ let EditionSummary = React.createClass({
                             availableAcls={this.props.edition.acl}
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess}>
-                            {withdrawButton}
+                            <AclProxy
+                                aclObject={this.props.edition.acl}
+                                aclName="acl_withdraw_transfer">
+                                <Form
+                                    url={ApiUrls.ownership_transfers_withdraw}
+                                    getFormData={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                                    handleSuccess={this.showNotification}
+                                    className='inline'
+                                    isInline={true}>
+                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                                        WITHDRAW TRANSFER
+                                    </Button>
+                                </Form>
+                            </AclProxy>
+                            <AclProxy
+                                aclObject={this.props.edition.acl}
+                                aclName="acl_withdraw_consign">
+                                <Form
+                                    url={ApiUrls.ownership_consigns_withdraw}
+                                    getFormData={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                                    handleSuccess={this.showNotification}
+                                    className='inline'
+                                    isInline={true}>
+                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                                        WITHDRAW CONSIGN
+                                    </Button>
+                                </Form>
+                            </AclProxy>
+                            <AclProxy
+                                aclObject={this.props.edition.acl}
+                                aclName="acl_request_unconsign">
+                                <UnConsignRequestButton
+                                    currentUser={this.props.currentUser}
+                                    edition={this.props.edition}
+                                    handleSuccess={this.props.handleSuccess} />
+                            </AclProxy>
                             <DeleteButton
                                 handleSuccess={this.props.handleDeleteSuccess}
                                 editions={[this.props.edition]}/>
-                            {unconsignRequestButton}
                         </AclButtonList>
                     </Col>
                 </Row>);
