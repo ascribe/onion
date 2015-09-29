@@ -46,12 +46,19 @@ let CCRegisterPiece = React.createClass({
                     label={getLangText('Copyright license%s', '...')}
                     onChange={this.onLicenseChange}
                     footer={
-                        <a
-                            className="pull-right"
-                            href={this.state.licenses[this.state.selectedLicense].url}
-                            target="_blank">
-                            {getLangText('Learn more')}
-                        </a>
+                        <span className="pull-right">
+                            <a
+                                href={this.state.licenses[this.state.selectedLicense].url}
+                                target="_blank">
+                                {getLangText('Learn more about ') + this.state.licenses[this.state.selectedLicense].code}
+                            </a>
+                            &nbsp;(
+                            <a
+                                href='https://www.ascribe.io/faq/#legals'
+                                target="_blank">
+                                {getLangText('ascribe faq')}
+                            </a>)
+                        </span>
                     }>
                     <select name="license">
                         {this.state.licenses.map((license, i) => {
@@ -74,7 +81,7 @@ let CCRegisterPiece = React.createClass({
         return (
             <RegisterPiece
                 enableLocalHashing={false}
-                headerMessage={getLangText('Submit to Creative Commons')}
+                headerMessage={getLangText('Register under a Creative Commons license')}
                 submitMessage={getLangText('Submit')}>
                 {this.getLicenses()}
             </RegisterPiece>
