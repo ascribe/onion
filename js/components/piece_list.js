@@ -144,6 +144,7 @@ let PieceList = React.createClass({
     },
 
     applyOrderBy(orderBy) {
+        console.log(orderBy);
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         orderBy, this.state.orderAsc, this.state.filterBy);
     },
