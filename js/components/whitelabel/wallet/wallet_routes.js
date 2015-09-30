@@ -14,6 +14,7 @@ import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import ContractSettings from '../../../components/ascribe_settings/contract_settings';
+import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
@@ -33,6 +34,7 @@ import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
 
 let Route = Router.Route;
+let NotFoundRoute = Router.NotFoundRoute;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
@@ -52,6 +54,7 @@ let ROUTES = {
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     ),
     'cc': (
@@ -68,6 +71,7 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     ),
     'ikonotv': (
@@ -86,6 +90,7 @@ let ROUTES = {
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
             <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     )
 };

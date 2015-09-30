@@ -14,11 +14,13 @@ import PrizePieceContainer from './components/ascribe_detail/prize_piece_contain
 import EditionContainer from '../../ascribe_detail/edition_container';
 import SettingsContainer from './components/prize_settings_container';
 import CoaVerifyContainer from '../../../components/coa_verify_container';
+import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
 
 let Route = Router.Route;
+let NotFoundRoute = Router.NotFoundRoute;
 let baseUrl = AppConstants.baseUrl;
 
 
@@ -36,6 +38,7 @@ function getRoutes() {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     );
 }
