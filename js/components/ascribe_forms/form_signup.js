@@ -55,7 +55,7 @@ let SignupForm = React.createClass({
 
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
-            this.transitionTo('pieces');
+            window.setTimeout(() => this.transitionTo('pieces'));
         }
     },
 
