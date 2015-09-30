@@ -21,6 +21,10 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let CylandPieceContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
@@ -68,7 +72,8 @@ let CylandPieceContainer = React.createClass({
                         <CylandAdditionalDataForm
                             piece={this.state.piece}
                             disabled={!this.state.piece.acl.acl_edit}
-                            isInline={true} />
+                            isInline={true}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
                 </WalletPieceContainer>
             );

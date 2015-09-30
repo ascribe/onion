@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -44,7 +44,7 @@ import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
-let Link = Router.Link;
+
 /**
  * This is the component that implements display-specific functionality
  */
@@ -364,7 +364,7 @@ let CoaDetails = React.createClass({
                                 {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                             </button>
                         </a>
-                        <Link to="coa_verify">
+                        <Link to="/coa_verify">
                             <button className="btn btn-default btn-xs">
                                 {getLangText('Verify')} <Glyphicon glyph="check"/>
                             </button>

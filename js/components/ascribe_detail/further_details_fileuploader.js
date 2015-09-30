@@ -20,7 +20,8 @@ let FurtherDetailsFileuploader = React.createClass({
         submitFile: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        multiple: React.PropTypes.bool
+        multiple: React.PropTypes.bool,
+        location: React.PropTypes.object
     },
 
     getDefaultProps() {
@@ -88,7 +89,8 @@ let FurtherDetailsFileuploader = React.createClass({
                     }}
                     areAssetsDownloadable={true}
                     areAssetsEditable={this.props.editable}
-                    multiple={this.props.multiple}/>
+                    multiple={this.props.multiple}
+                    location={this.props.location}/>
             </Property>
         );
     }

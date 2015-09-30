@@ -43,6 +43,9 @@ import { getLangText } from '../../utils/lang_utils';
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     mixins: [Router.Navigation],
 
@@ -261,7 +264,8 @@ let PieceContainer = React.createClass({
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}
                             otherData={this.state.piece.other_data}
-                            handleSuccess={this.loadPiece}/>
+                            handleSuccess={this.loadPiece}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
 
                 </Piece>

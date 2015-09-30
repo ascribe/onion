@@ -44,7 +44,7 @@ const COMMON_ROUTES = (
         <Route path="password_reset" component={PasswordResetContainer} />
         <Route path="settings" component={SettingsContainer} />
         <Route path="contract_settings" component={ContractSettings} />
-        <Route path="verify" component={CoaVerifyContainer} />
+        <Route path="coa_verify" component={CoaVerifyContainer} />
         <Route path="*" component={ErrorNotFoundPage} />
     </Route>
 );

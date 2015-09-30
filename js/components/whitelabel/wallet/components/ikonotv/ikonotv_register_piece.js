@@ -33,10 +33,10 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 let IkonotvRegisterPiece = React.createClass({
-
     propTypes: {
         handleSuccess: React.PropTypes.func,
-        piece: React.PropTypes.object.isRequired
+        piece: React.PropTypes.object.isRequired,
+        location: React.PropTypes.object
     },
 
     mixins: [Router.Navigation, Router.State],
@@ -256,7 +256,8 @@ let IkonotvRegisterPiece = React.createClass({
                                 submitMessage={getLangText('Register')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut} />
+                                onLoggedOut={this.onLoggedOut}
+                                location={this.props.location}/>
                         </Col>
                     </Row>
                 </div>

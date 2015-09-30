@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
@@ -13,8 +13,6 @@ import NotificationStore from '../stores/notification_store';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-
-let Link = Router.Link;
 
 
 let HeaderNotifications = React.createClass({
@@ -39,7 +37,7 @@ let HeaderNotifications = React.createClass({
         this.setState(state);
     },
 
-    onMenuItemClick(event) {
+    onMenuItemClick() {
         /*
         This is a hack to make the dropdown close after clicking on an item
         The function just need to be defined
@@ -158,23 +156,13 @@ let NotificationListItem = React.createClass({
     },
 
     getLinkData() {
+        let { pieceOrEdition } = this.props;
 
         if (this.isPiece()) {
-            return {
-                to: 'piece',
-                params: {
-                    pieceId: this.props.pieceOrEdition.id
-                }
-            };
+            return `/pieces/${pieceOrEdition.id}`;
         } else {
-            return {
-                to: 'edition',
-                params: {
-                    editionId: this.props.pieceOrEdition.bitcoin_id
-                }
-            };
+            return `/pieces/${pieceOrEdition.bitcoin_id}`;
         }
-
     },
 
     onClick(event){
@@ -184,7 +172,7 @@ let NotificationListItem = React.createClass({
     getNotificationText(){
         let numNotifications = null;
         if (this.props.notification.length > 1){
-            numNotifications = <div>+ {this.props.notification.length - 1} more...</div>;
+            numNotifications = <div>+ {this.props.notification.length - 1} {getLangText('more...')}</div>;
         }
         return (
             <div className="notification-action">
@@ -196,7 +184,7 @@ let NotificationListItem = React.createClass({
     render() {
         if (this.props.pieceOrEdition) {
             return (
-                <Link {...this.getLinkData()} onClick={this.onClick}>
+                <Link to={this.getLinkData()} onClick={this.onClick}>
                     <div className="row notification-wrapper">
                         <div className="col-xs-4 clear-paddings">
                             <div className="thumbnail-wrapper">

@@ -39,6 +39,9 @@ import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 
 let CylandRegisterPiece = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     mixins: [Router.Navigation, Router.State],
 
@@ -190,7 +193,8 @@ let CylandRegisterPiece = React.createClass({
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut} />
+                                onLoggedOut={this.onLoggedOut}
+                                location={this.props.location}/>
                         </Col>
                     </Row>
                 </div>
@@ -200,7 +204,8 @@ let CylandRegisterPiece = React.createClass({
                             <CylandAdditionalDataForm
                                 disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
+                                piece={this.state.piece}
+                                location={this.props.location}/>
                         </Col>
                     </Row>
                 </div>

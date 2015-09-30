@@ -37,7 +37,8 @@ let RegisterPiece = React.createClass( {
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
             React.PropTypes.string
-        ])
+        ]),
+        location: React.PropTypes.object
     },
 
     mixins: [Router.Navigation],
@@ -149,7 +150,8 @@ let RegisterPiece = React.createClass( {
                                 {...this.props}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleSuccess}
-                                onLoggedOut={this.onLoggedOut}>
+                                onLoggedOut={this.onLoggedOut}
+                                location={this.props.location}>
                                 {this.props.children}
                                 {this.getSpecifyEditions()}
                             </RegisterPieceForm>

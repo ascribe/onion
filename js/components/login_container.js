@@ -1,13 +1,11 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import LoginForm from './ascribe_forms/form_login';
 
 import { getLangText } from '../utils/lang_utils';
-
-let Link = Router.Link;
 
 
 let LoginContainer = React.createClass({
@@ -35,8 +33,8 @@ let LoginContainer = React.createClass({
                     message={this.props.message}
                     onLogin={this.props.onLogin}/>
                 <div className="ascribe-login-text">
-                    {getLangText('Not an ascribe user')}&#63; <Link to="signup">{getLangText('Sign up')}...</Link><br/>
-                    {getLangText('Forgot my password')}&#63; <Link to="password_reset">{getLangText('Rescue me')}...</Link>
+                    {getLangText('Not an ascribe user')}&#63; <Link to="/signup">{getLangText('Sign up')}...</Link><br/>
+                    {getLangText('Forgot my password')}&#63; <Link to="/password_reset">{getLangText('Rescue me')}...</Link>
                 </div>
             </div>
         );
