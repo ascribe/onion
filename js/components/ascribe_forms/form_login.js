@@ -44,6 +44,10 @@ let LoginForm = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        let { redirect } = this.getQuery();
+        if (redirect !== 'login'){
+            this.transitionTo(redirect, null, this.getQuery());
+        }
     },
 
     componentWillUnmount() {
@@ -56,6 +60,15 @@ let LoginForm = React.createClass({
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email && this.props.redirectOnLoggedIn) {
             // FIXME: hack to redirect out of the dispatch cycle
+            let { redirectAuthenticated } = this.getQuery();
+            if ( redirectAuthenticated) {
+                /*
+                * redirectAuthenticated contains an arbirary path
+                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                * hence transitionTo cannot be used directly
+                */
+                window.location = AppConstants.baseUrl + redirectAuthenticated;
+            }
             window.setTimeout(() => this.transitionTo('pieces'), 0);
         }
     },
@@ -79,7 +92,13 @@ let LoginForm = React.createClass({
                     Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
                     Until then, we redirect the HARD way, but reloading the whole page using window.location
                     */
-                    window.location = AppConstants.baseUrl + 'collection';
+                    let { redirectAuthenticated } = this.getQuery();
+                    if ( redirectAuthenticated) {
+                        window.location = AppConstants.baseUrl + redirectAuthenticated;
+                    }
+                    else {
+                        window.location = AppConstants.baseUrl + 'collection';
+                    }
                 } else if(this.props.onLogin) {
                     // In some instances we want to give a callback to an outer container,
                     // to show that the one login action the user triggered actually went through.
