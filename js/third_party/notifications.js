@@ -5,6 +5,8 @@ import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
 
+import { getSubdomain } from '../utils/general_utils';
+
 
 class NotificationsHandler {
 
@@ -13,11 +15,11 @@ class NotificationsHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad(profile) {
+    onProfileDidLoad() {
         if (this.loaded) {
             return;
         }
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
