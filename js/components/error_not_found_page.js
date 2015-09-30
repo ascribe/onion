@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { getLangText } from '../utils/lang_utils';
+
 
 let ErrorNotFoundPage = React.createClass({
     render() {
@@ -11,7 +13,7 @@ let ErrorNotFoundPage = React.createClass({
                     <div className="error-wrapper">
                         <h1>404</h1>
                         <p>
-                            Ups, the page you are looking for does not exist.
+                            {getLangText('Ups, the page you are looking for does not exist.')}
                         </p>
                     </div>
                 </div>
