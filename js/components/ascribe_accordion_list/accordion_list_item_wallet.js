@@ -145,6 +145,7 @@ let AccordionListItemWallet = React.createClass({
                         </AclProxy>
                     </div>}
                 badge={this.getGlyphicon()}>
+                badge={this.getGlyphicon()}>
                 {this.getCreateEditionsDialog()}
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}

@@ -121,7 +121,6 @@ let AccordionListItemEditionWidget = React.createClass({
                 );
             } else {
                 let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
-
                 return (
                     <button
                         onClick={this.toggleTable}
