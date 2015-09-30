@@ -6,15 +6,11 @@ import Router from 'react-router';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
-import PieceListActions from '../../actions/piece_list_actions';
-import PieceListStore from '../../stores/piece_list_store';
-import EditionListActions from '../../actions/edition_list_actions';
 
 import HistoryIterator from './history_iterator';
 
@@ -28,23 +24,14 @@ import EditionDetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
 import EditionFurtherDetails from './further_details';
 
-import ListRequestActions from './../ascribe_forms/list_form_request_actions';
-import AclButtonList from './../ascribe_buttons/acl_button_list';
-import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
-import DeleteButton from '../ascribe_buttons/delete_button';
-
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
+import EditionActions from './edition_actions';
 
 import Note from './note';
-
-import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
 
 let Link = Router.Link;
 /**
@@ -59,15 +46,11 @@ let Edition = React.createClass({
     mixins: [Router.Navigation],
 
     getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            PieceListStore.getState()
-        );
+        return UserStore.getState();
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 
@@ -82,29 +65,10 @@ let Edition = React.createClass({
         CoaActions.flushCoa();
 
         UserStore.unlisten(this.onChange);
-        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-    },
-
-    handleDeleteSuccess(response) {
-        this.refreshCollection();
-
-        EditionListActions.closeAllEditionLists();
-        EditionListActions.clearAllEditionSelections();
-
-        let notification = new GlobalNotificationModel(response.notification, 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-
-        this.transitionTo('pieces');
-    },
-
-    refreshCollection() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
-        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
     },
 
     render() {
@@ -123,12 +87,9 @@ let Edition = React.createClass({
                         <hr/>
                     </div>
                     <EditionSummary
-                        handleSuccess={this.props.loadEdition}
-                        refreshCollection={this.refreshCollection}
-                        currentUser={this.state.currentUser}
                         edition={this.props.edition}
-                        handleDeleteSuccess={this.handleDeleteSuccess}/>
-
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.loadEdition}/>
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.acl_coa === true}>
@@ -211,25 +172,14 @@ let Edition = React.createClass({
 let EditionSummary = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func,
         currentUser: React.PropTypes.object,
-        handleDeleteSuccess: React.PropTypes.func,
-        refreshCollection: React.PropTypes.func
+        handleSuccess: React.PropTypes.func
     },
 
     handleSuccess() {
-        this.props.refreshCollection();
         this.props.handleSuccess();
     },
 
-    showNotification(response){
-        this.props.handleSuccess();
-
-        if (response){
-            let notification = new GlobalNotificationModel(response.notification, 'success');
-            GlobalNotificationActions.appendGlobalNotification(notification);
-        }
-    },
     getStatus(){
         let status = null;
         if (this.props.edition.status.length > 0){
@@ -244,89 +194,26 @@ let EditionSummary = React.createClass({
         return status;
     },
 
-    getActions(){
-        let actions = null;
-        if (this.props.edition &&
-            this.props.edition.notifications &&
-            this.props.edition.notifications.length > 0){
-            actions = (
-                <ListRequestActions
-                    pieceOrEditions={[this.props.edition]}
-                    currentUser={this.props.currentUser}
-                    handleSuccess={this.showNotification}
-                    notifications={this.props.edition.notifications}/>);
-        }
-
-        else {
-            actions = (
-                <Row>
-                    <Col md={12}>
-                        <AclButtonList
-                            className="text-center ascribe-button-list"
-                            availableAcls={this.props.edition.acl}
-                            editions={[this.props.edition]}
-                            handleSuccess={this.handleSuccess}>
-                            <AclProxy
-                                aclObject={this.props.edition.acl}
-                                aclName="acl_withdraw_transfer">
-                                <Form
-                                    url={ApiUrls.ownership_transfers_withdraw}
-                                    getFormData={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
-                                    handleSuccess={this.showNotification}
-                                    className='inline'
-                                    isInline={true}>
-                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                                        {getLangText('WITHDRAW TRANSFER')}
-                                    </Button>
-                                </Form>
-                            </AclProxy>
-                            <AclProxy
-                                aclObject={this.props.edition.acl}
-                                aclName="acl_withdraw_consign">
-                                <Form
-                                    url={ApiUrls.ownership_consigns_withdraw}
-                                    getFormData={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
-                                    handleSuccess={this.showNotification}
-                                    className='inline'
-                                    isInline={true}>
-                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                                        {getLangText('WITHDRAW CONSIGN')}
-                                    </Button>
-                                </Form>
-                            </AclProxy>
-                            <AclProxy
-                                aclObject={this.props.edition.acl}
-                                aclName="acl_request_unconsign">
-                                <UnConsignRequestButton
-                                    currentUser={this.props.currentUser}
-                                    edition={this.props.edition}
-                                    handleSuccess={this.props.handleSuccess} />
-                            </AclProxy>
-                            <DeleteButton
-                                handleSuccess={this.props.handleDeleteSuccess}
-                                editions={[this.props.edition]}/>
-                        </AclButtonList>
-                    </Col>
-                </Row>);
-        }
-        return actions;
-    },
     render() {
+        let { edition } = this.props;
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty
                     label={getLangText('EDITION')}
-                    value={this.props.edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
+                    value={ edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
                 <EditionDetailProperty
                     label={getLangText('ID')}
-                    value={ this.props.edition.bitcoin_id }
+                    value={ edition.bitcoin_id }
                     ellipsis={true} />
                 <EditionDetailProperty
                     label={getLangText('OWNER')}
-                    value={ this.props.edition.owner } />
-                <LicenseDetail license={this.props.edition.license_type}/>
+                    value={ edition.owner } />
+                <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                {this.getActions()}
+                <EditionActions
+                    edition={edition}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess} />
                 <hr/>
             </div>
         );
