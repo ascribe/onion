@@ -34,6 +34,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_form';
 @import 'ascribe_panel';
 @import 'ascribe_collapsible';
+@import 'ascribe_custom_style';
 
 @import 'whitelabel/index';
 
@@ -93,28 +94,28 @@ hr {
         border: 1px solid rgba(0, 0, 0, 0);
     }
 
-    .navbar-nav > .active {
-        a {
-            background-color: transparent !important;
-            border-bottom: 1px solid #02b6a3;
-            color: #02b6a3;
-
-            > span {
-                color: #02b6a3;
-            }
-
-            &:hover,
-            &:focus {
-                background-color: transparent;
-                border-bottom: 1px solid #02b6a3;
-                color: #02b6a3;
-
-                > span {
-                    color: #02b6a3;
-                }
-            }
-        }
-    }
+//     .navbar-nav > .active {
+//         a {
+//             background-color: transparent !important;
+//             border-bottom: 1px solid #02b6a3;
+//             color: #02b6a3;
+// 
+//             > span {
+//                 color: #02b6a3;
+//             }
+// 
+//             &:hover,
+//             &:focus {
+//                 background-color: transparent;
+//                 border-bottom: 1px solid #02b6a3;
+//                 color: #02b6a3;
+// 
+//                 > span {
+//                     color: #02b6a3;
+//                 }
+//             }
+//         }
+//     }
 }
 
 
