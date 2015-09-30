@@ -13,7 +13,6 @@ class EditionListStore {
     }
 
     onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy}) {
-        
         /*
             Basically there are two modes an edition list can be updated.
 
