@@ -338,7 +338,12 @@ let CoaDetails = React.createClass({
     componentDidMount() {
         CoaStore.listen(this.onChange);
         if(this.props.edition.coa) {
-            CoaActions.fetchOne(this.props.edition.coa);
+            CoaActions.fetchOne(this.props.edition.coa)
+                .then((res) => {
+                    if (res === null){
+                        CoaActions.create(this.props.edition);
+                    }
+                });
         }
         else {
             CoaActions.create(this.props.edition);
