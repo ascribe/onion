@@ -3,6 +3,7 @@
 import alt from '../alt';
 import CoaFetcher from '../fetchers/coa_fetcher';
 
+import Q from 'q';
 
 class CoaActions {
     constructor() {
@@ -12,23 +13,38 @@ class CoaActions {
         );
     }
 
-    fetchOne(id) {
-        CoaFetcher.fetchOne(id)
-            .then((res) => {
-                this.actions.updateCoa(res.coa);
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
+    fetchOrCreate(id, bitcoinId) {
+        return Q.Promise((resolve, reject) => {
+            CoaFetcher.fetchOne(id)
+                .then((res) => {
+                    if (res.coa) {
+                        this.actions.updateCoa(res.coa);
+                        resolve(res.coa);
+                    }
+                    else {
+                        this.actions.create(bitcoinId);
+                    }
+                })
+                .catch((err) => {
+                    console.logGlobal(err);
+                    this.actions.updateCoa(null);
+                    reject(err);
+                });
+        });
     }
-    create(edition) {
-        CoaFetcher.create(edition.bitcoin_id)
-            .then((res) => {
-                this.actions.updateCoa(res.coa);
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
+
+    create(bitcoinId) {
+        return Q.Promise((resolve, reject) => {
+            CoaFetcher.create(bitcoinId)
+                .then((res) => {
+                    this.actions.updateCoa(res.coa);
+                })
+                .catch((err) => {
+                    console.logGlobal(err);
+                    this.actions.updateCoa(null);
+                    reject(err);
+                });
+        });
     }
 }
 

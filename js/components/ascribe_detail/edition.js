@@ -336,12 +336,13 @@ let CoaDetails = React.createClass({
     },
 
     componentDidMount() {
+        let { edition } = this.props;
         CoaStore.listen(this.onChange);
-        if(this.props.edition.coa) {
-            CoaActions.fetchOne(this.props.edition.coa);
+        if(edition.coa) {
+            CoaActions.fetchOrCreate(edition.coa, edition.bitcoin_id);
         }
         else {
-            CoaActions.create(this.props.edition);
+            CoaActions.create(edition.bitcoin_id);
         }
     },
 
