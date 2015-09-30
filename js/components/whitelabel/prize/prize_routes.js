@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Route } from 'react-router';
 
 import Landing from './components/prize_landing';
 import LoginContainer from './components/prize_login_container';
@@ -19,26 +19,24 @@ import ErrorNotFoundPage from '../../../components/error_not_found_page';
 import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
 
-let Route = Router.Route;
-let NotFoundRoute = Router.NotFoundRoute;
-let baseUrl = AppConstants.baseUrl;
 
+let baseUrl = AppConstants.baseUrl;
 
 function getRoutes() {
     return (
-        <Route name="app" path={baseUrl} handler={App}>
-            <Route name="landing" path={baseUrl} handler={Landing} />
-            <Route name="login" path="login" handler={LoginContainer} />
-            <Route name="logout" path="logout" handler={LogoutContainer} />
-            <Route name="signup" path="signup" handler={SignupContainer} />
-            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={PrizeRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route name="pieces" path="collection" handler={PrizePieceList} headerTitle="COLLECTION" />
-            <Route name="piece" path="pieces/:pieceId" handler={PrizePieceContainer} />
-            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
-            <Route name="settings" path="settings" handler={SettingsContainer} />
-            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
+        <Route path={baseUrl} component={App}>
+            <Route path={baseUrl} component={Landing} />
+            <Route path="login" component={LoginContainer} />
+            <Route path="logout" component={LogoutContainer} />
+            <Route path="signup" component={SignupContainer} />
+            <Route path="password_reset" component={PasswordResetContainer} />
+            <Route path="register_piece" component={PrizeRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route path="collection" component={PrizePieceList} headerTitle="COLLECTION" />
+            <Route path="pieces/:pieceId" component={PrizePieceContainer} />
+            <Route path="editions/:editionId" component={EditionContainer} />
+            <Route path="settings" component={SettingsContainer} />
+            <Route path="verify" component={CoaVerifyContainer} />
+            <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     );
 }

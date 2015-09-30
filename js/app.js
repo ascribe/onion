@@ -3,7 +3,9 @@
 require('babel/polyfill');
 
 import React from 'react';
-import Router from 'react-router';
+import { Router } from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+
 
 /* eslint-disable */
 import fetch from 'isomorphic-fetch';
@@ -74,16 +76,20 @@ class AppGateway {
             subdomain = settings.subdomain;
         }
 
+        // Adds a client specific class to the body for whitelabel styling
         window.document.body.classList.add('client--' + subdomain);
 
+        // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
-        window.appRouter = Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
-            React.render(
-                <App />,
-                document.getElementById('main')
-            );
-            EventActions.routeDidChange();
-        });
+
+        let history = createBrowserHistory();
+        React.render((
+            <Router history={history}>
+                {getRoutes(type, subdomain)}
+            </Router>
+        ), document.getElementById('main'));
+
+        // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
     }
 }

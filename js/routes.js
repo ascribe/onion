@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
@@ -27,28 +27,25 @@ import RegisterPiece from './components/register_piece';
 
 import AppConstants from './constants/application_constants';
 
-let Route = Router.Route;
-let NotFoundRoute = Router.NotFoundRoute;
-let Redirect = Router.Redirect;
+
 let baseUrl = AppConstants.baseUrl;
 
-
 const COMMON_ROUTES = (
-    <Route name="app" path={baseUrl} handler={App}>
-        <Redirect from={baseUrl} to="login" />
-        <Redirect from={baseUrl + '/'} to="login" />
-        <Route name="signup" path="signup" handler={SignupContainer} />
-        <Route name="login" path="login" handler={LoginContainer} />
-        <Route name="logout" path="logout" handler={LogoutContainer} />
-        <Route name="register_piece" path="register_piece" handler={RegisterPiece} headerTitle="+ NEW WORK" />
-        <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
-        <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
-        <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
-        <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-        <Route name="settings" path="settings" handler={SettingsContainer} />
-        <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
-        <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-        <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
+    <Route path={baseUrl} component={App}>
+        <Redirect from={baseUrl} to="/login" />
+        <Redirect from={baseUrl + '/'} to="/login" />
+        <Route path="signup" component={SignupContainer} />
+        <Route path="login" component={LoginContainer} />
+        <Route path="logout" component={LogoutContainer} />
+        <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
+        <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
+        <Route path="pieces/:pieceId" component={PieceContainer} />
+        <Route path="editions/:editionId" component={EditionContainer} />
+        <Route path="password_reset" component={PasswordResetContainer} />
+        <Route path="settings" component={SettingsContainer} />
+        <Route path="contract_settings" component={ContractSettings} />
+        <Route path="verify" component={CoaVerifyContainer} />
+        <Route path="*" component={ErrorNotFoundPage} />
     </Route>
 );
 

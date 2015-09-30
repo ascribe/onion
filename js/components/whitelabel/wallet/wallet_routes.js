@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 // general components
 import CoaVerifyContainer from '../../../components/coa_verify_container';
@@ -33,64 +33,61 @@ import CCRegisterPiece from './components/cc/cc_register_piece';
 import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
 
-let Route = Router.Route;
-let NotFoundRoute = Router.NotFoundRoute;
-let Redirect = Router.Redirect;
-let baseUrl = AppConstants.baseUrl;
 
+let baseUrl = AppConstants.baseUrl;
 
 let ROUTES = {
     'cyland': (
-        <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={CylandLanding} />
-            <Route name="login" path="login" handler={LoginContainer} />
-            <Route name="logout" path="logout" handler={LogoutContainer} />
-            <Route name="signup" path="signup" handler={SignupContainer} />
-            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CylandRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route name="pieces" path="collection" handler={CylandPieceList} headerTitle="COLLECTION" />
-            <Route name="piece" path="pieces/:pieceId" handler={CylandPieceContainer} />
-            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
-            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-            <Route name="settings" path="settings" handler={SettingsContainer} />
-            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
-            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
+        <Route path={baseUrl} component={WalletApp}>
+            <Route path={baseUrl} component={CylandLanding} />
+            <Route path="login" component={LoginContainer} />
+            <Route path="logout" component={LogoutContainer} />
+            <Route path="signup" component={SignupContainer} />
+            <Route path="password_reset" component={PasswordResetContainer} />
+            <Route path="register_piece" component={CylandRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route path="collection" component={CylandPieceList} headerTitle="COLLECTION" />
+            <Route path="pieces/:pieceId" component={CylandPieceContainer} />
+            <Route path="editions/:editionId" component={EditionContainer} />
+            <Route path="verify" component={CoaVerifyContainer} />
+            <Route path="settings" component={SettingsContainer} />
+            <Route path="contract_settings" component={ContractSettings} />
+            <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     ),
     'cc': (
-        <Route name="app" path={baseUrl} handler={WalletApp}>
+        <Route path={baseUrl} component={WalletApp}>
             <Redirect from={baseUrl} to="login" />
             <Redirect from={baseUrl + '/'} to="login" />
-            <Route name="login" path="login" handler={LoginContainer} />
-            <Route name="logout" path="logout" handler={LogoutContainer} />
-            <Route name="signup" path="signup" handler={SignupContainer} />
-            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="register_piece" path="register_piece" handler={CCRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route name="pieces" path="collection" handler={PieceList} headerTitle="COLLECTION" />
-            <Route name="piece" path="pieces/:pieceId" handler={PieceContainer} />
-            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
-            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-            <Route name="settings" path="settings" handler={SettingsContainer} />
-            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
+            <Route path="login" component={LoginContainer} />
+            <Route path="logout" component={LogoutContainer} />
+            <Route path="signup" component={SignupContainer} />
+            <Route path="password_reset" component={PasswordResetContainer} />
+            <Route path="register_piece" component={CCRegisterPiece} headerTitle="+ NEW WORK" />
+            <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
+            <Route path="pieces/:pieceId" component={PieceContainer} />
+            <Route path="editions/:editionId" component={EditionContainer} />
+            <Route path="verify" component={CoaVerifyContainer} />
+            <Route path="settings" component={SettingsContainer} />
+            <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     ),
     'ikonotv': (
-        <Route name="app" path={baseUrl} handler={WalletApp}>
-            <Route name="landing" path={baseUrl} handler={IkonotvLanding} />
-            <Route name="login" path="login" handler={LoginContainer} />
-            <Route name="logout" path="logout" handler={LogoutContainer} />
-            <Route name="signup" path="signup" handler={SignupContainer} />
-            <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
-            <Route name="request_loan" path="request_loan" handler={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
-            <Route name="register_piece" path="register_piece" handler={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
-            <Route name="pieces" path="collection" handler={IkonotvPieceList} headerTitle="COLLECTION"/>
-            <Route name="piece" path="pieces/:pieceId" handler={IkonotvPieceContainer} />
-            <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
-            <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-            <Route name="settings" path="settings" handler={SettingsContainer} />
-            <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
-            <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
-            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
+        <Route path={baseUrl} component={WalletApp}>
+            <Route path={baseUrl} component={IkonotvLanding} />
+            <Route path="login" component={LoginContainer} />
+            <Route path="logout" component={LogoutContainer} />
+            <Route path="signup" component={SignupContainer} />
+            <Route path="password_reset" component={PasswordResetContainer} />
+            <Route path="request_loan" component={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
+            <Route path="register_piece" component={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
+            <Route path="collection" component={IkonotvPieceList} headerTitle="COLLECTION"/>
+            <Route path="pieces/:pieceId" component={IkonotvPieceContainer} />
+            <Route path="editions/:editionId" component={EditionContainer} />
+            <Route path="verify" component={CoaVerifyContainer} />
+            <Route path="settings" component={SettingsContainer} />
+            <Route path="contract_settings" component={ContractSettings} />
+            <Route path="contract_notifications" component={IkonotvContractNotifications} />
+            <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     )
 };
