@@ -25,7 +25,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
-
+import LicenseDetail from './license_detail';
 import EditionFurtherDetails from './further_details';
 
 import ListRequestActions from './../ascribe_forms/list_form_request_actions';
@@ -101,7 +101,6 @@ let Edition = React.createClass({
     },
 
     refreshCollection() {
-        console.log('freshing');
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
@@ -316,6 +315,7 @@ let EditionSummary = React.createClass({
                 <EditionDetailProperty
                     label={getLangText('OWNER')}
                     value={ this.props.edition.owner } />
+                <LicenseDetail license={this.props.edition.license_type}/>
                 {this.getStatus()}
                 <hr />
                 {this.getActions()}

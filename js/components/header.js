@@ -64,31 +64,33 @@ let Header = React.createClass({
     },
 
     getLogo(){
-        let logo = (
+        if (this.state.whitelabel && this.state.whitelabel.logo){
+            return <img className="img-brand" src={this.state.whitelabel.logo} />;
+        }
+        return (
             <span>
                 <span>ascribe </span>
                 <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-            </span>);
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            logo = <img className="img-brand" src={this.state.whitelabel.logo} />;
-        }
-        return logo;
+            </span>
+        );
     },
 
     getPoweredBy(){
-        if (this.state.whitelabel && this.state.whitelabel.logo) {
-            return (
-                <li>
-                    <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                        <span id="powered">{getLangText('powered by')} </span>
-                        <span>ascribe </span>
-                        <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                    </a>
-                </li>
-            );
-        }
-        return null;
+        return (
+            <AclProxy
+                aclObject={this.state.whitelabel}
+                aclName="acl_view_powered_by">
+                    <li>
+                        <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                            <span id="powered">{getLangText('powered by')} </span>
+                            <span>ascribe </span>
+                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                        </a>
+                    </li>
+            </AclProxy>
+        );
     },
+
     onChange(state) {
         this.setState(state);
 
