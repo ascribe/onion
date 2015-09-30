@@ -13,7 +13,7 @@ class CoaActions {
         );
     }
 
-    fetchOne(id) {
+    fetchOrCreate(id, bitcoinId) {
         return Q.Promise((resolve, reject) => {
             CoaFetcher.fetchOne(id)
                 .then((res) => {
@@ -22,10 +22,8 @@ class CoaActions {
                         resolve(res.coa);
                     }
                     else {
-                        this.actions.updateCoa(null);
-                        resolve(null);
+                        this.actions.create(bitcoinId);
                     }
-
                 })
                 .catch((err) => {
                     console.logGlobal(err);
@@ -35,9 +33,9 @@ class CoaActions {
         });
     }
 
-    create(edition) {
+    create(bitcoinId) {
         return Q.Promise((resolve, reject) => {
-            CoaFetcher.create(edition.bitcoin_id)
+            CoaFetcher.create(bitcoinId)
                 .then((res) => {
                     this.actions.updateCoa(res.coa);
                 })
