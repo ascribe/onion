@@ -102,7 +102,6 @@ let Edition = React.createClass({
     },
 
     refreshCollection() {
-        console.log('freshing');
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
