@@ -277,7 +277,7 @@ let EditionSummary = React.createClass({
                                     className='inline'
                                     isInline={true}>
                                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                                        WITHDRAW TRANSFER
+                                        {getLangText('WITHDRAW TRANSFER')}
                                     </Button>
                                 </Form>
                             </AclProxy>
@@ -291,7 +291,7 @@ let EditionSummary = React.createClass({
                                     className='inline'
                                     isInline={true}>
                                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                                        WITHDRAW CONSIGN
+                                        {getLangText('WITHDRAW CONSIGN')}
                                     </Button>
                                 </Form>
                             </AclProxy>
