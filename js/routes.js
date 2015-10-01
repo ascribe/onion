@@ -33,11 +33,11 @@ let baseUrl = AppConstants.baseUrl;
 const COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
         <IndexRoute component={PieceList} headerTitle="COLLECTION" />
+        <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
         <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
         <Route path="signup" component={SignupContainer} />
         <Route path="login" component={LoginContainer} />
         <Route path="logout" component={LogoutContainer} />
-        <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
         <Route path="pieces/:pieceId" component={PieceContainer} />
         <Route path="editions/:editionId" component={EditionContainer} />
         <Route path="password_reset" component={PasswordResetContainer} />

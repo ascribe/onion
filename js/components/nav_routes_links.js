@@ -58,7 +58,7 @@ let NavRoutesLinks = React.createClass({
                             aclObject={this.props.userAcl}>
                             <NavRoutesLinksLink
                                 headerTitle={headerTitle}
-                                routePath={path}
+                                routePath={'/' + path}
                                 depth={i}
                                 children={childrenFn}/>
                         </AclProxy>
@@ -68,7 +68,7 @@ let NavRoutesLinks = React.createClass({
                         <NavRoutesLinksLink
                             key={j}
                             headerTitle={headerTitle}
-                            routePath={path}
+                            routePath={'/' + path}
                             depth={i}
                             children={childrenFn}/>
                     );
