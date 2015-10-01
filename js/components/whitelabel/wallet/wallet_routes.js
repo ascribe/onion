@@ -56,8 +56,6 @@ let ROUTES = {
     ),
     'cc': (
         <Route path={baseUrl} component={WalletApp}>
-            <Redirect from={baseUrl} to="login" />
-            <Redirect from={baseUrl + '/'} to="login" />
             <Route path="login" component={LoginContainer} />
             <Route path="logout" component={LogoutContainer} />
             <Route path="signup" component={SignupContainer} />

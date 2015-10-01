@@ -6,8 +6,6 @@ import Header from '../../header';
 import Footer from '../../footer';
 import GlobalNotification from '../../global_notification';
 
-import getRoutes from './prize_routes';
-
 import { getSubdomain } from '../../../utils/general_utils';
 
 
@@ -17,19 +15,18 @@ let PrizeApp = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
-        history: React.PropTypes.object
+        history: React.PropTypes.object,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object)
     },
 
     render() {
         let header = null;
         let subdomain = getSubdomain();
 
-        let ROUTES = getRoutes(null, subdomain);
-
         if (this.props.history.isActive('/') || this.props.history.isActive('/login') || this.props.history.isActive('/signup')) {
             header = <Hero />;
         } else {
-            header = <Header showAddWork={false} routes={ROUTES}/>;
+            header = <Header showAddWork={false} routes={this.props.routes}/>;
         }
 
         return (

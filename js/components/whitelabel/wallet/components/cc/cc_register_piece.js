@@ -11,6 +11,9 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
 let CCRegisterPiece = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -82,7 +85,8 @@ let CCRegisterPiece = React.createClass({
             <RegisterPiece
                 enableLocalHashing={false}
                 headerMessage={getLangText('Register under a Creative Commons license')}
-                submitMessage={getLangText('Submit')}>
+                submitMessage={getLangText('Submit')}
+                location={this.props.location}>
                 {this.getLicenses()}
             </RegisterPiece>
         );

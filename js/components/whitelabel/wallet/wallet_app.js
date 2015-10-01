@@ -6,7 +6,6 @@ import Footer from '../../footer';
 
 import GlobalNotification from '../../global_notification';
 
-import getRoutes from './wallet_routes';
 import classNames from 'classnames';
 
 import { getSubdomain } from '../../../utils/general_utils';
@@ -24,7 +23,6 @@ let WalletApp = React.createClass({
 
     render() {
         let subdomain = getSubdomain();
-        let ROUTES = getRoutes(null, subdomain);
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
         // we split the path by the first occurring slash and take the first splitter.
@@ -35,7 +33,7 @@ let WalletApp = React.createClass({
             && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
-            header = <Header showAddWork={true} routes={ROUTES} />;
+            header = <Header showAddWork={true} routes={this.props.routes} />;
         }
 
         return (

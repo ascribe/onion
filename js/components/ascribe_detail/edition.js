@@ -26,7 +26,7 @@ import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
-import EditionFurtherDetails from './further_details';
+import FurtherDetails from './further_details';
 
 import ListRequestActions from './../ascribe_forms/list_form_request_actions';
 import AclButtonList from './../ascribe_buttons/acl_button_list';
@@ -51,7 +51,8 @@ import { mergeOptions } from '../../utils/general_utils';
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        loadEdition: React.PropTypes.func
+        loadEdition: React.PropTypes.func,
+        location: React.PropTypes.object
     },
 
     mixins: [History],
@@ -186,12 +187,13 @@ let Edition = React.createClass({
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data.length > 0}>
-                        <EditionFurtherDetails
+                        <FurtherDetails
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}/>
+                            handleSuccess={this.props.loadEdition}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph

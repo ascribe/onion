@@ -10,11 +10,14 @@ import Edition from './edition';
 import AppConstants from '../../constants/application_constants';
 
 
-
 /**
  * This is the component that implements resource/data specific functionality
  */
 let EditionContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return EditionStore.getState();
     },
@@ -65,7 +68,8 @@ let EditionContainer = React.createClass({
             return (
                 <Edition
                     edition={this.state.edition}
-                    loadEdition={this.loadEdition}/>
+                    loadEdition={this.loadEdition}
+                    location={this.props.location}/>
             );
         } else {
             return (
