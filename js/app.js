@@ -78,7 +78,7 @@ class AppGateway {
             subdomain = settings.subdomain;
         }
 
-        if(subdomain !== 'www') {
+        if(subdomain) {
             redirectRoute = null;
         }
 
