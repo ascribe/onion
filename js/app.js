@@ -83,6 +83,9 @@ class AppGateway {
         EventActions.applicationWillBoot(settings);
 
         let history = createBrowserHistory();
+
+        history.listen(EventActions.routeDidChange);
+
         React.render((
             <Router history={history}>
                 <Redirect from="/" to="/collection" />
