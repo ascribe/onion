@@ -32,7 +32,6 @@ let baseUrl = AppConstants.baseUrl;
 
 const COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
-        <IndexRoute component={PieceList} headerTitle="COLLECTION" />
         <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
         <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
         <Route path="signup" component={SignupContainer} />

@@ -113,7 +113,7 @@ let IkonotvContractNotifications = React.createClass({
     handleConfirmSuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.history.pushState(null, '/pieces');
+        this.history.pushState(null, '/collection');
     },
 
     handleDeny() {
@@ -126,7 +126,7 @@ let IkonotvContractNotifications = React.createClass({
     handleDenySuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.history.pushState(null, '/pieces');
+        this.history.pushState(null, '/collection');
     },
 
     getCopyrightAssociationForm(){

@@ -45,7 +45,7 @@ let CylandLanding = React.createClass({
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.replaceState(null, '/pieces'), 0);
+            window.setTimeout(() => this.history.replaceState(null, '/collection'), 0);
         }
     },
 

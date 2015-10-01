@@ -51,7 +51,7 @@ let SignupForm = React.createClass({
 
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
-            this.history.pushState(null, '/pieces');
+            this.history.pushState(null, '/collection');
         }
     },
 
@@ -62,7 +62,7 @@ let SignupForm = React.createClass({
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         }
         else if (response.redirect) {
-            this.history.pushState(null, '/pieces');
+            this.history.pushState(null, '/collection');
         }
     },
 

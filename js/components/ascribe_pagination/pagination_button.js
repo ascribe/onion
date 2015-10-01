@@ -42,7 +42,7 @@ let PaginationButton = React.createClass({
 
         if (this.isInRange(page)) {
             anchor = (
-                <Link to="/pieces"
+                <Link to="/collection"
                       query={{page}}
                       onClick={this.props.goToPage(page)}>
                     {directionDisplay}

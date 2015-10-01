@@ -3,7 +3,7 @@
 require('babel/polyfill');
 
 import React from 'react';
-import { Router } from 'react-router';
+import { Router, Redirect } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 
@@ -85,6 +85,7 @@ class AppGateway {
         let history = createBrowserHistory();
         React.render((
             <Router history={history}>
+                <Redirect from="/" to="/collection" />
                 {getRoutes(type, subdomain)}
             </Router>
         ), document.getElementById('main'));

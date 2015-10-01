@@ -120,7 +120,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.history.pushState(null, '/pieces');
+        this.history.pushState(null, '/collection');
         let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },

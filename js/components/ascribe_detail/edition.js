@@ -96,7 +96,7 @@ let Edition = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/pieces');
+        this.history.pushState(null, '/collection');
     },
 
     refreshCollection() {

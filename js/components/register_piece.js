@@ -164,7 +164,8 @@ let RegisterPiece = React.createClass( {
                         message={getLangText('Please login before ascribing your work%s', '...')}
                         redirectOnLoggedIn={false}
                         redirectOnLoginSuccess={false}
-                        onLogin={this.onLogin}/>
+                        onLogin={this.onLogin}
+                        location={this.props.location}/>
                 </div>
             </SlidesContainer>
         );

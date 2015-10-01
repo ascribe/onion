@@ -102,7 +102,7 @@ let IkonotvRegisterPiece = React.createClass({
             PieceActions.updatePiece(response.piece);
         }
         if (!this.canSubmit()) {
-            this.history.pushState(null, '/pieces');
+            this.history.pushState(null, '/collection');
         }
         else {
             this.incrementStep();

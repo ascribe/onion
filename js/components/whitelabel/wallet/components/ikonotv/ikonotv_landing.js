@@ -38,7 +38,7 @@ let IkonotvLanding = React.createClass({
         let redirect = '/login';
 
         if(this.state.currentUser && this.state.currentUser.email) {
-            redirect = '/pieces';
+            redirect = '/collection';
         }
         else if (this.props.location.query && this.props.location.query.redirect) {
             redirect = '/' + this.props.location.query.redirect;
