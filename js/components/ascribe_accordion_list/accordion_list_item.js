@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+
 
 let AccordionListItem = React.createClass({
     propTypes: {
@@ -18,10 +18,7 @@ let AccordionListItem = React.createClass({
         ])
     },
 
-    mixins: [Router.Navigation],
-
     render() {
-
         return (
             <div className="row">
                 <div className={this.props.className}>
