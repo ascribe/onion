@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 import Hero from './components/prize_hero';
 import Header from '../../header';
 import Footer from '../../footer';
@@ -12,10 +11,14 @@ import getRoutes from './prize_routes';
 import { getSubdomain } from '../../../utils/general_utils';
 
 
-let RouteHandler = Router.RouteHandler;
-
 let PrizeApp = React.createClass({
-    mixins: [Router.State],
+    propTypes: {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ]),
+        history: React.PropTypes.object
+    },
 
     render() {
         let header = null;
@@ -23,7 +26,7 @@ let PrizeApp = React.createClass({
 
         let ROUTES = getRoutes(null, subdomain);
 
-        if (this.isActive('landing') || this.isActive('login') || this.isActive('signup')) {
+        if (this.props.history.isActive('/') || this.props.history.isActive('/login') || this.props.history.isActive('/signup')) {
             header = <Hero />;
         } else {
             header = <Header showAddWork={false} routes={ROUTES}/>;
@@ -32,7 +35,7 @@ let PrizeApp = React.createClass({
         return (
             <div className={'container ascribe-prize-app client--' + subdomain}>
                 {header}
-                <RouteHandler />
+                {this.props.children}
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
                 <Footer />

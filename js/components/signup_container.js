@@ -9,6 +9,10 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let SignupContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return {
             submitted: false,
@@ -36,7 +40,9 @@ let SignupContainer = React.createClass({
         }
         return (
             <div className="ascribe-login-wrapper">
-                <SignupForm handleSuccess={this.handleSuccess} />
+                <SignupForm
+                    handleSuccess={this.handleSuccess}
+                    location={this.props.location}/>
                 <div className="ascribe-login-text">
                     {getLangText('Already an ascribe user')}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
                 </div>

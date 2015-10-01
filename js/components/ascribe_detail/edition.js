@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -54,7 +54,7 @@ let Edition = React.createClass({
         loadEdition: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -96,7 +96,7 @@ let Edition = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/pieces');
     },
 
     refreshCollection() {

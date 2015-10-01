@@ -16,6 +16,10 @@ import { mergeOptions } from '../../../../utils/general_utils';
 import { getLangText } from '../../../../utils/lang_utils';
 
 let PrizePieceList = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PrizeStore.getState(),
@@ -65,12 +69,13 @@ let PrizePieceList = React.createClass({
             <div>
                 <PieceList
                     ref="list"
-                    redirectTo="register_piece"
+                    redirectTo="/register_piece"
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}
                     filterParams={[]}
-                    customSubmitButton={this.getButtonSubmit()}/>
+                    customSubmitButton={this.getButtonSubmit()}
+                    location={this.props.location}/>
             </div>
         );
     }

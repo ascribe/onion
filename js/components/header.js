@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -35,8 +34,6 @@ let Header = React.createClass({
         showAddWork: React.PropTypes.bool,
         routes: React.PropTypes.element
     },
-
-    mixins: [Router.State],
 
     getDefaultProps() {
         return {

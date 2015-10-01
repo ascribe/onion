@@ -9,11 +9,16 @@ import { getLangText } from '../../../../utils/lang_utils';
 
 
 let LoginContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     render() {
         return (
             <div className="ascribe-login-wrapper">
                 <LoginForm
-                    headerMessage={getLangText('Log in with ascribe')} />
+                    headerMessage={getLangText('Log in with ascribe')}
+                    location={this.props.location}/>
                 <div
                     className="ascribe-login-text">
                     {getLangText('I\'m not a user') + ' '}

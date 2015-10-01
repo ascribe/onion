@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
@@ -13,8 +13,6 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let PasswordResetContainer = React.createClass({
-    mixins: [Router.Navigation],
-
     getInitialState() {
         return {isRequested: false};
     },
@@ -112,7 +110,7 @@ let PasswordResetForm = React.createClass({
         token: React.PropTypes.string
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getFormData() {
         return {
@@ -122,7 +120,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/pieces');
         let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },

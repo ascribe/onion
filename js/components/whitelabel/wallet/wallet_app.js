@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 import Header from '../../header';
 import Footer from '../../footer';
 
@@ -13,22 +12,28 @@ import classNames from 'classnames';
 import { getSubdomain } from '../../../utils/general_utils';
 
 
-let RouteHandler = Router.RouteHandler;
-
-
 let WalletApp = React.createClass({
-    mixins: [Router.State],
+    propTypes: {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ]),
+        history: React.PropTypes.object,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+    },
 
     render() {
         let subdomain = getSubdomain();
         let ROUTES = getRoutes(null, subdomain);
-        let activeRoutes = this.getRoutes().map(elem => 'route--' + elem.name);
+
+        // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
+        // we split the path by the first occurring slash and take the first splitter.
+        let activeRoutes = this.props.routes.map(elem => 'route--' + elem.path.split('/')[0]);
 
         let header = null;
-        if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup') || this.isActive('contract_notifications'))
+        if ((this.isActive('/') || this.isActive('/login') || this.isActive('/signup') || this.isActive('/contract_notifications'))
             && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
-            header = (
-                <div className="hero"/>);
+            header = (<div className="hero"/>);
         } else {
             header = <Header showAddWork={true} routes={ROUTES} />;
         }
@@ -37,7 +42,7 @@ let WalletApp = React.createClass({
             <div className={classNames('ascribe-wallet-app', activeRoutes)}>
                 <div className='container'>
                     {header}
-                    <RouteHandler />
+                    {this.props.children}
                     <GlobalNotification />
                     <div id="modal" className="container"></div>
                     <Footer />

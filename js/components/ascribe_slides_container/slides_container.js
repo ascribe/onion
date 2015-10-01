@@ -1,13 +1,10 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 import ReactAddons from 'react/addons';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
-
-let State = Router.State;
-let Navigation = Router.Navigation;
 
 
 let SlidesContainer = React.createClass({
@@ -18,14 +15,15 @@ let SlidesContainer = React.createClass({
         glyphiconClassNames: React.PropTypes.shape({
             pending: React.PropTypes.string,
             complete: React.PropTypes.string
-        })
+        }),
+        location: React.PropTypes.object
     },
 
-    mixins: [State, Navigation],
+    mixins: [History],
 
     getInitialState() {
         // handle queryParameters
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
         let slideNum = -1;
         let startFrom = -1;
 
@@ -52,7 +50,7 @@ let SlidesContainer = React.createClass({
 
     componentDidMount() {
         // check if slide_num was defined, and if not then default to 0
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
 
         // We use 'in' to check if the key is present in the user's browser url bar,
         // we do not really care about its value at this point
@@ -62,7 +60,7 @@ let SlidesContainer = React.createClass({
             // the specific one we need instead of overwriting them
             queryParams.slide_num = 0;
 
-            this.replaceWith(this.getPathname(), null, queryParams);
+            this.history.replaceState(null, this.props.location.pathname, queryParams);
         }
 
         // init container width
@@ -74,7 +72,7 @@ let SlidesContainer = React.createClass({
     },
 
     componentWillReceiveProps() {
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
 
         // also check if start_from was updated
         // This applies for example when the user tries to submit a already existing piece
@@ -87,7 +85,7 @@ let SlidesContainer = React.createClass({
     },
 
     componentDidUpdate() {
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
 
         // check if slide_num was defined, and if not then default to 0
         this.setSlideNum(queryParams.slide_num);
@@ -115,7 +113,7 @@ let SlidesContainer = React.createClass({
     setSlideNum(slideNum) {
 
         // we do not want to overwrite other queryParams
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
 
         // slideNum can in some instances be not a number,
         // therefore we have to parse it to one and make sure that its not NaN
@@ -128,7 +126,7 @@ let SlidesContainer = React.createClass({
             slideNum = 0;
             queryParams.slide_num = slideNum;
 
-            this.replaceWith(this.getPathname(), null, queryParams);
+            this.history.replaceState(null, this.props.location.pathname, queryParams);
             this.setState({slideNum: slideNum});
             return;
 
@@ -152,11 +150,11 @@ let SlidesContainer = React.createClass({
                 
                 if(this.props.forwardProcess) {
                     queryParams.slide_num = slideNum;
-                    this.transitionTo(this.getPathname(), null, queryParams);
+                    this.history.pushState(null, this.props.location.pathname, queryParams);
                 } else {
                     if(this.state.historyLength === window.history.length) {
                         queryParams.slide_num = slideNum;
-                        this.transitionTo(this.getPathname(), null, queryParams);
+                        this.history.pushState(null, this.props.location.pathname, queryParams);
                     } else {
                         window.history.forward();
                     }

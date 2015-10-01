@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
 
@@ -12,8 +11,9 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let IkonotvLanding = React.createClass({
-
-    mixins: [Router.Navigation, Router.State],
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -38,11 +38,11 @@ let IkonotvLanding = React.createClass({
         if(this.state.currentUser && this.state.currentUser.email) {
             redirect = 'pieces';
         }
-        else if (this.getQuery() && this.getQuery().redirect) {
-            redirect = this.getQuery().redirect;
+        else if (this.props.location.query && this.props.location.query.redirect) {
+            redirect = this.props.location.query.redirect;
         }
         return (
-            <ButtonLink to={redirect} query={this.getQuery()}>
+            <ButtonLink to={redirect} query={this.props.location.query}>
                 {getLangText('ENTER TO START')}
             </ButtonLink>
         );

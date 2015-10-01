@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
@@ -47,7 +47,7 @@ let PieceContainer = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -135,7 +135,7 @@ let PieceContainer = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/pieces');
     },
 
     getCreateEditionsDialog() {

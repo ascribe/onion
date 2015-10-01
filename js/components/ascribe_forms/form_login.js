@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -24,10 +24,11 @@ let LoginForm = React.createClass({
         submitMessage: React.PropTypes.string,
         redirectOnLoggedIn: React.PropTypes.bool,
         redirectOnLoginSuccess: React.PropTypes.bool,
-        onLogin: React.PropTypes.func
+        onLogin: React.PropTypes.func,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -56,7 +57,7 @@ let LoginForm = React.createClass({
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email && this.props.redirectOnLoggedIn) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.transitionTo('pieces'), 0);
+            window.setTimeout(() => this.history.pushState(null, '/pieces');, 0);
         }
     },
 
@@ -95,7 +96,7 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        let email = this.getQuery().email || null;
+        let email = this.props.location.query.email || null;
         return (
             <Form
                 className="ascribe-form-bordered"

@@ -33,11 +33,6 @@ let TableItemWrapper = React.createClass({
                     } else {
 
                         let linkString = column.transition.toReactRouterLink(this.props.columnContent[column.transition.valueKey]);
-                        /**
-                         * If a transition is defined in columnContent, then we can use
-                         * Router.Navigation.transitionTo to redirect the user
-                         * programmatically
-                         */
                         return (
                             <td key={i} className={column.className}>
                                 <Link

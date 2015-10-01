@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -18,15 +18,15 @@ import ApiUrls from '../../constants/api_urls';
 
 
 let SignupForm = React.createClass({
-
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        children: React.PropTypes.element
+        children: React.PropTypes.element,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -51,7 +51,7 @@ let SignupForm = React.createClass({
 
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
-            this.transitionTo('pieces');
+            this.history.pushState(null, '/pieces');
         }
     },
 
@@ -62,13 +62,13 @@ let SignupForm = React.createClass({
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         }
         else if (response.redirect) {
-            this.transitionTo('pieces');
+            this.history.pushState(null, '/pieces');
         }
     },
 
     getFormData() {
-        if (this.getQuery().token){
-            return {token: this.getQuery().token};
+        if (this.props.location.query.token){
+            return {token: this.props.location.query.token};
         }
         return null;
     },
@@ -77,7 +77,7 @@ let SignupForm = React.createClass({
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
-        let email = this.getQuery().email || null;
+        let email = this.props.location.query.email || null;
         return (
             <Form
                 className="ascribe-form-bordered"

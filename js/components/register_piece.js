@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -41,7 +41,7 @@ let RegisterPiece = React.createClass( {
         location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -99,7 +99,7 @@ let RegisterPiece = React.createClass( {
             this.state.filterBy
         );
 
-        this.transitionTo('piece', {pieceId: response.piece.id});
+        this.history.pushState(null, `/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {
@@ -140,7 +140,8 @@ let RegisterPiece = React.createClass( {
         return (
             <SlidesContainer
                 ref="slidesContainer"
-                forwardProcess={false}>
+                forwardProcess={false}
+                location={this.props.location}>
                 <div
                     onClick={this.onLoggedOut}
                     onFocus={this.onLoggedOut}>

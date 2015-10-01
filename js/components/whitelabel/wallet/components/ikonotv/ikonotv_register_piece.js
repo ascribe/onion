@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Moment from 'moment';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -39,7 +39,7 @@ let IkonotvRegisterPiece = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getInitialState(){
         return mergeOptions(
@@ -61,7 +61,7 @@ let IkonotvRegisterPiece = React.createClass({
         // not want to display to the user.
         PieceActions.updatePiece({});
 
-        let queryParams = this.getQuery();
+        let queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -102,7 +102,7 @@ let IkonotvRegisterPiece = React.createClass({
             PieceActions.updatePiece(response.piece);
         }
         if (!this.canSubmit()) {
-            this.transitionTo('pieces');
+            this.history.pushState(null, '/pieces');
         }
         else {
             this.incrementStep();
@@ -132,7 +132,7 @@ let IkonotvRegisterPiece = React.createClass({
         this.refreshPieceList();
 
         PieceActions.fetchOne(this.state.piece.id);
-        this.transitionTo('piece', {pieceId: this.state.piece.id});
+        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
     },
 
     // We need to increase the step to lock the forms that are already filled out
@@ -165,7 +165,7 @@ let IkonotvRegisterPiece = React.createClass({
 
     // basically redirects to the second slide (index: 1), when the user is not logged in
     onLoggedOut() {
-        this.transitionTo('login');
+        this.history.pushState(null, '/login');
     },
 
     canSubmit() {
@@ -245,7 +245,8 @@ let IkonotvRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                    }}>
+                }}
+                location={this.props.location}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
