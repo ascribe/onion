@@ -37,7 +37,7 @@ let CylandPieceList = React.createClass({
         return (
             <div>
                 <PieceList
-                    redirectTo="/register_piece"
+                    redirectTo="/register_piece?slide_num=0"
                     accordionListItemType={CylandAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),

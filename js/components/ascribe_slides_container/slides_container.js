@@ -166,7 +166,7 @@ let SlidesContainer = React.createClass({
             });
 
         } else {
-            throw new Error('You\'re calling a page number that is out of range.');
+            throw new Error('You\'re calling a page number that is out of range: ' + slideNum);
         }
     },
 

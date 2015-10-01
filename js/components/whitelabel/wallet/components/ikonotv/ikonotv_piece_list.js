@@ -37,7 +37,7 @@ let IkonotvPieceList = React.createClass({
         return (
             <div>
                 <PieceList
-                    redirectTo="/register_piece"
+                    redirectTo="/register_piece?slide_num=0"
                     accordionListItemType={IkonotvAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
