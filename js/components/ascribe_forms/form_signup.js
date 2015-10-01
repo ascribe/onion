@@ -42,7 +42,7 @@ let SignupForm = React.createClass({
     componentDidMount() {
         UserStore.listen(this.onChange);
         let { redirect } = this.getQuery();
-        if (redirect !== 'signup'){
+        if (redirect && redirect !== 'signup'){
             this.transitionTo(redirect, null, this.getQuery());
         }
     },

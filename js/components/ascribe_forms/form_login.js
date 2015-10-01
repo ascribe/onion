@@ -45,7 +45,7 @@ let LoginForm = React.createClass({
     componentDidMount() {
         UserStore.listen(this.onChange);
         let { redirect } = this.getQuery();
-        if (redirect !== 'login'){
+        if (redirect && redirect !== 'login'){
             this.transitionTo(redirect, null, this.getQuery());
         }
     },
