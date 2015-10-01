@@ -151,7 +151,8 @@ let ContractSettings = React.createClass({
                             fileClassToUpload={{
                                 singular: getLangText('new contract'),
                                 plural: getLangText('new contracts')
-                            }}/>
+                            }}
+                            location={this.props.location}/>
                             {privateContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel

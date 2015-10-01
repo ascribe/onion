@@ -24,20 +24,22 @@ let WalletApp = React.createClass({
     render() {
         let subdomain = getSubdomain();
 
-        // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
-        // we split the path by the first occurring slash and take the first splitter.
-        let activeRoutes = this.props.routes.map(elem => 'route--' + elem.path.split('/')[0]);
+        // The second element of routes is always the active component object, where we can
+        // extract the path.
+        let [, { path } ] = this.props.routes;
 
         let header = null;
-        if ((this.props.history.isActive('/login') || this.props.history.isActive('/signup') || this.props.history.isActive('/contract_notifications'))
+        if ((this.props.history.isActive('/') || this.props.history.isActive('/login') || this.props.history.isActive('/signup') || this.props.history.isActive('/contract_notifications'))
             && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
             header = <Header showAddWork={true} routes={this.props.routes} />;
         }
 
+        // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
+        // we split the path by the first occurring slash and take the first splitter.
         return (
-            <div className={classNames('ascribe-wallet-app', activeRoutes)}>
+            <div className={classNames('ascribe-wallet-app', 'route--' + (path ? path.split('/')[0] : 'landing'))}>
                 <div className='container'>
                     {header}
                     {this.props.children}

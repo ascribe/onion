@@ -48,6 +48,7 @@ requests.defaults({
     }
 });
 
+export let history = createBrowserHistory();
 
 class AppGateway {
     start() {
@@ -70,10 +71,15 @@ class AppGateway {
     load(settings) {
         let type = 'default';
         let subdomain = 'www';
+        let redirectRoute = (<Redirect from="/" to="/collection" />);
 
         if (settings) {
             type = settings.type;
             subdomain = settings.subdomain;
+        }
+
+        if(subdomain !== 'www') {
+            redirectRoute = null;
         }
 
         // Adds a client specific class to the body for whitelabel styling
@@ -82,13 +88,11 @@ class AppGateway {
         // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
 
-        let history = createBrowserHistory();
-
         history.listen(EventActions.routeDidChange);
 
         React.render((
             <Router history={history}>
-                <Redirect from="/" to="/collection" />
+                {redirectRoute}
                 {getRoutes(type, subdomain)}
             </Router>
         ), document.getElementById('main'));

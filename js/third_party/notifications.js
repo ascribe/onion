@@ -1,5 +1,6 @@
 'use strict';
 
+import { history } from '../app';
 import alt from '../alt';
 import EventActions from '../actions/event_actions';
 
@@ -26,7 +27,7 @@ class NotificationsHandler {
                     if (res.notifications && res.notifications.length > 0) {
                         this.loaded = true;
                         console.log('Contractagreement notifications loaded');
-                        setTimeout(() => window.appRouter.transitionTo('contract_notifications'), 0);
+                        history.pushState(null, '/contract_notifications');
                     }
                 }
             );

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 // general components
 import CoaVerifyContainer from '../../../components/coa_verify_container';
@@ -23,7 +23,7 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
-import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
+import ContractAgreementForm from '../../../components/ascribe_forms/form_contract_agreement';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
@@ -39,7 +39,7 @@ let baseUrl = AppConstants.baseUrl;
 let ROUTES = {
     'cyland': (
         <Route path={baseUrl} component={WalletApp}>
-            <Route path={baseUrl} component={CylandLanding} />
+            <IndexRoute component={CylandLanding} />
             <Route path="login" component={LoginContainer} />
             <Route path="logout" component={LogoutContainer} />
             <Route path="signup" component={SignupContainer} />
@@ -71,12 +71,12 @@ let ROUTES = {
     ),
     'ikonotv': (
         <Route path={baseUrl} component={WalletApp}>
-            <Route path={baseUrl} component={IkonotvLanding} />
+            <IndexRoute component={IkonotvLanding} />
             <Route path="login" component={LoginContainer} />
             <Route path="logout" component={LogoutContainer} />
             <Route path="signup" component={SignupContainer} />
             <Route path="password_reset" component={PasswordResetContainer} />
-            <Route path="request_loan" component={IkonotvRequestLoan} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
+            <Route path="request_loan" component={ContractAgreementForm} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
             <Route path="register_piece" component={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
             <Route path="collection" component={IkonotvPieceList} headerTitle="COLLECTION"/>
             <Route path="pieces/:pieceId" component={IkonotvPieceContainer} />
