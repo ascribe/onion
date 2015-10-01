@@ -3,11 +3,12 @@
 import React from 'react';
 import { History } from 'react-router';
 
-
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import Button from 'react-bootstrap/lib/Button';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
@@ -68,17 +69,21 @@ let CylandLanding = React.createClass({
                                 <p>
                                     {getLangText('Existing ascribe user?')}
                                 </p>
-                                <ButtonLink to="login">
-                                    {getLangText('Log in')}
-                                </ButtonLink>
+                                <LinkContainer to="/login">
+                                    <Button>
+                                        {getLangText('Log in')}
+                                    </Button>
+                                </LinkContainer>
                             </div>
                             <div className="col-sm-6">
                                 <p>
                                     {getLangText('Do you need an account?')}
                                 </p>
-                                <ButtonLink to="signup">
-                                    {getLangText('Sign up')}
-                                </ButtonLink>
+                                <LinkContainer to="/signup">
+                                    <Button>
+                                        {getLangText('Sign up')}
+                                    </Button>
+                                </LinkContainer>
                             </div>
                         </div>
                     </div>

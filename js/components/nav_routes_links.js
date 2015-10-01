@@ -13,7 +13,7 @@ import { sanitizeList } from '../utils/general_utils';
 
 let NavRoutesLinks = React.createClass({
     propTypes: {
-        routes: React.PropTypes.element,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object),
         userAcl: React.PropTypes.object
     },
 
@@ -33,15 +33,15 @@ let NavRoutesLinks = React.createClass({
             return;
         }
 
-        let links = node.props.children.map((child, j) => {
+        let links = node.childRoutes.map((child, j) => {
             let childrenFn = null;
-            let { aclName, headerTitle, name, children } = child.props;
+            let { aclName, headerTitle, path, childRoutes } = child;
 
             // If the node has children that could be rendered, then we want
             // to execute this function again with the child as the root
             //
             // Otherwise we'll just pass childrenFn as false
-            if(child.props.children && child.props.children.length > 0) {
+            if(child.childRoutes && child.childRoutes.length > 0) {
                 childrenFn = this.extractLinksFromRoutes(child, userAcl, i++);
             }
 
@@ -58,7 +58,7 @@ let NavRoutesLinks = React.createClass({
                             aclObject={this.props.userAcl}>
                             <NavRoutesLinksLink
                                 headerTitle={headerTitle}
-                                routeName={name}
+                                routePath={path}
                                 depth={i}
                                 children={childrenFn}/>
                         </AclProxy>
@@ -68,7 +68,7 @@ let NavRoutesLinks = React.createClass({
                         <NavRoutesLinksLink
                             key={j}
                             headerTitle={headerTitle}
-                            routeName={name}
+                            routePath={path}
                             depth={i}
                             children={childrenFn}/>
                     );
@@ -88,7 +88,7 @@ let NavRoutesLinks = React.createClass({
 
         return (
             <Nav {...this.props}>
-                {this.extractLinksFromRoutes(routes, userAcl, 0)}
+                {this.extractLinksFromRoutes(routes[0], userAcl, 0)}
             </Nav>
         );
     }

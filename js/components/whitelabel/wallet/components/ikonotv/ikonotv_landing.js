@@ -2,7 +2,9 @@
 
 import React from 'react';
 
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import Button from 'react-bootstrap/lib/Button';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
@@ -33,18 +35,21 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
-        let redirect = 'login';
+        let redirect = '/login';
 
         if(this.state.currentUser && this.state.currentUser.email) {
-            redirect = 'pieces';
+            redirect = '/pieces';
         }
         else if (this.props.location.query && this.props.location.query.redirect) {
-            redirect = this.props.location.query.redirect;
+            redirect = '/' + this.props.location.query.redirect;
         }
+
         return (
-            <ButtonLink to={redirect} query={this.props.location.query}>
-                {getLangText('ENTER TO START')}
-            </ButtonLink>
+            <LinkContainer to={redirect} query={this.props.location.query}>
+                <Button>
+                    {getLangText('ENTER TO START')}
+                </Button>
+            </LinkContainer>
         );
     },
 

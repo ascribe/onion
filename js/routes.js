@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
@@ -32,13 +32,12 @@ let baseUrl = AppConstants.baseUrl;
 
 const COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
-        <Redirect from={baseUrl} to="/login" />
-        <Redirect from={baseUrl + '/'} to="/login" />
+        <IndexRoute component={PieceList} headerTitle="COLLECTION" />
+        <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
         <Route path="signup" component={SignupContainer} />
         <Route path="login" component={LoginContainer} />
         <Route path="logout" component={LogoutContainer} />
         <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
-        <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
         <Route path="pieces/:pieceId" component={PieceContainer} />
         <Route path="editions/:editionId" component={EditionContainer} />
         <Route path="password_reset" component={PasswordResetContainer} />
