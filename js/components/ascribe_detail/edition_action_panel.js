@@ -32,7 +32,7 @@ import { getLangText } from '../../utils/lang_utils';
     A component that handles all the actions inside of the edition detail
     handleSuccess requires a loadEdition action (could be refactored)
  */
-let EditionActions = React.createClass({
+let EditionActionPanel = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
@@ -56,7 +56,6 @@ let EditionActions = React.createClass({
     onChange(state) {
         this.setState(state);
     },
-
 
     handleDeleteSuccess(response) {
         this.refreshCollection();
@@ -167,4 +166,4 @@ let EditionActions = React.createClass({
     }
 });
 
-export default EditionActions;
+export default EditionActionPanel;

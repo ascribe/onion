@@ -24,7 +24,7 @@ import EditionDetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
 import EditionFurtherDetails from './further_details';
 
-import EditionActions from './edition_actions';
+import EditionActionPanel from './edition_action_panel';
 
 import Note from './note';
 
@@ -195,12 +195,12 @@ let EditionSummary = React.createClass({
     },
 
     render() {
-        let { edition } = this.props;
+        let { edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty
                     label={getLangText('EDITION')}
-                    value={ edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
+                    value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
                 <EditionDetailProperty
                     label={getLangText('ID')}
                     value={ edition.bitcoin_id }
@@ -210,9 +210,9 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <EditionActions
+                <EditionActionPanel
                     edition={edition}
-                    currentUser={this.props.currentUser}
+                    currentUser={currentUser}
                     handleSuccess={this.handleSuccess} />
                 <hr/>
             </div>
