@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route } from 'react-router';
 
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
@@ -33,7 +33,7 @@ let baseUrl = AppConstants.baseUrl;
 const COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
         <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
-        <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
+        <Route path="collection" component={PieceList} headerTitle="COLLECTION"/>
         <Route path="signup" component={SignupContainer} />
         <Route path="login" component={LoginContainer} />
         <Route path="logout" component={LogoutContainer} />
