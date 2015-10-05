@@ -29,7 +29,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-let setFavicon = require('favicon-setter');
+import setFavicon from 'favicon-setter';
 
 let Header = React.createClass({
     propTypes: {
@@ -64,10 +64,18 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
     getLogo(){
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            let logoPath = this.state.whitelabel.logo;
-            let logo = <img className="img-brand" src={logoPath} />;
+        let logoPath = null;
+        if (this.state.whitelabel && this.state.whitelabel.logo) {
+            if (this.state.whitelabel.name === 'IkonoTV') {
+                logoPath = 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/favicon.ico';
+            }
+            else {
+                logoPath = this.state.whitelabel.logo;
+            }
+            let logo = <img className="img-brand" src={logoPath}/>;
             setFavicon(logoPath);
+            console.log('should change browser icon');
+            console.log(logoPath);
             return logo;
         }
         return (
