@@ -1,6 +1,6 @@
 'use strict';
 
-import { history } from '../app';
+import history from '../history';
 import alt from '../alt';
 import EventActions from '../actions/event_actions';
 
@@ -10,7 +10,6 @@ import { getSubdomain } from '../utils/general_utils';
 
 
 class NotificationsHandler {
-
     constructor() {
         this.bindActions(EventActions);
         this.loaded = false;
@@ -20,6 +19,7 @@ class NotificationsHandler {
         if (this.loaded) {
             return;
         }
+
         let subdomain = getSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(

@@ -4,8 +4,7 @@ require('babel/polyfill');
 
 import React from 'react';
 import { Router, Redirect } from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-
+import history from './history';
 
 /* eslint-disable */
 import fetch from 'isomorphic-fetch';
@@ -47,8 +46,6 @@ requests.defaults({
         credentials: 'include'
     }
 });
-
-export let history = createBrowserHistory();
 
 class AppGateway {
     start() {
