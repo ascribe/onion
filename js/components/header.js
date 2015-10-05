@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Router from 'react-router';
-
+import Favico from 'favico.js';
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
@@ -55,7 +55,6 @@ let Header = React.createClass({
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
     },
-
     getLogo(){
         let logo = (
             <span>
@@ -63,7 +62,16 @@ let Header = React.createClass({
                 <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
             </span>);
         if (this.state.whitelabel && this.state.whitelabel.logo){
-            logo = <img className="img-brand" src={this.state.whitelabel.logo} />;
+            let logoPath = this.state.whitelabel.logo;
+            logo = <img className="img-brand" src={logoPath} />;
+            let favicon = new Favico();
+            let image = new Image();
+            image.src = logoPath;
+            console.log('should change browser icon');
+            console.log(logoPath);
+            favicon.image(image);
+            console.log(image);
+            console.log(favicon);
         }
         return logo;
     },
@@ -84,12 +92,10 @@ let Header = React.createClass({
     },
     onChange(state) {
         this.setState(state);
-
         if(this.state.currentUser && this.state.currentUser.email) {
             EventActions.profileDidLoad.defer(this.state.currentUser);
         }
     },
-
     render() {
         let account;
         let signup;
