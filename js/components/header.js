@@ -64,25 +64,18 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
     getLogo(){
-        let logoPath = null;
-        if (this.state.whitelabel && this.state.whitelabel.logo) {
-            if (this.state.whitelabel.name === 'IkonoTV') {
-                logoPath = 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/favicon.ico';
-            }
-            else {
-                logoPath = this.state.whitelabel.logo;
-            }
-            let logo = <img className="img-brand" src={logoPath}/>;
-            setFavicon(logoPath);
-            console.log('should change browser icon');
-            console.log(logoPath);
-            return logo;
+        let logoPath = this.state.whitelabel.logo;
+        setFavicon(logoPath);
+        if (this.state.whitelabel.subdomain !== 'www'){
+            return <img className="img-brand" src={logoPath}/>;
         }
-        return (
-            <span>
+        else {
+            return (
+                <span>
                 <span>ascribe </span>
                 <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
             </span>);
+        }
     },
 
     getPoweredBy(){
