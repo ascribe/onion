@@ -178,7 +178,7 @@ let SlidesContainer = React.createClass({
         let breadcrumbs = [];
 
         ReactAddons.Children.map(this.props.children, (child, i) => {
-            if(i >= this.state.startFrom && child.props['data-slide-title']) {
+            if(child && i >= this.state.startFrom && child.props['data-slide-title']) {
                 breadcrumbs.push(child.props['data-slide-title']);
             }
         });
@@ -229,7 +229,7 @@ let SlidesContainer = React.createClass({
 
             // since the default parameter of startFrom is -1, we do not need to check
             // if its actually present in the url bar, as it will just not match
-            if(i >= this.state.startFrom) {
+            if(child && i >= this.state.startFrom) {
                 return ReactAddons.addons.cloneWithProps(child, {
                     className: 'ascribe-slide',
                     style: {

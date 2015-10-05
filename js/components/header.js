@@ -2,13 +2,6 @@
 
 import React from 'react';
 import Router from 'react-router';
-import Favico from 'favico.js';
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-import EventActions from '../actions/event_actions';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -18,6 +11,17 @@ import MenuItem from 'react-bootstrap/lib/MenuItem';
 import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
 import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
 
+import AclProxy from './acl_proxy';
+
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
+import WhitelabelActions from '../actions/whitelabel_actions';
+import WhitelabelStore from '../stores/whitelabel_store';
+import EventActions from '../actions/event_actions';
+
+import HeaderNotifications from './header_notification';
+
 import HeaderNotificationDebug from './header_notification_debug';
 
 import NavRoutesLinks from './nav_routes_links';
@@ -25,6 +29,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
+let setFavicon = require('favicon-setter');
 
 let Header = React.createClass({
     propTypes: {
@@ -41,7 +46,10 @@ let Header = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(WhitelabelStore.getState(), UserStore.getState());
+        return mergeOptions(
+            WhitelabelStore.getState(),
+            UserStore.getState()
+        );
     },
 
     componentDidMount() {
@@ -56,59 +64,104 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
     getLogo(){
-        let logo = (
+        if (this.state.whitelabel && this.state.whitelabel.logo){
+            let logoPath = this.state.whitelabel.logo;
+            let logo = <img className="img-brand" src={logoPath} />;
+            console.log('should change browser icon');
+            console.log(logoPath);
+            try {
+                setFavicon(logoPath);
+            }
+            catch (e){
+                console.log(e.message());
+            }
+            return logo;
+        }
+        return (
             <span>
                 <span>ascribe </span>
                 <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
             </span>);
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            let logoPath = this.state.whitelabel.logo;
-            logo = <img className="img-brand" src={logoPath} />;
-            let favicon = new Favico();
-            let image = new Image();
-            image.src = logoPath;
-            console.log('should change browser icon');
-            console.log(logoPath);
-            favicon.image(image);
-            console.log(image);
-            console.log(favicon);
-        }
-        return logo;
     },
 
     getPoweredBy(){
-        if (this.state.whitelabel && this.state.whitelabel.logo) {
-            return (
-                <li>
-                    <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
-                        <span id="powered">{getLangText('powered by')} </span>
-                        <span>ascribe </span>
-                        <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
-                    </a>
-                </li>
-            );
-        }
-        return null;
+        return (
+            <AclProxy
+                aclObject={this.state.whitelabel}
+                aclName="acl_view_powered_by">
+                    <li>
+                        <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                            <span id="powered">{getLangText('powered by')} </span>
+                            <span>ascribe </span>
+                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                        </a>
+                    </li>
+            </AclProxy>
+        );
     },
+
     onChange(state) {
         this.setState(state);
         if(this.state.currentUser && this.state.currentUser.email) {
             EventActions.profileDidLoad.defer(this.state.currentUser);
         }
     },
+
+    onMenuItemClick() {
+        /*
+        This is a hack to make the dropdown close after clicking on an item
+        The function just need to be defined
+
+        from https://github.com/react-bootstrap/react-bootstrap/issues/368:
+
+        @jvillasante - Have you tried to use onSelect with the DropdownButton?
+        I don't have a working example that is exactly like yours,
+        but I just noticed that the Dropdown closes when I've attached an event handler to OnSelect:
+
+        <DropdownButton eventKey={3} title="Admin" onSelect={ this.OnSelected } >
+
+        onSelected: function(e) {
+            // doesn't need to have functionality (necessarily) ... just wired up
+        }
+        Internally, a call to DropdownButton.setDropDownState(false) is made which will hide the dropdown menu.
+        So, you should be able to call that directly on the DropdownButton instance as well if needed.
+
+        NOW, THAT DIDN'T WORK - the onSelect routine isnt triggered in all cases
+        Hence, we do this manually
+        */
+        this.refs.dropdownbutton.setDropdownState(false);
+    },
+
     render() {
         let account;
         let signup;
         let navRoutesLinks;
         if (this.state.currentUser.username){
             account = (
-                <DropdownButton eventKey="1" title={this.state.currentUser.username}>
-                    <MenuItemLink eventKey="2" to="settings">{getLangText('Account Settings')}</MenuItemLink>
+                <DropdownButton
+                    ref='dropdownbutton'
+                    eventKey="1"
+                    title={this.state.currentUser.username}>
+                    <MenuItemLink
+                        eventKey="2"
+                        to="settings"
+                        onClick={this.onMenuItemClick}>
+                        {getLangText('Account Settings')}
+                    </MenuItemLink>
+                    <AclProxy
+                        aclObject={this.state.currentUser.acl}
+                        aclName="acl_view_settings_contract">
+                        <MenuItemLink
+                            to="contract_settings"
+                            onClick={this.onMenuItemClick}>
+                            {getLangText('Contract Settings')}
+                        </MenuItemLink>
+                    </AclProxy>
                     <MenuItem divider />
                     <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
-                  </DropdownButton>
+                </DropdownButton>
             );
-            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} navbar right/>;
+            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
         }
         else {
             account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
@@ -132,6 +185,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
+                        <HeaderNotifications />
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>

@@ -19,6 +19,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 import FurtherDetails from './further_details';
 
 import DetailProperty from './detail_property';
+import LicenseDetail from './license_detail';
 import HistoryIterator from './history_iterator';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
@@ -172,17 +173,16 @@ let PieceContainer = React.createClass({
         return {'id': this.state.piece.id};
     },
 
-    getActions(){
+    getActions() {
         if (this.state.piece &&
-            this.state.piece.request_action &&
-            this.state.piece.request_action.length > 0) {
+            this.state.piece.notifications &&
+            this.state.piece.notifications.length > 0) {
             return (
                 <ListRequestActions
                     pieceOrEditions={this.state.piece}
                     currentUser={this.state.currentUser}
                     handleSuccess={this.loadPiece}
-                    requestActions={this.state.piece.request_action}/>
-                );
+                    notifications={this.state.piece.notifications}/>);
         }
         else {
             return (
@@ -225,6 +225,7 @@ let PieceContainer = React.createClass({
                         <div className="ascribe-detail-header">
                             <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } />
                             <DetailProperty label={getLangText('ID')} value={ this.state.piece.bitcoin_id } ellipsis={true} />
+                            <LicenseDetail license={this.state.piece.license_type} />
                         </div>
                     }
                     buttons={this.getActions()}>
@@ -238,12 +239,11 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={(this.state.currentUser.username && true || false) ||
-                                (this.state.piece.public_note)}>
+                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
-                            defaultValue={this.state.piece.private_note ? this.state.piece.private_note : null}
+                            defaultValue={this.state.piece.private_note || null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}

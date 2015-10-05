@@ -41,14 +41,13 @@ let PieceExtraDataForm = React.createClass({
                 ref='form'
                 url={url}
                 handleSuccess={this.props.handleSuccess}
-                getFormData={this.getFormData}>
+                getFormData={this.getFormData}
+                disabled={!this.props.editable}>
                 <Property
                     name={this.props.name}
-                    label={this.props.title}
-                    editable={this.props.editable}>
+                    label={this.props.title}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={this.props.editable}
                         defaultValue={defaultValue}
                         placeholder={getLangText('Fill in%s', ' ') + this.props.title}
                         required="required"/>

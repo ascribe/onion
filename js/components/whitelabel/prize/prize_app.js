@@ -27,7 +27,7 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className="container ascribe-prize-app">
+            <div className={'container ascribe-prize-app client--' + subdomain}>
                 {header}
                 <RouteHandler />
                 <GlobalNotification />

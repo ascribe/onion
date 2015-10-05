@@ -20,21 +20,28 @@ let AclProxy = React.createClass({
         show: React.PropTypes.bool
     },
 
-    render() {
-        if(this.props.show) {
+    getChildren() {
+        if (React.Children.count(this.props.children) > 1){
+            /*
+            This might ruin styles for header items in the navbar etc
+             */
             return (
                 <span>
                     {this.props.children}
                 </span>
             );
+        }
+        /* can only do this when there is only 1 child, but will preserve styles */
+        return this.props.children;
+    },
+
+    render() {
+        if(this.props.show) {
+            return this.getChildren();
         } else {
             if(this.props.aclObject) {
                 if(this.props.aclObject[this.props.aclName]) {
-                    return (
-                        <span>
-                            {this.props.children}
-                        </span>
-                    );
+                    return this.getChildren();
                 } else {
                     /* if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
                         console.warn('The aclName you\'re filtering for was not present (or undefined) in the aclObject.');

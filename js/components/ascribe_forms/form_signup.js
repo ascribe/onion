@@ -66,17 +66,24 @@ let SignupForm = React.createClass({
         }
     },
 
+    getFormData() {
+        if (this.getQuery().token){
+            return {token: this.getQuery().token};
+        }
+        return null;
+    },
+
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
-        let email = this.getQuery().email ? this.getQuery().email : null;
+        let email = this.getQuery().email || null;
         return (
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.users_signup}
-                getFormData={this.getQuery}
+                getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn ascribe-btn ascribe-btn-login">
@@ -127,7 +134,7 @@ let SignupForm = React.createClass({
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>
-                            {' ' + getLangText('I agree to the Terms of Service') + ' '}
+                            {' ' + getLangText('I agree to the Terms of Service of ascribe') + ' '}
                             (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                 {getLangText('read')}
                             </a>)

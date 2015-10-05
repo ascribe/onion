@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
@@ -64,7 +63,7 @@ let CylandAccordionListItem = React.createClass({
             <div>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_submit">
+                    aclName="acl_wallet_submit">
                     <CylandSubmitButton
                         className="pull-right"
                         piece={this.props.content}
@@ -72,11 +71,21 @@ let CylandAccordionListItem = React.createClass({
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
-                    aclName="acl_submitted">
+                    aclName="acl_wallet_submitted">
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
                         {getLangText('Submitted to Cyland')} <span className="glyphicon glyphicon-ok"
+                                                                  aria-hidden="true"></span>
+                    </button>
+                </AclProxy>
+                <AclProxy
+                    aclObject={this.props.content.acl}
+                    aclName="acl_wallet_accepted">
+                    <button
+                    disabled
+                    className="btn btn-default btn-xs pull-right">
+                        {getLangText('Loaned to Cyland')} <span className="glyphicon glyphicon-ok"
                                                                   aria-hidden="true"></span>
                     </button>
                 </AclProxy>

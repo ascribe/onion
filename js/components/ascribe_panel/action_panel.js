@@ -12,7 +12,10 @@ let ActionPanel = React.createClass({
         ]),
         buttons: React.PropTypes.element,
         onClick: React.PropTypes.func,
-        ignoreFocus: React.PropTypes.bool
+        ignoreFocus: React.PropTypes.bool,
+
+        leftColumnWidth: React.PropTypes.string,
+        rightColumnWidth: React.PropTypes.string
     },
 
     getInitialState() {
@@ -41,14 +44,21 @@ let ActionPanel = React.createClass({
     },
 
     render() {
+
+        let { leftColumnWidth, rightColumnWidth } = this.props;
+
         return (
             <div className={classnames('ascribe-panel-wrapper', {'is-focused': this.state.isFocused})}>
-                <div className="ascribe-panel-table">
+                <div
+                    className="ascribe-panel-table"
+                    style={{width: leftColumnWidth}}>
                     <div className="ascribe-panel-content">
                         {this.props.content}
                     </div>
                 </div>
-                <div className="ascribe-panel-table">
+                <div
+                    className="ascribe-panel-table"
+                    style={{width: rightColumnWidth}}>
                     <div className="ascribe-panel-content">
                         {this.props.buttons}
                     </div>

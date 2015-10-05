@@ -17,12 +17,11 @@ import LogoutContainer from './components/logout_container';
 import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
-import SettingsContainer from './components/settings_container';
+import ContractSettings from './components/ascribe_settings/contract_settings';
+import SettingsContainer from './components/ascribe_settings/settings_container';
 import CoaVerifyContainer from './components/coa_verify_container';
 
 import RegisterPiece from './components/register_piece';
-
-import PrizesDashboard from './components/ascribe_prizes_dashboard/prizes_dashboard';
 
 import AppConstants from './constants/application_constants';
 
@@ -44,8 +43,8 @@ const COMMON_ROUTES = (
         <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
         <Route name="password_reset" path="password_reset" handler={PasswordResetContainer} />
         <Route name="settings" path="settings" handler={SettingsContainer} />
+        <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
-        <Route name="prizes" path="prizes" handler={PrizesDashboard} />
     </Route>
 );
 

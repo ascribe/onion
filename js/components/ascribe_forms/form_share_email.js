@@ -60,10 +60,10 @@ let ShareForm = React.createClass({
                 <Property
                     name='share_message'
                     label='Personal Message'
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>

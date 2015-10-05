@@ -8,6 +8,9 @@ import UserStore from '../../../../../stores/user_store';
 
 import IkonotvAccordionListItem from './ascribe_accordion_list/ikonotv_accordion_list_item';
 
+import { getLangText } from '../../../../../utils/lang_utils';
+
+
 let IkonotvPieceList = React.createClass({
     getInitialState() {
         return UserStore.getState();
@@ -32,7 +35,19 @@ let IkonotvPieceList = React.createClass({
                 <PieceList
                     redirectTo="register_piece"
                     accordionListItemType={IkonotvAccordionListItem}
-                    />
+                    filterParams={[{
+                        label: getLangText('Show works I have'),
+                        items: [
+                            {
+                                key: 'submitted',
+                                label: getLangText('submitted')
+                            },
+                            {
+                                key: 'accepted',
+                                label: getLangText('loaned')
+                            }
+                        ]
+                        }]}/>
             </div>
         );
     }
