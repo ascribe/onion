@@ -67,14 +67,7 @@ let Header = React.createClass({
         if (this.state.whitelabel && this.state.whitelabel.logo){
             let logoPath = this.state.whitelabel.logo;
             let logo = <img className="img-brand" src={logoPath} />;
-            console.log('should change browser icon');
-            console.log(logoPath);
-            try {
-                setFavicon(logoPath);
-            }
-            catch (e){
-                console.log(e.message());
-            }
+            setFavicon(logoPath);
             return logo;
         }
         return (
