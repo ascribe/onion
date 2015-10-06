@@ -25,6 +25,9 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 
 import RegisterPiece from './components/register_piece';
 
+import ProxyRoute from './components/ascribe_routes/proxy_route';
+import { AuthComponent } from './components/ascribe_routes/auth_component';
+
 import AppConstants from './constants/application_constants';
 
 
@@ -32,8 +35,12 @@ let baseUrl = AppConstants.baseUrl;
 
 const COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
+        <ProxyRoute
+            proxyHandler={AuthComponent}
+            path="collection"
+            component={PieceList}
+            headerTitle="COLLECTION"/>
         <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
-        <Route path="collection" component={PieceList} headerTitle="COLLECTION"/>
         <Route path="signup" component={SignupContainer} />
         <Route path="login" component={LoginContainer} />
         <Route path="logout" component={LogoutContainer} />
