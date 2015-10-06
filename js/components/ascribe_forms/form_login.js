@@ -46,26 +46,7 @@ let LoginForm = React.createClass({
         UserStore.listen(this.onChange);
         let { redirect } = this.props.location.query;
         if (redirect && redirect !== 'login'){
-            this.histoy.pushState(null, redirect, this.props.location.query);
-        }
-    },
-
-    componentDidUpdate() {
-        // if user is already logged in, redirect him to piece list
-        if(this.state.currentUser && this.state.currentUser.email && this.props.redirectOnLoggedIn
-           && this.props.redirectOnLoginSuccess) {
-            let { redirectAuthenticated } = this.props.location.query;
-            if(redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            } else {
-                this.history.pushState(null, 'collection');
-            }
-            
+            this.histoy.pushState(null, '/' + redirect, this.props.location.query);
         }
     },
 
@@ -77,17 +58,30 @@ let LoginForm = React.createClass({
         this.setState(state);
     },
 
-    handleSuccess(){
+    handleSuccess({ success }){
         let notification = new GlobalNotificationModel('Login successful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        // register_piece is waiting for a login success as login_container and it is wrapped
-        // in a slides_container component.
-        // The easiest way to check if the user was successfully logged in is to fetch the user
-        // in the user store (which is obviously only possible if the user is logged in), since
-        // register_piece is listening to the changes of the user_store.
-        UserActions.fetchCurrentUser();
-
+        if(success && this.props.redirectOnLoggedIn && this.props.redirectOnLoginSuccess) {
+            let { redirectAuthenticated } = this.props.location.query;
+            if(redirectAuthenticated) {
+                /*
+                * redirectAuthenticated contains an arbirary path
+                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                * hence transitionTo cannot be used directly
+                */
+                window.location = AppConstants.baseUrl + redirectAuthenticated;
+            } else {
+                /* Taken from http://stackoverflow.com/a/14916411 */
+                /*
+                 We actually have to trick the Browser into showing the "save password" dialog
+                 as Chrome expects the login page to be reloaded after the login.
+                 Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
+                 Until then, we redirect the HARD way, but reloading the whole page using window.location
+                */
+                window.location = AppConstants.baseUrl + 'collection';
+            }
+        }
     },
 
     render() {

@@ -46,7 +46,7 @@ let SignupForm = React.createClass({
 
         let { redirect } = this.props.location.query;
         if (redirect && redirect !== 'signup'){
-            this.history.pushState(null, redirect, this.props.location.query);
+            this.history.pushState(null, '/' + redirect, this.props.location.query);
         }
     },
 

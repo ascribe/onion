@@ -19,8 +19,10 @@ const ProxyRoute = React.createClass({
 
     statics: {
         createRouteFromReactElement(element) {
+            const createRouteFromReactElementCopy = element.type.createRouteFromReactElement;
             element.type.createRouteFromReactElement = false;
             const [ route ] = createRoutes(element);
+            element.type.createRouteFromReactElement = createRouteFromReactElementCopy;
 
             const Component = route.component;
             const ProxyHandler = element.props.proxyHandler;

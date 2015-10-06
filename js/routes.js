@@ -26,23 +26,26 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 import RegisterPiece from './components/register_piece';
 
 import ProxyRoute from './components/ascribe_routes/proxy_route';
-import { AuthComponent } from './components/ascribe_routes/auth_component';
+import RedirectProxyHandler from './components/ascribe_routes/proxy_routes/redirect_proxy_handler';
 
 import AppConstants from './constants/application_constants';
 
 
 let baseUrl = AppConstants.baseUrl;
 
-const COMMON_ROUTES = (
+let COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
         <ProxyRoute
-            proxyHandler={AuthComponent}
             path="collection"
+            proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
             component={PieceList}
             headerTitle="COLLECTION"/>
+        <ProxyRoute
+            path="login"
+            proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+            component={LoginContainer} />
         <Route path="register_piece" component={RegisterPiece} headerTitle="+ NEW WORK" />
         <Route path="signup" component={SignupContainer} />
-        <Route path="login" component={LoginContainer} />
         <Route path="logout" component={LogoutContainer} />
         <Route path="pieces/:pieceId" component={PieceContainer} />
         <Route path="editions/:editionId" component={EditionContainer} />
