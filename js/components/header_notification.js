@@ -5,7 +5,6 @@ import Router from 'react-router';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
-
 import Nav from 'react-bootstrap/lib/Nav';
 
 import NotificationActions from '../actions/notification_actions';
@@ -13,6 +12,8 @@ import NotificationStore from '../stores/notification_store';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+
+import client from './websocket_test';
 
 let Link = Router.Link;
 
