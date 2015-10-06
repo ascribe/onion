@@ -23,8 +23,8 @@ const ProxyRoute = React.createClass({
             const [ route ] = createRoutes(element);
 
             const Component = route.component;
-            const { proxyHandler } = element.props;
-            route.component = proxyHandler(Component);
+            const ProxyHandler = element.props.proxyHandler;
+            route.component = ProxyHandler(Component);
 
             return route;
         }
