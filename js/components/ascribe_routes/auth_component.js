@@ -22,6 +22,7 @@ export function AuthComponent(Component) {
 
         componentDidUpdate() {
             if(this.state.currentUser && !this.state.currentUser.email) {
+                console.log('redirect');
                 this.history.pushState(null, '/login');
             }
         },

@@ -6,6 +6,7 @@ import { History } from 'react-router';
 import { getLangText } from '../../utils/lang_utils';
 
 import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -14,6 +15,7 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
+import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
 
@@ -34,12 +36,35 @@ let SignupForm = React.createClass({
             submitMessage: getLangText('Sign up')
         };
     },
+
     getInitialState() {
         return UserStore.getState();
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+
+        let { redirect } = this.props.location.query;
+        if (redirect && redirect !== 'signup'){
+            this.history.pushState(null, redirect, this.props.location.query);
+        }
+    },
+
+    componentDidUpdate() {
+        // if user is already logged in, redirect him to piece list
+        if(this.state.currentUser && this.state.currentUser.email) {
+            //this.history.pushState(null, '/collection');
+            let { redirectAuthenticated } = this.props.location.query;
+            if(redirectAuthenticated) {
+                /*
+                * redirectAuthenticated contains an arbirary path
+                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                * hence transitionTo cannot be used directly
+                */
+                window.location = AppConstants.baseUrl + redirectAuthenticated;
+            }
+            this.history.pushState(null, '/collection');
+        }
     },
 
     componentWillUnmount() {
@@ -48,21 +73,17 @@ let SignupForm = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        // if user is already logged in, redirect him to piece list
-        if(this.state.currentUser && this.state.currentUser.email) {
-            this.history.pushState(null, '/collection');
-        }
     },
 
     handleSuccess(response){
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
             GlobalNotificationActions.appendGlobalNotification(notification);
+            
+            // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
-        }
-        else if (response.redirect) {
-            this.history.pushState(null, '/collection');
+        } else {
+            UserActions.fetchCurrentUser();
         }
     },
 
@@ -77,7 +98,9 @@ let SignupForm = React.createClass({
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
+
         let email = this.props.location.query.email || null;
+
         return (
             <Form
                 className="ascribe-form-bordered"
