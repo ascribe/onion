@@ -15,17 +15,24 @@ let AclInformationButton = React.createClass({
         let rows = [];
         let titleStyle = {
             color: '#02B6A3',
-            fontSize: '11px'
+            fontSize: '11px',
+            lineHeight: '5px'
         };
 
         let infoStyle = {
             color: '#333333',
-            fontSize: '11px'
+            fontSize: '11px',
+            lineHeight: '5px'
         };
 
         let exampleStyle = {
             color: '#B2B2B2',
-            fontSize: '11px'
+            fontSize: '11px',
+            lineHeight: '5px'
+        };
+
+        let paragraphStyle = {
+             margin: '0.1em'
         };
 
 
@@ -60,8 +67,8 @@ let AclInformationButton = React.createClass({
 
         let createJSXTextSnippet = function(title, info, example){
             console.log('creating text snippets');
-            return (<p> <span style={titleStyle}> {title} </span>
-                <span style={infoStyle}> {info} </span><br></br>
+            return (<p style={paragraphStyle}> <span style={titleStyle}> {title} </span>
+                <span style={infoStyle}> {info} <br/> </span>
                 <span style={exampleStyle}> {example} </span> </p>);
         };
 
