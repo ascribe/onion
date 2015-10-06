@@ -29,7 +29,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-import setFavicon from 'favicon-setter';
+import {constructHead} from '../utils/head_setter';
 
 let Header = React.createClass({
     propTypes: {
@@ -64,10 +64,9 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
     getLogo(){
-        let logoPath = this.state.whitelabel.logo;
-        setFavicon(logoPath);
+        constructHead(this.state.whitelabel.head);
         if (this.state.whitelabel.subdomain !== 'www'){
-            return <img className="img-brand" src={logoPath}/>;
+            return <img className="img-brand" src={this.state.whitelabel.logo}/>;
         }
         else {
             return (
