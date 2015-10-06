@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import WhitelabelFetcher from '../fetchers/whitelabel_fetcher';
 
 
