@@ -4,7 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 
 import UserActions from '../actions/user_actions';
-import Alt from '../alt';
+import { alt } from '../alt';
 
 import AppConstants from '../constants/application_constants';
 let baseUrl = AppConstants.baseUrl;

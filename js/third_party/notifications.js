@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
@@ -35,4 +35,4 @@ class NotificationsHandler {
     }
 }
 
-export default alt.createStore(NotificationsHandler, 'NotificationsHandler');
+export default altThirdParty.createStore(NotificationsHandler, 'NotificationsHandler');

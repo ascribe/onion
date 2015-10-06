@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import WhitelabelActions from '../actions/whitelabel_actions';
 
 
