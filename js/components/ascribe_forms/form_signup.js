@@ -14,6 +14,7 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
+import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
 
@@ -40,6 +41,10 @@ let SignupForm = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        let { redirect } = this.getQuery();
+        if (redirect && redirect !== 'signup'){
+            this.transitionTo(redirect, null, this.getQuery());
+        }
     },
 
     componentWillUnmount() {
@@ -51,7 +56,16 @@ let SignupForm = React.createClass({
 
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
-            this.transitionTo('pieces');
+            let { redirectAuthenticated } = this.getQuery();
+            if ( redirectAuthenticated) {
+                /*
+                * redirectAuthenticated contains an arbirary path
+                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                * hence transitionTo cannot be used directly
+                */
+                window.location = AppConstants.baseUrl + redirectAuthenticated;
+            }
+            window.setTimeout(() => this.transitionTo('pieces'));
         }
     },
 
@@ -62,6 +76,15 @@ let SignupForm = React.createClass({
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         }
         else if (response.redirect) {
+            let { redirectAuthenticated } = this.getQuery();
+            if ( redirectAuthenticated) {
+                /*
+                * redirectAuthenticated contains an arbirary path
+                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                * hence transitionTo cannot be used directly
+                */
+                window.location = AppConstants.baseUrl + redirectAuthenticated;
+            }
             this.transitionTo('pieces');
         }
     },
