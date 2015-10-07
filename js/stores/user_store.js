@@ -1,6 +1,6 @@
 'use strict';
 
-import { alt } from '../alt';
+import { altUser } from '../alt';
 import UserActions from '../actions/user_actions';
 
 
@@ -18,4 +18,4 @@ class UserStore {
     }
 }
 
-export default alt.createStore(UserStore, 'UserStore');
+export default altUser.createStore(UserStore, 'UserStore');

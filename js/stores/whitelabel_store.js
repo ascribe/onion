@@ -1,6 +1,6 @@
 'use strict';
 
-import { alt } from '../alt';
+import { altWhitelabel } from '../alt';
 import WhitelabelActions from '../actions/whitelabel_actions';
 
 
@@ -15,4 +15,4 @@ class WhitelabelStore {
     }
 }
 
-export default alt.createStore(WhitelabelStore, 'WhitelabelStore');
+export default altWhitelabel.createStore(WhitelabelStore, 'WhitelabelStore');
