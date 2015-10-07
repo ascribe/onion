@@ -13,6 +13,10 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let PasswordResetContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return {isRequested: false};
     },
@@ -22,12 +26,14 @@ let PasswordResetContainer = React.createClass({
     },
 
     render() {
-        if (this.props.query.email && this.props.query.token) {
+        let { location } = this.props;
+
+        if (location.query.email && location.query.token) {
             return (
                 <div>
                     <PasswordResetForm
-                        email={this.props.query.email}
-                        token={this.props.query.token}/>
+                        email={location.query.email}
+                        token={location.query.token}/>
                 </div>
             );
         }

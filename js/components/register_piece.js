@@ -3,9 +3,6 @@
 import React from 'react';
 import { History } from 'react-router';
 
-import Col from 'react-bootstrap/lib/Col';
-import Row from 'react-bootstrap/lib/Row';
-
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
@@ -19,10 +16,6 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
-
-import LoginContainer from './login_container';
-import SlidesContainer from './ascribe_slides_container/slides_container';
-
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
