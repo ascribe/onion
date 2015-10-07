@@ -85,8 +85,11 @@ let AclInformationButton = React.createClass({
                 border: 'none'
             },
             dropdownListStyle: {
-                textAlign: 'left',
-                width: '80.8%'
+                textAlign: 'justify',
+                width: '80.8%',
+                border: '1px solid #CCC',
+                backgroundColor: 'white',
+                padding: '0.5em'
             }
         };
     },
