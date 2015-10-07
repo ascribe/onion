@@ -29,7 +29,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-import {constructHead} from '../utils/head_setter';
+import {constructHead, setTitle} from '../utils/head_setter';
 
 let Header = React.createClass({
     propTypes: {
@@ -64,9 +64,11 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
     getLogo(){
-        constructHead(this.state.whitelabel.head);
-        if (this.state.whitelabel.subdomain !== 'www'){
-            return <img className="img-brand" src={this.state.whitelabel.logo}/>;
+        let whitelabel = this.state.whitelabel;
+        setTitle(whitelabel.title)
+        constructHead(whitelabel.head);
+        if (whitelabel.subdomain !== 'www'){
+            return <img className="img-brand" src={whitelabel.logo}/>;
         }
         else {
             return (
