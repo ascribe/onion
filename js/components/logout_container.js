@@ -4,7 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 
 import UserActions from '../actions/user_actions';
-import { alt } from '../alt';
+import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
 import AppConstants from '../constants/application_constants';
 let baseUrl = AppConstants.baseUrl;
@@ -16,7 +16,10 @@ let LogoutContainer = React.createClass({
     componentDidMount() {
         UserActions.logoutCurrentUser()
             .then(() => {
-                Alt.flush();
+                alt.flush();
+                altWhitelabel.flush();
+                altUser.flush();
+                altThirdParty.flush();
                 // kill intercom (with fire)
                 window.Intercom('shutdown');
                 this.replaceWith(baseUrl);

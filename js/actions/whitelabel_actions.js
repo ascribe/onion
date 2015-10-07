@@ -1,6 +1,6 @@
 'use strict';
 
-import { alt } from '../alt';
+import { altWhitelabel } from '../alt';
 import WhitelabelFetcher from '../fetchers/whitelabel_fetcher';
 
 
@@ -26,4 +26,4 @@ class WhitelabelActions {
     }
 }
 
-export default alt.createActions(WhitelabelActions);
+export default altWhitelabel.createActions(WhitelabelActions);
