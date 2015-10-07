@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import ContractListActions from '../actions/contract_list_actions';
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import WalletSettingsActions from '../actions/wallet_settings_actions';
 
 

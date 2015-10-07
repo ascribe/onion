@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 class GoogleAnalyticsHandler {
@@ -23,4 +23,4 @@ class GoogleAnalyticsHandler {
 
 }
 
-export default alt.createStore(GoogleAnalyticsHandler, 'GoogleAnalyticsHandler');
+export default altThirdParty.createStore(GoogleAnalyticsHandler, 'GoogleAnalyticsHandler');

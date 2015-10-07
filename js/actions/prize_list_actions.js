@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import Q from 'q';
 
 import PrizeListFetcher from '../fetchers/prize_list_fetcher';

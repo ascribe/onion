@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 import { getSubdomain } from '../utils/general_utils';
@@ -33,4 +33,4 @@ class IntercomHandler {
 
 }
 
-export default alt.createStore(IntercomHandler, 'IntercomHandler');
+export default altThirdParty.createStore(IntercomHandler, 'IntercomHandler');
