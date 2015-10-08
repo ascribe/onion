@@ -2,13 +2,14 @@ $ascribe-black: #1E1E1E;
 $ascribe-dark-blue: #003C69;
 $ascribe-blue: #65CFE9;
 $ascribe-light-blue: #D3DEE4;
+$ascribe-white: #F8F8F8;
 $ascribe-pink: #D10074;
 
 $ascribe--fg-color: $ascribe-dark-blue;
-$ascribe--bg-color: $ascribe-blue;
+$ascribe--bg-color: $ascribe-dark-blue;
 
-$ascribe--nav-fg-prim-color: $ascribe-light-blue;
-$ascribe--nav-fg-sec-color: $ascribe-pink;
+$ascribe--nav-fg-prim-color: white;
+$ascribe--nav-fg-sec-color: $ascribe-light-blue;
 $ascribe--nav-bg-color: $ascribe-dark-blue;
 $ascribe--button-color: $ascribe--bg-color;
 $ascribe--font-weight: 300;
@@ -20,10 +21,15 @@ body {
     //font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
     font-family: 'canada-type-gibson', sans-serif !important;
     font-weight: $ascribe--font-weight !important;
+    background-color: #f9f9f9 !important;
 }
 h1, h3 {
     font-family: 'canada-type-gibson', sans-serif !important;
     font-weight: $ascribe--font-weight !important;
+}
+
+h1 {
+    font-size: 30px;
 }
 
 .nav .open > a,
@@ -34,20 +40,20 @@ h1, h3 {
 
 .navbar-default {
     background-color: $ascribe--nav-bg-color;
+    box-shadow: 0 0 4px rgba(0,0,0,.14),
+                0 4px 8px rgba(0,0,0,.28);
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
         text-transform: uppercase;
-        border-bottom-color: transparent;
         font-size: 12px;
+        color: $ascribe--nav-fg-prim-color;
+        border-bottom: 3px solid transparent;
     }
     .navbar-nav > li > a:hover {
         color: $ascribe--nav-fg-sec-color;
     }
 
-    .navbar-nav > li > a {
-        color: $ascribe--nav-fg-prim-color;
-    }
 
     .navbar-nav > .active a,
     .navbar-nav > .active a:hover,
@@ -55,6 +61,7 @@ h1, h3 {
         color: $ascribe--nav-fg-prim-color;
         border-bottom-color: $ascribe--nav-fg-prim-color;
         background-color: $ascribe--nav-bg-color;
+        font-weight: 500;
     }
 
     .navbar-nav > .active {
@@ -74,6 +81,9 @@ h1, h3 {
         color:  $ascribe--nav-fg-prim-color;
         background-color: $ascribe--nav-bg-color;
     }
+    .dropdown-menu {
+        background-color: $ascribe--nav-bg-color;
+    }
 
     .dropdown-menu > li > a {
         color:  $ascribe--nav-fg-prim-color;
@@ -86,7 +96,22 @@ h1, h3 {
         background-color: $ascribe--nav-bg-color;
     }
 
-    .navbar-brand {
+    .notification-menu {
+        .dropdown-menu {
+            background-color: white;
+            li:hover {
+                background-color: $ascribe-white;
+            }
+        }
+        .notification-action{
+            color: $ascribe-pink;
+        }
+    }
+
+    .navbar-brand,
+    .navbar-brand:hover {
+        font-size: 23px;
+        padding: 12px 15px;
         color: $ascribe--nav-fg-prim-color;
     }
     .img-brand .navbar-brand {
@@ -110,6 +135,46 @@ h1, h3 {
     }
 }
 
+.ascribe-accordion-list-item {
+    border: 1px solid rgba(0, 60, 105, 0.1);
+    -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
+	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
+	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
+
+    margin-top: 0.7em;
+    .wrapper {
+        .thumbnail-wrapper {
+            margin-right: 2em;
+            width: 100px;
+        }
+        .accordion-list-item-header {
+            margin-top: 0;
+            padding: 1em;
+            h1 {
+                font-size: 1.9em;
+            }
+            h3 {
+                font-size: 1.1em;
+                margin-top: 0.4em;
+            }
+        }
+    }
+}
+
+.ascribe-accordion-list {
+    margin-bottom: 100px;
+}
+
+.ascribe-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 80px;
+    width: 100%;
+    text-transform: uppercase;
+    background-color: $ascribe-white;
+    border-top: 1px solid rgba(0, 60, 105, 0.1);
+}
 
 .route--landing {
     animation: color-loop 20s;
@@ -260,6 +325,25 @@ fieldset[disabled] .btn-default.active {
 .btn-default {
     background-color: $ascribe--button-color;
     border-color: $ascribe--button-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:hover,
+    &:active:focus,
+    &:active.focus,
+    &.active:hover,
+    &.active:focus,
+    &.active.focus {
+        background-color: darken($ascribe--button-color, 20%);
+        border-color: darken($ascribe--button-color, 20%);
+    }
+}
+
+.btn-secondary {
+    background-color: white;
+    border-color: $ascribe--button-color;
+    color: $ascribe--button-color;
 
     &:hover,
     &:active,

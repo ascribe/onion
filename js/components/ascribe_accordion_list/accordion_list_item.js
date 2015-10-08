@@ -26,12 +26,12 @@ let AccordionListItem = React.createClass({
             <div className="row">
                 <div className={this.props.className}>
                     <div className="wrapper">
-                        <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
+                        <div className="pull-left">
                             <div className="thumbnail-wrapper">
                                 {this.props.thumbnail}
                             </div>
                         </div>
-                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
+                        <div className="accordion-list-item-header">
                             {this.props.heading}
                             {this.props.subheading}
                             {this.props.subsubheading}

@@ -8,7 +8,6 @@ let Footer = React.createClass({
     render() {
         return (
             <div className="ascribe-footer">
-                <hr />
                 <p className="ascribe-sub-sub-statement">
                   <br />
                   <a href="https://github.com/ascribe/REST-main/" target="_blank">api</a> |

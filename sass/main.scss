@@ -12,6 +12,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'glyphicons-social';
 @import 'ascribe_theme';
 @import './ascribe-fonts/ascribe-fonts';
+@import 'ascribe_navbar';
 @import 'ascribe_login';
 @import 'ascribe_table';
 @import 'ascribe_accordion_list';
@@ -81,48 +82,6 @@ hr {
     display: inline;
 }
 
-.navbar-default {
-    border: 0;
-    border-color: #ccc;
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-    font-size: .8em;
-    margin-bottom: 1.5em;
-
-    .navbar-nav > li > a {
-        border: 1px solid rgba(0, 0, 0, 0);
-    }
-
-//     .navbar-nav > .active {
-//         a {
-//             background-color: transparent !important;
-//             border-bottom: 1px solid #02b6a3;
-//             color: #02b6a3;
-// 
-//             > span {
-//                 color: #02b6a3;
-//             }
-// 
-//             &:hover,
-//             &:focus {
-//                 background-color: transparent;
-//                 border-bottom: 1px solid #02b6a3;
-//                 color: #02b6a3;
-// 
-//                 > span {
-//                     color: #02b6a3;
-//                 }
-//             }
-//         }
-//     }
-}
-
-
-
-.img-brand {
-    height: 60px;
-}
 
 .truncate {
     overflow: hidden;
@@ -151,9 +110,6 @@ hr {
     }
 }
 
-.navbar-right {
-    margin-right: 0;
-}
 
 .clear-paddings {
     padding-left: 0;

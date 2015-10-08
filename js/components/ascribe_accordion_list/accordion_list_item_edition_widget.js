@@ -98,7 +98,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 return (
                     <CreateEditionsButton
                         label={getLangText('Create editions')}
-                        className="btn-xs pull-right"
+                        className="btn-secondary btn-sm pull-right"
                         piece={piece}
                         toggleCreateEditionsDialog={this.props.toggleCreateEditionsDialog}
                         onPollingSuccess={this.props.onPollingSuccess}/>
@@ -115,7 +115,7 @@ let AccordionListItemEditionWidget = React.createClass({
                     <Button
                         disabled
                         title={getLangText('All editions for this have been deleted already.')}
-                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {'0 ' + getLangText('Editions')}
                     </Button>
                 );
@@ -125,7 +125,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 return (
                     <button
                         onClick={this.toggleTable}
-                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {editionMapping + ' ' + getLangText('Editions')} {this.getGlyphicon()}
                     </button>
                 );

@@ -11,7 +11,7 @@ let AscribeSpinner = React.createClass({
 
     getDefaultProps() {
         return {
-            size: 'sm',
+            size: 'md',
             color: 'loop'
         };
     },
