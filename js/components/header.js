@@ -68,7 +68,7 @@ let Header = React.createClass({
         setTitle(whitelabel.title)
         constructHead(whitelabel.head);
         if (whitelabel.subdomain !== 'www'){
-            return(<img className="img-brand" src={whitelabel.logo}/>);
+            return (<img className="img-brand" src={whitelabel.logo}/>);
         }
         else {
             return (
