@@ -48,6 +48,12 @@ let AclButtonList = React.createClass({
                 <span style={this.props.buttonsStyle}>
                     <AclButton
                         availableAcls={this.props.availableAcls}
+                        action="acl_share"
+                        pieceOrEditions={this.props.editions}
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.handleSuccess} />
+                    <AclButton
+                        availableAcls={this.props.availableAcls}
                         action="acl_transfer"
                         pieceOrEditions={this.props.editions}
                         currentUser={this.state.currentUser}
@@ -67,12 +73,6 @@ let AclButtonList = React.createClass({
                     <AclButton
                         availableAcls={this.props.availableAcls}
                         action="acl_loan"
-                        pieceOrEditions={this.props.editions}
-                        currentUser={this.state.currentUser}
-                        handleSuccess={this.props.handleSuccess} />
-                    <AclButton
-                        availableAcls={this.props.availableAcls}
-                        action="acl_share"
                         pieceOrEditions={this.props.editions}
                         currentUser={this.state.currentUser}
                         handleSuccess={this.props.handleSuccess} />

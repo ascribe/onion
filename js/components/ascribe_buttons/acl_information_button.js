@@ -4,7 +4,7 @@
 'use strict';
 
 import React from 'react';
-import classnames from 'classnames'; 
+import classnames from 'classnames';
 
 import DropdownButton from 'react-bootstrap/lib/Button';
 
