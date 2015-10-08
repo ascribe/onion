@@ -1,38 +1,38 @@
-/**
- * Created by cevo on 23.09.15.
- */
+
 'use strict';
 
 import React from 'react';
 import classnames from 'classnames';
 
-import DropdownButton from 'react-bootstrap/lib/Button';
+import { getLangText } from '../../utils/lang_utils';
 
-
+import Button from 'react-bootstrap/lib/Button';
 
 let AclInformationButton = React.createClass({
-    getDefaultProps: function() {
+    getDefaultProps() {
         let rows = [];
         let titleStyle = {
             color: '#02B6A3',
             fontSize: '11px',
-            lineHeight: '5px'
+            lineHeight: '3px'
         };
 
         let infoStyle = {
             color: '#333333',
             fontSize: '11px',
-            lineHeight: '5px'
+            lineHeight: '3px'
         };
 
         let exampleStyle = {
             color: '#B2B2B2',
             fontSize: '11px',
-            lineHeight: '5px'
+            lineHeight: '3px'
         };
 
         let paragraphStyle = {
-             margin: '0.1em'
+            margin: '0.1em',
+            lineHeight: '15px'
+
         };
 
 
@@ -66,14 +66,14 @@ let AclInformationButton = React.createClass({
         console.log('Now will initialize the rows prop inside default props');
 
         let createJSXTextSnippet = function(title, info, example){
-            console.log('creating text snippets');
             return (<p style={paragraphStyle}> <span style={titleStyle}> {title} </span>
                 <span style={infoStyle}> {info} <br/> </span>
                 <span style={exampleStyle}> {example} </span> </p>);
         };
 
         for (let i = 0; i < titleList.length; i++){
-            rows.push(createJSXTextSnippet(titleList[i], infoSentenceList[i], exampleSentenceList[i],
+            rows.push(createJSXTextSnippet(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
+                getLangText(exampleSentenceList[i]),
                         titleStyle, infoStyle, exampleStyle));
         }
         return {
@@ -93,29 +93,28 @@ let AclInformationButton = React.createClass({
             }
         };
     },
-    getInitialState: function(){
+    getInitialState() {
         return {isVisible: false};
     },
-    show: function(){
-        console.log('now inside the show function');
-        this.setState({isVisible: true});
-        document.addEventListener('click', this.hide);
+    onOff() {
+        if (!this.state.isVisible) {
+            this.setState({isVisible: true});
+        }
+        else {
+            this.setState({isVisible: false});
+        }
     },
-    hide: function(){
-        this.setState({isVisible: false});
-        document.removeEventListener('click', this.hide);
-    },
-    showInformation: function(){
+    showInformation() {
         if (this.state.isVisible) {
             return this.props.rows;
         }
     },
-    render: function () {
+    render() {
         return (
             <span>
-                <DropdownButton
+                <Button
                     style={this.props.dropdownButtonStyle}
-                    className="glyphicon glyphicon-question-sign" onClick={this.show} />
+                    className="glyphicon glyphicon-question-sign" onClick={this.onOff} />
                 <div
                     style={this.props.dropdownListStyle}
                     className={classnames({'hidden': !this.state.isVisible})}>
