@@ -20,6 +20,8 @@ import PieceListFilterDisplay from './piece_list_filter_display';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
+import AscribeSpinner from './ascribe_spinner';
+
 import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
@@ -149,7 +151,8 @@ let PieceList = React.createClass({
     },
 
     render() {
-        let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        //let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        let loadingElement = <AscribeSpinner />;
         let AccordionListItemType = this.props.accordionListItemType;
 
         return (

@@ -64,13 +64,13 @@ let Header = React.createClass({
     },
 
     getLogo(){
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            return <img className="img-brand" src={this.state.whitelabel.logo} />;
+        let { whitelabel } = this.state;
+        if (whitelabel && whitelabel.logo){
+            return <img className="img-brand" src={whitelabel.logo} />;
         }
         return (
             <span>
-                <span>ascribe </span>
-                <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                <span className="icon-ascribe-logo"></span>
             </span>
         );
     },

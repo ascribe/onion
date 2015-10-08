@@ -1,42 +1,68 @@
-$ascribe--bg-color: #06c;
+$ascribe-black: #1E1E1E;
+$ascribe-dark-blue: #003C69;
+$ascribe-blue: #65CFE9;
+$ascribe-light-blue: #D3DEE4;
+$ascribe-pink: #D10074;
+
+$ascribe--fg-color: $ascribe-dark-blue;
+$ascribe--bg-color: $ascribe-blue;
+
+$ascribe--nav-fg-prim-color: $ascribe-light-blue;
+$ascribe--nav-fg-sec-color: $ascribe-pink;
+$ascribe--nav-bg-color: $ascribe-dark-blue;
 $ascribe--button-color: $ascribe--bg-color;
+$ascribe--font-weight: 300;
 $ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
+$ascribe--font: 'canada-type-gibson';
 
-
+html,
 body {
-    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    //font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    font-family: 'canada-type-gibson', sans-serif !important;
+    font-weight: $ascribe--font-weight !important;
+}
+h1, h3 {
+    font-family: 'canada-type-gibson', sans-serif !important;
+    font-weight: $ascribe--font-weight !important;
 }
 
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: transparent;
+}
 
 .navbar-default {
-    background-color: $ascribe--bg-color;
+    background-color: $ascribe--nav-bg-color;
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
         text-transform: uppercase;
         border-bottom-color: transparent;
-        font-size: 14px;
-        font-weight: bold;
+        font-size: 12px;
+    }
+    .navbar-nav > li > a:hover {
+        color: $ascribe--nav-fg-sec-color;
     }
 
     .navbar-nav > li > a {
-        color: white;
+        color: $ascribe--nav-fg-prim-color;
     }
 
     .navbar-nav > .active a,
     .navbar-nav > .active a:hover,
     .navbar-nav > .active a:focus {
-        color: black;
-        borderjbottom-color: transparent;
-        background-color: transparent;
+        color: $ascribe--nav-fg-prim-color;
+        border-bottom-color: $ascribe--nav-fg-prim-color;
+        background-color: $ascribe--nav-bg-color;
     }
 
     .navbar-nav > .active {
-        background-color: white;
+        background-color: $ascribe--nav-bg-color;
     }
 
     .navbar-toggle .icon-bar {
-        background-color: white;
+        background-color: $ascribe--nav-bg-color;
     }
 
     .navbar-nav > .open > a,
@@ -45,11 +71,25 @@ body {
     .dropdown-menu > .active > a,
     .dropdown-menu > .active > a:hover,
     .dropdown-menu > .active > a:focus {
-        color: white;
-        background-color: $ascribe--bg-color;
+        color:  $ascribe--nav-fg-prim-color;
+        background-color: $ascribe--nav-bg-color;
     }
 
-    .img-brand.navbar-brand {
+    .dropdown-menu > li > a {
+        color:  $ascribe--nav-fg-prim-color;
+        font-weight: $ascribe--font-weight !important;
+    }
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color:  $ascribe--nav-fg-prim-color;
+        background-color: $ascribe--nav-bg-color;
+    }
+
+    .navbar-brand {
+        color: $ascribe--nav-fg-prim-color;
+    }
+    .img-brand .navbar-brand {
         width: 0;
         height: 0;
         padding-right: 120px;
@@ -66,7 +106,7 @@ body {
 
     .navbar-toggle:hover,
     .navbar-toggle:focus {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: $ascribe--nav-bg-color;
     }
 }
 
