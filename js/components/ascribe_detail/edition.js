@@ -291,6 +291,9 @@ let EditionSummary = React.createClass({
                             editions={[this.props.edition]}
                             handleSuccess={this.handleSuccess}>
                             {withdrawButton}
+                            <DeleteButton
+                                handleSuccess={this.props.handleDeleteSuccess}
+                                editions={[this.props.edition]}/>
                             {unconsignRequestButton}
                             <AclInformationButton/>
                         </AclButtonList>
