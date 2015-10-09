@@ -7,8 +7,6 @@ import AccordionListItem from './accordion_list_item';
 
 import { getLangText } from '../../utils/lang_utils';
 
-let Link = Router.Link;
-
 
 let AccordionListItemPiece = React.createClass({
     propTypes: {
@@ -50,14 +48,8 @@ let AccordionListItemPiece = React.createClass({
         return (
             <AccordionListItem
                 className={this.props.className}
-                thumbnail={
-                    <Link {...this.getLinkData()}>
-                        <img src={this.props.piece.thumbnail.url_safe}/>
-                    </Link>}
-                heading={
-                    <Link {...this.getLinkData()}>
-                        <h1>{this.props.piece.title}</h1>
-                    </Link>}
+                thumbnail={<img src={this.props.piece.thumbnail.url_safe}/>}
+                heading={<h1>{this.props.piece.title}</h1>}
                 subheading={
                     <h3>
                         {getLangText('by ')}
@@ -67,6 +59,7 @@ let AccordionListItemPiece = React.createClass({
                 subsubheading={this.props.subsubheading}
                 buttons={this.props.buttons}
                 badge={this.props.badge}
+                linkData={this.getLinkData}
                 >
                 {this.props.children}
             </AccordionListItem>

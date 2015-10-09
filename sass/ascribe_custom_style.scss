@@ -140,29 +140,18 @@ h1 {
     -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
 	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
 	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
-
-    margin-top: 0.7em;
-    .wrapper {
-        .thumbnail-wrapper {
-            margin-right: 2em;
-            width: 100px;
-        }
-        .accordion-list-item-header {
-            margin-top: 0;
-            padding: 1em;
-            h1 {
-                font-size: 1.9em;
-            }
-            h3 {
-                font-size: 1.1em;
-                margin-top: 0.4em;
-            }
-        }
+    &:hover {
+        -webkit-transform: scale(1.02);
+           -moz-transform: scale(1.02);
+            -ms-transform: scale(1.02);
+             -o-transform: scale(1.02);
+                transform: scale(1.02);
+        -webkit-transition: all 0.2s ease;
+         -moz-transition: all 0.2s ease;
+       -o-transition: all 0.2s ease;
+      -ms-transition: all 0.2s ease;
+          transition: all 0.2s ease;
     }
-}
-
-.ascribe-accordion-list {
-    margin-bottom: 100px;
 }
 
 .ascribe-footer {

@@ -1,4 +1,4 @@
-$ascribe-accordion-list-item-height: 8em;
+$ascribe-accordion-list-item-height: 100px;
 
 .ascribe-accordion-list {
     padding-left: 15px;
@@ -12,11 +12,11 @@ $ascribe-accordion-list-item-height: 8em;
 .ascribe-accordion-list-item {
     background-color: white;
     border: 1px solid black;
-    height: $ascribe-accordion-list-item-height;
+    height: $ascribe-accordion-list-item-height + 2px;
 
     padding-left: 0;
     padding-right: 0;
-    margin-top: 1.5em;
+    margin-top: 1.2em;
     overflow: hidden;
 
     border-radius: 1px;
@@ -39,11 +39,12 @@ $ascribe-accordion-list-item-height: 8em;
 
         // ToDo: Include media queries for thumbnail
         .thumbnail-wrapper {
+            margin-right: 2em;
+            width: $ascribe-accordion-list-item-height;
+            height: $ascribe-accordion-list-item-height;
             cursor: pointer;
-            height: 110px;
             padding: 0;
             text-align: center;
-            width: 110px;
 
             img {
                 max-height: 100%;
@@ -84,11 +85,25 @@ $ascribe-accordion-list-item-height: 8em;
 }
 
 .accordion-list-item-header {
-    margin-top: .65em;
+    margin-top: 0;
+    padding: 0.5em 0;
+
+    h1 {
+        font-size: 1.9em;
+    }
+    h3 {
+        font-size: 1.1em;
+        margin-top: 0.4em;
+    }
 
     > a {
         text-decoration: none;
     }
+}
+
+.accordion-list-item-buttons {
+    padding-top: 60px;
+    padding-right: 10px;
 }
 
 .ascribe-accordion-list-loading img {

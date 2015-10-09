@@ -16,7 +16,9 @@ let AscribeApp = React.createClass({
         return (
             <div className="container ascribe-default-app">
                 <Header routes={getRoutes()} />
-                <RouteHandler />
+                <div className="ascribe-body">
+                    <RouteHandler />
+                </div>
                 <Footer />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>

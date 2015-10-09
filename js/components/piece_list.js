@@ -105,7 +105,7 @@ let PieceList = React.createClass({
         let currentPage = parseInt(this.getQuery().page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
-        if (this.state.pieceListCount > 10) {
+        if (this.state.pieceListCount > 20) {
             return (
                 <Pagination
                     currentPage={currentPage}

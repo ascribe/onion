@@ -3,6 +3,8 @@
 import React from 'react';
 import Router from 'react-router';
 
+let Link = Router.Link;
+
 let AccordionListItem = React.createClass({
     propTypes: {
         badge: React.PropTypes.object,
@@ -12,6 +14,7 @@ let AccordionListItem = React.createClass({
         subheading: React.PropTypes.object,
         subsubheading: React.PropTypes.object,
         buttons: React.PropTypes.object,
+        linkData: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -26,15 +29,19 @@ let AccordionListItem = React.createClass({
             <div className="row">
                 <div className={this.props.className}>
                     <div className="wrapper">
-                        <div className="pull-left">
-                            <div className="thumbnail-wrapper">
-                                {this.props.thumbnail}
+                        <Link {...this.props.linkData()}>
+                            <div className="pull-left">
+                                <div className="thumbnail-wrapper">
+                                    {this.props.thumbnail}
+                                </div>
                             </div>
-                        </div>
-                        <div className="accordion-list-item-header">
-                            {this.props.heading}
-                            {this.props.subheading}
-                            {this.props.subsubheading}
+                            <div className="pull-left accordion-list-item-header">
+                                {this.props.heading}
+                                {this.props.subheading}
+                                {this.props.subsubheading}
+                            </div>
+                        </Link>
+                        <div className="accordion-list-item-buttons">
                             {this.props.buttons}
                         </div>
                         <span style={{'clear': 'both'}}></span>

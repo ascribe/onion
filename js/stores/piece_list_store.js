@@ -23,7 +23,7 @@ class PieceListStore {
         this.pieceListCount = -1;
         this.unfilteredPieceListCount = -1;
         this.page = 1;
-        this.pageSize = 10;
+        this.pageSize = 20;
         this.search = '';
         this.orderBy = 'artist_name';
         this.orderAsc = true;
