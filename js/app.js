@@ -75,7 +75,8 @@ class AppGateway {
             subdomain = settings.subdomain;
         }
 
-        if(subdomain) {
+        // www and cc do not have a landing page
+        if(subdomain && subdomain !== 'cc') {
             redirectRoute = null;
         }
 

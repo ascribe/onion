@@ -30,6 +30,9 @@ import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
+import ProxyRoute from '../../../components/ascribe_routes/proxy_route';
+import RedirectProxyHandler from '../../../components/ascribe_routes/proxy_routes/redirect_proxy_handler';
+
 import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
 
@@ -40,51 +43,139 @@ let ROUTES = {
     'cyland': (
         <Route path={baseUrl} component={WalletApp}>
             <IndexRoute component={CylandLanding} />
-            <Route path="login" component={LoginContainer} />
-            <Route path="logout" component={LogoutContainer} />
-            <Route path="signup" component={SignupContainer} />
-            <Route path="password_reset" component={PasswordResetContainer} />
-            <Route path="register_piece" component={CylandRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route path="collection" component={CylandPieceList} headerTitle="COLLECTION" />
-            <Route path="pieces/:pieceId" component={CylandPieceContainer} />
+            <ProxyRoute
+                path="login"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={LoginContainer} />
+            <ProxyRoute
+                path="logout"
+                proxyHandler={RedirectProxyHandler({to: '/', when: 'loggedOut'})}
+                component={LogoutContainer}/>
+            <ProxyRoute
+                path="signup"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={SignupContainer} />
+            <ProxyRoute
+                path="password_reset"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={PasswordResetContainer} />
+            <ProxyRoute
+                path="settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={SettingsContainer}/>
+            <ProxyRoute
+                path="contract_settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={ContractSettings}/>
+            <ProxyRoute
+                path="register_piece"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={CylandRegisterPiece}
+                headerTitle="+ NEW WORK"/>
+            <ProxyRoute
+                path="collection"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={CylandPieceList}
+                headerTitle="COLLECTION"/>
             <Route path="editions/:editionId" component={EditionContainer} />
             <Route path="verify" component={CoaVerifyContainer} />
-            <Route path="settings" component={SettingsContainer} />
-            <Route path="contract_settings" component={ContractSettings} />
+            <Route path="pieces/:pieceId" component={CylandPieceContainer} />
             <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     ),
     'cc': (
         <Route path={baseUrl} component={WalletApp}>
-            <Route path="login" component={LoginContainer} />
-            <Route path="logout" component={LogoutContainer} />
-            <Route path="signup" component={SignupContainer} />
-            <Route path="password_reset" component={PasswordResetContainer} />
-            <Route path="register_piece" component={CCRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route path="collection" component={PieceList} headerTitle="COLLECTION" />
+            <ProxyRoute
+                path="login"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={LoginContainer} />
+            <ProxyRoute
+                path="logout"
+                proxyHandler={RedirectProxyHandler({to: '/', when: 'loggedOut'})}
+                component={LogoutContainer}/>
+            <ProxyRoute
+                path="signup"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={SignupContainer} />
+            <ProxyRoute
+                path="password_reset"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={PasswordResetContainer} />
+            <ProxyRoute
+                path="settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={SettingsContainer}/>
+            <ProxyRoute
+                path="contract_settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={ContractSettings}/>
+            <ProxyRoute
+                path="register_piece"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={CCRegisterPiece}
+                headerTitle="+ NEW WORK"/>
+            <ProxyRoute
+                path="collection"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={PieceList}
+                headerTitle="COLLECTION"/>
             <Route path="pieces/:pieceId" component={PieceContainer} />
             <Route path="editions/:editionId" component={EditionContainer} />
             <Route path="verify" component={CoaVerifyContainer} />
-            <Route path="settings" component={SettingsContainer} />
             <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     ),
     'ikonotv': (
         <Route path={baseUrl} component={WalletApp}>
             <IndexRoute component={IkonotvLanding} />
-            <Route path="login" component={LoginContainer} />
-            <Route path="logout" component={LogoutContainer} />
-            <Route path="signup" component={SignupContainer} />
-            <Route path="password_reset" component={PasswordResetContainer} />
-            <Route path="request_loan" component={ContractAgreementForm} headerTitle="SEND NEW CONTRACT" aclName="acl_create_contractagreement" />
-            <Route path="register_piece" component={IkonotvRegisterPiece} headerTitle="+ NEW WORK" aclName="acl_create_piece"/>
-            <Route path="collection" component={IkonotvPieceList} headerTitle="COLLECTION"/>
+            <ProxyRoute
+                path="login"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={LoginContainer} />
+            <ProxyRoute
+                path="logout"
+                proxyHandler={RedirectProxyHandler({to: '/', when: 'loggedOut'})}
+                component={LogoutContainer}/>
+            <ProxyRoute
+                path="signup"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={SignupContainer} />
+            <ProxyRoute
+                path="password_reset"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={PasswordResetContainer} />
+            <ProxyRoute
+                path="settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={SettingsContainer}/>
+            <ProxyRoute
+                path="contract_settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={ContractSettings}/>
+            <ProxyRoute
+                path="request_loan"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={ContractAgreementForm}
+                headerTitle="SEND NEW CONTRACT"
+                aclName="acl_create_contractagreement"/>
+            <ProxyRoute
+                path="register_piece"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={IkonotvRegisterPiece}
+                headerTitle="+ NEW WORK"
+                aclName="acl_create_piece"/>
+            <ProxyRoute
+                path="collection"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={IkonotvPieceList}
+                headerTitle="COLLECTION"/>
+            <ProxyRoute
+                path="contract_notifications"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={IkonotvContractNotifications}/>
             <Route path="pieces/:pieceId" component={IkonotvPieceContainer} />
             <Route path="editions/:editionId" component={EditionContainer} />
             <Route path="verify" component={CoaVerifyContainer} />
-            <Route path="settings" component={SettingsContainer} />
-            <Route path="contract_settings" component={ContractSettings} />
-            <Route path="contract_notifications" component={IkonotvContractNotifications} />
             <Route path="*" component={ErrorNotFoundPage} />
         </Route>
     )

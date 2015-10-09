@@ -20,13 +20,19 @@ let PrizeApp = React.createClass({
     },
 
     render() {
+        const { history, routes } = this.props;
         let header = null;
         let subdomain = getSubdomain();
 
-        if (this.props.history.isActive('/') || this.props.history.isActive('/login') || this.props.history.isActive('/signup')) {
+        // The second element of routes is always the active component object, where we can
+        // extract the path.
+        let path = routes[1] ? routes[1].path : null;
+
+        // if the path of the current activeRoute is not defined, then this is the IndexRoute
+        if (!path || history.isActive('/login') || history.isActive('/signup')) {
             header = <Hero />;
         } else {
-            header = <Header showAddWork={false} routes={this.props.routes}/>;
+            header = <Header showAddWork={false} routes={routes}/>;
         }
 
         return (

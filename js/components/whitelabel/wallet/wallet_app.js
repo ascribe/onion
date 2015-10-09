@@ -22,20 +22,20 @@ let WalletApp = React.createClass({
     },
 
     render() {
+        let header = null;
         let subdomain = getSubdomain();
+        const { history, routes, children } = this.props;
 
         // The second element of routes is always the active component object, where we can
         // extract the path.
-        let [, { path } ] = this.props.routes;
-
-        let header = null;
+        let path = routes[1] ? routes[1].path : null;
 
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
-        if ((!path || this.props.history.isActive('/login') || this.props.history.isActive('/signup') || this.props.history.isActive('/contract_notifications'))
+        if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
             && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
-            header = <Header showAddWork={true} routes={this.props.routes} />;
+            header = <Header showAddWork={true} routes={routes} />;
         }
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
@@ -44,7 +44,7 @@ let WalletApp = React.createClass({
             <div className={classNames('ascribe-wallet-app', 'route--' + (path ? path.split('/')[0] : 'landing'))}>
                 <div className='container'>
                     {header}
-                    {this.props.children}
+                    {children}
                     <GlobalNotification />
                     <div id="modal" className="container"></div>
                     <Footer />

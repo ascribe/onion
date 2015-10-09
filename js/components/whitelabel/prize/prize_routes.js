@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import Landing from './components/prize_landing';
 import LoginContainer from './components/prize_login_container';
@@ -19,22 +19,49 @@ import ErrorNotFoundPage from '../../../components/error_not_found_page';
 import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
 
+import ProxyRoute from '../../../components/ascribe_routes/proxy_route';
+import RedirectProxyHandler from '../../../components/ascribe_routes/proxy_routes/redirect_proxy_handler';
+
 
 let baseUrl = AppConstants.baseUrl;
 
 function getRoutes() {
     return (
         <Route path={baseUrl} component={App}>
-            <Route path={baseUrl} component={Landing} />
-            <Route path="login" component={LoginContainer} />
-            <Route path="logout" component={LogoutContainer} />
-            <Route path="signup" component={SignupContainer} />
-            <Route path="password_reset" component={PasswordResetContainer} />
-            <Route path="register_piece" component={PrizeRegisterPiece} headerTitle="+ NEW WORK" />
-            <Route path="collection" component={PrizePieceList} headerTitle="COLLECTION" />
+            <IndexRoute component={Landing} />
+            <ProxyRoute
+                path="login"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={LoginContainer} />
+            <ProxyRoute
+                path="logout"
+                proxyHandler={RedirectProxyHandler({to: '/', when: 'loggedOut'})}
+                component={LogoutContainer}/>
+            <ProxyRoute
+                path="signup"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={SignupContainer} />
+            <ProxyRoute
+                path="password_reset"
+                proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
+                component={PasswordResetContainer} />
+            <ProxyRoute
+                path="settings"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={SettingsContainer}/>
+
+            <ProxyRoute
+                path="register_piece"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={PrizeRegisterPiece}
+                headerTitle="+ NEW WORK"/>
+            <ProxyRoute
+                path="collection"
+                proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+                component={PrizePieceList}
+                headerTitle="COLLECTION"/>
             <Route path="pieces/:pieceId" component={PrizePieceContainer} />
             <Route path="editions/:editionId" component={EditionContainer} />
-            <Route path="settings" component={SettingsContainer} />
             <Route path="verify" component={CoaVerifyContainer} />
             <Route path="*" component={ErrorNotFoundPage} />
         </Route>
