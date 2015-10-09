@@ -68,7 +68,7 @@ let PieceListToolbar = React.createClass({
     },
 
     render() {
-        let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
+        let searchIcon = <span className="ascribe-icon icon-ascribe-search"/>;
 
         return (
             <div className={this.props.className}>
@@ -78,6 +78,10 @@ let PieceListToolbar = React.createClass({
                             <span className="pull-left">
                                 {this.props.children}
                             </span>
+                            <span className="pull-right">
+                                {this.getOrderWidget()}
+                                {this.getFilterWidget()}
+                            </span>
                             <span className="pull-right search-bar ascribe-input-glyph">
                                 <Input
                                     type='text'
@@ -86,10 +90,7 @@ let PieceListToolbar = React.createClass({
                                     onChange={this.searchFor}
                                     addonAfter={searchIcon} />
                             </span>
-                            <span className="pull-right">
-                                {this.getOrderWidget()}
-                                {this.getFilterWidget()}
-                            </span>
+
                         </div>
                     </div>
                 </div>

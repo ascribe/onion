@@ -4,6 +4,7 @@ $ascribe-blue: #65CFE9;
 $ascribe-light-blue: #D3DEE4;
 $ascribe-white: #F8F8F8;
 $ascribe-pink: #D10074;
+$ascribe-blue-border: rgba(0, 60, 105, 0.1);
 
 $ascribe--fg-color: $ascribe-dark-blue;
 $ascribe--bg-color: $ascribe-dark-blue;
@@ -11,7 +12,9 @@ $ascribe--bg-color: $ascribe-dark-blue;
 $ascribe--nav-fg-prim-color: white;
 $ascribe--nav-fg-sec-color: $ascribe-light-blue;
 $ascribe--nav-bg-color: $ascribe-dark-blue;
-$ascribe--button-color: $ascribe--bg-color;
+
+$ascribe--button-default-color: $ascribe--bg-color;
+$ascribe--button-secondary-color: $ascribe--bg-color;
 $ascribe--font-weight: 300;
 $ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
 $ascribe--font: 'canada-type-gibson';
@@ -21,7 +24,7 @@ body {
     //font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
     font-family: 'canada-type-gibson', sans-serif !important;
     font-weight: $ascribe--font-weight !important;
-    background-color: #f9f9f9 !important;
+    background-color: #fcfcfc !important;
 }
 h1, h3 {
     font-family: 'canada-type-gibson', sans-serif !important;
@@ -40,8 +43,9 @@ h1 {
 
 .navbar-default {
     background-color: $ascribe--nav-bg-color;
-    box-shadow: 0 0 4px rgba(0,0,0,.14),
-                0 4px 8px rgba(0,0,0,.28);
+    box-shadow: 0 0 2px rgba(0,0,0,.14),
+                0 2px 4px rgba(0,0,0,.28);
+    //box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
@@ -65,10 +69,6 @@ h1 {
     }
 
     .navbar-nav > .active {
-        background-color: $ascribe--nav-bg-color;
-    }
-
-    .navbar-toggle .icon-bar {
         background-color: $ascribe--nav-bg-color;
     }
 
@@ -129,30 +129,60 @@ h1 {
         position: relative;
     }
 
+    .navbar-toggle .icon-bar {
+        background-color: $ascribe--nav-fg-prim-color;
+    }
+
     .navbar-toggle:hover,
     .navbar-toggle:focus {
         background-color: $ascribe--nav-bg-color;
     }
 }
 
+.ascribe-icon {
+    font-size: 1.2em;
+    font-weight: 800;
+}
+
 .ascribe-accordion-list-item {
-    border: 1px solid rgba(0, 60, 105, 0.1);
-    -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
-	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
-	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.58);
+    border: 1px solid $ascribe-blue-border;
+    -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
+	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
+	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
     &:hover {
-        -webkit-transform: scale(1.02);
-           -moz-transform: scale(1.02);
-            -ms-transform: scale(1.02);
-             -o-transform: scale(1.02);
-                transform: scale(1.02);
-        -webkit-transition: all 0.2s ease;
-         -moz-transition: all 0.2s ease;
-       -o-transition: all 0.2s ease;
-      -ms-transition: all 0.2s ease;
-          transition: all 0.2s ease;
+        //-webkit-transform: scale(1.005);
+        //   -moz-transform: scale(1.005);
+        //    -ms-transform: scale(1.005);
+        //     -o-transform: scale(1.005);
+        //        transform: scale(1.005);
+      //  -webkit-transition: all 0.1s ease;
+      //   -moz-transition: all 0.1s ease;
+      // -o-transition: all 0.1s ease;
+      //-ms-transition: all 0.1s ease;
+      //    transition: all 0.1s ease;
     }
 }
+
+.ascribe-accordion-list-item .wrapper {
+
+    h1 {
+        font-size: 1.6em;
+        margin: .4em 0 0 0;
+    }
+    h3 {
+        font-size: 1.1em;
+        margin-bottom: 0.4em;
+    }
+    a:not(.btn) {
+        color: $ascribe-black
+    }
+    .accordion-list-item-header {
+        a div {
+            color: rgba(0,0,0,.6)
+        }
+    }
+}
+
 
 .ascribe-footer {
     position: fixed;
@@ -190,7 +220,7 @@ h1 {
     }
 
     .ascribe-btn-login-spinner {
-        background-color: $ascribe--button-color;
+        background-color: $ascribe--button-default-color;
     }
 
     .ascribe-form-header {
@@ -290,8 +320,8 @@ fieldset[disabled] .btn-default:focus,
 fieldset[disabled] .btn-default.focus,
 fieldset[disabled] .btn-default:active,
 fieldset[disabled] .btn-default.active {
-    background-color: darken($ascribe--button-color, 20%);
-    border-color: darken($ascribe--button-color, 20%);
+    background-color: darken($ascribe--button-default-color, 20%);
+    border-color: darken($ascribe--button-default-color, 20%);
 }
 
 // buttons!
@@ -300,20 +330,20 @@ fieldset[disabled] .btn-default.active {
 .ascribe-piece-list-toolbar-filter-widget button {
     background-color: transparent;
     border: 1px solid transparent;
-    color: $ascribe--button-color;
+    color: $ascribe--button-default-color;
 
     &:hover,
     &:active {
-        background-color: $ascribe--button-color !important;
-        border-color: $ascribe--button-color !important;
+        background-color: $ascribe--button-default-color !important;
+        border-color: $ascribe--button-default-color !important;
         color: white;
     }
 }
 
 .ascribe-btn-login,
 .btn-default {
-    background-color: $ascribe--button-color;
-    border-color: $ascribe--button-color;
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
 
     &:hover,
     &:active,
@@ -324,15 +354,15 @@ fieldset[disabled] .btn-default.active {
     &.active:hover,
     &.active:focus,
     &.active.focus {
-        background-color: darken($ascribe--button-color, 20%);
-        border-color: darken($ascribe--button-color, 20%);
+        background-color: darken($ascribe--button-default-color, 20%);
+        border-color: darken($ascribe--button-default-color, 20%);
     }
 }
 
 .btn-secondary {
     background-color: white;
-    border-color: $ascribe--button-color;
-    color: $ascribe--button-color;
+    border-color: $ascribe--button-secondary-color;
+    color: $ascribe--button-secondary-color;
 
     &:hover,
     &:active,
@@ -343,8 +373,8 @@ fieldset[disabled] .btn-default.active {
     &.active:hover,
     &.active:focus,
     &.active.focus {
-        background-color: darken($ascribe--button-color, 20%);
-        border-color: darken($ascribe--button-color, 20%);
+        background-color: darken($ascribe--button-secondary-color, 20%);
+        border-color: darken($ascribe--button-secondary-color, 20%);
     }
 }
 
@@ -352,58 +382,84 @@ fieldset[disabled] .btn-default.active {
 .open > .btn-default.dropdown-toggle:focus,
 .open > .btn-default.dropdown-toggle.focus,
 .open > .btn-default.dropdown-toggle.dropdown-toggle {
-    background-color: darken($ascribe--button-color, 20%);
-    border-color: darken($ascribe--button-color, 20%);
+    background-color: darken($ascribe--button-secondary-color, 20%);
+    border-color: darken($ascribe--button-secondary-color, 20%);
 }
 
 .pager li > a, .pager li > span {
-    background-color: $ascribe--button-color;
-    border-color: $ascribe--button-color;
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
 }
 
 // inputs!
 .ascribe-input-glyph > .form-group > .input-group > .input-group-addon > .filter-glyph {
-    color: $ascribe--button-color;
+    color: $ascribe--button-default-color;
 }
 
-.ascribe-input-glyph > .form-group > .input-group > .input-group-addon,
-.ascribe-input-glyph > .form-group > .input-group input {
-    border-color: $ascribe--button-color;
+.search-bar > .form-group > .input-group {
+    border: 1px solid rgba(0, 0, 0, 0);
+    &:hover, &:focus, &:active {
+        border-color: $ascribe-blue-border;
+    }
+    input::-webkit-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    input::-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* firefox 19+ */
+    input:-ms-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* ie */
+    input:-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+
+    //input::-webkit-input-placeholder { color:transparent }
+    //input::-moz-placeholder { color:transparent; } /* firefox 19+ */
+    //input:-ms-input-placeholder { color:transparent; } /* ie */
+    //input:-moz-placeholder { color:transparent; }
+
 }
 
 .ascribe-settings-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
 .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
-    color: $ascribe--button-color;
+    color: $ascribe--button-default-color;
 }
 
 
 // properties!
 .is-focused {
-    border-left-color: $ascribe--button-color !important;
-    background-color: rgba($ascribe--button-color, .05);
+    border-left-color: $ascribe--button-default-color !important;
+    background-color: rgba($ascribe--button-default-color, .05);
 }
 .ascribe-settings-wrapper:hover {
-    border-left-color: rgba($ascribe--button-color, .5);
+    border-left-color: rgba($ascribe--button-default-color, .5);
 }
 
 .ascribe-accordion-list-item .wrapper:hover {
-    background-color: rgba($ascribe--button-color, .05);
+    background-color: rgba($ascribe--button-default-color, .05);
 }
 
 
 // intercom stuff
 #intercom-container .intercom-launcher-button {
-    background-color: $ascribe--button-color !important;
-    border-color: $ascribe--button-color !important;
+    background-color: $ascribe--button-default-color !important;
+    border-color: $ascribe--button-default-color !important;
 }
 
 
 // notifications
 .ascribe-global-notification-success {
-    background-color: $ascribe--button-color;
+    background-color: $ascribe--button-default-color;
 }
 
 // progress bar
 .ascribe-progress-bar > .progress-bar {
-    background-color: $ascribe--button-color;
+    background-color: $ascribe--button-default-color;
 }

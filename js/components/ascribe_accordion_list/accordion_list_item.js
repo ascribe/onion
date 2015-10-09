@@ -29,21 +29,26 @@ let AccordionListItem = React.createClass({
             <div className="row">
                 <div className={this.props.className}>
                     <div className="wrapper">
-                        <Link {...this.props.linkData()}>
                             <div className="pull-left">
-                                <div className="thumbnail-wrapper">
-                                    {this.props.thumbnail}
+                                <Link {...this.props.linkData()}>
+                                    <div className="thumbnail-wrapper">
+                                        {this.props.thumbnail}
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="accordion-list-item-header">
+                                <Link {...this.props.linkData()}>
+                                    {this.props.heading}
+                                </Link>
+                                <Link {...this.props.linkData()}>
+                                    {this.props.subheading}
+                                    {this.props.subsubheading}
+                                </Link>
+                                <div className="accordion-list-item-buttons">
+                                    {this.props.buttons}
                                 </div>
                             </div>
-                            <div className="pull-left accordion-list-item-header">
-                                {this.props.heading}
-                                {this.props.subheading}
-                                {this.props.subsubheading}
-                            </div>
-                        </Link>
-                        <div className="accordion-list-item-buttons">
-                            {this.props.buttons}
-                        </div>
+
                         <span style={{'clear': 'both'}}></span>
 
                         <div className="request-action-badge">

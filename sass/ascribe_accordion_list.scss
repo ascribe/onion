@@ -77,9 +77,9 @@ $ascribe-accordion-list-item-height: 100px;
             white-space: nowrap;
         }
 
-        a:not(.btn) {
-            color: #666;
-        }
+        a {
+            text-decoration: none
+        };
 
     }
 }
@@ -96,14 +96,17 @@ $ascribe-accordion-list-item-height: 100px;
         margin-top: 0.4em;
     }
 
-    > a {
-        text-decoration: none;
-    }
+
 }
 
 .accordion-list-item-buttons {
-    padding-top: 60px;
-    padding-right: 10px;
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    @media (max-width: 400px) {
+        right: 0;
+        bottom: 0;
+    }
 }
 
 .ascribe-accordion-list-loading img {
