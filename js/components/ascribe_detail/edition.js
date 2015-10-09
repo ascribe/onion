@@ -244,7 +244,20 @@ let EditionSummary = React.createClass({
         }
         return status;
     },
-
+    getVerbList(){
+        let verbsToCheck = ['acl_transfer', 'acl_consign', 'acl_loan', 'acl_share', 'acl_delete'];
+        let verbListIndices = [];
+        let acl = this.props.edition.acl;
+        Object.keys(acl).forEach((key) => {
+            let index = verbsToCheck.indexOf(key);
+            if (acl[key] === true && index !== -1) {
+                verbListIndices.push(index);
+            }
+        });
+        console.log('Here are the verbs to open');
+        console.log(verbListIndices);
+        return verbListIndices;
+    },
     getActions(){
         let actions = null;
         if (this.props.edition &&
@@ -295,7 +308,7 @@ let EditionSummary = React.createClass({
                                 handleSuccess={this.props.handleDeleteSuccess}
                                 editions={[this.props.edition]}/>
                             {unconsignRequestButton}
-                            <AclInformationButton/>
+                            <AclInformationButton verbs = {this.getVerbList()}/>
                         </AclButtonList>
                     </Col>
                 </Row>);

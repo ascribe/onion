@@ -9,8 +9,11 @@ import { getLangText } from '../../utils/lang_utils';
 import Button from 'react-bootstrap/lib/Button';
 
 let AclInformationButton = React.createClass({
-    getDefaultProps() {
-        let rows = [];
+    getInitialState() {
+        return {isVisible: false};
+    },
+    componentDidMount() {
+        //let rows = [];
         let titleStyle = {
             color: '#02B6A3',
             fontSize: '11px',
@@ -35,7 +38,7 @@ let AclInformationButton = React.createClass({
 
         };
 
-
+        let enabledIndices = this.props.verbs;
         let titleList = ['TRANSFER', 'CONSIGN', 'LOAN', 'SHARE', 'DELETE'];
 
         let infoSentenceList = [
@@ -63,7 +66,6 @@ let AclInformationButton = React.createClass({
 
             '(e.g. an artist uploaded the wrong file and doesn\'t want it cluttering his Wallet, so he Deletes it)'];
 
-        console.log('Now will initialize the rows prop inside default props');
 
         let createJSXTextSnippet = function(title, info, example){
             return (<p style={paragraphStyle}> <span style={titleStyle}> {title} </span>
@@ -71,30 +73,33 @@ let AclInformationButton = React.createClass({
                 <span style={exampleStyle}> {example} </span> </p>);
         };
 
+        this.rows = enabledIndices.map((i)=>{
+            return (createJSXTextSnippet(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
+                getLangText(exampleSentenceList[i]),
+                        titleStyle, infoStyle, exampleStyle));
+        });
+
+        /**
         for (let i = 0; i < titleList.length; i++){
             rows.push(createJSXTextSnippet(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
                 getLangText(exampleSentenceList[i]),
                         titleStyle, infoStyle, exampleStyle));
         }
-        return {
-            rows: rows,
-            dropdownButtonStyle: {
+         */
+
+        this.dropdownButtonStyle = {
                 background: 'none',
                 color: 'black',
                 padding: 0,
                 border: 'none'
-            },
-            dropdownListStyle: {
+            };
+        this.dropdownListStyle = {
                 textAlign: 'justify',
                 width: '80.8%',
                 border: '1px solid #CCC',
                 backgroundColor: 'white',
                 padding: '0.5em'
-            }
-        };
-    },
-    getInitialState() {
-        return {isVisible: false};
+            };
     },
     onOff() {
         if (!this.state.isVisible) {
@@ -106,17 +111,15 @@ let AclInformationButton = React.createClass({
     },
     showInformation() {
         if (this.state.isVisible) {
-            return this.props.rows;
+            return this.rows;
         }
     },
     render() {
         return (
             <span>
-                <Button
-                    style={this.props.dropdownButtonStyle}
-                    className="glyphicon glyphicon-question-sign" onClick={this.onOff} />
+                <Button style = {this.dropdownButtonStyle} className="glyphicon glyphicon-question-sign" onClick={this.onOff} />
                 <div
-                    style={this.props.dropdownListStyle}
+                    style={this.dropdownListStyle}
                     className={classnames({'hidden': !this.state.isVisible})}>
                     {this.showInformation()}
                 </div>
