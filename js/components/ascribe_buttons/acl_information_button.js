@@ -79,14 +79,6 @@ let AclInformationButton = React.createClass({
                         titleStyle, infoStyle, exampleStyle));
         });
 
-        /**
-        for (let i = 0; i < titleList.length; i++){
-            rows.push(createJSXTextSnippet(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
-                getLangText(exampleSentenceList[i]),
-                        titleStyle, infoStyle, exampleStyle));
-        }
-         */
-
         this.dropdownButtonStyle = {
                 background: 'none',
                 color: 'black',

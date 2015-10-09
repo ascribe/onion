@@ -254,8 +254,6 @@ let EditionSummary = React.createClass({
                 verbListIndices.push(index);
             }
         });
-        console.log('Here are the verbs to open');
-        console.log(verbListIndices);
         return verbListIndices;
     },
     getActions(){
