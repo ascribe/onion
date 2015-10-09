@@ -47,13 +47,13 @@ export default function RedirectProxyHandler({to, when}) {
                                      this.state.currentUser && this.state.currentUser.email :
                                      this.state.currentUser && !this.state.currentUser.email;
 
-                    if(!exprToValidate && when === 'loggedIn' && redirect) {
+                    if(exprToValidate) {
+                        window.setTimeout(() => this.history.pushState(null, to, query));
+                    } else if(!exprToValidate && when === 'loggedIn' && redirect) {
 
                         delete query.redirect;
                         window.setTimeout(() => this.history.pushState(null, '/' + redirect, query));
 
-                    } else if(exprToValidate) {
-                        window.setTimeout(() => this.history.pushState(null, to, query));
                     } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
                         /*
                         * redirectAuthenticated contains an arbirary path
