@@ -144,12 +144,10 @@ let AccordionListItemWallet = React.createClass({
                                 onPollingSuccess={this.onPollingSuccess}/>
                         </AclProxy>
                     </div>}
-                badge={this.getGlyphicon()}>
-                badge={this.getGlyphicon()}>
                 {this.getCreateEditionsDialog()}
                 {/* this.props.children is AccordionListItemTableEditions */}
                 {this.props.children}
-            </AccordionListItemPiece>
+            />
         );
     }
 });
