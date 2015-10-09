@@ -11,6 +11,7 @@ import PieceListStore from '../../stores/piece_list_store';
 import Button from 'react-bootstrap/lib/Button';
 
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -75,7 +76,10 @@ let AccordionListItemEditionWidget = React.createClass({
             // PLEASE FUTURE TIM, DO NOT FUCKING REMOVE IT AGAIN!
             if(typeof this.state.editionList[pieceId] === 'undefined') {
                 return (
-                    <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                    <AscribeSpinner
+                        size='sm'
+                        color='white'
+                        classNames='pull-right margin-left-2px'/>
                 );
             } else {
                 return (

@@ -6,8 +6,9 @@ $ascribe-pink: #D10074;
 
 $ascribe--spinner-color: $ascribe-blue;
 
-$ascribe--spinner-size-md: 50px;
-$ascribe--spinner-size-sm: 30px;
+$ascribe--spinner-size-lg: 50px;
+$ascribe--spinner-size-md: 30px;
+$ascribe--spinner-size-sm: 15px;
 
 
 [class^="spinner-wrapper-"]{
@@ -48,6 +49,11 @@ $ascribe--spinner-size-sm: 30px;
     }
 }
 
+.spinner-wrapper-lg {
+    width: $ascribe--spinner-size-lg;
+    height: $ascribe--spinner-size-lg;
+}
+
 .spinner-wrapper-md {
     width: $ascribe--spinner-size-md;
     height: $ascribe--spinner-size-md;
@@ -71,6 +77,12 @@ $ascribe--spinner-size-sm: 30px;
             animation: spin 1s infinite linear;
 }
 
+.spinner-wrapper-lg .spinner-circle {
+    width: $ascribe--spinner-size-lg;
+    height: $ascribe--spinner-size-lg;
+    border-width: 1px 1px 1px 0;
+}
+
 .spinner-wrapper-md .spinner-circle {
     width: $ascribe--spinner-size-md;
     height: $ascribe--spinner-size-md;
@@ -88,16 +100,23 @@ $ascribe--spinner-size-sm: 30px;
     text-align: center;
 }
 
+.spinner-wrapper-lg .spinner-inner {
+    font-size: $ascribe--spinner-size-lg;
+    top: -64px;
+    height: $ascribe--spinner-size-lg;
+    width: $ascribe--spinner-size-lg;
+}
+
 .spinner-wrapper-md .spinner-inner {
     font-size: $ascribe--spinner-size-md;
-    top: -64px;
+    top: -38px;
     height: $ascribe--spinner-size-md;
     width: $ascribe--spinner-size-md;
 }
 
 .spinner-wrapper-sm .spinner-inner {
     font-size: $ascribe--spinner-size-sm;
-    top: -38px;
+    top: -19px;
     height: $ascribe--spinner-size-sm;
     width: $ascribe--spinner-size-sm;
 }

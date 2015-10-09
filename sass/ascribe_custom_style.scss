@@ -14,7 +14,8 @@ $ascribe--nav-fg-sec-color: $ascribe-light-blue;
 $ascribe--nav-bg-color: $ascribe-dark-blue;
 
 $ascribe--button-default-color: $ascribe--bg-color;
-$ascribe--button-secondary-color: $ascribe--bg-color;
+$ascribe--button-secondary-fg-color: $ascribe--bg-color;
+$ascribe--button-secondary-bg-color: white;
 $ascribe--font-weight: 300;
 $ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
 $ascribe--font: 'canada-type-gibson';
@@ -292,6 +293,15 @@ h1 {
     }
 }
 
+.ascribe-accordion-list-item-table {
+    border-bottom: 0.1em solid $ascribe-blue-border;
+    border-left: 0.1em solid $ascribe-blue-border;
+    border-right: 0.1em solid $ascribe-blue-border;
+}
+
+.ascribe-table-header-column {
+    span {font-weight: 300;}
+}
 
 .route--login,
 .route--signup {
@@ -359,10 +369,34 @@ fieldset[disabled] .btn-default.active {
     }
 }
 
+// disabled buttons
+.btn-secondary.disabled,
+.btn-secondary.disabled:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary.disabled.focus,
+.btn-secondary.disabled:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled],
+.btn-secondary[disabled]:hover,
+.btn-secondary[disabled]:focus,
+.btn-secondary[disabled].focus,
+.btn-secondary[disabled]:active,
+.btn-secondary[disabled].active,
+fieldset[disabled] .btn-secondary,
+fieldset[disabled] .btn-secondary:hover,
+fieldset[disabled] .btn-secondary:focus,
+fieldset[disabled] .btn-secondary.focus,
+fieldset[disabled] .btn-secondary:active,
+fieldset[disabled] .btn-secondary.active {
+    background-color: darken($ascribe--button-secondary-bg-color, 20%);
+    border-color: darken($ascribe--button-secondary-fg-color, 20%);
+    color: darken($ascribe--button-secondary-fg-color, 20%);
+}
+
 .btn-secondary {
-    background-color: white;
-    border-color: $ascribe--button-secondary-color;
-    color: $ascribe--button-secondary-color;
+    background-color: $ascribe--button-secondary-bg-color;
+    border-color: $ascribe--button-secondary-fg-color;
+    color: $ascribe--button-secondary-fg-color;
 
     &:hover,
     &:active,
@@ -373,8 +407,17 @@ fieldset[disabled] .btn-default.active {
     &.active:hover,
     &.active:focus,
     &.active.focus {
-        background-color: darken($ascribe--button-secondary-color, 20%);
-        border-color: darken($ascribe--button-secondary-color, 20%);
+        background-color: $ascribe--button-secondary-fg-color;
+        border-color: $ascribe--button-secondary-bg-color;
+        color: $ascribe--button-secondary-bg-color;
+    }
+}
+
+.btn-secondary .spinner-wrapper {
+    .spinner-circle,
+    .spinner-inner {
+        border-color: $ascribe--button-secondary-fg-color;
+        color: $ascribe--button-secondary-fg-color;
     }
 }
 
@@ -382,12 +425,19 @@ fieldset[disabled] .btn-default.active {
 .open > .btn-default.dropdown-toggle:focus,
 .open > .btn-default.dropdown-toggle.focus,
 .open > .btn-default.dropdown-toggle.dropdown-toggle {
-    background-color: darken($ascribe--button-secondary-color, 20%);
-    border-color: darken($ascribe--button-secondary-color, 20%);
+    background-color: darken($ascribe--button-secondary-fg-color, 20%);
+    border-color: darken($ascribe--button-secondary-fg-color, 20%);
 }
 
-.pager li > a, .pager li > span {
+.pager li > a,
+.pager li > span {
     background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+}
+
+.pager .disabled > a,
+.pager .disabled > span {
+    background-color: $ascribe--button-default-color!important;
     border-color: $ascribe--button-default-color;
 }
 

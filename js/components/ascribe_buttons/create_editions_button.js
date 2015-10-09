@@ -5,6 +5,8 @@ import React from 'react';
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
+import AscribeSpinner from '../ascribe_spinner';
+
 import { getLangText } from '../../utils/lang_utils';
 
 import classNames from 'classnames';
@@ -76,7 +78,10 @@ let CreateEditionsButton = React.createClass({
                 <button
                     disabled
                     className={classNames('btn', 'btn-default', this.props.className)}>
-                    {getLangText('Creating editions')} <span className="glyph-ascribe-spool-chunked spin"/>
+                    {getLangText('Creating editions')} <AscribeSpinner
+                        size='sm'
+                        color='white'
+                        classNames='pull-right margin-left-2px'/>
                 </button>
             );
         } else {

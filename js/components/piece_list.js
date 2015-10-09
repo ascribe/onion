@@ -152,7 +152,7 @@ let PieceList = React.createClass({
 
     render() {
         //let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
-        let loadingElement = <AscribeSpinner />;
+        let loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
         let AccordionListItemType = this.props.accordionListItemType;
 
         return (
