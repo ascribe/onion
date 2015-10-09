@@ -3,6 +3,9 @@
 import React from 'react';
 import { History } from 'react-router';
 
+import Col from 'react-bootstrap/lib/Col';
+import Row from 'react-bootstrap/lib/Row';
+
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
@@ -113,14 +116,18 @@ let RegisterPiece = React.createClass( {
 
     render() {
         return (
-            <RegisterPieceForm
-                {...this.props}
-                isFineUploaderActive={this.state.isFineUploaderActive}
-                handleSuccess={this.handleSuccess}
-                location={this.props.location}>
-                {this.props.children}
-                {this.getSpecifyEditions()}
-            </RegisterPieceForm>
+            <Row className="no-margin">
+                <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                    <RegisterPieceForm
+                        {...this.props}
+                        isFineUploaderActive={this.state.isFineUploaderActive}
+                        handleSuccess={this.handleSuccess}
+                        location={this.props.location}>
+                        {this.props.children}
+                        {this.getSpecifyEditions()}
+                    </RegisterPieceForm>
+                </Col>
+            </Row>
         );
     }
 });

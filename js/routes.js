@@ -36,11 +36,6 @@ let baseUrl = AppConstants.baseUrl;
 let COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
         <ProxyRoute
-            path="collection"
-            proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
-            component={PieceList}
-            headerTitle="COLLECTION"/>
-        <ProxyRoute
             path="login"
             proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}
             component={LoginContainer} />
@@ -49,6 +44,11 @@ let COMMON_ROUTES = (
             proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
             component={RegisterPiece}
             headerTitle="+ NEW WORK"/>
+        <ProxyRoute
+            path="collection"
+            proxyHandler={RedirectProxyHandler({to: '/login', when: 'loggedOut'})}
+            component={PieceList}
+            headerTitle="COLLECTION"/>
         <ProxyRoute
             path="signup"
             proxyHandler={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})}

@@ -44,10 +44,6 @@ let LoginForm = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        let { redirect } = this.props.location.query;
-        if (redirect && redirect !== 'login'){
-            this.histoy.pushState(null, '/' + redirect, this.props.location.query);
-        }
     },
 
     componentWillUnmount() {
@@ -62,25 +58,8 @@ let LoginForm = React.createClass({
         let notification = new GlobalNotificationModel('Login successful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        if(success && this.props.redirectOnLoggedIn && this.props.redirectOnLoginSuccess) {
-            let { redirectAuthenticated } = this.props.location.query;
-            if(redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            } else {
-                /* Taken from http://stackoverflow.com/a/14916411 */
-                /*
-                 We actually have to trick the Browser into showing the "save password" dialog
-                 as Chrome expects the login page to be reloaded after the login.
-                 Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
-                 Until then, we redirect the HARD way, but reloading the whole page using window.location
-                */
-                window.location = AppConstants.baseUrl + 'collection';
-            }
+        if(success) {
+            UserActions.fetchCurrentUser();
         }
     },
 

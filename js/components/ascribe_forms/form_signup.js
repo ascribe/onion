@@ -15,7 +15,6 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
-import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
 
@@ -43,28 +42,6 @@ let SignupForm = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-
-        let { redirect } = this.props.location.query;
-        if (redirect && redirect !== 'signup'){
-            this.history.pushState(null, '/' + redirect, this.props.location.query);
-        }
-    },
-
-    componentDidUpdate() {
-        // if user is already logged in, redirect him to piece list
-        if(this.state.currentUser && this.state.currentUser.email) {
-            //this.history.pushState(null, '/collection');
-            let { redirectAuthenticated } = this.props.location.query;
-            if(redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            }
-            this.history.pushState(null, '/collection');
-        }
     },
 
     componentWillUnmount() {
@@ -75,7 +52,7 @@ let SignupForm = React.createClass({
         this.setState(state);
     },
 
-    handleSuccess(response){
+    handleSuccess(response) {
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
             GlobalNotificationActions.appendGlobalNotification(notification);
