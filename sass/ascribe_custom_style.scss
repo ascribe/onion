@@ -16,24 +16,29 @@ $ascribe--nav-bg-color: $ascribe-dark-blue;
 $ascribe--button-default-color: $ascribe--bg-color;
 $ascribe--button-secondary-fg-color: $ascribe--bg-color;
 $ascribe--button-secondary-bg-color: white;
-$ascribe--font-weight: 300;
+
 $ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
-$ascribe--font: 'canada-type-gibson';
+
+$ascribe--font: 'canada-type-gibson', sans-serif !important;
+$ascribe--font-weight: 300 !important;
 
 html,
 body {
-    //font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
-    font-family: 'canada-type-gibson', sans-serif !important;
-    font-weight: $ascribe--font-weight !important;
+    font-family: $ascribe--font;
+    font-weight: $ascribe--font-weight;
     background-color: #fcfcfc !important;
 }
 h1, h3 {
-    font-family: 'canada-type-gibson', sans-serif !important;
-    font-weight: $ascribe--font-weight !important;
+    font-family: $ascribe--font;
+    font-weight: $ascribe--font-weight;
 }
 
 h1 {
     font-size: 30px;
+}
+
+hr {
+    border-top: 1px solid $ascribe-blue-border;
 }
 
 .nav .open > a,
@@ -219,17 +224,15 @@ h1 {
 .route--login,
 .route--signup {
 
-    .ascribe-btn-login {
+    .btn-wide {
         display: block;
         margin: 50px auto 0;
         width: auto;
         padding: 10px 30px;
         text-transform: uppercase;
-        font-weight: bold;
-        width: 180px;
     }
 
-    .ascribe-btn-login-spinner {
+    .btn-spinner {
         background-color: $ascribe--button-default-color;
     }
 
@@ -384,7 +387,21 @@ fieldset[disabled] .btn-default.active {
     }
 }
 
-.ascribe-btn-login,
+.btn-wide {
+    font-weight: $ascribe--font-weight;
+}
+
+.btn-spinner, .btn-spinner:hover {
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+    [class^="spinner-wrapper-"] {
+        color: white;
+        .spinner-circle {
+            border-color: white;
+        }
+    }
+}
+
 .btn-default {
     background-color: $ascribe--button-default-color;
     border-color: $ascribe--button-default-color;
@@ -398,8 +415,8 @@ fieldset[disabled] .btn-default.active {
     &.active:hover,
     &.active:focus,
     &.active.focus {
-        background-color: darken($ascribe--button-default-color, 20%);
-        border-color: darken($ascribe--button-default-color, 20%);
+        background-color: lighten($ascribe--button-default-color, 20%);
+        border-color: lighten($ascribe--button-default-color, 20%);
     }
 }
 
@@ -504,11 +521,6 @@ fieldset[disabled] .btn-secondary.active {
         font-style: normal;
     }
 
-    //input::-webkit-input-placeholder { color:transparent }
-    //input::-moz-placeholder { color:transparent; } /* firefox 19+ */
-    //input:-ms-input-placeholder { color:transparent; } /* ie */
-    //input:-moz-placeholder { color:transparent; }
-
 }
 
 .ascribe-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
@@ -516,6 +528,14 @@ fieldset[disabled] .btn-secondary.active {
     color: $ascribe--button-default-color;
 }
 
+.ascribe-form-header {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.ascribe-form-bordered {
+    border-color: transparent;
+}
 
 // properties!
 .is-focused {
@@ -523,14 +543,78 @@ fieldset[disabled] .btn-secondary.active {
     background-color: rgba($ascribe--button-default-color, .05);
 }
 .ascribe-property-wrapper:hover {
-    border-left-color: rgba($ascribe--button-default-color, .5);
+    //border-left-color: rgba($ascribe--button-default-color, .5);
+    border-left-color: rgba($ascribe-blue, .5);
 }
 
 .ascribe-accordion-list-item .wrapper:hover {
     background-color: rgba($ascribe--button-default-color, .05);
 }
 
+.ascribe-property {
+    > div,
+    > input,
+    > pre,
+    > select,
+    > span:not(.glyphicon),
+    > textarea {
+        font-family: $ascribe--font;
+        font-weight: $ascribe--font-weight;
+    }
+    > div {
+        > div:not(.file-drag-and-drop div) {
+            font-family: $ascribe--font;
+            font-weight: $ascribe--font-weight;
+        }
+    }
+    > span:not(.glyphicon) {
+        color: $ascribe-pink;
+        //font-weight: normal !important;
+    }
 
+    textarea::-webkit-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    textarea::-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* firefox 19+ */
+    textarea:-ms-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* ie */
+    textarea:-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+
+    input::-webkit-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    input::-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* firefox 19+ */
+    input:-ms-input-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+    /* ie */
+    input:-moz-placeholder {
+        color: rgba($ascribe-dark-blue, 0.5);
+        font-style: normal;
+    }
+}
+
+// panel
+.ascribe-panel-wrapper {
+    border: 1px solid $ascribe-blue-border;
+}
 // intercom stuff
 #intercom-container .intercom-launcher-button {
     background-color: $ascribe--button-default-color !important;

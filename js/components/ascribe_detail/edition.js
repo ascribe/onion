@@ -81,7 +81,7 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <hr/>
+                        <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />

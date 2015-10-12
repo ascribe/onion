@@ -172,51 +172,6 @@ hr {
         border: 1px solid $ascribe-brand-danger;
     }
 }
-.btn-ascribe {
-    border: 1px solid #444;
-    border-radius: 0 !important;
-    font-family: sans-serif !important;
-    line-height: 2em;
-    margin-left: 0 !important;
-    font-family: sans-serif !important;
-    border-radius: 0 !important;
-    color: #222 !important;
-}
-
-.btn-ascribe:active, .btn-ascribe:hover {
-    color: #FFF !important;
-    background-color: #444;
-}
-
-.btn-ascribe-sm {
-    font-size: 12px;
-    line-height: 1.3em;
-}
-
-.btn-ascribe-green,
-.btn-ascribe-green-inv {
-    border: 1px solid #48dacb;
-    border-radius: 0 !important;
-    font-family: sans-serif !important;
-    line-height: 2em;
-    margin-left: 0 !important;
-}
-
-.btn-ascribe-green,
-.btn-ascribe-green-inv:active,
-.btn-ascribe-green-inv:hover {
-    background-color: #fff;
-    border: 1px solid rgba(2, 182, 163, .5);
-    color: rgba(2, 182, 163, 0.5);
-}
-
-.btn-ascribe-green:active,
-.btn-ascribe-green:hover,
-.btn-ascribe-green-inv {
-    background-color: rgba(2, 182, 163, .5);
-    border: 1px solid rgba(2, 182, 163, .5);
-    color: white;
-}
 
 .ascribe-detail-title {
     font-size: 2em;

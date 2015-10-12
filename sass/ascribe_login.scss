@@ -1,28 +1,18 @@
 $break-small: 764px;
 
 
-.ascribe-btn-login {
+.btn-wide {
     background-color: rgba(2, 182, 163, 1);
-    border: none;
-    border-radius: 0;
     color: white;
     font-size: 1.2em;
-    font-weight: 500;
     padding: .5em;
     text-align: center;
     width: 100%;
     //margin-left: 1.2em;
 
-    &:hover {
-        opacity: .3;
-        border: 0;
-        color: white;
-    }
-
     &:active,
     &:focus {
         background-color: rgba(2, 182, 163, .6);
-        border: 0;
         color: white;
     }
 
@@ -31,7 +21,7 @@ $break-small: 764px;
     }
 }
 
-.ascribe-btn-login-spinner {
+.btn-spinner {
     background-color: rgba(2, 182, 163, .4);
     padding: .4em;
 

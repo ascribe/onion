@@ -191,7 +191,7 @@ let LoanForm = React.createClass({
             return (
                 <button
                     type="submit"
-                    className="btn ascribe-btn ascribe-btn-login">
+                    className="btn btn-default btn-wide">
                     {getLangText('Finish process')}
                 </button>
             );

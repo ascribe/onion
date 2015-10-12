@@ -105,7 +105,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 .client--ikonotv .route--signup {
     background-color: $ikono--landing-bg-color;
 
-    .ascribe-btn-login {
+    .btn-wide {
         display: block;
         margin: 50px auto 0;
         width: auto;
@@ -115,7 +115,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         width: 180px;
     }
 
-    .ascribe-btn-login-spinner {
+    .btn-spinner {
         background-color: $ikono--button-color;
     }
 
@@ -348,7 +348,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         }
     }
 
-    .ascribe-btn-login,
+    .btn-wide,
     .btn-default {
         background-color: $ikono--button-color;
         border-color: $ikono--button-color;

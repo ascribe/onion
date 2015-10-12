@@ -84,7 +84,7 @@ let CylandAdditionalDataForm = React.createClass({
             buttons = (
                 <button
                     type="submit"
-                    className="btn ascribe-btn ascribe-btn-login"
+                    className="btn btn-default btn-wide"
                     disabled={!this.state.isUploadReady || disabled}>
                     {getLangText('Proceed to loan')}
                 </button>
