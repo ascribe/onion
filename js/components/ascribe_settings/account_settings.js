@@ -15,7 +15,7 @@ import AclProxy from '../acl_proxy';
 import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -37,7 +37,7 @@ let AccountSettings = React.createClass({
     },
     
     render() {
-        let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
         let profile = null;
 
         if (this.props.currentUser.username) {
@@ -78,7 +78,7 @@ let AccountSettings = React.createClass({
                         getFormData={this.getFormDataProfile}>
                         <Property
                             name="hash_locally"
-                            className="ascribe-settings-property-collapsible-toggle"
+                            className="ascribe-property-collapsible-toggle"
                             style={{paddingBottom: 0}}>
                             <InputCheckbox
                                 defaultChecked={this.props.currentUser.profile.hash_locally}>

@@ -30,6 +30,7 @@ import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -277,7 +278,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                <AscribeSpinner color='dark-blue' size='lg'/>
             </div>
         );
     }

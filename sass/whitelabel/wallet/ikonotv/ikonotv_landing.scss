@@ -154,15 +154,15 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         }
     }
 
-    .ascribe-settings-property {
+    .ascribe-property {
         border: none;
     }
 
-    .ascribe-settings-property > span {
+    .ascribe-property > span {
         color: white;
     }
 
-    .ascribe-settings-property > input {
+    .ascribe-property > input {
         padding: 10px;
         background-color: #fff;
         margin-top: .1em;
@@ -390,7 +390,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         border-color: $ikono--button-color;
     }
 
-    .ascribe-settings-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
+    .ascribe-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
     .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
         color: $ikono--button-color;
     }

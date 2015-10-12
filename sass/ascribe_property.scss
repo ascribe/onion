@@ -1,10 +1,71 @@
-.settings-container {
-    margin: auto;
-    max-width: 600px;
+.ascribe-property-wrapper {
+    background-color: white;
+    border-left: 3px solid rgba(0, 0, 0, 0);
+    padding-bottom: 1em;
+    text-align: center;
+    width: 100%;
+
+    &div:last-of-type {
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
+    }
+
+    &:hover {
+      border-left: 3px solid rgba(2, 182, 163, .4);
+    }
 }
 
+.is-hidden {
+    display: none;
+}
 
-.ascribe-settings-property {
+.is-focused {
+    background-color: rgba(2, 182, 163, .05);
+    border-left: 3px solid rgba(2, 182, 163, 1) !important;
+}
+
+.is-error {
+    background-color: rgba(169, 68, 66, .05);
+    border-left: 3px solid rgba(169, 68, 66, 1);
+
+    > div {
+        > span {
+            color: rgba(169, 68, 66, 1);
+            font-size: .9em;
+            margin-right: 1em;
+        }
+
+        > input,
+        > textarea {
+            color: #666;
+        }
+    }
+
+    &:hover {
+      border-left: 3px solid rgba(169, 68, 66, 1);
+    }
+}
+
+.is-fixed {
+    cursor: default;
+
+    > div {
+        cursor: default;
+
+        > span {
+            cursor: default;
+        }
+
+        > input,
+        > div,
+        > pre,
+        > textarea {
+            color: #666;
+            cursor: default;
+        }
+    }
+}
+
+.ascribe-property {
     border-top: 1px solid rgba(0, 0, 0, .05);
     cursor: pointer;
     display: inline-block;
@@ -89,7 +150,7 @@
     width: 100%;
 }
 
-.ascribe-settings-property-collapsible-toggle {
+.ascribe-property-collapsible-toggle {
     border-top: 1px solid rgba(0, 0, 0, .05);
     display: inline-block;
     padding: .5em 1.5em;
@@ -103,7 +164,7 @@
     }
 }
 
-.ascribe-settings-property-collapsible-toggle, .ascribe-checkbox-wrapper {
+.ascribe-property-collapsible-toggle, .ascribe-checkbox-wrapper {
     cursor: pointer;
 
     // Taken from: http://www.htmllion.com/css3-checkbox.html

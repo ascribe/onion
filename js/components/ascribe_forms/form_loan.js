@@ -15,7 +15,7 @@ import InputCheckbox from './input_checkbox';
 import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
 import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -141,7 +141,7 @@ let LoanForm = React.createClass({
                 return (
                     <Property
                         name="terms"
-                        className="ascribe-settings-property-collapsible-toggle"
+                        className="ascribe-sproperty-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
                             key="terms_explicitly"
@@ -222,7 +222,9 @@ let LoanForm = React.createClass({
                 buttons={this.getButtons()}
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
                 <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.loanHeading})}>
                     <h3>{this.props.loanHeading}</h3>

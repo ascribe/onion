@@ -5,7 +5,7 @@ import React from 'react';
 import Form from './form';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -53,7 +53,9 @@ let EditionRemoveFromCollectionForm = React.createClass({
                 }
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>
                 }>
                 <p>{getLangText('Are you sure you would like to remove these editions from your collection')}&#63;</p>

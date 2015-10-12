@@ -168,10 +168,9 @@ let PieceList = React.createClass({
                     applyOrderBy={this.applyOrderBy}>
                     {this.props.customSubmitButton ?
                         this.props.customSubmitButton :
-                        <span className="icon-ascribe icon-ascribe-add">
-                            <span className="path1"/>
-                            <span className="path2"/>
-                        </span>
+                        <button className="btn btn-default btn-ascribe-add">
+                            <span className="icon-ascribe icon-ascribe-add" />
+                        </button>
                     }
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />

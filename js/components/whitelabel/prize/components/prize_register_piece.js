@@ -60,7 +60,7 @@ let PrizeRegisterPiece = React.createClass({
                 </Property>
                 <Property
                     name="terms"
-                    className="ascribe-settings-property-collapsible-toggle"
+                    className="ascribe-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>

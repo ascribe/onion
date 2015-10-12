@@ -142,7 +142,7 @@ h1 {
 
 .ascribe-icon {
     font-size: 1.2em;
-    font-weight: 800;
+    font-weight: 300;
 }
 
 .ascribe-accordion-list-item {
@@ -184,7 +184,16 @@ h1 {
     }
 }
 
-
+.ascribe-accordion-list-item-table {
+    tbody {
+        tr {
+            &:hover {
+                background-color: rgba($ascribe--button-default-color, .05);
+                border-left-color: rgba($ascribe--button-default-color, .5);
+            }
+        }
+    }
+}
 .ascribe-footer {
     position: fixed;
     left: 0;
@@ -259,15 +268,15 @@ h1 {
         }
     }
 
-    .ascribe-settings-property {
+    .ascribe-property {
         border: none;
     }
 
-    .ascribe-settings-property > span {
+    .ascribe-property > span {
         color: white;
     }
 
-    .ascribe-settings-property > input {
+    .ascribe-property > input {
         padding: 10px;
         background-color: #fff;
         margin-top: .1em;
@@ -310,6 +319,31 @@ h1 {
     }
 }
 
+.btn-ascribe-add {
+    width: 30px;
+    height: 30px;
+    background-color: transparent !important;
+    border: 1px solid $ascribe-dark-blue;
+    border-radius: 50%;
+
+    &:hover {
+        border-color: white!important;
+        background-color: $ascribe-dark-blue!important;
+    }
+
+    > span {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 30px;
+        height: 30px;
+        color: $ascribe-dark-blue;
+        padding: 0.4em;
+        &:hover {
+            color: white;
+        }
+    }
+}
 
 // disabled buttons
 .btn-default.disabled,
@@ -477,7 +511,7 @@ fieldset[disabled] .btn-secondary.active {
 
 }
 
-.ascribe-settings-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
+.ascribe-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
 .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
     color: $ascribe--button-default-color;
 }
