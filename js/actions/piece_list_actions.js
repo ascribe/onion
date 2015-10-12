@@ -22,10 +22,10 @@ class PieceListActions {
         this.actions.updatePieceList({
             page,
             pageSize,
-            search,
             orderBy,
             orderAsc,
             filterBy,
+            search: '',
             pieceList: [],
             pieceListCount: -1,
             unfilteredPieceListCount: -1

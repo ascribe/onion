@@ -13,6 +13,8 @@ const { update } = React.addons;
 const SearchBar = React.createClass({
     propTypes: {
         searchFor: func.isRequired,
+        searchQuery: string.isRequired,
+
         className: string,
 
         // in milliseconds
@@ -22,8 +24,20 @@ const SearchBar = React.createClass({
     getInitialState() {
         return {
             timers: [],
-            currentSearchQuery: ''
+            searchQuery: '',
+            searching: false
         };
+    },
+
+    componentDidUpdate(prevProps) {
+        const searchQueryProps = this.props.searchQuery;
+        const searchQueryPrevProps = prevProps.searchQuery;
+        const searchQueryState = this.state.searchQuery;
+        const { searching } = this.state;
+
+        if(searching && (searchQueryProps && searchQueryState && searchQueryProps === searchQueryState || !searchQueryPrevProps && searchQueryProps === searchQueryState)) {
+            this.setState({ searching: false });
+        }
     },
 
     startTimers(searchQuery) {
@@ -31,26 +45,40 @@ const SearchBar = React.createClass({
         const { threshold } = this.props;
         const timer = {
             searchQuery,
-            cb: setTimeout(this.evaluateTimer, threshold)
+            cb: setTimeout(this.evaluateTimer(timers.length, searchQuery), threshold)
         };
-
 
         const newTimers = update(timers, {$push: [timer]});
         this.setState({ timers: newTimers });
     },
 
-    evaluateTimer() {
-        console.log(this);
+    evaluateTimer(timerIndex, searchQuery) {
+        return () => {
+            const { timers } = this.state;
+
+            if(timers.length <= timerIndex + 1) {
+                // clean the timers array
+                this.setState({ timers: [], searching: true }, () => {
+                    // search for the query
+                    this.props.searchFor(searchQuery);
+                });
+            }
+        };
     },
 
     handleChange({ target: { value }}) {
         this.startTimers(value);
-        this.setState({ currentSearchQuery: value });
+        this.setState({ searchQuery: value });
     },
 
     render() {
-        const searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
+        let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
         const { className } = this.props;
+        const { searching } = this.state;
+
+        if(searching) {
+            searchIcon = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
+        }
 
         return (
             <span className={className}>

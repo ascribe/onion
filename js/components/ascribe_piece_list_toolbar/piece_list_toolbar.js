@@ -11,6 +11,7 @@ let PieceListToolbar = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         searchFor: React.PropTypes.func,
+        searchQuery: React.PropTypes.string,
         filterParams: React.PropTypes.arrayOf(
             React.PropTypes.shape({
                 label: React.PropTypes.string,
@@ -61,7 +62,7 @@ let PieceListToolbar = React.createClass({
     },
 
     render() {
-        const { className, children, searchFor } = this.props;
+        const { className, children, searchFor, searchQuery } = this.props;
 
         return (
             <div className={className}>
@@ -74,7 +75,8 @@ let PieceListToolbar = React.createClass({
                             <SearchBar
                                 className="pull-right search-bar ascribe-input-glyph"
                                 searchFor={searchFor}
-                                threshold={1000}/>
+                                searchQuery={searchQuery}
+                                threshold={500}/>
                             <span className="pull-right">
                                 {this.getOrderWidget()}
                                 {this.getFilterWidget()}
