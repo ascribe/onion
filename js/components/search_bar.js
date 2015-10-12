@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
@@ -8,7 +8,6 @@ import { getLangText } from '../utils/lang_utils';
 
 
 const { func, string, number } = React.PropTypes;
-const { update } = React.addons;
 
 const SearchBar = React.createClass({
     propTypes: {
@@ -27,7 +26,7 @@ const SearchBar = React.createClass({
 
     getInitialState() {
         return {
-            timers: [],
+            timer: null,
             searchQuery: '',
             loading: false
         };
@@ -69,39 +68,28 @@ const SearchBar = React.createClass({
         }
     },
 
-    startTimers(searchQuery) {
-        const { timers } = this.state;
+    startTimer(searchQuery) {
+        const { timer } = this.state;
         const { threshold } = this.props;
 
-        // the timer waits for the specified threshold time in milliseconds
-        // and then calls `evaluateTimer`, that checks if another letter
-        // has been added to the query (by checking if there are newer
-        // timers on the stack aka. `this.state.timers`)
-        const timer = {
-            searchQuery,
-            cb: setTimeout(this.evaluateTimer(timers.length, searchQuery), threshold)
-        };
+        // The timer waits for the specified threshold time in milliseconds
+        // and then calls `evaluateTimer`.
+        // If another letter has been called in the mean time (timespan < `threshold`),
+        // the present timer gets cleared and a new one is added to `this.state`.
+        // This means that `evaluateTimer`, will only be called when the threshold has actually
+        // passed,
+        clearTimeout(timer); // apparently `clearTimeout` can be called with null, without throwing errors
+        const newTimer = setTimeout(this.evaluateTimer(searchQuery), threshold);
 
-        const newTimers = update(timers, {$push: [timer]});
-        this.setState({ timers: newTimers });
+        this.setState({ timer: newTimer });
     },
 
-    evaluateTimer(timerIndex, searchQuery) {
+    evaluateTimer(searchQuery) {
         return () => {
-            const { timers } = this.state;
-
-            // If there have been no timers added to `this.state.timers`,
-            // while the `threshold` was passed, we start loading
-            // by querying the server.
-            if(timers.length <= timerIndex + 1) {
-                // However, we're doing that only after setting `this.state.loading`
-                // to `true`, as we want to display a little spinner while loading.
-                // We also clean the now worthless `timers` array.
-                this.setState({ timers: [], loading: true }, () => {
-                    // search for the query
-                    this.props.searchFor(searchQuery);
-                });
-            }
+            this.setState({ timer: null, loading: true }, () => {
+                // search for the query
+                this.props.searchFor(searchQuery);
+            });
         };
     },
 
@@ -109,7 +97,7 @@ const SearchBar = React.createClass({
         // On each letter entry we're updating the state of the component
         // and start a timer, which we're also pushing to the state
         // of the component
-        this.startTimers(value);
+        this.startTimer(value);
         this.setState({ searchQuery: value });
     },
 
