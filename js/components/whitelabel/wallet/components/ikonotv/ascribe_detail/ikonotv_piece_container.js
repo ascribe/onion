@@ -22,7 +22,12 @@ import AppConstants from '../../../../../../constants/application_constants';
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
+
 let IkonotvPieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),

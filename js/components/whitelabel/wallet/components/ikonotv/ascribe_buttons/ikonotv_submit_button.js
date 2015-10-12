@@ -9,7 +9,6 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 let IkonotvSubmitButton = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired
     },
 
