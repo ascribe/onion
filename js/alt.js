@@ -2,4 +2,7 @@
 
 import Alt from 'alt';
 
-export default new Alt();
+export let alt = new Alt();
+export let altThirdParty = new Alt();
+export let altUser = new Alt();
+export let altWhitelabel = new Alt();

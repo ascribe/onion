@@ -10,13 +10,15 @@ import fetch from 'isomorphic-fetch';
 /* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
-import { updateApiUrls } from './constants/api_urls';
-import appConstants from './constants/application_constants';
+
+import AppConstants from './constants/application_constants';
 import getRoutes from './routes';
 import requests from './utils/requests';
 
+import { updateApiUrls } from './constants/api_urls';
 import { getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
+import { getSubdomain } from './utils/general_utils';
 
 import EventActions from './actions/event_actions';
 
@@ -48,11 +50,11 @@ requests.defaults({
 class AppGateway {
     start() {
         let settings;
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
 
         try {
             settings = getSubdomainSettings(subdomain);
-            appConstants.whitelabel = settings;
+            AppConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
             this.load(settings);
         } catch(err) {

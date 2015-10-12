@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import WalletSettingsFetcher from '../fetchers/wallet_settings_fetcher';
 
 

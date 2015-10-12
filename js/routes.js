@@ -21,11 +21,14 @@ import ContractSettings from './components/ascribe_settings/contract_settings';
 import SettingsContainer from './components/ascribe_settings/settings_container';
 import CoaVerifyContainer from './components/coa_verify_container';
 
+import ErrorNotFoundPage from './components/error_not_found_page';
+
 import RegisterPiece from './components/register_piece';
 
 import AppConstants from './constants/application_constants';
 
 let Route = Router.Route;
+let NotFoundRoute = Router.NotFoundRoute;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
@@ -45,6 +48,7 @@ const COMMON_ROUTES = (
         <Route name="settings" path="settings" handler={SettingsContainer} />
         <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
         <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
+        <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
     </Route>
 );
 

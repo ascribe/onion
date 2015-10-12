@@ -9,6 +9,9 @@ import GlobalNotification from '../../global_notification';
 
 import getRoutes from './prize_routes';
 
+import { getSubdomain } from '../../../utils/general_utils';
+
+
 let RouteHandler = Router.RouteHandler;
 
 let PrizeApp = React.createClass({
@@ -16,7 +19,7 @@ let PrizeApp = React.createClass({
 
     render() {
         let header = null;
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
 
         let ROUTES = getRoutes(null, subdomain);
 

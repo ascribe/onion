@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import LicenseFetcher from '../fetchers/license_fetcher';
 
 
