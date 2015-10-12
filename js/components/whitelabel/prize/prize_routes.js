@@ -19,7 +19,7 @@ import ErrorNotFoundPage from '../../../components/error_not_found_page';
 import App from './prize_app';
 import AppConstants from '../../../constants/application_constants';
 
-import RedirectProxyHandler from '../../../components/ascribe_routes/proxy_routes/redirect_proxy_handler';
+import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 
 let baseUrl = AppConstants.baseUrl;
@@ -30,26 +30,26 @@ function getRoutes() {
             <IndexRoute component={Landing} />
             <Route
                 path='login'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
             <Route
                 path='logout'
-                component={RedirectProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
             <Route
                 path='password_reset'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
             <Route
                 path='register_piece'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(PrizeRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PrizeRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(PrizePieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PrizePieceList)}
                 headerTitle='COLLECTION'/>
 
             <Route path='pieces/:pieceId' component={PrizePieceContainer} />

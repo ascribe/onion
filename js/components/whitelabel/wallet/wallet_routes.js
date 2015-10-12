@@ -30,7 +30,7 @@ import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
-import RedirectProxyHandler from '../../../components/ascribe_routes/proxy_routes/redirect_proxy_handler';
+import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
@@ -44,29 +44,29 @@ let ROUTES = {
             <IndexRoute component={CylandLanding} />
             <Route
                 path='login'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
             <Route
                 path='logout'
-                component={RedirectProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
             <Route
                 path='password_reset'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
             <Route
                 path='contract_settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='register_piece'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(CylandRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(CylandRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(CylandPieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(CylandPieceList)}
                 headerTitle='COLLECTION'/>
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
@@ -78,29 +78,29 @@ let ROUTES = {
         <Route path={baseUrl} component={WalletApp}>
             <Route
                 path='login'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
             <Route
                 path='logout'
-                component={RedirectProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
             <Route
                 path='password_reset'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
             <Route
                 path='contract_settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='register_piece'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(CCRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(CCRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
                 headerTitle='COLLECTION'/>
             <Route path='pieces/:pieceId' component={PieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
@@ -113,39 +113,39 @@ let ROUTES = {
             <IndexRoute component={IkonotvLanding} />
             <Route
                 path='login'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
             <Route
                 path='logout'
-                component={RedirectProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
             <Route
                 path='password_reset'
-                component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
             <Route
                 path='contract_settings'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='request_loan'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(ContractAgreementForm)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractAgreementForm)}
                 headerTitle='SEND NEW CONTRACT'
                 aclName='acl_create_contractagreement'/>
             <Route
                 path='register_piece'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvRegisterPiece)}
                 headerTitle='+ NEW WORK'
                 aclName='acl_create_piece'/>
             <Route
                 path='collection'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvPieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvPieceList)}
                 headerTitle='COLLECTION'/>
             <Route
                 path='contract_notifications'
-                component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvContractNotifications)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvContractNotifications)}/>
             <Route path='pieces/:pieceId' component={IkonotvPieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />

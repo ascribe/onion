@@ -25,7 +25,7 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 
 import RegisterPiece from './components/register_piece';
 
-import RedirectProxyHandler from './components/ascribe_routes/proxy_routes/redirect_proxy_handler';
+import AuthProxyHandler from './components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 import AppConstants from './constants/application_constants';
 
@@ -36,32 +36,32 @@ let COMMON_ROUTES = (
     <Route path={baseUrl} component={App}>
         <Route
             path="login"
-            component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
         <Route
             path="register_piece"
-            component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
+            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
             headerTitle="+ NEW WORK"/>
         <Route
             path="collection"
-            component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
+            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
             headerTitle="COLLECTION"/>
         <Route
             path="signup"
-            component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
         <Route
             path="logout"
-            component={RedirectProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+            component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
         <Route path="pieces/:pieceId" component={PieceContainer} />
         <Route path="editions/:editionId" component={EditionContainer} />
         <Route
             path="password_reset"
-            component={RedirectProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
         <Route
             path="settings"
-            component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
         <Route
             path="contract_settings"
-            component={RedirectProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
         <Route path="coa_verify" component={CoaVerifyContainer} />
         <Route path="*" component={ErrorNotFoundPage} />
     </Route>

@@ -19,7 +19,7 @@ const { object } = React.PropTypes;
  * @param {string} options.to   Any type of route path that is defined in routes.js
  * @param {enum/string} options.when ('loggedIn' || 'loggedOut')
  */
-export default function RedirectProxyHandler({to, when}) {
+export default function AuthProxyHandler({to, when}) {
     return (Component) => {
         return React.createClass({
             propTypes: {
