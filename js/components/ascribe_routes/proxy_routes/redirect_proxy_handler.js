@@ -49,16 +49,16 @@ export default function RedirectProxyHandler({to, when}) {
                 const { query } = this.props.location;
                 const { redirectAuthenticated, redirect } = query;
 
-                // validate when as an enum, that is either 'loggedIn' or 'loggedOut'.
+                // validate `when` as an enum, that is either 'loggedIn' or 'loggedOut'.
                 // Otherwise throw an error.
                 if(when === 'loggedIn' || when === 'loggedOut') {
 
-                    // The user of this Handler specifies with `when`, what kind of status
+                    // The user of this handler specifies with `when`, what kind of status
                     // needs to be checked to conditionally do - if that state is `true` -
                     // a redirect.
                     //
-                    // So if when === 'loggedIn', we're checking if the user is logged in and
-                    // vice versa.
+                    // So if when === 'loggedIn', we're checking if the user is logged in (and
+                    // vice versa)
                     let exprToValidate = when === 'loggedIn' ?
                                      this.state.currentUser && this.state.currentUser.email :
                                      this.state.currentUser && !this.state.currentUser.email;
@@ -68,13 +68,12 @@ export default function RedirectProxyHandler({to, when}) {
                         window.setTimeout(() => this.history.pushState(null, to, query));
 
                     // Otherwise there can also be the case that the backend
-                    // wants to redirect the user to a specific case when he's logged out already
+                    // wants to redirect the user to a specific route when the user is logged out already
                     } else if(!exprToValidate && when === 'loggedIn' && redirect) {
 
                         delete query.redirect;
                         window.setTimeout(() => this.history.pushState(null, '/' + redirect, query));
 
-                    // and when he's logged in already
                     } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
                         /*
                         * redirectAuthenticated contains an arbirary path

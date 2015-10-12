@@ -22,7 +22,7 @@ const ProxyRoute = React.createClass({
             /**
              * Generally creating custom `Route`s is not supported by react-router.
              *
-             * However, if we take a look at how `Route`s are declared in the repo,
+             * However, if we take a look at how `Route`s are declared/generated in their github repo,
              * we see that it's fairly straight forward:
              * - https://github.com/rackt/react-router/blob/master/modules/Route.js#L21
              *
@@ -39,7 +39,7 @@ const ProxyRoute = React.createClass({
              * - https://github.com/rackt/react-router/blob/master/modules/index.js#L19
              *
              * Still there is a trick we can use to call this method manually.
-             * We call `createRoutes`:
+             * We call the public method `createRoutes`:
              * - (https://github.com/rackt/react-router/blob/master/modules/RouteUtils.js#L91)
              * which then calls `createRoutesFromReactChildren`
              *
@@ -47,8 +47,8 @@ const ProxyRoute = React.createClass({
              * `element.type.createRouteFromReactElement` is `true` or `false`.
              *
              * So what we can do is just simply set our element's `type.createRouteFromReactElement`
-             * to `false`, so that the if statement falls into the methods `else` case and calls
-             * `createRouteFromReactElement`:
+             * property to `false`, so that the if statement falls into the methods `else` case
+             * and calls `createRouteFromReactElement`:
              * - https://github.com/rackt/react-router/blob/master/modules/RouteUtils.js#L77
              *
              * After returning from `createRoutes`, we set `element.type.createRouteFromReactElement`
