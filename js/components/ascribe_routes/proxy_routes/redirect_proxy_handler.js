@@ -12,7 +12,7 @@ import AppConstants from '../../../constants/application_constants';
 const { object } = React.PropTypes;
 
 /**
- * Can be used in combination with `ProxyRoute` as an intermediate Handler
+ * Can be used in combination with `Route` as an intermediate Handler
  * between the actual component we want to display dependent on a certain state
  * that is required to display that component.
  *
