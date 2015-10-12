@@ -45,6 +45,7 @@ const SearchBar = React.createClass({
          *
          * AND
          *
+         * (
          *     2. Condition:    `searchQueryProps` and `searchQueryState` are true and equal
          *                      (which means that the search query has been propagated to the inner
          *                      fetch method of `fetchPieceList`, which in turn means that a fetch
@@ -56,6 +57,7 @@ const SearchBar = React.createClass({
          *                       `false`, as long as they're equal). This case only occurs when the user
          *                       has entered a `searchQuery` and deletes the query in one go, reseting
          *                       `searchQueryProps` to empty string ('' === false) again.
+         * )
          */
 
         const firstCondition = !!loading;
