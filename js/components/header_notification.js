@@ -161,7 +161,7 @@ let NotificationListItem = React.createClass({
         if (this.isPiece()) {
             return `/pieces/${pieceOrEdition.id}`;
         } else {
-            return `/pieces/${pieceOrEdition.bitcoin_id}`;
+            return `/editions/${pieceOrEdition.bitcoin_id}`;
         }
     },
 
