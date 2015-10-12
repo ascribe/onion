@@ -10,6 +10,7 @@ import AppConstants from '../../../constants/application_constants';
 
 
 const { object } = React.PropTypes;
+const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 
 /**
  * Can be used in combination with `Route` as an intermediate Handler
@@ -20,6 +21,14 @@ const { object } = React.PropTypes;
  * @param {enum/string} options.when ('loggedIn' || 'loggedOut')
  */
 export default function AuthProxyHandler({to, when}) {
+
+    // validate `when`, must be contained in `WHEN_ENUM`.
+    // Throw an error otherwise.
+    if(WHEN_ENUM.indexOf(when) === -1) {
+        let whenValues = WHEN_ENUM.join(', ');
+        throw new Error(`"when" must be one of: [${whenValues}] got "${when}" instead`);
+    }
+
     return (Component) => {
         return React.createClass({
             propTypes: {
@@ -49,45 +58,38 @@ export default function AuthProxyHandler({to, when}) {
                 const { query } = this.props.location;
                 const { redirectAuthenticated, redirect } = query;
 
-                // validate `when` as an enum, that is either 'loggedIn' or 'loggedOut'.
-                // Otherwise throw an error.
-                if(when === 'loggedIn' || when === 'loggedOut') {
+                // The user of this handler specifies with `when`, what kind of status
+                // needs to be checked to conditionally do - if that state is `true` -
+                // a redirect.
+                //
+                // So if when === 'loggedIn', we're checking if the user is logged in (and
+                // vice versa)
+                let exprToValidate = when === 'loggedIn' ?
+                    this.state.currentUser && this.state.currentUser.email :
+                    this.state.currentUser && !this.state.currentUser.email;
 
-                    // The user of this handler specifies with `when`, what kind of status
-                    // needs to be checked to conditionally do - if that state is `true` -
-                    // a redirect.
-                    //
-                    // So if when === 'loggedIn', we're checking if the user is logged in (and
-                    // vice versa)
-                    let exprToValidate = when === 'loggedIn' ?
-                                     this.state.currentUser && this.state.currentUser.email :
-                                     this.state.currentUser && !this.state.currentUser.email;
-
-                    // and redirect if `true`.
-                    if(exprToValidate) {
-                        window.setTimeout(() => this.history.pushState(null, to, query));
+                // and redirect if `true`.
+                if(exprToValidate) {
+                    window.setTimeout(() => this.history.replaceState(null, to, query));
 
                     // Otherwise there can also be the case that the backend
                     // wants to redirect the user to a specific route when the user is logged out already
-                    } else if(!exprToValidate && when === 'loggedIn' && redirect) {
+                } else if(!exprToValidate && when === 'loggedIn' && redirect) {
 
-                        delete query.redirect;
-                        window.setTimeout(() => this.history.pushState(null, '/' + redirect, query));
+                    delete query.redirect;
+                    window.setTimeout(() => this.history.replaceState(null, '/' + redirect, query));
 
-                    } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
-                        /*
-                        * redirectAuthenticated contains an arbirary path
-                        * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                        * hence transitionTo cannot be used directly.
-                        *
-                        * While we're getting rid of `query.redirect` explicitly in the
-                        * above `else if` statement, here it's sufficient to just call
-                        * `baseUrl` + `redirectAuthenticated`, as it gets rid of queries as well.
-                        */
-                        window.location = AppConstants.baseUrl + redirectAuthenticated;
-                    }
-                } else {
-                    throw new Error('"loggedIn" and "loggedOut" are the only valid inputs for when');
+                } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
+                    /*
+                     * redirectAuthenticated contains an arbirary path
+                     * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
+                     * hence transitionTo cannot be used directly.
+                     *
+                     * While we're getting rid of `query.redirect` explicitly in the
+                     * above `else if` statement, here it's sufficient to just call
+                     * `baseUrl` + `redirectAuthenticated`, as it gets rid of queries as well.
+                     */
+                    window.location = AppConstants.baseUrl + redirectAuthenticated;
                 }
             },
 
