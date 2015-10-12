@@ -6,10 +6,22 @@ import ReactAddons from 'react/addons';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
+import AppConstants from '../../constants/application_constants';
+
+import { mergeOptions } from '../../utils/general_utils';
+
+
 let Property = React.createClass({
     propTypes: {
         hidden: React.PropTypes.bool,
+
         editable: React.PropTypes.bool,
+
+        // If we want Form to have a different value for disabled as Property has one for
+        // editable, we need to set overrideForm to true, as it will then override Form's
+        // disabled value for individual Properties
+        overrideForm: React.PropTypes.bool,
+
         tooltip: React.PropTypes.element,
         label: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
@@ -20,8 +32,11 @@ let Property = React.createClass({
         handleChange: React.PropTypes.func,
         ignoreFocus: React.PropTypes.bool,
         className: React.PropTypes.string,
+
         onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -55,7 +70,7 @@ let Property = React.createClass({
         // In order to set this.state.value from another component
         // the state of value should only be set if its not undefined and
         // actually references something
-        if(typeof childInput.getDOMNode().value !== 'undefined') {
+        if(childInput && typeof childInput.getDOMNode().value !== 'undefined') {
             this.setState({
                 value: childInput.getDOMNode().value
             });
@@ -78,21 +93,41 @@ let Property = React.createClass({
     },
 
     reset() {
+        let input = this.refs.input;
+
         // maybe do reset by reload instead of front end state?
         this.setState({value: this.state.initialValue});
 
-        // resets the value of a custom react component input
-        this.refs.input.state.value = this.state.initialValue;
+        if(input.state && input.state.value) {
+            // resets the value of a custom react component input
+            input.state.value = this.state.initialValue;
+        }
 
-        // resets the value of a plain HTML5 input
-        this.refs.input.getDOMNode().value = this.state.initialValue;
+        // For some reason, if we set the value of a non HTML element (but a custom input),
+        // after a reset, the value will be be propagated to this component.
+        //
+        // Therefore we have to make sure only to reset the initial value
+        // of HTML inputs (which we determine by checking if there 'type' attribute matches
+        // the ones included in AppConstants.possibleInputTypes).
+        let inputDOMNode = input.getDOMNode();
+        if(inputDOMNode.type && typeof inputDOMNode.type === 'string' &&
+           AppConstants.possibleInputTypes.indexOf(inputDOMNode.type.toLowerCase()) > -1) {
+            inputDOMNode.value = this.state.initialValue;
+        }
 
+        // For some inputs, reseting state.value is not enough to visually reset the
+        // component.
+        //
+        // So if the input actually needs a visual reset, it needs to implement
+        // a dedicated reset method.
+        if(typeof input.reset === 'function') {
+            input.reset();
+        }
     },
 
     handleChange(event) {
-
         this.props.handleChange(event);
-        if ('onChange' in this.props) {
+        if (typeof this.props.onChange === 'function') {
             this.props.onChange(event);
         }
 
@@ -108,7 +143,7 @@ let Property = React.createClass({
 
         // if onClick is defined from the outside,
         // just call it
-        if(this.props.onClick) {
+        if(typeof this.props.onClick === 'function') {
             this.props.onClick();
         }
 
@@ -123,7 +158,7 @@ let Property = React.createClass({
             isFocused: false
         });
 
-        if(this.props.onBlur) {
+        if(typeof this.props.onBlur === 'function') {
             this.props.onBlur(event);
         }
     },
@@ -167,9 +202,10 @@ let Property = React.createClass({
         }
     },
 
-    renderChildren() {
+    renderChildren(style) {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
+                style,
                 onChange: this.handleChange,
                 onFocus: this.handleFocus,
                 onBlur: this.handleBlur,
@@ -180,34 +216,42 @@ let Property = React.createClass({
     },
 
     render() {
+        let footer = null;
         let tooltip = <span/>;
-        if (this.props.tooltip){
+        let style = this.props.style ? mergeOptions({}, this.props.style) : {};
+
+        if(this.props.tooltip){
             tooltip = (
                 <Tooltip>
                     {this.props.tooltip}
                 </Tooltip>);
         }
-        let footer = null;
-        if (this.props.footer){
+        
+        if(this.props.footer){
             footer = (
                 <div className="ascribe-property-footer">
                     {this.props.footer}
                 </div>);
         }
+
+        if(!this.props.editable) {
+            style.cursor = 'not-allowed';
+        }
+
         return (
             <div
                 className={'ascribe-settings-wrapper ' + this.getClassName()}
                 onClick={this.handleFocus}
                 onFocus={this.handleFocus}
-                style={this.props.style}>
+                style={style}>
                 <OverlayTrigger
                     delay={500}
                     placement="top"
                     overlay={tooltip}>
                     <div className={'ascribe-settings-property ' + this.props.className}>
                         {this.state.errors}
-                        <span>{ this.props.label}</span>
-                        {this.renderChildren()}
+                        <span>{this.props.label}</span>
+                        {this.renderChildren(style)}
                         {footer}
                     </div>
                 </OverlayTrigger>

@@ -1,16 +1,26 @@
 .ascribe-form-bordered {
-    border: 1px solid #F5F5F5;
+    border: 1px solid #f5f5f5;
 }
 
 .ascribe-form-header {
-    padding-bottom: 0;
-    margin-bottom: 0;
     background-color: white;
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+    > h3 {
+        color: #616161;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding: .75em 0 .75em 1em;
+    }
 }
 
-.ascribe-form-header > h3 {
-    padding: .75em 0 .75em 1em;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: #616161;
+.ascribe-form-wrapper {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 80%;
+
+    @media (max-width: 550px) {
+        width: 100%;
+    }
 }

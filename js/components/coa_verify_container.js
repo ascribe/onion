@@ -10,7 +10,7 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
-import apiUrls from '../constants/api_urls';
+import ApiUrls from '../constants/api_urls';
 import { getLangText } from '../utils/lang_utils';
 
 
@@ -59,7 +59,7 @@ let CoaVerifyForm = React.createClass({
         return (
             <div>
                 <Form
-                    url={apiUrls.coa_verify}
+                    url={ApiUrls.coa_verify}
                     handleSuccess={this.handleSuccess}
                     buttons={
                         <button
@@ -84,10 +84,11 @@ let CoaVerifyForm = React.createClass({
                     </Property>
                     <Property
                         name='signature'
-                        label="Signature">
+                        label="Signature"
+                        editable={true}
+                        overrideForm={true}>
                         <InputTextAreaToggable
                             rows={3}
-                            editable={true}
                             placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
                             required/>
                     </Property>

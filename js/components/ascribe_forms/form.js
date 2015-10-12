@@ -6,6 +6,9 @@ import ReactAddons from 'react/addons';
 import Button from 'react-bootstrap/lib/Button';
 import AlertDismissable from './alert';
 
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import requests from '../../utils/requests';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -15,21 +18,39 @@ import { mergeOptionsWithDuplicates } from '../../utils/general_utils';
 let Form = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
-        buttons: React.PropTypes.object,
+        method: React.PropTypes.string,
         buttonSubmitText: React.PropTypes.string,
-        spinner: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         getFormData: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]),
-        className: React.PropTypes.string
+        className: React.PropTypes.string,
+        spinner: React.PropTypes.element,
+        buttons: React.PropTypes.oneOfType([
+            React.PropTypes.element,
+            React.PropTypes.arrayOf(React.PropTypes.element)
+        ]),
+
+        // Can be used to freeze the whole form
+        disabled: React.PropTypes.bool,
+
+        // You can use the form for inline requests, like the submit click on a button.
+        // For the form to then not display the error on top, you need to enable this option.
+        // It will make use of the GlobalNotification
+        isInline: React.PropTypes.bool,
+
+        autoComplete: React.PropTypes.string,
+
+        onReset: React.PropTypes.func
     },
 
     getDefaultProps() {
         return {
-            buttonSubmitText: 'SAVE'
+            method: 'post',
+            buttonSubmitText: 'SAVE',
+            autoComplete: 'off'
         };
     },
 
@@ -40,67 +61,110 @@ let Form = React.createClass({
             errors: []
         };
     },
-    reset(){
-        for (let ref in this.refs){
-            if (typeof this.refs[ref].reset === 'function'){
+
+    reset() {
+        // If onReset prop is defined from outside,
+        // notify component that a form reset is happening.
+        if(typeof this.props.onReset === 'function') {
+            this.props.onReset();
+        }
+
+        for(let ref in this.refs) {
+            if(typeof this.refs[ref].reset === 'function') {
                 this.refs[ref].reset();
             }
         }
         this.setState(this.getInitialState());
     },
+
     submit(event){
-        if (event) {
+        if(event) {
             event.preventDefault();
         }
+
         this.setState({submitted: true});
         this.clearErrors();
-        let action = (this.httpVerb && this.httpVerb()) || 'post';
-        window.setTimeout(() => this[action](), 100);
+
+        // selecting http method based on props
+        if(this[this.props.method] && typeof this[this.props.method] === 'function') {
+            window.setTimeout(() => this[this.props.method](), 100);
+        } else {
+            throw new Error('This HTTP method is not supported by form.js (' + this.props.method + ')');
+        }
     },
-    post(){
+
+    post() {
         requests
             .post(this.props.url, { body: this.getFormData() })
             .then(this.handleSuccess)
             .catch(this.handleError);
     },
 
-    getFormData(){
+    put() {
+        requests
+            .put(this.props.url, { body: this.getFormData() })
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    patch() {
+        requests
+            .patch(this.props.url, { body: this.getFormData() })
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    delete() {
+        requests
+            .delete(this.props.url, this.getFormData())
+            .then(this.handleSuccess)
+            .catch(this.handleError);
+    },
+
+    getFormData() {
         let data = {};
-        for (let ref in this.refs){
+
+        for(let ref in this.refs) {
             data[this.refs[ref].props.name] = this.refs[ref].state.value;
         }
 
-        if ('getFormData' in this.props){
+        if(typeof this.props.getFormData === 'function') {
             data = mergeOptionsWithDuplicates(data, this.props.getFormData());
         }
+
         return data;
     },
 
     handleChangeChild(){
-        this.setState({edited: true});
+        this.setState({ edited: true });
     },
+
     handleSuccess(response){
-        if ('handleSuccess' in this.props){
+        if(typeof this.props.handleSuccess === 'function') {
             this.props.handleSuccess(response);
         }
-        for (var ref in this.refs){
-            if ('handleSuccess' in this.refs[ref]){
+
+        for(let ref in this.refs) {
+            if(this.refs[ref] && typeof this.refs[ref].handleSuccess === 'function'){
                 this.refs[ref].handleSuccess();
             }
         }
-        this.setState({edited: false, submitted: false});
+        this.setState({
+            edited: false,
+            submitted: false
+        });
     },
+
     handleError(err){
         if (err.json) {
-            for (var input in err.json.errors){
+            for (let input in err.json.errors){
                 if (this.refs && this.refs[input] && this.refs[input].state) {
-                    this.refs[input].setErrors( err.json.errors[input]);
+                    this.refs[input].setErrors(err.json.errors[input]);
                 } else {
                     this.setState({errors: this.state.errors.concat(err.json.errors[input])});
                 }
             }
-        }
-        else {
+        } else {
             let formData = this.getFormData();
 
             // sentry shouldn't post the user's password
@@ -109,18 +173,27 @@ let Form = React.createClass({
             }
 
             console.logGlobal(err, false, formData);
-            this.setState({errors: [getLangText('Something went wrong, please try again later')]});
+
+            if(this.props.isInline) {
+                let notification = new GlobalNotificationModel(getLangText('Something went wrong, please try again later'), 'danger');
+                GlobalNotificationActions.appendGlobalNotification(notification);
+            } else {
+                this.setState({errors: [getLangText('Something went wrong, please try again later')]});
+            }
+
         }
         this.setState({submitted: false});
     },
+
     clearErrors(){
-        for (var ref in this.refs){
-            if ('clearErrors' in this.refs[ref]){
+        for(let ref in this.refs){
+            if (this.refs[ref] && typeof this.refs[ref].clearErrors === 'function'){
                 this.refs[ref].clearErrors();
             }
         }
         this.setState({errors: []});
     },
+
     getButtons() {
         if (this.state.submitted){
             return this.props.spinner;
@@ -130,12 +203,20 @@ let Form = React.createClass({
         }
         let buttons = null;
 
-        if (this.state.edited){
+        if (this.state.edited && !this.props.disabled){
             buttons = (
                 <div className="row" style={{margin: 0}}>
                     <p className="pull-right">
-                        <Button className="btn btn-default btn-sm ascribe-margin-1px" type="submit">{this.props.buttonSubmitText}</Button>
-                        <Button className="btn btn-danger btn-delete btn-sm ascribe-margin-1px" onClick={this.reset}>CANCEL</Button>
+                        <Button
+                            className="btn btn-default btn-sm ascribe-margin-1px"
+                            type="submit">
+                            {this.props.buttonSubmitText}
+                        </Button>
+                        <Button
+                            className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
+                            type="reset">
+                            CANCEL
+                        </Button>
                     </p>
                 </div>
             );
@@ -143,6 +224,7 @@ let Form = React.createClass({
         }
         return buttons;
     },
+
     getErrors() {
         let errors = null;
         if (this.state.errors.length > 0){
@@ -152,16 +234,41 @@ let Form = React.createClass({
         }
         return errors;
     },
+
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             if (child) {
                 return ReactAddons.addons.cloneWithProps(child, {
                     handleChange: this.handleChangeChild,
-                    ref: child.props.name
+                    ref: child.props.name,
+
+                    // We need this in order to make editable be overridable when setting it directly
+                    // on Property
+                    editable: child.props.overrideForm ? child.props.editable : !this.props.disabled
                 });
             }
         });
     },
+
+    /**
+     * All webkit-based browsers are ignoring the attribute autoComplete="off",
+     * as stated here: http://stackoverflow.com/questions/15738259/disabling-chrome-autofill/15917221#15917221
+     * So what we actually have to do is depended on whether or not this.props.autoComplete is set to "on" or "off"
+     * insert two fake hidden inputs that mock password and username so that chrome/safari is filling those
+     */
+    getFakeAutocompletableInputs() {
+        if(this.props.autoComplete === 'off') {
+            return (
+                <span>
+                    <input style={{display: 'none'}} type="text" name="fakeusernameremembered"/>
+                    <input style={{display: 'none'}} type="password" name="fakepasswordremembered"/>
+                </span>
+            );
+        } else {
+            return null;
+        }
+    },
+
     render() {
         let className = 'ascribe-form';
 
@@ -174,7 +281,9 @@ let Form = React.createClass({
                 role="form"
                 className={className}
                 onSubmit={this.submit}
-                autoComplete="on">
+                onReset={this.reset}
+                autoComplete={this.props.autoComplete}>
+                {this.getFakeAutocompletableInputs()}
                 {this.getErrors()}
                 {this.renderChildren()}
                 {this.getButtons()}

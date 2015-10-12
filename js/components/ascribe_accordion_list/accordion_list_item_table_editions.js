@@ -160,7 +160,7 @@ let AccordionListItemTableEditions = React.createClass({
                     let content = item.acl;
                     return {
                         'content': content,
-                        'requestAction': item.request_action
+                        'notifications': item.notifications
                     }; },
                     'acl',
                     getLangText('Actions'),

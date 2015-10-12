@@ -2,13 +2,10 @@
 
 import React from 'react';
 
-import CollapsibleMixin from 'react-bootstrap/lib/CollapsibleMixin';
-
-import classNames from 'classnames';
+import Panel from 'react-bootstrap/lib/Panel';
 
 
 const CollapsibleParagraph = React.createClass({
-
     propTypes: {
         title: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
@@ -24,14 +21,10 @@ const CollapsibleParagraph = React.createClass({
         };
     },
 
-    mixins: [CollapsibleMixin],
-
-    getCollapsibleDOMNode(){
-        return React.findDOMNode(this.refs.panel);
-    },
-
-    getCollapsibleDimensionValue(){
-        return React.findDOMNode(this.refs.panel).scrollHeight;
+    getInitialState() {
+        return {
+            expanded: this.props.defaultExpanded
+        };
     },
 
     handleToggle(e){
@@ -40,19 +33,21 @@ const CollapsibleParagraph = React.createClass({
     },
 
     render() {
-        let styles = this.getCollapsibleClassSet();
-        let text = this.isExpanded() ? '-' : '+';
+        let text = this.state.expanded ? '-' : '+';
 
         if(this.props.show) {
             return (
                 <div className="ascribe-detail-header">
-                    <div className="ascribe-edition-collapsible-wrapper">
+                    <div className="ascribe-collapsible-wrapper">
                         <div onClick={this.handleToggle}>
                             <span>{text} {this.props.title}</span>
                         </div>
-                        <div ref='panel' className={classNames(styles) + ' ascribe-edition-collapible-content'}>
+                        <Panel
+                            collapsible
+                            expanded={this.state.expanded}
+                            className="ascribe-collapsible-content">
                             {this.props.children}
-                        </div>
+                        </Panel>
                     </div>
                 </div>
             );

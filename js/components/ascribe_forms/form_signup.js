@@ -12,10 +12,9 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import Form from './form';
 import Property from './property';
-import FormPropertyHeader from './form_property_header';
 import InputCheckbox from './input_checkbox';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 
 let SignupForm = React.createClass({
@@ -56,10 +55,6 @@ let SignupForm = React.createClass({
         }
     },
 
-    getFormData() {
-        return this.getQuery();
-    },
-
     handleSuccess(response){
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
@@ -71,16 +66,23 @@ let SignupForm = React.createClass({
         }
     },
 
+    getFormData() {
+        if (this.getQuery().token){
+            return {token: this.getQuery().token};
+        }
+        return null;
+    },
+
     render() {
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
-        let email = this.getQuery().email ? this.getQuery().email : null;
+        let email = this.getQuery().email || null;
         return (
             <Form
                 className="ascribe-form-bordered"
                 ref='form'
-                url={apiUrls.users_signup}
+                url={ApiUrls.users_signup}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={
@@ -92,9 +94,9 @@ let SignupForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
@@ -132,7 +134,7 @@ let SignupForm = React.createClass({
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>
-                            {' ' + getLangText('I agree to the Terms of Service') + ' '}
+                            {' ' + getLangText('I agree to the Terms of Service of ascribe') + ' '}
                             (<a href="https://www.ascribe.io/terms" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
                                 {getLangText('read')}
                             </a>)

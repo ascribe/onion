@@ -26,6 +26,7 @@ import EventActions from './actions/event_actions';
 import GoogleAnalyticsHandler from './third_party/ga';
 import RavenHandler from './third_party/raven';
 import IntercomHandler from './third_party/intercom';
+import NotificationsHandler from './third_party/notifications';
 /* eslint-enable */
 
 initLogging();
@@ -44,9 +45,7 @@ requests.defaults({
 });
 
 
-
 class AppGateway {
-
     start() {
         let settings;
         let subdomain = window.location.host.split('.')[0];
@@ -66,12 +65,17 @@ class AppGateway {
 
     load(settings) {
         let type = 'default';
+        let subdomain = 'www';
+
         if (settings) {
             type = settings.type;
+            subdomain = settings.subdomain;
         }
 
+        window.document.body.classList.add('client--' + subdomain);
+
         EventActions.applicationWillBoot(settings);
-        Router.run(getRoutes(type), Router.HistoryLocation, (App) => {
+        window.appRouter = Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
             React.render(
                 <App />,
                 document.getElementById('main')

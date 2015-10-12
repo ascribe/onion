@@ -1,0 +1,25 @@
+$break-small: 764px;
+$break-medium: 991px;
+$break-medium: 1200px;
+
+.ascribe-global-action-wrapper {
+    position: fixed;
+    width: 100%;
+    max-width: 500px;
+    height:3.5em;
+    left:0;
+    right: 0;
+    top:0;
+    z-index: 2000;
+    display:table;
+    margin: 1px auto;
+}
+
+.ascribe-global-action {
+    text-align: center;
+    padding: 1em;
+    color: black;
+    border: 1px solid #cccccc;
+    background-color: white;
+    margin-top: 1px;
+}

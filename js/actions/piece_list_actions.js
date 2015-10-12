@@ -29,8 +29,9 @@ class PieceListActions extends ActionQueue {
             orderBy,
             orderAsc,
             filterBy,
-            'pieceList': [],
-            'pieceListCount': -1
+            pieceList: [],
+            pieceListCount: -1,
+            unfilteredPieceListCount: -1
         });
 
         // afterwards, we can load the list
@@ -46,8 +47,9 @@ class PieceListActions extends ActionQueue {
                         orderBy,
                         orderAsc,
                         filterBy,
-                        'pieceList': res.pieces,
-                        'pieceListCount': res.count
+                        pieceList: res.pieces,
+                        pieceListCount: res.count,
+                        unfilteredPieceListCount: res.unfiltered_count
                     });
                     resolve();
                 })
@@ -59,7 +61,7 @@ class PieceListActions extends ActionQueue {
         PieceListFetcher
             .fetchRequestActions()
             .then((res) => {
-                this.actions.updatePieceListRequestActions(res.piece_ids);
+                this.actions.updatePieceListRequestActions(res);
             })
             .catch((err) => console.logGlobal(err));
     }

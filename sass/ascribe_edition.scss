@@ -3,46 +3,22 @@
     margin-bottom: 1em;
 }
 
-.ascribe-edition-collapsible-wrapper {
-    vertical-align: bottom;
-    width:100%;
-}
-
-.ascribe-edition-collapsible-wrapper > div:first-child {
+.coa-file-wrapper {
+    display: table;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1em;
     width: 100%;
-    cursor: pointer;
-    background-color: rgba(0,0,0,0);
-    padding: 0 10px 10px 0;
-    margin-top: 20px;
-}
-.ascribe-edition-collapsible-wrapper > div > span {
-  font-size: 1.2em;
-  margin-right: .5em;
-}
-.ascribe-edition-collapsible-wrapper > div > span:nth-child(2) {
-  font-size: 0.9em;
-}
-
-.ascribe-edition-collapible-content {
-  width:100%;
-}
-
-.coa-file-wrapper{
-  display: table;
-  height: 200px;
-  overflow: hidden;
-  margin: 0 auto;
-  width: 100%;
-  padding: 1em;
 }
 
 .coa-file {
-  display: table-cell;
-  vertical-align: middle;
-  border: 1px solid #CCC;
-  background-color: #F8F8F8;
+    background-color: #F8F8F8;
+    border: 1px solid #CCC;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .ascribe-button-list {
-  margin-top: 1em;
+    margin-top: 1em;
 }

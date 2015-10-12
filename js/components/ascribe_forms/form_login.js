@@ -11,16 +11,14 @@ import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
-import FormPropertyHeader from './form_property_header';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 
 
 let LoginForm = React.createClass({
-
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
@@ -29,7 +27,7 @@ let LoginForm = React.createClass({
         onLogin: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation],
+    mixins: [Router.Navigation, Router.State],
 
     getDefaultProps() {
         return {
@@ -97,12 +95,14 @@ let LoginForm = React.createClass({
     },
 
     render() {
+        let email = this.getQuery().email || null;
         return (
             <Form
                 className="ascribe-form-bordered"
                 ref="loginForm"
-                url={apiUrls.users_login}
+                url={ApiUrls.users_login}
                 handleSuccess={this.handleSuccess}
+                autoComplete="on"
                 buttons={
                     <button
                         type="submit"
@@ -114,17 +114,17 @@ let LoginForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{this.props.headerMessage}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
                     <input
                         type="email"
                         placeholder={getLangText('Enter your email')}
-                        autoComplete="on"
-                        name="username"
+                        name="email"
+                        defaultValue={email}
                         required/>
                 </Property>
                 <Property
@@ -133,7 +133,6 @@ let LoginForm = React.createClass({
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        autoComplete="on"
                         name="password"
                         required/>
                 </Property>

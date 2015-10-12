@@ -3,20 +3,26 @@
 import React from 'react';
 
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import { getLangText } from '../../utils/lang_utils.js';
 
+
 let PieceListToolbarFilterWidgetFilter = React.createClass({
     propTypes: {
-        // An array of either strings (which represent acl enums) or objects of the form
-        //
-        // {
-        //      key: <acl enum>,
-        //      label: <a human readable string>
-        // }
-        //
-        filterParams: React.PropTypes.arrayOf(React.PropTypes.any).isRequired,
+        filterParams: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                label: React.PropTypes.string,
+                items: React.PropTypes.arrayOf(
+                    React.PropTypes.oneOfType([
+                        React.PropTypes.string,
+                        React.PropTypes.shape({
+                            key: React.PropTypes.string,
+                            label: React.PropTypes.string
+                        })
+                    ])
+                )
+            })
+        ).isRequired,
         filterBy: React.PropTypes.object,
         applyFilterBy: React.PropTypes.func
     },
@@ -79,35 +85,53 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
             <DropdownButton
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
-                <li style={{'textAlign': 'center'}}>
-                    <em>{getLangText('Show works that')}:</em>
-                </li>
-                {this.props.filterParams.map((param, i) => {
-                    let label;
-
-                    if(typeof param !== 'string') {
-                        label = param.label;
-                        param = param.key;
-                    } else {
-                        param = param;
-                        label = param.split('_')[1];
-                    }
-
+                {/* We iterate over filterParams, to receive the label and then for each
+                    label also iterate over its items, to get all filterable options */}
+                {this.props.filterParams.map(({ label, items }, i) => {
                     return (
-                        <MenuItem
-                            key={i}
-                            onClick={this.filterBy(param)}
-                            className="filter-widget-item">
-                            <div className="checkbox-line">
-                                <span>
-                                    {getLangText('I can') + ' ' + getLangText(label)}
-                                </span>
-                                <input
-                                    readOnly
-                                    type="checkbox"
-                                    checked={this.props.filterBy[param]} />
-                            </div>
-                        </MenuItem>
+                        <div>
+                            <li
+                                style={{'textAlign': 'center'}}
+                                key={i}>
+                                <em>{label}:</em>
+                            </li>
+                            {items.map((param, j) => {
+
+                                // As can be seen in the PropTypes, a param can either
+                                // be a string or an object of the shape:
+                                //
+                                // {
+                                //     key: <String>,
+                                //     label: <String>
+                                // }
+                                //
+                                // This is why we need to distinguish between both here.
+                                if(typeof param !== 'string') {
+                                    label = param.label;
+                                    param = param.key;
+                                } else {
+                                    param = param;
+                                    label = param.split('acl_')[1].replace(/_/g, ' ');
+                                }
+
+                                return (
+                                    <li
+                                        key={j}
+                                        onClick={this.filterBy(param)}
+                                        className="filter-widget-item">
+                                        <div className="checkbox-line">
+                                            <span>
+                                                {getLangText(label)}
+                                            </span>
+                                            <input
+                                                readOnly
+                                                type="checkbox"
+                                                checked={this.props.filterBy[param]} />
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </div>
                     );
                 })}
             </DropdownButton>

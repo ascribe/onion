@@ -1,98 +1,108 @@
-.settings-container{
-    max-width: 600px;
+.settings-container {
     margin: auto;
+    max-width: 600px;
 }
 
 .ascribe-settings-wrapper {
-    width: 100%;
-    text-align: center;
-    padding-bottom: 1em;
-
     background-color: white;
-
-    border-left: 3px solid rgba(0,0,0,0);
+    border-left: 3px solid rgba(0, 0, 0, 0);
+    padding-bottom: 1em;
+    text-align: center;
+    width: 100%;
 
     &div:last-of-type {
-        border-bottom: 1px solid rgba(0,0,0,.05);
+        border-bottom: 1px solid rgba(0, 0, 0, .05);
     }
-    &:hover{
-      border-left: 3px solid rgba(2, 182, 163, 0.4);
+
+    &:hover {
+      border-left: 3px solid rgba(2, 182, 163, .4);
     }
 }
 
-.is-hidden{
-  display: none;
+.is-hidden {
+    display: none;
 }
 
 .is-focused {
-    background-color: rgba(2, 182, 163, 0.05);
+    background-color: rgba(2, 182, 163, .05);
     border-left: 3px solid rgba(2, 182, 163, 1) !important;
 }
 
 .is-error {
-    background-color: rgba(169, 68, 66, 0.05);
+    background-color: rgba(169, 68, 66, .05);
     border-left: 3px solid rgba(169, 68, 66, 1);
+
     > div {
         > span {
             color: rgba(169, 68, 66, 1);
-            font-size: 0.9em;
+            font-size: .9em;
             margin-right: 1em;
         }
-        > input, > textarea {
+
+        > input,
+        > textarea {
             color: #666;
         }
     }
 
-    &:hover{
+    &:hover {
       border-left: 3px solid rgba(169, 68, 66, 1);
     }
 }
 
 .is-fixed {
     cursor: default;
+
     > div {
         cursor: default;
+
         > span {
             cursor: default;
         }
-        > input, > div, > pre, > textarea {
-            cursor: default;
+
+        > input,
+        > div,
+        > pre,
+        > textarea {
             color: #666;
+            cursor: default;
         }
     }
 }
 
 .ascribe-settings-property {
+    border-top: 1px solid rgba(0, 0, 0, .05);
+    cursor: pointer;
     display: inline-block;
-    width: 100%;
-    text-align: left;
-    border-top: 1px solid rgba(0,0,0,.05);
-
-    padding-top: 1em;
     padding-left: 1.5em;
     padding-right: 1.5em;
+    padding-top: 1em;
+    text-align: left;
+    width: 100%;
 
-    cursor:pointer;
-    
-    > input, > div, > span:not(.glyphicon), > pre, > textarea, > select {
+    > div,
+    > input,
+    > pre,
+    > select,
+    > span:not(.glyphicon),
+    > textarea {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
-   
+
     > span {
+        color: rgba(0, 0, 0, .5);
+        font-size: .9em;
         font-weight: normal;
-        font-size: 0.9em;
-        color: rgba(0,0,0,.5);
     }
 
     > div {
-        /* margin-top: 10px; */
         > div:not(.file-drag-and-drop div) {
-          padding-left: 0;
-          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          font-weight: normal;
-          font-size: 1.1em;
-          cursor: default;
-          color: rgba(0, 0, 0, .5);
+            color: rgba(0, 0, 0, .5);
+            cursor: default;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 1.1em;
+            font-weight: normal;
+            padding-left: 0;
         }
     }
 
@@ -100,29 +110,34 @@
         margin-top: 0 !important;
     }
 
-    > input, > pre, > textarea, > select, .datepicker__input {
-        font-weight: 400;
-        font-size: 1.1em;
-        width:100%;
-        margin-top: .5em;
+    > input,
+    > pre,
+    > textarea,
+    > select,
+    .datepicker__input {
+        background-color: rgba(0, 0, 0, 0);
         border: 0;
-        background-color: rgba(0,0,0,0);
-        color: rgba(0,0,0,.8);
-        padding-left: 0;
         box-shadow: none;
+        color: rgba(0, 0, 0, .8);
+        font-size: 1.1em;
+        font-weight: 400;
+        margin-top: .5em;
+        padding-left: 0;
+        width: 100%;
 
         &:focus {
-            border:0;
-            outline:0;
+            border: 0;
             box-shadow: none;
+            outline: 0;
         }
 
         &::selection {
+            background-color: rgba(0, 0, 0, 1);
             color: white;
-            background-color: rgba(0,0,0,1);
         }
 
     }
+
     .datepicker__input {
         padding: 0;
     }
@@ -135,67 +150,75 @@
 }
 
 .ascribe-property-footer {
-    font-size: 0.8em;
+    font-size: .8em;
     margin-top: 10px;
     width: 100%;
 }
 
 .ascribe-settings-property-collapsible-toggle {
-    text-align: left;
+    border-top: 1px solid rgba(0, 0, 0, .05);
     display: inline-block;
+    padding: .5em 1.5em;
+    text-align: left;
     width: 100%;
-    border-top: 1px solid rgba(0,0,0,.05);
-    
-    padding: .5em 1.5em .5em 1.5em;
+}
 
-    cursor:pointer;
+.ascribe-checkbox-wrapper{
+    .checkbox > span {
+        color: black;
+    }
+}
 
-    /* Taken from: http://www.htmllion.com/css3-checkbox.html */
+.ascribe-settings-property-collapsible-toggle, .ascribe-checkbox-wrapper {
+    cursor: pointer;
+
+    // Taken from: http://www.htmllion.com/css3-checkbox.html
     .checkbox {
         display: inline-block;
-        cursor: pointer;
-
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: normal;
         font-size: .9em;
-        color: rgba(0, 0, 0, .5);
-        vertical-align:middle;
+        font-weight: normal;
+        vertical-align: middle;
 
         > span {
+            left: 5px;
             position: relative;
             top: 1px;
-            left: 5px;
 
-            -webkit-user-select: none;
-            -moz-user-select: none;
             -khtml-user-select: none;
+            -moz-user-select: none;
             -ms-user-select: none;
+            -webkit-user-select: none;
         }
     }
 
-    input[type=checkbox] {
-        display:none; 
+    [type=checkbox] {
+        display: none;
     }
 
     .checkbox:before {
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, .5);
+        border-radius: 1px;
+        color: #f3f3f3;
         content: "";
         display: inline-block;
-        width: 17px;
         height: 17px;
-        vertical-align:middle;
-        background-color: white;
-        color: #f3f3f3;
         text-align: center;
-
-        border-radius: 1px;
-        border: 1px solid rgba(0, 0, 0, .5);
+        vertical-align: middle;
+        width: 17px;
     }
 
-    input[type=checkbox]:checked + .checkbox:before {
-        line-height: .8;
-
+    [type=checkbox]:checked + .checkbox:before {
+        color: rgba(2, 182, 163, 1);
         content: "\2713";
         font-size: 20px;
-        color: rgba(2, 182, 163, 1);
+        line-height: .8;
+    }
+}
+
+.ascribe-checkbox-badge {
+    > span > span {
+        margin-top: 0;
     }
 }

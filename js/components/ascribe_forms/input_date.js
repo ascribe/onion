@@ -7,13 +7,29 @@ import DatePicker from 'react-datepicker/dist/react-datepicker';
 let InputDate = React.createClass({
     propTypes: {
         submitted: React.PropTypes.bool,
-        placeholderText: React.PropTypes.string
+        placeholderText: React.PropTypes.string,
+        onChange: React.PropTypes.func,
+        defaultValue: React.PropTypes.object,
+
+        // DatePicker implements the disabled attribute
+        // https://github.com/Hacker0x01/react-datepicker/blob/master/src/datepicker.jsx#L30
+        disabled: React.PropTypes.bool
     },
 
     getInitialState() {
         return {
-            value: null
+            value: null,
+            value_moment: null
         };
+    },
+
+    // InputDate needs to support setting a defaultValue from outside.
+    // If this is the case, we need to call handleChange to propagate this
+    // to the outer Property
+    componentWillReceiveProps(nextProps) {
+        if(!this.state.value && !this.state.value_moment && nextProps.defaultValue) {
+            this.handleChange(this.props.defaultValue);
+        }
     },
 
     handleChange(date) {
@@ -30,10 +46,15 @@ let InputDate = React.createClass({
         });
     },
 
-    render: function () {
+    reset() {
+        this.setState(this.getInitialState());
+    },
+
+    render() {
         return (
             <div>
                 <DatePicker
+                    disabled={this.props.disabled}
                     dateFormat="YYYY-MM-DD"
                     selected={this.state.value_moment}
                     onChange={this.handleChange}

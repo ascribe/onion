@@ -6,15 +6,15 @@ import React from 'react';
 let TableItemAclFiltered = React.createClass({
     propTypes: {
         content: React.PropTypes.object,
-        requestAction: React.PropTypes.string
+        notifications: React.PropTypes.string
     },
 
     render() {
         var availableAcls = ['acl_consign', 'acl_loan', 'acl_transfer', 'acl_view', 'acl_share', 'acl_unshare', 'acl_delete'];
-        if (this.props.requestAction){
+        if (this.props.notifications && this.props.notifications.length > 0){
             return (
                 <span>
-                    {this.props.requestAction + ' request pending'}
+                    {this.props.notifications[0].action_str}
                 </span>
             );
         }

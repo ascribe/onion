@@ -1,5 +1,15 @@
-/* All bootstrap overwrites should take place in this file */
+// All bootstrap overwrites should take place in this file
 
 .pager li a {
     color: white;
+}
+
+.panel-default {
+    border: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.panel-body {
+    padding: 0;
 }

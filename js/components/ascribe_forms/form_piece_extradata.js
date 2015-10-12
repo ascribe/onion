@@ -3,9 +3,9 @@
 import React from 'react';
 
 import requests from '../../utils/requests';
-import { getLangText } from '../../utils/lang_utils.js'
+import { getLangText } from '../../utils/lang_utils.js';
 
-import apiUrls from '../../constants/api_urls';
+import ApiUrls from '../../constants/api_urls';
 
 import Form from './form';
 import Property from './property';
@@ -20,7 +20,8 @@ let PieceExtraDataForm = React.createClass({
         title: React.PropTypes.string,
         editable: React.PropTypes.bool
     },
-    getFormData(){
+
+    getFormData() {
         let extradata = {};
         extradata[this.props.name] = this.refs.form.refs[this.props.name].state.value;
         return {
@@ -28,25 +29,25 @@ let PieceExtraDataForm = React.createClass({
             piece_id: this.props.pieceId
         };
     },
+    
     render() {
         let defaultValue = this.props.extraData[this.props.name] || '';
         if (defaultValue.length === 0 && !this.props.editable){
             return null;
         }
-        let url = requests.prepareUrl(apiUrls.piece_extradata, {piece_id: this.props.pieceId});
+        let url = requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.pieceId});
         return (
             <Form
                 ref='form'
                 url={url}
                 handleSuccess={this.props.handleSuccess}
-                getFormData={this.getFormData}>
+                getFormData={this.getFormData}
+                disabled={!this.props.editable}>
                 <Property
                     name={this.props.name}
-                    label={this.props.title}
-                    editable={this.props.editable}>
+                    label={this.props.title}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={this.props.editable}
                         defaultValue={defaultValue}
                         placeholder={getLangText('Fill in%s', ' ') + this.props.title}
                         required="required"/>

@@ -5,8 +5,7 @@ import Router from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
-import FormPropertyHeader from './ascribe_forms/form_property_header';
-import apiUrls from '../constants/api_urls';
+import ApiUrls from '../constants/api_urls';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -15,12 +14,15 @@ import { getLangText } from '../utils/lang_utils';
 
 let PasswordResetContainer = React.createClass({
     mixins: [Router.Navigation],
+
     getInitialState() {
         return {isRequested: false};
     },
-    handleRequestSuccess(email){
+
+    handleRequestSuccess(email) {
         this.setState({isRequested: email});
     },
+
     render() {
         if (this.props.query.email && this.props.query.token) {
             return (
@@ -57,17 +59,23 @@ let PasswordResetContainer = React.createClass({
 });
 
 let PasswordRequestResetForm = React.createClass({
+    propTypes: {
+        handleRequestSuccess: React.PropTypes.func
+    },
+
     handleSuccess() {
         let notificationText = getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.');
         let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
         this.props.handleRequestSuccess(this.refs.form.refs.email.state.value);
     },
+
     render() {
         return (
             <Form
                 ref="form"
-                url={apiUrls.users_password_reset_request}
+                className='ascribe-form-wrapper'
+                url={ApiUrls.users_password_reset_request}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button
@@ -80,15 +88,15 @@ let PasswordRequestResetForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{getLangText('Reset your password')}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     name='email'
                     label={getLangText('Email')}>
                     <input
                         type="email"
-                        placeholder={getLangText("Enter your email and we'll send a link")}
+                        placeholder={getLangText('Enter your email and we\'ll send a link')}
                         name="email"
                         required/>
                 </Property>
@@ -99,24 +107,32 @@ let PasswordRequestResetForm = React.createClass({
 });
 
 let PasswordResetForm = React.createClass({
+    propTypes: {
+        email: React.PropTypes.string,
+        token: React.PropTypes.string
+    },
+
     mixins: [Router.Navigation],
 
-    getFormData(){
+    getFormData() {
         return {
             email: this.props.email,
             token: this.props.token
         };
     },
+
     handleSuccess() {
         this.transitionTo('pieces');
         let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
+
     render() {
         return (
             <Form
                 ref="form"
-                url={apiUrls.users_password_reset}
+                className='ascribe-form-wrapper'
+                url={ApiUrls.users_password_reset}
                 handleSuccess={this.handleSuccess}
                 getFormData={this.getFormData}
                 buttons={
@@ -130,9 +146,9 @@ let PasswordResetForm = React.createClass({
                         <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
                     </span>
                     }>
-                <FormPropertyHeader>
+                <div className="ascribe-form-header">
                     <h3>{getLangText('Reset the password for')} {this.props.email}</h3>
-                </FormPropertyHeader>
+                </div>
                 <Property
                     name='password'
                     label={getLangText('Password')}>

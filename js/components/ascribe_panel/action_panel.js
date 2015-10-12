@@ -1,15 +1,21 @@
 'use strict';
 
 import React from 'react';
-
+import classnames from 'classnames';
 
 let ActionPanel = React.createClass({
     propTypes: {
         title: React.PropTypes.string,
-        content: React.PropTypes.string,
+        content: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]),
         buttons: React.PropTypes.element,
         onClick: React.PropTypes.func,
-        ignoreFocus: React.PropTypes.bool
+        ignoreFocus: React.PropTypes.bool,
+
+        leftColumnWidth: React.PropTypes.string,
+        rightColumnWidth: React.PropTypes.string
     },
 
     getInitialState() {
@@ -37,31 +43,25 @@ let ActionPanel = React.createClass({
         });
     },
 
-    getClassName() {
-        if(this.state.isFocused) {
-            return 'is-focused';
-        } else {
-            return '';
-        }
-    },
-
     render() {
 
+        let { leftColumnWidth, rightColumnWidth } = this.props;
+
         return (
-            <div
-                className={'ascribe-panel-wrapper ' + this.getClassName()}
-                onClick={this.handleFocus}
-                onFocus={this.handleFocus}>
-                <div className='ascribe-panel-title'>
-                    {this.props.title}
-                </div>
-                <div className='ascribe-panel-content-wrapper'>
-                    <span className="ascribe-panel-content pull-left">
+            <div className={classnames('ascribe-panel-wrapper', {'is-focused': this.state.isFocused})}>
+                <div
+                    className="ascribe-panel-table"
+                    style={{width: leftColumnWidth}}>
+                    <div className="ascribe-panel-content">
                         {this.props.content}
-                    </span>
-                    <span className='ascribe-panel-buttons pull-right'>
+                    </div>
+                </div>
+                <div
+                    className="ascribe-panel-table"
+                    style={{width: rightColumnWidth}}>
+                    <div className="ascribe-panel-content">
                         {this.props.buttons}
-                    </span>
+                    </div>
                 </div>
             </div>
         );

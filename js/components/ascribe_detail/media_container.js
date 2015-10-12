@@ -19,7 +19,33 @@ const EMBED_IFRAME_HEIGHT = {
 
 let MediaContainer = React.createClass({
     propTypes: {
-        content: React.PropTypes.object
+        content: React.PropTypes.object,
+        refreshObject: React.PropTypes.func
+    },
+
+    getInitialState() {
+        return {timerId: null};
+    },
+
+    componentDidMount() {
+        if (!this.props.content.digital_work) {
+            return;
+        }
+        let isEncoding = this.props.content.digital_work.isEncoding;
+        if (this.props.content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            let timerId = window.setInterval(this.props.refreshObject, 10000);
+            this.setState({timerId: timerId});
+        }
+    },
+
+    componentWillUpdate() {
+        if (this.props.content.digital_work.isEncoding === 100) {
+            window.clearInterval(this.state.timerId);
+        }
+    },
+
+    componentWillUnmount() {
+        window.clearInterval(this.state.timerId);
     },
 
     render() {
@@ -46,7 +72,7 @@ let MediaContainer = React.createClass({
                     }
                     panel={
                         <pre className="">
-                            {'<iframe width="560" height="' + height + '" src="http://embed.ascribe.io/content/'
+                            {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
                                 + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
                     }/>

@@ -2,98 +2,173 @@
 
 import React from 'react';
 
-import Alert from 'react-bootstrap/lib/Alert';
-
-import apiUrls from '../../constants/api_urls';
-import FormMixin from '../../mixins/form_mixin';
-
 import AclButton from './../ascribe_buttons/acl_button';
+import ActionPanel from '../ascribe_panel/action_panel';
+import Form from './form';
 
-import AppConstants from '../../constants/application_constants';
+import NotificationActions from '../../actions/notification_actions';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import ApiUrls from '../../constants/api_urls';
+
 import { getLangText } from '../../utils/lang_utils.js';
 
+
 let RequestActionForm = React.createClass({
-    mixins: [FormMixin],
+    propTypes: {
+        pieceOrEditions: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ]).isRequired,
+        notifications: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func
+    },
 
-    url(e){
-        let edition = this.props.editions[0];
-        if (e.target.id === 'request_accept'){
-            if (edition.request_action === 'consign'){
-                return apiUrls.ownership_consigns_confirm;
-            }
-            else if (edition.request_action === 'unconsign'){
-                return apiUrls.ownership_unconsigns;
-            }
-            else if (edition.request_action === 'loan'){
-                return apiUrls.ownership_loans_confirm;
-            }
+    isPiece(){
+        return this.props.pieceOrEditions.constructor !== Array;
+    },
+
+    getUrls() {
+        let urls = {};
+
+        if (this.props.notifications.action === 'consign'){
+            urls.accept = ApiUrls.ownership_consigns_confirm;
+            urls.deny = ApiUrls.ownership_consigns_deny;
+        } else if (this.props.notifications.action === 'unconsign'){
+            urls.accept = ApiUrls.ownership_unconsigns;
+            urls.deny = ApiUrls.ownership_unconsigns_deny;
+        } else if (this.props.notifications.action === 'loan' && !this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_confirm;
+            urls.deny = ApiUrls.ownership_loans_deny;
+        } else if (this.props.notifications.action === 'loan' && this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_pieces_confirm;
+            urls.deny = ApiUrls.ownership_loans_pieces_deny;
+        } else if (this.props.notifications.action === 'loan_request' && this.isPiece()){
+            urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
+            urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
         }
-        else if(e.target.id === 'request_deny'){
-            if (edition.request_action === 'consign') {
-                return apiUrls.ownership_consigns_deny;
-            }
-            else if (edition.request_action === 'unconsign') {
-                return apiUrls.ownership_unconsigns_deny;
-            }
-            else if (edition.request_action === 'loan') {
-                return apiUrls.ownership_loans_deny;
-            }
+
+        return urls;
+    },
+
+    getFormData(){
+        if (this.isPiece()) {
+            return {piece_id: this.props.pieceOrEditions.id};
+        }
+        else {
+            return {bitcoin_id: this.props.pieceOrEditions.map(function(edition){
+                return edition.bitcoin_id;
+            }).join()};
         }
     },
 
-    handleRequest: function(e){
-        e.preventDefault();
-        this.submit(e);
-    },
+    showNotification(option, action, owner) {
+        return () => {
+            let message = getLangText('You have successfully') + ' ' + option + ' the ' + action + ' request ' + getLangText('from') + ' ' + owner;
 
-    getFormData() {
-        return {
-            bitcoin_id: this.getBitcoinIds().join()
+            let notifications = new GlobalNotificationModel(message, 'success');
+            GlobalNotificationActions.appendGlobalNotification(notifications);
+
+            this.handleSuccess();
+
         };
     },
 
-    renderForm() {
-        let edition = this.props.editions[0];
-        let buttonAccept = (
-            <div id="request_accept"
-                onClick={this.handleRequest}
-                className='btn btn-default btn-sm ascribe-margin-1px'>{getLangText('ACCEPT')}
-            </div>);
-        if (edition.request_action === 'unconsign'){
-            console.log(this.props)
-            buttonAccept = (
+    handleSuccess() {
+        if (this.isPiece()){
+            NotificationActions.fetchPieceListNotifications();
+        }
+        else {
+            NotificationActions.fetchEditionListNotifications();
+        }
+        if(this.props.handleSuccess) {
+            this.props.handleSuccess();
+        }
+    },
+
+    getContent() {
+        return (
+            <span>
+                {this.props.notifications.action_str + ' by ' + this.props.notifications.by}
+            </span>
+        );
+    },
+
+    getAcceptButtonForm(urls) {
+        if(this.props.notifications.action === 'unconsign') {
+            return (
                 <AclButton
                     availableAcls={{'acl_unconsign': true}}
                     action="acl_unconsign"
-                    pieceOrEditions={this.props.editions}
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
+                    pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
+                    handleSuccess={this.handleSuccess} />
                 );
-        }
-        let buttons = (
-            <span>
-                <span>
-                    {buttonAccept}
-                </span>
-                <span>
-                    <div id="request_deny" onClick={this.handleRequest} className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>{getLangText('REJECT')}</div>
-                </span>
-            </span>
-        );
-        if (this.state.submitted){
-            buttons = (
-                <span>
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
-                </span>
+        } else if(this.props.notifications.action === 'loan_request') {
+            return (
+                <AclButton
+                    availableAcls={{'acl_loan_request': true}}
+                    action="acl_loan_request"
+                    buttonAcceptName="LOAN"
+                    buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
+                    pieceOrEditions={this.props.pieceOrEditions}
+                    currentUser={this.props.currentUser}
+                    handleSuccess={this.handleSuccess} />
+                );
+        } else {
+            return (
+                <Form
+                    url={urls.accept}
+                    getFormData={this.getFormData}
+                    handleSuccess={
+                        this.showNotification(getLangText('accepted'), this.props.notifications.action, this.props.notifications.by)
+                    }
+                    isInline={true}
+                    className='inline pull-right'>
+                    <button
+                        type="submit"
+                        className='btn btn-default btn-sm ascribe-margin-1px'>
+                        {getLangText('ACCEPT')}
+                    </button>
+                </Form>
             );
         }
+    },
+
+    getButtonForm() {
+        let urls = this.getUrls();
+        let acceptButtonForm = this.getAcceptButtonForm(urls);
+
         return (
-            <Alert bsStyle='warning'>
-                <div style={{textAlign: 'center'}}>
-                <div>{ edition.owner } {getLangText('requests you')} { edition.request_action } {getLangText('this edition%s', '.')}&nbsp;&nbsp;</div>
-                {buttons}
-                </div>
-            </Alert>
+            <div>
+                <Form
+                    url={urls.deny}
+                    isInline={true}
+                    getFormData={this.getFormData}
+                    handleSuccess={
+                        this.showNotification(getLangText('denied'), this.props.notifications.action, this.props.notifications.by)
+                    }
+                    className='inline pull-right'>
+                    <button
+                        type="submit"
+                        className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>
+                            {getLangText('REJECT')}
+                    </button>
+                </Form>
+                {acceptButtonForm}
+            </div>
+        );
+    },
+
+    render() {
+        return (
+            <ActionPanel
+                content={this.getContent()}
+                buttons={this.getButtonForm()}/>
         );
     }
 });

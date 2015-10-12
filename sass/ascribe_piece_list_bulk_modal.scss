@@ -1,20 +1,17 @@
 .ascribe-piece-list-bulk-modal {
-    position: fixed;
-    top:0;
-    left: 3%;
-    width:94%;
-
-    background-color: #FAFAFA;
-
-    border-left: 0.1em solid #E0E0E0;
-    border-right: 0.1em solid #E0E0E0;
-    border-top: 0.1em solid #E0E0E0;
+    background-color: #fafafa;
+    border-bottom: .2em solid #e0e0e0;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    border-bottom: 0.2em solid #E0E0E0;
-    z-index:1000;
-    
+    border-left: .1em solid #e0e0e0;
+    border-right: .1em solid #e0e0e0;
+    border-top: .1em solid #e0e0e0;
+    left: 3%;
     padding-bottom: 1em;
+    position: fixed;
+    top: 0;
+    width: 94%;
+    z-index: 1000;
 }
 
 @media(min-width:1174px){
@@ -25,6 +22,6 @@
 }
 
 .piece-list-bulk-modal-clear-all {
+    cursor: pointer;
     text-decoration: underline;
-    cursor:pointer;
 }

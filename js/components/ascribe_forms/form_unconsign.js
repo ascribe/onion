@@ -18,7 +18,6 @@ let UnConsignForm = React.createClass({
         id: React.PropTypes.object,
         message: React.PropTypes.string,
         editions: React.PropTypes.array,
-        onRequestHide: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
     },
 
@@ -39,11 +38,9 @@ let UnConsignForm = React.createClass({
                         <p className="pull-right">
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
-                                type="submit">{getLangText('UNCONSIGN')}</Button>
-                            <Button
-                                className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                                style={{marginLeft: '0'}}
-                                onClick={this.props.onRequestHide}>{getLangText('CLOSE')}</Button>
+                                type="submit">
+                                {getLangText('UNCONSIGN')}
+                            </Button>
                         </p>
                     </div>}
                 spinner={
@@ -53,10 +50,10 @@ let UnConsignForm = React.createClass({
                 <Property
                     name='unconsign_message'
                     label={getLangText('Personal Message')}
-                    editable={true}>
+                    editable={true}
+                    overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        editable={true}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
                         required="required"/>

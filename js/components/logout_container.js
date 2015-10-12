@@ -19,7 +19,7 @@ let LogoutContainer = React.createClass({
                 Alt.flush();
                 // kill intercom (with fire)
                 window.Intercom('shutdown');
-                this.transitionTo(baseUrl);
+                this.replaceWith(baseUrl);
             })
             .catch((err) => {
                 console.logGlobal(err);
