@@ -256,7 +256,7 @@ h1 {
         }
     }
 
-    .ascribe-settings-wrapper {
+    .ascribe-property-wrapper {
         background-color: transparent;
 
         &:hover {
@@ -522,7 +522,7 @@ fieldset[disabled] .btn-secondary.active {
     border-left-color: $ascribe--button-default-color !important;
     background-color: rgba($ascribe--button-default-color, .05);
 }
-.ascribe-settings-wrapper:hover {
+.ascribe-property-wrapper:hover {
     border-left-color: rgba($ascribe--button-default-color, .5);
 }
 

@@ -142,7 +142,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         }
     }
 
-    .ascribe-settings-wrapper {
+    .ascribe-property-wrapper {
         background-color: transparent;
 
         &:hover {
@@ -403,7 +403,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
         border-left-color: $ikono--button-color !important;
         background-color: rgba($ikono--button-color, .05);
     }
-    .ascribe-settings-wrapper:hover {
+    .ascribe-property-wrapper:hover {
         border-left-color: rgba($ikono--button-color, .5);
     }
 }
