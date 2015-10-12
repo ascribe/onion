@@ -3,14 +3,11 @@
 import alt from '../alt';
 import Q from 'q';
 
-import ActionQueue from '../utils/action_queue_utils';
-
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
 
-class PieceListActions extends ActionQueue {
-    constructor() {
-        super();
 
+class PieceListActions {
+    constructor() {
         this.generateActions(
             'updatePieceList',
             'updatePieceListRequestActions',
@@ -35,7 +32,6 @@ class PieceListActions extends ActionQueue {
         });
 
         // afterwards, we can load the list
-
         return Q.Promise((resolve, reject) => {
             PieceListFetcher
                 .fetch(page, pageSize, search, orderBy, orderAsc, filterBy)

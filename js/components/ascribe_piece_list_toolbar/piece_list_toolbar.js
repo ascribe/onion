@@ -4,13 +4,10 @@ import React from 'react';
 
 import PieceListToolbarFilterWidget from './piece_list_toolbar_filter_widget';
 import PieceListToolbarOrderWidget from './piece_list_toolbar_order_widget';
+import SearchBar from '../search_bar';
 
-import Input from 'react-bootstrap/lib/Input';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import { getLangText } from '../../utils/lang_utils';
 
 let PieceListToolbar = React.createClass({
-
     propTypes: {
         className: React.PropTypes.string,
         searchFor: React.PropTypes.func,
@@ -39,11 +36,6 @@ let PieceListToolbar = React.createClass({
         ])
     },
 
-    searchFor() {
-         let searchTerm = this.refs.search.getInputDOMNode().value;
-         this.props.searchFor(searchTerm);
-    },
-
     getFilterWidget(){
         if (this.props.filterParams){
             return (
@@ -55,6 +47,7 @@ let PieceListToolbar = React.createClass({
         }
         return null;
     },
+
     getOrderWidget(){
         if (this.props.orderParams){
             return (
@@ -68,24 +61,20 @@ let PieceListToolbar = React.createClass({
     },
 
     render() {
-        let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
+        const { className, children, searchFor } = this.props;
 
         return (
-            <div className={this.props.className}>
+            <div className={className}>
                 <div className="row">
                     <div className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
                         <div className="row">
                             <span className="pull-left">
-                                {this.props.children}
+                                {children}
                             </span>
-                            <span className="pull-right search-bar ascribe-input-glyph">
-                                <Input
-                                    type='text'
-                                    ref="search"
-                                    placeholder={getLangText('Search%s', '...')}
-                                    onChange={this.searchFor}
-                                    addonAfter={searchIcon} />
-                            </span>
+                            <SearchBar
+                                className="pull-right search-bar ascribe-input-glyph"
+                                searchFor={searchFor}
+                                threshold={1000}/>
                             <span className="pull-right">
                                 {this.getOrderWidget()}
                                 {this.getFilterWidget()}
