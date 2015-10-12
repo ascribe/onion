@@ -6,6 +6,8 @@ import PieceListToolbarFilterWidget from './piece_list_toolbar_filter_widget';
 import PieceListToolbarOrderWidget from './piece_list_toolbar_order_widget';
 import SearchBar from '../search_bar';
 
+import AppConstants from '../../constants/application_constants';
+
 
 let PieceListToolbar = React.createClass({
     propTypes: {
@@ -76,7 +78,7 @@ let PieceListToolbar = React.createClass({
                                 className="pull-right search-bar ascribe-input-glyph"
                                 searchFor={searchFor}
                                 searchQuery={searchQuery}
-                                threshold={500}/>
+                                threshold={AppConstants.searchThreshold}/>
                             <span className="pull-right">
                                 {this.getOrderWidget()}
                                 {this.getFilterWidget()}
