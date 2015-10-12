@@ -79,7 +79,11 @@ export default function RedirectProxyHandler({to, when}) {
                         /*
                         * redirectAuthenticated contains an arbirary path
                         * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                        * hence transitionTo cannot be used directly
+                        * hence transitionTo cannot be used directly.
+                        *
+                        * While we're getting rid of `query.redirect` explicitly in the
+                        * above `else if` statement, here it's sufficient to just call
+                        * `baseUrl` + `redirectAuthenticated`, as it gets rid of queries as well.
                         */
                         window.location = AppConstants.baseUrl + redirectAuthenticated;
                     }
