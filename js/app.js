@@ -86,6 +86,8 @@ class AppGateway {
         // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
 
+        // `history.listen` is called on every route change, which is perfect for
+        // us in that case.
         history.listen(EventActions.routeDidChange);
 
         React.render((
