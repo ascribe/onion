@@ -25,7 +25,7 @@ import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
-import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
+import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';

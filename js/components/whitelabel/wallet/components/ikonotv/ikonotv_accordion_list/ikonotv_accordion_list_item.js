@@ -12,7 +12,7 @@ import UserStore from '../../../../../../stores/user_store';
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 
 import AclProxy from '../../../../../acl_proxy';
 
