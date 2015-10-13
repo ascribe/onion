@@ -33,7 +33,7 @@ import AppConstants from './constants/application_constants';
 let baseUrl = AppConstants.baseUrl;
 
 let COMMON_ROUTES = (
-    <Route path={baseUrl} component={App}>
+    <Route path='/' component={App}>
         <Route
             path="login"
             component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />

@@ -17,16 +17,13 @@ import CoaVerifyContainer from '../../../components/coa_verify_container';
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import App from './prize_app';
-import AppConstants from '../../../constants/application_constants';
 
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 
-let baseUrl = AppConstants.baseUrl;
-
 function getRoutes() {
     return (
-        <Route path={baseUrl} component={App}>
+        <Route path='/' component={App}>
             <IndexRoute component={Landing} />
             <Route
                 path='login'

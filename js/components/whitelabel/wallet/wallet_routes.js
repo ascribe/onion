@@ -33,14 +33,11 @@ import CCRegisterPiece from './components/cc/cc_register_piece';
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 import WalletApp from './wallet_app';
-import AppConstants from '../../../constants/application_constants';
 
-
-let baseUrl = AppConstants.baseUrl;
 
 let ROUTES = {
     'cyland': (
-        <Route path={baseUrl} component={WalletApp}>
+        <Route path='/' component={WalletApp}>
             <IndexRoute component={CylandLanding} />
             <Route
                 path='login'
@@ -75,7 +72,7 @@ let ROUTES = {
         </Route>
     ),
     'cc': (
-        <Route path={baseUrl} component={WalletApp}>
+        <Route path='/' component={WalletApp}>
             <Route
                 path='login'
                 component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
@@ -109,7 +106,7 @@ let ROUTES = {
         </Route>
     ),
     'ikonotv': (
-        <Route path={baseUrl} component={WalletApp}>
+        <Route path='/' component={WalletApp}>
             <IndexRoute component={IkonotvLanding} />
             <Route
                 path='login'
