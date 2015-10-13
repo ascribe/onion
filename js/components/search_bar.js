@@ -76,7 +76,7 @@ const SearchBar = React.createClass({
          *
          * Like how it's being done in the 'Clear search' dialog.
          */
-        if(this.props.searchQuery !== nextProps.searchQuery) {
+        if(this.props.searchQuery !== nextProps.searchQuery || !this.state.searchQuery) {
             this.setState({ searchQuery: nextProps.searchQuery });
         }
     },
@@ -117,7 +117,7 @@ const SearchBar = React.createClass({
     render() {
         let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
         const { className } = this.props;
-        const { loading } = this.state;
+        const { loading, searchQuery } = this.state;
 
         if(loading) {
             searchIcon = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
@@ -127,7 +127,7 @@ const SearchBar = React.createClass({
             <span className={className}>
                 <Input
                     type='text'
-                    value={this.state.searchQuery}
+                    value={searchQuery}
                     placeholder={getLangText('Search%s', '...')}
                     onChange={this.handleChange}
                     addonAfter={searchIcon} />
