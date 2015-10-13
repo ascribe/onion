@@ -17,7 +17,7 @@ import ContractSettings from '../../../components/ascribe_settings/contract_sett
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import CylandLanding from './components/cyland/cyland_landing';
-import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
+import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 

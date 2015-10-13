@@ -3,7 +3,6 @@
 import React from 'react';
 import Router from 'react-router';
 
-
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 

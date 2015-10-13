@@ -12,7 +12,7 @@ import UserStore from '../../../../../../stores/user_store';
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import CylandSubmitButton from '../ascribe_buttons/cyland_submit_button';
+import CylandSubmitButton from '../cyland_buttons/cyland_submit_button';
 import AclProxy from '../../../../../acl_proxy';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
