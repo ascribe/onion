@@ -38,6 +38,7 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -210,6 +211,8 @@ let PieceContainer = React.createClass({
 
     render() {
         if(this.state.piece && this.state.piece.title) {
+            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
+
             return (
                 <Piece
                     piece={this.state.piece}
