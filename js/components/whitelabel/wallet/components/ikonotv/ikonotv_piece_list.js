@@ -9,6 +9,7 @@ import UserStore from '../../../../../stores/user_store';
 import IkonotvAccordionListItem from './ascribe_accordion_list/ikonotv_accordion_list_item';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let IkonotvPieceList = React.createClass({
@@ -34,6 +35,8 @@ let IkonotvPieceList = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Register a new piece'));
+
         return (
             <div>
                 <PieceList

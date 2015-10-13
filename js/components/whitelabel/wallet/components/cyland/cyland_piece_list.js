@@ -9,6 +9,7 @@ import UserStore from '../../../../../stores/user_store';
 import CylandAccordionListItem from './ascribe_accordion_list/cyland_accordion_list_item';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let CylandPieceList = React.createClass({
@@ -34,6 +35,8 @@ let CylandPieceList = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Collection'));
+
         return (
             <div>
                 <PieceList

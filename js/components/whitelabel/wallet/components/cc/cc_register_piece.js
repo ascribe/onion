@@ -8,6 +8,7 @@ import LicenseActions from '../../../../../actions/license_actions';
 import LicenseStore from '../../../../../stores/license_store';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
 let CCRegisterPiece = React.createClass({
@@ -81,6 +82,7 @@ let CCRegisterPiece = React.createClass({
     },
 
     render() {
+        setDocumentTitle('Register a new piece');
         return (
             <RegisterPiece
                 enableLocalHashing={false}

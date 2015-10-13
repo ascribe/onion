@@ -10,6 +10,7 @@ import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let IkonotvLanding = React.createClass({
@@ -54,6 +55,8 @@ let IkonotvLanding = React.createClass({
     },
 
     render() {
+        setDocumentTitle('ikonoTV');
+
         return (
             <div className="ikonotv-landing">
                 <header>

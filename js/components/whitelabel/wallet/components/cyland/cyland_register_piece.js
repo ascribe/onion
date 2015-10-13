@@ -34,6 +34,7 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
@@ -175,6 +176,8 @@ let CylandRegisterPiece = React.createClass({
         let today = new Moment();
         let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
         datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
+
+        setDocumentTitle(getLangText('Register a new piece'));
 
         return (
             <SlidesContainer
