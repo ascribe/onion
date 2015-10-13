@@ -1,3 +1,5 @@
+$ascribe-red-error: rgb(169, 68, 66);
+
 .ascribe-property-wrapper {
     background-color: white;
     border-left: 3px solid rgba(0, 0, 0, 0);
@@ -24,12 +26,12 @@
 }
 
 .is-error {
-    background-color: rgba(169, 68, 66, .05);
-    border-left: 3px solid rgba(169, 68, 66, 1);
+    background-color: rgba($ascribe-red-error, .03);
+    border-left: 3px solid rgba($ascribe-red-error, 1);
 
     > div {
         > span {
-            color: rgba(169, 68, 66, 1);
+            color: rgba($ascribe-red-error, 1);
             font-size: .9em;
             margin-right: 1em;
         }
@@ -41,7 +43,7 @@
     }
 
     &:hover {
-      border-left: 3px solid rgba(169, 68, 66, 1);
+      border-left: 3px solid rgba($ascribe-red-error, 1);
     }
 }
 

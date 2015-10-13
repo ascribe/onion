@@ -5,6 +5,8 @@ $ascribe-light-blue: #D3DEE4;
 $ascribe-white: #F8F8F8;
 $ascribe-pink: #D10074;
 $ascribe-blue-border: rgba(0, 60, 105, 0.1);
+$ascribe-red-error: rgb(169, 68, 66);
+
 
 $ascribe--fg-color: $ascribe-dark-blue;
 $ascribe--bg-color: $ascribe-dark-blue;
@@ -542,6 +544,18 @@ fieldset[disabled] .btn-secondary.active {
     border-left-color: $ascribe--button-default-color !important;
     background-color: rgba($ascribe--button-default-color, .05);
 }
+
+.is-error {
+    > div {
+        > span {
+            color: rgba($ascribe-red-error, 1) !important;
+        }
+    }
+    &:hover {
+        border-left: 3px solid rgba(169, 68, 66, .5)!important;
+    }
+}
+
 .ascribe-property-wrapper:hover {
     //border-left-color: rgba($ascribe--button-default-color, .5);
     border-left-color: rgba($ascribe-blue, .5);
@@ -568,7 +582,7 @@ fieldset[disabled] .btn-secondary.active {
         }
     }
     > span:not(.glyphicon) {
-        color: $ascribe-pink;
+        color: $ascribe--button-default-color;
         //font-weight: normal !important;
     }
 
