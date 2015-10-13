@@ -57,12 +57,14 @@ class Requests {
             });
     }
 
-    handleError(err) {
-        if (err instanceof TypeError) {
-            throw new Error('Server did not respond to the request. (Not even displayed a 500)');
-        } else {
-            throw err;
-        }
+    handleError(url) {
+        return (err) => {
+            if (err instanceof TypeError) {
+                throw new Error('For: ' + url + ' - Server did not respond to the request. (Not even displayed a 500)');
+            } else {
+                throw err;
+            }
+        };
     }
 
     getUrl(url) {
@@ -118,7 +120,7 @@ class Requests {
         merged.method = verb;
         return fetch(url, merged)
                     .then(this.unpackResponse)
-                    .catch(this.handleError);
+                    .catch(this.handleError(url));
     }
 
     get(url, params) {
