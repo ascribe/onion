@@ -178,6 +178,7 @@ let PieceList = React.createClass({
                     orderBy={this.state.orderBy}
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
+                    searchFor={this.searchFor}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>

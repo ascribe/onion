@@ -68,6 +68,19 @@ const SearchBar = React.createClass({
         }
     },
 
+    componentWillReceiveProps(nextProps) {
+        /**
+         * This enables the `PieceListStore` to override the state
+         * of that component in case someone is changing the `searchQuery` on
+         * another component.
+         *
+         * Like how it's being done in the 'Clear search' dialog.
+         */
+        if(this.props.searchQuery !== nextProps.searchQuery) {
+            this.setState({ searchQuery: nextProps.searchQuery });
+        }
+    },
+
     startTimer(searchQuery) {
         const { timer } = this.state;
         const { threshold } = this.props;
@@ -114,6 +127,7 @@ const SearchBar = React.createClass({
             <span className={className}>
                 <Input
                     type='text'
+                    value={this.state.searchQuery}
                     placeholder={getLangText('Search%s', '...')}
                     onChange={this.handleChange}
                     addonAfter={searchIcon} />
