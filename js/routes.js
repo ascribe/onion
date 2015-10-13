@@ -27,10 +27,6 @@ import RegisterPiece from './components/register_piece';
 
 import AuthProxyHandler from './components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
-import AppConstants from './constants/application_constants';
-
-
-let baseUrl = AppConstants.baseUrl;
 
 let COMMON_ROUTES = (
     <Route path='/' component={App}>
