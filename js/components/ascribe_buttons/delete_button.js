@@ -42,10 +42,10 @@ let DeleteButton = React.createClass({
 
             if(this.props.piece && !this.props.editions) {
                 content = <PieceDeleteForm pieceId={this.props.piece.id}/>;
-                title = getLangText('Remove Piece');
+                title = getLangText('Delete Piece');
             } else {
                 content = <EditionDeleteForm editions={this.props.editions}/>;
-                title = getLangText('Remove Edition');
+                title = getLangText('Delete Edition');
             }
 
             btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;

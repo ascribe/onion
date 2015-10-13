@@ -251,7 +251,7 @@ let EditionSummary = React.createClass({
         Object.keys(acl).forEach((key) => {
             let index = verbsToCheck.indexOf(key);
             if (acl[key] === true && index !== -1) {
-                verbListIndices.push(index);
+                verbListIndices.push(verbsToCheck[index].slice(4));
             }
         });
         return verbListIndices;

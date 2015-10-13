@@ -10,7 +10,7 @@ import InputTextAreaToggable from './input_textarea_toggable';
 
 import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils.js';
-
+import AclInformation from '../ascribe_information/acl_information';
 
 let ConsignForm = React.createClass({
     propTypes: {
@@ -45,6 +45,7 @@ let ConsignForm = React.createClass({
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
+                <AclInformation aim={'form'} verbs={'consign'}/>
                 <Property
                     name='consignee'
                     label={getLangText('Email')}>

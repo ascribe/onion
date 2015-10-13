@@ -173,8 +173,8 @@ let AclButton = React.createClass({
                             {this.sanitizeAction()}
                         </button>
                     }
-                    handleSuccess={aclProps.handleSuccess}
-                    title={aclProps.title}>
+                    handleSuccess = {aclProps.handleSuccess}
+                    title = {aclProps.title}>
                     {aclProps.form}
                 </ModalWrapper>
             );
