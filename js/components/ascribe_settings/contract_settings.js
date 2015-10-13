@@ -23,6 +23,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import AclProxy from '../acl_proxy';
 
 import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom_utils';
 import { mergeOptions, truncateTextAtCharIndex } from '../../utils/general_utils';
 
 
@@ -85,6 +86,8 @@ let ContractSettings = React.createClass({
         let publicContracts = this.getPublicContracts();
         let privateContracts = this.getPrivateContracts();
         let createPublicContractForm = null;
+
+        setDocumentTitle(getLangText('Contracts settings'));
 
         if(publicContracts.length === 0) {
             createPublicContractForm = (

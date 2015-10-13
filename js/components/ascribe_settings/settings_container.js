@@ -15,6 +15,8 @@ import APISettings from './api_settings';
 import AclProxy from '../acl_proxy';
 
 import { mergeOptions } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 
 let SettingsContainer = React.createClass({
@@ -53,6 +55,8 @@ let SettingsContainer = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Account settings'));
+
         if (this.state.currentUser && this.state.currentUser.username) {
             return (
                 <div className="settings-container">

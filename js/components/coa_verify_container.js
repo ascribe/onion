@@ -11,10 +11,13 @@ import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
 import ApiUrls from '../constants/api_urls';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
     render() {
+        setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
+
         return (
             <div className="ascribe-login-wrapper">
                 <br/>

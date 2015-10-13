@@ -22,6 +22,7 @@ import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let RegisterPiece = React.createClass( {
@@ -115,6 +116,8 @@ let RegisterPiece = React.createClass( {
     },
 
     render() {
+        setDocumentTitle(getLangText('Register a new piece'));
+
         return (
             <Row className="no-margin">
                 <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>

@@ -10,6 +10,7 @@ import ApiUrls from '../constants/api_urls';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PasswordResetContainer = React.createClass({
@@ -75,6 +76,8 @@ let PasswordRequestResetForm = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Reset your password'));
+
         return (
             <Form
                 ref="form"
