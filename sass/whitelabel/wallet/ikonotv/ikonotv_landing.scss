@@ -22,6 +22,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
 .client--ikonotv .navbar-default {
     background-color: $ikono--bg-color;
+    box-shadow: none;
 
     // this is a horrible hack
     .navbar-nav > li > a[href="https://www.ascribe.io/"] {
@@ -47,6 +48,8 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
     .navbar-nav > .active a:focus {
         color: black;
         border-bottom-color: transparent;
+        background-color: transparent;
+        font-weight: bold;
     }
 
     .navbar-nav > .active {
@@ -65,6 +68,30 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
     .dropdown-menu > .active > a:focus {
         color: white;
         background-color: $ikono--bg-color;
+    }
+
+    .dropdown-menu {
+        background-color: $ikono--bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color:  white;
+        font-weight: bold;
+    }
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color:  $ikono--bg-color;
+        background-color: white;
+    }
+
+    .notification-menu {
+        .dropdown-menu {
+            background-color: white;
+            li:hover {
+                background-color: rgba($ikono--button-color, 0.1);
+            }
+        }
     }
 
     .img-brand.navbar-brand {
@@ -202,6 +229,14 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 }
 
 .client--ikonotv .ascribe-footer {
+    display: none;
+}
+
+.client--ikonotv .ascribe-icon {
+    color: $ikono--button-color;
+}
+
+.client--ikonotv .ascribe-piece-list-toolbar .btn-ascribe-add{
     display: none;
 }
 
@@ -394,6 +429,9 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
     .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
         color: $ikono--button-color;
     }
+    .search-bar > .form-group > .input-group > .input-group-addon {
+        border-color: transparent;
+    }
 }
 
 
@@ -418,8 +456,8 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 // intercom stuff
 .client--ikonotv {
     #intercom-container .intercom-launcher-button {
-        background-color: $ikono--button-color;
-        border-color: $ikono--button-color;
+        background-color: $ikono--button-color !important;;
+        border-color: $ikono--button-color !important;;
     }
 }
 

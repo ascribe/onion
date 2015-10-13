@@ -94,8 +94,7 @@ let Header = React.createClass({
                     <li>
                         <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
                             <span id="powered">{getLangText('powered by')} </span>
-                            <span>ascribe </span>
-                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                            <span className="icon-ascribe-logo"></span>
                         </a>
                     </li>
             </AclProxy>

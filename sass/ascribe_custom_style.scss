@@ -149,7 +149,8 @@ hr {
 
 .ascribe-icon {
     font-size: 1.2em;
-    font-weight: 300;
+    font-weight: $ascribe--font-weight;
+    color: $ascribe--button-default-color;
 }
 
 .ascribe-accordion-list-item {
@@ -157,6 +158,7 @@ hr {
     -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
 	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
 	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
+    margin-bottom: 1em;
     &:hover {
         //-webkit-transform: scale(1.005);
         //   -moz-transform: scale(1.005);
