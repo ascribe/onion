@@ -29,7 +29,6 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-import { constructHead, setTitle } from '../utils/head_setter';
 
 let Header = React.createClass({
     propTypes: {
@@ -66,17 +65,7 @@ let Header = React.createClass({
 
     getLogo(){
         let { whitelabel } = this.state;
-        if (whitelabel.title && whitelabel.head) {
-            setTitle(whitelabel.title);
-            constructHead(whitelabel.head);
-        }
-        else{
-            setTitle('ascribe');
-        }
-
-        if (whitelabel.subdomain &&
-            whitelabel.subdomain !== 'www'
-            && whitelabel.logo){
+        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
             return (<img className="img-brand" src={whitelabel.logo}/>);
         }
         return (
