@@ -26,7 +26,7 @@ let WalletApp = React.createClass({
 
         let header = null;
         if ((this.isActive('landing') || this.isActive('login') || this.isActive('signup') || this.isActive('contract_notifications'))
-            && (['ikonotv', 'cyland']).indexOf(subdomain) > -1) {
+            && (['ikonotv']).indexOf(subdomain) > -1) {
             header = (
                 <div className="hero"/>);
         } else {

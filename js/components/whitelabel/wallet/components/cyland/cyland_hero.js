@@ -10,7 +10,7 @@ let Hero = React.createClass({
             <div className="hero">
                 <img
                     className="logo" src={constants.whitelabel.logo}
-                    alt="Sluice Art Prize"
+                    alt="Cyland Video Archive"
                     height="200px"/>
             </div>
         );
