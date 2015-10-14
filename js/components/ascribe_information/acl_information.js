@@ -56,7 +56,7 @@ let AclInformation = React.createClass({
             console.log('Aim is required when you want to place information text');
         }
     },
-    produceInformationBlock(){
+    produceInformationBlock() {
         let enabledIndices = this.props.verbs;
         let titleList = informationTexts.title;
         let infoSentenceList = informationTexts.informationSentence;
