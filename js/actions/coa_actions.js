@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import CoaFetcher from '../fetchers/coa_fetcher';
 
 import Q from 'q';

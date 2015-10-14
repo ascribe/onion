@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import EditionsListActions from '../actions/edition_list_actions';
 
 class EditionListStore {

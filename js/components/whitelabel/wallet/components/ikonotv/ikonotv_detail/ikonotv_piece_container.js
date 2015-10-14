@@ -7,13 +7,12 @@ import PieceStore from '../../../../../../stores/piece_store';
 
 import UserStore from '../../../../../../stores/user_store';
 
-
-import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import IkonotvArtistDetailsForm from '../ascribe_forms/ikonotv_artist_details_form';
-import IkonotvArtworkDetailsForm from '../ascribe_forms/ikonotv_artwork_details_form';
+import IkonotvArtistDetailsForm from '../ikonotv_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from '../ikonotv_forms/ikonotv_artwork_details_form';
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
@@ -22,7 +21,12 @@ import AscribeSpinner from '../../../../../ascribe_spinner';
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
+
 let IkonotvPieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),

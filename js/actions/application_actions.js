@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import ApplicationFetcher from '../fetchers/application_fetcher';
 
 

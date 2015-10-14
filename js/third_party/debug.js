@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 
@@ -27,4 +27,4 @@ class DebugHandler {
     }
 }
 
-export default alt.createStore(DebugHandler, 'DebugHandler');
+export default altThirdParty.createStore(DebugHandler, 'DebugHandler');

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import alt from '../alt';
+import { alt } from '../alt';
 
 import PieceListActions from '../actions/piece_list_actions';
 

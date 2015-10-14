@@ -49,7 +49,7 @@ let WalletActionPanel = React.createClass({
                     className="text-center ascribe-button-list"
                     availableAcls={availableAcls}
                     editions={this.props.piece}
-                    handleSuccess={this.loadPiece}>
+                    handleSuccess={this.props.loadPiece}>
                     <AclProxy
                         aclObject={this.props.currentUser.acl}
                         aclName="acl_wallet_submit">
@@ -58,7 +58,6 @@ let WalletActionPanel = React.createClass({
                             aclName="acl_wallet_submit">
                             <SubmitButtonType
                                 className="btn-sm"
-                                handleSuccess={this.handleSubmitSuccess}
                                 piece={this.props.piece}/>
                         </AclProxy>
                     </AclProxy>

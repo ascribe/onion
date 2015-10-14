@@ -17,7 +17,7 @@ import ContractSettings from '../../../components/ascribe_settings/contract_sett
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import CylandLanding from './components/cyland/cyland_landing';
-import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
+import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 
@@ -25,7 +25,7 @@ import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
-import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
+import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';

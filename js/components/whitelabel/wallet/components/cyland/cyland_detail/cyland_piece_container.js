@@ -7,11 +7,11 @@ import PieceStore from '../../../../../../stores/piece_store';
 
 import UserStore from '../../../../../../stores/user_store';
 
-import CylandSubmitButton from '../ascribe_buttons/cyland_submit_button';
+import CylandSubmitButton from '../cyland_buttons/cyland_submit_button';
 
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import CylandAdditionalDataForm from '../ascribe_forms/cyland_additional_data_form';
+import CylandAdditionalDataForm from '../cyland_forms/cyland_additional_data_form';
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
@@ -21,6 +21,10 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let CylandPieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),

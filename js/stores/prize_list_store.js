@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 
 import PrizeListActions from '../actions/prize_list_actions';
 
