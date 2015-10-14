@@ -13,7 +13,7 @@ let AclInformation = React.createClass({
         ]),
         aim: React.PropTypes.string
     },
-    render() {
+    getInfoText(title, info, example){
         let titleStyle = {
             color: '#02B6A3',
             fontSize: '11px',
@@ -37,29 +37,30 @@ let AclInformation = React.createClass({
             lineHeight: '15px',
             align: 'justify'
         };
-        let enabledIndices = this.props.verbs;
+
         let aim = this.props.aim;
+
+        if (aim) {
+            if (aim === 'form') {
+                return (<p style={paragraphStyle}>
+                    <span style={infoStyle}> {replaceSubstringAtIndex(info.slice(2), 's ', ' ')} <br/> </span>
+                    <span style={exampleStyle}> {example} </span></p>);
+            }
+            else if (aim === 'button') {
+                return (<p style={paragraphStyle}><span style={titleStyle}> {title} </span>
+                    <span style={infoStyle}> {info} <br/> </span>
+                    <span style={exampleStyle}> {example} </span></p>);
+            }
+        }
+        else {
+            console.log('Aim is required when you want to place information text');
+        }
+    },
+    produceInformationBlock(){
+        let enabledIndices = this.props.verbs;
         let titleList = informationTexts.title;
         let infoSentenceList = informationTexts.informationSentence;
         let exampleSentenceList = informationTexts.exampleSentence;
-        let createJSXTextSnippet = function(title, info, example){
-            if (aim) {
-                if (aim === 'form') {
-                    return (<p style={paragraphStyle}>
-                        <span style={infoStyle}> {replaceSubstringAtIndex(info.slice(2), 's ', ' ')} <br/> </span>
-                        <span style={exampleStyle}> {example} </span></p>);
-                }
-                else if (aim === 'button') {
-                    return (<p style={paragraphStyle}><span style={titleStyle}> {title} </span>
-                        <span style={infoStyle}> {info} <br/> </span>
-                        <span style={exampleStyle}> {example} </span></p>);
-                }
-            }
-            else {
-                console.log('Aim is required when you want to place information text');
-            }
-        };
-        let rows = null;
         let sortedIndices = ['share', 'transfer', 'consign', 'loan', 'delete'];
         let tempIndices = [];
         for (let i = 0; i < sortedIndices.length; i++){
@@ -72,16 +73,13 @@ let AclInformation = React.createClass({
         }
         enabledIndices = tempIndices;
         if(Array.isArray(enabledIndices)) {
-            rows = enabledIndices.map((i)=> {
-                return (createJSXTextSnippet(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
-                    getLangText(exampleSentenceList[i]),
-                    titleStyle, infoStyle, exampleStyle));
+            return enabledIndices.map((i)=> {
+                return (this.getInfoText(getLangText(titleList[i]), getLangText(infoSentenceList[i]),
+                    getLangText(exampleSentenceList[i])));
             });
         }
         else if (typeof enabledIndices === 'string'){
-            rows = (createJSXTextSnippet(getLangText(titleList[enabledIndices]), getLangText(infoSentenceList[enabledIndices]),
-                    getLangText(exampleSentenceList[enabledIndices]),
-                    titleStyle, infoStyle, exampleStyle));
+            return (this.getInfoText(getLangText(titleList[enabledIndices]), getLangText(infoSentenceList[enabledIndices])));
         }
         else if (typeof enabledIndices === 'undefined'){
             console.log('Verbs come undefined maybe you wrote verb instead of verbs?');
@@ -89,7 +87,10 @@ let AclInformation = React.createClass({
         else {
             console.log('You need to supply an array of strings or string as verbs to AclInformation');
         }
-        return (<span>{rows}</span>);
+    },
+    render() {
+        console.log('Creation of information block');
+        return (<span>{this.produceInformationBlock()}</span>);
     }
 });
 

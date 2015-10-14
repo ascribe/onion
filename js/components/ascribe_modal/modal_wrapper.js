@@ -72,12 +72,12 @@ let ModalWrapper = React.createClass({
             <span>
                 {trigger}
                 <Modal show={this.state.showModal} onHide={this.hide}>
-                    <Modal.Header style={modalHeaderAscribe} closeButton>
+                    <Modal.Header closeButton>
                         <Modal.Title>
                             {this.props.title}
                         </Modal.Title>
                     </Modal.Header>
-                    <div className="modal-body" style={modalBodyAscribe}>
+                    <div className="modal-body" >
                         {this.renderChildren()}
                     </div>
                 </Modal>
