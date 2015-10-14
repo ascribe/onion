@@ -157,6 +157,10 @@ hr {
     color: $ascribe--button-default-color;
 }
 
+.ascribe-piece-list-toolbar .btn-ascribe-add{
+    display: none;
+}
+
 .ascribe-accordion-list {
     margin-bottom: 1em;
 }
@@ -494,6 +498,9 @@ fieldset[disabled] .btn-secondary.active {
 .ascribe-input-glyph > .form-group > .input-group > .input-group-addon > .filter-glyph {
     color: $ascribe--button-default-color;
 }
+.search-bar > .form-group {
+    margin: 0;
+}
 
 .search-bar > .form-group > .input-group {
     border: 1px solid rgba(0, 0, 0, 0);
@@ -634,10 +641,21 @@ fieldset[disabled] .btn-secondary.active {
 
 // notifications
 .ascribe-global-notification-success {
-    background-color: $ascribe--button-default-color;
+    background-color: lighten($ascribe--button-default-color, 20%);
 }
 
-// progress bar
+// uploader
 .ascribe-progress-bar > .progress-bar {
-    background-color: $ascribe--button-default-color;
+    background-color: lighten($ascribe--button-default-color, 20%);
+}
+
+.action-file {
+    text-shadow: -1px 0 black,
+                  0 1px black,
+                  1px 0 black,
+                  0 -1px black;
+
+    &:hover {
+        color: lighten($ascribe--button-default-color, 20%);
+    }
 }

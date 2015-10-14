@@ -13,7 +13,7 @@ import GlobalNotificationModel from '../../../../../../models/global_notificatio
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import ApiUrls from '../../../../../../constants/api_urls';
-import AppConstants from '../../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import requests from '../../../../../../utils/requests';
 
@@ -92,7 +92,9 @@ let CylandAdditionalDataForm = React.createClass({
 
             spinner = (
                 <div className="modal-footer">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    <p className="pull-right">
+                        <AscribeSpinner color='dark-blue' size='md'/>
+                    </p>
                 </div>
             );
 
@@ -146,7 +148,7 @@ let CylandAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='md'/>
                 </div>
             );
         }

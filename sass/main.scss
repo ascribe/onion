@@ -37,6 +37,7 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_collapsible';
 @import 'ascribe_custom_style';
 @import 'ascribe_spinner';
+@import 'ascribe_scrollbar';
 
 @import 'whitelabel/index';
 
@@ -344,18 +345,6 @@ hr {
     padding-top: 30%;
     text-align: center;
 }
-
-.ascribe-progress-bar {
-    margin-bottom: 0;
-    > .progress-bar {
-        background-color: $ascribe-color-green;
-    }
-}
-
-.ascribe-progress-bar-xs {
-    height: 12px;
-}
-
 
 .ascribe-piece-list-filter-display {
     padding-left: 10px;

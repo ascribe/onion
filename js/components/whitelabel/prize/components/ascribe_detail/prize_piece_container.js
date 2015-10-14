@@ -20,7 +20,7 @@ import UserStore from '../../../../../stores/user_store';
 import Piece from '../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../components/ascribe_detail/note';
 
-import AppConstants from '../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../ascribe_spinner';
 
 import Form from '../../../../../components/ascribe_forms/form';
 import Property from '../../../../../components/ascribe_forms/property';
@@ -149,7 +149,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

@@ -141,7 +141,7 @@ let LoanForm = React.createClass({
                 return (
                     <Property
                         name="terms"
-                        className="ascribe-sproperty-collapsible-toggle"
+                        className="ascribe-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
                             key="terms_explicitly"

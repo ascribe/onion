@@ -15,7 +15,7 @@ import CylandAdditionalDataForm from '../ascribe_forms/cyland_additional_data_fo
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
-import AppConstants from '../../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
@@ -76,7 +76,7 @@ let CylandPieceContainer = React.createClass({
         else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

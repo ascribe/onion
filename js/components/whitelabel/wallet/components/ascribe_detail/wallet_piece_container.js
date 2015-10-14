@@ -13,7 +13,7 @@ import Note from '../../../../ascribe_detail/note';
 import DetailProperty from '../../../../ascribe_detail/detail_property';
 
 import ApiUrls from '../../../../../constants/api_urls';
-import AppConstants from '../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 
@@ -81,7 +81,7 @@ let WalletPieceContainer = React.createClass({
         else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }
