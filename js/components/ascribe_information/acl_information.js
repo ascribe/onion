@@ -6,6 +6,13 @@ import { getLangText } from '../../utils/lang_utils';
 import { replaceSubstringAtIndex } from '../../utils/general_utils';
 
 let AclInformation = React.createClass({
+    propTypes: {
+        verbs: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.arrayOf(React.PropTypes.string)
+        ]),
+        aim: React.PropTypes.string
+    },
     render() {
         let titleStyle = {
             color: '#02B6A3',

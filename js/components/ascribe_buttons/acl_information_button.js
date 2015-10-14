@@ -8,6 +8,12 @@ import AclInformation from '../ascribe_information/acl_information';
 import Button from 'react-bootstrap/lib/Button';
 
 let AclInformationButton = React.createClass({
+    propTypes: {
+        verbs: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.arrayOf(React.PropTypes.string)
+        ])
+    },
     getInitialState() {
         return {isVisible: false};
     },
