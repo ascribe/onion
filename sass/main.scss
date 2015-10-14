@@ -87,34 +87,11 @@ hr {
     display: inline;
 }
 
-
-.truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 4em;
-
-    @media only screen and (min-width: 400px) {
-        width: 8em;
-    }
-
-    @media only screen and (min-width: 600px) {
-        width: 12em;
-    }
-
-    @media only screen and (min-width: 1000px) {
-        width: 14em;
-    }
-
-    @media only screen and (min-width: 1200px) {
-        width: 16em;
-    }
-
-    @media only screen and (min-width: 1400px) {
-        width: 18em;
-    }
+.ascribe-powered-by {
+    font-size: 11px!important;
+    text-transform: none!important;
+    font-weight: normal!important;
 }
-
 
 .clear-paddings {
     padding-left: 0;
@@ -164,12 +141,13 @@ hr {
 }
 
 .btn-delete {
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0)!important;
+    border: 1px solid rgba(0, 0, 0, 0)!important;
     color: #888;
 
     &:hover {
-        border: 1px solid $ascribe-brand-danger;
+        background-color: $ascribe-brand-danger !important;
+        border: 1px solid $ascribe-brand-danger !important;
     }
 }
 

@@ -92,7 +92,7 @@ let Header = React.createClass({
                 aclObject={this.state.whitelabel}
                 aclName="acl_view_powered_by">
                     <li>
-                        <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                        <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
                             <span id="powered">{getLangText('powered by')} </span>
                             <span className="icon-ascribe-logo"></span>
                         </a>

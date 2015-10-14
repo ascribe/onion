@@ -2,7 +2,7 @@ $ikono--landing-bg-color: #093;
 $ikono--bg-color: #06c;
 $ikono--button-color: $ikono--bg-color;
 $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
-
+$ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 
 @include keyframes(color-loop) {
     0%  { background: $ikono--landing-bg-color; }
@@ -12,7 +12,10 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
 
 .client--ikonotv {
-    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    font-family: $ikono--font;
+    h1, h3 {
+        font-family: $ikono--font;
+    }
 }
 
 
@@ -23,13 +26,6 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 .client--ikonotv .navbar-default {
     background-color: $ikono--bg-color;
     box-shadow: none;
-
-    // this is a horrible hack
-    .navbar-nav > li > a[href="https://www.ascribe.io/"] {
-        font-size: 11px;
-        text-transform: none;
-        font-weight: normal;
-    }
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
@@ -232,12 +228,27 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
     display: none;
 }
 
-.client--ikonotv .ascribe-icon {
+.client--ikonotv .icon-ascribe-search{
     color: $ikono--button-color;
 }
 
 .client--ikonotv .ascribe-piece-list-toolbar .btn-ascribe-add{
     display: none;
+}
+
+// spinner!
+.client--ikonotv {
+
+    .btn-spinner {
+        color: $ikono--button-color;
+    }
+    .spinner-circle {
+        border-color: $ikono--button-color;
+    }
+    .spinner-inner {
+        font-family: $ascribe--font;
+        color: $ikono--button-color;
+    }
 }
 
 .ikonotv-landing {
@@ -285,7 +296,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
                 }
             }
         }
-    
+
         > h2 {
             font-weight: 600;
             font-size: 2.75em;
@@ -371,15 +382,15 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 // "every great atrocity is the result of people just following orders"
 .client--ikonotv {
     .ascribe-piece-list-toolbar-filter-widget button {
-        background-color: transparent;
-        border: 1px solid transparent;
-        color: $ikono--button-color;
+        color: $ikono--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
 
         &:hover,
         &:active {
             background-color: $ikono--button-color !important;
             border-color: $ikono--button-color !important;
-            color: white;
+            color: white !important;
         }
     }
 
@@ -437,9 +448,41 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
 // properties!
 .client--ikonotv {
+    input {
+        background-color: white;
+    }
+    .ascribe-property {
+        > div,
+        > input,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > textarea {
+            font-family: $ikono--font;
+        }
+        > div {
+            > div:not(.file-drag-and-drop div) {
+                font-family: $ikono--font;
+            }
+        }
+    }
     .is-focused {
         border-left-color: $ikono--button-color !important;
         background-color: rgba($ikono--button-color, .05);
+    }
+    .is-error {
+        > div {
+            > span {
+                color: white !important;
+            }
+            > input,
+            > textarea {
+                color: rgba($ascribe-red-error, 1) !important;
+            }
+        }
+        &:hover {
+            border-left: 3px solid rgba($ascribe-red-error, .5)!important;
+        }
     }
     .ascribe-property-wrapper:hover {
         border-left-color: rgba($ikono--button-color, .5);
@@ -464,7 +507,7 @@ $ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ik
 
 // notifications
 .client--ikonotv .ascribe-global-notification-success {
-    background-color: $ikono--button-color;
+    background-color: lighten($ikono--button-color, 20%);
 }
 
 // progress bar

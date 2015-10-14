@@ -21,7 +21,8 @@ $ascribe--button-secondary-bg-color: white;
 
 $ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
 
-$ascribe--font: 'canada-type-gibson', sans-serif !important;
+//$ascribe--font: 'canada-type-gibson', sans-serif !important;
+$ascribe--font: 'gibson-local', sans-serif !important;
 $ascribe--font-weight: 300 !important;
 
 html,
@@ -150,27 +151,20 @@ hr {
 .ascribe-icon {
     font-size: 1.2em;
     font-weight: $ascribe--font-weight;
+}
+
+.icon-ascribe-search{
     color: $ascribe--button-default-color;
 }
 
+.ascribe-accordion-list {
+    margin-bottom: 1em;
+}
 .ascribe-accordion-list-item {
     border: 1px solid $ascribe-blue-border;
     -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
 	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
 	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
-    margin-bottom: 1em;
-    &:hover {
-        //-webkit-transform: scale(1.005);
-        //   -moz-transform: scale(1.005);
-        //    -ms-transform: scale(1.005);
-        //     -o-transform: scale(1.005);
-        //        transform: scale(1.005);
-      //  -webkit-transition: all 0.1s ease;
-      //   -moz-transition: all 0.1s ease;
-      // -o-transition: all 0.1s ease;
-      //-ms-transition: all 0.1s ease;
-      //    transition: all 0.1s ease;
-    }
 }
 
 .ascribe-accordion-list-item .wrapper {
@@ -351,6 +345,9 @@ hr {
         }
     }
 }
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
 
 // disabled buttons
 .btn-default.disabled,
@@ -373,37 +370,6 @@ fieldset[disabled] .btn-default:active,
 fieldset[disabled] .btn-default.active {
     background-color: darken($ascribe--button-default-color, 20%);
     border-color: darken($ascribe--button-default-color, 20%);
-}
-
-// buttons!
-// thought of the day:
-// "every great atrocity is the result of people just following orders"
-.ascribe-piece-list-toolbar-filter-widget button {
-    background-color: transparent;
-    border: 1px solid transparent;
-    color: $ascribe--button-default-color;
-
-    &:hover,
-    &:active {
-        background-color: $ascribe--button-default-color !important;
-        border-color: $ascribe--button-default-color !important;
-        color: white;
-    }
-}
-
-.btn-wide {
-    font-weight: $ascribe--font-weight;
-}
-
-.btn-spinner, .btn-spinner:hover {
-    background-color: $ascribe--button-default-color;
-    border-color: $ascribe--button-default-color;
-    [class^="spinner-wrapper-"] {
-        color: white;
-        .spinner-circle {
-            border-color: white;
-        }
-    }
 }
 
 .btn-default {
@@ -465,6 +431,34 @@ fieldset[disabled] .btn-secondary.active {
         background-color: $ascribe--button-secondary-fg-color;
         border-color: $ascribe--button-secondary-bg-color;
         color: $ascribe--button-secondary-bg-color;
+    }
+}
+
+.ascribe-piece-list-toolbar-filter-widget button {
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: $ascribe--button-default-color;
+
+    &:hover,
+    &:active {
+        background-color: $ascribe--button-default-color !important;
+        border-color: $ascribe--button-default-color !important;
+        color: white;
+    }
+}
+
+.btn-wide {
+    font-weight: $ascribe--font-weight;
+}
+
+.btn-spinner, .btn-spinner:hover {
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+    [class^="spinner-wrapper-"] {
+        color: white;
+        .spinner-circle {
+            border-color: white;
+        }
     }
 }
 
@@ -554,7 +548,7 @@ fieldset[disabled] .btn-secondary.active {
         }
     }
     &:hover {
-        border-left: 3px solid rgba(169, 68, 66, .5)!important;
+        border-left: 3px solid rgba($ascribe-red-error, .5)!important;
     }
 }
 
