@@ -36,15 +36,15 @@ let CylandAdditionalDataForm = React.createClass({
         };
     },
 
-    handleSuccess() {
-        let notification = new GlobalNotificationModel('Further details successfully updated', 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
     getInitialState() {
         return {
             isUploadReady: true
         };
+    },
+
+    handleSuccess() {
+        let notification = new GlobalNotificationModel('Further details successfully updated', 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getFormData() {

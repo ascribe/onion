@@ -104,12 +104,13 @@ let CylandRegisterPiece = React.createClass({
 
         // also start loading the piece for the next step
         if(response && response.piece) {
+            PieceActions.updatePiece({});
             PieceActions.updatePiece(response.piece);
         }
 
         this.incrementStep();
 
-        this.refs.slidesContainer.nextSlide();
+        this.refs.slidesContainer.nextSlide({ piece_id: response.piece.id });
     },
 
     handleAdditionalDataSuccess() {

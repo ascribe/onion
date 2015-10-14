@@ -29,8 +29,6 @@ const SlidesContainer = React.createClass({
     },
 
     componentDidMount() {
-        this.handleContainerResize();
-
         // we're using an event listener on window here,
         // as it was not possible to listen to the resize events of a dom node
         window.addEventListener('resize', this.handleContainerResize);
@@ -51,16 +49,15 @@ const SlidesContainer = React.createClass({
     },
 
     // When the start_from parameter is used, this.setSlideNum can not simply be used anymore.
-    nextSlide() {
-        const slideNum = parseInt(this.props.location.query.slide_num, 10);
+    nextSlide(additionalQueryParams) {
+        const slideNum = parseInt(this.props.location.query.slide_num, 10) || 0;
         let nextSlide = slideNum + 1;
-        this.setSlideNum(nextSlide);
+        this.setSlideNum(nextSlide, additionalQueryParams);
     },
 
-    setSlideNum(nextSlideNum) {
-        let queryParams = this.props.location.query;
+    setSlideNum(nextSlideNum, additionalQueryParams = {}) {
+        let queryParams = Object.assign(this.props.location.query, additionalQueryParams);
         queryParams.slide_num = nextSlideNum;
-
         this.history.pushState(null, this.props.location.pathname, queryParams);
     },
 
@@ -107,7 +104,7 @@ const SlidesContainer = React.createClass({
             return (
                 <SlidesContainerBreadcrumbs
                     breadcrumbs={breadcrumbs}
-                    slideNum={parseInt(this.props.location.query.slide_num, 10)}
+                    slideNum={parseInt(this.props.location.query.slide_num, 10) || 0}
                     numOfSlides={breadcrumbs.length}
                     containerWidth={this.state.containerWidth}
                     glyphiconClassNames={this.props.glyphiconClassNames}/>
@@ -142,7 +139,7 @@ const SlidesContainer = React.createClass({
     },
 
     render() {
-        let spacing = this.state.containerWidth * parseInt(this.props.location.query.slide_num, 10);
+        let spacing = this.state.containerWidth * parseInt(this.props.location.query.slide_num, 10) || 0;
         let translateXValue = 'translateX(' + (-1) * spacing + 'px)';
 
         /*
