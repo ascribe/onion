@@ -19,7 +19,7 @@ import AppConstants from '../../constants/application_constants';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import AclInformation from '../ascribe_information/acl_information';
+import AclInformation from '../ascribe_buttons/acl_information';
 
 let LoanForm = React.createClass({
     propTypes: {
@@ -227,7 +227,7 @@ let LoanForm = React.createClass({
                 <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.loanHeading})}>
                     <h3>{this.props.loanHeading}</h3>
                 </div>
-                <AclInformation aim={'form'} verbs={'loan'}/>
+                <AclInformation aim={'form'} verbs={['acl_loan']}/>
                 <br></br>
                 <Property
                     name='loanee'

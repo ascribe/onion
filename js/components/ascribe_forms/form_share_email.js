@@ -9,7 +9,7 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import Button from 'react-bootstrap/lib/Button';
 
 import AppConstants from '../../constants/application_constants';
-import AclInformation from '../ascribe_information/acl_information';
+import AclInformation from '../ascribe_buttons/acl_information';
 import { getLangText } from '../../utils/lang_utils.js';
 
 
@@ -49,8 +49,7 @@ let ShareForm = React.createClass({
                     <div className="modal-footer">
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>}>
-                {console.log('hoho')}
-                <AclInformation aim={'form'} verbs={'share'}/>
+                <AclInformation aim={'form'} verbs={['acl_share']}/>
                 <Property
                     name='share_emails'
                     label={getLangText('Emails')}>

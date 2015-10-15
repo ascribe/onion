@@ -2,7 +2,7 @@
 
 import { sanitize } from './general_utils';
 
-function intersectAcls(a, b) {
+export function intersectAcls(a, b) {
     return a.filter((val) => b.indexOf(val) > -1);
 }
 

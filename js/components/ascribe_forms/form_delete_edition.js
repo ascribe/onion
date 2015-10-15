@@ -8,7 +8,7 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
-import AclInformation from '../ascribe_information/acl_information';
+import AclInformation from '../ascribe_buttons/acl_information';
 
 let EditionDeleteForm = React.createClass({
 
@@ -58,7 +58,7 @@ let EditionDeleteForm = React.createClass({
                         <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
                     </div>
                 }>
-                <AclInformation aim={'form'} verbs={'delete'}/>
+                <AclInformation aim={'form'} verbs={['acl_delete']}/>
                 <p>{getLangText('Are you sure you would like to permanently delete this edition')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
             </Form>

@@ -27,6 +27,8 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -200,6 +202,10 @@ let PieceContainer = React.createClass({
                         <DeleteButton
                             handleSuccess={this.handleDeleteSuccess}
                             piece={this.state.piece}/>
+                        <AclInformation
+                            aim="button"
+                            verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete']}
+                            aclObject={this.state.piece.acl}/>
                 </AclButtonList>
             );
         }

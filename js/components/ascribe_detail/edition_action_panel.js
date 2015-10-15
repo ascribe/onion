@@ -22,7 +22,7 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import AclInformationButton from '../ascribe_buttons/acl_information_button';
+import AclInformation from '../ascribe_buttons/acl_information';
 
 import AclProxy from '../acl_proxy';
 
@@ -84,19 +84,6 @@ let EditionActionPanel = React.createClass({
             let notification = new GlobalNotificationModel(response.notification, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
-    },
-
-    getVerbList(){
-        let verbsToCheck = ['acl_transfer', 'acl_consign', 'acl_loan', 'acl_share', 'acl_delete'];
-        let verbListIndices = [];
-        let acl = this.props.edition.acl;
-        Object.keys(acl).forEach((key) => {
-            let index = verbsToCheck.indexOf(key);
-            if (acl[key] && index !== -1) {
-                verbListIndices.push(verbsToCheck[index].slice(4));
-            }
-        });
-        return verbListIndices;
     },
 
     render(){
@@ -173,7 +160,10 @@ let EditionActionPanel = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.handleDeleteSuccess}
                                 editions={[edition]}/>
-                            <AclInformationButton aim="button" verbs = {this.getVerbList()}/>
+                            <AclInformation
+                                aim="button"
+                                verbs={['acl_share', 'acl_transfer', 'acl_consign', 'acl_loan', 'acl_delete']}
+                                aclObject={edition.acl}/>
                         </AclButtonList>
                     </Col>
                 </Row>
