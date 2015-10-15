@@ -11,7 +11,7 @@ let AclInformation = React.createClass({
             React.PropTypes.string,
             React.PropTypes.arrayOf(React.PropTypes.string)
         ]),
-        aim: React.PropTypes.string
+        aim: React.PropTypes.string.isRequired
     },
     getInfoText(title, info, example){
         let titleStyle = {
