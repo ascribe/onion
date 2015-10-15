@@ -44,11 +44,9 @@ let UnConsignRequestForm = React.createClass({
                     </div>}
                 spinner={
                     <div className="modal-footer">
-                        <div className="modal-footer">
-                            <p className="pull-right">
-                                <AscribeSpinner color='dark-blue' size='md'/>
-                            </p>
-                        </div>
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
                 <Property
                     name='unconsign_request_message'
