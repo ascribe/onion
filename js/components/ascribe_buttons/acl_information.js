@@ -68,7 +68,7 @@ let AclInformation = React.createClass({
         };
 
         let paragraphStyle = {
-            margin: '0.1em',
+            margin: '.5em',
             lineHeight: '15px',
             align: 'justify'
         };
