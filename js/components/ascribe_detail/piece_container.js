@@ -189,7 +189,7 @@ let PieceContainer = React.createClass({
         else {
             return (
                 <AclButtonList
-                    className="text-center ascribe-button-list"
+                    className="ascribe-button-list"
                     availableAcls={this.state.piece.acl}
                     editions={this.state.piece}
                     handleSuccess={this.loadPiece}>

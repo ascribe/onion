@@ -105,7 +105,7 @@ let EditionActionPanel = React.createClass({
                 <Row>
                     <Col md={12}>
                         <AclButtonList
-                            className="text-center ascribe-button-list"
+                            className="ascribe-button-list"
                             availableAcls={edition.acl}
                             editions={[edition]}
                             handleSuccess={this.handleSuccess}>
