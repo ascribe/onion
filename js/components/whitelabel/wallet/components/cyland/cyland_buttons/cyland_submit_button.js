@@ -12,6 +12,7 @@ import WhitelabelStore from '../../../../../../stores/whitelabel_store';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
+
 let CylandSubmitButton = React.createClass({
     propTypes: {
         className: React.PropTypes.string,

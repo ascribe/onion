@@ -44,7 +44,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
         return (
             <Property
-                label="Additional files (max. 50MB per file)">
+                label="Additional files">
                 <ReactS3FineUploader
                     uploadStarted={this.props.uploadStarted}
                     keyRoutine={{

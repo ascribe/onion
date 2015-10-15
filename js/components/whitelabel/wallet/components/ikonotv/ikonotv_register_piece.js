@@ -22,8 +22,8 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import LoanForm from '../../../../ascribe_forms/form_loan';
 
-import IkonotvArtistDetailsForm from './ascribe_forms/ikonotv_artist_details_form';
-import IkonotvArtworkDetailsForm from './ascribe_forms/ikonotv_artwork_details_form';
+import IkonotvArtistDetailsForm from './ikonotv_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from './ikonotv_forms/ikonotv_artwork_details_form';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
