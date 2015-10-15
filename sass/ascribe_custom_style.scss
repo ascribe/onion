@@ -19,8 +19,6 @@ $ascribe--button-default-color: $ascribe--bg-color;
 $ascribe--button-secondary-fg-color: $ascribe--bg-color;
 $ascribe--button-secondary-bg-color: white;
 
-$ascribe--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
-
 //$ascribe--font: 'canada-type-gibson', sans-serif !important;
 $ascribe--font: 'gibson-local', sans-serif !important;
 $ascribe--font-weight: 300 !important;
@@ -54,7 +52,6 @@ hr {
     background-color: $ascribe--nav-bg-color;
     box-shadow: 0 0 2px rgba(0,0,0,.14),
                 0 2px 4px rgba(0,0,0,.28);
-    //box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .52);
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
@@ -129,10 +126,7 @@ hr {
         padding-right: 120px;
         padding-bottom: 36px;
         padding-left: 30px;
-        background-image: url($ascribe--logo);
-        background-color: transparent;
-        background-position: center 4px;
-        background-repeat: no-repeat;
+        background: transparent no-repeat center 4px;
         background-size: 150px;
         margin-bottom: 0;
         position: relative;
@@ -166,9 +160,7 @@ hr {
 }
 .ascribe-accordion-list-item {
     border: 1px solid $ascribe-blue-border;
-    -webkit-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
-	   -moz-box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
-	        box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
+    box-shadow: 0 2px 2px -2px rgba(0,0,0,.18);
 }
 
 .ascribe-accordion-list-item .wrapper {
@@ -431,16 +423,16 @@ fieldset[disabled] .btn-secondary.active {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
+    /* firefox 19+ */
     input::-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* firefox 19+ */
+    /* ie */
     input:-ms-input-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* ie */
     input:-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
@@ -480,7 +472,6 @@ fieldset[disabled] .btn-secondary.active {
 }
 
 .ascribe-property-wrapper:hover {
-    //border-left-color: rgba($ascribe--button-default-color, .5);
     border-left-color: rgba($ascribe-blue, .5);
 }
 
@@ -506,23 +497,22 @@ fieldset[disabled] .btn-secondary.active {
     }
     > span:not(.glyphicon) {
         color: $ascribe--button-default-color;
-        //font-weight: normal !important;
     }
 
     textarea::-webkit-input-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
+    /* firefox 19+ */
     textarea::-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* firefox 19+ */
+    /* ie */
     textarea:-ms-input-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* ie */
     textarea:-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
@@ -532,16 +522,16 @@ fieldset[disabled] .btn-secondary.active {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
+    /* firefox 19+ */
     input::-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* firefox 19+ */
+    /* ie */
     input:-ms-input-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
     }
-    /* ie */
     input:-moz-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);
         font-style: normal;
