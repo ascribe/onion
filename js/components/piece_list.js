@@ -157,6 +157,7 @@ let PieceList = React.createClass({
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
+                    searchQuery={this.state.search}
                     filterParams={this.props.filterParams}
                     orderParams={this.props.orderParams}
                     filterBy={this.state.filterBy}
@@ -177,6 +178,7 @@ let PieceList = React.createClass({
                     orderBy={this.state.orderBy}
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
+                    searchFor={this.searchFor}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>
