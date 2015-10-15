@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altUser } from '../alt';
 import UserFetcher from '../fetchers/user_fetcher';
 
 
@@ -34,4 +34,4 @@ class UserActions {
     }
 }
 
-export default alt.createActions(UserActions);
+export default altUser.createActions(UserActions);

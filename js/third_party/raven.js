@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 import Raven from 'raven-js';
@@ -25,4 +25,4 @@ class RavenHandler {
     }
 }
 
-export default alt.createStore(RavenHandler, 'RavenHandler');
+export default altThirdParty.createStore(RavenHandler, 'RavenHandler');

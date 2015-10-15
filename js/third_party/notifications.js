@@ -1,9 +1,11 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
+
+import { getSubdomain } from '../utils/general_utils';
 
 
 class NotificationsHandler {
@@ -13,11 +15,11 @@ class NotificationsHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad(profile) {
+    onProfileDidLoad() {
         if (this.loaded) {
             return;
         }
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
@@ -33,4 +35,4 @@ class NotificationsHandler {
     }
 }
 
-export default alt.createStore(NotificationsHandler, 'NotificationsHandler');
+export default altThirdParty.createStore(NotificationsHandler, 'NotificationsHandler');

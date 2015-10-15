@@ -6,7 +6,7 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
 import AclButton from '../ascribe_buttons/acl_button';
-import {getLangText} from '../../utils/lang_utils';
+
 
 let AclButtonList = React.createClass({
     propTypes: {
@@ -16,7 +16,6 @@ let AclButtonList = React.createClass({
             React.PropTypes.array
         ]),
         availableAcls: React.PropTypes.object,
-        actionsLabelStyle: React.PropTypes.object,
         buttonsStyle: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         children: React.PropTypes.oneOfType([

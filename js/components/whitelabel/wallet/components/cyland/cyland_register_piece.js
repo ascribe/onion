@@ -25,7 +25,7 @@ import PieceActions from '../../../../../actions/piece_actions';
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import CylandAdditionalDataForm from './ascribe_forms/cyland_additional_data_form';
+import CylandAdditionalDataForm from './cyland_forms/cyland_additional_data_form';
 
 import LoanForm from '../../../../ascribe_forms/form_loan';
 

@@ -6,7 +6,7 @@ import PieceList from '../../../../piece_list';
 import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
 
-import IkonotvAccordionListItem from './ascribe_accordion_list/ikonotv_accordion_list_item';
+import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion_list_item';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 

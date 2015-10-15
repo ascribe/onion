@@ -14,9 +14,10 @@ import PieceContainer from '../../../components/ascribe_detail/piece_container';
 import EditionContainer from '../../../components/ascribe_detail/edition_container';
 import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import ContractSettings from '../../../components/ascribe_settings/contract_settings';
+import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
 import CylandLanding from './components/cyland/cyland_landing';
-import CylandPieceContainer from './components/cyland/ascribe_detail/cyland_piece_container';
+import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
 import CylandPieceList from './components/cyland/cyland_piece_list';
 
@@ -24,7 +25,7 @@ import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
 import IkonotvRequestLoan from './components/ikonotv/ikonotv_request_loan';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
-import IkonotvPieceContainer from './components/ikonotv/ascribe_detail/ikonotv_piece_container';
+import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
@@ -33,6 +34,7 @@ import WalletApp from './wallet_app';
 import AppConstants from '../../../constants/application_constants';
 
 let Route = Router.Route;
+let NotFoundRoute = Router.NotFoundRoute;
 let Redirect = Router.Redirect;
 let baseUrl = AppConstants.baseUrl;
 
@@ -52,6 +54,7 @@ let ROUTES = {
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     ),
     'cc': (
@@ -68,6 +71,7 @@ let ROUTES = {
             <Route name="edition" path="editions/:editionId" handler={EditionContainer} />
             <Route name="coa_verify" path="verify" handler={CoaVerifyContainer} />
             <Route name="settings" path="settings" handler={SettingsContainer} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     ),
     'ikonotv': (
@@ -86,6 +90,7 @@ let ROUTES = {
             <Route name="settings" path="settings" handler={SettingsContainer} />
             <Route name="contract_settings" path="contract_settings" handler={ContractSettings} />
             <Route name="contract_notifications" path="contract_notifications" handler={IkonotvContractNotifications} />
+            <NotFoundRoute name="notFound" handler={ErrorNotFoundPage} />
         </Route>
     )
 };

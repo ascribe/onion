@@ -7,11 +7,12 @@ import PieceStore from '../../../../../../stores/piece_store';
 
 import UserStore from '../../../../../../stores/user_store';
 
-import CylandSubmitButton from '../ascribe_buttons/cyland_submit_button';
+import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import CylandAdditionalDataForm from '../ascribe_forms/cyland_additional_data_form';
+import IkonotvArtistDetailsForm from '../ikonotv_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from '../ikonotv_forms/ikonotv_artwork_details_form';
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
@@ -20,7 +21,12 @@ import AppConstants from '../../../../../../constants/application_constants';
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
-let CylandPieceContainer = React.createClass({
+
+let IkonotvPieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
@@ -41,6 +47,14 @@ let CylandPieceContainer = React.createClass({
         this.loadPiece();
     },
 
+     // We need this for when the user clicks on a notification while being in another piece view
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.updatePiece({});
+            PieceActions.fetchOne(nextProps.params.pieceId);
+        }
+    },
+
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
@@ -55,21 +69,39 @@ let CylandPieceContainer = React.createClass({
     },
 
     render() {
+        let furtherDetails = (
+            <CollapsibleParagraph
+                title={getLangText('Further Details')}
+                defaultExpanded={true}>
+                <span>{getLangText('This piece has been loaned before we started to collect further details.')}</span>
+            </CollapsibleParagraph>
+        );
+
+        if(this.state.piece.extra_data && Object.keys(this.state.piece.extra_data).length > 0 && this.state.piece.acl) {
+            furtherDetails = (
+                <CollapsibleParagraph
+                    title={getLangText('Further Details')}
+                    defaultExpanded={true}>
+                    <IkonotvArtistDetailsForm
+                        piece={this.state.piece}
+                        isInline={true}
+                        disabled={!this.state.piece.acl.acl_edit} />
+                    <IkonotvArtworkDetailsForm
+                        piece={this.state.piece}
+                        isInline={true}
+                        disabled={!this.state.piece.acl.acl_edit} />
+                </CollapsibleParagraph>
+            );
+        }
+
         if(this.state.piece && this.state.piece.title) {
             return (
                 <WalletPieceContainer
                     piece={this.state.piece}
                     currentUser={this.state.currentUser}
                     loadPiece={this.loadPiece}
-                    submitButtonType={CylandSubmitButton}>
-                    <CollapsibleParagraph
-                        title={getLangText('Further Details')}
-                        defaultExpanded={true}>
-                        <CylandAdditionalDataForm
-                            piece={this.state.piece}
-                            disabled={!this.state.piece.acl.acl_edit}
-                            isInline={true} />
-                    </CollapsibleParagraph>
+                    submitButtonType={IkonotvSubmitButton}>
+                    {furtherDetails}
                 </WalletPieceContainer>
             );
         }
@@ -83,4 +115,4 @@ let CylandPieceContainer = React.createClass({
     }
 });
 
-export default CylandPieceContainer;
+export default IkonotvPieceContainer;

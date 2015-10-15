@@ -6,7 +6,7 @@ import PieceList from '../../../../piece_list';
 import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
 
-import CylandAccordionListItem from './ascribe_accordion_list/cyland_accordion_list_item';
+import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_list_item';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 

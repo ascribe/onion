@@ -61,7 +61,7 @@ let constants = {
         'validation': {
             'additionalData': {
                 'itemLimit': 100,
-                'sizeLimit': '50000000'
+                'sizeLimit': '25000000000'
             },
             'registerWork': {
                 'itemLimit': 1,
