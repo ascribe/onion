@@ -46,7 +46,7 @@ let COMMON_ROUTES = (
             component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
         <Route
             path='logout'
-            component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LogoutContainer)}/>
         <Route path='pieces/:pieceId' component={PieceContainer} />
         <Route path='editions/:editionId' component={EditionContainer} />
         <Route

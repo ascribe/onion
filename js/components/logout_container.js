@@ -8,7 +8,6 @@ import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
 
 let LogoutContainer = React.createClass({
-
     mixins: [History],
 
     componentDidMount() {
@@ -24,7 +23,6 @@ let LogoutContainer = React.createClass({
     render() {
         return null;
     }
-
 });
 
 
