@@ -11,9 +11,9 @@ $ascribe-red-error: rgb(169, 68, 66);
 $ascribe--fg-color: $ascribe-dark-blue;
 $ascribe--bg-color: $ascribe-dark-blue;
 
-$ascribe--nav-fg-prim-color: white;
+$ascribe--nav-fg-prim-color: $ascribe-dark-blue;
 $ascribe--nav-fg-sec-color: $ascribe-light-blue;
-$ascribe--nav-bg-color: $ascribe-dark-blue;
+$ascribe--nav-bg-color: white;
 
 $ascribe--button-default-color: $ascribe--bg-color;
 $ascribe--button-secondary-fg-color: $ascribe--bg-color;
@@ -27,7 +27,7 @@ html,
 body {
     font-family: $ascribe--font;
     font-weight: $ascribe--font-weight;
-    background-color: #fcfcfc !important;
+    background-color: #f8f8f8 !important;
 }
 h1, h3 {
     font-family: $ascribe--font;
@@ -50,8 +50,8 @@ hr {
 
 .navbar-default {
     background-color: $ascribe--nav-bg-color;
-    box-shadow: 0 0 2px rgba(0,0,0,.14),
-                0 2px 4px rgba(0,0,0,.28);
+    box-shadow: 0 0 1px rgba(0,0,0,.1),
+                0 1px 2px rgba(0,0,0,.2);
 
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
@@ -194,11 +194,11 @@ hr {
     }
 }
 .ascribe-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 80px;
-    width: 100%;
+    //position: fixed;
+    //left: 0;
+    //bottom: 0;
+    //height: 80px;
+    //width: 100%;
     text-transform: uppercase;
     background-color: $ascribe-white;
     border-top: 1px solid rgba(0, 60, 105, 0.1);
@@ -398,6 +398,12 @@ fieldset[disabled] .btn-secondary.active {
 .pager li > span {
     background-color: $ascribe--button-default-color;
     border-color: $ascribe--button-default-color;
+}
+
+.pager li > a:hover,
+.pager li > span:hover {
+    background-color: lighten($ascribe--button-default-color, 20%);
+    border-color: lighten($ascribe--button-default-color, 20%);
 }
 
 .pager .disabled > a,
