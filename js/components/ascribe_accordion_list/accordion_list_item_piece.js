@@ -48,7 +48,7 @@ let AccordionListItemPiece = React.createClass({
         return (
             <AccordionListItem
                 className={this.props.className}
-                thumbnail={<img src={this.props.piece.thumbnail.url_safe}/>}
+                thumbnail={<div style={{backgroundImage: 'url("' + this.props.piece.thumbnail.url_safe + '")'}}/>}
                 heading={<h1>{this.props.piece.title}</h1>}
                 subheading={
                     <h3>

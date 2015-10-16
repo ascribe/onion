@@ -51,12 +51,20 @@ $ascribe-accordion-list-item-height: 100px;
                 max-width: 100%;
             }
 
-            &::before {
-                content: ' ';
+            div {
                 display: inline-block;
-                height: 100%;
-                vertical-align: middle; // vertical alignment of the inline element
+                width: 100px;
+                height: 100px;
+                background-position: center center;
+                background-size: cover;
             }
+
+            //&::before {
+            //    content: ' ';
+            //    display: inline-block;
+            //    height: 100%;
+            //    vertical-align: middle; // vertical alignment of the inline element
+            //}
         }
 
         h1 {
