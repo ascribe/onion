@@ -130,6 +130,9 @@ let LoanForm = React.createClass({
                             src={contract.blob.url_safe}
                             alt="pdf"
                             pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                        <a href={contract.blob.url_safe} target="_blank">
+                            <span className="glyphicon glyphicon-download" aria-hidden="true"></span> Download contract
+                        </a>
                         {/* We still need to send the server information that we're accepting */}
                         <InputCheckbox
                                 style={{'display': 'none'}}
