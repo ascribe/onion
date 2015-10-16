@@ -241,6 +241,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
         border-color: $ikono--button-color;
     }
     .spinner-inner {
+        display: none;
         font-family: $ascribe--font;
         color: $ikono--button-color;
     }

@@ -12,7 +12,7 @@ $ascribe--fg-color: $ascribe-dark-blue;
 $ascribe--bg-color: $ascribe-dark-blue;
 
 $ascribe--nav-fg-prim-color: $ascribe-dark-blue;
-$ascribe--nav-fg-sec-color: $ascribe-light-blue;
+$ascribe--nav-fg-sec-color: lighten($ascribe-dark-blue, 20%);
 $ascribe--nav-bg-color: white;
 
 $ascribe--button-default-color: $ascribe--bg-color;
