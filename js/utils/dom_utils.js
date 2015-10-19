@@ -6,7 +6,7 @@
  *
  * @return {int} the number of unread notifications
  */
-export function getUnreadCount() {
+function getUnreadCount() {
     const match = document.title.match(/^\((\d+)\)/);
     return match ? match[1] : null;
 }

@@ -82,7 +82,7 @@ let CCRegisterPiece = React.createClass({
     },
 
     render() {
-        setDocumentTitle('Register a new piece');
+        setDocumentTitle(getLangText('Register a new piece'));
         return (
             <RegisterPiece
                 enableLocalHashing={false}
