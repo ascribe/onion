@@ -20,7 +20,7 @@ import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 import EventActions from '../actions/event_actions';
 
-import HeaderNotifications from './header_notification';
+import HeaderNotifications from './header_notifications';
 
 import HeaderNotificationDebug from './header_notification_debug';
 
