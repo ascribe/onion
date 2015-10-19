@@ -44,7 +44,8 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
-        location: React.PropTypes.object
+        location: React.PropTypes.object,
+        params: React.PropTypes.object
     },
 
     mixins: [History],
@@ -61,19 +62,31 @@ let PieceContainer = React.createClass({
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-        PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
-    },
-
-    componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
+        // Every time we're entering the piece detail page,
         // just reset the piece that is saved in the piece store
         // as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
+
+        UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
+        PieceStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
+        PieceActions.fetchOne(this.props.params.pieceId);
+    },
+
+    componentDidUpdate() {
+        const { pieceError } = this.state;
+
+        if(pieceError && pieceError.status === 404) {
+            // Even though this path doesn't exist we can redirect
+            // to it as it catches all unknown paths
+            this.history.pushState(null, '/404');
+        }
+    },
+
+    componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
