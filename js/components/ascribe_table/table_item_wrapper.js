@@ -1,11 +1,10 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import { ColumnModel } from './models/table_models';
 
-let Link = Router.Link;
 
 let TableItemWrapper = React.createClass({
     propTypes: {
@@ -14,8 +13,6 @@ let TableItemWrapper = React.createClass({
         columnWidth: React.PropTypes.number.isRequired,
         onClick: React.PropTypes.func
     },
-
-    mixins: [Router.Navigation],
 
     render() {
         return (
@@ -35,18 +32,13 @@ let TableItemWrapper = React.createClass({
                         );
                     } else {
 
-                        let linkProps = column.transition.toReactRouterLinkProps(this.props.columnContent[column.transition.valueKey]);
-                        /**
-                         * If a transition is defined in columnContent, then we can use
-                         * Router.Navigation.transitionTo to redirect the user
-                         * programmatically
-                         */
+                        let linkString = column.transition.toReactRouterLink(this.props.columnContent[column.transition.valueKey]);
                         return (
                             <td key={i} className={column.className}>
                                 <Link
+                                    to={linkString}
                                     className={'ascribe-table-item-column'}
-                                    onClick={column.transition.callback}
-                                    {...linkProps}>
+                                    onClick={column.transition.callback}>
                                     <TypeElement {...typeElementProps} />
                                 </Link>
                             </td>

@@ -1,11 +1,12 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import { getLangText } from '../../utils/lang_utils';
 
 import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -14,20 +15,19 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
-import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
 
 let SignupForm = React.createClass({
-
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        children: React.PropTypes.element
+        children: React.PropTypes.element,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -35,16 +35,13 @@ let SignupForm = React.createClass({
             submitMessage: getLangText('Sign up')
         };
     },
+
     getInitialState() {
         return UserStore.getState();
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        let { redirect } = this.getQuery();
-        if (redirect && redirect !== 'signup'){
-            this.transitionTo(redirect, null, this.getQuery());
-        }
     },
 
     componentWillUnmount() {
@@ -53,45 +50,23 @@ let SignupForm = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        // if user is already logged in, redirect him to piece list
-        if(this.state.currentUser && this.state.currentUser.email) {
-            let { redirectAuthenticated } = this.getQuery();
-            if ( redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            }
-            window.setTimeout(() => this.transitionTo('pieces'));
-        }
     },
 
-    handleSuccess(response){
+    handleSuccess(response) {
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
             GlobalNotificationActions.appendGlobalNotification(notification);
+            
+            // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
-        }
-        else if (response.redirect) {
-            let { redirectAuthenticated } = this.getQuery();
-            if ( redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            }
-            this.transitionTo('pieces');
+        } else {
+            UserActions.fetchCurrentUser();
         }
     },
 
     getFormData() {
-        if (this.getQuery().token){
-            return {token: this.getQuery().token};
+        if (this.props.location.query.token){
+            return {token: this.props.location.query.token};
         }
         return null;
     },
@@ -100,7 +75,9 @@ let SignupForm = React.createClass({
         let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
             getLangText('This password is securing your digital property like a bank account') + '.\n ' +
             getLangText('Store it in a safe place') + '!';
-        let email = this.getQuery().email || null;
+
+        let email = this.props.location.query.email || null;
+
         return (
             <Form
                 className="ascribe-form-bordered"

@@ -3,7 +3,8 @@
 require('babel/polyfill');
 
 import React from 'react';
-import Router from 'react-router';
+import { Router, Redirect } from 'react-router';
+import history from './history';
 
 /* eslint-disable */
 import fetch from 'isomorphic-fetch';
@@ -46,7 +47,6 @@ requests.defaults({
     }
 });
 
-
 class AppGateway {
     start() {
         let settings;
@@ -68,22 +68,36 @@ class AppGateway {
     load(settings) {
         let type = 'default';
         let subdomain = 'www';
+        let redirectRoute = (<Redirect from="/" to="/collection" />);
 
         if (settings) {
             type = settings.type;
             subdomain = settings.subdomain;
         }
 
+        // www and cc do not have a landing page
+        if(subdomain && subdomain !== 'cc') {
+            redirectRoute = null;
+        }
+
+        // Adds a client specific class to the body for whitelabel styling
         window.document.body.classList.add('client--' + subdomain);
 
+        // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
-        window.appRouter = Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
-            React.render(
-                <App />,
-                document.getElementById('main')
-            );
-            EventActions.routeDidChange();
-        });
+
+        // `history.listen` is called on every route change, which is perfect for
+        // us in that case.
+        history.listen(EventActions.routeDidChange);
+
+        React.render((
+            <Router history={history}>
+                {redirectRoute}
+                {getRoutes(type, subdomain)}
+            </Router>
+        ), document.getElementById('main'));
+
+        // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
     }
 }

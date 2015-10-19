@@ -1,13 +1,11 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import AccordionListItem from './accordion_list_item';
 
 import { getLangText } from '../../utils/lang_utils';
-
-let Link = Router.Link;
 
 
 let AccordionListItemPiece = React.createClass({
@@ -24,26 +22,15 @@ let AccordionListItemPiece = React.createClass({
         badge: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
-
     getLinkData() {
+        let { piece } = this.props;
 
-        if(this.props.piece && this.props.piece.first_edition) {
-            return {
-                to: 'edition',
-                params: {
-                    editionId: this.props.piece.first_edition.bitcoin_id
-                }
-            };
+        if(piece && piece.first_edition) {
+            return `/editions/${piece.first_edition.bitcoin_id}`;
+
         } else {
-            return {
-                to: 'piece',
-                params: {
-                    pieceId: this.props.piece.id
-                }
-            };
+            return `/pieces/${piece.id}`;
         }
-        
     },
 
     render() {
@@ -51,11 +38,11 @@ let AccordionListItemPiece = React.createClass({
             <AccordionListItem
                 className={this.props.className}
                 thumbnail={
-                    <Link {...this.getLinkData()}>
+                    <Link to={this.getLinkData()}>
                         <img src={this.props.piece.thumbnail.url_safe}/>
                     </Link>}
                 heading={
-                    <Link {...this.getLinkData()}>
+                    <Link to={this.getLinkData()}>
                         <h1>{this.props.piece.title}</h1>
                     </Link>}
                 subheading={

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import Button from 'react-bootstrap/lib/Button';
 
@@ -23,8 +22,6 @@ let DeleteButton = React.createClass({
         piece: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
-
-    mixins: [Router.Navigation],
 
     render() {
         let availableAcls;
