@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -29,11 +29,10 @@ import AppConstants from '../../../../../constants/application_constants';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
-let Navigation = Router.Navigation;
 
 let IkonotvContractNotifications = React.createClass({
 
-    mixins: [Navigation],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -114,7 +113,7 @@ let IkonotvContractNotifications = React.createClass({
     handleConfirmSuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     handleDeny() {
@@ -127,7 +126,7 @@ let IkonotvContractNotifications = React.createClass({
     handleDenySuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     getCopyrightAssociationForm(){

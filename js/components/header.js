@@ -1,15 +1,15 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
-import MenuItemLink from 'react-router-bootstrap/lib/MenuItemLink';
-import NavItemLink from 'react-router-bootstrap/lib/NavItemLink';
+import NavItem from 'react-bootstrap/lib/NavItem';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import AclProxy from './acl_proxy';
 
@@ -33,10 +33,8 @@ import { getLangText } from '../utils/lang_utils';
 let Header = React.createClass({
     propTypes: {
         showAddWork: React.PropTypes.bool,
-        routes: React.PropTypes.element
+        routes: React.PropTypes.arrayOf(React.PropTypes.object)
     },
-
-    mixins: [Router.State],
 
     getDefaultProps() {
         return {
@@ -133,38 +131,61 @@ let Header = React.createClass({
                     ref='dropdownbutton'
                     eventKey="1"
                     title={this.state.currentUser.username}>
-                    <MenuItemLink
-                        eventKey="2"
-                        to="settings"
+                    <LinkContainer
+                        to="/settings"
                         onClick={this.onMenuItemClick}>
-                        {getLangText('Account Settings')}
-                    </MenuItemLink>
+                        <MenuItem
+                            eventKey="2">
+                            {getLangText('Account Settings')}
+                        </MenuItem>
+                    </LinkContainer>
                     <AclProxy
                         aclObject={this.state.currentUser.acl}
                         aclName="acl_view_settings_contract">
-                        <MenuItemLink
-                            to="contract_settings"
+                        <LinkContainer
+                            to="/contract_settings"
                             onClick={this.onMenuItemClick}>
-                            {getLangText('Contract Settings')}
-                        </MenuItemLink>
+                            <MenuItem
+                                eventKey="2">
+                                {getLangText('Contract Settings')}
+                            </MenuItem>
+                        </LinkContainer>
                     </AclProxy>
                     <MenuItem divider />
-                    <MenuItemLink eventKey="3" to="logout">{getLangText('Log out')}</MenuItemLink>
+                    <LinkContainer
+                        to="/logout">
+                        <MenuItem
+                            eventKey="3">
+                            {getLangText('Log out')}
+                        </MenuItem>
+                    </LinkContainer>
                 </DropdownButton>
             );
             navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
         }
         else {
-            account = <NavItemLink to="login">{getLangText('LOGIN')}</NavItemLink>;
-            signup = <NavItemLink to="signup">{getLangText('SIGNUP')}</NavItemLink>;
+            account = (
+                <LinkContainer
+                    to="/login">
+                    <NavItem>
+                        {getLangText('LOGIN')}
+                    </NavItem>
+                </LinkContainer>
+            );
+            signup = (
+                <LinkContainer
+                    to="/signup">
+                    <NavItem>
+                        {getLangText('SIGNUP')}
+                    </NavItem>
+                </LinkContainer>
+            );
         }
 
         return (
             <div>
                 <Navbar
-                    brand={
-                        this.getLogo()
-                    }
+                    brand={this.getLogo()}
                     toggleNavKey={0}
                     fixedTop={true}>
                     <CollapsibleNav eventKey={0}>

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import StarRating from 'react-star-rating';
 
 import PieceListActions from '../../../../../actions/piece_list_actions';
@@ -21,11 +21,8 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import AclProxy from '../../../../acl_proxy';
 import SubmitToPrizeButton from './../ascribe_buttons/submit_to_prize_button';
 
-
 import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
-
-let Link = Router.Link;
 
 
 let AccordionListItemPrize = React.createClass({
@@ -85,7 +82,7 @@ let AccordionListItemPrize = React.createClass({
 
                 return (
                     <div id="list-rating" className="pull-right">
-                        <Link to='piece' params={{pieceId: this.props.content.id}}>
+                        <Link to={`/pieces/${this.props.content.id}`}>
                             <StarRating
                                 ref='rating'
                                 name="prize-rating"
@@ -108,7 +105,7 @@ let AccordionListItemPrize = React.createClass({
                 // jury and no rating yet
                 return (
                     <div className="react-rating-caption pull-right">
-                        <Link to='piece' params={{pieceId: this.props.content.id}}>
+                        <Link to={`/pieces/${this.props.content.id}`}>
                             {getLangText('Submit your rating')}
                         </Link>
                     </div>

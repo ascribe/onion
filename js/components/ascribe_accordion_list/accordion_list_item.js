@@ -1,9 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
-let Link = Router.Link;
 
 let AccordionListItem = React.createClass({
     propTypes: {
@@ -21,42 +20,50 @@ let AccordionListItem = React.createClass({
         ])
     },
 
-    mixins: [Router.Navigation],
-
     render() {
+        const { linkData,
+                className,
+                thumbnail,
+                heading,
+                subheading,
+                subsubheading,
+                buttons,
+                badge,
+                children } = this.props;
+
 
         return (
             <div className="row">
-                <div className={this.props.className}>
+                <div className={className}>
                     <div className="wrapper">
                             <div className="pull-left">
-                                <Link {...this.props.linkData()}>
+                                <Link to={linkData}>
                                     <div className="thumbnail-wrapper">
-                                        {this.props.thumbnail}
+                                        {thumbnail}
                                     </div>
                                 </Link>
                             </div>
                             <div className="accordion-list-item-header">
-                                <Link {...this.props.linkData()}>
-                                    {this.props.heading}
+                                <Link to={linkData}>
+                                    {heading}
                                 </Link>
-                                <Link {...this.props.linkData()}>
-                                    {this.props.subheading}
-                                    {this.props.subsubheading}
+                                <Link to={linkData}>
+                                    {subheading}
+                                    {subsubheading}
                                 </Link>
                                 <div className="accordion-list-item-buttons">
-                                    {this.props.buttons}
+                                    {buttons}
                                 </div>
                             </div>
 
                         <span style={{'clear': 'both'}}></span>
 
                         <div className="request-action-badge">
-                            {this.props.badge}
+                            {badge}
                         </div>
                     </div>
                 </div>
-                {this.props.children}
+                {children}
             </div>
         );
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import AccordionListItem from './accordion_list_item';
 
@@ -22,26 +22,15 @@ let AccordionListItemPiece = React.createClass({
         badge: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
-
     getLinkData() {
+        let { piece } = this.props;
 
-        if(this.props.piece && this.props.piece.first_edition) {
-            return {
-                to: 'edition',
-                params: {
-                    editionId: this.props.piece.first_edition.bitcoin_id
-                }
-            };
+        if(piece && piece.first_edition) {
+            return `/editions/${piece.first_edition.bitcoin_id}`;
+
         } else {
-            return {
-                to: 'piece',
-                params: {
-                    pieceId: this.props.piece.id
-                }
-            };
+            return `/pieces/${piece.id}`;
         }
-        
     },
 
     render() {
@@ -59,7 +48,7 @@ let AccordionListItemPiece = React.createClass({
                 subsubheading={this.props.subsubheading}
                 buttons={this.props.buttons}
                 badge={this.props.badge}
-                linkData={this.getLinkData}
+                linkData={this.getLinkData()}
                 >
                 {this.props.children}
             </AccordionListItem>

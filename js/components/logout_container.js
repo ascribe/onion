@@ -1,38 +1,27 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import AscribeSpinner from './ascribe_spinner';
 
 import UserActions from '../actions/user_actions';
 import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
-import AppConstants from '../constants/application_constants';
-
 import { getLangText } from '../utils/lang_utils';
 
 
-let baseUrl = AppConstants.baseUrl;
-
 let LogoutContainer = React.createClass({
-
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     componentDidMount() {
-        UserActions.logoutCurrentUser()
-            .then(() => {
-                alt.flush();
-                altWhitelabel.flush();
-                altUser.flush();
-                altThirdParty.flush();
-                // kill intercom (with fire)
-                window.Intercom('shutdown');
-                this.replaceWith(baseUrl);
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
+        UserActions.logoutCurrentUser();
+        alt.flush();
+        altWhitelabel.flush();
+        altUser.flush();
+        altThirdParty.flush();
+        // kill intercom (with fire)
+        window.Intercom('shutdown');
     },
 
     render() {
@@ -45,7 +34,6 @@ let LogoutContainer = React.createClass({
             </div>
         );
     }
-
 });
 
 

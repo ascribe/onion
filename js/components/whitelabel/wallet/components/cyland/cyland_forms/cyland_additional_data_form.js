@@ -26,7 +26,8 @@ let CylandAdditionalDataForm = React.createClass({
         handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
         disabled: React.PropTypes.bool,
-        isInline: React.PropTypes.bool
+        isInline: React.PropTypes.bool,
+        location: React.PropTypes.object
     },
 
     getDefaultProps() {
@@ -142,7 +143,8 @@ let CylandAdditionalDataForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         pieceId={piece.id}
                         otherData={piece.other_data}
-                        multiple={true}/>
+                        multiple={true}
+                        location={this.props.location}/>
                 </Form>
             );
         } else {

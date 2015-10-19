@@ -27,6 +27,10 @@ import { mergeOptions, truncateTextAtCharIndex } from '../../utils/general_utils
 
 
 let ContractSettings = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState(){
         return mergeOptions(
             ContractListStore.getState(),
@@ -89,7 +93,8 @@ let ContractSettings = React.createClass({
                     fileClassToUpload={{
                         singular: 'new contract',
                         plural: 'new contracts'
-                    }}/>
+                    }}
+                    location={this.props.location}/>
             );
         }
 
@@ -114,7 +119,9 @@ let ContractSettings = React.createClass({
                                                 <AclProxy
                                                     aclObject={this.state.whitelabel}
                                                     aclName="acl_update_public_contract">
-                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                    <ContractSettingsUpdateButton
+                                                        contract={contract}
+                                                        location={this.props.location}/>
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
@@ -144,7 +151,8 @@ let ContractSettings = React.createClass({
                             fileClassToUpload={{
                                 singular: getLangText('new contract'),
                                 plural: getLangText('new contracts')
-                            }}/>
+                            }}
+                            location={this.props.location}/>
                             {privateContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel
@@ -156,7 +164,9 @@ let ContractSettings = React.createClass({
                                                <AclProxy
                                                     aclObject={this.state.whitelabel}
                                                     aclName="acl_update_private_contract">
-                                                    <ContractSettingsUpdateButton contract={contract}/>
+                                                    <ContractSettingsUpdateButton
+                                                        contract={contract}
+                                                        location={this.props.location}/>
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"

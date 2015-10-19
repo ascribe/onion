@@ -22,6 +22,7 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let CylandPieceContainer = React.createClass({
     propTypes: {
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -72,7 +73,8 @@ let CylandPieceContainer = React.createClass({
                         <CylandAdditionalDataForm
                             piece={this.state.piece}
                             disabled={!this.state.piece.acl.acl_edit}
-                            isInline={true} />
+                            isInline={true}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
                 </WalletPieceContainer>
             );

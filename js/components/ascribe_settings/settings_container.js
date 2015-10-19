@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
@@ -24,8 +23,6 @@ let SettingsContainer = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element])
     },
-
-    mixins: [Router.Navigation],
 
     getInitialState() {
         return mergeOptions(

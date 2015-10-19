@@ -12,6 +12,10 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let IkonotvPieceList = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return UserStore.getState();
     },
@@ -33,7 +37,7 @@ let IkonotvPieceList = React.createClass({
         return (
             <div>
                 <PieceList
-                    redirectTo="register_piece"
+                    redirectTo="/register_piece?slide_num=0"
                     accordionListItemType={IkonotvAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
@@ -47,7 +51,8 @@ let IkonotvPieceList = React.createClass({
                                 label: getLangText('loaned')
                             }
                         ]
-                        }]}/>
+                    }]}
+                    location={this.props.location}/>
             </div>
         );
     }

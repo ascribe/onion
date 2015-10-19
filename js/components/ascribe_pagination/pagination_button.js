@@ -1,12 +1,11 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import { getLangText } from '../../utils/lang_utils';
 
-let Link = Router.Link;
 
 let PaginationButton = React.createClass({
     propTypes: {
@@ -44,7 +43,7 @@ let PaginationButton = React.createClass({
 
         if (this.isInRange(page)) {
             anchor = (
-                <Link to="pieces"
+                <Link to="/collection"
                       query={{page}}
                       onClick={this.props.goToPage(page)}>
                     {directionDisplay}

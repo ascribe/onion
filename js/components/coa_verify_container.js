@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -17,8 +16,6 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let CoaVerifyContainer = React.createClass({
-    mixins: [Router.Navigation],
-
     render() {
         return (
             <div className="ascribe-login-wrapper">
@@ -47,8 +44,6 @@ let CoaVerifyContainer = React.createClass({
 
 
 let CoaVerifyForm = React.createClass({
-    mixins: [Router.Navigation],
-
     handleSuccess(response){
         let notification = null;
         if (response.verdict) {

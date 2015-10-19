@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
@@ -41,7 +41,6 @@ import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
-let Link = Router.Link;
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -169,12 +168,12 @@ let NavigationHeader = React.createClass({
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
-                        <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
+                        <Link className="disable-select" to={`/pieces/${ nav.prev_index || this.props.piece.id }`}>
                             <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
                             {getLangText('Previous')}
                             </span>
                         </Link>
-                        <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
+                        <Link className="disable-select" to={`/pieces/${ nav.next_index || this.props.piece.id }`}>
                             <span className="pull-right link-ascribe">
                                 {getLangText('Next')}
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
