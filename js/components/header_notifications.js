@@ -11,16 +11,13 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
 
-import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
 
 let HeaderNotifications = React.createClass({
 
     getInitialState() {
-        return mergeOptions(
-            NotificationStore.getState()
-        );
+        return NotificationStore.getState();
     },
 
     componentDidMount() {
@@ -67,7 +64,7 @@ let HeaderNotifications = React.createClass({
             return (
                 <div>
                     <div className="notification-header">
-                        Artworks ({this.state.pieceListNotifications.length})
+                        {getLangText('Artworks')} ({this.state.pieceListNotifications.length})
                     </div>
                     {this.state.pieceListNotifications.map((pieceNotification, i) => {
                         return (
@@ -92,7 +89,7 @@ let HeaderNotifications = React.createClass({
             return (
                 <div>
                     <div className="notification-header">
-                        Editions ({this.state.editionListNotifications.length})
+                        {getLangText('Editions')} ({this.state.editionListNotifications.length})
                     </div>
                     {this.state.editionListNotifications.map((editionNotification, i) => {
                         return (
