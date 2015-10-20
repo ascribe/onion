@@ -4,8 +4,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { InformationTexts } from '../../constants/information_text';
-import { replaceSubstringAtIndex, sanitize } from '../../utils/general_utils';
-import { intersectAcls } from '../../utils/acl_utils';
+import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -70,7 +69,7 @@ let AclInformation = React.createClass({
         const { titles, informationSentences, exampleSentences } = InformationTexts;
         const { verbs, aim } = this.props;
 
-        const availableInformations = intersectAcls(verbs, Object.keys(titles));
+        const availableInformations = intersectLists(verbs, Object.keys(titles));
 
         // sorting is not needed, as `this.props.verbs` takes care of sorting already
         // So we assume a user of `AclInformationButton` puts an ordered version of
@@ -83,10 +82,7 @@ let AclInformation = React.createClass({
         } else if(aim === 'button' && this.props.aclObject) {
             const { aclObject } = this.props;
             const sanitizedAclObject = sanitize(aclObject, (val) => !val);
-            verbsToDisplay = verbsToDisplay.concat(intersectAcls(verbs, Object.keys(sanitizedAclObject)));
-        } else {
-            console.warn('AclInformation can only be used with aim === "button" or aim === "form".' +
-                'For aim === "button", aclObject needs to be defined.');
+            verbsToDisplay = verbsToDisplay.concat(intersectLists(verbs, Object.keys(sanitizedAclObject)));
         }
 
         return verbsToDisplay.map((verb) => {
