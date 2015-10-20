@@ -8,23 +8,20 @@
  */
 function getUnreadCount() {
     const match = document.title.match(/^\((\d+)\)/);
-    return match ? match[1] : null;
+    return parseInt((match ? match[1] : 0), 10);
 }
 
 
 /**
  * Set the title in the browser window while keeping the unread notification count (if any).
- *
- * @return {string} the new document title
  */
 export function setDocumentTitle(title) {
     const count = getUnreadCount();
     let newTitle = title;
 
-    if (count) {
-        newTitle = `(${count}) ` + newTitle;
+    if (count > 0) {
+        newTitle = `(${count}) ${newTitle}`;
     }
 
     document.title = newTitle;
-    return newTitle;
 }
