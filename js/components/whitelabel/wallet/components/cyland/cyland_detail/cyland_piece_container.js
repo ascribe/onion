@@ -18,6 +18,7 @@ import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 import AppConstants from '../../../../../../constants/application_constants';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let CylandPieceContainer = React.createClass({
@@ -61,6 +62,8 @@ let CylandPieceContainer = React.createClass({
 
     render() {
         if(this.state.piece && this.state.piece.title) {
+            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
+
             return (
                 <WalletPieceContainer
                     piece={this.state.piece}

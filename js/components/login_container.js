@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import LoginForm from './ascribe_forms/form_login';
 
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let LoginContainer = React.createClass({
@@ -26,6 +27,8 @@ let LoginContainer = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Log in'));
+
         return (
             <div className="ascribe-login-wrapper">
                 <LoginForm

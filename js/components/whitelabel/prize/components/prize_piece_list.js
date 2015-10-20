@@ -17,6 +17,7 @@ import AccordionListItemPrize from './ascribe_accordion_list/accordion_list_item
 
 import { mergeOptions } from '../../../../utils/general_utils';
 import { getLangText } from '../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../utils/dom_utils';
 
 let PrizePieceList = React.createClass({
     propTypes: {
@@ -63,6 +64,8 @@ let PrizePieceList = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Collection'));
+
         let orderParams = ['artist_name', 'title'];
         if (this.state.currentUser.is_jury) {
             orderParams = ['rating', 'title'];

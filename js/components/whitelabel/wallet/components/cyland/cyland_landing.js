@@ -16,6 +16,7 @@ import UserActions from '../../../../../actions/user_actions';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let CylandLanding = React.createClass({
 
@@ -51,6 +52,8 @@ let CylandLanding = React.createClass({
     },
 
     render() {
+        setDocumentTitle('CYLAND MediaArtLab');
+
         return (
             <div className="container ascribe-form-wrapper">
                 <div className="row">

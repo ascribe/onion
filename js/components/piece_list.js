@@ -24,6 +24,7 @@ import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PieceList = React.createClass({
@@ -152,6 +153,8 @@ let PieceList = React.createClass({
     render() {
         let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
         let AccordionListItemType = this.props.accordionListItemType;
+
+        setDocumentTitle(getLangText('Collection'));
 
         return (
             <div>
