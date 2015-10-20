@@ -19,9 +19,9 @@ export const InformationTexts = {
         'acl_share': ' - Lets someone view the Work or Edition, but does not give rights to publish or display it.',
         'acl_delete': ' - Removes the Work from your Wallet. Note that the previous registration and transfer ' +
             'history will still exist on the blockchain and cannot be deleted.',
-        'acl_create_editions': '<Insert text here>',
-        'acl_unconsign': '<Insert text here>',
-        'acl_request_unconsign': '<Insert text here>'
+        'acl_create_editions': ' Lets the artist set a fixed number of editions of a work which can then be transferred, guaranteeing each edition is authentic and from the artist.',
+        'acl_unconsign': 'Ends the consignment agreement between the owner and a consignee.',
+        'acl_request_unconsign': 'Lets the owner ask the consignee to confirm that they will no longer manage the work.'
     },
     'exampleSentences': {
         'acl_transfer': '(e.g. a musician Transfers limited edition 1 of 10 of her new album to a very happy fan)',
@@ -30,8 +30,8 @@ export const InformationTexts = {
         'acl_loan': '(e.g. a collector Loans a Work to a gallery for one month for display in the gallery\'s show)',
         'acl_share': '(e.g. a photographer Shares proofs of a graduation photo with the graduate\'s grandparents)',
         'acl_delete': '(e.g. an artist uploaded the wrong file and doesn\'t want it cluttering his Wallet, so he Deletes it)',
-        'acl_create_editions': '<Insert text here>',
-        'acl_unconsign': '<Insert text here>',
-        'acl_request_unconsign': '<Insert text here>'
+        'acl_create_editions': '(e.g. A company commissions a visual artists to create three limited edition prints for a giveaway)',
+        'acl_unconsign': '(e.g. An artist regains full control over their work and releases the consignee of any rights or responsibilities)',
+        'acl_request_unconsign': '(e.g. An artist submits an unconsign request to a gallery after his exhibition ends, as per their agreement)'
     }
 };
