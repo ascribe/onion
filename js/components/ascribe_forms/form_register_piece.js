@@ -29,7 +29,8 @@ let RegisterPieceForm = React.createClass({
         onLoggedOut: React.PropTypes.func,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
-        disabled: React.PropTypes.bool
+        disabled: React.PropTypes.bool,
+        location: React.PropTypes.object
     },
 
     getDefaultProps() {
@@ -113,7 +114,8 @@ let RegisterPieceForm = React.createClass({
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
                         disabled={!this.props.isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}/>
+                        enableLocalHashing={enableLocalHashing}
+                        location={this.props.location}/>
                 </Property>
                 <Property
                     name='artist_name'

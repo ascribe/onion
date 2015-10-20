@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link, History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -22,7 +22,7 @@ import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
-import EditionFurtherDetails from './further_details';
+import FurtherDetails from './further_details';
 
 import EditionActionPanel from './edition_action_panel';
 
@@ -33,17 +33,18 @@ import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 
-let Link = Router.Link;
+
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        loadEdition: React.PropTypes.func
+        loadEdition: React.PropTypes.func,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return UserStore.getState();
@@ -148,12 +149,13 @@ let Edition = React.createClass({
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data.length > 0}>
-                        <EditionFurtherDetails
+                        <FurtherDetails
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}/>
+                            handleSuccess={this.props.loadEdition}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
@@ -257,7 +259,7 @@ let CoaDetails = React.createClass({
                                 {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                             </button>
                         </a>
-                        <Link to="coa_verify">
+                        <Link to="/coa_verify">
                             <button className="btn btn-default btn-xs">
                                 {getLangText('Verify')} <Glyphicon glyph="check"/>
                             </button>

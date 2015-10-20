@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
@@ -10,10 +10,13 @@ import ApiUrls from '../constants/api_urls';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PasswordResetContainer = React.createClass({
-    mixins: [Router.Navigation],
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return {isRequested: false};
@@ -24,12 +27,14 @@ let PasswordResetContainer = React.createClass({
     },
 
     render() {
-        if (this.props.query.email && this.props.query.token) {
+        let { location } = this.props;
+
+        if (location.query.email && location.query.token) {
             return (
                 <div>
                     <PasswordResetForm
-                        email={this.props.query.email}
-                        token={this.props.query.token}/>
+                        email={location.query.email}
+                        token={location.query.token}/>
                 </div>
             );
         }
@@ -71,6 +76,8 @@ let PasswordRequestResetForm = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Reset your password'));
+
         return (
             <Form
                 ref="form"
@@ -112,7 +119,7 @@ let PasswordResetForm = React.createClass({
         token: React.PropTypes.string
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getFormData() {
         return {
@@ -122,7 +129,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
         let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },

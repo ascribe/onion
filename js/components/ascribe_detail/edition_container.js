@@ -9,12 +9,17 @@ import Edition from './edition';
 
 import AppConstants from '../../constants/application_constants';
 
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 
 /**
  * This is the component that implements resource/data specific functionality
  */
 let EditionContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return EditionStore.getState();
     },
@@ -62,10 +67,13 @@ let EditionContainer = React.createClass({
 
     render() {
         if(this.state.edition && this.state.edition.title) {
+            setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
+
             return (
                 <Edition
                     edition={this.state.edition}
-                    loadEdition={this.loadEdition}/>
+                    loadEdition={this.loadEdition}
+                    location={this.props.location}/>
             );
         } else {
             return (

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
@@ -40,8 +40,8 @@ import DetailProperty from '../../../../ascribe_detail/detail_property';
 import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
-let Link = Router.Link;
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -113,11 +113,21 @@ let PieceContainer = React.createClass({
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
-                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.state.piece.artist_name;
+                null : this.state.piece.artist_name;
             
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
+
+            if (artistName === null) {
+                setDocumentTitle(this.state.piece.title);
+            } else {
+                setDocumentTitle([artistName, this.state.piece.title].join(', '));
+            }
+
+            if (artistName === null) {
+                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
+            }
 
             return (
                 <Piece
@@ -169,12 +179,12 @@ let NavigationHeader = React.createClass({
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
-                        <Link className="disable-select" to='piece' params={{pieceId: nav.prev_index ? nav.prev_index : this.props.piece.id}}>
+                        <Link className="disable-select" to={`/pieces/${ nav.prev_index || this.props.piece.id }`}>
                             <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
                             {getLangText('Previous')}
                             </span>
                         </Link>
-                        <Link className="disable-select" to='piece' params={{pieceId: nav.next_index ? nav.next_index : this.props.piece.id}}>
+                        <Link className="disable-select" to={`/pieces/${ nav.next_index || this.props.piece.id }`}>
                             <span className="pull-right link-ascribe">
                                 {getLangText('Next')}
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>

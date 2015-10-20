@@ -9,9 +9,14 @@ import UserStore from '../../../../../stores/user_store';
 import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_list_item';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let CylandPieceList = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return UserStore.getState();
     },
@@ -30,10 +35,12 @@ let CylandPieceList = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Collection'));
+
         return (
             <div>
                 <PieceList
-                    redirectTo="register_piece"
+                    redirectTo="/register_piece?slide_num=0"
                     accordionListItemType={CylandAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
@@ -42,7 +49,7 @@ let CylandPieceList = React.createClass({
                             label: getLangText('loaned to Cyland')
                         }]
                     }]}
-                    />
+                    location={this.props.location}/>
             </div>
         );
     }

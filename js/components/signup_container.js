@@ -1,15 +1,19 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link } from 'react-router';
 
 import SignupForm from './ascribe_forms/form_signup';
 
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
-let Link = Router.Link;
 
 let SignupContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return {
             submitted: false,
@@ -25,6 +29,8 @@ let SignupContainer = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Sign up'));
+
         if (this.state.submitted){
             return (
                 <div className="ascribe-login-wrapper">
@@ -37,9 +43,11 @@ let SignupContainer = React.createClass({
         }
         return (
             <div className="ascribe-login-wrapper">
-                <SignupForm handleSuccess={this.handleSuccess} />
+                <SignupForm
+                    handleSuccess={this.handleSuccess}
+                    location={this.props.location}/>
                 <div className="ascribe-login-text">
-                    {getLangText('Already an ascribe user')}&#63; <Link to="login">{getLangText('Log in')}...</Link><br/>
+                    {getLangText('Already an ascribe user')}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
                 </div>
             </div>
 

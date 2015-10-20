@@ -11,6 +11,7 @@ import InputTextAreaToggable from '../../../ascribe_forms/input_textarea_toggabl
 import InputCheckbox from '../../../ascribe_forms/input_checkbox';
 
 import { getLangText } from '../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../utils/dom_utils';
 
 
 let PrizeRegisterPiece = React.createClass({
@@ -32,6 +33,8 @@ let PrizeRegisterPiece = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Submit to the prize'));
+
         if(this.state.prize && this.state.prize.active){
             return (
             <RegisterPiece

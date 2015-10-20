@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
@@ -40,13 +40,17 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -134,7 +138,7 @@ let PieceContainer = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     getCreateEditionsDialog() {
@@ -213,6 +217,8 @@ let PieceContainer = React.createClass({
 
     render() {
         if(this.state.piece && this.state.piece.title) {
+            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
+
             return (
                 <Piece
                     piece={this.state.piece}
@@ -267,7 +273,8 @@ let PieceContainer = React.createClass({
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}
                             otherData={this.state.piece.other_data}
-                            handleSuccess={this.loadPiece}/>
+                            handleSuccess={this.loadPiece}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
 
                 </Piece>

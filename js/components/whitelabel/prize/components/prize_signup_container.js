@@ -4,8 +4,13 @@ import React from 'react';
 import SignupForm from '../../../ascribe_forms/form_signup';
 
 import { getLangText } from '../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../utils/dom_utils';
 
 let SignupContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return {
             submitted: false,
@@ -21,6 +26,8 @@ let SignupContainer = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Sign up'));
+
         if (this.state.submitted){
             return (
                 <div className="ascribe-login-wrapper">
@@ -35,7 +42,8 @@ let SignupContainer = React.createClass({
                     <SignupForm
                         headerMessage={getLangText('Create account for submission')}
                         submitMessage={getLangText('Sign up')}
-                        handleSuccess={this.handleSuccess} />
+                        handleSuccess={this.handleSuccess}
+                        location={this.props.location}/>
                 </div>
             );
         }

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -24,10 +24,10 @@ let LoginForm = React.createClass({
         submitMessage: React.PropTypes.string,
         redirectOnLoggedIn: React.PropTypes.bool,
         redirectOnLoginSuccess: React.PropTypes.bool,
-        onLogin: React.PropTypes.func
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -44,10 +44,6 @@ let LoginForm = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        let { redirect } = this.getQuery();
-        if (redirect && redirect !== 'login'){
-            this.transitionTo(redirect, null, this.getQuery());
-        }
     },
 
     componentWillUnmount() {
@@ -56,65 +52,19 @@ let LoginForm = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        // if user is already logged in, redirect him to piece list
-        if(this.state.currentUser && this.state.currentUser.email && this.props.redirectOnLoggedIn) {
-            // FIXME: hack to redirect out of the dispatch cycle
-            let { redirectAuthenticated } = this.getQuery();
-            if ( redirectAuthenticated) {
-                /*
-                * redirectAuthenticated contains an arbirary path
-                * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
-                * hence transitionTo cannot be used directly
-                */
-                window.location = AppConstants.baseUrl + redirectAuthenticated;
-            }
-            window.setTimeout(() => this.transitionTo('pieces'), 0);
-        }
     },
 
-    handleSuccess(){
+    handleSuccess({ success }){
         let notification = new GlobalNotificationModel('Login successful', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        // register_piece is waiting for a login success as login_container and it is wrapped
-        // in a slides_container component.
-        // The easiest way to check if the user was successfully logged in is to fetch the user
-        // in the user store (which is obviously only possible if the user is logged in), since
-        // register_piece is listening to the changes of the user_store.
-        UserActions.fetchCurrentUser()
-            .then(() => {
-                if(this.props.redirectOnLoginSuccess) {
-                    /* Taken from http://stackoverflow.com/a/14916411 */
-                    /*
-                    We actually have to trick the Browser into showing the "save password" dialog
-                    as Chrome expects the login page to be reloaded after the login.
-                    Users on Stack Overflow claim this is a bug in chrome and should be fixed in the future.
-                    Until then, we redirect the HARD way, but reloading the whole page using window.location
-                    */
-                    let { redirectAuthenticated } = this.getQuery();
-                    if ( redirectAuthenticated) {
-                        window.location = AppConstants.baseUrl + redirectAuthenticated;
-                    }
-                    else {
-                        window.location = AppConstants.baseUrl + 'collection';
-                    }
-                } else if(this.props.onLogin) {
-                    // In some instances we want to give a callback to an outer container,
-                    // to show that the one login action the user triggered actually went through.
-                    // We can not do this by listening on a store's state as it wouldn't really tell us
-                    // if the user did log in or was just fetching the user's data again
-                    this.props.onLogin();
-                }
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
-
+        if(success) {
+            UserActions.fetchCurrentUser();
+        }
     },
 
     render() {
-        let email = this.getQuery().email || null;
+        let email = this.props.location.query.email || null;
         return (
             <Form
                 className="ascribe-form-bordered"

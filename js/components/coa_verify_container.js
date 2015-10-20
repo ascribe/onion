@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -12,12 +11,13 @@ import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
 import ApiUrls from '../constants/api_urls';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
-    mixins: [Router.Navigation],
-
     render() {
+        setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
+
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
@@ -45,8 +45,6 @@ let CoaVerifyContainer = React.createClass({
 
 
 let CoaVerifyForm = React.createClass({
-    mixins: [Router.Navigation],
-
     handleSuccess(response){
         let notification = null;
         if (response.verdict) {

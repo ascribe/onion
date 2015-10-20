@@ -2,7 +2,10 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+
+import Button from 'react-bootstrap/lib/Button';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
@@ -32,16 +35,18 @@ let IkonotvSubmitButton = React.createClass({
         }
 
         return (
-            <ButtonLink
-                to="register_piece"
+            <LinkContainer
+                to="/register_piece"
                 query={{
                     'slide_num': 0,
                     'start_from': startFrom,
                     'piece_id': piece.id
-                }}
-                className={classNames('ascribe-margin-1px', this.props.className)}>
-                {getLangText('Loan to IkonoTV')}
-            </ButtonLink>
+                }}>
+                <Button
+                    className={classNames('ascribe-margin-1px', this.props.className)}>
+                    {getLangText('Loan to IkonoTV')}
+                </Button>
+            </LinkContainer>
         );
     }
 });

@@ -103,14 +103,17 @@ let Video = React.createClass({
      * ReactJS is responsible for DOM manipulation but VideoJS updates the DOM
      * to install itself to display the video, therefore ReactJS complains that we are
      * changing the DOM under its feet.
+     * The component supports a fall-back to HTML5 video tag.
      *
      * What we do is the following:
-     * 1) set `state.ready = false`
-     * 2) render the cover using the `<Image />` component (because ready is false)
+     * 1) set `state.libraryLoaded = null` (state.libraryLoaded can be in three states: `null`
+     *    if we don't know anything about it, `true` if the external library has been loaded,
+     *    `false` if we failed to load the external library)
+     * 2) render the cover using the `<Image />` component (because libraryLoaded is null)
      * 3) on `componentDidMount`, we load the external `css` and `js` resources using
      *    the `InjectInHeadMixin`, attaching a function to `Promise.then` to change
-     *    `state.ready` to true
-     * 4) when the promise is succesfully resolved, we change `state.ready` triggering
+     *    `state.libraryLoaded` to true
+     * 4) when the promise is succesfully resolved, we change `state.libraryLoaded` triggering
      *    a re-render
      * 5) the new render calls `prepareVideoHTML` to get the raw HTML of the video tag
      *    (that will be later processed and expanded by VideoJS)
@@ -129,18 +132,19 @@ let Video = React.createClass({
     mixins: [InjectInHeadMixin],
 
     getInitialState() {
-        return { ready: false, videoMounted: false };
+        return { libraryLoaded: null, videoMounted: false };
     },
 
     componentDidMount() {
         Q.all([
             this.inject('//vjs.zencdn.net/4.12/video-js.css'),
-            this.inject('//vjs.zencdn.net/4.12/video.js')
-        ]).then(this.ready);
+            this.inject('//vjs.zencdn.net/4.12/video.js')])
+        .then(() => this.setState({libraryLoaded: true}))
+        .fail(() => this.setState({libraryLoaded: false}));
     },
 
     componentDidUpdate() {
-        if (this.state.ready && !this.state.videoMounted) {
+        if (this.state.libraryLoaded && !this.state.videoMounted) {
             window.videojs('#mainvideo');
             /* eslint-disable */
             this.setState({videoMounted: true});
@@ -149,11 +153,9 @@ let Video = React.createClass({
     },
 
     componentWillUnmount() {
-        window.videojs('#mainvideo').dispose();
-    },
-
-    ready() {
-        this.setState({ready: true, videoMounted: false});
+        if (this.state.videoMounted) {
+            window.videojs('#mainvideo').dispose();
+        }
     },
 
     prepareVideoHTML() {
@@ -171,7 +173,7 @@ let Video = React.createClass({
     },
 
     render() {
-        if (this.state.ready) {
+        if (this.state.libraryLoaded !== null) {
             return (
                 <div dangerouslySetInnerHTML={{__html: this.prepareVideoHTML() }}/>
             );

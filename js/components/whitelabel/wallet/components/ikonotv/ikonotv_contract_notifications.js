@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -27,13 +27,13 @@ import Property from '../../../../ascribe_forms/property';
 import AppConstants from '../../../../../constants/application_constants';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
-let Navigation = Router.Navigation;
 
 let IkonotvContractNotifications = React.createClass({
 
-    mixins: [Navigation],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -114,7 +114,7 @@ let IkonotvContractNotifications = React.createClass({
     handleConfirmSuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     handleDeny() {
@@ -127,7 +127,7 @@ let IkonotvContractNotifications = React.createClass({
     handleDenySuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     getCopyrightAssociationForm(){
@@ -149,6 +149,8 @@ let IkonotvContractNotifications = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Contacts notifications'));
+
         if (this.state.contractAgreementListNotifications &&
             this.state.contractAgreementListNotifications.length > 0) {
 
