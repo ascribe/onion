@@ -32,8 +32,8 @@ let AclInformation = React.createClass({
     getInfoText(title, info, example){
         let aim = this.props.aim;
 
-        if (aim) {
-            if (aim === 'form') {
+        if(aim) {
+            if(aim === 'form') {
                 return (
                     <p>
                         <span className="info">
@@ -45,7 +45,7 @@ let AclInformation = React.createClass({
                     </p>
                 );
             }
-            else if (aim === 'button') {
+            else if(aim === 'button') {
                 return (
                     <p>
                         <span className="title">
@@ -70,11 +70,15 @@ let AclInformation = React.createClass({
         const { titles, informationSentences, exampleSentences } = InformationTexts;
         const { verbs, aim } = this.props;
 
+        const availableInformations = intersectAcls(verbs, Object.keys(titles));
+
         // sorting is not needed, as `this.props.verbs` takes care of sorting already
         // So we assume a user of `AclInformationButton` puts an ordered version of
         // `verbs` into `propTypes`
         let verbsToDisplay = [];
-        if(aim === 'form') {
+
+
+        if(aim === 'form' && availableInformations.length > 0) {
             verbsToDisplay = verbsToDisplay.concat(verbs);
         } else if(aim === 'button' && this.props.aclObject) {
             const { aclObject } = this.props;
