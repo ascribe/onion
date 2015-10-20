@@ -204,7 +204,7 @@ let PieceContainer = React.createClass({
                             piece={this.state.piece}/>
                         <AclInformation
                             aim="button"
-                            verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete']}
+                            verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
                             aclObject={this.state.piece.acl}/>
                 </AclButtonList>
             );
