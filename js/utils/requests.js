@@ -44,8 +44,8 @@ class Requests {
                             let error = new Error('Client Request Error');
                             error.json = {
                                 status: response.status,
-                                statusText: response.status,
-                                type: response.status,
+                                statusText: response.statusText,
+                                type: response.type,
                                 url: response.url
                             };
                             reject(error);
