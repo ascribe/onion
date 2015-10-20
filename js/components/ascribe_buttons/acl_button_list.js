@@ -43,7 +43,7 @@ let AclButtonList = React.createClass({
 
     render() {
         return (
-            <div id='aclbuttonlist' className={this.props.className}>
+            <div className={this.props.className}>
                 <span style={this.props.buttonsStyle}>
                     <AclButton
                         availableAcls={this.props.availableAcls}

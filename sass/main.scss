@@ -34,6 +34,9 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_form';
 @import 'ascribe_panel';
 @import 'ascribe_collapsible';
+@import 'ascribe_acl_information';
+
+@import 'lib/buttons';
 
 @import 'whitelabel/index';
 
@@ -298,10 +301,6 @@ hr {
     height: 13em !important;
 }
 
-.textarea-ascribe-info {
-    text-align: left;
-}
-
 .input-checkbox-ascribe {
     line-height: 1.6;
     margin-left: 1.6em;
@@ -483,11 +482,6 @@ hr {
         margin-bottom: .1em;
         border-color: #ccc;
     }
-}
-
-.modal-header {
-    padding: 15px 15px 0 15px;
-    border-bottom: none;
 }
 
 .error-wrapper {

@@ -169,12 +169,14 @@ let AclButton = React.createClass({
             return (
                 <ModalWrapper
                     trigger={
-                        <button className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
+                        <button
+                            className={'btn btn-default btn-sm ' + buttonClassName}
+                            disabled={!shouldDisplay}>
                             {this.sanitizeAction()}
                         </button>
                     }
-                    handleSuccess = {aclProps.handleSuccess}
-                    title = {aclProps.title}>
+                    handleSuccess={aclProps.handleSuccess}
+                    title={aclProps.title}>
                     {aclProps.form}
                 </ModalWrapper>
             );
