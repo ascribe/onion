@@ -77,7 +77,7 @@ let CreateEditionsButton = React.createClass({
             return (
                 <button
                     disabled
-                    className={classNames('btn', 'btn-default', this.props.className)}>
+                    className={classNames('btn', this.props.className)}>
                     {getLangText('Creating editions')} <AscribeSpinner
                         size='sm'
                         color='white'
@@ -87,7 +87,7 @@ let CreateEditionsButton = React.createClass({
         } else {
             return (
                 <button
-                    className={classNames('btn', 'btn-default', this.props.className)}
+                    className={classNames('btn', this.props.className)}
                     onClick={this.props.toggleCreateEditionsDialog}>
                     {this.props.label}
                 </button>

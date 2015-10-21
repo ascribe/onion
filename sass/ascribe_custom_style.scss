@@ -238,6 +238,10 @@ hr {
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 
+.btn {
+    font-weight: $ascribe--font-weight-light;
+}
+
 // disabled buttons
 .btn-default.disabled,
 .btn-default.disabled:hover,
@@ -264,7 +268,6 @@ fieldset[disabled] .btn-default.active {
 .btn-default {
     background-color: $ascribe--button-default-color;
     border-color: $ascribe--button-default-color;
-    font-weight: $ascribe--font-weight-light;
 
     &:hover,
     &:active,

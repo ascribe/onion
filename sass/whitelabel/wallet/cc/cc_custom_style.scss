@@ -70,6 +70,7 @@ $cc--button-color: $cc--nav-fg-prim-color;
 
 // disabled buttons
 .client--cc {
+    // disabled buttons
     .btn-default.disabled,
     .btn-default.disabled:hover,
     .btn-default.disabled:focus,
@@ -88,8 +89,30 @@ $cc--button-color: $cc--nav-fg-prim-color;
     fieldset[disabled] .btn-default.focus,
     fieldset[disabled] .btn-default:active,
     fieldset[disabled] .btn-default.active {
-        background-color: darken($cc--button-color, 20%);
-        border-color: darken($cc--button-color, 20%);
+        background-color: $cc--nav-bg-color;
+        color: $cc--nav-fg-prim-color;
+    }
+}
+
+.client--cc {
+    .btn-secondary {
+        background-color: $cc--nav-bg-color;
+        border-color: $cc--nav-fg-prim-color;
+        color: $cc--nav-fg-prim-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $cc--nav-fg-prim-color;
+            border-color: $cc--nav-fg-prim-color;
+            color: $cc--nav-bg-color;
+        }
     }
 }
 

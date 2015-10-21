@@ -116,12 +116,12 @@ let AccordionListItemEditionWidget = React.createClass({
             if(piece.first_edition === null) {
                 // user has deleted all his editions and only the piece is showing
                 return (
-                    <Button
+                    <button
                         disabled
                         title={getLangText('All editions for this have been deleted already.')}
-                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-default', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {'0 ' + getLangText('Editions')}
-                    </Button>
+                    </button>
                 );
             } else {
                 let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
