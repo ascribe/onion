@@ -397,14 +397,17 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
         background-color: $ikono--button-color;
         border-color: $ikono--button-color;
 
+        &:hover,
+        &:active,
+        &:focus,
         &:active:hover,
         &:active:focus,
         &:active.focus,
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: darken($ikono--button-color, 20%);
-            border-color: darken($ikono--button-color, 20%);
+            background-color: lighten($ikono--button-color, 20%);
+            border-color: lighten($ikono--button-color, 20%);
         }
     }
 
@@ -418,6 +421,12 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 
     .pager li > a, .pager li > span {
         background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $ikono--button-color !important;
         border-color: $ikono--button-color;
     }
 }

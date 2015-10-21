@@ -138,14 +138,17 @@ $cc--button-color: $cc--nav-fg-prim-color;
         background-color: $cc--button-color;
         border-color: $cc--button-color;
 
+        &:hover,
+        &:active,
+        &:focus,
         &:active:hover,
         &:active:focus,
         &:active.focus,
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: darken($cc--button-color, 20%);
-            border-color: darken($cc--button-color, 20%);
+            background-color: lighten($cc--button-color, 20%);
+            border-color: lighten($cc--button-color, 20%);
         }
     }
 
@@ -157,8 +160,15 @@ $cc--button-color: $cc--nav-fg-prim-color;
         border-color: darken($cc--button-color, 20%);
     }
 
-    .pager li > a, .pager li > span {
+    .pager li > a,
+    .pager li > span {
         background-color: $cc--button-color;
+        border-color: $cc--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $cc--button-color !important;
         border-color: $cc--button-color;
     }
 }

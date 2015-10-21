@@ -186,14 +186,17 @@ $sluice--button-color: $sluice--nav-fg-prim-color;
         background-color: $sluice--button-color;
         border-color: $sluice--button-color;
 
+        &:hover,
+        &:active,
+        &:focus,
         &:active:hover,
         &:active:focus,
         &:active.focus,
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: darken($sluice--button-color, 20%);
-            border-color: darken($sluice--button-color, 20%);
+            background-color: lighten($sluice--button-color, 20%);
+            border-color: lighten($sluice--button-color, 20%);
         }
     }
 
@@ -207,6 +210,12 @@ $sluice--button-color: $sluice--nav-fg-prim-color;
 
     .pager li > a, .pager li > span {
         background-color: $sluice--button-color;
+        border-color: $sluice--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $sluice--button-color !important;
         border-color: $sluice--button-color;
     }
 }

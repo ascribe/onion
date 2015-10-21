@@ -115,14 +115,17 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
         background-color: $cyland--button-color;
         border-color: $cyland--button-color;
 
+        &:hover,
+        &:active,
+        &:focus,
         &:active:hover,
         &:active:focus,
         &:active.focus,
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: darken($cyland--button-color, 20%);
-            border-color: darken($cyland--button-color, 20%);
+            background-color: lighten($cyland--button-color, 20%);
+            border-color: lighten($cyland--button-color, 20%);
         }
     }
 
@@ -136,6 +139,11 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 
     .pager li > a, .pager li > span {
         background-color: $cyland--button-color;
+        border-color: $cyland--button-color;
+    }
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $cyland--button-color !important;
         border-color: $cyland--button-color;
     }
 }
