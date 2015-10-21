@@ -111,7 +111,11 @@ gulp.task('sass:build', function () {
             ]
         }).on('error', sass.logError))
         .pipe(gulpif(!argv.production, sourcemaps.write('./maps')))
-        .pipe(gulpif(argv.production, minifyCss()))
+        // We need to set `advanced` to false, as it merges
+        // some of the styles wrongly
+        .pipe(gulpif(argv.production, minifyCss({
+            advanced: false
+        })))
         .pipe(gulp.dest('./build/css'))
         .pipe(browserSync.stream());
 });
