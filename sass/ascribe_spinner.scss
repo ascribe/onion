@@ -40,6 +40,7 @@ $ascribe--spinner-size-sm: 15px;
     -webkit-animation: spinner-color-loop 20s infinite;
        -moz-animation: spinner-color-loop 20s infinite;
          -o-animation: spinner-color-loop 20s infinite;
+        -ms-animation: spinner-color-loop 20s infinite;
             animation: spinner-color-loop 20s;
 
 }
@@ -73,6 +74,7 @@ $ascribe--spinner-size-sm: 15px;
     -webkit-animation: spin 1s infinite linear;
        -moz-animation: spin 1s infinite linear;
          -o-animation: spin 1s infinite linear;
+        -ms-animation: spin 1s infinite linear;
             animation: spin 1s infinite linear;
 }
 .spinner-wrapper-lg .spinner-inner,

@@ -111,6 +111,8 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 .client--ikonotv .route--landing {
     background-color: $ikono--landing-bg-color;
     animation: color-loop 20s;
+    -o-animation: color-loop 20s infinite;
+    -ms-animation: color-loop 20s infinite;
     -moz-animation: color-loop 20s infinite;
     -webkit-animation: color-loop 20s infinite;
     
