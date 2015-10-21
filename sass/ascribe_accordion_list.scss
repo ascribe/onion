@@ -178,7 +178,7 @@ $ascribe-accordion-list-item-height: 100px;
     -webkit-user-select: none;
 
     &:hover {
-        color: $ascribe-color-green;
+        color: $ascribe-dark-blue;
         cursor: pointer;
     }
 }
@@ -194,7 +194,7 @@ $ascribe-accordion-list-item-height: 100px;
 }
 
 .request-action-badge {
-    color: $ascribe-color-green;
+    color: $ascribe-dark-blue;
     font-size: 1.2em;
     padding: .8em;
     position: absolute;
@@ -211,7 +211,7 @@ $ascribe-accordion-list-item-height: 100px;
     -webkit-user-select: none;
 
     &:hover {
-        color: $ascribe-color-green;
+        color: $ascribe-dark-blue;
     }
 
     .glyphicon {

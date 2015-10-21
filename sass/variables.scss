@@ -19,7 +19,7 @@ $brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #ccc !default;
-$brand-danger:          $ascribe-brand-danger !default;
+$brand-danger:          $ascribe-red-error !default;
 
 
 //== Scaffolding
@@ -150,8 +150,8 @@ $table-border-color:            #ddd !default;
 $btn-font-weight:                normal !default;
 
 $btn-default-color:              white !default;
-$btn-default-bg:                 $ascribe-color-green !default;
-$btn-default-border:             $ascribe-color-green !default;
+$btn-default-bg:                 $ascribe-dark-blue !default;
+$btn-default-border:             $ascribe-dark-blue !default;
 
 $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
@@ -219,7 +219,7 @@ $legend-color:                   $gray-dark !default;
 $legend-border-color:            #e5e5e5 !default;
 
 //** Background color for textual input addons
-$input-group-addon-bg:           $ascribe-color-green !default;
+$input-group-addon-bg:           $ascribe-dark-blue !default;
 //** Border color for textual input addons
 $input-group-addon-border-color: transparent !default;
 
@@ -468,14 +468,14 @@ $pagination-disabled-border:           #ddd !default;
 //
 //##
 
-$pager-bg:                             $ascribe-color-green !default;
-$pager-border:                         $ascribe-color-green !default;
+$pager-bg:                             $ascribe-dark-blue !default;
+$pager-border:                         $ascribe-dark-blue !default;
 $pager-border-radius:                  0 !default;
 
-$pager-hover-bg:                       darken($ascribe-color-green, 10%) !default;
+$pager-hover-bg:                       darken($ascribe-dark-blue, 10%) !default;
 
-$pager-active-bg:                      $ascribe-color-green !default;
-$pager-active-color:                   $ascribe-color-green !default;
+$pager-active-bg:                      $ascribe-dark-blue !default;
+$pager-active-color:                   $ascribe-dark-blue !default;
 
 $pager-disabled-color:                 #CCC !default;
 $pager-disabled-border:                1px solid #CCC !default;

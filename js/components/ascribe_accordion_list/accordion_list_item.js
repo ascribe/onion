@@ -13,7 +13,7 @@ let AccordionListItem = React.createClass({
         subheading: React.PropTypes.object,
         subsubheading: React.PropTypes.object,
         buttons: React.PropTypes.object,
-        linkData: React.PropTypes.func,
+        linkData: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element

@@ -22,7 +22,8 @@
         }
 
         a:hover {
-            color: #48DACB;
+            text-decoration: none;
+            color: lighten($ascribe-dark-blue, 20%);
         }
     }
 }

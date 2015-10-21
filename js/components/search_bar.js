@@ -118,7 +118,7 @@ const SearchBar = React.createClass({
     },
 
     render() {
-        let searchIcon = <Glyphicon glyph='search' className="filter-glyph"/>;
+        let searchIcon = <span className='ascribe-icon icon-ascribe-search'/>;
         const { className } = this.props;
         const { loading, searchQuery } = this.state;
 
