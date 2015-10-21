@@ -19,6 +19,13 @@ function getWalletApiUrls(subdomain) {
             'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
         };
     }
+    else if (subdomain === 'lumenus'){
+        return {
+            'editions': walletConstants.walletApiEndpoint + subdomain + 'editions/',
+            'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
+            'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
+        };
+    }
     return {};
 }
 

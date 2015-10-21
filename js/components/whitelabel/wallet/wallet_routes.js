@@ -15,6 +15,7 @@ import EditionContainer from '../../../components/ascribe_detail/edition_contain
 import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import ContractSettings from '../../../components/ascribe_settings/contract_settings';
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
+import RegisterPiece from '../../../components/register_piece'; //TODO: Remove once finished with LumenusRegisterPiece
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
@@ -144,6 +145,40 @@ let ROUTES = {
                 path='contract_notifications'
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(IkonotvContractNotifications)}/>
             <Route path='pieces/:pieceId' component={IkonotvPieceContainer} />
+            <Route path='editions/:editionId' component={EditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='*' component={ErrorNotFoundPage} />
+        </Route>
+    ),
+    'lumenus': (
+        <Route path='/' component={WalletApp}>
+            <Route
+                path='login'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            <Route
+                path='logout'
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+            <Route
+                path='signup'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+            <Route
+                path='contract_settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+            <Route
+                path='register_piece'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
+                headerTitle='+ NEW WORK'/>
+            <Route
+                path='collection'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
+                headerTitle='COLLECTION'/>
+            <Route path='pieces/:pieceId' component={PieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
