@@ -19,19 +19,19 @@ $ascribe--button-default-color: $ascribe--bg-color;
 $ascribe--button-secondary-fg-color: $ascribe--bg-color;
 $ascribe--button-secondary-bg-color: white;
 
-//$ascribe--font: 'canada-type-gibson', sans-serif !important;
-$ascribe--font: 'gibson-local', sans-serif !important;
-$ascribe--font-weight: 300 !important;
+$ascribe--font: 'canada-type-gibson', sans-serif !important;
+$ascribe--font-weight-light: 300 !important;
+$ascribe--font-weight-normal: normal;
 
 html,
 body {
     font-family: $ascribe--font;
-    font-weight: $ascribe--font-weight;
+    font-weight: $ascribe--font-weight-light;
     background-color: #f8f8f8 !important;
 }
 h1, h3 {
     font-family: $ascribe--font;
-    font-weight: $ascribe--font-weight;
+    font-weight: $ascribe--font-weight-light;
 }
 
 h1 {
@@ -57,6 +57,7 @@ hr {
     .navbar-nav > li > .active a {
         text-transform: uppercase;
         font-size: 12px;
+        font-weight: $ascribe--font-weight-light;
         color: $ascribe--nav-fg-prim-color;
         border-bottom: 3px solid transparent;
     }
@@ -64,14 +65,13 @@ hr {
         color: $ascribe--nav-fg-sec-color;
     }
 
-
     .navbar-nav > .active a,
     .navbar-nav > .active a:hover,
     .navbar-nav > .active a:focus {
         color: $ascribe--nav-fg-prim-color;
         border-bottom-color: $ascribe--nav-fg-prim-color;
         background-color: $ascribe--nav-bg-color;
-        font-weight: 500;
+        font-weight: $ascribe--font-weight-light;
     }
 
     .navbar-nav > .active {
@@ -79,13 +79,16 @@ hr {
     }
 
     .navbar-nav > .open > a,
-    .navbar-nav > .open > a:hover,
-    .navbar-nav > .open > a:focus,
-    .dropdown-menu > .active > a,
-    .dropdown-menu > .active > a:hover,
-    .dropdown-menu > .active > a:focus {
+    .dropdown-menu > .active > a {
         color:  $ascribe--nav-fg-prim-color;
         background-color: $ascribe--nav-bg-color;
+    }
+
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        background-color: rgba($ascribe--button-default-color, .05);
     }
     .dropdown-menu {
         background-color: $ascribe--nav-bg-color;
@@ -93,13 +96,12 @@ hr {
 
     .dropdown-menu > li > a {
         color:  $ascribe--nav-fg-prim-color;
-        font-weight: $ascribe--font-weight !important;
+        font-weight: $ascribe--font-weight-light;
     }
 
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
-        color:  $ascribe--nav-fg-prim-color;
-        background-color: $ascribe--nav-bg-color;
+        background-color: rgba($ascribe--button-default-color, .05);
     }
 
     .notification-menu {
@@ -144,7 +146,7 @@ hr {
 
 .ascribe-icon {
     font-size: 1.2em;
-    font-weight: $ascribe--font-weight;
+    font-weight: $ascribe--font-weight-light;
 }
 
 .icon-ascribe-search{
@@ -194,11 +196,7 @@ hr {
     }
 }
 .ascribe-footer {
-    //position: fixed;
-    //left: 0;
-    //bottom: 0;
-    //height: 80px;
-    //width: 100%;
+    margin-top: 5em;
     text-transform: uppercase;
     background-color: $ascribe-white;
     border-top: 1px solid rgba(0, 60, 105, 0.1);
@@ -364,7 +362,7 @@ fieldset[disabled] .btn-secondary.active {
 }
 
 .btn-wide {
-    font-weight: $ascribe--font-weight;
+    font-weight: $ascribe--font-weight-light;
 }
 
 .btn-spinner, .btn-spinner:hover {
@@ -401,7 +399,9 @@ fieldset[disabled] .btn-secondary.active {
 }
 
 .pager li > a:hover,
-.pager li > span:hover {
+.pager li > span:hover,
+.pager li > a:focus,
+.pager li > span:focus {
     background-color: lighten($ascribe--button-default-color, 20%);
     border-color: lighten($ascribe--button-default-color, 20%);
 }
@@ -493,12 +493,12 @@ fieldset[disabled] .btn-secondary.active {
     > span:not(.glyphicon),
     > textarea {
         font-family: $ascribe--font;
-        font-weight: $ascribe--font-weight;
+        font-weight: $ascribe--font-weight-light;
     }
     > div {
         > div:not(.file-drag-and-drop div) {
             font-family: $ascribe--font;
-            font-weight: $ascribe--font-weight;
+            font-weight: $ascribe--font-weight-light;
         }
     }
     > span:not(.glyphicon) {

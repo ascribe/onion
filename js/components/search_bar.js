@@ -4,6 +4,9 @@ import React from 'react';
 
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+
+import AscribeSpinner from './ascribe_spinner';
+
 import { getLangText } from '../utils/lang_utils';
 
 
@@ -30,6 +33,19 @@ const SearchBar = React.createClass({
             searchQuery: '',
             loading: false
         };
+    },
+
+    componentWillReceiveProps(nextProps) {
+        /**
+         * This enables the `PieceListStore` to override the state
+         * of that component in case someone is changing the `searchQuery` on
+         * another component.
+         *
+         * Like how it's being done in the 'Clear search' dialog.
+         */
+        if(this.props.searchQuery !== nextProps.searchQuery || !this.state.searchQuery) {
+            this.setState({ searchQuery: nextProps.searchQuery });
+        }
     },
 
     componentDidUpdate(prevProps) {
@@ -65,19 +81,6 @@ const SearchBar = React.createClass({
 
         if(firstCondition && (secondCondition || thirdCondition)) {
             this.setState({ loading: false });
-        }
-    },
-
-    componentWillReceiveProps(nextProps) {
-        /**
-         * This enables the `PieceListStore` to override the state
-         * of that component in case someone is changing the `searchQuery` on
-         * another component.
-         *
-         * Like how it's being done in the 'Clear search' dialog.
-         */
-        if(this.props.searchQuery !== nextProps.searchQuery || !this.state.searchQuery) {
-            this.setState({ searchQuery: nextProps.searchQuery });
         }
     },
 
@@ -120,7 +123,7 @@ const SearchBar = React.createClass({
         const { loading, searchQuery } = this.state;
 
         if(loading) {
-            searchIcon = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
+            searchIcon = <AscribeSpinner size='sm' color='dark-blue'/>;
         }
 
         return (
