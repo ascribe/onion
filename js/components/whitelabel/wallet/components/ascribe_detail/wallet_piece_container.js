@@ -23,6 +23,7 @@ let WalletPieceContainer = React.createClass({
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
+        handleDeleteSuccess: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired
     },
 
@@ -53,6 +54,7 @@ let WalletPieceContainer = React.createClass({
                         piece={this.props.piece}
                         currentUser={this.props.currentUser}
                         loadPiece={this.props.loadPiece}
+                        handleDeleteSuccess={this.props.handleDeleteSuccess}
                         submitButtonType={this.props.submitButtonType}/>
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}

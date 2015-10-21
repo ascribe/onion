@@ -9,13 +9,13 @@ import Form from './../ascribe_forms/form';
 
 import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import FurtherDetailsFileuploader from './further_details_fileuploader';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+
 
 let FurtherDetails = React.createClass({
     propTypes: {
