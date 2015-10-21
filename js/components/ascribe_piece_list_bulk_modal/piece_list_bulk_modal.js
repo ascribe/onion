@@ -22,7 +22,14 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let PieceListBulkModal = React.createClass({
     propTypes: {
+        aclFilterBy: React.PropTypes.func,
         className: React.PropTypes.string
+    },
+
+    getDefaultProps() {
+        return {
+            aclFilterBy: (aclName) => aclName !== 'acl_view'
+        };
     },
 
     getInitialState() {
@@ -32,8 +39,6 @@ let PieceListBulkModal = React.createClass({
             PieceListStore.getState()
         );
     },
-
-    
 
     componentDidMount() {
         EditionListStore.listen(this.onChange);
@@ -95,7 +100,7 @@ let PieceListBulkModal = React.createClass({
 
     render() {
         let selectedEditions = this.fetchSelectedEditionList();
-        let availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
+        let availableAcls = getAvailableAcls(selectedEditions, this.props.aclFilterBy);
 
         if(Object.keys(availableAcls).length > 0) {
             return (
