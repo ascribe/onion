@@ -27,6 +27,7 @@ import Property from '../../../../ascribe_forms/property';
 import AppConstants from '../../../../../constants/application_constants';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
 
@@ -148,6 +149,8 @@ let IkonotvContractNotifications = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Contacts notifications'));
+
         if (this.state.contractAgreementListNotifications &&
             this.state.contractAgreementListNotifications.length > 0) {
 

@@ -9,6 +9,7 @@ import UserActions from '../actions/user_actions';
 import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let LogoutContainer = React.createClass({
@@ -25,6 +26,8 @@ let LogoutContainer = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Log out'));
+
         return (
             <div className="ascribe-loading-position">
                 <AscribeSpinner color='dark-blue' size='lg'/>

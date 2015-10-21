@@ -24,6 +24,7 @@ import AscribeSpinner from '../../../ascribe_spinner';
 import ApiUrls from '../../../../constants/api_urls';
 
 import { getLangText } from '../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../utils/dom_utils';
 
 
 let Settings = React.createClass({
@@ -45,6 +46,8 @@ let Settings = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Account settings'));
+
         let prizeSettings = null;
         if (this.state.currentUser.is_admin){
             prizeSettings = <PrizeSettings />;

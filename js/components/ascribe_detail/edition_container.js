@@ -9,6 +9,9 @@ import Edition from './edition';
 
 import AscribeSpinner from '../ascribe_spinner';
 
+import { setDocumentTitle } from '../../utils/dom_utils';
+
+
 /**
  * This is the component that implements resource/data specific functionality
  */
@@ -64,6 +67,8 @@ let EditionContainer = React.createClass({
 
     render() {
         if(this.state.edition && this.state.edition.title) {
+            setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
+
             return (
                 <Edition
                     edition={this.state.edition}

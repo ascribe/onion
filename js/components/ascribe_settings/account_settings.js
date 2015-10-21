@@ -96,7 +96,11 @@ let AccountSettings = React.createClass({
                 title={getLangText('Account')}
                 defaultExpanded={true}>
                 {content}
-                <CopyrightAssociationForm currentUser={this.props.currentUser}/>
+                <AclProxy
+                    aclObject={this.props.whitelabel}
+                    aclName="acl_view_settings_copyright_association">
+                    <CopyrightAssociationForm currentUser={this.props.currentUser}/>
+                </AclProxy>
                 {profile}
             </CollapsibleParagraph>
         );

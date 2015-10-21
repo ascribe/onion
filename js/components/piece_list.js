@@ -26,6 +26,7 @@ import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PieceList = React.createClass({
@@ -154,6 +155,8 @@ let PieceList = React.createClass({
     render() {
         let loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
         let AccordionListItemType = this.props.accordionListItemType;
+
+        setDocumentTitle(getLangText('Collection'));
 
         return (
             <div>
