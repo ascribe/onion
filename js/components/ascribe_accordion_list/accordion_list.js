@@ -35,7 +35,7 @@ let AccordionList = React.createClass({
                         {getLangText('We could not find any works related to you...')}
                     </p>
                     <p className="text-center">
-                        {getLangText('To register one, click')}
+                        {getLangText('To register one, click')}&nbsp;
                         <a href="register_piece">{getLangText('here')}</a>!
                     </p>
                 </div>

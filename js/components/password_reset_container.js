@@ -6,6 +6,7 @@ import { History } from 'react-router';
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import ApiUrls from '../constants/api_urls';
+import AscribeSpinner from './ascribe_spinner';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -87,12 +88,12 @@ let PasswordRequestResetForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
+                        className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">
@@ -145,12 +146,12 @@ let PasswordResetForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
+                        className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">

@@ -30,6 +30,7 @@ import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -81,7 +82,7 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <hr/>
+                        <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
@@ -277,7 +278,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                <AscribeSpinner color='dark-blue' size='lg'/>
             </div>
         );
     }

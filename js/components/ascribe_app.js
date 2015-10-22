@@ -23,7 +23,9 @@ let AscribeApp = React.createClass({
             <div className="container ascribe-default-app">
                 <Header routes={routes} />
                 {/* Routes are injected here */}
-                {children}
+                <div className="ascribe-body">
+                    {children}
+                </div>
                 <Footer />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>

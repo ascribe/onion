@@ -62,14 +62,14 @@ let PropertyCollapsile = React.createClass({
 
         return (
             <div
-                className={'ascribe-settings-wrapper'}
+                className={'ascribe-property-wrapper'}
                 style={style}>
                 <OverlayTrigger
                     delay={500}
                     placement="top"
                     overlay={tooltip}>
                     <div
-                        className="ascribe-settings-property-collapsible-toggle"
+                        className="ascribe-property-collapsible-toggle"
                         onClick={this.handleFocus}
                         onFocus={this.handleFocus}>
                         <input
@@ -84,7 +84,7 @@ let PropertyCollapsile = React.createClass({
                     collapsible
                     expanded={this.state.show}
                     className="bs-custom-panel">
-                    <div className="ascribe-settings-property">
+                    <div className="ascribe-property">
                         {this.renderChildren()}
                     </div>
                 </Panel>

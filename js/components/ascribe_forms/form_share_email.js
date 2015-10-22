@@ -8,8 +8,10 @@ import InputTextAreaToggable from './input_textarea_toggable';
 
 import Button from 'react-bootstrap/lib/Button';
 
-import AppConstants from '../../constants/application_constants';
 import AclInformation from '../ascribe_buttons/acl_information';
+
+import AscribeSpinner from '../ascribe_spinner';
+
 import { getLangText } from '../../utils/lang_utils.js';
 
 
@@ -47,7 +49,9 @@ let ShareForm = React.createClass({
                     </div>}
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
                 <AclInformation aim={'form'} verbs={['acl_share']}/>
                 <Property

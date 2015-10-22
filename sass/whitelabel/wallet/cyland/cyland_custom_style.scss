@@ -1,0 +1,181 @@
+$cyland--nav-bg-color: #fcfcfc;
+$cyland--nav-fg-prim-color: #1E1E1E;
+$cyland--button-color: $cyland--nav-fg-prim-color;
+
+.client--cyland {
+    .navbar-default {
+        background-color: $cyland--nav-bg-color;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        color: $cyland--nav-fg-prim-color;
+        background-color: $cyland--nav-bg-color;
+    }
+    .navbar-nav > li > a:hover {
+        color: lighten($cyland--nav-fg-prim-color, 40%);
+    }
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: $cyland--nav-fg-prim-color;
+        border-bottom-color: $cyland--nav-fg-prim-color;
+        background-color: $cyland--nav-bg-color;
+    }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($cyland--nav-fg-prim-color, 40%);
+        background-color: $cyland--nav-bg-color;
+    }
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: lighten($cyland--nav-fg-prim-color, 40%);
+        background-color: $cyland--nav-bg-color;
+    }
+    .dropdown-menu {
+        background-color: $cyland--nav-bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color: $cyland--nav-fg-prim-color;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: $cyland--nav-fg-prim-color;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: $cyland--nav-bg-color;
+    }
+}
+
+.client--cyland .ascribe-footer {
+    display: none;
+}
+
+
+.client--cyland .icon-ascribe-search{
+    color: $cyland--button-color;
+}
+
+.client--cyland .ascribe-piece-list-toolbar .btn-ascribe-add{
+    display: none;
+}
+
+// disabled buttons
+.client--cyland {
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: darken($cyland--button-color, 20%);
+        border-color: darken($cyland--button-color, 20%);
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--cyland {
+    .ascribe-piece-list-toolbar-filter-widget button {
+        color: $cyland--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &:hover,
+        &:active {
+            background-color: $cyland--button-color !important;
+            border-color: $cyland--button-color !important;
+            color: white !important;
+        }
+    }
+
+    .btn-wide,
+    .btn-default {
+        background-color: $cyland--button-color;
+        border-color: $cyland--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($cyland--button-color, 20%);
+            border-color: lighten($cyland--button-color, 20%);
+        }
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
+        background-color: darken($cyland--button-color, 20%);
+        border-color: darken($cyland--button-color, 20%);
+    }
+
+    .pager li > a, .pager li > span {
+        background-color: $cyland--button-color;
+        border-color: $cyland--button-color;
+    }
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $cyland--button-color !important;
+        border-color: $cyland--button-color;
+    }
+}
+
+// spinner!
+.client--cyland {
+    .btn-spinner {
+        color: $cyland--button-color;
+    }
+    .spinner-circle {
+        border-color: $cyland--button-color;
+    }
+    .spinner-inner {
+        color: $cyland--button-color;
+        display: none;
+    }
+}
+
+// intercom stuff
+.client--cyland {
+    #intercom-container .intercom-launcher-button {
+        background-color: $cyland--button-color !important;;
+        border-color: $cyland--button-color !important;;
+    }
+}
+
+// notifications
+.client--cyland .ascribe-global-notification-success {
+    background-color: lighten($cyland--button-color, 50%);
+}
+
+// progress bar
+.client--cyland .ascribe-progress-bar > .progress-bar {
+    background-color: $cyland--button-color;
+}

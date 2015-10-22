@@ -7,7 +7,7 @@ import EditionStore from '../../stores/edition_store';
 
 import Edition from './edition';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 
@@ -78,7 +78,7 @@ let EditionContainer = React.createClass({
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg'/>
                 </div>
             );
         }

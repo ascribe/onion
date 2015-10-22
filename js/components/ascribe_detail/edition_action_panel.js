@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -41,7 +41,7 @@ let EditionActionPanel = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return PieceListStore.getState();
@@ -68,7 +68,7 @@ let EditionActionPanel = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.transitionTo('pieces');
+        this.history.pushState('/collection');
     },
 
     refreshCollection() {

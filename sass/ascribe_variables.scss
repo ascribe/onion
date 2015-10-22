@@ -1,3 +1,25 @@
-$ascribe-color-green: rgba(2, 182, 163, 1);
+$ascribe-black: #1E1E1E;
+$ascribe-dark-blue: #003C69;
+$ascribe-blue: #65CFE9;
+$ascribe-light-blue: #D3DEE4;
+$ascribe-white: #F8F8F8;
+$ascribe-pink: #D10074;
+$ascribe-blue-border: rgba(0, 60, 105, 0.1);
+$ascribe-red-error: rgb(169, 68, 66);
 
-$ascribe-brand-danger: #fc535f;
+
+
+$ascribe--fg-color: $ascribe-dark-blue;
+$ascribe--bg-color: $ascribe-dark-blue;
+
+$ascribe--nav-fg-prim-color: $ascribe-dark-blue;
+$ascribe--nav-fg-sec-color: lighten($ascribe-dark-blue, 20%);
+$ascribe--nav-bg-color: white;
+
+$ascribe--button-default-color: $ascribe--bg-color;
+$ascribe--button-secondary-fg-color: $ascribe--bg-color;
+$ascribe--button-secondary-bg-color: white;
+
+$ascribe--font: 'canada-type-gibson', sans-serif !important;
+$ascribe--font-weight-light: 300 !important;
+$ascribe--font-weight-normal: normal;
