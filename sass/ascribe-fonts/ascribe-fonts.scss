@@ -250,19 +250,23 @@
 }
 
 .ascribe-logo-circle {
-  border: 5px solid white;
+  border: 6px solid #F6F6F6;
   border-radius: 10em;
+  position: relative;
+  top: 10%;
+  left: 10%;
 
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
 
   > span {
-    color: white;
+    color: #F6F6F6;
     position: absolute;
-    top: -.35em;
-    left: .11em;
+    top: -.29em;
+    left: .16em;
 
-    font-size: 8.35em;
+    font-size: 5em;
+    font-weight: normal;
   }
 }
