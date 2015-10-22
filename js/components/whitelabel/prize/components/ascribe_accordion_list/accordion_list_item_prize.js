@@ -181,7 +181,7 @@ let AccordionListItemPrize = React.createClass({
                     piece={this.props.content}
                     artistName={artistName}
                     subsubheading={
-                        <div className="pull-left">
+                        <div>
                             <span>{this.props.content.date_created.split('-')[0]}</span>
                         </div>}
                     buttons={this.getPrizeButtons()}

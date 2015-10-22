@@ -3,6 +3,8 @@
 import React from 'react';
 import { History } from 'react-router';
 
+import AscribeSpinner from './ascribe_spinner';
+
 import UserActions from '../actions/user_actions';
 import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
@@ -26,7 +28,14 @@ let LogoutContainer = React.createClass({
     render() {
         setDocumentTitle(getLangText('Log out'));
 
-        return null;
+        return (
+            <div className="ascribe-loading-position">
+                <AscribeSpinner color='dark-blue' size='lg'/>
+                <h3 className="text-center">
+                    {getLangText('Just a sec, we\'re logging you out...')}
+                </h3>
+            </div>
+        );
     }
 });
 

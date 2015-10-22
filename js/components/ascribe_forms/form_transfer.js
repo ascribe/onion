@@ -9,8 +9,8 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
+import AscribeSpinner from '../ascribe_spinner';
 
-import AppConstants from '../../constants/application_constants';
 import { getLangText } from '../../utils/lang_utils.js';
 
 
@@ -48,7 +48,9 @@ let TransferForm = React.createClass({
                     </div>}
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
                 <Property
                     name='transferee'

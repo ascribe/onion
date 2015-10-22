@@ -62,13 +62,13 @@ let Header = React.createClass({
     },
 
     getLogo(){
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            return <img className="img-brand" src={this.state.whitelabel.logo} />;
+        let { whitelabel } = this.state;
+        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
+            return (<img className="img-brand" src={whitelabel.logo}/>);
         }
         return (
             <span>
-                <span>ascribe </span>
-                <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                <span className="icon-ascribe-logo"></span>
             </span>
         );
     },
@@ -79,10 +79,9 @@ let Header = React.createClass({
                 aclObject={this.state.whitelabel}
                 aclName="acl_view_powered_by">
                     <li>
-                        <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                        <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
                             <span id="powered">{getLangText('powered by')} </span>
-                            <span>ascribe </span>
-                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                            <span className="icon-ascribe-logo"></span>
                         </a>
                     </li>
             </AclProxy>

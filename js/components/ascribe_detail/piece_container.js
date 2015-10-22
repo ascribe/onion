@@ -35,7 +35,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
+
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 import { setDocumentTitle } from '../../utils/dom_utils';
@@ -276,7 +277,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg'/>
                 </div>
             );
         }

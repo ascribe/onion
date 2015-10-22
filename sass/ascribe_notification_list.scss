@@ -16,13 +16,10 @@ $break-medium: 1200px;
 .notification-wrapper {
     height:8.4em;
     border-bottom: 1px solid #eeeeee;
-    margin: -3px 0;
+    margin: 0;
     padding: 0.5em;
     color: black;
 
-    &:hover{
-        background-color: rgba(2, 182, 163, .05);
-    }
     // ToDo: Include media queries for thumbnail
     .thumbnail-wrapper {
         width: 7.4em;
@@ -56,7 +53,7 @@ $break-medium: 1200px;
         white-space: nowrap;
     }
     .notification-action{
-        color: $ascribe-color-green;
+        color: $ascribe-dark-blue;
     }
 }
 
@@ -75,8 +72,6 @@ $break-medium: 1200px;
 
 .notification-amount {
     padding: 0.3em;
-    font-size: 1.2em;
-
 }
 
 .ascribe-global-action {

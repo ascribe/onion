@@ -233,3 +233,4 @@ export function getSubdomain() {
     let tokens = host.split('.');
     return tokens.length > 2 ? tokens[0] : 'www';
 }
+

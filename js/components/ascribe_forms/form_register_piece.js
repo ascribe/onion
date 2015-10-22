@@ -11,6 +11,7 @@ import InputFineUploader from './input_fineuploader';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -84,14 +85,14 @@ let RegisterPieceForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login"
+                        className="btn btn-default btn-wide"
                         disabled={!this.state.isUploadReady || this.props.disabled}>
                         {this.props.submitMessage}
                     </button>
                 }
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">
