@@ -30,6 +30,7 @@ import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_p
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
 import LumenusPieceList from './components/lumenus/lumenus_piece_list';
+import LumenusRegisterPiece from './components/lumenus/lumenus_register_piece';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -174,7 +175,7 @@ let ROUTES = {
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LumenusRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
