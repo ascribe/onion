@@ -14,9 +14,11 @@ import { ColumnModel, TransitionModel } from '../ascribe_table/models/table_mode
 import TableItemText from '../ascribe_table/table_item_text';
 import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+
 
 let AccordionListItemTableEditions = React.createClass({
 
@@ -88,7 +90,7 @@ let AccordionListItemTableEditions = React.createClass({
         let showExpandOption = false;
 
         let editionsForPiece = this.state.editionList[this.props.parentId];
-        let loadingSpinner = <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>;
+        let loadingSpinner = <AscribeSpinner size="sm" color="dark-blue" />;
 
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
