@@ -249,17 +249,20 @@
   padding: 4px 12px 0 10px
 }
 
-@font-face {
-  font-family: mercury_regular;
-  src: url(Mercury_Regular.otf);
-}
+.ascribe-logo-circle {
+  border: 5px solid white;
+  border-radius: 10em;
 
-@font-face {
-  font-family: mercury_medium;
-  src: url(Mercury_Medium.otf);
-}
+  display: block;
+  width: 100%;
+  height: 100%;
 
-@font-face {
-  font-family: mercury_light;
-  src: url(Mercury_Light.otf);
+  > span {
+    color: white;
+    position: absolute;
+    top: -.35em;
+    left: .11em;
+
+    font-size: 8.35em;
+  }
 }
