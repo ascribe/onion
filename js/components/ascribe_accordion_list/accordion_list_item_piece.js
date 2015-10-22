@@ -34,28 +34,42 @@ let AccordionListItemPiece = React.createClass({
     },
 
     render() {
+        const { className, piece, artistName, buttons, badge, children, subsubheading } = this.props;
+        const { url, url_safe } = piece.thumbnail;
+        let thumbnail;
+
+        // Since we're going to refactor the thumbnail generation anyway at one point,
+        // for not use the annoying ascribe_spiral.png, we're matching the url against
+        // this name and replace it with a CSS version of the new logo.
+        if(url.match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/)) {
+            thumbnail = (
+                <span className="ascribe-logo-circle">
+                    <span>A</span>
+                </span>
+            );
+        } else {
+            thumbnail = (
+                <div style={{backgroundImage: 'url("' + url_safe + '")'}}/>
+            );
+        }
+
         return (
             <AccordionListItem
-                className={this.props.className}
-                thumbnail={
-                    <Link to={this.getLinkData()}>
-                        <img src={this.props.piece.thumbnail.url_safe}/>
-                    </Link>}
-                heading={
-                    <Link to={this.getLinkData()}>
-                        <h1>{this.props.piece.title}</h1>
-                    </Link>}
+                className={className}
+                thumbnail={thumbnail}
+                heading={<h1>{piece.title}</h1>}
                 subheading={
                     <h3>
                         {getLangText('by ')}
-                        {this.props.artistName ? this.props.artistName : this.props.piece.artist_name}
+                        {artistName ? artistName : piece.artist_name}
                     </h3>
                 }
-                subsubheading={this.props.subsubheading}
-                buttons={this.props.buttons}
-                badge={this.props.badge}
+                subsubheading={subsubheading}
+                buttons={buttons}
+                badge={badge}
+                linkData={this.getLinkData()}
                 >
-                {this.props.children}
+                {children}
             </AccordionListItem>
         );
     }

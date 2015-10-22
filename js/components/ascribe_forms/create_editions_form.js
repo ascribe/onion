@@ -8,6 +8,7 @@ import Property from '../ascribe_forms/property';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import AscribeSpinner from '../ascribe_spinner';
 import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -43,12 +44,12 @@ let CreateEditionsForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
+                        className="btn btn-default btn-wide">
                         {getLangText('Create editions')}
                     </button>}
                 spinner={
-                    <button className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <button className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </button>
                     }>
                 <Property

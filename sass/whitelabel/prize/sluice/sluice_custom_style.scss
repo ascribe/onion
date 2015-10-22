@@ -1,0 +1,253 @@
+$sluice--nav-bg-color: #fcfcfc;
+$sluice--nav-fg-prim-color: #1E1E1E;
+$sluice--button-color: $sluice--nav-fg-prim-color;
+
+.wp {
+    height: 100%;
+    max-width: 90%;
+    margin: auto;
+    /* We need this, otherwise piece list will have a scrollbar */
+}
+
+.hero {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+
+    overflow: hidden;
+    text-align: center;
+
+    > img {
+        margin-top: 5em;
+        margin-bottom: 5em;
+    }
+}
+
+.wp-landing-wrapper {
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+
+    > .enter {
+        margin-top: 2em;
+        > p {
+            margin-top: 2em;
+        }
+    }
+}
+
+
+.rating-container {
+    color: lighten($sluice--nav-fg-prim-color, 80%) !important;
+    .rating-stars {
+        width: 25px;
+        color: $sluice--nav-fg-prim-color !important;
+    }
+}
+
+#list-rating {
+    > a > span > span > .rating-container .rating-stars {
+        color: #000;
+    }
+    > span > span > span > .rating-container .rating-stars {
+        color: #000;
+    }
+    > span > span > .rating-container .rating-stars {
+        color: #000;
+    }
+}
+.react-rating-caption {
+    font-size: 1em;
+}
+
+.rating-list {
+    margin-left: 1.5em;
+    font-size: 0.9em;
+    margin-bottom: 0.3em;
+    color: #333;
+}
+
+.rating-note {
+    color: #666;
+    font-style: italic;
+    padding: 0.7em;
+
+}
+
+.client--sluice {
+    .navbar-default {
+        background-color: $sluice--nav-bg-color;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        color: $sluice--nav-fg-prim-color;
+        background-color: $sluice--nav-bg-color;
+    }
+    .navbar-nav > li > a:hover {
+        color: lighten($sluice--nav-fg-prim-color, 40%);
+    }
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: $sluice--nav-fg-prim-color;
+        border-bottom-color: $sluice--nav-fg-prim-color;
+        background-color: $sluice--nav-bg-color;
+    }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($sluice--nav-fg-prim-color, 40%);
+        background-color: $sluice--nav-bg-color;
+    }
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: lighten($sluice--nav-fg-prim-color, 40%);
+        background-color: $sluice--nav-bg-color;
+    }
+    .dropdown-menu {
+        background-color: $sluice--nav-bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color: $sluice--nav-fg-prim-color;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: $sluice--nav-fg-prim-color;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: $sluice--nav-bg-color;
+    }
+}
+
+.client--sluice .ascribe-footer {
+    display: none;
+}
+
+
+.client--sluice .icon-ascribe-search{
+    color: $sluice--button-color;
+}
+
+.client--sluice .ascribe-piece-list-toolbar .btn-ascribe-add{
+    display: none;
+}
+
+// disabled buttons
+.client--sluice {
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: darken($sluice--button-color, 20%);
+        border-color: darken($sluice--button-color, 20%);
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--sluice {
+    .ascribe-piece-list-toolbar-filter-widget button {
+        color: $sluice--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &:hover,
+        &:active {
+            background-color: $sluice--button-color !important;
+            border-color: $sluice--button-color !important;
+            color: white !important;
+        }
+    }
+
+    .btn-wide,
+    .btn-default {
+        background-color: $sluice--button-color;
+        border-color: $sluice--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($sluice--button-color, 20%);
+            border-color: lighten($sluice--button-color, 20%);
+        }
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
+        background-color: darken($sluice--button-color, 20%);
+        border-color: darken($sluice--button-color, 20%);
+    }
+
+    .pager li > a, .pager li > span {
+        background-color: $sluice--button-color;
+        border-color: $sluice--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $sluice--button-color !important;
+        border-color: $sluice--button-color;
+    }
+}
+
+// spinner!
+.client--sluice {
+    .btn-spinner {
+        color: $sluice--button-color;
+    }
+    .spinner-circle {
+        border-color: $sluice--button-color;
+    }
+    .spinner-inner {
+        color: $sluice--button-color;
+        display: none;
+    }
+}
+
+// intercom stuff
+.client--sluice {
+    #intercom-container .intercom-launcher-button {
+        background-color: $sluice--button-color !important;;
+        border-color: $sluice--button-color !important;;
+    }
+}
+
+// notifications
+.client--sluice .ascribe-global-notification-success {
+    background-color: lighten($sluice--button-color, 50%);
+}
+
+// progress bar
+.client--sluice .ascribe-progress-bar > .progress-bar {
+    background-color: $sluice--button-color;
+}

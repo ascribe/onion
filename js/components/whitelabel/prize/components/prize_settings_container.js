@@ -20,7 +20,7 @@ import ActionPanel from '../../../ascribe_panel/action_panel';
 import GlobalNotificationModel from '../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../actions/global_notification_actions';
 
-import AppConstants from '../../../../constants/application_constants';
+import AscribeSpinner from '../../../ascribe_spinner';
 import ApiUrls from '../../../../constants/api_urls';
 
 import { getLangText } from '../../../../utils/lang_utils';
@@ -260,11 +260,7 @@ let PrizeJurySettings = React.createClass({
     },
 
     getMembers() {
-        let content = (
-            <div style={{textAlign: 'center'}}>
-                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
-            </div>);
-
+        let content = <AscribeSpinner color='dark-blue' size='md' />;
         if (this.state.members.length > -1) {
             content = (
                 <div>

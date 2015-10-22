@@ -20,6 +20,8 @@ import PieceListFilterDisplay from './piece_list_filter_display';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
+import AscribeSpinner from './ascribe_spinner';
+
 import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
@@ -106,7 +108,7 @@ let PieceList = React.createClass({
         let currentPage = parseInt(this.props.location.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
-        if (this.state.pieceListCount > 10) {
+        if (this.state.pieceListCount > 20) {
             return (
                 <Pagination
                     currentPage={currentPage}
@@ -152,7 +154,7 @@ let PieceList = React.createClass({
     },
 
     render() {
-        let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        let loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
         let AccordionListItemType = this.props.accordionListItemType;
 
         setDocumentTitle(getLangText('Collection'));
@@ -169,7 +171,12 @@ let PieceList = React.createClass({
                     orderBy={this.state.orderBy}
                     applyFilterBy={this.applyFilterBy}
                     applyOrderBy={this.applyOrderBy}>
-                    {this.props.customSubmitButton}
+                    {this.props.customSubmitButton ?
+                        this.props.customSubmitButton :
+                        <button className="btn btn-default btn-ascribe-add">
+                            <span className="icon-ascribe icon-ascribe-add" />
+                        </button>
+                    }
                 </PieceListToolbar>
                 <PieceListBulkModal
                     className="ascribe-piece-list-bulk-modal"

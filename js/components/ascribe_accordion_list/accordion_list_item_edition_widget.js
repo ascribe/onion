@@ -11,6 +11,7 @@ import PieceListStore from '../../stores/piece_list_store';
 import Button from 'react-bootstrap/lib/Button';
 
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -75,7 +76,10 @@ let AccordionListItemEditionWidget = React.createClass({
             // PLEASE FUTURE TIM, DO NOT FUCKING REMOVE IT AGAIN!
             if(typeof this.state.editionList[pieceId] === 'undefined') {
                 return (
-                    <span className="glyph-ascribe-spool-chunked ascribe-color spin"/>
+                    <AscribeSpinner
+                        size='sm'
+                        color='white'
+                        classNames='pull-right margin-left-2px'/>
                 );
             } else {
                 return (
@@ -98,7 +102,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 return (
                     <CreateEditionsButton
                         label={getLangText('Create editions')}
-                        className="btn-xs pull-right"
+                        className="btn-secondary btn-sm pull-right"
                         piece={piece}
                         toggleCreateEditionsDialog={this.props.toggleCreateEditionsDialog}
                         onPollingSuccess={this.props.onPollingSuccess}/>
@@ -112,12 +116,12 @@ let AccordionListItemEditionWidget = React.createClass({
             if(piece.first_edition === null) {
                 // user has deleted all his editions and only the piece is showing
                 return (
-                    <Button
+                    <button
                         disabled
                         title={getLangText('All editions for this have been deleted already.')}
-                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-default', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {'0 ' + getLangText('Editions')}
-                    </Button>
+                    </button>
                 );
             } else {
                 let editionMapping = piece && piece.first_edition ? piece.first_edition.num_editions_available + '/' + piece.num_editions : '';
@@ -125,7 +129,7 @@ let AccordionListItemEditionWidget = React.createClass({
                 return (
                     <button
                         onClick={this.toggleTable}
-                        className={classNames('btn', 'btn-default', 'btn-xs', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {editionMapping + ' ' + getLangText('Editions')} {this.getGlyphicon()}
                     </button>
                 );

@@ -2,13 +2,11 @@
 
 import React from 'react';
 
-
 import ListRequestActions from '../../../../ascribe_forms/list_form_request_actions';
 import AclButtonList from '../../../../ascribe_buttons/acl_button_list';
 import DeleteButton from '../../../../ascribe_buttons/delete_button';
 
 import AclProxy from '../../../../acl_proxy';
-
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 
@@ -18,6 +16,7 @@ let WalletActionPanel = React.createClass({
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
+        handleDeleteSuccess: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired
     },
 
@@ -62,7 +61,7 @@ let WalletActionPanel = React.createClass({
                         </AclProxy>
                     </AclProxy>
                     <DeleteButton
-                        handleSuccess={this.handleDeleteSuccess}
+                        handleSuccess={this.props.handleDeleteSuccess}
                         piece={this.props.piece}/>
                 </AclButtonList>
             );
