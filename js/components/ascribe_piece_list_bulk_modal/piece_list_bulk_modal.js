@@ -137,7 +137,6 @@ let PieceListBulkModal = React.createClass({
         } else {
             return null;
         }
-        
     }
 });
 
