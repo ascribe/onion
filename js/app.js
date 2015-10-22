@@ -3,20 +3,23 @@
 require('babel/polyfill');
 
 import React from 'react';
-import Router from 'react-router';
+import { Router, Redirect } from 'react-router';
+import history from './history';
 
 /* eslint-disable */
 import fetch from 'isomorphic-fetch';
 /* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
-import { updateApiUrls } from './constants/api_urls';
-import appConstants from './constants/application_constants';
+
+import AppConstants from './constants/application_constants';
 import getRoutes from './routes';
 import requests from './utils/requests';
 
+import { updateApiUrls } from './constants/api_urls';
 import { getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
+import { getSubdomain } from './utils/general_utils';
 
 import EventActions from './actions/event_actions';
 
@@ -44,15 +47,14 @@ requests.defaults({
     }
 });
 
-
 class AppGateway {
     start() {
         let settings;
-        let subdomain = window.location.host.split('.')[0];
+        let subdomain = getSubdomain();
 
         try {
             settings = getSubdomainSettings(subdomain);
-            appConstants.whitelabel = settings;
+            AppConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
             this.load(settings);
         } catch(err) {
@@ -66,22 +68,36 @@ class AppGateway {
     load(settings) {
         let type = 'default';
         let subdomain = 'www';
+        let redirectRoute = (<Redirect from="/" to="/collection" />);
 
         if (settings) {
             type = settings.type;
             subdomain = settings.subdomain;
         }
 
+        // www and cc do not have a landing page
+        if(subdomain && subdomain !== 'cc') {
+            redirectRoute = null;
+        }
+
+        // Adds a client specific class to the body for whitelabel styling
         window.document.body.classList.add('client--' + subdomain);
 
+        // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
-        window.appRouter = Router.run(getRoutes(type, subdomain), Router.HistoryLocation, (App) => {
-            React.render(
-                <App />,
-                document.getElementById('main')
-            );
-            EventActions.routeDidChange();
-        });
+
+        // `history.listen` is called on every route change, which is perfect for
+        // us in that case.
+        history.listen(EventActions.routeDidChange);
+
+        React.render((
+            <Router history={history}>
+                {redirectRoute}
+                {getRoutes(type, subdomain)}
+            </Router>
+        ), document.getElementById('main'));
+
+        // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
     }
 }

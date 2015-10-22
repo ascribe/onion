@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altUser } from '../alt';
 import UserFetcher from '../fetchers/user_fetcher';
 
 
@@ -13,7 +13,7 @@ class UserActions {
     }
 
     fetchCurrentUser() {
-        return UserFetcher.fetchOne()
+        UserFetcher.fetchOne()
             .then((res) => {
                 this.actions.updateCurrentUser(res.users[0]);
             })
@@ -24,7 +24,7 @@ class UserActions {
     }
     
     logoutCurrentUser() {
-        return UserFetcher.logout()
+        UserFetcher.logout()
             .then(() => {
                 this.actions.deleteCurrentUser();
             })
@@ -34,4 +34,4 @@ class UserActions {
     }
 }
 
-export default alt.createActions(UserActions);
+export default altUser.createActions(UserActions);

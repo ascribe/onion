@@ -8,9 +8,13 @@ import LicenseActions from '../../../../../actions/license_actions';
 import LicenseStore from '../../../../../stores/license_store';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
 let CCRegisterPiece = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -78,11 +82,13 @@ let CCRegisterPiece = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Register a new piece'));
         return (
             <RegisterPiece
                 enableLocalHashing={false}
                 headerMessage={getLangText('Register under a Creative Commons license')}
-                submitMessage={getLangText('Submit')}>
+                submitMessage={getLangText('Submit')}
+                location={this.props.location}>
                 {this.getLicenses()}
             </RegisterPiece>
         );

@@ -76,7 +76,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
     render() {
         let filterIcon = (
             <span>
-                <span className="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                <span className="ascribe-icon icon-ascribe-filter" aria-hidden="true"></span>
                 <span style={this.isFilterActive()}>*</span>
             </span>
         );

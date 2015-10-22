@@ -46,7 +46,8 @@ let InputFineUploader = React.createClass({
         fileClassToUpload: React.PropTypes.shape({
             singular: React.PropTypes.string,
             plural: React.PropTypes.string
-        })
+        }),
+        location: React.PropTypes.object
     },
 
     getInitialState() {
@@ -106,7 +107,8 @@ let InputFineUploader = React.createClass({
                 }}
                 onInactive={this.props.onLoggedOut}
                 enableLocalHashing={this.props.enableLocalHashing}
-                fileClassToUpload={this.props.fileClassToUpload}/>
+                fileClassToUpload={this.props.fileClassToUpload}
+                location={this.props.location}/>
         );
     }
 });

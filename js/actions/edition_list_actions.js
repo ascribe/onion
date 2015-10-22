@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import Q from 'q';
 
 import EditionListFetcher from '../fetchers/edition_list_fetcher.js';
@@ -33,6 +33,10 @@ class EditionListActions {
             EditionListFetcher
                 .fetch(pieceId, page, pageSize, orderBy, orderAsc, filterBy)
                 .then((res) => {
+                    if(res && !res.editions) {
+                        throw new Error('Piece has no editions to fetch.');
+                    }
+
                     this.actions.updateEditionList({
                         pieceId,
                         page,
@@ -46,6 +50,7 @@ class EditionListActions {
                     resolve(res);
                 })
                 .catch((err) => {
+                    console.logGlobal(err);
                     reject(err);
                 });
         });

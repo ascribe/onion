@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { altThirdParty } from '../alt';
 
 
 class EventActions {
@@ -16,4 +16,4 @@ class EventActions {
     }
 }
 
-export default alt.createActions(EventActions);
+export default altThirdParty.createActions(EventActions);

@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 
 import GlobalNotificationActions from '../actions/global_notification_actions';
 

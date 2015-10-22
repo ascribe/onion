@@ -1,19 +1,23 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import ApiUrls from '../constants/api_urls';
+import AscribeSpinner from './ascribe_spinner';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PasswordResetContainer = React.createClass({
-    mixins: [Router.Navigation],
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return {isRequested: false};
@@ -24,12 +28,14 @@ let PasswordResetContainer = React.createClass({
     },
 
     render() {
-        if (this.props.query.email && this.props.query.token) {
+        let { location } = this.props;
+
+        if (location.query.email && location.query.token) {
             return (
                 <div>
                     <PasswordResetForm
-                        email={this.props.query.email}
-                        token={this.props.query.token}/>
+                        email={location.query.email}
+                        token={location.query.token}/>
                 </div>
             );
         }
@@ -71,6 +77,8 @@ let PasswordRequestResetForm = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Reset your password'));
+
         return (
             <Form
                 ref="form"
@@ -80,12 +88,12 @@ let PasswordRequestResetForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
+                        className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">
@@ -112,7 +120,7 @@ let PasswordResetForm = React.createClass({
         token: React.PropTypes.string
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getFormData() {
         return {
@@ -122,7 +130,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
         let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -138,12 +146,12 @@ let PasswordResetForm = React.createClass({
                 buttons={
                     <button
                         type="submit"
-                        className="btn ascribe-btn ascribe-btn-login">
+                        className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
                     </button>}
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">

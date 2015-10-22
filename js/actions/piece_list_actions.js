@@ -1,9 +1,10 @@
 'use strict';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import Q from 'q';
 
 import PieceListFetcher from '../fetchers/piece_list_fetcher';
+
 
 class PieceListActions {
     constructor() {
@@ -21,17 +22,16 @@ class PieceListActions {
         this.actions.updatePieceList({
             page,
             pageSize,
-            search,
             orderBy,
             orderAsc,
             filterBy,
+            search: '',
             pieceList: [],
             pieceListCount: -1,
             unfilteredPieceListCount: -1
         });
 
         // afterwards, we can load the list
-
         return Q.Promise((resolve, reject) => {
             PieceListFetcher
                 .fetch(page, pageSize, search, orderBy, orderAsc, filterBy)

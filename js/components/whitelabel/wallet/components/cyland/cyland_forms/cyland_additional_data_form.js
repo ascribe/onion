@@ -13,7 +13,7 @@ import GlobalNotificationModel from '../../../../../../models/global_notificatio
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import ApiUrls from '../../../../../../constants/api_urls';
-import AppConstants from '../../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import requests from '../../../../../../utils/requests';
 
@@ -26,7 +26,8 @@ let CylandAdditionalDataForm = React.createClass({
         handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
         disabled: React.PropTypes.bool,
-        isInline: React.PropTypes.bool
+        isInline: React.PropTypes.bool,
+        location: React.PropTypes.object
     },
 
     getDefaultProps() {
@@ -35,15 +36,15 @@ let CylandAdditionalDataForm = React.createClass({
         };
     },
 
-    handleSuccess() {
-        let notification = new GlobalNotificationModel('Further details successfully updated', 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
-
     getInitialState() {
         return {
             isUploadReady: true
         };
+    },
+
+    handleSuccess() {
+        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getFormData() {
@@ -84,7 +85,7 @@ let CylandAdditionalDataForm = React.createClass({
             buttons = (
                 <button
                     type="submit"
-                    className="btn ascribe-btn ascribe-btn-login"
+                    className="btn btn-default btn-wide"
                     disabled={!this.state.isUploadReady || disabled}>
                     {getLangText('Proceed to loan')}
                 </button>
@@ -92,7 +93,9 @@ let CylandAdditionalDataForm = React.createClass({
 
             spinner = (
                 <div className="modal-footer">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    <p className="pull-right">
+                        <AscribeSpinner color='dark-blue' size='md'/>
+                    </p>
                 </div>
             );
 
@@ -140,13 +143,14 @@ let CylandAdditionalDataForm = React.createClass({
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         pieceId={piece.id}
                         otherData={piece.other_data}
-                        multiple={true}/>
+                        multiple={true}
+                        location={this.props.location}/>
                 </Form>
             );
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='md'/>
                 </div>
             );
         }

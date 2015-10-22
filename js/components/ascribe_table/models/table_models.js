@@ -35,14 +35,7 @@ export class TransitionModel {
         this.callback = callback;
     }
 
-    toReactRouterLinkProps(queryValue) {
-        let props = {
-            to: this.to,
-            params: {}
-        };
-
-        props.params[this.queryKey] = queryValue;
-
-        return props;
+    toReactRouterLink(queryValue) {
+        return '/' + this.to + '/' + queryValue;
     }
 }

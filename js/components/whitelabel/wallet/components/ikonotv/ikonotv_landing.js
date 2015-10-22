@@ -1,19 +1,22 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
 
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import Button from 'react-bootstrap/lib/Button';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let IkonotvLanding = React.createClass({
-
-    mixins: [Router.Navigation, Router.State],
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -33,22 +36,27 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
-        let redirect = 'login';
+        let redirect = '/login';
 
         if(this.state.currentUser && this.state.currentUser.email) {
-            redirect = 'pieces';
+            redirect = '/collection';
         }
-        else if (this.getQuery() && this.getQuery().redirect) {
-            redirect = this.getQuery().redirect;
+        else if (this.props.location.query && this.props.location.query.redirect) {
+            redirect = '/' + this.props.location.query.redirect;
         }
+
         return (
-            <ButtonLink to={redirect} query={this.getQuery()}>
-                {getLangText('ENTER TO START')}
-            </ButtonLink>
+            <LinkContainer to={redirect} query={this.props.location.query}>
+                <Button>
+                    {getLangText('ENTER TO START')}
+                </Button>
+            </LinkContainer>
         );
     },
 
     render() {
+        setDocumentTitle('ikonoTV');
+
         return (
             <div className="ikonotv-landing">
                 <header>

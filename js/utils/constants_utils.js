@@ -8,8 +8,8 @@ export function getSubdomainSettings(subdomain) {
     if(settings.length === 1) {
         return settings[0];
     } else if(settings.length === 0) {
+        console.warn('There are no subdomain settings for the subdomain: ' + subdomain);
         return appConstants.defaultDomain;
-        // throw new Error('There are no subdomain settings for the subdomain: ' + subdomain);
     } else {
         throw new Error('Matched multiple subdomains. Adjust constants file.');
     }

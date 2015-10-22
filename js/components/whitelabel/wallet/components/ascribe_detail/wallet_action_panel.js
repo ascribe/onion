@@ -2,13 +2,11 @@
 
 import React from 'react';
 
-
 import ListRequestActions from '../../../../ascribe_forms/list_form_request_actions';
 import AclButtonList from '../../../../ascribe_buttons/acl_button_list';
 import DeleteButton from '../../../../ascribe_buttons/delete_button';
 
 import AclProxy from '../../../../acl_proxy';
-
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 
@@ -18,6 +16,7 @@ let WalletActionPanel = React.createClass({
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
+        handleDeleteSuccess: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired
     },
 
@@ -49,7 +48,7 @@ let WalletActionPanel = React.createClass({
                     className="text-center ascribe-button-list"
                     availableAcls={availableAcls}
                     editions={this.props.piece}
-                    handleSuccess={this.loadPiece}>
+                    handleSuccess={this.props.loadPiece}>
                     <AclProxy
                         aclObject={this.props.currentUser.acl}
                         aclName="acl_wallet_submit">
@@ -58,12 +57,11 @@ let WalletActionPanel = React.createClass({
                             aclName="acl_wallet_submit">
                             <SubmitButtonType
                                 className="btn-sm"
-                                handleSuccess={this.handleSubmitSuccess}
                                 piece={this.props.piece}/>
                         </AclProxy>
                     </AclProxy>
                     <DeleteButton
-                        handleSuccess={this.handleDeleteSuccess}
+                        handleSuccess={this.props.handleDeleteSuccess}
                         piece={this.props.piece}/>
                 </AclButtonList>
             );

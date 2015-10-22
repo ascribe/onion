@@ -15,7 +15,7 @@ import ActionPanel from '../ascribe_panel/action_panel';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -57,7 +57,7 @@ let APISettings = React.createClass({
     },
 
     getApplications(){
-        let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
 
         if (this.state.applications.length > -1) {
             content = this.state.applications.map(function(app, i) {

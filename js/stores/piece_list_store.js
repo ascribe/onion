@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import alt from '../alt';
+import { alt } from '../alt';
 
 import PieceListActions from '../actions/piece_list_actions';
 
@@ -23,7 +23,7 @@ class PieceListStore {
         this.pieceListCount = -1;
         this.unfilteredPieceListCount = -1;
         this.page = 1;
-        this.pageSize = 10;
+        this.pageSize = 20;
         this.search = '';
         this.orderBy = 'artist_name';
         this.orderAsc = true;

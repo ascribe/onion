@@ -1,6 +1,6 @@
 'use strict';
 
-import alt from '../../../../alt';
+import { alt } from '../../../../alt';
 import Q from 'q';
 
 import PrizeJuryFetcher from '../fetchers/prize_jury_fetcher';

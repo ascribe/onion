@@ -9,13 +9,21 @@ import UserStore from '../../../../stores/user_store';
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
 
-import ButtonLink from 'react-router-bootstrap/lib/ButtonLink';
+import Button from 'react-bootstrap/lib/Button';
+
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
+
 import AccordionListItemPrize from './ascribe_accordion_list/accordion_list_item_prize';
 
 import { mergeOptions } from '../../../../utils/general_utils';
 import { getLangText } from '../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../utils/dom_utils';
 
 let PrizePieceList = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PrizeStore.getState(),
@@ -42,9 +50,11 @@ let PrizePieceList = React.createClass({
     getButtonSubmit() {
         if (this.state.prize && this.state.prize.active && !this.state.currentUser.is_jury){
             return (
-                <ButtonLink to="register_piece">
-                    {getLangText('Submit to prize')}
-                </ButtonLink>
+                <LinkContainer to="/register_piece">
+                    <Button>
+                        {getLangText('Submit to prize')}
+                    </Button>
+                </LinkContainer>
             );
         }
         else if (this.state.prize && this.state.currentUser.is_judge){
@@ -54,6 +64,8 @@ let PrizePieceList = React.createClass({
     },
 
     render() {
+        setDocumentTitle(getLangText('Collection'));
+
         let orderParams = ['artist_name', 'title'];
         if (this.state.currentUser.is_jury) {
             orderParams = ['rating', 'title'];
@@ -65,12 +77,13 @@ let PrizePieceList = React.createClass({
             <div>
                 <PieceList
                     ref="list"
-                    redirectTo="register_piece"
+                    redirectTo="/register_piece"
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}
                     filterParams={[]}
-                    customSubmitButton={this.getButtonSubmit()}/>
+                    customSubmitButton={this.getButtonSubmit()}
+                    location={this.props.location}/>
             </div>
         );
     }

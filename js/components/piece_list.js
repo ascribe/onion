@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -20,10 +20,13 @@ import PieceListFilterDisplay from './piece_list_filter_display';
 import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_modal';
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
+import AscribeSpinner from './ascribe_spinner';
+
 import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let PieceList = React.createClass({
@@ -33,10 +36,11 @@ let PieceList = React.createClass({
         customSubmitButton: React.PropTypes.element,
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
-        orderBy: React.PropTypes.string
+        orderBy: React.PropTypes.string,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -60,7 +64,7 @@ let PieceList = React.createClass({
     },
 
     componentDidMount() {
-        let page = this.getQuery().page || 1;
+        let page = this.props.location.query.page || 1;
         
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
@@ -75,7 +79,7 @@ let PieceList = React.createClass({
     componentDidUpdate() {
         if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.transitionTo(this.props.redirectTo, this.getQuery()));
+            window.setTimeout(() => this.history.pushState(null, this.props.redirectTo, this.props.location.query), 0);
         }
     },
 
@@ -100,10 +104,10 @@ let PieceList = React.createClass({
     },
 
     getPagination() {
-        let currentPage = parseInt(this.getQuery().page, 10) || 1;
+        let currentPage = parseInt(this.props.location.query.page, 10) || 1;
         let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
-        if (this.state.pieceListCount > 10) {
+        if (this.state.pieceListCount > 20) {
             return (
                 <Pagination
                     currentPage={currentPage}
@@ -116,7 +120,7 @@ let PieceList = React.createClass({
     searchFor(searchTerm) {
          PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy,
                                         this.state.orderAsc, this.state.filterBy);
-         this.transitionTo(this.getPathname(), {page: 1});
+         this.history.pushState(null, this.props.location.pathname, {page: 1});
     },
 
     applyFilterBy(filterBy){
@@ -140,7 +144,7 @@ let PieceList = React.createClass({
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.transitionTo(this.getPathname(), {page: 1});
+        this.history.pushState(null, this.props.location.pathname, {page: 1});
     },
 
     applyOrderBy(orderBy) {
@@ -149,21 +153,29 @@ let PieceList = React.createClass({
     },
 
     render() {
-        let loadingElement = (<img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />);
+        let loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
         let AccordionListItemType = this.props.accordionListItemType;
+
+        setDocumentTitle(getLangText('Collection'));
 
         return (
             <div>
                 <PieceListToolbar
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
+                    searchQuery={this.state.search}
                     filterParams={this.props.filterParams}
                     orderParams={this.props.orderParams}
                     filterBy={this.state.filterBy}
                     orderBy={this.state.orderBy}
                     applyFilterBy={this.applyFilterBy}
                     applyOrderBy={this.applyOrderBy}>
-                    {this.props.customSubmitButton}
+                    {this.props.customSubmitButton ?
+                        this.props.customSubmitButton :
+                        <button className="btn btn-default btn-ascribe-add">
+                            <span className="icon-ascribe icon-ascribe-add" />
+                        </button>
+                    }
                 </PieceListToolbar>
                 <PieceListBulkModal className="ascribe-piece-list-bulk-modal" />
                 <PieceListFilterDisplay
@@ -177,6 +189,7 @@ let PieceList = React.createClass({
                     orderBy={this.state.orderBy}
                     orderAsc={this.state.orderAsc}
                     search={this.state.search}
+                    searchFor={this.searchFor}
                     page={this.state.page}
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>

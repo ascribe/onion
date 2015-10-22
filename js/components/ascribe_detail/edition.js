@@ -1,20 +1,16 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { Link, History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 import CoaActions from '../../actions/coa_actions';
 import CoaStore from '../../stores/coa_store';
-import PieceListActions from '../../actions/piece_list_actions';
-import PieceListStore from '../../stores/piece_list_store';
-import EditionListActions from '../../actions/edition_list_actions';
 
 import HistoryIterator from './history_iterator';
 
@@ -26,46 +22,37 @@ import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
 import EditionDetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
-import EditionFurtherDetails from './further_details';
+import FurtherDetails from './further_details';
 
-import ListRequestActions from './../ascribe_forms/list_form_request_actions';
-import AclButtonList from './../ascribe_buttons/acl_button_list';
-import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
-import DeleteButton from '../ascribe_buttons/delete_button';
-
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
+import EditionActionPanel from './edition_action_panel';
 
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
 
-let Link = Router.Link;
+
 /**
  * This is the component that implements display-specific functionality
  */
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        loadEdition: React.PropTypes.func
+        loadEdition: React.PropTypes.func,
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            PieceListStore.getState()
-        );
+        return UserStore.getState();
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
     },
 
@@ -80,29 +67,10 @@ let Edition = React.createClass({
         CoaActions.flushCoa();
 
         UserStore.unlisten(this.onChange);
-        PieceListStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-    },
-
-    handleDeleteSuccess(response) {
-        this.refreshCollection();
-
-        EditionListActions.closeAllEditionLists();
-        EditionListActions.clearAllEditionSelections();
-
-        let notification = new GlobalNotificationModel(response.notification, 'success');
-        GlobalNotificationActions.appendGlobalNotification(notification);
-
-        this.transitionTo('pieces');
-    },
-
-    refreshCollection() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
-        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
     },
 
     render() {
@@ -114,19 +82,16 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <hr/>
+                        <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
                         <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
                         <hr/>
                     </div>
                     <EditionSummary
-                        handleSuccess={this.props.loadEdition}
-                        refreshCollection={this.refreshCollection}
-                        currentUser={this.state.currentUser}
                         edition={this.props.edition}
-                        handleDeleteSuccess={this.handleDeleteSuccess}/>
-
+                        currentUser={this.state.currentUser}
+                        handleSuccess={this.props.loadEdition}/>
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.acl_coa === true}>
@@ -186,12 +151,13 @@ let Edition = React.createClass({
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data.length > 0}>
-                        <EditionFurtherDetails
+                        <FurtherDetails
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}/>
+                            handleSuccess={this.props.loadEdition}
+                            location={this.props.location}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -209,29 +175,14 @@ let Edition = React.createClass({
 let EditionSummary = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func,
         currentUser: React.PropTypes.object,
-        handleDeleteSuccess: React.PropTypes.func,
-        refreshCollection: React.PropTypes.func
-    },
-
-    getTransferWithdrawData(){
-        return {'bitcoin_id': this.props.edition.bitcoin_id};
+        handleSuccess: React.PropTypes.func
     },
 
     handleSuccess() {
-        this.props.refreshCollection();
         this.props.handleSuccess();
     },
 
-    showNotification(response){
-        this.props.handleSuccess();
-
-        if (response){
-            let notification = new GlobalNotificationModel(response.notification, 'success');
-            GlobalNotificationActions.appendGlobalNotification(notification);
-        }
-    },
     getStatus(){
         let status = null;
         if (this.props.edition.status.length > 0){
@@ -246,79 +197,26 @@ let EditionSummary = React.createClass({
         return status;
     },
 
-    getActions(){
-        let actions = null;
-        if (this.props.edition &&
-            this.props.edition.notifications &&
-            this.props.edition.notifications.length > 0){
-            actions = (
-                <ListRequestActions
-                    pieceOrEditions={[this.props.edition]}
-                    currentUser={this.props.currentUser}
-                    handleSuccess={this.showNotification}
-                    notifications={this.props.edition.notifications}/>);
-        }
-
-        else {
-            let withdrawButton = null;
-            if (this.props.edition.status.length > 0 && this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer) {
-                withdrawButton = (
-                    <Form
-                        url={ApiUrls.ownership_transfers_withdraw}
-                        getFormData={this.getTransferWithdrawData}
-                        handleSuccess={this.showNotification}
-                        className='inline'
-                        isInline={true}>
-                        <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                            WITHDRAW TRANSFER
-                        </Button>
-                    </Form>
-                );
-            }
-            let unconsignRequestButton = null;
-            if (this.props.edition.acl.acl_request_unconsign) {
-                unconsignRequestButton = (
-                    <UnConsignRequestButton
-                        currentUser={this.props.currentUser}
-                        edition={this.props.edition}
-                        handleSuccess={this.props.handleSuccess} />
-                    );
-            }
-            actions = (
-                <Row>
-                    <Col md={12}>
-                        <AclButtonList
-                            className="text-center ascribe-button-list"
-                            availableAcls={this.props.edition.acl}
-                            editions={[this.props.edition]}
-                            handleSuccess={this.handleSuccess}>
-                            {withdrawButton}
-                            <DeleteButton
-                                handleSuccess={this.props.handleDeleteSuccess}
-                                editions={[this.props.edition]}/>
-                            {unconsignRequestButton}
-                        </AclButtonList>
-                    </Col>
-                </Row>);
-        }
-        return actions;
-    },
     render() {
+        let { edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty
                     label={getLangText('EDITION')}
-                    value={this.props.edition.edition_number + ' ' + getLangText('of') + ' ' + this.props.edition.num_editions} />
+                    value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
                 <EditionDetailProperty
                     label={getLangText('ID')}
-                    value={ this.props.edition.bitcoin_id }
+                    value={ edition.bitcoin_id }
                     ellipsis={true} />
                 <EditionDetailProperty
                     label={getLangText('OWNER')}
-                    value={ this.props.edition.owner } />
-                <LicenseDetail license={this.props.edition.license_type}/>
+                    value={ edition.owner } />
+                <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                {this.getActions()}
+                <EditionActionPanel
+                    edition={edition}
+                    currentUser={currentUser}
+                    handleSuccess={this.handleSuccess} />
                 <hr/>
             </div>
         );
@@ -336,12 +234,13 @@ let CoaDetails = React.createClass({
     },
 
     componentDidMount() {
+        let { edition } = this.props;
         CoaStore.listen(this.onChange);
-        if(this.props.edition.coa) {
-            CoaActions.fetchOne(this.props.edition.coa);
+        if(edition.coa) {
+            CoaActions.fetchOrCreate(edition.coa, edition.bitcoin_id);
         }
         else {
-            CoaActions.create(this.props.edition);
+            CoaActions.create(edition.bitcoin_id);
         }
     },
 
@@ -363,7 +262,7 @@ let CoaDetails = React.createClass({
                                 {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                             </button>
                         </a>
-                        <Link to="coa_verify">
+                        <Link to="/coa_verify">
                             <button className="btn btn-default btn-xs">
                                 {getLangText('Verify')} <Glyphicon glyph="check"/>
                             </button>
@@ -381,7 +280,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                <AscribeSpinner color='dark-blue' size='lg'/>
             </div>
         );
     }

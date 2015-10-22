@@ -1,38 +1,56 @@
 'use strict';
 
 import React from 'react';
+import { History } from 'react-router';
 
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
 
 import UserStore from '../../../../../../stores/user_store';
 
+import PieceListStore from '../../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../../actions/piece_list_actions';
 
-import IkonotvSubmitButton from '../ascribe_buttons/ikonotv_submit_button';
+import EditionListActions from '../../../../../../actions/edition_list_actions';
+
+import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import IkonotvArtistDetailsForm from '../ascribe_forms/ikonotv_artist_details_form';
-import IkonotvArtworkDetailsForm from '../ascribe_forms/ikonotv_artwork_details_form';
+import IkonotvArtistDetailsForm from '../ikonotv_forms/ikonotv_artist_details_form';
+import IkonotvArtworkDetailsForm from '../ikonotv_forms/ikonotv_artwork_details_form';
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
-import AppConstants from '../../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../../ascribe_spinner';
+
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
+
 let IkonotvPieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
+    mixins: [History],
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
-            UserStore.getState()
+            UserStore.getState(),
+            PieceListStore.getState()
         );
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
 
         // Every time we're leaving the piece detail page,
         // just reset the piece that is saved in the piece store
@@ -54,6 +72,7 @@ let IkonotvPieceContainer = React.createClass({
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        PieceListStore.listen(this.onChange);
     },
 
     onChange(state) {
@@ -62,6 +81,21 @@ let IkonotvPieceContainer = React.createClass({
 
     loadPiece() {
         PieceActions.fetchOne(this.props.params.pieceId);
+    },
+
+    handleDeleteSuccess(response) {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+
+        // since we're deleting a piece, we just need to close
+        // all editions dialogs and not reload them
+        EditionListActions.closeAllEditionLists();
+        EditionListActions.clearAllEditionSelections();
+
+        let notification = new GlobalNotificationModel(response.notification, 'success');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.history.pushState(null, '/collection');
     },
 
     render() {
@@ -91,11 +125,13 @@ let IkonotvPieceContainer = React.createClass({
         }
 
         if(this.state.piece && this.state.piece.title) {
+            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
             return (
                 <WalletPieceContainer
                     piece={this.state.piece}
                     currentUser={this.state.currentUser}
                     loadPiece={this.loadPiece}
+                    handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={IkonotvSubmitButton}>
                     {furtherDetails}
                 </WalletPieceContainer>
@@ -104,7 +140,7 @@ let IkonotvPieceContainer = React.createClass({
         else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

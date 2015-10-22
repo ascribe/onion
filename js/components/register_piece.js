@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -20,12 +20,9 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
-import LoginContainer from './login_container';
-import SlidesContainer from './ascribe_slides_container/slides_container';
-
-
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let RegisterPiece = React.createClass( {
@@ -37,10 +34,11 @@ let RegisterPiece = React.createClass( {
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
             React.PropTypes.string
-        ])
+        ]),
+        location: React.PropTypes.object
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -60,10 +58,10 @@ let RegisterPiece = React.createClass( {
     },
 
     componentDidMount() {
-        WhitelabelActions.fetchWhitelabel();
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
@@ -98,7 +96,7 @@ let RegisterPiece = React.createClass( {
             this.state.filterBy
         );
 
-        this.transitionTo('piece', {pieceId: response.piece.id});
+        this.history.pushState(null, `/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {
@@ -117,53 +115,22 @@ let RegisterPiece = React.createClass( {
         }
     },
 
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.refs.slidesContainer.setSlideNum(1);
-        }
-    },
-
-    onLogin() {
-        // once the currentUser object from UserStore is defined (eventually the user was transitioned
-        // to the login form via the slider and successfully logged in), we can direct him back to the
-        // register_piece slide
-        if(this.state.currentUser && this.state.currentUser.email) {
-            window.history.back();
-        }
-    },
-
     render() {
+        setDocumentTitle(getLangText('Register a new piece'));
+
         return (
-            <SlidesContainer
-                ref="slidesContainer"
-                forwardProcess={false}>
-                <div
-                    onClick={this.onLoggedOut}
-                    onFocus={this.onLoggedOut}>
-                    <Row className="no-margin">
-                        <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <RegisterPieceForm
-                                {...this.props}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
-                                handleSuccess={this.handleSuccess}
-                                onLoggedOut={this.onLoggedOut}>
-                                {this.props.children}
-                                {this.getSpecifyEditions()}
-                            </RegisterPieceForm>
-                        </Col>
-                    </Row>
-                </div>
-                <div>
-                    <LoginContainer
-                        message={getLangText('Please login before ascribing your work%s', '...')}
-                        redirectOnLoggedIn={false}
-                        redirectOnLoginSuccess={false}
-                        onLogin={this.onLogin}/>
-                </div>
-            </SlidesContainer>
+            <Row className="no-margin">
+                <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
+                    <RegisterPieceForm
+                        {...this.props}
+                        isFineUploaderActive={this.state.isFineUploaderActive}
+                        handleSuccess={this.handleSuccess}
+                        location={this.props.location}>
+                        {this.props.children}
+                        {this.getSpecifyEditions()}
+                    </RegisterPieceForm>
+                </Col>
+            </Row>
         );
     }
 });

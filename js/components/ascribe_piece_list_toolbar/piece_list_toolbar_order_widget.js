@@ -47,8 +47,8 @@ let PieceListToolbarOrderWidget = React.createClass({
     render() {
         let filterIcon = (
             <span>
-                <span className="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>
-                <span style={this.isOrderActive()}>*</span>
+                <span className="ascribe-icon icon-ascribe-sort" aria-hidden="true"></span>
+                <span style={this.isOrderActive()}>&middot;</span>
             </span>
         );
         return (

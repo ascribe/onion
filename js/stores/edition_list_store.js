@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import alt from '../alt';
+import { alt } from '../alt';
 import EditionsListActions from '../actions/edition_list_actions';
 
 class EditionListStore {
@@ -13,7 +13,6 @@ class EditionListStore {
     }
 
     onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy}) {
-        
         /*
             Basically there are two modes an edition list can be updated.
 

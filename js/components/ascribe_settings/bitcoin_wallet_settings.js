@@ -10,7 +10,7 @@ import Property from '../ascribe_forms/property';
 
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -38,7 +38,7 @@ let BitcoinWalletSettings = React.createClass({
     },
 
     render() {
-        let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
 
         if (this.state.walletSettings.btc_public_key) {
             content = (

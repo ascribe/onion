@@ -12,14 +12,15 @@ import UserStore from '../../../../../../stores/user_store';
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import CylandSubmitButton from '../ascribe_buttons/cyland_submit_button';
+import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
+
 import AclProxy from '../../../../../acl_proxy';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
-let CylandAccordionListItem = React.createClass({
+let IkonotvAccordionListItem = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         content: React.PropTypes.object,
@@ -62,12 +63,16 @@ let CylandAccordionListItem = React.createClass({
         return (
             <div>
                 <AclProxy
-                    aclObject={this.props.content.acl}
+                    aclObject={this.state.currentUser.acl}
                     aclName="acl_wallet_submit">
-                    <CylandSubmitButton
-                        className="pull-right"
-                        piece={this.props.content}
-                        handleSuccess={this.handleSubmitSuccess}/>
+                    <AclProxy
+                        aclObject={this.props.content.acl}
+                        aclName="acl_wallet_submit">
+                        <IkonotvSubmitButton
+                            className="btn-xs pull-right"
+                            handleSuccess={this.handleSubmitSuccess}
+                            piece={this.props.content}/>
+                    </AclProxy>
                 </AclProxy>
                 <AclProxy
                     aclObject={this.props.content.acl}
@@ -75,7 +80,7 @@ let CylandAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Submitted to Cyland')} <span className="glyphicon glyphicon-ok"
+                        {getLangText('Submitted to IkonoTV')} <span className="glyphicon glyphicon-ok"
                                                                   aria-hidden="true"></span>
                     </button>
                 </AclProxy>
@@ -85,7 +90,7 @@ let CylandAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Loaned to Cyland')} <span className="glyphicon glyphicon-ok"
+                        {getLangText('Loaned to IkonoTV')} <span className="glyphicon glyphicon-ok"
                                                                   aria-hidden="true"></span>
                     </button>
                 </AclProxy>
@@ -94,19 +99,23 @@ let CylandAccordionListItem = React.createClass({
     },
 
     render() {
-        return (
-            <AccordionListItemPiece
-                className={this.props.className}
-                piece={this.props.content}
-                subsubheading={
-                    <div className="pull-left">
-                        <span>{this.props.content.date_created.split('-')[0]}</span>
-                    </div>}
-                buttons={this.getSubmitButtons()}>
-                {this.props.children}
-            </AccordionListItemPiece>
-        );
+        if(this.props.content) {
+            return (
+                <AccordionListItemPiece
+                    className={this.props.className}
+                    piece={this.props.content}
+                    subsubheading={
+                        <div className="pull-left">
+                            <span>{this.props.content.date_created.split('-')[0]}</span>
+                        </div>}
+                    buttons={this.getSubmitButtons()}>
+                    {this.props.children}
+                </AccordionListItemPiece>
+            );
+        } else {
+            return null;
+        }
     }
 });
 
-export default CylandAccordionListItem;
+export default IkonotvAccordionListItem;

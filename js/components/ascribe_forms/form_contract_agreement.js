@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -15,6 +15,7 @@ import PropertyCollapsible from './property_collapsible';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 import ApiUrls from '../../constants/api_urls';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -25,7 +26,7 @@ let ContractAgreementForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation, Router.State],
+    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -57,7 +58,8 @@ let ContractAgreementForm = React.createClass({
         let notification = 'Contract agreement send';
         notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.transitionTo('pieces');
+
+        this.history.pushState(null, '/collection');
     },
 
     getFormData(){
@@ -100,12 +102,12 @@ let ContractAgreementForm = React.createClass({
                     handleSuccess={this.handleSubmitSuccess}
                     buttons={<button
                                 type="submit"
-                                className="btn ascribe-btn ascribe-btn-login">
+                                className="btn btn-default btn-wide">
                                 {getLangText('Send contract')}
                             </button>}
                     spinner={
-                        <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                            <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                        <span className="btn btn-default btn-wide btn-spinner">
+                            <AscribeSpinner color="dark-blue" size="md" />
                         </span>
                         }>
                     <div className="ascribe-form-header">
@@ -138,7 +140,7 @@ let ContractAgreementForm = React.createClass({
             <div>
                 <p className="text-center">
                     {getLangText('No contracts uploaded yet, please go to the ')}
-                    <a href="settings">{getLangText('settings page')}</a>
+                    <a href="contract_settings">{getLangText('contract settings page')}</a>
                     {getLangText(' and create them.')}
                 </p>
             </div>
