@@ -29,6 +29,8 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
+import {constructHead} from '../utils/head_setter';
+
 
 let Header = React.createClass({
     propTypes: {
@@ -61,11 +63,17 @@ let Header = React.createClass({
         WhitelabelStore.unlisten(this.onChange);
     },
 
-    getLogo(){
+    getLogo() {
         let { whitelabel } = this.state;
+
+        if (whitelabel.head) {
+            constructHead(whitelabel.head);
+        }
+
         if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
             return (<img className="img-brand" src={whitelabel.logo}/>);
         }
+
         return (
             <span>
                 <span className="icon-ascribe-logo"></span>
