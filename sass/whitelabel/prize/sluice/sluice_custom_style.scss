@@ -251,3 +251,7 @@ $sluice--button-color: $sluice--nav-fg-prim-color;
 .client--sluice .ascribe-progress-bar > .progress-bar {
     background-color: $sluice--button-color;
 }
+
+.client--sluice .acl-information-dropdown-list .title {
+    color: $sluice--button-color;
+}

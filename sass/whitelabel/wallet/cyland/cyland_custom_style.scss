@@ -179,3 +179,7 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 .client--cyland .ascribe-progress-bar > .progress-bar {
     background-color: $cyland--button-color;
 }
+
+.client--cyland .acl-information-dropdown-list .title {
+    color: $cyland--button-color;
+}
