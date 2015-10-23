@@ -52,7 +52,13 @@ let constants = {
             'name': 'Lumenus',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/lumenus/lumenus-logo.png',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
-            'type': 'wallet'
+            'type': 'wallet',
+            'formSettings': {
+                'consign': {
+                    'consignee': 'submissions@lumenus.co',
+                    'consigneeDisabled': true
+                }
+            }
         }
     ],
     'defaultDomain': {

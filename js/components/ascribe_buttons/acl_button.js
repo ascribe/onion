@@ -34,15 +34,19 @@ let AclButton = React.createClass({
         className: React.PropTypes.string
     },
 
-    isPiece(){
+    isPiece() {
         return this.props.pieceOrEditions.constructor !== Array;
     },
 
-    actionProperties(){
+    actionProperties() {
+        let message = getAclFormMessage({
+            aclName: this.props.action,
+            entities: this.props.pieceOrEditions,
+            isPiece: this.isPiece(),
+            senderName: this.props.currentUser.username
+        });
 
-        let message = getAclFormMessage(this.props.action, this.getTitlesString(), this.props.currentUser.username);
-
-        if (this.props.action === 'acl_consign'){
+        if (this.props.action === 'acl_consign') {
             return {
                 title: getLangText('Consign artwork'),
                 tooltip: getLangText('Have someone else sell the artwork'),
@@ -51,11 +55,10 @@ let AclButton = React.createClass({
                         message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_consigns}/>
-                    ),
+                ),
                 handleSuccess: this.showNotification
             };
-        }
-        if (this.props.action === 'acl_unconsign'){
+        } else if (this.props.action === 'acl_unconsign') {
             return {
                 title: getLangText('Unconsign artwork'),
                 tooltip: getLangText('Have the owner manage his sales again'),
@@ -64,10 +67,10 @@ let AclButton = React.createClass({
                         message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_unconsigns}/>
-                    ),
+                ),
                 handleSuccess: this.showNotification
             };
-        }else if (this.props.action === 'acl_transfer') {
+        } else if (this.props.action === 'acl_transfer') {
             return {
                 title: getLangText('Transfer artwork'),
                 tooltip: getLangText('Transfer the ownership of the artwork'),
@@ -79,32 +82,32 @@ let AclButton = React.createClass({
                 ),
                 handleSuccess: this.showNotification
             };
-        }
-        else if (this.props.action === 'acl_loan'){
+        } else if (this.props.action === 'acl_loan') {
             return {
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
-                form: (<LoanForm
+                form: (
+                    <LoanForm
                         message={message}
                         id={this.getFormDataId()}
-                        url={this.isPiece() ? ApiUrls.ownership_loans_pieces : ApiUrls.ownership_loans_editions}/>
+                        url={this.isPiece() ? ApiUrls.ownership_loans_pieces
+                                            : ApiUrls.ownership_loans_editions}/>
                 ),
                 handleSuccess: this.showNotification
             };
-        }
-        else if (this.props.action === 'acl_loan_request'){
+        } else if (this.props.action === 'acl_loan_request') {
             return {
                 title: getLangText('Loan artwork'),
                 tooltip: getLangText('Someone requested you to loan your artwork for a limited period of time'),
-                form: (<LoanRequestAnswerForm
+                form: (
+                    <LoanRequestAnswerForm
                         message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_loans_pieces_request_confirm}/>
                 ),
                 handleSuccess: this.showNotification
             };
-        }
-        else if (this.props.action === 'acl_share'){
+        } else if (this.props.action === 'acl_share') {
             return {
                 title: getLangText('Share artwork'),
                 tooltip: getLangText('Share the artwork'),
@@ -112,8 +115,9 @@ let AclButton = React.createClass({
                     <ShareForm
                         message={message}
                         id={this.getFormDataId()}
-                        url={this.isPiece() ? ApiUrls.ownership_shares_pieces : ApiUrls.ownership_shares_editions }/>
-                    ),
+                        url={this.isPiece() ? ApiUrls.ownership_shares_pieces
+                                            : ApiUrls.ownership_shares_editions}/>
+                ),
                 handleSuccess: this.showNotification
             };
         } else {
@@ -121,32 +125,18 @@ let AclButton = React.createClass({
         }
     },
 
-    showNotification(response){
+    showNotification(response) {
         this.props.handleSuccess();
-        if(response.notification) {
+        if (response.notification) {
             let notification = new GlobalNotificationModel(response.notification, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
     },
 
-    // plz move to share form
-    getTitlesString(){
-        if (this.isPiece()){
-            return '\"' + this.props.pieceOrEditions.title + '\"';
-        }
-        else {
-            return this.props.pieceOrEditions.map(function(edition) {
-                return '- \"' + edition.title + ', ' + getLangText('edition') + ' ' + edition.edition_number + '\"\n';
-            }).join('');
-        }
-
-    },
-
     getFormDataId(){
         if (this.isPiece()) {
             return {piece_id: this.props.pieceOrEditions.id};
-        }
-        else {
+        } else {
             return {bitcoin_id: this.props.pieceOrEditions.map(function(edition){
                 return edition.bitcoin_id;
             }).join()};
@@ -162,7 +152,7 @@ let AclButton = React.createClass({
     },
 
     render() {
-        if (this.props.availableAcls){
+        if (this.props.availableAcls) {
             let shouldDisplay = this.props.availableAcls[this.props.action];
             let aclProps = this.actionProperties();
             let buttonClassName = this.props.buttonAcceptClassName ? this.props.buttonAcceptClassName : '';
