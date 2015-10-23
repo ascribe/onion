@@ -233,7 +233,6 @@ let LoanForm = React.createClass({
                     <h3>{this.props.loanHeading}</h3>
                 </div>
                 <AclInformation aim={'form'} verbs={['acl_loan']}/>
-                <br></br>
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}

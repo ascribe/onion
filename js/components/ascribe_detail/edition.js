@@ -211,30 +211,13 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <div className="row ascribe-detail-property">
-                    <div className="row-same-height">
-                        <div className={this.props.labelClassName}>
-                            { this.props.label } { this.props.separator}
-                        </div>
-                        <div
-                            className={this.props.valueClassName}
-                            style={styles}>
-                            {value}
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-4  no-padding">
-                        Actions
-                    </div>
-                    <div
-                        className="col-xs-8">
-                        <EditionActionPanel
-                            edition={edition}
-                            currentUser={currentUser}
-                            handleSuccess={this.handleSuccess} />
-                    </div>
-                </div>);
+                <EditionDetailProperty
+                    label={getLangText('ACTIONS')}>
+                    <EditionActionPanel
+                        edition={edition}
+                        currentUser={currentUser}
+                        handleSuccess={this.handleSuccess} />
+                </EditionDetailProperty>
                 <hr/>
             </div>
         );

@@ -45,7 +45,7 @@ let AclInformation = React.createClass({
                 return (
                     <p>
                         <span className="info">
-                            {replaceSubstringAtIndex(info.slice(2), 's ', ' ')} <br/>
+                            {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
                         </span>
                         <span className="example">
                             {example}
@@ -60,7 +60,7 @@ let AclInformation = React.createClass({
                             {title}
                         </span>
                         <span className="info">
-                            {info} <br/>
+                            {info + ' '}
                         </span>
                         <span className="example">
                             {example}
@@ -108,18 +108,19 @@ let AclInformation = React.createClass({
     },
 
     render() {
-        const { aim, buttonListSize } = this.props;
+        const { aim, buttonListSize, verbs } = this.props;
         const { isVisible } = this.state;
 
         /* Lets just fucking get this widget out... */
-        const aclInformationSize = buttonListSize - 33;
+        const aclInformationSize = buttonListSize - 30;
 
         return (
             <span >
                 {this.getButton()}
                 <div
                     style={{
-                        width: aclInformationSize > 300 ? aclInformationSize : 400
+                        width: aclInformationSize > 300 ? aclInformationSize : 400,
+                        marginLeft: verbs.length === 1 ? '.25em' : null
                     }}
                     className={classnames({'acl-information-dropdown-list': true, 'hidden': aim === 'button' && !isVisible})}>
                     <span>{this.produceInformationBlock()}</span>

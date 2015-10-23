@@ -190,28 +190,29 @@ let PieceContainer = React.createClass({
                     currentUser={this.state.currentUser}
                     handleSuccess={this.loadPiece}
                     notifications={this.state.piece.notifications}/>);
-        }
-        else {
+        } else {
             return (
-                <AclButtonList
-                    className="ascribe-button-list"
-                    availableAcls={this.state.piece.acl}
-                    editions={this.state.piece}
-                    handleSuccess={this.loadPiece}>
-                        <CreateEditionsButton
-                            label={getLangText('CREATE EDITIONS')}
-                            className="btn-sm"
-                            piece={this.state.piece}
-                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                            onPollingSuccess={this.handlePollingSuccess}/>
-                        <DeleteButton
-                            handleSuccess={this.handleDeleteSuccess}
-                            piece={this.state.piece}/>
-                        <AclInformation
-                            aim="button"
-                            verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
-                            aclObject={this.state.piece.acl}/>
-                </AclButtonList>
+                <DetailProperty label={getLangText('ACTIONS')}>
+                    <AclButtonList
+                        className="ascribe-button-list"
+                        availableAcls={this.state.piece.acl}
+                        editions={this.state.piece}
+                        handleSuccess={this.loadPiece}>
+                            <CreateEditionsButton
+                                label={getLangText('CREATE EDITIONS')}
+                                className="btn-sm"
+                                piece={this.state.piece}
+                                toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                onPollingSuccess={this.handlePollingSuccess}/>
+                            <DeleteButton
+                                handleSuccess={this.handleDeleteSuccess}
+                                piece={this.state.piece}/>
+                            <AclInformation
+                                aim="button"
+                                verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
+                                aclObject={this.state.piece.acl}/>
+                    </AclButtonList>
+                </DetailProperty>
             );
         }
     },
