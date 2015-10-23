@@ -48,7 +48,7 @@ let AclInformation = React.createClass({
                             {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
                         </span>
                         <span className="example">
-                            {example}
+                            {' ' + example}
                         </span>
                     </p>
                 );
@@ -119,7 +119,7 @@ let AclInformation = React.createClass({
                 {this.getButton()}
                 <div
                     style={{
-                        width: aclInformationSize > 300 ? aclInformationSize : 400,
+                        width: verbs.length > 1 && aclInformationSize > 300 ? aclInformationSize : verbs.length === 1 ? null : '100%',
                         marginLeft: verbs.length === 1 ? '.25em' : null
                     }}
                     className={classnames({'acl-information-dropdown-list': true, 'hidden': aim === 'button' && !isVisible})}>

@@ -43,6 +43,12 @@ let AclButtonList = React.createClass({
         window.dispatchEvent(new Event('resize'));
     },
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.availableAcls && prevProps.availableAcls !== this.props.availableAcls) {
+            window.dispatchEvent(new Event('resize'));
+        }
+    },
+
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
 
