@@ -65,7 +65,7 @@ let ModalWrapper = React.createClass({
                             {this.props.title}
                         </Modal.Title>
                     </Modal.Header>
-                    <div className="modal-body">
+                    <div className="modal-body" >
                         {this.renderChildren()}
                     </div>
                 </Modal>

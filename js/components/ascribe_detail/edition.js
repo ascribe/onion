@@ -145,7 +145,6 @@ let Edition = React.createClass({
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
@@ -159,7 +158,6 @@ let Edition = React.createClass({
                             handleSuccess={this.props.loadEdition}
                             location={this.props.location}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
@@ -213,10 +211,13 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <EditionActionPanel
-                    edition={edition}
-                    currentUser={currentUser}
-                    handleSuccess={this.handleSuccess} />
+                <EditionDetailProperty
+                    label={getLangText('ACTIONS')}>
+                    <EditionActionPanel
+                        edition={edition}
+                        currentUser={currentUser}
+                        handleSuccess={this.handleSuccess} />
+                </EditionDetailProperty>
                 <hr/>
             </div>
         );

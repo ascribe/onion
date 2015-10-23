@@ -1,0 +1,25 @@
+.acl-information-dropdown-list {
+    text-align: justify;
+    padding: .5em .5em .5em 0;
+
+    p {
+        margin:  0 .5em 1em 0;
+        line-height: 1.2;
+    }
+
+    span {
+        font-size: 11px;
+    }
+
+    .title {
+        color: $ascribe-dark-blue;
+    }
+
+    .info {
+        color: #212121;
+    }
+
+    .example {
+        color: #616161;
+    }
+}

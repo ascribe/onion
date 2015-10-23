@@ -169,7 +169,8 @@ let AclButton = React.createClass({
             return (
                 <ModalWrapper
                     trigger={
-                        <button className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
+                        <button
+                            className={shouldDisplay ? 'btn btn-default btn-sm ' + buttonClassName : 'hidden'}>
                             {this.sanitizeAction()}
                         </button>
                     }

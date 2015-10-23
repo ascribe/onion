@@ -201,7 +201,7 @@ let Header = React.createClass({
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show={false}/>
+                            <HeaderNotificationDebug show = {false}/>
                             {account}
                             {signup}
                         </Nav>
