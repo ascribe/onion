@@ -45,7 +45,7 @@ let DeleteButton = React.createClass({
                 title = getLangText('Delete Edition');
             }
 
-            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('DELETE')}</Button>;
+            btnDelete = <Button bsStyle="default" bsSize="small">{getLangText('DELETE')}</Button>;
         
         } else if(availableAcls.acl_unshare){
             
@@ -57,7 +57,7 @@ let DeleteButton = React.createClass({
                 title = getLangText('Remove Piece from Collection');
             }
 
-            btnDelete = <Button bsStyle="danger" className="btn-delete" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
+            btnDelete = <Button bsStyle="default" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
         
         } else {
             return null;

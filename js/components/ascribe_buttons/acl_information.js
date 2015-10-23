@@ -12,7 +12,16 @@ let AclInformation = React.createClass({
     propTypes: {
         verbs: React.PropTypes.arrayOf(React.PropTypes.string),
         aim: React.PropTypes.string.isRequired,
-        aclObject: React.PropTypes.object
+        aclObject: React.PropTypes.object,
+
+        // Must be inserted from the outside
+        buttonListSize: React.PropTypes.number.isRequired
+    },
+
+    getDefaultProps() {
+        return {
+            buttonListSize: 400
+        };
     },
 
     getInitialState() {
@@ -99,13 +108,19 @@ let AclInformation = React.createClass({
     },
 
     render() {
-        const { aim } = this.props;
+        const { aim, buttonListSize } = this.props;
         const { isVisible } = this.state;
+
+        /* Lets just fucking get this widget out... */
+        const aclInformationSize = buttonListSize - 33;
 
         return (
             <span >
                 {this.getButton()}
                 <div
+                    style={{
+                        width: aclInformationSize > 300 ? aclInformationSize : 400
+                    }}
                     className={classnames({'acl-information-dropdown-list': true, 'hidden': aim === 'button' && !isVisible})}>
                     <span>{this.produceInformationBlock()}</span>
                 </div>

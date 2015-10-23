@@ -124,7 +124,7 @@ let EditionActionPanel = React.createClass({
                                              type="text"
                                              value={edition.bitcoin_id} />
                                     </Property>
-                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                                    <Button bsStyle="default" className="pull-center" bsSize="small" type="submit">
                                         {getLangText('WITHDRAW TRANSFER')}
                                     </Button>
                                 </Form>
