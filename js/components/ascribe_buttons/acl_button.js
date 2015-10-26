@@ -16,7 +16,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getAclFormMessage } from '../../utils/form_utils';
+import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 let AclButton = React.createClass({
@@ -134,13 +134,7 @@ let AclButton = React.createClass({
     },
 
     getFormDataId(){
-        if (this.isPiece()) {
-            return {piece_id: this.props.pieceOrEditions.id};
-        } else {
-            return {bitcoin_id: this.props.pieceOrEditions.map(function(edition){
-                return edition.bitcoin_id;
-            }).join()};
-        }
+        return getAclFormDataId(this.isPiece(), this.props.pieceOrEditions);
     },
 
     // Removes the acl_ prefix and converts to upper case

@@ -1,6 +1,9 @@
 'use strict';
 
 import React from 'react';
+
+import LumenusAclButtonList from './lumenus_buttons/lumenus_acl_button_list';
+
 import PieceList from '../../../../piece_list';
 
 import UserActions from '../../../../../actions/user_actions';
@@ -39,6 +42,7 @@ let LumenusPieceList = React.createClass({
             <div>
                 <PieceList
                     redirectTo="/register_piece?slide_num=0"
+                    bulkModalButtonListType={LumenusAclButtonList}
                     filterParams={[{
                         label: getLangText('Show works I have'),
                         items: [{

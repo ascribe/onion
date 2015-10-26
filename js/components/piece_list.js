@@ -13,6 +13,9 @@ import AccordionList from './ascribe_accordion_list/accordion_list';
 import AccordionListItemWallet from './ascribe_accordion_list/accordion_list_item_wallet';
 import AccordionListItemTableEditions from './ascribe_accordion_list/accordion_list_item_table_editions';
 
+import AclButtonList from './ascribe_buttons/acl_button_list.js';
+import DeleteButton from './ascribe_buttons/delete_button';
+
 import Pagination from './ascribe_pagination/pagination';
 
 import PieceListFilterDisplay from './piece_list_filter_display';
@@ -24,6 +27,7 @@ import AscribeSpinner from './ascribe_spinner';
 
 import AppConstants from '../constants/application_constants';
 
+import { getAvailableAcls } from '../utils/acl_utils';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
@@ -32,6 +36,7 @@ import { setDocumentTitle } from '../utils/dom_utils';
 let PieceList = React.createClass({
     propTypes: {
         accordionListItemType: React.PropTypes.func,
+        bulkModalButtonListType: React.PropTypes.func,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
         filterParams: React.PropTypes.array,
@@ -45,6 +50,7 @@ let PieceList = React.createClass({
     getDefaultProps() {
         return {
             accordionListItemType: AccordionListItemWallet,
+            bulkModalButtonListType: AclButtonList,
             orderParams: ['artist_name', 'title'],
             filterParams: [{
                 label: getLangText('Show works I can'),
@@ -152,9 +158,46 @@ let PieceList = React.createClass({
                                         orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
+    fetchSelectedPieceEditionList() {
+        let filteredPieceIdList = Object.keys(this.state.editionList)
+                                        .filter((pieceId) => {
+                                            return this.state.editionList[pieceId]
+                                                .filter((edition) => edition.selected).length > 0;
+                                        });
+        return filteredPieceIdList;
+    },
+
+    fetchSelectedEditionList() {
+        let selectedEditionList = [];
+
+        Object
+            .keys(this.state.editionList)
+            .forEach((pieceId) => {
+                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
+                selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
+            });
+
+        return selectedEditionList;
+    },
+
+    handleAclSuccess() {
+        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
+                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+
+        this.fetchSelectedPieceEditionList()
+            .forEach((pieceId) => {
+                EditionListActions.refreshEditionList({pieceId, filterBy: {}});
+            });
+        EditionListActions.clearAllEditionSelections();
+    },
+
     render() {
-        let loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
-        let AccordionListItemType = this.props.accordionListItemType;
+        const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
+        const AccordionListItemType = this.props.accordionListItemType;
+        const BulkModalButtonListType = this.props.bulkModalButtonListType;
+
+        const selectedEditions = this.fetchSelectedEditionList();
+        const availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         setDocumentTitle(getLangText('Collection'));
 
@@ -178,7 +221,19 @@ let PieceList = React.createClass({
                     }
                 </PieceListToolbar>
                 <PieceListBulkModal
-                    className="ascribe-piece-list-bulk-modal"/>
+                    availableAcls={availableAcls}
+                    selectedEditions={selectedEditions}
+                    className="ascribe-piece-list-bulk-modal">
+                    <BulkModalButtonListType
+                        availableAcls={availableAcls}
+                        editions={selectedEditions}
+                        handleSuccess={this.handleAclSuccess}
+                        className="text-center ascribe-button-list collapse-group">
+                        <DeleteButton
+                            handleSuccess={this.handleAclSuccess}
+                            editions={selectedEditions}/>
+                    </BulkModalButtonListType>
+                </PieceListBulkModal>
                 <PieceListFilterDisplay
                     filterBy={this.state.filterBy}
                     filterParams={this.props.filterParams}/>

@@ -5,15 +5,19 @@ import { getLangText } from './lang_utils';
 import AppConstants from '../constants/application_constants';
 
 /**
- * Gets a dictionary of settings for a form based on the environment
- * (ie. if on a whitelabel)
- * @param  {string} formName Name of the form
- * @return {object}          Settings key-val dictionary
+ * Get the data ids of the given piece or editions.
+ * @param  {boolean} isPiece                   Is the given entities parameter a piece? (False: array of editions)
+ * @param  {(object|object[])} pieceOrEditions Piece or array of editions
+ * @return {(object|object[])}                 Data IDs of the pieceOrEditions for the form
  */
-export function getSubdomainFormSettings(formName) {
-    let subdomainFormSettings = AppConstants.whitelabel.formSettings || {};
-
-    return subdomainFormSettings[formName] || {};
+export function getAclFormDataId(isPiece, pieceOrEditions) {
+    if (isPiece) {
+        return {piece_id: pieceOrEditions.id};
+    } else {
+        return {bitcoin_id: pieceOrEditions.map(function(edition){
+            return edition.bitcoin_id;
+        }).join()};
+    }
 }
 
 /**
@@ -21,6 +25,7 @@ export function getSubdomainFormSettings(formName) {
  * @param  {object} options                     Options object for creating the message:
  * @param  {string} options.aclName             Enum name of an acl
  * @param  {(object|object[])} options.entities Piece or array of Editions
+ * @param  {boolean} options.isPiece            Is the given entities parameter a piece? (False: array of editions)
  * @param  {string} [options.senderName]        Name of the sender
  * @return {string}                             Completed message
  */

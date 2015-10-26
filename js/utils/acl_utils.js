@@ -8,7 +8,7 @@ function intersectAcls(a, b) {
 
 export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];
-    if (!editions || editions.constructor !== Array){
+    if (!editions || editions.constructor !== Array) {
         return [];
     }
     // if you copy a javascript array of objects using slice, then
@@ -39,18 +39,17 @@ export function getAvailableAcls(editions, filterFn) {
     // If no edition has been selected, availableActions is empty
     // If only one edition has been selected, their actions are available
     // If more than one editions have been selected, their acl properties are intersected
-    if(editionsCopy.length >= 1) {
+    if (editionsCopy.length >= 1) {
         availableAcls = editionsCopy[0].acl;
-    }
-    if(editionsCopy.length >= 2) {
-        for(let i = 1; i < editionsCopy.length; i++) {
+    } else if (editionsCopy.length >= 2) {
+        for (let i = 1; i < editionsCopy.length; i++) {
             availableAcls = intersectAcls(availableAcls, editionsCopy[i].acl);
         }
     }
 
     // convert acls back to key-value object
     let availableAclsObj = {};
-    for(let i = 0; i < availableAcls.length; i++) {
+    for (let i = 0; i < availableAcls.length; i++) {
         availableAclsObj[availableAcls[i]] = true;
     }
 

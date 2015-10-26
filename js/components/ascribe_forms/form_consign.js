@@ -11,12 +11,11 @@ import InputTextAreaToggable from './input_textarea_toggable';
 import AscribeSpinner from '../ascribe_spinner';
 import { getLangText } from '../../utils/lang_utils.js';
 
-import { getSubdomainFormSettings } from '../../utils/form_utils';
-
 let ConsignForm = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
         id: React.PropTypes.object,
+        email: React.PropTypes.string,
         message: React.PropTypes.string,
         handleSuccess: React.PropTypes.func
     },
@@ -26,8 +25,6 @@ let ConsignForm = React.createClass({
     },
 
     render() {
-        let envSettings = getSubdomainFormSettings('consign');
-
         return (
             <Form
                 ref='form'
@@ -53,12 +50,12 @@ let ConsignForm = React.createClass({
                 <Property
                     name='consignee'
                     label={getLangText('Email')}
-                    editable={!envSettings.consigneeDisabled}
-                    overrideForm={true}>
+                    editable={!this.props.email}
+                    overrideForm={!!this.props.email}>
                     <input
                         type="email"
                         placeholder={getLangText('Email of the consignee')}
-                        defaultValue={envSettings.consignee}
+                        defaultValue={this.props.email}
                         required/>
                 </Property>
                 <Property

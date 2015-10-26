@@ -9,9 +9,6 @@ import Row from 'react-bootstrap/lib/Row';
 import Property from '../../../../ascribe_forms/property';
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
 
@@ -42,7 +39,6 @@ let LumenusRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
-            WhitelabelStore.getState(),
             {
                 selectedLicense: 0,
                 isFineUploaderActive: false,
@@ -54,9 +50,7 @@ let LumenusRegisterPiece = React.createClass({
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
         let queryParams = this.props.location.query;
 
@@ -76,7 +70,6 @@ let LumenusRegisterPiece = React.createClass({
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
