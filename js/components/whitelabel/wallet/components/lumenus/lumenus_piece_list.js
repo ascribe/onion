@@ -32,11 +32,6 @@ let LumenusPieceList = React.createClass({
         this.setState(state);
     },
 
-    showOnlyConsignAcl(aclName) {
-        return aclName === 'acl_consign' ||
-               aclName === 'acl_unconsign';
-    },
-
     render() {
         setDocumentTitle(getLangText('Collection'));
 
@@ -44,7 +39,6 @@ let LumenusPieceList = React.createClass({
             <div>
                 <PieceList
                     redirectTo="/register_piece?slide_num=0"
-                    aclFilterBy={this.showOnlyConsignAcl}
                     filterParams={[{
                         label: getLangText('Show works I have'),
                         items: [{

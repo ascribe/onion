@@ -32,7 +32,6 @@ import { setDocumentTitle } from '../utils/dom_utils';
 let PieceList = React.createClass({
     propTypes: {
         accordionListItemType: React.PropTypes.func,
-        aclFilterBy: React.PropTypes.func,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
         filterParams: React.PropTypes.array,
@@ -179,8 +178,7 @@ let PieceList = React.createClass({
                     }
                 </PieceListToolbar>
                 <PieceListBulkModal
-                    className="ascribe-piece-list-bulk-modal"
-                    aclFilterBy={this.props.aclFilterBy}/>
+                    className="ascribe-piece-list-bulk-modal"/>
                 <PieceListFilterDisplay
                     filterBy={this.state.filterBy}
                     filterParams={this.props.filterParams}/>
