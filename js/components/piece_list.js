@@ -22,8 +22,6 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AscribeSpinner from './ascribe_spinner';
 
-import AppConstants from '../constants/application_constants';
-
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
