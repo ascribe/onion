@@ -106,7 +106,7 @@ let IkonotvAccordionListItem = React.createClass({
                     piece={this.props.content}
                     subsubheading={
                         <div className="pull-left">
-                            <span>{this.props.content.date_created.split('-')[0]}</span>
+                            <span>{new Date(this.props.content.date_created).getFullYear()}</span>
                         </div>}
                     buttons={this.getSubmitButtons()}>
                     {this.props.children}
