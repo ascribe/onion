@@ -68,7 +68,7 @@ let EditionActionPanel = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState('/collection');
+        this.history.pushState(null, '/collection');
     },
 
     refreshCollection() {
