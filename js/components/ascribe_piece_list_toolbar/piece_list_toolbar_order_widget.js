@@ -54,6 +54,7 @@ let PieceListToolbarOrderWidget = React.createClass({
         return (
 
             <DropdownButton
+                pullRight={true}
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
                 <li style={{'textAlign': 'center'}}>
