@@ -5,16 +5,20 @@ import React from 'react';
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 
+import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
+
+import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
+
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
+import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
 import requests from '../../../../../../utils/requests';
-
 import { getLangText } from '../../../../../../utils/lang_utils';
-
 
 let LumenusAdditionalDataForm = React.createClass({
     propTypes: {
@@ -32,7 +36,7 @@ let LumenusAdditionalDataForm = React.createClass({
 
     getInitialState() {
         return {
-            isUploadReady: true
+            isUploadReady: false
         };
     },
 
@@ -56,7 +60,18 @@ let LumenusAdditionalDataForm = React.createClass({
             extradata: extradata,
             piece_id: this.props.piece.id
         };
+    },
 
+    uploadStarted() {
+        this.setState({
+            isUploadReady: false
+        });
+    },
+
+    setIsUploadReady(isReady) {
+        this.setState({
+            isUploadReady: isReady
+        });
     },
 
     render() {
@@ -67,7 +82,8 @@ let LumenusAdditionalDataForm = React.createClass({
             buttons = (
                 <button
                     type="submit"
-                    className="btn ascribe-btn ascribe-btn-login">
+                    className="btn btn-default btn-wide"
+                    disabled={!this.state.isUploadReady}>
                     {getLangText('Register work')}
                 </button>
             );
@@ -98,20 +114,49 @@ let LumenusAdditionalDataForm = React.createClass({
                     buttons={buttons}
                     spinner={spinner}>
                     {heading}
+                    <FurtherDetailsFileuploader
+                        label={getLangText('Marketplace image')}
+                        uploadStarted={this.uploadStarted}
+                        submitFile={function () {}}
+                        setIsUploadReady={this.setIsUploadReady}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        pieceId={piece.id}
+                        otherData={piece.other_data}
+                        location={this.props.location}/>
                     <Property
-                        name='dummy_field'
-                        label={getLangText('Dummy Field')}>
-                        <input
-                            type="text"
-                            placeholder="Your awesome field here!"
+                        name='artist_bio'
+                        label={getLangText('Artist Bio')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.artist_bio}
+                            placeholder={getLangText('Enter a biography of the artist...')}
                             required/>
                     </Property>
                     <Property
-                        name='dummy_field'
-                        label={getLangText('Dummy Field')}>
-                        <input
-                            type="text"
-                            placeholder="Or here!"
+                        name='work_description'
+                        label={getLangText('Work Description')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.work_description}
+                            placeholder={getLangText('Enter a description of the work...')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='tech_details'
+                        label={getLangText('Technology Details')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.tech_details}
+                            placeholder={getLangText('Enter technological details about the work was produced...')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='display_instructions'
+                        label={getLangText('Display Instructions')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.display_instructions}
+                            placeholder={getLangText('Enter instructions on how to best display the work...')}
                             required/>
                     </Property>
                 </Form>

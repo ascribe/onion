@@ -13,6 +13,7 @@ import { getCookie } from '../../utils/fetch_api_utils';
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
+        label: React.PropTypes.string,
         uploadStarted: React.PropTypes.func,
         pieceId: React.PropTypes.number,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
@@ -26,6 +27,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
     getDefaultProps() {
         return {
+            label: "Additional files",
             multiple: false
         };
     },
@@ -44,7 +46,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
         return (
             <Property
-                label="Additional files">
+                label={this.props.label}>
                 <ReactS3FineUploader
                     uploadStarted={this.props.uploadStarted}
                     keyRoutine={{

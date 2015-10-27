@@ -138,7 +138,7 @@ let CylandAdditionalDataForm = React.createClass({
                     </Property>
                     <FurtherDetailsFileuploader
                         uploadStarted={this.uploadStarted}
-                        submitFile={this.submitFile}
+                        submitFile={function () {}}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         pieceId={piece.id}
