@@ -85,7 +85,7 @@ let Edition = React.createClass({
                         <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
+                        <EditionDetailProperty label="DATE" value={ new Date(this.props.edition.date_created).getFullYear() } />
                         <hr/>
                     </div>
                     <EditionSummary
