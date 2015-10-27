@@ -25,11 +25,11 @@ import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
 import EditionActionPanel from './edition_action_panel';
+import AclProxy from '../acl_proxy';
 
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -211,13 +211,15 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <EditionDetailProperty
-                    label={getLangText('ACTIONS')}>
-                    <EditionActionPanel
-                        edition={edition}
-                        currentUser={currentUser}
-                        handleSuccess={this.handleSuccess} />
-                </EditionDetailProperty>
+                <AclProxy show={currentUser && currentUser.email}>
+                    <EditionDetailProperty
+                        label={getLangText('ACTIONS')}>
+                        <EditionActionPanel
+                            edition={edition}
+                            currentUser={currentUser}
+                            handleSuccess={this.handleSuccess} />
+                    </EditionDetailProperty>
+                </AclProxy>
                 <hr/>
             </div>
         );

@@ -28,6 +28,7 @@ import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
 import AclInformation from '../ascribe_buttons/acl_information';
+import AclProxy from '../acl_proxy';
 
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
@@ -181,38 +182,41 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
+        const { piece, currentUser } = this.state;
+
+        if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
+                    notifications={piece.notifications}/>);
         } else {
             return (
-                <DetailProperty label={getLangText('ACTIONS')}>
-                    <AclButtonList
-                        className="ascribe-button-list"
-                        availableAcls={this.state.piece.acl}
-                        editions={this.state.piece}
-                        handleSuccess={this.loadPiece}>
-                            <CreateEditionsButton
-                                label={getLangText('CREATE EDITIONS')}
-                                className="btn-sm"
-                                piece={this.state.piece}
-                                toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                                onPollingSuccess={this.handlePollingSuccess}/>
-                            <DeleteButton
-                                handleSuccess={this.handleDeleteSuccess}
-                                piece={this.state.piece}/>
-                            <AclInformation
-                                aim="button"
-                                verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
-                                aclObject={this.state.piece.acl}/>
-                    </AclButtonList>
-                </DetailProperty>
+                <AclProxy
+                    show={currentUser && currentUser.email}>
+                    <DetailProperty label={getLangText('ACTIONS')}>
+                        <AclButtonList
+                            className="ascribe-button-list"
+                            availableAcls={piece.acl}
+                            editions={piece}
+                            handleSuccess={this.loadPiece}>
+                                <CreateEditionsButton
+                                    label={getLangText('CREATE EDITIONS')}
+                                    className="btn-sm"
+                                    piece={piece}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                    onPollingSuccess={this.handlePollingSuccess}/>
+                                <DeleteButton
+                                    handleSuccess={this.handleDeleteSuccess}
+                                    piece={piece}/>
+                                <AclInformation
+                                    aim="button"
+                                    verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
+                                    aclObject={piece.acl}/>
+                        </AclButtonList>
+                    </DetailProperty>
+                </AclProxy>
             );
         }
     },
