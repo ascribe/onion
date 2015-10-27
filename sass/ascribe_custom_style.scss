@@ -98,9 +98,11 @@ hr {
         .icon-ascribe-logo {
             color: $ascribe--nav-fg-prim-color;
 
-            &:hover,
-            &:focus {
+            &:hover {
                 color: $ascribe--nav-fg-sec-color;
+                text-decoration: none;
+            }
+            &:focus {
                 text-decoration: none;
             }
         }
