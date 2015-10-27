@@ -4,9 +4,11 @@ import React from 'react';
 
 import LumenusSubmitButton from './lumenus_submit_button';
 
-import AclProxy from '../../../../../acl_proxy';
-
+import AclButton from '../../../../../ascribe_buttons/acl_button';
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
+
+import UserActions from '../../../../../../actions/user_actions';
+import UserStore from '../../../../../../stores/user_store';
 
 let LumenusAclButtonList = React.createClass({
     propTypes: {
@@ -20,16 +22,38 @@ let LumenusAclButtonList = React.createClass({
         ])
     },
 
+    getInitialState() {
+        return UserStore.getState();
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
+        let { availableAcls, className, editions, handleSuccess } = this.props;
         return (
-            <div className={this.props.className}>
-                <AclProxy
-                    aclObject={this.props.availableAcls}
-                    aclName={'acl_consign'}>
-                    <LumenusSubmitButton
-                        editions={this.props.editions}
-                        handleSuccess={this.props.handleSuccess} />
-                </AclProxy>
+            <div className={className}>
+                <LumenusSubmitButton
+                    availableAcls={availableAcls}
+                    currentUser={this.state.currentUser}
+                    editions={editions}
+                    handleSuccess={handleSuccess} />
+                <AclButton
+                    action="acl_share"
+                    availableAcls={availableAcls}
+                    currentUser={this.state.currentUser}
+                    pieceOrEditions={editions}
+                    handleSuccess={handleSuccess} />
                 {this.props.children}
             </div>
         );

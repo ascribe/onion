@@ -30,6 +30,7 @@ let AclButton = React.createClass({
         currentUser: React.PropTypes.object,
         buttonAcceptName: React.PropTypes.string,
         buttonAcceptClassName: React.PropTypes.string,
+        email: React.PropTypes.string,
         handleSuccess: React.PropTypes.func.isRequired,
         className: React.PropTypes.string
     },
@@ -52,6 +53,7 @@ let AclButton = React.createClass({
                 tooltip: getLangText('Have someone else sell the artwork'),
                 form: (
                     <ConsignForm
+                        email={this.props.email}
                         message={message}
                         id={this.getFormDataId()}
                         url={ApiUrls.ownership_consigns}/>
@@ -88,6 +90,7 @@ let AclButton = React.createClass({
                 tooltip: getLangText('Loan your artwork for a limited period of time'),
                 form: (
                     <LoanForm
+                        email={this.props.email}
                         message={message}
                         id={this.getFormDataId()}
                         url={this.isPiece() ? ApiUrls.ownership_loans_pieces
