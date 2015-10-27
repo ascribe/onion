@@ -327,6 +327,29 @@ fieldset[disabled] .btn-secondary.active {
     }
 }
 
+.btn-tertiary {
+    background-color: transparent;
+    border-color: transparent;
+    color: #888;
+
+    &:focus,
+    &:active:focus,
+    &:active.focus {
+        background-color: transparent;
+        border-color: transparent;
+        color: #888;
+    }
+
+    &:hover,
+    &:active,
+    &:active:hover,
+    &.active:hover{
+        background-color: $ascribe-pink;
+        border-color: $ascribe-pink;
+        color: $ascribe-white;
+    }
+}
+
 .ascribe-piece-list-toolbar-filter-widget button {
     background-color: transparent;
     border: 1px solid transparent;
