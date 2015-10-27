@@ -91,12 +91,27 @@ hr {
         }
     }
 
-    .navbar-brand,
-    .navbar-brand:hover {
+    .navbar-brand {
         font-size: 23px;
         padding: 12px 15px;
-        color: $ascribe--nav-fg-prim-color;
+
+        .icon-ascribe-logo {
+            color: $ascribe--nav-fg-prim-color;
+
+            &:hover {
+                color: $ascribe--nav-fg-sec-color;
+                text-decoration: none;
+            }
+            &:focus {
+                text-decoration: none;
+            }
+        }
+
+        .img-brand {
+            height: 100%;
+        }
     }
+
     .img-brand .navbar-brand {
         width: 0;
         height: 0;
