@@ -83,6 +83,7 @@ let PieceListToolbarFilterWidget = React.createClass({
 
         return (
             <DropdownButton
+                pullRight={true}
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
                 {/* We iterate over filterParams, to receive the label and then for each
