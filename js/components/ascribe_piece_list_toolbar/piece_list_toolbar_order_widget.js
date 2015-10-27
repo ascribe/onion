@@ -72,7 +72,7 @@ let PieceListToolbarOrderWidget = React.createClass({
                                     </span>
                                     <input
                                         readOnly
-                                        type="checkbox"
+                                        type="radio"
                                         checked={param.indexOf(this.props.orderBy) > -1} />
                                 </div>
                             </li>
