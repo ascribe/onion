@@ -6,33 +6,12 @@ import LumenusAclButtonList from './lumenus_buttons/lumenus_acl_button_list';
 
 import PieceList from '../../../../piece_list';
 
-import UserActions from '../../../../../actions/user_actions';
-import UserStore from '../../../../../stores/user_store';
-
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
-
 
 let LumenusPieceList = React.createClass({
     propTypes: {
         location: React.PropTypes.object
-    },
-
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     render() {

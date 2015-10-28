@@ -23,7 +23,11 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 let LumenusAdditionalDataForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
-        piece: React.PropTypes.object.isRequired,
+        piece: React.PropTypes.shape({
+            id: React.PropTypes.number,
+            extra_data: React.PropTypes.object,
+            other_data: React.PropTypes.arrayOf(React.PropTypes.object)
+        }).isRequired,
         isInline: React.PropTypes.bool,
         location: React.PropTypes.object
     },
@@ -78,7 +82,7 @@ let LumenusAdditionalDataForm = React.createClass({
         let { piece, isInline, handleSuccess } = this.props;
         let buttons, spinner, heading;
 
-        if(!isInline) {
+        if (!isInline) {
             buttons = (
                 <button
                     type="submit"
@@ -103,7 +107,7 @@ let LumenusAdditionalDataForm = React.createClass({
             );
         }
 
-        if(piece && piece.id) {
+        if (piece && piece.id) {
             return (
                 <Form
                     className="ascribe-form-bordered"
@@ -130,7 +134,7 @@ let LumenusAdditionalDataForm = React.createClass({
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
                             placeholder={getLangText('Enter a biography of the artist...')}
-                            required/>
+                            required="required"/>
                     </Property>
                     <Property
                         name='work_description'
@@ -139,7 +143,7 @@ let LumenusAdditionalDataForm = React.createClass({
                             rows={1}
                             defaultValue={piece.extra_data.work_description}
                             placeholder={getLangText('Enter a description of the work...')}
-                            required/>
+                            required="required"/>
                     </Property>
                     <Property
                         name='tech_details'
@@ -148,7 +152,7 @@ let LumenusAdditionalDataForm = React.createClass({
                             rows={1}
                             defaultValue={piece.extra_data.tech_details}
                             placeholder={getLangText('Enter technological details about the work was produced...')}
-                            required/>
+                            required="required"/>
                     </Property>
                     <Property
                         name='display_instructions'
@@ -157,7 +161,7 @@ let LumenusAdditionalDataForm = React.createClass({
                             rows={1}
                             defaultValue={piece.extra_data.display_instructions}
                             placeholder={getLangText('Enter instructions on how to best display the work...')}
-                            required/>
+                            required="required"/>
                     </Property>
                 </Form>
             );

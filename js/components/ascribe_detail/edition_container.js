@@ -17,6 +17,8 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let EditionContainer = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
+        furtherDetailsType: React.PropTypes.func,
         location: React.PropTypes.object
     },
 
@@ -71,6 +73,8 @@ let EditionContainer = React.createClass({
 
             return (
                 <Edition
+                    actionPanelButtonListType={this.props.actionPanelButtonListType}
+                    furtherDetailsType={this.props.furtherDetailsType}
                     edition={this.state.edition}
                     loadEdition={this.loadEdition}
                     location={this.props.location}/>

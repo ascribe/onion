@@ -34,12 +34,19 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let EditionActionPanel = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
     mixins: [History],
+
+    getDefaultProps() {
+        return {
+            actionPanelButtonListType: AclButtonList
+        };
+    },
 
     getInitialState() {
         return PieceListStore.getState();
@@ -85,7 +92,8 @@ let EditionActionPanel = React.createClass({
     },
 
     render(){
-        let {edition, currentUser} = this.props;
+        let { edition, currentUser } = this.props;
+        let ActionPanelButtonListType = this.props.actionPanelButtonListType;
 
         if (edition &&
             edition.notifications &&
@@ -102,7 +110,7 @@ let EditionActionPanel = React.createClass({
             return (
                 <Row>
                     <Col md={12}>
-                        <AclButtonList
+                        <ActionPanelButtonListType
                             className="text-center ascribe-button-list"
                             availableAcls={edition.acl}
                             editions={[edition]}
@@ -119,8 +127,9 @@ let EditionActionPanel = React.createClass({
                                         name="bitcoin_id"
                                         hidden={true}>
                                         <input
-                                             type="text"
-                                             value={edition.bitcoin_id} />
+                                            type="text"
+                                            value={edition.bitcoin_id}
+                                            readOnly />
                                     </Property>
                                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
                                         {getLangText('WITHDRAW TRANSFER')}
@@ -139,8 +148,9 @@ let EditionActionPanel = React.createClass({
                                         name="bitcoin_id"
                                         hidden={true}>
                                         <input
-                                             type="text"
-                                             value={edition.bitcoin_id} />
+                                            type="text"
+                                            value={edition.bitcoin_id}
+                                            readOnly />
                                     </Property>
                                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
                                         {getLangText('WITHDRAW CONSIGN')}
@@ -158,7 +168,7 @@ let EditionActionPanel = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.handleDeleteSuccess}
                                 editions={[edition]}/>
-                        </AclButtonList>
+                        </ActionPanelButtonListType>
                     </Col>
                 </Row>
             );

@@ -40,12 +40,20 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let Edition = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
+        furtherDetailsType: React.PropTypes.func,
         edition: React.PropTypes.object,
         loadEdition: React.PropTypes.func,
         location: React.PropTypes.object
     },
 
     mixins: [History],
+
+    getDefaultProps() {
+        return {
+            furtherDetailsType: FurtherDetails
+        };
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -74,6 +82,8 @@ let Edition = React.createClass({
     },
 
     render() {
+        let FurtherDetailsType = this.props.furtherDetailsType;
+
         return (
             <Row>
                 <Col md={6}>
@@ -89,6 +99,7 @@ let Edition = React.createClass({
                         <hr/>
                     </div>
                     <EditionSummary
+                        actionPanelButtonListType={this.props.actionPanelButtonListType}
                         edition={this.props.edition}
                         currentUser={this.state.currentUser}
                         handleSuccess={this.props.loadEdition}/>
@@ -151,13 +162,13 @@ let Edition = React.createClass({
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data.length > 0}>
-                        <FurtherDetails
+                        <FurtherDetailsType
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
                             handleSuccess={this.props.loadEdition}
-                            location={this.props.location}/>
+                            location={this.props.location} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -174,6 +185,7 @@ let Edition = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
@@ -198,7 +210,7 @@ let EditionSummary = React.createClass({
     },
 
     render() {
-        let { edition, currentUser } = this.props;
+        let { actionPanelButtonListType, edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty
@@ -214,6 +226,7 @@ let EditionSummary = React.createClass({
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
                 <EditionActionPanel
+                    actionPanelButtonListType={actionPanelButtonListType}
                     edition={edition}
                     currentUser={currentUser}
                     handleSuccess={this.handleSuccess} />

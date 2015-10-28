@@ -31,6 +31,8 @@ import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_
 
 import LumenusPieceList from './components/lumenus/lumenus_piece_list';
 import LumenusRegisterPiece from './components/lumenus/lumenus_register_piece';
+import LumenusPieceContainer from './components/lumenus/lumenus_detail/lumenus_piece_container';
+import LumenusEditionContainer from './components/lumenus/lumenus_detail/lumenus_edition_container';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
 
@@ -181,8 +183,8 @@ let ROUTES = {
                 path='collection'
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LumenusPieceList)}
                 headerTitle='COLLECTION'/>
-            <Route path='pieces/:pieceId' component={PieceContainer} />
-            <Route path='editions/:editionId' component={EditionContainer} />
+            <Route path='pieces/:pieceId' component={LumenusPieceContainer} />
+            <Route path='editions/:editionId' component={LumenusEditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>

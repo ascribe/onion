@@ -6,26 +6,23 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
+import LumenusAdditionalDataForm from './lumenus_forms/lumenus_additional_data_form';
+
 import Property from '../../../../ascribe_forms/property';
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
-import PieceListStore from '../../../../../stores/piece_list_store';
-import PieceListActions from '../../../../../actions/piece_list_actions';
-
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
-
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
-
-import LumenusAdditionalDataForm from './lumenus_forms/lumenus_additional_data_form';
+import PieceListStore from '../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../actions/piece_list_actions';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
-
 
 let LumenusRegisterPiece = React.createClass({
     propTypes: {
