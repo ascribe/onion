@@ -31,7 +31,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-import {constructHead} from '../utils/head_setter';
+import {constructHead} from '../utils/dom_utils';
 
 
 let Header = React.createClass({
