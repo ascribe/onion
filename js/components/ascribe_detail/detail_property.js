@@ -6,13 +6,18 @@ let DetailProperty = React.createClass({
     propTypes: {
         label: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
+            React.PropTypes.number,
             React.PropTypes.string,
             React.PropTypes.element
         ]),
         separator: React.PropTypes.string,
         labelClassName: React.PropTypes.string,
         valueClassName: React.PropTypes.string,
-        ellipsis: React.PropTypes.bool
+        ellipsis: React.PropTypes.bool,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
     },
 
     getDefaultProps() {

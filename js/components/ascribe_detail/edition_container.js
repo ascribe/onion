@@ -19,6 +19,7 @@ let EditionContainer = React.createClass({
     propTypes: {
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
+        params: React.PropTypes.object,
         location: React.PropTypes.object
     },
 

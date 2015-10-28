@@ -27,7 +27,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
     getDefaultProps() {
         return {
-            label: "Additional files",
+            label: 'Additional files',
             multiple: false
         };
     },

@@ -46,6 +46,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
+        params: React.PropTypes.object,
         furtherDetailsType: React.PropTypes.func,
         location: React.PropTypes.object
     },
