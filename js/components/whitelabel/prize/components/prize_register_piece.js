@@ -49,7 +49,7 @@ let PrizeRegisterPiece = React.createClass({
                     <InputTextAreaToggable
                         rows={1}
                         placeholder={getLangText('Enter your statement')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name='work_description'
@@ -59,7 +59,7 @@ let PrizeRegisterPiece = React.createClass({
                     <InputTextAreaToggable
                         rows={1}
                         placeholder={getLangText('Enter the description for your work')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name="terms"
