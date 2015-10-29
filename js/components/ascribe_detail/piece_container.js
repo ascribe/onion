@@ -267,6 +267,15 @@ let PieceContainer = React.createClass({
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
                             currentUser={this.state.currentUser}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Piece note (public)')}
+                            defaultValue={this.state.piece.public_note || null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={!!this.state.piece.acl.acl_edit}
+                            successMessage={getLangText('Public piece note saved')}
+                            url={ApiUrls.note_public_piece}
+                            currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
