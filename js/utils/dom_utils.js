@@ -23,7 +23,6 @@ function constructHeadElement(elementType, elementId, elementAttributes) {
         }
         catch(e){
             console.warn(e.message);
-            continue;
         }
     }
     if (oldElement) {
