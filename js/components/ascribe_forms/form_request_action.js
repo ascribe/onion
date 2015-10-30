@@ -16,8 +16,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import ApiUrls from '../../constants/api_urls';
 
+import { getAclFormDataId } from '../../utils/form_utils';
 import { getLangText } from '../../utils/lang_utils.js';
-
 
 let RequestActionForm = React.createClass({
     propTypes: {
@@ -30,26 +30,26 @@ let RequestActionForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    isPiece(){
+    isPiece() {
         return this.props.pieceOrEditions.constructor !== Array;
     },
 
     getUrls() {
         let urls = {};
 
-        if (this.props.notifications.action === 'consign'){
+        if (this.props.notifications.action === 'consign') {
             urls.accept = ApiUrls.ownership_consigns_confirm;
             urls.deny = ApiUrls.ownership_consigns_deny;
-        } else if (this.props.notifications.action === 'unconsign'){
+        } else if (this.props.notifications.action === 'unconsign') {
             urls.accept = ApiUrls.ownership_unconsigns;
             urls.deny = ApiUrls.ownership_unconsigns_deny;
-        } else if (this.props.notifications.action === 'loan' && !this.isPiece()){
+        } else if (this.props.notifications.action === 'loan' && !this.isPiece()) {
             urls.accept = ApiUrls.ownership_loans_confirm;
             urls.deny = ApiUrls.ownership_loans_deny;
-        } else if (this.props.notifications.action === 'loan' && this.isPiece()){
+        } else if (this.props.notifications.action === 'loan' && this.isPiece()) {
             urls.accept = ApiUrls.ownership_loans_pieces_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_deny;
-        } else if (this.props.notifications.action === 'loan_request' && this.isPiece()){
+        } else if (this.props.notifications.action === 'loan_request' && this.isPiece()) {
             urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
             urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
         }
@@ -57,37 +57,29 @@ let RequestActionForm = React.createClass({
         return urls;
     },
 
-    getFormData(){
-        if (this.isPiece()) {
-            return {piece_id: this.props.pieceOrEditions.id};
-        }
-        else {
-            return {bitcoin_id: this.props.pieceOrEditions.map(function(edition){
-                return edition.bitcoin_id;
-            }).join()};
-        }
+    getFormData() {
+        return getAclFormDataId(this.isPiece(), this.props.pieceOrEditions);
     },
 
     showNotification(option, action, owner) {
         return () => {
-            let message = getLangText('You have successfully') + ' ' + option + ' the ' + action + ' request ' + getLangText('from') + ' ' + owner;
+            const message = getLangText('You have successfully') + ' ' + option + ' the ' + action + ' request ' + getLangText('from') + ' ' + owner;
 
-            let notifications = new GlobalNotificationModel(message, 'success');
+            const notifications = new GlobalNotificationModel(message, 'success');
             GlobalNotificationActions.appendGlobalNotification(notifications);
 
             this.handleSuccess();
-
         };
     },
 
     handleSuccess() {
-        if (this.isPiece()){
+        if (this.isPiece()) {
             NotificationActions.fetchPieceListNotifications();
-        }
-        else {
+        } else {
             NotificationActions.fetchEditionListNotifications();
         }
-        if(this.props.handleSuccess) {
+
+        if (typeof this.props.handleSuccess === 'function') {
             this.props.handleSuccess();
         }
     },
@@ -101,7 +93,7 @@ let RequestActionForm = React.createClass({
     },
 
     getAcceptButtonForm(urls) {
-        if(this.props.notifications.action === 'unconsign') {
+        if (this.props.notifications.action === 'unconsign') {
             return (
                 <UnconsignButton
                     availableAcls={{'acl_unconsign': true}}
@@ -110,7 +102,7 @@ let RequestActionForm = React.createClass({
                     currentUser={this.props.currentUser}
                     handleSuccess={this.handleSuccess} />
                 );
-        } else if(this.props.notifications.action === 'loan_request') {
+        } else if (this.props.notifications.action === 'loan_request') {
             return (
                 <LoanRequestButton
                     availableAcls={{'acl_loan_request': true}}
@@ -141,8 +133,8 @@ let RequestActionForm = React.createClass({
     },
 
     getButtonForm() {
-        let urls = this.getUrls();
-        let acceptButtonForm = this.getAcceptButtonForm(urls);
+        const urls = this.getUrls();
+        const acceptButtonForm = this.getAcceptButtonForm(urls);
 
         return (
             <div>
@@ -157,7 +149,7 @@ let RequestActionForm = React.createClass({
                     <button
                         type="submit"
                         className='btn btn-danger btn-delete btn-sm ascribe-margin-1px'>
-                            {getLangText('REJECT')}
+                        {getLangText('REJECT')}
                     </button>
                 </Form>
                 {acceptButtonForm}
@@ -169,7 +161,7 @@ let RequestActionForm = React.createClass({
         return (
             <ActionPanel
                 content={this.getContent()}
-                buttons={this.getButtonForm()}/>
+                buttons={this.getButtonForm()} />
         );
     }
 });
