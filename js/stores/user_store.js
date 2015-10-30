@@ -3,22 +3,29 @@
 import { altUser } from '../alt';
 import UserActions from '../actions/user_actions';
 
-import SessionPersistentStore from './session_persistent_store';
+import UserSource from '../sources/user_source';
 
 // import AscribeStorage from '../models/ascribe_storage';
 // import { sessionStorageAvailable } from '../utils/feature_detection_utils';
 
 
-class UserStore extends SessionPersistentStore {
+class UserStore {
     constructor() {
-        super('UserStore');
         this.currentUser = {};
         this.bindActions(UserActions);
+        this.registerAsync(UserSource);
     }
 
-    onUpdateCurrentUser(user) {
-        this.setItem('currentUser', user);
+    onFetchCurrentUser() {
+        if(!this.getInstance().isLoading()) {
+            this.getInstance().fetchUser();
+        }
     }
+
+    onReceiveCurrentUser({users: [user]}) {
+        this.currentUser = user;
+    }
+
     onDeleteCurrentUser() {
         this.currentUser = {};
     }

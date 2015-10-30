@@ -13,9 +13,3 @@ export default class SessionPersistentStore extends AscribeStorage {
         super.setItem(key, value);
     }
 }
-
-SessionPersistentStore.config = {
-    getState() {
-        return new AscribeStorage('sessionStorage', this.displayName).toObject();
-    }
-};
