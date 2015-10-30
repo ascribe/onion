@@ -56,8 +56,8 @@ let ModalWrapper = React.createClass({
 
         // If the trigger component exists, we add the ModalWrapper's show() as its onClick method.
         // The trigger component should, in most cases, be a button.
-        let clonedTrigger = React.isValidElement(trigger) ? React.cloneElement(trigger, {onClick: this.show})
-                                                          : null;
+        const clonedTrigger = React.isValidElement(trigger) ? React.cloneElement(trigger, {onClick: this.show})
+                                                            : null;
         return (
             <span>
                 {clonedTrigger}
