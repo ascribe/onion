@@ -2,9 +2,12 @@
 
 import React from 'react';
 
-import AclButton from './../ascribe_buttons/acl_button';
-import ActionPanel from '../ascribe_panel/action_panel';
 import Form from './form';
+
+import LoanRequestButton from '../ascribe_buttons/acls/loan_request_button';
+import UnconsignButton from '../ascribe_buttons/acls/unconsign_button';
+
+import ActionPanel from '../ascribe_panel/action_panel';
 
 import NotificationActions from '../../actions/notification_actions';
 
@@ -100,9 +103,8 @@ let RequestActionForm = React.createClass({
     getAcceptButtonForm(urls) {
         if(this.props.notifications.action === 'unconsign') {
             return (
-                <AclButton
+                <UnconsignButton
                     availableAcls={{'acl_unconsign': true}}
-                    action="acl_unconsign"
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
                     currentUser={this.props.currentUser}
@@ -110,9 +112,8 @@ let RequestActionForm = React.createClass({
                 );
         } else if(this.props.notifications.action === 'loan_request') {
             return (
-                <AclButton
+                <LoanRequestButton
                     availableAcls={{'acl_loan_request': true}}
-                    action="acl_loan_request"
                     buttonAcceptName="LOAN"
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
