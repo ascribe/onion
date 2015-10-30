@@ -2,11 +2,11 @@
 
 import Q from 'q';
 
-import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
-
 import AppConstants from '../constants/application_constants';
 
-import {excludePropFromObject} from '../utils/general_utils';
+import { getCookie } from '../utils/fetch_api_utils';
+import { excludePropFromObject } from '../utils/general_utils';
+import { argsToQueryParams } from '../utils/url_utils';
 
 class Requests {
     _merge(defaults, options) {
