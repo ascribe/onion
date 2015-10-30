@@ -2,8 +2,6 @@
 
 import { getLangText } from './lang_utils';
 
-import AppConstants from '../constants/application_constants';
-
 /**
  * Get the data ids of the given piece or editions.
  * @param  {boolean} isPiece                   Is the given entities parameter a piece? (False: array of editions)
