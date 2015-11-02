@@ -63,8 +63,7 @@ let RequestActionForm = React.createClass({
 
     showNotification(option, action, owner) {
         return () => {
-            const message = getLangText('You have successfully') + ' ' + option + ' the ' + action + ' request ' + getLangText('from') + ' ' + owner;
-
+            const message = getLangText('You have successfully %s the %s request from %s', getLangText(option), getLangText(action), owner);
             const notifications = new GlobalNotificationModel(message, 'success');
             GlobalNotificationActions.appendGlobalNotification(notifications);
 
@@ -118,7 +117,7 @@ let RequestActionForm = React.createClass({
                     url={urls.accept}
                     getFormData={this.getFormData}
                     handleSuccess={
-                        this.showNotification(getLangText('accepted'), this.props.notifications.action, this.props.notifications.by)
+                        this.showNotification('accepted', this.props.notifications.action, this.props.notifications.by)
                     }
                     isInline={true}
                     className='inline pull-right'>
@@ -143,7 +142,7 @@ let RequestActionForm = React.createClass({
                     isInline={true}
                     getFormData={this.getFormData}
                     handleSuccess={
-                        this.showNotification(getLangText('denied'), this.props.notifications.action, this.props.notifications.by)
+                        this.showNotification('denied', this.props.notifications.action, this.props.notifications.by)
                     }
                     className='inline pull-right'>
                     <button
