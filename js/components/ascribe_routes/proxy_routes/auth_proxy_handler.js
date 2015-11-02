@@ -47,7 +47,11 @@ export default function AuthProxyHandler({to, when}) {
             },
 
             componentDidUpdate() {
-                this.redirectConditionally();
+                // Only refresh this component, when UserSources are not loading
+                // data from the server
+                if(!UserStore.isLoading()) {
+                    this.redirectConditionally();
+                }
             },
 
             componentWillUnmount() {

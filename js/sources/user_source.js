@@ -11,13 +11,13 @@ const UserSource = {
         },
 
         local(state) {
-            return state.currentUser && state.currentUser.email ? state.currentUser : {};
+            return state.currentUser && state.currentUser.email ? state : {};
         },
 
         success: UserActions.receiveCurrentUser,
 
         shouldFetch(state) {
-            return state.currentUser && !state.currentUser.email;
+            return state.invalidateCache || state.currentUser && !state.currentUser.email;
         }
     }
 };

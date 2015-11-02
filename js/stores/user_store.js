@@ -9,17 +9,22 @@ import UserSource from '../sources/user_source';
 class UserStore {
     constructor() {
         this.currentUser = {};
+        this.invalidateCache = false;
+
         this.bindActions(UserActions);
         this.registerAsync(UserSource);
     }
 
-    onFetchCurrentUser() {
+    onFetchCurrentUser(invalidateCache) {
+        this.invalidateCache = invalidateCache;
+
         if(!this.getInstance().isLoading()) {
             this.getInstance().fetchUser();
         }
     }
 
     onReceiveCurrentUser({users: [user]}) {
+        this.invalidateCache = false;
         this.currentUser = user;
     }
 
