@@ -129,7 +129,7 @@ let AccordionListItemWallet = React.createClass({
                 piece={this.props.content}
                 subsubheading={
                     <div className="pull-left">
-                        <span>{new Date(this.props.content.date_created).getFullYear()}</span>
+                        <span>{new Date(this.props.content.date_created).getUTCFullYear()}</span>
                         {this.getLicences()}
                     </div>}
                 buttons={

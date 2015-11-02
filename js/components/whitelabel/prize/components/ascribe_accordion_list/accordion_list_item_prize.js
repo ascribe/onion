@@ -182,7 +182,7 @@ let AccordionListItemPrize = React.createClass({
                     artistName={artistName}
                     subsubheading={
                         <div>
-                            <span>{new Date(this.props.content.date_created).getFullYear()}</span>
+                            <span>{new Date(this.props.content.date_created).getUTCFullYear()}</span>
                         </div>}
                     buttons={this.getPrizeButtons()}
                     badge={this.getPrizeBadge()}>

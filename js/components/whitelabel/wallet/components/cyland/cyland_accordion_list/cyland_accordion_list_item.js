@@ -100,7 +100,7 @@ let CylandAccordionListItem = React.createClass({
                 piece={this.props.content}
                 subsubheading={
                     <div className="pull-left">
-                        <span>{new Date(this.props.content.date_created).getFullYear()}</span>
+                        <span>{new Date(this.props.content.date_created).getUTCFullYear()}</span>
                     </div>}
                 buttons={this.getSubmitButtons()}>
                 {this.props.children}

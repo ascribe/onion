@@ -39,7 +39,7 @@ let WalletPieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.props.piece.title}</h1>
                             <DetailProperty label="BY" value={this.props.piece.artist_name} />
-                            <DetailProperty label="DATE" value={new Date(this.props.piece.date_created).getFullYear()} />
+                            <DetailProperty label="DATE" value={new Date(this.props.piece.date_created).getUTCFullYear()} />
                             <hr/>
                         </div>
                     }
