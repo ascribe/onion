@@ -210,8 +210,7 @@ let CylandRegisterPiece = React.createClass({
                             <CylandAdditionalDataForm
                                 disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}
-                                location={this.props.location}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
