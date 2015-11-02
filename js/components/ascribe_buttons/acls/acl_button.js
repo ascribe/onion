@@ -36,12 +36,6 @@ let AclButton = React.createClass({
         className: React.PropTypes.string
     },
 
-    getDefaultProps() {
-        return {
-            buttonAcceptClassName: ''
-        };
-    },
-
     // Removes the acl_ prefix and converts to upper case
     sanitizeAction() {
         if (this.props.buttonAcceptName) {

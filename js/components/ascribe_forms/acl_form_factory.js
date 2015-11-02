@@ -31,12 +31,6 @@ let AclFormFactory = React.createClass({
         showNotification: React.PropTypes.bool
     },
 
-    getDefaultProps() {
-        return {
-            showNotification: false
-        };
-    },
-
     isPiece() {
         return this.props.pieceOrEditions.constructor !== Array;
     },
