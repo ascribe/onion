@@ -10,6 +10,7 @@ class UserStore {
     constructor() {
         this.currentUser = {};
         this.invalidateCache = false;
+        this.errorMessage = null;
 
         this.bindActions(UserActions);
         this.registerAsync(UserSource);
@@ -19,7 +20,7 @@ class UserStore {
         this.invalidateCache = invalidateCache;
 
         if(!this.getInstance().isLoading()) {
-            this.getInstance().fetchUser();
+            this.getInstance().fetchCurrentUser();
         }
     }
 
@@ -30,6 +31,11 @@ class UserStore {
 
     onDeleteCurrentUser() {
         this.currentUser = {};
+    }
+
+    onCurrentUserFailed(err) {
+        console.logGlobal(err);
+        this.errorMessage = err;
     }
 }
 

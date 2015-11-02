@@ -1,7 +1,6 @@
 'use strict';
 
 import { altUser } from '../alt';
-import UserFetcher from '../fetchers/user_fetcher';
 
 
 class UserActions {
@@ -9,18 +8,10 @@ class UserActions {
         this.generateActions(
             'fetchCurrentUser',
             'receiveCurrentUser',
-            'deleteCurrentUser'
+            'logoutCurrentUser',
+            'deleteCurrentUser',
+            'currentUserFailed'
         );
-    }
-
-    logoutCurrentUser() {
-        UserFetcher.logout()
-            .then(() => {
-                this.actions.deleteCurrentUser();
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
     }
 }
 
