@@ -5,9 +5,6 @@ import UserActions from '../actions/user_actions';
 
 import UserSource from '../sources/user_source';
 
-// import AscribeStorage from '../models/ascribe_storage';
-// import { sessionStorageAvailable } from '../utils/feature_detection_utils';
-
 
 class UserStore {
     constructor() {
