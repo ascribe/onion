@@ -7,7 +7,7 @@ import UserActions from '../actions/user_actions';
 
 
 const UserSource = {
-    fetchCurrentUser: {
+    lookupCurrentUser: {
         remote() {
             return requests.get('user');
         },
@@ -15,18 +15,18 @@ const UserSource = {
         local(state) {
             return state.currentUser && state.currentUser.email ? state : {};
         },
-        success: UserActions.receiveCurrentUser,
+        success: UserActions.successFetchCurrentUser,
         error: UserActions.currentUserFailed,
         shouldFetch(state) {
             return state.invalidateCache || state.currentUser && !state.currentUser.email;
         }
     },
 
-    logoutCurrentUser: {
+    performLogoutCurrentUser: {
         remote() {
             return requests.get(ApiUrls.users_logout);
         },
-        success: UserActions.deleteCurrentUser,
+        success: UserActions.successLogoutCurrentUser,
         error: UserActions.currentUserFailed
     }
 };

@@ -7,9 +7,9 @@ class UserActions {
     constructor() {
         this.generateActions(
             'fetchCurrentUser',
-            'receiveCurrentUser',
+            'successFetchCurrentUser',
             'logoutCurrentUser',
-            'deleteCurrentUser',
+            'successLogoutCurrentUser',
             'currentUserFailed'
         );
     }

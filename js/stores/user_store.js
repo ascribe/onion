@@ -20,16 +20,20 @@ class UserStore {
         this.invalidateCache = invalidateCache;
 
         if(!this.getInstance().isLoading()) {
-            this.getInstance().fetchCurrentUser();
+            this.getInstance().lookupCurrentUser();
         }
     }
 
-    onReceiveCurrentUser({users: [user]}) {
+    onSuccessFetchCurrentUser({users: [user]}) {
         this.invalidateCache = false;
         this.currentUser = user;
     }
 
-    onDeleteCurrentUser() {
+    onLogoutCurrentUser() {
+        this.getInstance().performLogoutCurrentUser();
+    }
+
+    onSuccessLogoutCurrentUser() {
         this.currentUser = {};
     }
 
