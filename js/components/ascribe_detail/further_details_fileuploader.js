@@ -43,6 +43,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
         return (
             <Property
+                name="other_data_key"
                 label="Additional files">
                 <ReactS3FineUploader
                     uploadStarted={this.props.uploadStarted}
