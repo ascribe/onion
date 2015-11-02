@@ -199,7 +199,7 @@ let PieceContainer = React.createClass({
                         <AclButtonList
                             className="ascribe-button-list"
                             availableAcls={piece.acl}
-                            editions={piece}
+                            pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
                                     label={getLangText('CREATE EDITIONS')}

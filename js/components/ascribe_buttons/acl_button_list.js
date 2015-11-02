@@ -17,7 +17,7 @@ import { mergeOptions } from '../../utils/general_utils';
 let AclButtonList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        editions: React.PropTypes.oneOfType([
+        pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
@@ -82,7 +82,7 @@ let AclButtonList = React.createClass({
         const { className,
                 buttonsStyle,
                 availableAcls,
-                editions,
+                pieceOrEditions,
                 handleSuccess } = this.props;
 
         const { currentUser } = this.state;
@@ -92,27 +92,27 @@ let AclButtonList = React.createClass({
                 <span ref="buttonList" style={buttonsStyle}>
                     <ShareButton
                         availableAcls={availableAcls}
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
                     <TransferButton
                         availableAcls={availableAcls}
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess}/>
                     <ConsignButton
                         availableAcls={availableAcls}
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
                     <UnconsignButton
                         availableAcls={availableAcls}
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
                     <LoanButton
                         availableAcls={availableAcls}
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
                     {this.renderChildren()}
