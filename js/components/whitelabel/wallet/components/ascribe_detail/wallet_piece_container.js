@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Moment from 'moment';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
 
@@ -39,7 +40,7 @@ let WalletPieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.props.piece.title}</h1>
                             <DetailProperty label="BY" value={this.props.piece.artist_name} />
-                            <DetailProperty label="DATE" value={new Date(this.props.piece.date_created).getUTCFullYear()} />
+                            <DetailProperty label="DATE" value={Moment(this.props.piece.date_created, 'YYYY-MM-DD').year()} />
                             <hr/>
                         </div>
                     }

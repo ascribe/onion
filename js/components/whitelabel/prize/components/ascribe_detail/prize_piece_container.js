@@ -141,7 +141,7 @@ let PieceContainer = React.createClass({
                             <hr/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
-                            <DetailProperty label={getLangText('DATE')} value={new Date(this.state.piece.date_created).getUTCFullYear()} />
+                            <DetailProperty label={getLangText('DATE')} value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year()} />
                             {artistEmail}
                             {this.getActions()}
                             <hr/>

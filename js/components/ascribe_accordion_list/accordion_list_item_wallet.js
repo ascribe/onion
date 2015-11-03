@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Moment from 'moment';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
@@ -129,7 +130,7 @@ let AccordionListItemWallet = React.createClass({
                 piece={this.props.content}
                 subsubheading={
                     <div className="pull-left">
-                        <span>{new Date(this.props.content.date_created).getUTCFullYear()}</span>
+                        <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
                         {this.getLicences()}
                     </div>}
                 buttons={

@@ -41,6 +41,7 @@ For this project, we're using:
 * We don't use ES6's class declaration for React components because it does not support Mixins as well as Autobinding ([Blog post about it](http://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding))
 * We don't use camel case for file naming but in everything Javascript related
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
+* We don't use Javascript's `Date` object, as its interface introduced bugs previously and we're including `momentjs` for other dependencies anyways
 
 
 SCSS Code Conventions

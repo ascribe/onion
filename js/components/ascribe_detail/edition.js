@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link, History } from 'react-router';
+import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -85,7 +86,7 @@ let Edition = React.createClass({
                         <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={ new Date(this.props.edition.date_created).getUTCFullYear() } />
+                        <EditionDetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary

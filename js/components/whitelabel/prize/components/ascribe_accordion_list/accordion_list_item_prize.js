@@ -3,6 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import StarRating from 'react-star-rating';
+import Moment from 'moment';
 
 import PieceListActions from '../../../../../actions/piece_list_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
@@ -182,7 +183,7 @@ let AccordionListItemPrize = React.createClass({
                     artistName={artistName}
                     subsubheading={
                         <div>
-                            <span>{new Date(this.props.content.date_created).getUTCFullYear()}</span>
+                            <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
                         </div>}
                     buttons={this.getPrizeButtons()}
                     badge={this.getPrizeBadge()}>
