@@ -22,10 +22,10 @@ let LumenusPieceList = React.createClass({
                 redirectTo="/register_piece?slide_num=0"
                 bulkModalButtonListType={LumenusAclButtonList}
                 filterParams={[{
-                    label: getLangText('Show works I have'),
+                    label: getLangText('Show works I can'),
                     items: [{
-                        key: 'acl_consigned',
-                        label: getLangText('consigned to Lumenus')
+                        key: 'acl_consign',
+                        label: getLangText('consign to Lumenus')
                     }]
                 }]}
                 location={this.props.location}/>

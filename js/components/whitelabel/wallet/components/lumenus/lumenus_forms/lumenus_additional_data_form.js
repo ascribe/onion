@@ -28,8 +28,7 @@ let LumenusAdditionalDataForm = React.createClass({
             extra_data: React.PropTypes.object,
             other_data: React.PropTypes.arrayOf(React.PropTypes.object)
         }).isRequired,
-        isInline: React.PropTypes.bool,
-        location: React.PropTypes.object
+        isInline: React.PropTypes.bool
     },
 
     getDefaultProps() {
@@ -125,8 +124,7 @@ let LumenusAdditionalDataForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         pieceId={piece.id}
-                        otherData={piece.other_data}
-                        location={this.props.location}/>
+                        otherData={piece.other_data} />
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Bio')}>

@@ -99,8 +99,7 @@ class Requests {
         return newUrl;
     }
 
-    request(verb, url, options) {
-        options = options || {};
+    request(verb, url, options = {}) {
         let merged = Object.assign({}, this.httpOptions, options);
         let csrftoken = getCookie(AppConstants.csrftoken);
         if (csrftoken) {
@@ -128,13 +127,10 @@ class Requests {
     }
 
     _putOrPost(url, paramsAndBody, method) {
-        let paramsCopy = Object.assign({}, paramsAndBody);
         let params = omitFromObject(paramsAndBody, ['body']);
         let newUrl = this.prepareUrl(url, params);
-        let body = null;
-        if (paramsCopy && paramsCopy.body) {
-            body = JSON.stringify(paramsCopy.body);
-        }
+        let body = paramsAndBody && paramsAndBody.body ? JSON.stringify(paramsAndBody.body)
+                                                       : null;
         return this.request(method, newUrl, { body });
     }
 

@@ -184,7 +184,7 @@ let PieceList = React.createClass({
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                EditionListActions.refreshEditionList({pieceId, filterBy: {}});
+                EditionListActions.refreshEditionList({pieceId});
             });
         EditionListActions.clearAllEditionSelections();
     },
