@@ -20,12 +20,13 @@ let AscribeSpinner = React.createClass({
 
     render() {
         return (
-            <div className={
-                classNames('spinner-wrapper-' + this.props.size,
-                'spinner-wrapper-' + this.props.color,
-                this.props.classNames)}>
-                <div className={classNames('spinner-circle')}></div>
-                <div className={classNames('spinner-inner')}>A</div>
+            <div
+                className={
+                    classNames('spinner-wrapper-' + this.props.size,
+                    'spinner-wrapper-' + this.props.color,
+                    this.props.classNames)}>
+                    <div className={classNames('spinner-circle')}></div>
+                    <div className={classNames('spinner-inner')}>A</div>
             </div>
         );
     }

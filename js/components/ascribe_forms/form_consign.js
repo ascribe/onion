@@ -9,6 +9,9 @@ import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 import AscribeSpinner from '../ascribe_spinner';
+
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import { getLangText } from '../../utils/lang_utils.js';
 
 let ConsignForm = React.createClass({
@@ -47,6 +50,7 @@ let ConsignForm = React.createClass({
                             <AscribeSpinner color='dark-blue' size='md'/>
                         </p>
                     </div>}>
+                <AclInformation aim={'form'} verbs={['acl_consign']}/>
                 <Property
                     name='consignee'
                     label={getLangText('Email')}

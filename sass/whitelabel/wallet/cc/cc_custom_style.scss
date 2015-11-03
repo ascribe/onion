@@ -204,3 +204,7 @@ $cc--button-color: $cc--nav-fg-prim-color;
 .client--cc .ascribe-progress-bar > .progress-bar {
     background-color: $cc--button-color;
 }
+
+.client--cc .acl-information-dropdown-list .title {
+    color: $cc--button-color;
+}

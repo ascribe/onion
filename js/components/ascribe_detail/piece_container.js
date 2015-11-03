@@ -27,6 +27,9 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+import AclProxy from '../acl_proxy';
+
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -187,33 +190,41 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
+        const { piece, currentUser } = this.state;
+
+        if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
-        }
-        else {
+                    notifications={piece.notifications}/>);
+        } else {
             return (
-                <AclButtonList
-                    className="text-center ascribe-button-list"
-                    availableAcls={this.state.piece.acl}
-                    editions={this.state.piece}
-                    handleSuccess={this.loadPiece}>
-                        <CreateEditionsButton
-                            label={getLangText('CREATE EDITIONS')}
-                            className="btn-sm"
-                            piece={this.state.piece}
-                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                            onPollingSuccess={this.handlePollingSuccess}/>
-                        <DeleteButton
-                            handleSuccess={this.handleDeleteSuccess}
-                            piece={this.state.piece}/>
-                </AclButtonList>
+                <AclProxy
+                    show={currentUser && currentUser.email}>
+                    <DetailProperty label={getLangText('ACTIONS')}>
+                        <AclButtonList
+                            className="ascribe-button-list"
+                            availableAcls={piece.acl}
+                            editions={piece}
+                            handleSuccess={this.loadPiece}>
+                                <CreateEditionsButton
+                                    label={getLangText('CREATE EDITIONS')}
+                                    className="btn-sm"
+                                    piece={piece}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                    onPollingSuccess={this.handlePollingSuccess}/>
+                                <DeleteButton
+                                    handleSuccess={this.handleDeleteSuccess}
+                                    piece={piece}/>
+                                <AclInformation
+                                    aim="button"
+                                    verbs={['acl_share', 'acl_create_editions', 'acl_loan', 'acl_delete', 'acl_consign']}
+                                    aclObject={piece.acl}/>
+                        </AclButtonList>
+                    </DetailProperty>
+                </AclProxy>
             );
         }
     },
@@ -232,7 +243,7 @@ let PieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
-                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            <DetailProperty label="DATE" value={ new Date(this.state.piece.date_created).getFullYear() } />
                             {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
                             <hr/>
                         </div>

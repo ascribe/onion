@@ -7,7 +7,7 @@ import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import { getLangText } from '../../utils/lang_utils.js';
 
 
-let PieceListToolbarFilterWidgetFilter = React.createClass({
+let PieceListToolbarFilterWidget = React.createClass({
     propTypes: {
         filterParams: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -83,6 +83,7 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
 
         return (
             <DropdownButton
+                pullRight={true}
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
                 {/* We iterate over filterParams, to receive the label and then for each
@@ -139,4 +140,4 @@ let PieceListToolbarFilterWidgetFilter = React.createClass({
     }
 });
 
-export default PieceListToolbarFilterWidgetFilter;
+export default PieceListToolbarFilterWidget;

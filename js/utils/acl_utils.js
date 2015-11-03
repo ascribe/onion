@@ -1,10 +1,6 @@
 'use strict';
 
-import { sanitize } from './general_utils';
-
-function intersectAcls(a, b) {
-    return a.filter((val) => b.indexOf(val) > -1);
-}
+import { sanitize, intersectLists } from './general_utils';
 
 export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];
@@ -37,13 +33,15 @@ export function getAvailableAcls(editions, filterFn) {
     });
 
     // If no edition has been selected, availableActions is empty
-    // If only one edition has been selected, their actions are available
-    // If more than one editions have been selected, their acl properties are intersected
+    // If only one edition has been selected, its actions are available
+    // If more than one editions have been selected, intersect all their acl properties
     if (editionsCopy.length >= 1) {
         availableAcls = editionsCopy[0].acl;
-    } else if (editionsCopy.length >= 2) {
-        for (let i = 1; i < editionsCopy.length; i++) {
-            availableAcls = intersectAcls(availableAcls, editionsCopy[i].acl);
+
+        if (editionsCopy.length >= 2) {
+            for (let i = 1; i < editionsCopy.length; i++) {
+                availableAcls = intersectLists(availableAcls, editionsCopy[i].acl);
+            }
         }
     }
 
@@ -52,7 +50,6 @@ export function getAvailableAcls(editions, filterFn) {
     for (let i = 0; i < availableAcls.length; i++) {
         availableAclsObj[availableAcls[i]] = true;
     }
-
 
     return availableAclsObj;
 }

@@ -1,0 +1,9 @@
+.btn-transparent {
+    color: black;
+    background-color: transparent;
+
+    &:hover, &:active, &:focus {
+        color:#424242;
+        outline: none;
+    }
+}

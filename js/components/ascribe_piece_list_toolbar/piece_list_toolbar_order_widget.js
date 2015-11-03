@@ -54,6 +54,7 @@ let PieceListToolbarOrderWidget = React.createClass({
         return (
 
             <DropdownButton
+                pullRight={true}
                 title={filterIcon}
                 className="ascribe-piece-list-toolbar-filter-widget">
                 <li style={{'textAlign': 'center'}}>
@@ -72,7 +73,7 @@ let PieceListToolbarOrderWidget = React.createClass({
                                     </span>
                                     <input
                                         readOnly
-                                        type="checkbox"
+                                        type="radio"
                                         checked={param.indexOf(this.props.orderBy) > -1} />
                                 </div>
                             </li>

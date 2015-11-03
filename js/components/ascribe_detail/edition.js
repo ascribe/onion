@@ -25,11 +25,11 @@ import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
 import EditionActionPanel from './edition_action_panel';
+import AclProxy from '../acl_proxy';
 
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -95,7 +95,7 @@ let Edition = React.createClass({
                         <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
+                        <EditionDetailProperty label="DATE" value={ new Date(this.props.edition.date_created).getFullYear() } />
                         <hr/>
                     </div>
                     <EditionSummary
@@ -156,7 +156,6 @@ let Edition = React.createClass({
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
@@ -170,7 +169,6 @@ let Edition = React.createClass({
                             handleSuccess={this.props.loadEdition}
                             location={this.props.location} />
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
@@ -225,11 +223,16 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <EditionActionPanel
-                    actionPanelButtonListType={actionPanelButtonListType}
-                    edition={edition}
-                    currentUser={currentUser}
-                    handleSuccess={this.handleSuccess} />
+                <AclProxy show={currentUser && currentUser.email}>
+                    <EditionDetailProperty
+                        label={getLangText('ACTIONS')}>
+                        <EditionActionPanel
+                            actionPanelButtonListType={actionPanelButtonListType}
+                            edition={edition}
+                            currentUser={currentUser}
+                            handleSuccess={this.handleSuccess} />
+                    </EditionDetailProperty>
+                </AclProxy>
                 <hr/>
             </div>
         );

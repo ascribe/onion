@@ -19,7 +19,7 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-
+import AclInformation from '../ascribe_buttons/acl_information';
 
 let LoanForm = React.createClass({
     propTypes: {
@@ -232,6 +232,7 @@ let LoanForm = React.createClass({
                 <div className={classnames({'ascribe-form-header': true, 'hidden': !this.props.loanHeading})}>
                     <h3>{this.props.loanHeading}</h3>
                 </div>
+                <AclInformation aim={'form'} verbs={['acl_loan']}/>
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}

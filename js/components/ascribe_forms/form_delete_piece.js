@@ -4,6 +4,8 @@ import React from 'react';
 
 import Form from '../ascribe_forms/form';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
@@ -51,6 +53,7 @@ let PieceDeleteForm = React.createClass({
                         </p>
                     </div>
                 }>
+                <AclInformation aim={'form'} verbs={['acl_delete']}/>
                 <p>{getLangText('Are you sure you would like to permanently delete this piece')}&#63;</p>
                 <p>{getLangText('This is an irrevocable action%s', '.')}</p>
             </Form>

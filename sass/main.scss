@@ -35,6 +35,9 @@ $BASE_URL: '<%= BASE_URL %>';
 @import 'ascribe_form';
 @import 'ascribe_panel';
 @import 'ascribe_collapsible';
+@import 'ascribe_acl_information';
+@import 'lib/buttons';
+@import 'lib/modals';
 @import 'ascribe_custom_style';
 @import 'ascribe_spinner';
 
@@ -155,6 +158,7 @@ hr {
 }
 
 .ascribe-detail-property-label {
+    vertical-align: top;
     font-size: .8em;
 }
 

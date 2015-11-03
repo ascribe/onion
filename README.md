@@ -14,7 +14,7 @@ Install some nice extension for Chrom(e|ium):
 - [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
   
 ```bash
-git clone git@bitbucket.org:ascribe/onion.git
+git clone git@github.com:ascribe/onion.git
 cd onion
 npm install
 sudo npm install -g gulp

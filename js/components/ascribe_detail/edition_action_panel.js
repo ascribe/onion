@@ -22,6 +22,8 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
@@ -73,7 +75,7 @@ let EditionActionPanel = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState('/collection');
+        this.history.pushState(null, '/collection');
     },
 
     refreshCollection() {
@@ -111,7 +113,7 @@ let EditionActionPanel = React.createClass({
                 <Row>
                     <Col md={12}>
                         <ActionPanelButtonListType
-                            className="text-center ascribe-button-list"
+                            className="ascribe-button-list"
                             availableAcls={edition.acl}
                             editions={[edition]}
                             handleSuccess={this.handleSuccess}>
@@ -131,7 +133,7 @@ let EditionActionPanel = React.createClass({
                                             value={edition.bitcoin_id}
                                             readOnly />
                                     </Property>
-                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                                    <Button bsStyle="default" className="pull-center" bsSize="small" type="submit">
                                         {getLangText('WITHDRAW TRANSFER')}
                                     </Button>
                                 </Form>
@@ -168,6 +170,10 @@ let EditionActionPanel = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.handleDeleteSuccess}
                                 editions={[edition]}/>
+                            <AclInformation
+                                aim="button"
+                                verbs={['acl_share', 'acl_consign', 'acl_loan', 'acl_delete']}
+                                aclObject={edition.acl}/>
                         </ActionPanelButtonListType>
                     </Col>
                 </Row>

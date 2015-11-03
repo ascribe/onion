@@ -25,8 +25,6 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AscribeSpinner from './ascribe_spinner';
 
-import AppConstants from '../constants/application_constants';
-
 import { getAvailableAcls } from '../utils/acl_utils';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';

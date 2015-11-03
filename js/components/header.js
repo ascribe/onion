@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { Link } from 'react-router';
+
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
@@ -29,7 +31,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
-import {constructHead} from '../utils/head_setter';
+import { constructHead } from '../utils/dom_utils';
 
 
 let Header = React.createClass({
@@ -71,12 +73,16 @@ let Header = React.createClass({
         }
 
         if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
-            return (<img className="img-brand" src={whitelabel.logo}/>);
+            return (
+                <Link to="/collection">
+                    <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
+                </Link>
+            );
         }
 
         return (
             <span>
-                <span className="icon-ascribe-logo"></span>
+                <Link className="icon-ascribe-logo" to="/collection"/>
             </span>
         );
     },
@@ -201,7 +207,7 @@ let Header = React.createClass({
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show={false}/>
+                            <HeaderNotificationDebug show = {false}/>
                             {account}
                             {signup}
                         </Nav>
