@@ -9,15 +9,17 @@ import UserSource from '../sources/user_source';
 class UserStore {
     constructor() {
         this.currentUser = {};
-        this.invalidateCache = false;
-        this.errorMessage = null;
+        this.userMeta = {
+            invalidateCache: false,
+            err: null
+        };
 
         this.bindActions(UserActions);
         this.registerAsync(UserSource);
     }
 
     onFetchCurrentUser(invalidateCache) {
-        this.invalidateCache = invalidateCache;
+        this.userMeta.invalidateCache = invalidateCache;
 
         if(!this.getInstance().isLoading()) {
             this.getInstance().lookupCurrentUser();
@@ -25,7 +27,7 @@ class UserStore {
     }
 
     onSuccessFetchCurrentUser({users: [user]}) {
-        this.invalidateCache = false;
+        this.userMeta.invalidateCache = false;
         this.currentUser = user;
     }
 
@@ -39,7 +41,7 @@ class UserStore {
 
     onCurrentUserFailed(err) {
         console.logGlobal(err);
-        this.errorMessage = err;
+        this.userMeta.err = err;
     }
 }
 
