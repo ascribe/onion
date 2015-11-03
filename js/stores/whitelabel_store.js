@@ -25,7 +25,7 @@ class WhitelabelStore {
         }
     }
 
-    onSuccessFetchWhitelabel(whitelabel) {
+    onSuccessFetchWhitelabel({ whitelabel }) {
         this.whitelabelMeta.invalidateCache = false;
         this.whitelabel = whitelabel;
     }
