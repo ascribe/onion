@@ -45,7 +45,7 @@ For this project, we're using:
 Branch names
 =====================
 Since we moved to Github, we cannot create branch names automatically with JIRA anymore.
-To not loose context, but still being able to switch branches quickly using a ticket's number, we're recommending the following rules when naming our branches in onion.
+To not lose context, but still be able to switch branches quickly using a ticket's number, we're recommending the following rules when naming our branches in onion.
 
 ```
 AD-<JIRA-ticket-id>-brief-and-sane-description-of-the-ticket
