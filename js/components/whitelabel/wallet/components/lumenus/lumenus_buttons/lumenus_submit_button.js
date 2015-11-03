@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import AclButton from '../../../../../ascribe_buttons/acl_button';
+import ConsignButton from '../../../../../ascribe_buttons/acls/consign_button';
 
 import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../../stores/whitelabel_store';
@@ -14,7 +14,7 @@ let LumenusSubmitButton = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object,
-        editions: React.PropTypes.array,
+        pieceOrEditions: React.PropTypes.array,
         handleSuccess: React.PropTypes.func,
         className: React.PropTypes.string,
     },
@@ -37,17 +37,16 @@ let LumenusSubmitButton = React.createClass({
     },
 
     render() {
-        const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
+        const { availableAcls, currentUser, className, pieceOrEditions, handleSuccess } = this.props;
 
         return (
-            <AclButton
-                action='acl_consign'
+            <ConsignButton
                 availableAcls={availableAcls}
                 buttonAcceptName={getLangText('CONSIGN TO LUMENUS')}
                 email={this.state.whitelabel.user}
                 currentUser={currentUser}
                 handleSuccess={handleSuccess}
-                pieceOrEditions={editions}
+                pieceOrEditions={pieceOrEditions}
                 className={className} />
         );
     }

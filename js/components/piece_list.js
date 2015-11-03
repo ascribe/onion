@@ -224,7 +224,7 @@ let PieceList = React.createClass({
                     className="ascribe-piece-list-bulk-modal">
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
-                        editions={selectedEditions}
+                        pieceOrEditions={selectedEditions}
                         handleSuccess={this.handleAclSuccess}
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton

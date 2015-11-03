@@ -4,8 +4,8 @@ import React from 'react';
 
 import LumenusSubmitButton from './lumenus_submit_button';
 
-import AclButton from '../../../../../ascribe_buttons/acl_button';
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
+import ShareButton from '../../../../../ascribe_buttons/acls/share_button';
 
 import UserActions from '../../../../../../actions/user_actions';
 import UserStore from '../../../../../../stores/user_store';
@@ -14,7 +14,7 @@ let LumenusAclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
         className: React.PropTypes.string,
-        editions: React.PropTypes.array,
+        pieceOrEditions: React.PropTypes.array,
         handleSuccess: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -40,19 +40,18 @@ let LumenusAclButtonList = React.createClass({
     },
 
     render() {
-        let { availableAcls, className, editions, handleSuccess } = this.props;
+        let { availableAcls, className, pieceOrEditions, handleSuccess } = this.props;
         return (
             <div className={className}>
                 <LumenusSubmitButton
                     availableAcls={availableAcls}
                     currentUser={this.state.currentUser}
-                    editions={editions}
+                    pieceOrEditions={pieceOrEditions}
                     handleSuccess={handleSuccess} />
-                <AclButton
-                    action="acl_share"
+                <ShareButton
                     availableAcls={availableAcls}
                     currentUser={this.state.currentUser}
-                    pieceOrEditions={editions}
+                    pieceOrEditions={pieceOrEditions}
                     handleSuccess={handleSuccess} />
                 {this.props.children}
             </div>
