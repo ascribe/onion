@@ -72,7 +72,7 @@ let TransferForm = React.createClass({
                         rows={1}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name='password'
