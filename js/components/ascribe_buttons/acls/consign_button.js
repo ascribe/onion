@@ -8,7 +8,10 @@ import { omitFromObject } from '../../../utils/general_utils';
 import { getLangText } from '../../../utils/lang_utils';
 
 let ConsignButton = React.createClass({
-    propTypes: omitFromObject(AclButton.propTypes, ['action']),
+    propTypes: {
+        ...omitFromObject(AclButton.propTypes, ['action']),
+        email: React.PropTypes.string
+    },
 
     render() {
         return (
