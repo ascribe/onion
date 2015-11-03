@@ -47,7 +47,7 @@ let WalletActionPanel = React.createClass({
                 <AclButtonList
                     className="text-center ascribe-button-list"
                     availableAcls={availableAcls}
-                    editions={this.props.piece}
+                    pieceOrEditions={this.props.piece}
                     handleSuccess={this.props.loadPiece}>
                     <AclProxy
                         aclObject={this.props.currentUser.acl}
