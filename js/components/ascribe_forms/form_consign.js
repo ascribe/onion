@@ -9,7 +9,6 @@ import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 import AscribeSpinner from '../ascribe_spinner';
-
 import AclInformation from '../ascribe_buttons/acl_information';
 
 import { getLangText } from '../../utils/lang_utils.js';
@@ -71,7 +70,7 @@ let ConsignForm = React.createClass({
                         rows={1}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name='password'
