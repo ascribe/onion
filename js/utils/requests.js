@@ -2,24 +2,13 @@
 
 import Q from 'q';
 
-import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
-
 import AppConstants from '../constants/application_constants';
 
+import { getCookie } from '../utils/fetch_api_utils';
 import { omitFromObject } from '../utils/general_utils';
+import { argsToQueryParams } from '../utils/url_utils';
 
 class Requests {
-    _merge(defaults, options) {
-        let merged = {};
-        for (let key in defaults) {
-            merged[key] = defaults[key];
-        }
-        for (let key in options) {
-            merged[key] = options[key];
-        }
-        return merged;
-    }
-
     unpackResponse(response) {
         if (response.status >= 500) {
             throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
@@ -112,7 +101,7 @@ class Requests {
 
     request(verb, url, options) {
         options = options || {};
-        let merged = this._merge(this.httpOptions, options);
+        let merged = Object.assign({}, this.httpOptions, options);
         let csrftoken = getCookie(AppConstants.csrftoken);
         if (csrftoken) {
             merged.headers['X-CSRFToken'] = csrftoken;
@@ -124,16 +113,16 @@ class Requests {
     }
 
     get(url, params) {
-        if (url === undefined){
+        if (url === undefined) {
             throw new Error('Url undefined');
         }
-        let paramsCopy = this._merge(params);
+        let paramsCopy = Object.assign({}, params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
         return this.request('get', newUrl);
     }
 
     delete(url, params) {
-        let paramsCopy = this._merge(params);
+        let paramsCopy = Object.assign({}, params);
         let newUrl = this.prepareUrl(url, paramsCopy, true);
         return this.request('delete', newUrl);
     }
@@ -153,11 +142,11 @@ class Requests {
         return this._putOrPost(url, params, 'post');
     }
 
-    put(url, params){
+    put(url, params) {
         return this._putOrPost(url, params, 'put');
     }
 
-    patch(url, params){
+    patch(url, params) {
         return this._putOrPost(url, params, 'patch');
     }
 

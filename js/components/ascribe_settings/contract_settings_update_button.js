@@ -20,8 +20,7 @@ import { getLangText } from '../../utils/lang_utils';
 
 let ContractSettingsUpdateButton = React.createClass({
     propTypes: {
-        contract: React.PropTypes.object,
-        location: React.PropTypes.object
+        contract: React.PropTypes.object
     },
 
     submitFile(file) {
@@ -90,8 +89,7 @@ let ContractSettingsUpdateButton = React.createClass({
                     plural: getLangText('UPDATE')
                 }}
                 isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                submitFile={this.submitFile}
-                location={this.props.location}/>
+                submitFile={this.submitFile} />
         );
     }
 });
