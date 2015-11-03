@@ -14,12 +14,10 @@ let LumenusPieceContainer = React.createClass({
 
     render() {
         return (
-            <div>
-                <PieceContainer
-                    params={this.props.params}
-                    furtherDetailsType={LumenusFurtherDetails}
-                    location={this.props.location} />
-            </div>
+            <PieceContainer
+                params={this.props.params}
+                furtherDetailsType={LumenusFurtherDetails}
+                location={this.props.location} />
         );
     }
 });

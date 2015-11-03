@@ -16,13 +16,11 @@ let LumenusEditionContainer = React.createClass({
 
     render() {
         return (
-            <div>
-                <EditionContainer
-                    params={this.props.params}
-                    actionPanelButtonListType={LumenusAclButtonList}
-                    furtherDetailsType={LumenusFurtherDetails}
-                    location={this.props.location} />
-            </div>
+            <EditionContainer
+                params={this.props.params}
+                actionPanelButtonListType={LumenusAclButtonList}
+                furtherDetailsType={LumenusFurtherDetails}
+                location={this.props.location} />
         );
     }
 });

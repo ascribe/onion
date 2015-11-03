@@ -18,19 +18,17 @@ let LumenusPieceList = React.createClass({
         setDocumentTitle(getLangText('Collection'));
 
         return (
-            <div>
-                <PieceList
-                    redirectTo="/register_piece?slide_num=0"
-                    bulkModalButtonListType={LumenusAclButtonList}
-                    filterParams={[{
-                        label: getLangText('Show works I have'),
-                        items: [{
-                            key: 'acl_consigned',
-                            label: getLangText('consigned to Lumenus')
-                        }]
-                    }]}
-                    location={this.props.location}/>
-            </div>
+            <PieceList
+                redirectTo="/register_piece?slide_num=0"
+                bulkModalButtonListType={LumenusAclButtonList}
+                filterParams={[{
+                    label: getLangText('Show works I have'),
+                    items: [{
+                        key: 'acl_consigned',
+                        label: getLangText('consigned to Lumenus')
+                    }]
+                }]}
+                location={this.props.location}/>
         );
     }
 });
