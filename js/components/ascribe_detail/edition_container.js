@@ -27,21 +27,15 @@ let EditionContainer = React.createClass({
         return EditionStore.getState();
     },
 
-    onChange(state) {
-        this.setState(state);
-        if (!state.edition.digital_work) {
-            return;
-        }
-        let isEncoding = state.edition.digital_work.isEncoding;
-        if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
-            this.setState({timerId: timerId});
-        }
-    },
-
     componentDidMount() {
         EditionStore.listen(this.onChange);
-        EditionActions.fetchOne(this.props.params.editionId);
+
+        // Every time we enter the edition detail page, just reset the edition
+        // store as it will otherwise display wrong/old data once the user loads
+        // the edition detail a second time
+        EditionActions.updateEdition({});
+
+        this.loadEdition();
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -54,15 +48,21 @@ let EditionContainer = React.createClass({
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the edition detail page,
-        // just reset the edition that is saved in the edition store
-        // as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.updateEdition({});
         window.clearInterval(this.state.timerId);
         EditionStore.unlisten(this.onChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+        if (!state.edition.digital_work) {
+            return;
+        }
+        let isEncoding = state.edition.digital_work.isEncoding;
+        if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
+            this.setState({timerId: timerId});
+        }
+    },
 
     loadEdition() {
         EditionActions.fetchOne(this.props.params.editionId);

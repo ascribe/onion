@@ -51,9 +51,8 @@ let CylandPieceContainer = React.createClass({
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
 
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
 
