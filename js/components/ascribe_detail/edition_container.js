@@ -17,6 +17,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let EditionContainer = React.createClass({
     propTypes: {
+        params: React.PropTypes.object,
         location: React.PropTypes.object
     },
 
@@ -38,7 +39,13 @@ let EditionContainer = React.createClass({
 
     componentDidMount() {
         EditionStore.listen(this.onChange);
-        EditionActions.fetchOne(this.props.params.editionId);
+
+        // Every time we enter the edition detail page, just reset the edition
+        // store as it will otherwise display wrong/old data once the user loads
+        // the edition detail a second time
+        EditionActions.updateEdition({});
+
+        this.loadEdition();
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -51,11 +58,6 @@ let EditionContainer = React.createClass({
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the edition detail page,
-        // just reset the edition that is saved in the edition store
-        // as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.updateEdition({});
         window.clearInterval(this.state.timerId);
         EditionStore.unlisten(this.onChange);
     },
