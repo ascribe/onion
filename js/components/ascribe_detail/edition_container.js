@@ -25,18 +25,6 @@ let EditionContainer = React.createClass({
         return EditionStore.getState();
     },
 
-    onChange(state) {
-        this.setState(state);
-        if (!state.edition.digital_work) {
-            return;
-        }
-        let isEncoding = state.edition.digital_work.isEncoding;
-        if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
-            this.setState({timerId: timerId});
-        }
-    },
-
     componentDidMount() {
         EditionStore.listen(this.onChange);
 
@@ -62,6 +50,17 @@ let EditionContainer = React.createClass({
         EditionStore.unlisten(this.onChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+        if (!state.edition.digital_work) {
+            return;
+        }
+        let isEncoding = state.edition.digital_work.isEncoding;
+        if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
+            this.setState({timerId: timerId});
+        }
+    },
 
     loadEdition() {
         EditionActions.fetchOne(this.props.params.editionId);
