@@ -49,6 +49,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
+        params: React.PropTypes.object,
         location: React.PropTypes.object
     },
 
@@ -70,15 +71,16 @@ let PieceContainer = React.createClass({
         PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
+
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
+
+        this.loadPiece();
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);

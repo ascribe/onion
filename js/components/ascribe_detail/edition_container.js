@@ -17,11 +17,37 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let EditionContainer = React.createClass({
     propTypes: {
+        params: React.PropTypes.object,
         location: React.PropTypes.object
     },
 
     getInitialState() {
         return EditionStore.getState();
+    },
+
+    componentDidMount() {
+        EditionStore.listen(this.onChange);
+
+        // Every time we enter the edition detail page, just reset the edition
+        // store as it will otherwise display wrong/old data once the user loads
+        // the edition detail a second time
+        EditionActions.updateEdition({});
+
+        this.loadEdition();
+    },
+
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces)
+    componentWillReceiveProps(nextProps) {
+        if(this.props.params.editionId !== nextProps.params.editionId) {
+            EditionActions.updateEdition({});
+            EditionActions.fetchOne(nextProps.params.editionId);
+        }
+    },
+
+    componentWillUnmount() {
+        window.clearInterval(this.state.timerId);
+        EditionStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -35,31 +61,6 @@ let EditionContainer = React.createClass({
             this.setState({timerId: timerId});
         }
     },
-
-    componentDidMount() {
-        EditionStore.listen(this.onChange);
-        EditionActions.fetchOne(this.props.params.editionId);
-    },
-
-    // This is done to update the container when the user clicks on the prev or next
-    // button to update the URL parameter (and therefore to switch pieces)
-    componentWillReceiveProps(nextProps) {
-        if(this.props.params.editionId !== nextProps.params.editionId) {
-            EditionActions.updateEdition({});
-            EditionActions.fetchOne(nextProps.params.editionId);
-        }
-    },
-
-    componentWillUnmount() {
-        // Every time we're leaving the edition detail page,
-        // just reset the edition that is saved in the edition store
-        // as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.updateEdition({});
-        window.clearInterval(this.state.timerId);
-        EditionStore.unlisten(this.onChange);
-    },
-
 
     loadEdition() {
         EditionActions.fetchOne(this.props.params.editionId);

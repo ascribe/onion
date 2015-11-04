@@ -47,6 +47,10 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
+    propTypes: {
+        params: React.PropTypes.object
+    },
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
@@ -58,6 +62,11 @@ let PieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
+
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -70,11 +79,6 @@ let PieceContainer = React.createClass({
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
