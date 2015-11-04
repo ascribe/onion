@@ -18,7 +18,7 @@ const UserSource = {
         success: UserActions.successFetchCurrentUser,
         error: UserActions.currentUserFailed,
         shouldFetch(state) {
-            return state.invalidateCache || state.currentUser && !state.currentUser.email;
+            return state.userMeta.invalidateCache || state.currentUser && !state.currentUser.email;
         }
     },
 
