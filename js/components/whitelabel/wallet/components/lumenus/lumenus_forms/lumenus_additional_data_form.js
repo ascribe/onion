@@ -14,38 +14,70 @@ import GlobalNotificationActions from '../../../../../../actions/global_notifica
 
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
+
 import ApiUrls from '../../../../../../constants/api_urls';
 import AppConstants from '../../../../../../constants/application_constants';
 
 import requests from '../../../../../../utils/requests';
+import { mergeOptions } from '../../../../../../utils/general_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 
 let LumenusAdditionalDataForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func,
-        piece: React.PropTypes.shape({
-            id: React.PropTypes.number,
-            extra_data: React.PropTypes.object,
-            other_data: React.PropTypes.arrayOf(React.PropTypes.object)
-        }).isRequired,
-        isInline: React.PropTypes.bool
-    },
-
-    getDefaultProps() {
-        return {
-            isInline: false
-        };
+        pieceId: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.string
+        ]),
+        isInline: React.PropTypes.bool,
+        showHeading: React.PropTypes.bool,
+        showNotification: React.PropTypes.bool,
+        handleSuccess: React.PropTypes.func
     },
 
     getInitialState() {
-        return {
-            isUploadReady: false
-        };
+        const pieceStore = PieceStore.getState();
+
+        return mergeOptions(
+            pieceStore,
+            {
+                // Allow the form to be submitted if there's already an additional image uploaded
+                isUploadReady: this.isUploadReadyOnChange(pieceStore.piece),
+                forceUpdateKey: 0,
+            });
     },
 
-    handleSuccess() {
-        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+    componentDidMount() {
+        PieceStore.listen(this.onChange);
+
+        // If the Piece store doesn't already have the piece we want loaded, load it
+        const { pieceId } = this.props;
+        if (pieceId && this.state.piece.id !== pieceId) {
+            PieceActions.fetchOne(pieceId);
+        }
+    },
+
+    componentWillUnmount() {
+        PieceStore.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+
+        this.setState({
+            // Allow the form to be submitted if the updated piece already has an additional image uploaded
+            isUploadReady: this.isUploadReadyOnChange(state.piece),
+
+            /**
+             * Increment the forceUpdateKey to force the form to rerender on each change
+             *
+             * THIS IS A HACK TO MAKE SURE THE FORM ALWAYS DISPLAYS THE MOST RECENT STATE
+             * BECAUSE SOME OF OUR FORM ELEMENTS DON'T UPDATE FROM PROP CHANGES (ie.
+             * InputTextAreaToggable).
+             */
+            forceUpdateKey: this.state.forceUpdateKey + 1
+        });
     },
 
     getFormData() {
@@ -61,8 +93,21 @@ let LumenusAdditionalDataForm = React.createClass({
 
         return {
             extradata: extradata,
-            piece_id: this.props.piece.id
+            piece_id: this.state.piece.id
         };
+    },
+
+    isUploadReadyOnChange(piece) {
+        return piece && piece.other_data && piece.other_data.length > 0 ? true : false;
+    },
+
+    handleSuccessWithNotification() {
+        if (typeof this.props.handleSuccess === 'function') {
+            this.props.handleSuccess();
+        }
+
+        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
+        GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     uploadStarted() {
@@ -78,7 +123,8 @@ let LumenusAdditionalDataForm = React.createClass({
     },
 
     render() {
-        let { piece, isInline, handleSuccess } = this.props;
+        const { isInline, handleSuccess, showHeading, showNotification } = this.props;
+        const { piece } = this.state;
         let buttons, spinner, heading;
 
         if (!isInline) {
@@ -97,13 +143,13 @@ let LumenusAdditionalDataForm = React.createClass({
                 </div>
             );
 
-            heading = (
+            heading = showHeading ? (
                 <div className="ascribe-form-header">
                     <h3>
                         {getLangText('Provide additional details')}
                     </h3>
                 </div>
-            );
+            ) : null;
         }
 
         if (piece && piece.id) {
@@ -111,8 +157,9 @@ let LumenusAdditionalDataForm = React.createClass({
                 <Form
                     className="ascribe-form-bordered"
                     ref='form'
+                    key={this.state.forceUpdateKey}
                     url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
-                    handleSuccess={handleSuccess || this.handleSuccess}
+                    handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
                     spinner={spinner}>
@@ -144,11 +191,11 @@ let LumenusAdditionalDataForm = React.createClass({
                             required />
                     </Property>
                     <Property
-                        name='tech_details'
+                        name='technology_details'
                         label={getLangText('Technology Details')}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.tech_details}
+                            defaultValue={piece.extra_data.technology_details}
                             placeholder={getLangText('Enter technological details about the work was produced...')}
                             required />
                     </Property>

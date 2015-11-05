@@ -9,18 +9,14 @@ import LumenusAclButtonList from '../lumenus_buttons/lumenus_acl_button_list';
 import EditionContainer from '../../../../../ascribe_detail/edition_container';
 
 let LumenusEditionContainer = React.createClass({
-    propTypes: {
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
-    },
+    propTypes: EditionContainer.propTypes,
 
     render() {
         return (
             <EditionContainer
-                params={this.props.params}
+                {...this.props}
                 actionPanelButtonListType={LumenusAclButtonList}
-                furtherDetailsType={LumenusFurtherDetails}
-                location={this.props.location} />
+                furtherDetailsType={LumenusFurtherDetails} />
         );
     }
 });

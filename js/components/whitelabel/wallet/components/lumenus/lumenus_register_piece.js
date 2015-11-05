@@ -13,7 +13,6 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
-import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
@@ -35,7 +34,6 @@ let LumenusRegisterPiece = React.createClass({
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
             {
                 selectedLicense: 0,
                 isFineUploaderActive: false,
@@ -46,33 +44,22 @@ let LumenusRegisterPiece = React.createClass({
     componentDidMount() {
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
-        PieceStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
 
-        let queryParams = this.props.location.query;
-
-        // Since every step of this register process is atomic,
-        // we may need to enter the process at step 1 or 2.
-        // If this is the case, we'll need the piece number to complete submission.
-        // It is encoded in the URL as a queryParam and we're checking for it here.
-        //
-        // We're using 'in' here as we want to know if 'piece_id' is present in the url,
-        // we don't care about the value.
-        if(queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
-        }
+        // Reset the piece store to make sure that we don't display old data
+        // if the user repeatedly registers works
+        PieceActions.updatePiece({});
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
-        PieceStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
 
-        if(this.state.currentUser && this.state.currentUser.email) {
+        if (this.state.currentUser && this.state.currentUser.email) {
             // we should also make the fineuploader component editable again
             this.setState({
                 isFineUploaderActive: true
@@ -80,26 +67,21 @@ let LumenusRegisterPiece = React.createClass({
         }
     },
 
-    handleRegisterSuccess(response){
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
-        if(response && response.piece) {
-            PieceActions.updatePiece({});
+        // Use the response's piece for the next step if available
+        let pieceId = null;
+        if (response && response.piece) {
+            pieceId = response.piece.id;
             PieceActions.updatePiece(response.piece);
         }
 
         this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide({ piece_id: response.piece.id });
+        this.refs.slidesContainer.nextSlide({ piece_id: pieceId });
     },
 
     handleAdditionalDataSuccess() {
-        // We need to refetch the piece again after submitting the additional data
-        // since we want it's otherData to be displayed when the user choses to click
-        // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
-
         this.refreshPieceList();
 
         this.history.pushState(null, `/collection`);
@@ -107,11 +89,19 @@ let LumenusRegisterPiece = React.createClass({
 
     // We need to increase the step to lock the forms that are already filled out
     incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+    },
+
+    getPieceFromQueryParam() {
+        const queryParams = this.props.location.query;
+
+        // Since every step of this register process is atomic,
+        // we may need to enter the process at step 1 or 2.
+        // If this is the case, we'll need the piece number to complete submission.
+        // It is encoded in the URL as a queryParam and we're checking for it here.
+        return queryParams && queryParams.piece_id;
     },
 
     refreshPieceList() {
@@ -161,7 +151,7 @@ let LumenusRegisterPiece = React.createClass({
                                         type="number"
                                         placeholder="(e.g. 32)"
                                         min={0}
-                                        required/>
+                                        required />
                                 </Property>
                             </RegisterPieceForm>
                         </Col>
@@ -172,8 +162,8 @@ let LumenusRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LumenusAdditionalDataForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}
-                                location={this.props.location}/>
+                                pieceId={this.getPieceFromQueryParam()}
+                                showHeading />
                         </Col>
                     </Row>
                 </div>
