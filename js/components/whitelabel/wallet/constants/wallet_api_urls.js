@@ -20,7 +20,7 @@ function getWalletApiUrls(subdomain) {
     } else if (subdomain === 'lumenus') {
         return {
             'editions_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/editions/',
-            'edition': walletConstants.walletApiEndpoint + subdomain + '/editions/${edition_id}/',
+            'edition': walletConstants.walletApiEndpoint + subdomain + '/editions/${bitcoin_id}/',
             'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
             'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/',
             'piece_extradata': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/extradata/',
