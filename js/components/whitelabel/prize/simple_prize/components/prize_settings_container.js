@@ -2,29 +2,29 @@
 
 import React from 'react';
 
-import UserStore from '../../../../stores/user_store';
-import UserActions from '../../../../actions/user_actions';
+import UserStore from '../../../../../stores/user_store';
+import UserActions from '../../../../../actions/user_actions';
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
 import PrizeJuryActions from '../actions/prize_jury_actions';
 import PrizeJuryStore from '../stores/prize_jury_store';
 
-import SettingsContainer from '../../../ascribe_settings/settings_container';
-import CollapsibleParagraph from '../../../ascribe_collapsible/collapsible_paragraph';
+import SettingsContainer from '../../../../ascribe_settings/settings_container';
+import CollapsibleParagraph from '../../../../ascribe_collapsible/collapsible_paragraph';
 
-import Form from '../../../ascribe_forms/form';
-import Property from '../../../ascribe_forms/property';
+import Form from '../../../../ascribe_forms/form';
+import Property from '../../../../ascribe_forms/property';
 
-import ActionPanel from '../../../ascribe_panel/action_panel';
+import ActionPanel from '../../../../ascribe_panel/action_panel';
 
-import GlobalNotificationModel from '../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../actions/global_notification_actions';
+import GlobalNotificationModel from '../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import AscribeSpinner from '../../../ascribe_spinner';
-import ApiUrls from '../../../../constants/api_urls';
+import AscribeSpinner from '../../../../ascribe_spinner';
+import ApiUrls from '../../../../../constants/api_urls';
 
-import { getLangText } from '../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let Settings = React.createClass({

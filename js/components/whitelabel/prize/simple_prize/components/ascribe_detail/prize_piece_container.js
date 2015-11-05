@@ -6,41 +6,41 @@ import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
 
-import PieceActions from '../../../../../actions/piece_actions';
-import PieceStore from '../../../../../stores/piece_store';
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
-import PieceListStore from '../../../../../stores/piece_list_store';
-import PieceListActions from '../../../../../actions/piece_list_actions';
+import PieceListStore from '../../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../../actions/piece_list_actions';
 
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
-import UserStore from '../../../../../stores/user_store';
+import UserStore from '../../../../../../stores/user_store';
 
-import Piece from '../../../../../components/ascribe_detail/piece';
-import Note from '../../../../../components/ascribe_detail/note';
+import Piece from '../../../../../../components/ascribe_detail/piece';
+import Note from '../../../../../../components/ascribe_detail/note';
 
-import AscribeSpinner from '../../../../ascribe_spinner';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import Form from '../../../../../components/ascribe_forms/form';
-import Property from '../../../../../components/ascribe_forms/property';
-import InputTextAreaToggable from '../../../../../components/ascribe_forms/input_textarea_toggable';
-import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
+import Form from '../../../../../../components/ascribe_forms/form';
+import Property from '../../../../../../components/ascribe_forms/property';
+import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
+import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
-import LoanForm from '../../../../ascribe_forms/form_loan';
-import ListRequestActions from '../../../../ascribe_forms/list_form_request_actions';
-import ModalWrapper from '../../../../ascribe_modal/modal_wrapper';
+import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
+import LoanForm from '../../../../../ascribe_forms/form_loan';
+import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
+import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
-import GlobalNotificationModel from '../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import DetailProperty from '../../../../ascribe_detail/detail_property';
+import DetailProperty from '../../../../../ascribe_detail/detail_property';
 
-import ApiUrls from '../../../../../constants/api_urls';
-import { mergeOptions } from '../../../../../utils/general_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import ApiUrls from '../../../../../../constants/api_urls';
+import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 
 
 /**

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import constants from '../../../../constants/application_constants';
+import constants from '../../../../../constants/application_constants';
 
 
 let Hero = React.createClass({

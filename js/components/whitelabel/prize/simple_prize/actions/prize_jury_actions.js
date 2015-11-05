@@ -1,25 +1,25 @@
 'use strict';
 
-import { alt } from '../../../../alt';
+import { alt } from '../../../../../alt';
 import Q from 'q';
 
-import PrizeRatingFetcher from '../fetchers/prize_rating_fetcher';
+import PrizeJuryFetcher from '../fetchers/prize_jury_fetcher';
 
-class PrizeRatingActions {
+class PrizeJuryActions {
     constructor() {
         this.generateActions(
-            'updatePrizeRatings',
-            'updatePrizeRatingAverage',
-            'updatePrizeRating'
+            'updatePrizeJury',
+            'removePrizeJury',
+            'activatePrizeJury'
         );
     }
 
-    fetchAverage(pieceId) {
+    fetchJury() {
         return Q.Promise((resolve, reject) => {
-            PrizeRatingFetcher
-                .fetchAverage(pieceId)
+            PrizeJuryFetcher
+                .fetch()
                 .then((res) => {
-                    this.actions.updatePrizeRatingAverage(res.data);
+                    this.actions.updatePrizeJury(res.members);
                     resolve(res);
                 })
                 .catch((err) => {
@@ -29,51 +29,48 @@ class PrizeRatingActions {
         });
     }
 
-    fetchOne(pieceId) {
+    activateJury(email) {
         return Q.Promise((resolve, reject) => {
-            PrizeRatingFetcher
-                .fetchOne(pieceId)
+            PrizeJuryFetcher
+                .activate(email)
                 .then((res) => {
-                    this.actions.updatePrizeRating(res.rating.rating);
                     resolve(res);
                 })
                 .catch((err) => {
+                    console.logGlobal(err);
                     reject(err);
                 });
         });
     }
 
-    createRating(pieceId, rating) {
+    revokeJury(email) {
         return Q.Promise((resolve, reject) => {
-            PrizeRatingFetcher
-                .rate(pieceId, rating)
+            PrizeJuryFetcher
+                .delete(email)
                 .then((res) => {
-                    this.actions.updatePrizeRating(res.rating.rating);
+                    this.actions.removePrizeJury(email);
                     resolve(res);
                 })
                 .catch((err) => {
+                    console.logGlobal(err);
                     reject(err);
                 });
         });
     }
 
-    toggleShortlist(pieceId) {
+    resendJuryInvitation(email) {
         return Q.Promise((resolve, reject) => {
-            PrizeRatingFetcher
-                .select(pieceId)
+            PrizeJuryFetcher
+                .resend(email)
                 .then((res) => {
-                    this.actions.updatePrizeRatings(res.data.ratings);
                     resolve(res);
                 })
                 .catch((err) => {
+                    console.logGlobal(err);
                     reject(err);
                 });
         });
-    }
-
-    updateRating(rating) {
-        this.actions.updatePrizeRating(rating);
     }
 }
 
-export default alt.createActions(PrizeRatingActions);
+export default alt.createActions(PrizeJuryActions);

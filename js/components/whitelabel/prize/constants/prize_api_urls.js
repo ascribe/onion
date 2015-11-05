@@ -18,7 +18,7 @@ function getPrizeApiUrls(subdomain) {
         'ratings': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/',
         'rating': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/${piece_id}/',
         'rating_average': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/${piece_id}/average/',
-        'select_piece' : AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/${piece_id}/select/',
+        'select_piece': AppPrizeConstants.prizeApiEndpoint + subdomain + '/ratings/${piece_id}/select/',
         'notes': AppPrizeConstants.prizeApiEndpoint + subdomain + '/notes/',
         'note': AppPrizeConstants.prizeApiEndpoint + subdomain + '/notes/${piece_id}/'
 

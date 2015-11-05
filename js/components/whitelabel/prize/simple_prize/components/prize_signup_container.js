@@ -1,10 +1,10 @@
 'use strict';
 
 import React from 'react';
-import SignupForm from '../../../ascribe_forms/form_signup';
+import SignupForm from '../../../../ascribe_forms/form_signup';
 
-import { getLangText } from '../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let SignupContainer = React.createClass({
     propTypes: {

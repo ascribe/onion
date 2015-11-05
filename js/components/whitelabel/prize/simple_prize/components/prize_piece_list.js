@@ -1,10 +1,10 @@
 'use strict';
 
 import React from 'react';
-import PieceList from '../../../piece_list';
+import PieceList from '../../../../piece_list';
 
-import UserActions from '../../../../actions/user_actions';
-import UserStore from '../../../../stores/user_store';
+import UserActions from '../../../../../actions/user_actions';
+import UserStore from '../../../../../stores/user_store';
 
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
@@ -15,9 +15,9 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import AccordionListItemPrize from './ascribe_accordion_list/accordion_list_item_prize';
 
-import { mergeOptions } from '../../../../utils/general_utils';
-import { getLangText } from '../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../utils/dom_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let PrizePieceList = React.createClass({
     propTypes: {

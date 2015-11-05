@@ -3,10 +3,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import ModalWrapper from '../../../../ascribe_modal/modal_wrapper';
-import PieceSubmitToPrizeForm from '../../../../ascribe_forms/form_submit_to_prize';
+import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
+import PieceSubmitToPrizeForm from '../../../../../ascribe_forms/form_submit_to_prize';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 
 let SubmitToPrizeButton = React.createClass({
     propTypes: {

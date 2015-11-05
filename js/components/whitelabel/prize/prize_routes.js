@@ -3,58 +3,67 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import Landing from './components/prize_landing';
-import LoginContainer from './components/prize_login_container';
-import LogoutContainer from '../../../components/logout_container';
-import SignupContainer from './components/prize_signup_container';
-import PasswordResetContainer from '../../../components/password_reset_container';
-import PrizeRegisterPiece from './components/prize_register_piece';
-import PrizePieceList from './components/prize_piece_list';
-import PrizePieceContainer from './components/ascribe_detail/prize_piece_container';
-import EditionContainer from '../../ascribe_detail/edition_container';
-import SettingsContainer from './components/prize_settings_container';
-import CoaVerifyContainer from '../../../components/coa_verify_container';
-import ErrorNotFoundPage from '../../../components/error_not_found_page';
+import SPLanding from './simple_prize/components/prize_landing';
+import SPLoginContainer from './simple_prize/components/prize_login_container';
+import SPSignupContainer from './simple_prize/components/prize_signup_container';
+import SPRegisterPiece from './simple_prize/components/prize_register_piece';
+import SPPieceList from './simple_prize/components/prize_piece_list';
+import SPPieceContainer from './simple_prize/components/ascribe_detail/prize_piece_container';
+import SPSettingsContainer from './simple_prize/components/prize_settings_container';
+import SPApp from './simple_prize/prize_app';
 
-import App from './prize_app';
+import EditionContainer from '../../ascribe_detail/edition_container';
+import LogoutContainer from '../../logout_container';
+import PasswordResetContainer from '../../password_reset_container';
+import CoaVerifyContainer from '../../coa_verify_container';
+import ErrorNotFoundPage from '../../error_not_found_page';
 
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 
-function getRoutes() {
-    return (
-        <Route path='/' component={App}>
-            <IndexRoute component={Landing} />
+const ROUTES = {
+    'sluice': (
+        <Route path='/' component={SPApp}>
+            <IndexRoute component={SPLanding} />
             <Route
                 path='login'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPLoginContainer)} />
             <Route
                 path='logout'
                 component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPSignupContainer)} />
             <Route
                 path='password_reset'
                 component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPSettingsContainer)}/>
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PrizeRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PrizePieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPPieceList)}
                 headerTitle='COLLECTION'/>
 
-            <Route path='pieces/:pieceId' component={PrizePieceContainer} />
+            <Route path='pieces/:pieceId' component={SPPieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
-    );
+    )
+};
+
+
+function getRoutes(commonRoutes, subdomain) {
+    if(subdomain in ROUTES) {
+        return ROUTES[subdomain];
+    } else {
+        throw new Error('Subdomain wasn\'t specified in the wallet app.');
+    }
 }
 
 

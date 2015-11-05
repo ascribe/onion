@@ -4,25 +4,25 @@ import React from 'react';
 import { Link } from 'react-router';
 import StarRating from 'react-star-rating';
 
-import PieceListActions from '../../../../../actions/piece_list_actions';
-import PieceListStore from '../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../../actions/piece_list_actions';
+import PieceListStore from '../../../../../../stores/piece_list_store';
 
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 
-import UserStore from '../../../../../stores/user_store';
+import UserStore from '../../../../../../stores/user_store';
 
-import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
+import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
 
-import AccordionListItemPiece from '../../../../ascribe_accordion_list/accordion_list_item_piece';
+import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
-import GlobalNotificationModel from '../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import AclProxy from '../../../../acl_proxy';
+import AclProxy from '../../../../../acl_proxy';
 import SubmitToPrizeButton from './../ascribe_buttons/submit_to_prize_button';
 
-import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
 let AccordionListItemPrize = React.createClass({

@@ -11,11 +11,11 @@ import ButtonGroup from 'react-bootstrap/lib/ButtonGroup';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import UserStore from '../../../../stores/user_store';
-import UserActions from '../../../../actions/user_actions';
+import UserStore from '../../../../../stores/user_store';
+import UserActions from '../../../../../actions/user_actions';
 
-import { mergeOptions } from '../../../../utils/general_utils';
-import { getLangText } from '../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 let Landing = React.createClass({
 

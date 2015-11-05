@@ -5,13 +5,13 @@ import React from 'react';
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
 
-import RegisterPiece from '../../../register_piece';
-import Property from '../../../ascribe_forms/property';
-import InputTextAreaToggable from '../../../ascribe_forms/input_textarea_toggable';
-import InputCheckbox from '../../../ascribe_forms/input_checkbox';
+import RegisterPiece from '../../../../register_piece';
+import Property from '../../../../ascribe_forms/property';
+import InputTextAreaToggable from '../../../../ascribe_forms/input_textarea_toggable';
+import InputCheckbox from '../../../../ascribe_forms/input_checkbox';
 
-import { getLangText } from '../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let PrizeRegisterPiece = React.createClass({

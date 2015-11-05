@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Hero from './components/prize_hero';
-import Header from '../../header';
-import Footer from '../../footer';
-import GlobalNotification from '../../global_notification';
+import Header from '../../../header';
+import Footer from '../../../footer';
+import GlobalNotification from '../../../global_notification';
 
-import { getSubdomain } from '../../../utils/general_utils';
+import { getSubdomain } from '../../../../utils/general_utils';
 
 
 let PrizeApp = React.createClass({
