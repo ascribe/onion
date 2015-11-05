@@ -1,0 +1,14 @@
+languages:
+   JavaScript: true
+   HTML: true
+   CSS: true
+   SCSS: true
+engines:
+    eslint:
+        enabled: true
+exclude_paths:
+- "node_modules/*"
+- "build/*"
+- "docs/*"
+- "fonts/*"
+- "img/*"
