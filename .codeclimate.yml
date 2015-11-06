@@ -13,4 +13,6 @@ exclude_paths:
 - "fonts/*"
 - "img/*"
 - 'js/components/ascribe_uploader/vendor/s3.fine-uploader.js'
-- 'js/components/ascribe_uploader/vendor/s3.fine-uploader.min.js'
+- 'js/components/ascribe_uploader/vendor/s3.fine-uploader.min.js',
+- 'gulpfile.js'
+- 'server.js'
