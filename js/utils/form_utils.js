@@ -21,22 +21,6 @@ export function getAclFormDataId(isPiece, pieceOrEditions) {
 }
 
 /**
- * Get the data ids of the given piece or editions.
- * @param  {boolean} isPiece                   Is the given entities parameter a piece? (False: array of editions)
- * @param  {(object|object[])} pieceOrEditions Piece or array of editions
- * @return {(object|object[])}                 Data IDs of the pieceOrEditions for the form
- */
-export function getAclFormDataId(isPiece, pieceOrEditions) {
-    if (isPiece) {
-        return {piece_id: pieceOrEditions.id};
-    } else {
-        return {bitcoin_id: pieceOrEditions.map(function(edition){
-            return edition.bitcoin_id;
-        }).join()};
-    }
-}
-
-/**
  * Generates a message for submitting a form
  * @param  {object} options                     Options object for creating the message:
  * @param  {string} options.aclName             Enum name of an acl
