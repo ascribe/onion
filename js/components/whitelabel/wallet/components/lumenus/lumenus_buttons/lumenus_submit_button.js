@@ -12,6 +12,8 @@ import ConsignForm from '../../../../../ascribe_forms/form_consign';
 
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
+import AclProxy from '../../../../../acl_proxy';
+
 import PieceActions from '../../../../../../actions/piece_actions';
 import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../../stores/whitelabel_store';
@@ -48,6 +50,20 @@ let LumenusSubmitButton = React.createClass({
         this.setState(state);
     },
 
+    canEditionBeSubmitted(edition) {
+        if (edition && edition.extra_data && edition.other_data) {
+            const { extra_data, other_data } = edition;
+
+            if (extra_data.artist_bio && extra_data.work_description &&
+                    extra_data.technology_details && extra_data.display_instructions &&
+                    other_data.length > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
     getFormDataId() {
         return getAclFormDataId(false, this.props.editions);
     },
@@ -60,11 +76,11 @@ let LumenusSubmitButton = React.createClass({
         return editions.reduce((details, curEdition) => {
             return {
                 solePieceId: details.solePieceId === curEdition.parent ? details.solePieceId : null,
-                canSubmit: details.canSubmit && curEdition.acl.acl_wallet_submit
+                canSubmit: details.canSubmit && this.canEditionBeSubmitted(curEdition)
             };
         }, {
             solePieceId: editions.length > 0 ? editions[0].parent : null,
-            canSubmit: editions.length > 0 ? editions[0].acl.acl_wallet_submit : false
+            canSubmit: this.canEditionBeSubmitted(editions[0])
         });
     },
 
@@ -83,7 +99,9 @@ let LumenusSubmitButton = React.createClass({
 
         if (solePieceId && !canSubmit) {
             return (
-                <span>
+                <AclProxy
+                    aclObject={availableAcls}
+                    aclName='acl_consign'>
                     <ModalWrapper
                         trigger={
                             <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
@@ -107,12 +125,12 @@ let LumenusSubmitButton = React.createClass({
                             pieceOrEditions={editions}
                             showNotification />
                     </ModalWrapper>
-                </span>
+                </AclProxy>
             );
         } else {
             return (
                 <ConsignButton
-                    availableAcls={availableAcls}
+                    availableAcls={{'acl_consign': availableAcls.acl_consign && canSubmit}}
                     buttonAcceptName={buttonTitle}
                     email={this.state.whitelabel.user}
                     currentUser={currentUser}
