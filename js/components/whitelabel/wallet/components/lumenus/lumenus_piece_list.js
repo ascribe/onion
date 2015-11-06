@@ -25,7 +25,8 @@ let LumenusPieceList = React.createClass({
                     label: getLangText('Show works I can'),
                     items: [{
                         key: 'acl_consign',
-                        label: getLangText('consign to Lumenus')
+                        label: getLangText('consign to Lumenus'),
+                        defaultValue: true
                     }]
                 }]}
                 location={this.props.location}/>

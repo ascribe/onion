@@ -6,12 +6,6 @@ import { mergeOptions } from '../../utils/general_utils';
 
 import EditionListActions from '../../actions/edition_list_actions';
 
-import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
-
-import PieceListStore from '../../stores/piece_list_store';
-import PieceListActions from '../../actions/piece_list_actions';
-
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 
 import { getLangText } from '../../utils/lang_utils.js';
@@ -28,31 +22,6 @@ let PieceListBulkModal = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ])
-    },
-
-    getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            PieceListStore.getState()
-        );
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        PieceListStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
-    },
-
-    componentWillUnmount() {
-        PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     clearAllSelections() {

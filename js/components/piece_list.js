@@ -60,11 +60,17 @@ let PieceList = React.createClass({
             }]
         };
     },
+
     getInitialState() {
-        return mergeOptions(
+        const stores = mergeOptions(
             PieceListStore.getState(),
             EditionListStore.getState()
         );
+
+        // Use the default filters but use the stores' settings if they're available
+        stores.filterBy = Object.assign(this.getDefaultFilterBy(), stores.filterBy);
+
+        return stores;
     },
 
     componentDidMount() {
@@ -94,6 +100,21 @@ let PieceList = React.createClass({
 
     onChange(state) {
         this.setState(state);
+    },
+
+    getDefaultFilterBy() {
+        const { filterParams } = this.props;
+        const defaultFilterBy = {};
+
+        filterParams.forEach(({ label, items }) => {
+            items.forEach((item) => {
+                if (typeof item === 'object' && item.defaultValue) {
+                    defaultFilterBy[item.key] = true;
+                }
+            });
+        });
+
+        return defaultFilterBy;
     },
 
     paginationGoToPage(page) {
