@@ -67,16 +67,16 @@ const ROUTES = {
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='login'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPLoginContainer)} />
+                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPLoginContainer)} />
             <Route
                 path='logout'
                 component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPSignupContainer)} />
+                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPSignupContainer)} />
             <Route
                 path='password_reset'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     )

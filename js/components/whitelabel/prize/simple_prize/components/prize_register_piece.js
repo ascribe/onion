@@ -15,6 +15,10 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let PrizeRegisterPiece = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     getInitialState() {
         return PrizeStore.getState();
     },
@@ -33,48 +37,52 @@ let PrizeRegisterPiece = React.createClass({
     },
 
     render() {
+        const { location } = this.props;
+
         setDocumentTitle(getLangText('Submit to the prize'));
 
         if(this.state.prize && this.state.prize.active){
             return (
-            <RegisterPiece
-                enableLocalHashing={false}
-                headerMessage={getLangText('Submit to the prize')}
-                submitMessage={getLangText('Submit')}>
-                <Property
-                    name='artist_statement'
-                    label={getLangText('Artist statement')}
-                    editable={true}
-                    overrideForm={true}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        placeholder={getLangText('Enter your statement')}
-                        required />
-                </Property>
-                <Property
-                    name='work_description'
-                    label={getLangText('Work description')}
-                    editable={true}
-                    overrideForm={true}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        placeholder={getLangText('Enter the description for your work')}
-                        required />
-                </Property>
-                <Property
-                    name="terms"
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
-                    <InputCheckbox>
-                        <span>
-                            {' ' + getLangText('I agree to the Terms of Service the art price') + ' '}
-                            (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/terms.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
-                                {getLangText('read')}
-                            </a>)
-                        </span>
-                    </InputCheckbox>
-                </Property>
-            </RegisterPiece>);
+                <RegisterPiece
+                    enableLocalHashing={false}
+                    headerMessage={getLangText('Submit to the prize')}
+                    submitMessage={getLangText('Submit')}
+                    location={location}>
+                    <Property
+                        name='artist_statement'
+                        label={getLangText('Artist statement')}
+                        editable={true}
+                        overrideForm={true}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            placeholder={getLangText('Enter your statement')}
+                            required />
+                    </Property>
+                    <Property
+                        name='work_description'
+                        label={getLangText('Work description')}
+                        editable={true}
+                        overrideForm={true}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            placeholder={getLangText('Enter the description for your work')}
+                            required />
+                    </Property>
+                    <Property
+                        name="terms"
+                        className="ascribe-property-collapsible-toggle"
+                        style={{paddingBottom: 0}}>
+                        <InputCheckbox>
+                            <span>
+                                {' ' + getLangText('I agree to the Terms of Service the art price') + ' '}
+                                (<a href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/sluice/terms.pdf" target="_blank" style={{fontSize: '0.9em', color: 'rgba(0,0,0,0.7)'}}>
+                                    {getLangText('read')}
+                                </a>)
+                            </span>
+                        </InputCheckbox>
+                    </Property>
+                </RegisterPiece>
+            );
         }
         else {
             return (
