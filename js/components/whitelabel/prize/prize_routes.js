@@ -14,6 +14,7 @@ import SPApp from './simple_prize/prize_app';
 
 import PRApp from './portfolioreview/pr_app';
 import PRLanding from './portfolioreview/components/pr_landing';
+import PRRegisterPiece from './portfolioreview/components/pr_register_piece';
 
 import EditionContainer from '../../ascribe_detail/edition_container';
 import LogoutContainer from '../../logout_container';
@@ -63,7 +64,7 @@ const ROUTES = {
             <IndexRoute component={PRLanding} />
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PRRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='login'
