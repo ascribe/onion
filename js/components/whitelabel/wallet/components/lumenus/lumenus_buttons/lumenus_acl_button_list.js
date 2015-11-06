@@ -7,6 +7,7 @@ import LumenusSubmitButton from './lumenus_submit_button';
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
 import ShareButton from '../../../../../ascribe_buttons/acls/share_button';
 import TransferButton from '../../../../../ascribe_buttons/acls/transfer_button';
+import UnconsignButton from '../../../../../ascribe_buttons/acls/transfer_button';
 
 import UserActions from '../../../../../../actions/user_actions';
 import UserStore from '../../../../../../stores/user_store';
@@ -55,6 +56,11 @@ let LumenusAclButtonList = React.createClass({
                     pieceOrEditions={pieceOrEditions}
                     handleSuccess={handleSuccess} />
                 <TransferButton
+                    availableAcls={availableAcls}
+                    currentUser={this.state.currentUser}
+                    pieceOrEditions={pieceOrEditions}
+                    handleSuccess={handleSuccess} />
+                <UnconsignButton
                     availableAcls={availableAcls}
                     currentUser={this.state.currentUser}
                     pieceOrEditions={pieceOrEditions}
