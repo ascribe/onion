@@ -7,7 +7,7 @@ import LumenusSubmitButton from './lumenus_submit_button';
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
 import ShareButton from '../../../../../ascribe_buttons/acls/share_button';
 import TransferButton from '../../../../../ascribe_buttons/acls/transfer_button';
-import UnconsignButton from '../../../../../ascribe_buttons/acls/transfer_button';
+import UnconsignButton from '../../../../../ascribe_buttons/acls/unconsign_button';
 
 import UserActions from '../../../../../../actions/user_actions';
 import UserStore from '../../../../../../stores/user_store';
