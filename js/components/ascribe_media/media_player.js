@@ -3,12 +3,13 @@
 import React from 'react';
 import Q from 'q';
 
-import { escapeHTML } from '../../utils/general_utils';
-
-import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
-import AppConstants from '../../constants/application_constants.js';
+
+import AppConstants from '../../constants/application_constants';
+
+import { escapeHTML } from '../../utils/general_utils';
+import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
  * This is the component that implements display-specific functionality.
@@ -54,14 +55,12 @@ let Image = React.createClass({
         preview: React.PropTypes.string.isRequired
     },
 
-    mixins: [InjectInHeadMixin],
-
     componentDidMount() {
-        this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
+        InjectInHeadUtils.inject('https://code.jquery.com/jquery-2.1.4.min.js')
             .then(() =>
                 Q.all([
-                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
-                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
+                    InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
+                    InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
                 ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
     },
 
@@ -77,10 +76,8 @@ let Audio = React.createClass({
         url: React.PropTypes.string.isRequired
     },
 
-    mixins: [InjectInHeadMixin],
-
     componentDidMount() {
-        this.inject(AppConstants.baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js').then(this.ready);
+        InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js').then(this.ready);
     },
 
     ready() {
@@ -111,7 +108,7 @@ let Video = React.createClass({
      *    `false` if we failed to load the external library)
      * 2) render the cover using the `<Image />` component (because libraryLoaded is null)
      * 3) on `componentDidMount`, we load the external `css` and `js` resources using
-     *    the `InjectInHeadMixin`, attaching a function to `Promise.then` to change
+     *    the `InjectInHeadUtils`, attaching a function to `Promise.then` to change
      *    `state.libraryLoaded` to true
      * 4) when the promise is succesfully resolved, we change `state.libraryLoaded` triggering
      *    a re-render
@@ -129,16 +126,14 @@ let Video = React.createClass({
         encodingStatus: React.PropTypes.number
     },
 
-    mixins: [InjectInHeadMixin],
-
     getInitialState() {
         return { libraryLoaded: null, videoMounted: false };
     },
 
     componentDidMount() {
         Q.all([
-            this.inject('//vjs.zencdn.net/4.12/video-js.css'),
-            this.inject('//vjs.zencdn.net/4.12/video.js')])
+            InjectInHeadUtils.inject('//vjs.zencdn.net/4.12/video-js.css'),
+            InjectInHeadUtils.inject('//vjs.zencdn.net/4.12/video.js')])
         .then(() => this.setState({libraryLoaded: true}))
         .fail(() => this.setState({libraryLoaded: false}));
     },
