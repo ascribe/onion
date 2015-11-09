@@ -42,6 +42,23 @@ For this project, we're using:
 * We don't use camel case for file naming but in everything Javascript related
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
 
+Branch names
+=====================
+Since we moved to Github, we cannot create branch names automatically with JIRA anymore.
+To not lose context, but still be able to switch branches quickly using a ticket's number, we're recommending the following rules when naming our branches in onion.
+
+```
+AD-<JIRA-ticket-id>-brief-and-sane-description-of-the-ticket
+```
+
+where `brief-and-sane-description-of-the-ticket` does not need to equal to the ticket's title.
+This allows JIRA to still track branches and pull-requests while allowing us to keep our peace of mind.
+
+Example
+-------------
+**JIRA ticket name:** `AD-1242 - Frontend caching for simple endpoints to measure perceived page load <more useless information>`
+
+**Github branch name:** `AD-1242-caching-solution-for-stores`
 
 SCSS Code Conventions
 =====================
