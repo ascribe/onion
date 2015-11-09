@@ -220,7 +220,12 @@ let CylandRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to Cyland archive')}
-                                message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
+                                message={getAclFormMessage({
+                                    aclName: 'acl_loan',
+                                    entities: this.state.piece,
+                                    isPiece: true,
+                                    senderName: this.state.currentUser.username
+                                })}
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
                                 email={this.state.whitelabel.user}
