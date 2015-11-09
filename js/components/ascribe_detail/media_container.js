@@ -7,6 +7,8 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
+import FacebookShareButton from '../ascribe_social_share/facebook_share_button';
+
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
@@ -95,6 +97,7 @@ let MediaContainer = React.createClass({
                             Download <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
+                    <FacebookShareButton />
                     {embed}
                 </p>
             </div>
