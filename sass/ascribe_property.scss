@@ -219,3 +219,18 @@ $ascribe-red-error: rgb(169, 68, 66);
         margin-top: 0;
     }
 }
+
+.input-upload-file-button-property {
+    background-color: white;
+    padding: 1.5em 0 1.5em 0;
+    text-align: right;
+
+    button {
+        font-size: 1em;
+        margin-right: 1em;
+    }
+
+    span + button {
+        margin-left: 1em;
+    }
+}

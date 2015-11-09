@@ -28,6 +28,20 @@
         p:last-child {
             margin-bottom: 1.5em;
         }
+    }
 
+    .register-piece--form {
+    
+        form {
+            border-top: none;
+        }
+
+        form:first-child {
+            border-bottom: none;
+        }
+
+        form + form, form:last-child {
+            border-bottom: 1px solid rgba(0, 0, 0, .05);
+        }
     }
 }

@@ -8,13 +8,23 @@ import Row from 'react-bootstrap/lib/Row';
 import PRRegisterPieceForm from './pr_forms/pr_register_piece_form';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
+
+const { object } = React.PropTypes;
 
 const PRRegisterPiece = React.createClass({
+    propTypes: {
+        location: object
+    },
+
     render() {
+        const { location } = this.props;
+
+        setDocumentTitle(getLangText('Submission form'));
         return (
             <Row>
-                <Col xs={4}>
+                <Col xs={6}>
                     <div className="register-piece--hero">
                         <h1>Portfolio Review</h1>
                         <h2>{getLangText('Submission closing on %s', ' 21 Dec 2015')}</h2>
@@ -23,8 +33,9 @@ const PRRegisterPiece = React.createClass({
                         <p>{getLangText('You need to pay 50€ in order to apply. We only accept PayPal.')}</p>
                     </div>
                 </Col>
-                <Col xs={8}>
-                    <PRRegisterPieceForm />
+                <Col xs={6}>
+                    <PRRegisterPieceForm
+                        location={location}/>
                 </Col>
             </Row>
         );
