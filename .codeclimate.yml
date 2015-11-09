@@ -1,0 +1,18 @@
+languages:
+   JavaScript: true
+   HTML: true
+   CSS: true
+   SCSS: true
+engines:
+    eslint:
+        enabled: true
+exclude_paths:
+- "node_modules/*"
+- "build/*"
+- "docs/*"
+- "fonts/*"
+- "img/*"
+- 'js/components/ascribe_uploader/vendor/s3.fine-uploader.js'
+- 'js/components/ascribe_uploader/vendor/s3.fine-uploader.min.js',
+- 'gulpfile.js'
+- 'server.js'
