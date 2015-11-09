@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
@@ -29,24 +31,41 @@ const UploadFileButton = React.createClass({
         fileClassToUpload: shape({
             singular: string,
             plural: string
-        }).isRequired
+        }).isRequired,
+        createBlobRoutine: shape({
+            url: string,
+            pieceId: number
+        })
     },
 
-    submitFile(file) {
-        console.log(file);
+    getInitialState() {
+        return {
+            file: null
+        };
+    },
+
+    handleSubmitFile(file) {
+        this.setState({
+            file
+        });
+    },
+
+    createBlobRoutine() {
+        const { fineuploader } = this.refs;
+        const { file } = this.state;
+
+        fineuploader.createBlob(file);
     },
 
     render() {
-
-        const { fileClassToUpload, validation, keyRoutine } = this.props;
+        const { fileClassToUpload, validation, keyRoutine, createBlobRoutine } = this.props;
 
         return (
             <ReactS3FineUploader
+                ref="fineuploader"
                 fileInputElement={UploadButton}
                 keyRoutine={keyRoutine}
-                createBlobRoutine={{
-                    url: ApiUrls.blob_contracts
-                }}
+                createBlobRoutine={createBlobRoutine}
                 validation={validation}
                 setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
                 signature={{
@@ -65,9 +84,9 @@ const UploadFileButton = React.createClass({
                 }}
                 fileClassToUpload={fileClassToUpload}
                 isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                submitFile={this.submitFile}
+                submitFile={this.handleSubmitFile}
                 location={this.props.location}/>
-        );
+            );
     }
 });
 
