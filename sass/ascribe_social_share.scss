@@ -1,0 +1,7 @@
+.btn-ascribe-social {
+    height: 20px;
+    width: 56px;
+    box-sizing: content-box;   /* We want to ignore padding in these calculations as we use the sdk buttons' height and width */
+    margin-left: 5px;
+    padding: 1px 0;
+}

@@ -79,6 +79,9 @@ let constants = {
         'appId': '420813844732240',
         'sdkUrl': '//connect.facebook.net/en_US/sdk.js'
     },
+    'twitter': {
+        'sdkUrl': 'https://platform.twitter.com/widgets.js'
+    },
     'copyrightAssociations': ['ARS', 'DACS', 'Bildkunst', 'Pictoright', 'SODRAC', 'Copyright Agency/Viscopy', 'SAVA',
         'Bildrecht GmbH', 'SABAM', 'AUTVIS', 'CREAIMAGEN', 'SONECA', 'Copydan', 'EAU', 'Kuvasto', 'GCA', 'HUNGART',
         'IVARO', 'SIAE', 'JASPAR-SPDA', 'AKKA/LAA', 'LATGA-A', 'SOMAAP', 'ARTEGESTION', 'CARIER', 'BONO', 'APSAV',

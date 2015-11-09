@@ -40,8 +40,7 @@ let FacebookShareButton = React.createClass({
         return (
             <span
                 ref="fbShareButton"
-                style={{width: '56px', height: '24px'}}
-                className="fb-share-button btn btn-xs"
+                className="fb-share-button btn btn-ascribe-social"
                 data-href={this.props.url}
                 data-layout={this.props.type}>
            </span>

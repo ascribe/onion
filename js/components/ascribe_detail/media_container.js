@@ -8,6 +8,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MediaPlayer from './../ascribe_media/media_player';
 
 import FacebookShareButton from '../ascribe_social_share/facebook_share_button';
+import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
@@ -98,6 +99,7 @@ let MediaContainer = React.createClass({
                         </Button>
                     </AclProxy>
                     <FacebookShareButton />
+                    <TwitterShareButton />
                     {embed}
                 </p>
             </div>
