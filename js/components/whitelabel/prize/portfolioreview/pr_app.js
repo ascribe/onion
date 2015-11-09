@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Footer from '../../../footer';
 import GlobalNotification from '../../../global_notification';
 
 import { getSubdomain } from '../../../../utils/general_utils';
@@ -26,7 +25,6 @@ let PrizeApp = React.createClass({
                 {children}
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
-                <Footer />
             </div>
         );
     }

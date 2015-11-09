@@ -5,30 +5,107 @@ import React from 'react';
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
-import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
 
 import UploadFileButton from '../../../../../ascribe_buttons/upload_file_button';
 
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
 import AppConstants from '../../../../../../constants/application_constants';
+import ApiUrls from '../../../../../../constants/api_urls';
+
+import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
+import { setCookie } from '../../../../../../utils/fetch_api_utils';
 
 
 const { object } = React.PropTypes;
 
 const PRRegisterPieceForm = React.createClass({
     propTypes: {
-        location: object
+        location: object,
+        history: object,
+        currentUser: object
     },
 
     getInitialState(){
         return {
-            isUploadReady: false
+            isUploadReady: false,
+            piece: null
         };
     },
 
-    handleSuccess() {
+    /**
+     * In this method, we're composing all fields on the page
+     * in two steps, first submitting the registration of the piece and
+     * second adding all the additional details
+     */
+    submit() {
+        const { currentUser } = this.props;
+        const { registerPieceForm,
+                digitalWorkForm,
+                proofOfPaymentForm,
+                supportingMaterialsForm,
+                additionalDataForm } = this.refs;
+        const additionalDataFormData = additionalDataForm.getFormData();
 
+        // composing data for piece registration
+        let registerPieceFormData = registerPieceForm.getFormData();
+        registerPieceFormData.digital_work_key = digitalWorkForm.state.file ? digitalWorkForm.state.file.key : '';
+        registerPieceFormData.terms = true;
+
+        // submitting the piece
+        requests
+            .post(ApiUrls.pieces_list, { body: registerPieceFormData })
+            .then(({ success, piece, notification }) => {
+                if(success) {
+                    this.setState({
+                        piece
+                    }, () => {
+                        supportingMaterialsForm.createBlobRoutine();
+                        proofOfPaymentForm.createBlobRoutine();
+                        //thumbnailForm.createBlobRoutine();
+                    });
+
+                    setCookie(currentUser.email, piece.id);
+
+                    return requests.post(ApiUrls.piece_extradata, {
+                        body: {
+                            extradata: additionalDataFormData,
+                            piece_id: piece.id
+                        },
+                        piece_id: piece.id
+                    });
+                } else {
+                    const notificationMessage = new GlobalNotificationModel(notification, 'danger', 5000);
+                    GlobalNotificationActions.appendGlobalNotification(notificationMessage);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    },
+
+    getCreateBlobRoutine(fileClass) {
+        const { piece } = this.state;
+
+        if(piece && piece.id) {
+            if(fileClass === 'other_data') {
+                return {
+                    url: ApiUrls.blob_otherdatas,
+                    pieceId: piece.id
+                };
+            } else if(fileClass === 'thumbnail') {
+                return {
+                    url: ApiUrls.blob_thumbnail,
+                    pieceId: piece.id
+                };
+            }
+        } else {
+            return null;
+        }
     },
 
     render() {
@@ -37,8 +114,9 @@ const PRRegisterPieceForm = React.createClass({
         return (
             <div className="register-piece--form">
                 <Form
+                    buttons={{}}
                     className="ascribe-form-bordered"
-                    ref="registerPieceFields">
+                    ref="registerPieceForm">
                     <Property
                         name='artist_name'
                         label={getLangText('Full name')}>
@@ -64,35 +142,40 @@ const PRRegisterPieceForm = React.createClass({
                             min={1}
                             required/>
                     </Property>
-                </Form>
-                <Form
-                    className="ascribe-form-bordered"
-                    ref="additionalData">
-                    <Property
-                        name='biography'
-                        label={getLangText('Biography')}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            placeholder={getLangText('THIS NEEDS TEXT')}/>
-                    </Property>
                     <Property
                         name='artist_statement'
                         label={getLangText("Artist's statement")}>
                         <InputTextAreaToggable
                             rows={1}
-                            placeholder={getLangText('THIS NEEDS TEXT')}/>
+                            placeholder={getLangText('Enter your statement')}/>
+                    </Property>
+                </Form>
+                <Form
+                    buttons={{}}
+                    className="ascribe-form-bordered"
+                    ref="additionalDataForm">
+                    <Property
+                        name='artist_bio'
+                        label={getLangText('Biography')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            placeholder={getLangText('Enter your biography')}/>
                     </Property>
                     <Property
                         name='exhibition'
                         label={getLangText('Exhibition / Publication history (optional)')}>
                         <InputTextAreaToggable
                             rows={1}
-                            placeholder={getLangText('THIS NEEDS TEXT')}/>
+                            placeholder={getLangText('Enter exhibitions and publication history')}/>
                     </Property>
                 </Form>
                 <div className="input-upload-file-button-property">
                     {getLangText('Select the PDF with your work')}
                     <UploadFileButton
+                        ref="digitalWorkForm"
+                        createBlobRoutine={{
+                            url: ApiUrls.blob_digitalworks
+                        }}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'digitalwork'
@@ -111,6 +194,8 @@ const PRRegisterPieceForm = React.createClass({
                 <div className="input-upload-file-button-property">
                     {getLangText('Featured Cover photo')}
                     <UploadFileButton
+                        ref="thumbnailForm"
+                        createBlobRoutine={this.getCreateBlobRoutine('thumbnail')}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'thumbnail'
@@ -129,6 +214,8 @@ const PRRegisterPieceForm = React.createClass({
                 <div className="input-upload-file-button-property">
                     {getLangText('Supporting Materials (Optional)')}
                     <UploadFileButton
+                        ref="supportingMaterialsForm"
+                        createBlobRoutine={this.getCreateBlobRoutine('other_data')}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'other_data'
@@ -146,13 +233,16 @@ const PRRegisterPieceForm = React.createClass({
                 <div className="input-upload-file-button-property">
                     {getLangText('Proof of payment')}
                     <UploadFileButton
+                        ref="proofOfPaymentForm"
+                        createBlobRoutine={this.getCreateBlobRoutine('other_data')}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'other_data'
                         }}
                         validation={{
                             itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit
+                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            allowedExtensions: ['png', 'jpg']
                         }}
                         location={location}
                         fileClassToUpload={{
@@ -161,23 +251,23 @@ const PRRegisterPieceForm = React.createClass({
                         }}/>
                 </div>
                 <Form
-                    className="ascribe-form-bordered"
-                    ref="terms">
+                    buttons={{}}
+                    className="ascribe-form-bordered">
                     <Property
+                        ref="termsForm"
                         name="terms"
                         className="ascribe-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
-                        <InputCheckbox
-                            key="terms_explicitly"
-                            defaultChecked={false}>
-                            &nbsp;{getLangText('I agree to the Terms and Conditions of the Portfolio Review')}
-                        </InputCheckbox>
+                        <span>
+                            <input type="checkbox" value="true" />
+                            {getLangText('By submitting this form, you agree to the Terms of Service of Portfolio Review.')}
+                        </span>
                     </Property>
                 </Form>
                 <button
                     type="submit"
                     className="btn btn-default btn-wide"
-                    disabled={!this.state.isUploadReady}>
+                    onClick={this.submit}>
                     {getLangText('Submit to Portfolio Review')}
                 </button>
             </div>

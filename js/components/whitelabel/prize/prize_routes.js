@@ -78,6 +78,7 @@ const ROUTES = {
             <Route
                 path='password_reset'
                 component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(PasswordResetContainer)} />
+            <Route path='pieces/:pieceId' component={SPPieceContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     )
