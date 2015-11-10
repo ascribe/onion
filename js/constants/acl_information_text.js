@@ -15,7 +15,7 @@ export const AclInformationText = {
     'informationSentences': {
         'acl_consign': ' - Lets someone represent you in dealing with the work, under the terms you agree to.',
         'acl_loan': ' - Lets someone use or put the Work on display for a limited amount of time.',
-        'acl_share': ' - Lets someone view the Work or Edition, but does not give rights to publish or display it.',
+        'acl_share': ' - Lets someone view the Work or Edition via email, but does not give rights to publish or display it.',
         'acl_delete': ' - Removes the Work from your Wallet. Note that the previous registration and transfer ' +
             'history will still exist on the blockchain and cannot be deleted.',
         'acl_create_editions': ' Lets the artist set a fixed number of editions of a work which can then be transferred, guaranteeing each edition is authentic and from the artist.',
