@@ -51,10 +51,8 @@ let LumenusAdditionalDataForm = React.createClass({
     componentDidMount() {
         PieceStore.listen(this.onChange);
 
-        // If the Piece store doesn't already have the piece we want loaded, load it
-        const { pieceId } = this.props;
-        if (pieceId && this.state.piece.id !== pieceId) {
-            PieceActions.fetchOne(pieceId);
+        if (this.props.pieceId) {
+            PieceActions.fetchOne(this.props.pieceId);
         }
     },
 

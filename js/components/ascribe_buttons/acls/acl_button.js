@@ -31,7 +31,7 @@ export default function ({ action, displayName, title, tooltip }) {
             availableAcls: React.PropTypes.object.isRequired,
             buttonAcceptName: React.PropTypes.string,
             buttonAcceptClassName: React.PropTypes.string,
-            currentUser: React.PropTypes.object.isRequired,
+            currentUser: React.PropTypes.object,
             email: React.PropTypes.string,
             pieceOrEditions: React.PropTypes.oneOfType([
                 React.PropTypes.object,

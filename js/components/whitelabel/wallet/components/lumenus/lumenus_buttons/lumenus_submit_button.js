@@ -5,8 +5,6 @@ import classNames from 'classnames';
 
 import LumenusAdditionalDataForm from '../lumenus_forms/lumenus_additional_data_form';
 
-import ConsignButton from '../../../../../ascribe_buttons/acls/consign_button';
-
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
 import ConsignForm from '../../../../../ascribe_forms/form_consign';
 
@@ -20,13 +18,13 @@ import WhitelabelStore from '../../../../../../stores/whitelabel_store';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 
-import { getAclFormDataId } from '../../../../../../utils/form_utils';
+import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 
 let LumenusSubmitButton = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object,
         editions: React.PropTypes.array.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
         className: React.PropTypes.string,
@@ -93,9 +91,32 @@ let LumenusSubmitButton = React.createClass({
 
     render() {
         const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
-        const buttonTitle = getLangText('CONSIGN TO LUMENUS');
-
         const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
+        const message = getAclFormMessage({
+            aclName: 'acl_consign',
+            entities: editions,
+            isPiece: false,
+            additionalMessage: getLangText('Suggested price:'),
+            senderName: currentUser.username
+        });
+
+        const triggerButton = (
+            <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
+                {getLangText('CONSIGN TO LUMENUS')}
+            </button>
+        );
+        const consignForm = (
+            <AclFormFactory
+                action='acl_consign'
+                autoFocusProperty='message'
+                email={this.state.whitelabel.user}
+                message={message}
+                labels={{
+                    'message': getLangText('Message (also suggest a sales price if necessary)')
+                }}
+                pieceOrEditions={editions}
+                showNotification />
+        );
 
         if (solePieceId && !canSubmit) {
             return (
@@ -103,11 +124,7 @@ let LumenusSubmitButton = React.createClass({
                     aclObject={availableAcls}
                     aclName='acl_consign'>
                     <ModalWrapper
-                        trigger={
-                            <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
-                                {buttonTitle}
-                            </button>
-                        }
+                        trigger={triggerButton}
                         handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
                         title={getLangText('Add additional information')}>
                         <LumenusAdditionalDataForm
@@ -118,25 +135,22 @@ let LumenusSubmitButton = React.createClass({
                         ref="consignModal"
                         handleSuccess={handleSuccess}
                         title={getLangText('Consign artwork')}>
-                        <AclFormFactory
-                            action='acl_consign'
-                            currentUser={currentUser}
-                            email={this.state.whitelabel.user}
-                            pieceOrEditions={editions}
-                            showNotification />
+                        {consignForm}
                     </ModalWrapper>
                 </AclProxy>
             );
         } else {
             return (
-                <ConsignButton
-                    availableAcls={{'acl_consign': availableAcls.acl_consign && canSubmit}}
-                    buttonAcceptName={buttonTitle}
-                    email={this.state.whitelabel.user}
-                    currentUser={currentUser}
-                    handleSuccess={handleSuccess}
-                    pieceOrEditions={editions}
-                    className={className} />
+                <AclProxy
+                    aclObject={{'acl_consign': availableAcls.acl_consign && canSubmit}}
+                    aclName='acl_consign'>
+                    <ModalWrapper
+                        trigger={triggerButton}
+                        handleSuccess={handleSuccess}
+                        title={getLangText('Consign artwork to Lumenus')}>
+                        {consignForm}
+                    </ModalWrapper>
+                </AclProxy>
             );
         }
     }

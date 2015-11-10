@@ -72,6 +72,10 @@ export function getAclFormMessage(options) {
         throw new Error('Your specified aclName did not match a an acl class.');
     }
 
+    if (options.additionalMessage) {
+        message += '\n\n' + options.additionalMessage;
+    }
+
     if (options.senderName) {
         message += '\n\n';
         message += getLangText('Truly yours,');
