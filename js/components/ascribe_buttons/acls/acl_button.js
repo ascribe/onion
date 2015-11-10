@@ -15,6 +15,7 @@ import GlobalNotificationModel from '../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../actions/global_notification_actions';
 
 import ApiUrls from '../../../constants/api_urls';
+import { AclInformationText } from '../../../constants/acl_information_text';
 
 import { getAclFormMessage, getAclFormDataId } from '../../../utils/form_utils';
 import { getLangText } from '../../../utils/lang_utils';
@@ -41,12 +42,11 @@ export default function ({ action, displayName, title, tooltip }) {
             className: React.PropTypes.string
         },
 
-        // Removes the acl_ prefix and converts to upper case
         sanitizeAction() {
             if (this.props.buttonAcceptName) {
                 return this.props.buttonAcceptName;
             }
-            return action.split('acl_')[1].toUpperCase();
+            return AclInformationText.titles[action];
         },
 
         render() {

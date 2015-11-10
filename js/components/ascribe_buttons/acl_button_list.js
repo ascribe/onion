@@ -6,9 +6,9 @@ import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
 import ConsignButton from './acls/consign_button';
+import EmailButton from './acls/email_button';
 import LoanButton from './acls/loan_button';
 import LoanRequestButton from './acls/loan_request_button';
-import ShareButton from './acls/share_button';
 import TransferButton from './acls/transfer_button';
 import UnconsignButton from './acls/unconsign_button';
 
@@ -90,7 +90,7 @@ let AclButtonList = React.createClass({
         return (
             <div className={className}>
                 <span ref="buttonList" style={buttonsStyle}>
-                    <ShareButton
+                    <EmailButton
                         availableAcls={availableAcls}
                         pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
