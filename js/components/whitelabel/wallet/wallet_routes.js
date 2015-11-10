@@ -29,6 +29,7 @@ import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
+import LumenusLanding from './components/lumenus/lumenus_landing';
 import LumenusPieceList from './components/lumenus/lumenus_piece_list';
 import LumenusRegisterPiece from './components/lumenus/lumenus_register_piece';
 import LumenusPieceContainer from './components/lumenus/lumenus_detail/lumenus_piece_container';
@@ -157,6 +158,7 @@ let ROUTES = {
     ),
     'lumenus': (
         <Route path='/' component={WalletApp}>
+            <IndexRoute component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LumenusLanding)} />
             <Route
                 path='login'
                 component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
