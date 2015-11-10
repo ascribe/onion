@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { History } from 'react-router';
 
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
@@ -29,6 +30,8 @@ const PRRegisterPieceForm = React.createClass({
         currentUser: object
     },
 
+    mixins: [History],
+
     getInitialState(){
         return {
             isUploadReady: false,
@@ -47,7 +50,8 @@ const PRRegisterPieceForm = React.createClass({
                 digitalWorkForm,
                 proofOfPaymentForm,
                 supportingMaterialsForm,
-                additionalDataForm } = this.refs;
+                additionalDataForm,
+                thumbnailForm } = this.refs;
         const additionalDataFormData = additionalDataForm.getFormData();
 
         // composing data for piece registration
@@ -65,10 +69,10 @@ const PRRegisterPieceForm = React.createClass({
                     }, () => {
                         supportingMaterialsForm.createBlobRoutine();
                         proofOfPaymentForm.createBlobRoutine();
-                        //thumbnailForm.createBlobRoutine();
+                        thumbnailForm.createBlobRoutine();
                     });
 
-                    setCookie(currentUser.email, piece.id);
+                    //setCookie(currentUser.email, piece.id);
 
                     return requests.post(ApiUrls.piece_extradata, {
                         body: {
@@ -82,6 +86,7 @@ const PRRegisterPieceForm = React.createClass({
                     GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                 }
             })
+            .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
             .catch((err) => {
                 console.log(err);
             });
@@ -99,7 +104,7 @@ const PRRegisterPieceForm = React.createClass({
                 };
             } else if(fileClass === 'thumbnail') {
                 return {
-                    url: ApiUrls.blob_thumbnail,
+                    url: ApiUrls.blob_thumbnails,
                     pieceId: piece.id
                 };
             }
