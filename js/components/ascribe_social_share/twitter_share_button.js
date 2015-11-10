@@ -19,7 +19,8 @@ let TwitterShareButton = React.createClass({
 
     getDefaultProps() {
         return {
-            count: 'none'
+            count: 'none',
+            via: 'ascribeIO'
         };
     },
 
