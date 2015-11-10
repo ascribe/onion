@@ -90,6 +90,11 @@ let MediaContainer = React.createClass({
                     extraData={extraData}
                     encodingStatus={this.props.content.digital_work.isEncoding} />
                 <p className="text-center">
+                    <span className="ascribe-social-button-list">
+                        <FacebookShareButton />
+                        <TwitterShareButton />
+                    </span>
+
                     <AclProxy
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || this.props.content.acl.acl_download}
                         aclObject={this.props.content.acl}
@@ -98,8 +103,6 @@ let MediaContainer = React.createClass({
                             Download <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
-                    <FacebookShareButton />
-                    <TwitterShareButton />
                     {embed}
                 </p>
             </div>
