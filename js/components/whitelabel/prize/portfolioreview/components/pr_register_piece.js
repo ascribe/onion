@@ -56,7 +56,7 @@ const PRRegisterPiece = React.createClass({
         const { currentUser } = this.state;
         const { location } = this.props;
 
-        setDocumentTitle(getLangText('Submission form'));
+        setDocumentTitle(getLangText('Submit to Portfolio Review'));
         return (
             <Row>
                 <Col xs={6}>

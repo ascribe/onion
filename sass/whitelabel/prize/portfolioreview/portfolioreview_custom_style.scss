@@ -35,14 +35,7 @@
 
         form {
             border-top: none;
-        }
-
-        form:first-child {
             border-bottom: none;
-        }
-
-        form + form, form:last-child {
-            border-bottom: 1px solid rgba(0, 0, 0, .05);
         }
     }
 }

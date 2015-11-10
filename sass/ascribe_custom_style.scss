@@ -508,7 +508,10 @@ fieldset[disabled] .btn-secondary.active {
     > pre,
     > select,
     > span:not(.glyphicon),
+    > p,
+    > p > span,
     > textarea {
+        color: $ascribe-dark-blue;
         font-family: $ascribe--font;
         font-weight: $ascribe--font-weight-light;
     }

@@ -7,7 +7,8 @@ import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-import UploadFileButton from '../../../../../ascribe_buttons/upload_file_button';
+import UploadButton from '../../../../../ascribe_uploader/ascribe_upload_button/upload_button';
+import InputFineuploader from '../../../../../ascribe_forms/input_fineuploader';
 
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
@@ -19,6 +20,7 @@ import requests from '../../../../../../utils/requests';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { setCookie } from '../../../../../../utils/fetch_api_utils';
+import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 const { object } = React.PropTypes;
@@ -45,19 +47,27 @@ const PRRegisterPieceForm = React.createClass({
      * second adding all the additional details
      */
     submit() {
+        if(!this.validateForms()) {
+            return;
+        }
+
         const { currentUser } = this.props;
         const { registerPieceForm,
-                digitalWorkForm,
-                proofOfPaymentForm,
-                supportingMaterialsForm,
                 additionalDataForm,
-                thumbnailForm } = this.refs;
+                uploadersForm } = this.refs;
+        const { digitalWorkKey,
+                thumbnailKey,
+                supportingMaterials,
+                proofOfPayment } = uploadersForm.refs;
         const additionalDataFormData = additionalDataForm.getFormData();
 
         // composing data for piece registration
         let registerPieceFormData = registerPieceForm.getFormData();
-        registerPieceFormData.digital_work_key = digitalWorkForm.state.file ? digitalWorkForm.state.file.key : '';
+        registerPieceFormData.digital_work_key = digitalWorkKey.state.value;
+        registerPieceFormData.thumbnail_file = thumbnailKey.state.value;
         registerPieceFormData.terms = true;
+
+        console.log(registerPieceFormData);
 
         // submitting the piece
         requests
@@ -67,9 +77,8 @@ const PRRegisterPieceForm = React.createClass({
                     this.setState({
                         piece
                     }, () => {
-                        supportingMaterialsForm.createBlobRoutine();
-                        proofOfPaymentForm.createBlobRoutine();
-                        thumbnailForm.createBlobRoutine();
+                        supportingMaterials.refs.input.createBlobRoutine();
+                        proofOfPayment.refs.input.createBlobRoutine();
                     });
 
                     //setCookie(currentUser.email, piece.id);
@@ -90,24 +99,28 @@ const PRRegisterPieceForm = React.createClass({
             .catch((err) => {
                 console.log(err);
             });
-
     },
 
-    getCreateBlobRoutine(fileClass) {
+    validateForms() {
+        const { registerPieceForm,
+                additionalDataForm,
+                uploadersForm } = this.refs;
+
+        const registerPieceFormValidation = registerPieceForm.validate();
+        const additionalDataFormValidation = additionalDataForm.validate();
+        const uploaderFormValidation = uploadersForm.validate();
+
+        return registerPieceFormValidation && additionalDataFormValidation && uploaderFormValidation;
+    },
+
+    getCreateBlobRoutine() {
         const { piece } = this.state;
 
         if(piece && piece.id) {
-            if(fileClass === 'other_data') {
-                return {
-                    url: ApiUrls.blob_otherdatas,
-                    pieceId: piece.id
-                };
-            } else if(fileClass === 'thumbnail') {
-                return {
-                    url: ApiUrls.blob_thumbnails,
-                    pieceId: piece.id
-                };
-            }
+            return {
+                url: ApiUrls.blob_otherdatas,
+                pieceId: piece.id
+            };
         } else {
             return null;
         }
@@ -174,92 +187,116 @@ const PRRegisterPieceForm = React.createClass({
                             placeholder={getLangText('Enter exhibitions and publication history')}/>
                     </Property>
                 </Form>
-                <div className="input-upload-file-button-property">
-                    {getLangText('Select the PDF with your work')}
-                    <UploadFileButton
-                        ref="digitalWorkForm"
-                        createBlobRoutine={{
-                            url: ApiUrls.blob_digitalworks
-                        }}
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'digitalwork'
-                        }}
-                        validation={{
-                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                            allowedExtensions: ['pdf']
-                        }}
-                        location={location}
-                        fileClassToUpload={{
-                            singular: getLangText('Upload the Portfolio'),
-                            plural: getLangText('Upload the Portfolios')
-                        }}/>
-                </div>
-                <div className="input-upload-file-button-property">
-                    {getLangText('Featured Cover photo')}
-                    <UploadFileButton
-                        ref="thumbnailForm"
-                        createBlobRoutine={this.getCreateBlobRoutine('thumbnail')}
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'thumbnail'
-                        }}
-                        validation={{
-                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                            allowedExtensions: ['png', 'jpg']
-                        }}
-                        location={location}
-                        fileClassToUpload={{
-                            singular: getLangText('Upload cover photo'),
-                            plural: getLangText('Upload cover photos')
-                        }}/>
-                </div>
-                <div className="input-upload-file-button-property">
-                    {getLangText('Supporting Materials (Optional)')}
-                    <UploadFileButton
-                        ref="supportingMaterialsForm"
-                        createBlobRoutine={this.getCreateBlobRoutine('other_data')}
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'other_data'
-                        }}
-                        validation={{
-                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit
-                        }}
-                        location={location}
-                        fileClassToUpload={{
-                            singular: getLangText('Upload'),
-                            plural: getLangText('Upload')
-                        }}/>
-                </div>
-                <div className="input-upload-file-button-property">
-                    {getLangText('Proof of payment')}
-                    <UploadFileButton
-                        ref="proofOfPaymentForm"
-                        createBlobRoutine={this.getCreateBlobRoutine('other_data')}
-                        keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
-                            fileClass: 'other_data'
-                        }}
-                        validation={{
-                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                            allowedExtensions: ['png', 'jpg']
-                        }}
-                        location={location}
-                        fileClassToUpload={{
-                            singular: getLangText('Upload Screenshot'),
-                            plural: getLangText('Upload Screenshots')
-                        }}/>
-                </div>
+                <Form
+                    buttons={{}}
+                    className="ascribe-form-bordered"
+                    ref="uploadersForm">
+                    <Property
+                        name="digitalWorkKey"
+                        className="input-upload-file-button-property">
+                        <span>{getLangText('Select the PDF with your work')}</span>
+                        <InputFineuploader
+                            fileInputElement={UploadButton}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            createBlobRoutine={{
+                                url: ApiUrls.blob_digitalworks
+                            }}
+                            keyRoutine={{
+                                url: AppConstants.serverUrl + 's3/key/',
+                                fileClass: 'digitalwork'
+                            }}
+                            validation={{
+                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                allowedExtensions: ['pdf']
+                            }}
+                            location={location}
+                            fileClassToUpload={{
+                                singular: getLangText('Upload the Portfolio'),
+                                plural: getLangText('Upload the Portfolios')
+                            }}
+                            required/>
+                    </Property>
+                    <Property
+                        name="thumbnailKey"
+                        className="input-upload-file-button-property">
+                        <span>{getLangText('Featured Cover photo')}</span>
+                        <InputFineuploader
+                            fileInputElement={UploadButton}
+                            createBlobRoutine={{
+                                url: ApiUrls.blob_thumbnails
+                            }}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            keyRoutine={{
+                                url: AppConstants.serverUrl + 's3/key/',
+                                fileClass: 'thumbnail'
+                            }}
+                            validation={{
+                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                allowedExtensions: ['png', 'jpg']
+                            }}
+                            location={location}
+                            fileClassToUpload={{
+                                singular: getLangText('Upload cover photo'),
+                                plural: getLangText('Upload cover photos')
+                            }}/>
+                    </Property>
+                    <Property
+                        name="supportingMaterials"
+                        className="input-upload-file-button-property">
+                        <span>{getLangText('Supporting Materials (Optional)')}</span>
+                        <InputFineuploader
+                            fileInputElement={UploadButton}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            createBlobRoutine={this.getCreateBlobRoutine()}
+                            keyRoutine={{
+                                url: AppConstants.serverUrl + 's3/key/',
+                                fileClass: 'other_data'
+                            }}
+                            validation={{
+                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit
+                            }}
+                            location={location}
+                            fileClassToUpload={{
+                                singular: getLangText('Upload'),
+                                plural: getLangText('Upload')
+                            }}/>
+                    </Property>
+                    <Property
+                        name="proofOfPayment"
+                        className="input-upload-file-button-property">
+                        <span>{getLangText('Proof of payment')}</span>
+                        <InputFineuploader
+                            fileInputElement={UploadButton}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            createBlobRoutine={this.getCreateBlobRoutine()}
+                            keyRoutine={{
+                                url: AppConstants.serverUrl + 's3/key/',
+                                fileClass: 'other_data'
+                            }}
+                            validation={{
+                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                allowedExtensions: ['png', 'jpg']
+                            }}
+                            location={location}
+                            fileClassToUpload={{
+                                singular: getLangText('Upload Screenshot'),
+                                plural: getLangText('Upload Screenshots')
+                            }}
+                            required/>
+                    </Property>
+                </Form>
                 <Form
                     buttons={{}}
                     className="ascribe-form-bordered">
                     <Property
-                        ref="termsForm"
                         name="terms"
                         className="ascribe-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
