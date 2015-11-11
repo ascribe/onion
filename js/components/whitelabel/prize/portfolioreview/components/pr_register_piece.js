@@ -60,7 +60,7 @@ const PRRegisterPiece = React.createClass({
         return (
             <Row>
                 <Col xs={6}>
-                    <div className="register-piece--hero">
+                    <div className="register-piece--info">
                         <h1>Portfolio Review</h1>
                         <h2>{getLangText('Submission closing on %s', ' 21 Dec 2015')}</h2>
                         <p>

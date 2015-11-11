@@ -16,6 +16,7 @@ import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
 import UserStore from '../../../../../../stores/user_store';
+import UserActions from '../../../../../../actions/user_actions';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../../components/ascribe_detail/note';
@@ -26,6 +27,8 @@ import Form from '../../../../../../components/ascribe_forms/form';
 import Property from '../../../../../../components/ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../../components/ascribe_forms/input_textarea_toggable';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
+
+import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
 import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
 import LoanForm from '../../../../../ascribe_forms/form_loan';
@@ -48,7 +51,8 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object
+        params: React.PropTypes.object,
+        location: React.PropTypes.object
     },
 
     getInitialState() {
@@ -62,6 +66,7 @@ let PieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
 
         // Every time we enter the piece detail page, just reset the piece
         // store as it will otherwise display wrong/old data once the user loads
@@ -142,7 +147,7 @@ let PieceContainer = React.createClass({
                             <NavigationHeader
                                 piece={this.state.piece}
                                 currentUser={this.state.currentUser}/>
-                            <hr/>
+                            
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={new Date(this.state.piece.date_created).getFullYear()} />
@@ -157,7 +162,7 @@ let PieceContainer = React.createClass({
                             piece={this.state.piece}
                             currentUser={this.state.currentUser}/>
                     }>
-                    <PrizePieceDetails piece={this.state.piece}/>
+                    <PrizePieceDetails piece={this.state.piece} location={this.props.location}/>
                 </Piece>
             );
         } else {
@@ -177,24 +182,28 @@ let NavigationHeader = React.createClass({
     },
 
     render() {
-        if (this.props.currentUser && this.props.currentUser.email && this.props.piece && this.props.piece.navigation) {
-            let nav = this.props.piece.navigation;
+        const { currentUser, piece } = this.props;
+
+        if (currentUser && currentUser.email && currentUser.is_judge && currentUser.is_jury &&
+            !currentUser.is_admin && piece && piece.navigation) {
+            let nav = piece.navigation;
 
             return (
                 <div style={{marginBottom: '1em'}}>
                     <div className="row no-margin">
-                        <Link className="disable-select" to={`/pieces/${ nav.prev_index || this.props.piece.id }`}>
+                        <Link className="disable-select" to={`/pieces/${ nav.prev_index || piece.id }`}>
                             <span className="glyphicon glyphicon-chevron-left pull-left link-ascribe" aria-hidden="true">
                             {getLangText('Previous')}
                             </span>
                         </Link>
-                        <Link className="disable-select" to={`/pieces/${ nav.next_index || this.props.piece.id }`}>
+                        <Link className="disable-select" to={`/pieces/${ nav.next_index || piece.id }`}>
                             <span className="pull-right link-ascribe">
                                 {getLangText('Next')}
                                 <span className="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             </span>
                         </Link>
                     </div>
+                    <hr/>
                 </div>
             );
         }
@@ -417,7 +426,8 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object,
+        location: React.PropTypes.object
     },
 
     render() {
@@ -432,6 +442,8 @@ let PrizePieceDetails = React.createClass({
                     <Form ref='form'>
                         {Object.keys(this.props.piece.extra_data).map((data) => {
                             let label = data.replace('_', ' ');
+                            const value = this.props.piece.extra_data[data] || 'N/A';
+
                             return (
                                 <Property
                                     name={data}
@@ -440,11 +452,20 @@ let PrizePieceDetails = React.createClass({
                                     overrideForm={true}>
                                     <InputTextAreaToggable
                                         rows={1}
-                                        defaultValue={this.props.piece.extra_data[data]}/>
-                                </Property>);
-                            }
-                        )}
-                        <hr />
+                                        defaultValue={value}/>
+                                </Property>
+                            );
+                        })}
+                        <FurtherDetailsFileuploader
+                            submitFile={() => {}}
+                            setIsUploadReady={() => {}}
+                            isReadyForFormSubmission={() => {}}
+                            editable={false}
+                            overrideForm={true}
+                            pieceId={this.props.piece.id}
+                            otherData={this.props.piece.other_data}
+                            multiple={true}
+                            location={location}/>
                     </Form>
                 </CollapsibleParagraph>
             );

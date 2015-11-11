@@ -87,13 +87,13 @@ const PRLanding = React.createClass({
         if (this.state.prize && this.state.prize.active){
             return (
                 <p>
-                    {getLangText('This is the submission page for Portfolio Review 2015.')}
+                    {getLangText('This is the submission page for Portfolio Review 2016.')}
                 </p>
             );
         }
         return (
             <p>
-                {getLangText('Submissions for Portfolio Review 2015 are now closed.')}
+                {getLangText('Submissions for Portfolio Review 2016 are now closed.')}
             </p>
         );
     },
@@ -103,7 +103,7 @@ const PRLanding = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
                         <h1>
-                            {getLangText('Welcome to Portfolio Review 2015')}
+                            {getLangText('Welcome to Portfolio Review 2016')}
                         </h1>
                         {this.getTitle()}
                         {this.getButtons()}

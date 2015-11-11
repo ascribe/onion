@@ -67,8 +67,6 @@ const PRRegisterPieceForm = React.createClass({
         registerPieceFormData.thumbnail_file = thumbnailKey.state.value;
         registerPieceFormData.terms = true;
 
-        console.log(registerPieceFormData);
-
         // submitting the piece
         requests
             .post(ApiUrls.pieces_list, { body: registerPieceFormData })
@@ -81,7 +79,7 @@ const PRRegisterPieceForm = React.createClass({
                         proofOfPayment.refs.input.createBlobRoutine();
                     });
 
-                    //setCookie(currentUser.email, piece.id);
+                    setCookie(currentUser.email, piece.id);
 
                     return requests.post(ApiUrls.piece_extradata, {
                         body: {
