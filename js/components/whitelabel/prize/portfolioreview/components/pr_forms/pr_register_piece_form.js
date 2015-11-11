@@ -36,7 +36,7 @@ const PRRegisterPieceForm = React.createClass({
 
     getInitialState(){
         return {
-            isUploadReady: false,
+            isUploadReady: true,
             piece: null
         };
     },
@@ -124,8 +124,15 @@ const PRRegisterPieceForm = React.createClass({
         }
     },
 
+    setIsUploadReady(isUploadReady) {
+        this.setState({
+            isUploadReady
+        });
+    },
+
     render() {
         const { location } = this.props;
+        const { isUploadReady } = this.state;
 
         return (
             <div className="register-piece--form">
@@ -196,7 +203,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            setIsUploadReady={this.setIsUploadReady}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_digitalworks
                             }}
@@ -226,7 +233,7 @@ const PRRegisterPieceForm = React.createClass({
                                 url: ApiUrls.blob_thumbnails
                             }}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            setIsUploadReady={this.setIsUploadReady}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
                                 fileClass: 'thumbnail'
@@ -249,7 +256,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            setIsUploadReady={this.setIsUploadReady}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
@@ -272,7 +279,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+                            setIsUploadReady={this.setIsUploadReady}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
@@ -307,6 +314,7 @@ const PRRegisterPieceForm = React.createClass({
                 <button
                     type="submit"
                     className="btn btn-default btn-wide"
+                    disabled={!isUploadReady}
                     onClick={this.submit}>
                     {getLangText('Submit to Portfolio Review')}
                 </button>

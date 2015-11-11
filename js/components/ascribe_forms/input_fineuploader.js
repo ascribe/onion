@@ -21,7 +21,6 @@ const InputFineUploader = React.createClass({
 
         areAssetsDownloadable: bool,
 
-        onClick: func,
         keyRoutine: shape({
             url: string,
             fileClass: string
@@ -69,7 +68,6 @@ const InputFineUploader = React.createClass({
     },
 
     submitFile(file) {
-        console.log(file);
         this.setState({
             file,
             value: file.key
@@ -97,7 +95,6 @@ const InputFineUploader = React.createClass({
 
     render() {
         const { fileInputElement,
-                onClick,
                 keyRoutine,
                 createBlobRoutine,
                 validation,
@@ -120,7 +117,6 @@ const InputFineUploader = React.createClass({
             <ReactS3FineUploader
                 ref="fineuploader"
                 fileInputElement={fileInputElement}
-                onClick={onClick}
                 keyRoutine={keyRoutine}
                 createBlobRoutine={createBlobRoutine}
                 validation={validation}
