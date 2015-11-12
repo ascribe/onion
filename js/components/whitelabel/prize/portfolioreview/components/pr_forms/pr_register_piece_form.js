@@ -291,7 +291,7 @@ const PRRegisterPieceForm = React.createClass({
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
                                 sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                                allowedExtensions: ['png', 'jpg']
+                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                             }}
                             location={location}
                             fileClassToUpload={{
@@ -337,7 +337,7 @@ const PRRegisterPieceForm = React.createClass({
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
                                 sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                                allowedExtensions: ['png', 'jpg']
+                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                             }}
                             location={location}
                             fileClassToUpload={{
