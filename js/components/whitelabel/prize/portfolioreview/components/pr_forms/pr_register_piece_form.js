@@ -36,7 +36,12 @@ const PRRegisterPieceForm = React.createClass({
 
     getInitialState(){
         return {
-            isUploadReady: true,
+            digitalWorkKeyReady: false,
+            thumbnailKeyReady: false,
+
+            // we set this to true, as it is not required
+            supportingMaterialsReady: true,
+            proofOfPaymentReady: false,
             piece: null
         };
     },
@@ -124,15 +129,25 @@ const PRRegisterPieceForm = React.createClass({
         }
     },
 
-    setIsUploadReady(isUploadReady) {
-        this.setState({
-            isUploadReady
-        });
+    /**
+     * This method is overloaded so that we can track the ready-state
+     * of each uploader in the component
+     * @param {string} uploaderKey Name of the uploader's key to track
+     */
+    setIsUploadReady(uploaderKey) {
+        return (isUploadReady) => {
+            this.setState({
+                [uploaderKey]: isUploadReady
+            });
+        };
     },
 
     render() {
         const { location } = this.props;
-        const { isUploadReady } = this.state;
+        const { digitalWorkKeyReady,
+                thumbnailKeyReady,
+                supportingMaterialsReady,
+                proofOfPaymentReady } = this.state;
 
         return (
             <div className="register-piece--form">
@@ -203,7 +218,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady}
+                            setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_digitalworks
                             }}
@@ -233,7 +248,7 @@ const PRRegisterPieceForm = React.createClass({
                                 url: ApiUrls.blob_thumbnails
                             }}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady}
+                            setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
                                 fileClass: 'thumbnail'
@@ -247,7 +262,8 @@ const PRRegisterPieceForm = React.createClass({
                             fileClassToUpload={{
                                 singular: getLangText('Upload cover photo'),
                                 plural: getLangText('Upload cover photos')
-                            }}/>
+                            }}
+                            required/>
                     </Property>
                     <Property
                         name="supportingMaterials"
@@ -256,7 +272,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady}
+                            setIsUploadReady={this.setIsUploadReady('supportingMaterialsReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
@@ -279,7 +295,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady}
+                            setIsUploadReady={this.setIsUploadReady('proofOfPaymentReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
@@ -314,7 +330,7 @@ const PRRegisterPieceForm = React.createClass({
                 <button
                     type="submit"
                     className="btn btn-default btn-wide"
-                    disabled={!isUploadReady}
+                    disabled={!(digitalWorkKeyReady && thumbnailKeyReady && proofOfPaymentReady && supportingMaterialsReady)}
                     onClick={this.submit}>
                     {getLangText('Submit to Portfolio Review')}
                 </button>
