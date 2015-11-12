@@ -214,7 +214,6 @@ const PRRegisterPieceForm = React.createClass({
                     <Property
                         name="digitalWorkKey"
                         className="input-upload-file-button-property">
-                        <span>{getLangText('Select the PDF with your work')}</span>
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
@@ -237,11 +236,11 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload the Portfolios')
                             }}
                             required/>
+                        <span>{getLangText('Select the PDF with your work')}</span>
                     </Property>
                     <Property
                         name="thumbnailKey"
                         className="input-upload-file-button-property">
-                        <span>{getLangText('Featured Cover photo')}</span>
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             createBlobRoutine={{
@@ -264,11 +263,11 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload cover photos')
                             }}
                             required/>
+                        <span>{getLangText('Featured Cover photo')}</span>
                     </Property>
                     <Property
                         name="supportingMaterials"
                         className="input-upload-file-button-property">
-                        <span>{getLangText('Supporting Materials (Optional)')}</span>
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
@@ -287,11 +286,11 @@ const PRRegisterPieceForm = React.createClass({
                                 singular: getLangText('Upload'),
                                 plural: getLangText('Upload')
                             }}/>
+                        <span>{getLangText('Supporting Materials (Optional)')}</span>
                     </Property>
                     <Property
                         name="proofOfPayment"
                         className="input-upload-file-button-property">
-                        <span>{getLangText('Proof of payment')}</span>
                         <InputFineuploader
                             fileInputElement={UploadButton}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
@@ -312,6 +311,7 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload Screenshots')
                             }}
                             required/>
+                        <span>{getLangText('Proof of payment')}</span>
                     </Property>
                 </Form>
                 <Form
