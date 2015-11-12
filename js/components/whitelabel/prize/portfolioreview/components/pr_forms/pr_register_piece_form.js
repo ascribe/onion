@@ -206,6 +206,13 @@ const PRRegisterPieceForm = React.createClass({
                             rows={1}
                             placeholder={getLangText('Enter exhibitions and publication history')}/>
                     </Property>
+                    <Property
+                        name='contact_information'
+                        label={getLangText('Contact information')}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            placeholder={getLangText('Enter your contact information (phone / website)')}/>
+                    </Property>
                 </Form>
                 <Form
                     buttons={{}}
@@ -283,8 +290,8 @@ const PRRegisterPieceForm = React.createClass({
                             }}
                             location={location}
                             fileClassToUpload={{
-                                singular: getLangText('Upload'),
-                                plural: getLangText('Upload')
+                                singular: getLangText('Upload supporting material'),
+                                plural: getLangText('Upload supporting materials')
                             }}/>
                         <span>{getLangText('Supporting Materials (Optional)')}</span>
                     </Property>
