@@ -177,3 +177,15 @@
     height: 12px;
 }
 
+.upload-button-wrapper {
+    text-align: left;
+
+    .btn {
+        font-size: 1em;
+        margin-right: 1em;
+    }
+
+    span + .btn {
+        margin-left: 1em;
+    }
+}

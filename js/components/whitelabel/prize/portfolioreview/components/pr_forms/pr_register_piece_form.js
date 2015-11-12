@@ -54,6 +54,13 @@ const PRRegisterPieceForm = React.createClass({
     submit() {
         if(!this.validateForms()) {
             return;
+        } else {
+            this.setState({
+                digitalWorkKeyReady: false,
+                thumbnailKeyReady: false,
+                supportingMaterialsReady: false,
+                proofOfPaymentReady: false
+            });
         }
 
         const { currentUser } = this.props;
@@ -219,10 +226,9 @@ const PRRegisterPieceForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref="uploadersForm">
                     <Property
-                        name="digitalWorkKey"
-                        className="input-upload-file-button-property">
+                        name="digitalWorkKey">
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton(<span>{getLangText('Select the PDF with your work')}</span>)}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                             createBlobRoutine={{
@@ -243,13 +249,11 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload the Portfolios')
                             }}
                             required/>
-                        <span>{getLangText('Select the PDF with your work')}</span>
                     </Property>
                     <Property
-                        name="thumbnailKey"
-                        className="input-upload-file-button-property">
+                        name="thumbnailKey">
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton(<span>{getLangText('Featured Cover photo')}</span>)}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_thumbnails
                             }}
@@ -270,13 +274,11 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload cover photos')
                             }}
                             required/>
-                        <span>{getLangText('Featured Cover photo')}</span>
                     </Property>
                     <Property
-                        name="supportingMaterials"
-                        className="input-upload-file-button-property">
+                        name="supportingMaterials">
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton(<span>{getLangText('Supporting Materials (Optional)')}</span>)}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('supportingMaterialsReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
@@ -293,13 +295,11 @@ const PRRegisterPieceForm = React.createClass({
                                 singular: getLangText('Upload supporting material'),
                                 plural: getLangText('Upload supporting materials')
                             }}/>
-                        <span>{getLangText('Supporting Materials (Optional)')}</span>
                     </Property>
                     <Property
-                        name="proofOfPayment"
-                        className="input-upload-file-button-property">
+                        name="proofOfPayment">
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton(<span>{getLangText('Proof of payment')}</span>)}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('proofOfPaymentReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
@@ -318,7 +318,6 @@ const PRRegisterPieceForm = React.createClass({
                                 plural: getLangText('Upload Screenshots')
                             }}
                             required/>
-                        <span>{getLangText('Proof of payment')}</span>
                     </Property>
                 </Form>
                 <Form
