@@ -241,7 +241,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Contact information')}>
                         <InputTextAreaToggable
                             rows={1}
-                            placeholder={getLangText('Enter your contact information (phone / website)')}/>
+                            placeholder={getLangText('Enter your contact information (phone/website)')}/>
                     </Property>
                 </Form>
                 <Form
@@ -355,7 +355,13 @@ const PRRegisterPieceForm = React.createClass({
                         className="ascribe-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <span>
-                            {getLangText('By submitting this form, you agree to the Terms of Service of Portfolio Review.')}
+                            {getLangText('By submitting this form, you agree to the') + ' '}
+                            <a
+                                href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/portfolioreview/tos-portfolioreview.pdf"
+                                target="_blank">
+                                {getLangText('Terms of Service')}
+                            </a>
+                            {' of Portfolio Review.'}
                         </span>
                     </Property>
                 </Form>
