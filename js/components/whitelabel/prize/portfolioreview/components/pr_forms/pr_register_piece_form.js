@@ -9,6 +9,7 @@ import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_t
 
 import UploadButton from '../../../../../ascribe_uploader/ascribe_upload_button/upload_button';
 import InputFineuploader from '../../../../../ascribe_forms/input_fineuploader';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
@@ -36,13 +37,14 @@ const PRRegisterPieceForm = React.createClass({
 
     getInitialState(){
         return {
-            digitalWorkKeyReady: false,
-            thumbnailKeyReady: false,
+            digitalWorkKeyReady: true,
+            thumbnailKeyReady: true,
 
             // we set this to true, as it is not required
             supportingMaterialsReady: true,
-            proofOfPaymentReady: false,
-            piece: null
+            proofOfPaymentReady: true,
+            piece: null,
+            submitted: false
         };
     },
 
@@ -55,11 +57,10 @@ const PRRegisterPieceForm = React.createClass({
         if(!this.validateForms()) {
             return;
         } else {
+            // disable the submission button right after the user
+            // clicks on it to avoid double submission
             this.setState({
-                digitalWorkKeyReady: false,
-                thumbnailKeyReady: false,
-                supportingMaterialsReady: false,
-                proofOfPaymentReady: false
+                submitted: true
             });
         }
 
@@ -91,7 +92,7 @@ const PRRegisterPieceForm = React.createClass({
                         proofOfPayment.refs.input.createBlobRoutine();
                     });
 
-                    setCookie(currentUser.email, piece.id);
+                    //setCookie(currentUser.email, piece.id);
 
                     return requests.post(ApiUrls.piece_extradata, {
                         body: {
@@ -149,12 +150,34 @@ const PRRegisterPieceForm = React.createClass({
         };
     },
 
-    render() {
-        const { location } = this.props;
+    getSubmitButton() {
         const { digitalWorkKeyReady,
                 thumbnailKeyReady,
                 supportingMaterialsReady,
-                proofOfPaymentReady } = this.state;
+                proofOfPaymentReady,
+                submitted } = this.state;
+
+        if(submitted) {
+            return (
+                <span disabled className="btn btn-default btn-wide btn-spinner">
+                    <AscribeSpinner color="dark-blue" size="md" />
+                </span>
+            );
+        } else {
+            return (
+                <button
+                    type="submit"
+                    className="btn btn-default btn-wide"
+                    disabled={!(digitalWorkKeyReady && thumbnailKeyReady && proofOfPaymentReady && supportingMaterialsReady)}
+                    onClick={this.submit}>
+                    {getLangText('Submit to Portfolio Review')}
+                </button>
+            );
+        }
+    },
+
+    render() {
+        const { location } = this.props;
 
         return (
             <div className="register-piece--form">
@@ -328,18 +351,11 @@ const PRRegisterPieceForm = React.createClass({
                         className="ascribe-property-collapsible-toggle"
                         style={{paddingBottom: 0}}>
                         <span>
-                            <input type="checkbox" value="true" />
                             {getLangText('By submitting this form, you agree to the Terms of Service of Portfolio Review.')}
                         </span>
                     </Property>
                 </Form>
-                <button
-                    type="submit"
-                    className="btn btn-default btn-wide"
-                    disabled={!(digitalWorkKeyReady && thumbnailKeyReady && proofOfPaymentReady && supportingMaterialsReady)}
-                    onClick={this.submit}>
-                    {getLangText('Submit to Portfolio Review')}
-                </button>
+                {this.getSubmitButton()}
             </div>
         );
     }

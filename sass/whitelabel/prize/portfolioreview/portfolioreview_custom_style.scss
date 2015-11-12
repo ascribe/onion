@@ -24,7 +24,7 @@ $pr--button-color: $pr--nav-fg-prim-color;
     }
 
     .ascribe-property {
-        > p > span,
+        > p > span:not(> .span),
         > textarea,
         > input {
             color: $pr--nav-fg-prim-color;
