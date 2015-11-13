@@ -78,7 +78,7 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     render() {
-        let { piece, isInline, disabled, handleSuccess } = this.props;
+        let { piece, isInline, disabled, handleSuccess, location } = this.props;
         let buttons, spinner, heading;
 
         if(!isInline) {
@@ -123,7 +123,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}
-                        hidden={disabled && !this.props.piece.extra_data.artist_bio}>
+                        hidden={disabled && !piece.extra_data.artist_bio}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
@@ -132,7 +132,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_contact_information'
                         label={getLangText('Artist Contact Information')}
-                        hidden={disabled && !this.props.piece.extra_data.artist_contact_information}>
+                        hidden={disabled && !piece.extra_data.artist_contact_information}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_contact_information}
@@ -141,7 +141,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Conceptual Overview')}
-                        hidden={disabled && !this.props.piece.extra_data.conceptual_overview}>
+                        hidden={disabled && !piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.conceptual_overview}
@@ -150,7 +150,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='medium'
                         label={getLangText('Medium (technical specifications)')}
-                        hidden={disabled && !this.props.piece.extra_data.medium}>
+                        hidden={disabled && !piece.extra_data.medium}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.medium}
@@ -159,7 +159,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='size_duration'
                         label={getLangText('Size / Duration')}
-                        hidden={disabled && !this.props.piece.extra_data.size_duration}>
+                        hidden={disabled && !piece.extra_data.size_duration}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.size_duration}
@@ -168,7 +168,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='display_instructions'
                         label={getLangText('Display instructions')}
-                        hidden={disabled && !this.props.piece.extra_data.display_instructions}>
+                        hidden={disabled && !piece.extra_data.display_instructions}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.display_instructions}
@@ -177,7 +177,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='additional_details'
                         label={getLangText('Additional details')}
-                        hidden={disabled && !this.props.piece.extra_data.additional_details}>
+                        hidden={disabled && !piece.extra_data.additional_details}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.additional_details}
@@ -192,7 +192,7 @@ let CylandAdditionalDataForm = React.createClass({
                         pieceId={piece.id}
                         otherData={piece.other_data}
                         multiple={true}
-                        location={this.props.location}/>
+                        location={location}/>
                 </Form>
             );
         } else {
