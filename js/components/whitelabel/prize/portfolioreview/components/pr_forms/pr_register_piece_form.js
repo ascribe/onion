@@ -92,7 +92,7 @@ const PRRegisterPieceForm = React.createClass({
                         proofOfPayment.refs.input.createBlobRoutine();
                     });
 
-                    //setCookie(currentUser.email, piece.id);
+                    setCookie(currentUser.email, piece.id);
 
                     return requests.post(ApiUrls.piece_extradata, {
                         body: {

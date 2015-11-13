@@ -63,15 +63,6 @@ const PRRegisterPiece = React.createClass({
                     <div className="register-piece--info">
                         <h1>Portfolio Review</h1>
                         <h2>{getLangText('Submission closing on %s', ' 21 Dec 2015')}</h2>
-                        <p>
-                            {getLangText('Submissions are open to everyone, we accept only PDFs.')}
-                        </p>
-                        <p>
-                            {getLangText('We accept only one PDF with up to 20 images from every participant.')}
-                        </p>
-                        <p>
-                            {getLangText('You need to pay 50€ in order to apply. We only accept PayPal.')}
-                        </p>
                         <p style={{marginTop: '1em'}}>
                             {getLangText("You're submitting as %s. ", currentUser.email)}
                             <Link to="/logout">{getLangText('Change account?')}</Link>
