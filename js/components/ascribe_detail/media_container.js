@@ -71,6 +71,10 @@ let MediaContainer = React.createClass({
 
     render() {
         const { content } = this.props;
+        // Pieces and editions are joined to the user by a foreign key in the database, so
+        // the information in content will be updated if a user updates their username.
+        // We also force uniqueness of usernames, so this check is safe to dtermine if the
+        // content was registered by the current user.
         const didUserRegisterContent = this.state.currentUser && (this.state.currentUser.username === content.user_registered);
 
         let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
