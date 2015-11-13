@@ -17,7 +17,11 @@ import UserActions from '../../../../../actions/user_actions';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
+
 const PRLanding = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
 
     mixins: [History],
 
@@ -29,10 +33,17 @@ const PRLanding = React.createClass({
     },
 
     componentDidMount() {
+        const { location } = this.props;
         UserStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         PrizeStore.listen(this.onChange);
         PrizeActions.fetchPrize();
+
+        if(location && location.query && location.query.redirect) {
+            let queryCopy = JSON.parse(JSON.stringify(location.query));
+            delete queryCopy.redirect;
+            window.setTimeout(() => this.history.replaceState(null, `/${location.query.redirect}`, queryCopy));
+        }
     },
 
     componentWillUnmount() {
