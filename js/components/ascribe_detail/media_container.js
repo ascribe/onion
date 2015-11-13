@@ -60,6 +60,8 @@ let MediaContainer = React.createClass({
     },
 
     componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+
         window.clearInterval(this.state.timerId);
     },
 
