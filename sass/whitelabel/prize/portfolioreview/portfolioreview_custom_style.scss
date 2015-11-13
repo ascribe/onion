@@ -93,10 +93,8 @@ $pr--button-color: $pr--nav-fg-prim-color;
     }
 
     .ascribe-property {
-        > p {
-            > span {
-                text-transform: capitalize;
-            }
+        > p > span:not(> .span) {
+            text-transform: capitalize;
         }
     }
 }
