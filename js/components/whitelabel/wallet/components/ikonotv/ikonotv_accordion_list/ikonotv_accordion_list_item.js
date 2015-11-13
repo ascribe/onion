@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Moment from 'moment';
 
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
@@ -106,7 +107,7 @@ let IkonotvAccordionListItem = React.createClass({
                     piece={this.props.content}
                     subsubheading={
                         <div className="pull-left">
-                            <span>{new Date(this.props.content.date_created).getFullYear()}</span>
+                            <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
                         </div>}
                     buttons={this.getSubmitButtons()}>
                     {this.props.children}
