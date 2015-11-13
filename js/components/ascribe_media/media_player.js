@@ -56,11 +56,11 @@ let Image = React.createClass({
     },
 
     componentDidMount() {
-        InjectInHeadUtils.inject('https://code.jquery.com/jquery-2.1.4.min.js')
+        InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
             .then(() =>
                 Q.all([
-                    InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
-                    InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
+                    InjectInHeadUtils.inject(AppConstants.shmui.cssUrl),
+                    InjectInHeadUtils.inject(AppConstants.shmui.sdkUrl)
                 ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
     },
 
@@ -77,7 +77,7 @@ let Audio = React.createClass({
     },
 
     componentDidMount() {
-        InjectInHeadUtils.inject(AppConstants.baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js').then(this.ready);
+        InjectInHeadUtils.inject(AppConstants.audiojs.sdkUrl).then(this.ready);
     },
 
     ready() {
@@ -132,8 +132,8 @@ let Video = React.createClass({
 
     componentDidMount() {
         Q.all([
-            InjectInHeadUtils.inject('//vjs.zencdn.net/4.12/video-js.css'),
-            InjectInHeadUtils.inject('//vjs.zencdn.net/4.12/video.js')])
+            InjectInHeadUtils.inject(AppConstants.videojs.cssUrl),
+            InjectInHeadUtils.inject(AppConstants.videojs.sdkUrl)])
         .then(() => this.setState({libraryLoaded: true}))
         .fail(() => this.setState({libraryLoaded: false}));
     },

@@ -43,7 +43,7 @@ let FacebookShareButton = React.createClass({
                 className="fb-share-button btn btn-ascribe-social"
                 data-href={this.props.url}
                 data-layout={this.props.type}>
-           </span>
+            </span>
         );
     }
 });
