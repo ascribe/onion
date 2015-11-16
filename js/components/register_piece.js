@@ -40,12 +40,6 @@ let RegisterPiece = React.createClass( {
 
     mixins: [History],
 
-    getDefaultProps() {
-        return {
-            canSpecifyEditions: true
-        };
-    },
-
     getInitialState(){
         return mergeOptions(
             UserStore.getState(),

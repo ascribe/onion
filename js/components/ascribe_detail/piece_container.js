@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { History } from 'react-router';
+import Moment from 'moment';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
@@ -201,7 +202,7 @@ let PieceContainer = React.createClass({
                         <AclButtonList
                             className="ascribe-button-list"
                             availableAcls={piece.acl}
-                            editions={piece}
+                            pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
                                     label={getLangText('CREATE EDITIONS')}
@@ -236,7 +237,7 @@ let PieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
-                            <DetailProperty label="DATE" value={ new Date(this.state.piece.date_created).getFullYear() } />
+                            <DetailProperty label="DATE" value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year() } />
                             {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
                             <hr/>
                         </div>

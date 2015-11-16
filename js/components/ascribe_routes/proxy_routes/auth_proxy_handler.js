@@ -31,6 +31,8 @@ export default function AuthProxyHandler({to, when}) {
 
     return (Component) => {
         return React.createClass({
+            displayName: 'AuthProxyHandler',
+
             propTypes: {
                 location: object
             },
