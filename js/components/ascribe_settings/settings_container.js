@@ -46,8 +46,8 @@ let SettingsContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
-    loadUser(){
-        UserActions.fetchCurrentUser();
+    loadUser(invalidateCache){
+        UserActions.fetchCurrentUser(invalidateCache);
     },
 
     onChange(state) {

@@ -60,7 +60,7 @@ let LoginForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         if(success) {
-            UserActions.fetchCurrentUser();
+            UserActions.fetchCurrentUser(true);
         }
     },
 
