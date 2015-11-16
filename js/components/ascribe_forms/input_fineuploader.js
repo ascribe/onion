@@ -41,6 +41,7 @@ const InputFineUploader = React.createClass({
         onLoggedOut: func,
 
         enableLocalHashing: bool,
+        uploadMethod: string,
 
         // provided by Property
         disabled: bool,
@@ -50,8 +51,7 @@ const InputFineUploader = React.createClass({
         fileClassToUpload: shape({
             singular: string,
             plural: string
-        }),
-        location: object
+        })
     },
 
     getDefaultProps() {
@@ -139,10 +139,10 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={onLoggedOut}
-                enableLocalHashing={enableLocalHashing}
-                fileClassToUpload={fileClassToUpload}
-                location={location}/>
+                onInactive={this.props.onLoggedOut}
+                enableLocalHashing={this.props.enableLocalHashing}
+                uploadMethod={this.props.uploadMethod}
+                fileClassToUpload={this.props.fileClassToUpload} />
         );
     }
 });
