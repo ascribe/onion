@@ -410,13 +410,15 @@ let ReactS3FineUploader = React.createClass({
     },
 
     onComplete(id, name, res, xhr) {
-        // there has been an issue with the server's connection
-        if((xhr && xhr.status === 0) || res.error) {
-            console.logGlobal(new Error(res.error || 'Complete was called but there wasn\t a success'), false, {
+        // There has been an issue with the server's connection
+        if (xhr && xhr.status === 0 && res.success) {
+            console.logGlobal(new Error('Upload succeeded with a status code 0'), false, {
                 files: this.state.filesToUpload,
-                chunks: this.state.chunks
+                chunks: this.state.chunks,
+                xhr: this.getXhrErrorComment(xhr)
             });
-        } else {
+        // onError will catch any errors, so we can ignore them here
+        } else if (!res.error || res.success) {
             let files = this.state.filesToUpload;
 
             // Set the state of the completed file to 'upload successful' in order to
@@ -467,10 +469,11 @@ let ReactS3FineUploader = React.createClass({
         this.onError(null, null, err.message);
     },
 
-    onError(id, name, errorReason) {
+    onError(id, name, errorReason, xhr) {
         console.logGlobal(errorReason, false, {
             files: this.state.filesToUpload,
-            chunks: this.state.chunks
+            chunks: this.state.chunks,
+            xhr: this.getXhrErrorComment(xhr)
         });
 
         this.props.setIsUploadReady(true);
@@ -478,6 +481,17 @@ let ReactS3FineUploader = React.createClass({
 
         let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    getXhrErrorComment(xhr) {
+        if (xhr) {
+            return {
+                response: xhr.response,
+                url: xhr.responseURL,
+                status: xhr.status,
+                statusText: xhr.statusText
+            };
+        }
     },
 
     isFileValid(file) {
