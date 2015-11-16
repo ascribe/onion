@@ -92,7 +92,7 @@ let MediaContainer = React.createClass({
                         aclObject={this.props.content.acl}
                         aclName="acl_download">
                         <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
-                            Download <Glyphicon glyph="cloud-download"/>
+                            Download .{mimetype} <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
                     {embed}

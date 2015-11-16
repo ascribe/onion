@@ -113,7 +113,7 @@ let ReactS3FineUploader = React.createClass({
         //   'hash':   upload using the hash
         //   'upload': upload full file (default if not specified)
         enableLocalHashing: React.PropTypes.bool,
-        uploadMethod: React.PropTypes.string,
+        uploadMethod: React.PropTypes.oneOf(['hash', 'upload']),
 
         // A class of a file the user has to upload
         // Needs to be defined both in singular as well as in plural
@@ -202,7 +202,7 @@ let ReactS3FineUploader = React.createClass({
         };
     },
 
-    componentWillReceiveProps() {
+    componentWillUpdate() {
         // since the csrf header is defined in this component's props,
         // everytime the csrf cookie is changed we'll need to reinitalize
         // fineuploader and update the actual csrf token
@@ -259,7 +259,7 @@ let ReactS3FineUploader = React.createClass({
     // Resets the whole react fineuploader component to its initial state
     reset() {
         // Cancel all currently ongoing uploads
-        this.state.uploader.cancelAll();
+        this.cancelUploads();
 
         // and reset component in general
         this.state.uploader.reset();
@@ -269,6 +269,22 @@ let ReactS3FineUploader = React.createClass({
 
         // reset internal data structures of component
         this.setState(this.getInitialState());
+    },
+
+    // Cancel uploads and clear previously selected files on the input element
+    cancelUploads(id) {
+        !!id ? this.state.uploader.cancel(id) : this.state.uploader.cancelAll();
+
+        // Reset the file input element to clear the previously selected files so that
+        // the user can reselect them again.
+        this.clearFileSelection();
+    },
+
+    clearFileSelection() {
+        const { fileInput } = this.refs;
+        if (fileInput && typeof fileInput.clearSelection === 'function') {
+            fileInput.clearSelection();
+        }
     },
 
     requestKey(fileId) {
@@ -298,18 +314,27 @@ let ReactS3FineUploader = React.createClass({
                 resolve(res.key);
             })
             .catch((err) => {
-                console.logGlobal(err, false, {
-                    files: this.state.filesToUpload,
-                    chunks: this.state.chunks
-                });
+                this.onErrorPromiseProxy(err);
                 reject(err);
             });
         });
     },
 
     createBlob(file) {
+        const { createBlobRoutine } = this.props;
+
         return Q.Promise((resolve, reject) => {
-            window.fetch(this.props.createBlobRoutine.url, {
+
+            // if createBlobRoutine is not defined,
+            // we're progressing right away without posting to S3
+            // so that this can be done manually by the form
+            if(!createBlobRoutine) {
+                // still we warn the user of this component
+                console.warn('createBlobRoutine was not defined for ReactS3FineUploader. Continuing without creating the blob on the server.');
+                resolve();
+            }
+
+            window.fetch(createBlobRoutine.url, {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
@@ -320,7 +345,7 @@ let ReactS3FineUploader = React.createClass({
                 body: JSON.stringify({
                     'filename': file.name,
                     'key': file.key,
-                    'piece_id': this.props.createBlobRoutine.pieceId
+                    'piece_id': createBlobRoutine.pieceId
                 })
             })
             .then((res) => {
@@ -336,16 +361,16 @@ let ReactS3FineUploader = React.createClass({
                 } else if(res.contractblob) {
                     file.s3Url = res.contractblob.url_safe;
                     file.s3UrlSafe = res.contractblob.url_safe;
+                } else if(res.thumbnail) {
+                    file.s3Url = res.thumbnail.url_safe;
+                    file.s3UrlSafe = res.thumbnail.url_safe;
                 } else {
                     throw new Error(getLangText('Could not find a url to download.'));
                 }
                 resolve(res);
             })
             .catch((err) => {
-                console.logGlobal(err, false, {
-                    files: this.state.filesToUpload,
-                    chunks: this.state.chunks
-                });
+                this.onErrorPromiseProxy(err);
                 reject(err);
             });
         });
@@ -385,13 +410,15 @@ let ReactS3FineUploader = React.createClass({
     },
 
     onComplete(id, name, res, xhr) {
-        // there has been an issue with the server's connection
-        if((xhr && xhr.status === 0) || res.error) {
-            console.logGlobal(new Error(res.error || 'Complete was called but there wasn\t a success'), false, {
+        // There has been an issue with the server's connection
+        if (xhr && xhr.status === 0 && res.success) {
+            console.logGlobal(new Error('Upload succeeded with a status code 0'), false, {
                 files: this.state.filesToUpload,
-                chunks: this.state.chunks
+                chunks: this.state.chunks,
+                xhr: this.getXhrErrorComment(xhr)
             });
-        } else {
+        // onError will catch any errors, so we can ignore them here
+        } else if (!res.error || res.success) {
             let files = this.state.filesToUpload;
 
             // Set the state of the completed file to 'upload successful' in order to
@@ -410,7 +437,7 @@ let ReactS3FineUploader = React.createClass({
                     if(this.props.submitFile) {
                         this.props.submitFile(files[id]);
                     } else {
-                        console.warn('You didn\'t define submitFile in as a prop in react-s3-fine-uploader');
+                        console.warn('You didn\'t define submitFile as a prop in react-s3-fine-uploader');
                     }
 
                     // for explanation, check comment of if statement above
@@ -427,26 +454,44 @@ let ReactS3FineUploader = React.createClass({
                         console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
                     }
                 })
-                .catch((err) => {
-                    console.logGlobal(err, false, {
-                        files: this.state.filesToUpload,
-                        chunks: this.state.chunks
-                    });
-                    let notification = new GlobalNotificationModel(err.message, 'danger', 5000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
-                });
+                .catch(this.onErrorPromiseProxy);
         }
     },
 
-    onError(id, name, errorReason) {
+    /**
+     * We want to channel all errors in this component through one single method.
+     * As fineuploader's `onError` method cannot handle the callback parameters of
+     * a promise we define this proxy method to crunch them into the correct form.
+     *
+     * @param  {error} err a plain Javascript error
+     */
+    onErrorPromiseProxy(err) {
+        this.onError(null, null, err.message);
+    },
+
+    onError(id, name, errorReason, xhr) {
         console.logGlobal(errorReason, false, {
             files: this.state.filesToUpload,
-            chunks: this.state.chunks
+            chunks: this.state.chunks,
+            xhr: this.getXhrErrorComment(xhr)
         });
-        this.state.uploader.cancelAll();
+
+        this.props.setIsUploadReady(true);
+        this.cancelUploads();
 
         let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+    },
+
+    getXhrErrorComment(xhr) {
+        if (xhr) {
+            return {
+                response: xhr.response,
+                url: xhr.responseURL,
+                status: xhr.status,
+                statusText: xhr.statusText
+            };
+        }
     },
 
     isFileValid(file) {
@@ -586,7 +631,7 @@ let ReactS3FineUploader = React.createClass({
     },
 
     handleCancelFile(fileId) {
-        this.state.uploader.cancel(fileId);
+        this.cancelUploads(fileId);
     },
 
     handlePauseFile(fileId) {
@@ -606,9 +651,14 @@ let ReactS3FineUploader = React.createClass({
     },
 
     handleUploadFile(files) {
+        // While files are being uploaded, the form cannot be ready
+        // for submission
+        this.props.setIsUploadReady(false);
+
         // If multiple set and user already uploaded its work,
         // cancel upload
         if(!this.props.multiple && this.state.filesToUpload.filter(displayValidFilesFilter).length > 0) {
+            this.clearFileSelection();
             return;
         }
 
@@ -838,19 +888,16 @@ let ReactS3FineUploader = React.createClass({
 
     render() {
         const {
-            multiple,
-            areAssetsDownloadable,
-            areAssetsEditable,
-            onInactive,
-            enableLocalHashing,
-            uploadMethod,
-            fileClassToUpload,
-            validation,
-            fileInputElement } = this.props;
+             multiple,
+             areAssetsDownloadable,
+             areAssetsEditable,
+             onInactive,
+             enableLocalHashing,
+             fileClassToUpload,
+             fileInputElement: FileInputElement,
+             uploadMethod } = this.props;
 
-        // Here we initialize the template that has been either provided from the outside
-        // or the default input that is FileDragAndDrop.
-        return React.createElement(fileInputElement, {
+        const props = {
             multiple,
             areAssetsDownloadable,
             areAssetsEditable,
@@ -868,10 +915,14 @@ let ReactS3FineUploader = React.createClass({
             dropzoneInactive: this.isDropzoneInactive(),
             hashingProgress: this.state.hashingProgress,
             allowedExtensions: this.getAllowedExtensions()
-        });
+        };
+
+        return (
+            <FileInputElement
+                ref="fileInput"
+                {...props} />
+        );
     }
-
 });
-
 
 export default ReactS3FineUploader;

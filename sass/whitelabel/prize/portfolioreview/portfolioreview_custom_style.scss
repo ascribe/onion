@@ -1,0 +1,100 @@
+$pr--nav-fg-prim-color: black;
+$pr--button-color: $pr--nav-fg-prim-color;
+
+.client--portfolioreview {
+    padding-top: 0 !important;
+
+    .btn-wide,
+    .btn-default {
+        background-color: $pr--button-color;
+        border-color: $pr--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($pr--button-color, 20%);
+            border-color: lighten($pr--button-color, 20%);
+        }
+    }
+
+    .ascribe-property {
+        > p > span:not(> .span),
+        > textarea,
+        > input {
+            color: $pr--nav-fg-prim-color;
+        }
+    }
+
+    .ascribe-property-wrapper:hover {
+        border-left-color: lighten($pr--nav-fg-prim-color, 60%);
+    }
+
+    .is-focused {
+        border-left-color: $pr--nav-fg-prim-color !important;
+        background-color: lighten($pr--nav-fg-prim-color, 95%);
+    }
+
+    .register-piece--info {
+        text-align: center;
+        
+        h1, h2 {
+            font-variant: small-caps;
+        }
+
+        h1 {
+            font-size: 5em;
+            color: #757575;
+        }
+
+        h2 {
+            font-size: 1.25em;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+        p + p {
+            margin-top: 0;
+        }
+
+        p:last-child {
+            margin-bottom: 1.5em;
+        }
+    }
+
+    .register-piece--form {
+        margin-top: 2em;
+        margin-bottom: 3em;
+
+        form {
+            border-top: none;
+            border-bottom: none;
+        }
+    }
+
+    .piece--hero {
+        text-align: center;
+        padding: 1em 0 1em 0;
+        margin-bottom: 3em;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+        background-color: white;
+
+        h2 {
+            margin-top: 0;
+        }
+    }
+
+    .ascribe-property {
+        > p > span:not(> .span) {
+            text-transform: capitalize;
+        }
+    }
+}

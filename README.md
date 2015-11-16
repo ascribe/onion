@@ -29,6 +29,8 @@ Additionally, to work on the white labeling functionality, you need to edit your
 127.0.0.1   cyland.localhost.com
 127.0.0.1   ikonotv.localhost.com
 127.0.0.1   sluice.localhost.com
+127.0.0.1   lumenus.localhost.com
+127.0.0.1   portfolioreview.localhost.com
 ```
 
 
@@ -41,7 +43,25 @@ For this project, we're using:
 * We don't use ES6's class declaration for React components because it does not support Mixins as well as Autobinding ([Blog post about it](http://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding))
 * We don't use camel case for file naming but in everything Javascript related
 * We use `let` instead of `var`: [SA Post](http://stackoverflow.com/questions/762011/javascript-let-keyword-vs-var-keyword) 
+* We don't use Javascript's `Date` object, as its interface introduced bugs previously and we're including `momentjs` for other dependencies anyways
 
+Branch names
+=====================
+Since we moved to Github, we cannot create branch names automatically with JIRA anymore.
+To not lose context, but still be able to switch branches quickly using a ticket's number, we're recommending the following rules when naming our branches in onion.
+
+```
+AD-<JIRA-ticket-id>-brief-and-sane-description-of-the-ticket
+```
+
+where `brief-and-sane-description-of-the-ticket` does not need to equal to the ticket's title.
+This allows JIRA to still track branches and pull-requests while allowing us to keep our peace of mind.
+
+Example
+-------------
+**JIRA ticket name:** `AD-1242 - Frontend caching for simple endpoints to measure perceived page load <more useless information>`
+
+**Github branch name:** `AD-1242-caching-solution-for-stores`
 
 SCSS Code Conventions
 =====================
