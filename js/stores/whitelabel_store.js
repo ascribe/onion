@@ -30,7 +30,7 @@ class WhitelabelStore {
         this.whitelabel = whitelabel;
     }
 
-    onWhitelabelFailed(err) {
+    onErrorCurrentUser(err) {
         console.logGlobal(err);
         this.whitelabelMeta.err = err;
     }

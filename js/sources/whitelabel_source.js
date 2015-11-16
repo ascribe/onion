@@ -15,7 +15,7 @@ const WhitelabelSource = {
             return Object.keys(state.whitelabel).length > 0 ? state : {};
         },
         success: WhitelabelActions.successFetchWhitelabel,
-        error: WhitelabelActions.whitelabelFailed,
+        error: WhitelabelActions.errorWhitelabel,
         shouldFetch(state) {
             return state.whitelabelMeta.invalidateCache || Object.keys(state.whitelabel).length === 0;
         }

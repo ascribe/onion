@@ -10,7 +10,7 @@ class UserActions {
             'successFetchCurrentUser',
             'logoutCurrentUser',
             'successLogoutCurrentUser',
-            'currentUserFailed'
+            'errorCurrentUser'
         );
     }
 }

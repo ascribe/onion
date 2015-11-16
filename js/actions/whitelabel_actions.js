@@ -8,7 +8,7 @@ class WhitelabelActions {
         this.generateActions(
             'fetchWhitelabel',
             'successFetchWhitelabel',
-            'whitelabelFailed'
+            'errorWhitelabel'
         );
     }
 }

@@ -39,7 +39,7 @@ class UserStore {
         this.currentUser = {};
     }
 
-    onCurrentUserFailed(err) {
+    onErrorCurrentUser(err) {
         console.logGlobal(err);
         this.userMeta.err = err;
     }

@@ -16,7 +16,7 @@ const UserSource = {
             return state.currentUser && state.currentUser.email ? state : {};
         },
         success: UserActions.successFetchCurrentUser,
-        error: UserActions.currentUserFailed,
+        error: UserActions.errorCurrentUser,
         shouldFetch(state) {
             return state.userMeta.invalidateCache || state.currentUser && !state.currentUser.email;
         }
@@ -27,7 +27,7 @@ const UserSource = {
             return requests.get(ApiUrls.users_logout);
         },
         success: UserActions.successLogoutCurrentUser,
-        error: UserActions.currentUserFailed
+        error: UserActions.errorCurrentUser
     }
 };
 

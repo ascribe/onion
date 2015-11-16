@@ -10,6 +10,7 @@ queryParams of the piece_list_store should all be reflected in the url and not a
 - Use classNames plugin instead of if-conditional-classes
 - Instead of using `currentUser && currentUser.email` in an validation that checks whether we user is logged in or now, in the `UserStore` on login we set a boolean property called `isLoggedIn` that can then be used instead of `email`
 - Refactor AclProxy to be a generic hide/show element component. Have it take data input and a validation function to assess whether it should show or hide child elements. Move current Acl checks to another place, eg. acl_utils.js.
+- Convert all fetchers to [alt.js's sources](http://alt.js.org/docs/async/)
 
 # Refactor DONE
 - Refactor forms to generic-declarative form component ✓
