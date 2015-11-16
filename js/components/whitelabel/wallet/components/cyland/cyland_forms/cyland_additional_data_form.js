@@ -78,7 +78,7 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     render() {
-        let { piece, isInline, disabled, handleSuccess } = this.props;
+        let { piece, isInline, disabled, handleSuccess, location } = this.props;
         let buttons, spinner, heading;
 
         if(!isInline) {
@@ -122,21 +122,69 @@ let CylandAdditionalDataForm = React.createClass({
                     {heading}
                     <Property
                         name='artist_bio'
-                        label={getLangText('Artist Biography')}>
+                        label={getLangText('Artist Biography')}
+                        hidden={disabled && !piece.extra_data.artist_bio}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
                             placeholder={getLangText('Enter the artist\'s biography...')}/>
                     </Property>
                     <Property
+                        name='artist_contact_information'
+                        label={getLangText('Artist Contact Information')}
+                        hidden={disabled && !piece.extra_data.artist_contact_information}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.artist_contact_information}
+                            placeholder={getLangText('Enter the artist\'s contact information...')}/>
+                    </Property>
+                    <Property
                         name='conceptual_overview'
-                        label={getLangText('Conceptual Overview')}>
+                        label={getLangText('Conceptual Overview')}
+                        hidden={disabled && !piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.conceptual_overview}
                             placeholder={getLangText('Enter a conceptual overview...')}/>
                     </Property>
+                    <Property
+                        name='medium'
+                        label={getLangText('Medium (technical specifications)')}
+                        hidden={disabled && !piece.extra_data.medium}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.medium}
+                            placeholder={getLangText('Enter the medium (and other technical specifications)...')}/>
+                    </Property>
+                    <Property
+                        name='size_duration'
+                        label={getLangText('Size / Duration')}
+                        hidden={disabled && !piece.extra_data.size_duration}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.size_duration}
+                            placeholder={getLangText('Enter the size / duration...')}/>
+                    </Property>
+                    <Property
+                        name='display_instructions'
+                        label={getLangText('Display instructions')}
+                        hidden={disabled && !piece.extra_data.display_instructions}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.display_instructions}
+                            placeholder={getLangText('Enter the display instructions...')}/>
+                    </Property>
+                    <Property
+                        name='additional_details'
+                        label={getLangText('Additional details')}
+                        hidden={disabled && !piece.extra_data.additional_details}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={piece.extra_data.additional_details}
+                            placeholder={getLangText('Enter additional details...')}/>
+                    </Property>
                     <FurtherDetailsFileuploader
+                        label={getLangText('Additional files (e.g. still images, pdf)')}
                         uploadStarted={this.uploadStarted}
                         submitFile={this.submitFile}
                         setIsUploadReady={this.setIsUploadReady}
@@ -144,7 +192,7 @@ let CylandAdditionalDataForm = React.createClass({
                         pieceId={piece.id}
                         otherData={piece.other_data}
                         multiple={true}
-                        location={this.props.location}/>
+                        location={location}/>
                 </Form>
             );
         } else {
