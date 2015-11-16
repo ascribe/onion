@@ -11,14 +11,8 @@ import ModalWrapper from '../../ascribe_modal/modal_wrapper';
 
 import AppConstants from '../../../constants/application_constants';
 
-import GlobalNotificationModel from '../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../actions/global_notification_actions';
-
-import ApiUrls from '../../../constants/api_urls';
 import { AclInformationText } from '../../../constants/acl_information_text';
 
-import { getAclFormMessage, getAclFormDataId } from '../../../utils/form_utils';
-import { getLangText } from '../../../utils/lang_utils';
 
 export default function ({ action, displayName, title, tooltip }) {
     if (AppConstants.aclList.indexOf(action) < 0) {

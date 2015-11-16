@@ -27,6 +27,7 @@ let FileDragAndDrop = React.createClass({
         areAssetsEditable: React.PropTypes.bool,
 
         enableLocalHashing: React.PropTypes.bool,
+        uploadMethod: React.PropTypes.string,
 
         // triggers a FileDragAndDrop-global spinner
         hashingProgress: React.PropTypes.number,
@@ -41,8 +42,11 @@ let FileDragAndDrop = React.createClass({
             plural: React.PropTypes.string
         }),
 
-        allowedExtensions: React.PropTypes.string,
-        location: React.PropTypes.object
+        allowedExtensions: React.PropTypes.string
+    },
+
+    clearSelection() {
+        this.refs.fileSelector.getDOMNode().value = '';
     },
 
     handleDragOver(event) {
@@ -81,30 +85,30 @@ let FileDragAndDrop = React.createClass({
     },
 
     handleDeleteFile(fileId) {
-        // input's value is not change the second time someone
+        // input's value is not changed the second time someone
         // inputs the same file again, therefore we need to reset its value
-        this.refs.fileinput.getDOMNode().value = '';
+        this.clearSelection();
         this.props.handleDeleteFile(fileId);
     },
 
     handleCancelFile(fileId) {
-        // input's value is not change the second time someone
+        // input's value is not changed the second time someone
         // inputs the same file again, therefore we need to reset its value
-        this.refs.fileinput.getDOMNode().value = '';
+        this.clearSelection();
         this.props.handleCancelFile(fileId);
     },
 
     handlePauseFile(fileId) {
-        // input's value is not change the second time someone
+        // input's value is not changed the second time someone
         // inputs the same file again, therefore we need to reset its value
-        this.refs.fileinput.getDOMNode().value = '';
+        this.clearSelection();
         this.props.handlePauseFile(fileId);
     },
 
     handleResumeFile(fileId) {
-        // input's value is not change the second time someone
+        // input's value is not changed the second time someone
         // inputs the same file again, therefore we need to reset its value
-        this.refs.fileinput.getDOMNode().value = '';
+        this.clearSelection();
         this.props.handleResumeFile(fileId);
     },
 
@@ -133,23 +137,23 @@ let FileDragAndDrop = React.createClass({
             evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
         }
 
-        this.refs.fileinput.getDOMNode().dispatchEvent(evt);
+        this.refs.fileSelector.getDOMNode().dispatchEvent(evt);
     },
 
     render: function () {
-        let { filesToUpload,
-              dropzoneInactive,
-              className,
-              hashingProgress,
-              handleCancelHashing,
-              multiple,
-              enableLocalHashing,
-              fileClassToUpload,
-              areAssetsDownloadable,
-              areAssetsEditable,
-              allowedExtensions,
-              location
-            } = this.props;
+        const {
+            filesToUpload,
+            dropzoneInactive,
+            className,
+            hashingProgress,
+            handleCancelHashing,
+            multiple,
+            enableLocalHashing,
+            uploadMethod,
+            fileClassToUpload,
+            areAssetsDownloadable,
+            areAssetsEditable,
+            allowedExtensions } = this.props;
 
         // has files only is true if there are files that do not have the status deleted or canceled
         let hasFiles = filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1).length > 0;
@@ -185,8 +189,8 @@ let FileDragAndDrop = React.createClass({
                             hasFiles={hasFiles}
                             onClick={this.handleOnClick}
                             enableLocalHashing={enableLocalHashing}
-                            fileClassToUpload={fileClassToUpload}
-                            location={location}/>
+                            uploadMethod={uploadMethod}
+                            fileClassToUpload={fileClassToUpload} />
                         <FileDragAndDropPreviewIterator
                             files={filesToUpload}
                             handleDeleteFile={this.handleDeleteFile}
@@ -206,7 +210,7 @@ let FileDragAndDrop = React.createClass({
                         */}
                         <input
                             multiple={multiple}
-                            ref="fileinput"
+                            ref="fileSelector"
                             type="file"
                             style={{
                                 visibility: 'hidden',

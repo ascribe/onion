@@ -28,8 +28,7 @@ let CreateContractForm = React.createClass({
         fileClassToUpload: React.PropTypes.shape({
             singular: React.PropTypes.string,
             plural: React.PropTypes.string
-        }),
-        location: React.PropTypes.object
+        })
     },
 
     getInitialState() {
@@ -87,8 +86,7 @@ let CreateContractForm = React.createClass({
                         areAssetsEditable={true}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        fileClassToUpload={this.props.fileClassToUpload}
-                        location={this.props.location}/>
+                        fileClassToUpload={this.props.fileClassToUpload} />
                 </Property>
                 <Property
                     name='name'

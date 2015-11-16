@@ -2,8 +2,8 @@
 
 import requests from '../utils/requests';
 
-import { generateOrderingQueryParams } from '../utils/fetch_api_utils';
 import { mergeOptions } from '../utils/general_utils';
+import { generateOrderingQueryParams } from '../utils/url_utils';
 
 let EditionListFetcher = {
     /**
