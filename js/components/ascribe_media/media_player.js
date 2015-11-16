@@ -51,23 +51,33 @@ let Other = React.createClass({
 
 let Image = React.createClass({
     propTypes: {
-        url: React.PropTypes.string.isRequired,
+        url: React.PropTypes.string,
         preview: React.PropTypes.string.isRequired
     },
 
     componentDidMount() {
-        InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
-            .then(() =>
-                Q.all([
-                    InjectInHeadUtils.inject(AppConstants.shmui.cssUrl),
-                    InjectInHeadUtils.inject(AppConstants.shmui.sdkUrl)
-                ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
+        if(this.props.url) {
+            InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
+                .then(() =>
+                    Q.all([
+                        InjectInHeadUtils.inject(AppConstants.shmui.cssUrl),
+                        InjectInHeadUtils.inject(AppConstants.shmui.sdkUrl)
+                    ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
+        }
     },
 
     render() {
-        return (
-            <img className="shmui-ascribe" src={this.props.preview} data-large-src={this.props.url}/>
-        );
+        const { url, preview } = this.props;
+
+        if(url) {
+            return (
+                <img className="shmui-ascribe" src={preview} data-large-src={url}/>
+            );
+        } else {
+            return (
+                <img src={preview}/>
+            );
+        }
     }
 });
 
@@ -138,6 +148,10 @@ let Video = React.createClass({
         .fail(() => this.setState({libraryLoaded: false}));
     },
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.videoMounted === false;
+    },
+
     componentDidUpdate() {
         if (this.state.libraryLoaded && !this.state.videoMounted) {
             window.videojs('#mainvideo');
@@ -161,10 +175,6 @@ let Video = React.createClass({
                    sources.join('\n'),
             '</video>'];
         return html.join('\n');
-    },
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.videoMounted === false;
     },
 
     render() {
@@ -197,26 +207,50 @@ let MediaPlayer = React.createClass({
     },
 
     render() {
-        if (this.props.mimetype === 'video' && this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
+        const { mimetype,
+                preview,
+                url,
+                extraData,
+                encodingStatus } = this.props;
+
+        if (mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100) {
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
                     <p>
                         <em>We successfully received your video and it is now being encoded.
                         <br />You can leave this page and check back on the status later.</em>
                     </p>
-                    <ProgressBar now={this.props.encodingStatus}
+                    <ProgressBar now={encodingStatus}
                         label="%(percent)s%"
                         className="ascribe-progress-bar" />
                 </div>
             );
         } else {
-            let Component = resourceMap[this.props.mimetype] || Other;
+            let Component = resourceMap[mimetype] || Other;
+            let componentProps = {
+                preview,
+                url,
+                extraData,
+                encodingStatus
+            };
+
+            // Since the launch of the portfolio whitelabel submission,
+            // we allow the user to specify a thumbnail upon piece-registration.
+            // As the `Component` is chosen according to its filetype but could potentially
+            // have a manually submitted thumbnail, we match if the to `Mediaplayer` submitted thumbnail
+            // is not the generally used fallback `url` (ascribe_spiral.png).
+            //
+            // If this is the case, we disable shmui by deleting the original `url` prop and replace
+            // the assigned component to `Image`.
+            if(!decodeURIComponent(preview).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
+               Component === Other) {
+                Component = resourceMap.image;
+                delete componentProps.url;
+            }
+
             return (
                 <div className="ascribe-media-player">
-                    <Component preview={this.props.preview}
-                               url={this.props.url}
-                               extraData={this.props.extraData}
-                               encodingStatus={this.props.encodingStatus} />
+                    <Component {...componentProps}/>
                 </div>
             );
         }

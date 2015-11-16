@@ -14,6 +14,7 @@ let ApiUrls = {
     'blob_digitalworks': AppConstants.apiEndpoint + 'blob/digitalworks/',
     'blob_otherdatas': AppConstants.apiEndpoint + 'blob/otherdatas/',
     'blob_contracts': AppConstants.apiEndpoint + 'blob/contracts/',
+    'blob_thumbnails': AppConstants.apiEndpoint + 'blob/thumbnails/',
     'coa': AppConstants.apiEndpoint + 'coa/${id}/',
     'coa_create': AppConstants.apiEndpoint + 'coa/',
     'coa_verify': AppConstants.apiEndpoint + 'coa/verify_coa/',

@@ -30,11 +30,14 @@ $ascribe-red-error: rgb(169, 68, 66);
     border-left: 3px solid rgba($ascribe-red-error, 1);
 
     > div {
-        > span {
-            color: rgba($ascribe-red-error, 1);
-            font-size: .9em;
-            margin-right: 1em;
+        > p {
+            > span {
+                color: rgba($ascribe-red-error, 1);
+                font-size: .9em;
+                margin-right: 1em;
+            }
         }
+        
 
         > input,
         > textarea {
@@ -86,10 +89,13 @@ $ascribe-red-error: rgb(169, 68, 66);
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
-    > span {
-        color: rgba(0, 0, 0, .5);
-        font-size: .9em;
-        font-weight: normal;
+    > p {
+        height: 20px;
+        margin-bottom: 0;
+        > span {
+            font-size: .9em;
+            font-weight: normal;
+        }
     }
 
     > div {
@@ -105,6 +111,11 @@ $ascribe-red-error: rgb(169, 68, 66);
 
     > .progressbar-container, .progressbar-progress {
         margin-top: 0 !important;
+    }
+
+    > .upload-button-wrapper {
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
 
     > input,
@@ -139,7 +150,7 @@ $ascribe-red-error: rgb(169, 68, 66);
         padding: 0;
     }
 
-    > textarea{
+    > textarea {
         color: #666;
         margin-top: 1em;
         padding: 0;

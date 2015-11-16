@@ -125,8 +125,8 @@ let MediaContainer = React.createClass({
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
                         aclName="acl_download">
-                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={content.digital_work.url} target="_blank">
-                            Download <Glyphicon glyph="cloud-download"/>
+                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
+                            Download .{mimetype} <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
                     {embed}
