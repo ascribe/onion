@@ -54,10 +54,10 @@ UserSource.lookupCurrentUser
 This talks about the naming in an actual `*_source.js` file:
 
 ```javascript
-    lookupCurrentUser: {
-        success: UserActions.successFetchCurrentUser, // 'success<ObjectToManipulateInTheStore>'
-        error: UserActions.errorCurrentUser, // 'error<ObjectToManipulateInTheStore>'
-    },
+lookupCurrentUser: {
+    success: UserActions.successFetchCurrentUser, // 'success<ObjectToManipulateInTheStore>'
+    error: UserActions.errorCurrentUser, // 'error<ObjectToManipulateInTheStore>'
+},
 ```
 
 ### Examples for Rule 3.)
