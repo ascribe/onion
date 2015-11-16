@@ -62,7 +62,7 @@ const PRRegisterPiece = React.createClass({
                 <Col xs={6}>
                     <div className="register-piece--info">
                         <h1>Portfolio Review</h1>
-                        <h2>{getLangText('Submission closing on %s', ' 21 Dec 2015')}</h2>
+                        <h2>{getLangText('Submission closing on %s', ' 22 Dec 2015')}</h2>
                         <p style={{marginTop: '1em'}}>
                             {getLangText("You're submitting as %s. ", currentUser.email)}
                             <Link to="/logout">{getLangText('Change account?')}</Link>

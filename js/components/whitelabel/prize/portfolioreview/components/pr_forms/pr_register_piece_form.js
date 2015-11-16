@@ -107,8 +107,9 @@ const PRRegisterPieceForm = React.createClass({
                 }
             })
             .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
+                const notificationMessage = new GlobalNotificationModel(getLangText("Ups! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
+                GlobalNotificationActions.appendGlobalNotification(notificationMessage);
             });
     },
 
