@@ -3,63 +3,79 @@
 import React from 'react';
 
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
+import FileDragAndDrop from '../ascribe_uploader/ascribe_file_drag_and_drop/file_drag_and_drop';
 
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 
-let InputFineUploader = React.createClass({
+
+const { func, bool, object, shape, string, number, arrayOf } = React.PropTypes;
+
+const InputFineUploader = React.createClass({
     propTypes: {
-        setIsUploadReady: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func,
-        submitFileName: React.PropTypes.func,
+        setIsUploadReady: func,
+        isReadyForFormSubmission: func,
+        submitFileName: func,
+        fileInputElement: func,
 
-        areAssetsDownloadable: React.PropTypes.bool,
+        areAssetsDownloadable: bool,
 
-        onClick: React.PropTypes.func,
-        keyRoutine: React.PropTypes.shape({
-            url: React.PropTypes.string,
-            fileClass: React.PropTypes.string
+        keyRoutine: shape({
+            url: string,
+            fileClass: string
         }),
-        createBlobRoutine: React.PropTypes.shape({
-            url: React.PropTypes.string
+        createBlobRoutine: shape({
+            url: string
         }),
-        validation: React.PropTypes.shape({
-            itemLimit: React.PropTypes.number,
-            sizeLimit: React.PropTypes.string,
-            allowedExtensions: React.PropTypes.arrayOf(React.PropTypes.string)
+        validation: shape({
+            itemLimit: number,
+            sizeLimit: string,
+            allowedExtensions: arrayOf(string)
         }),
 
         // isFineUploaderActive is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
         // before login in
-        isFineUploaderActive: React.PropTypes.bool,
-        onLoggedOut: React.PropTypes.func,
+        isFineUploaderActive: bool,
+        onLoggedOut: func,
 
-        enableLocalHashing: React.PropTypes.bool,
+        enableLocalHashing: bool,
 
         // provided by Property
-        disabled: React.PropTypes.bool,
+        disabled: bool,
 
         // A class of a file the user has to upload
         // Needs to be defined both in singular as well as in plural
-        fileClassToUpload: React.PropTypes.shape({
-            singular: React.PropTypes.string,
-            plural: React.PropTypes.string
+        fileClassToUpload: shape({
+            singular: string,
+            plural: string
         }),
-        location: React.PropTypes.object
+        location: object
+    },
+
+    getDefaultProps() {
+        return {
+            fileInputElement: FileDragAndDrop
+        };
     },
 
     getInitialState() {
         return {
-            value: null
+            value: null,
+            file: null
         };
     },
 
-    submitFile(file){
+    submitFile(file) {
         this.setState({
+            file,
             value: file.key
         });
+
+        if(this.state.value && typeof this.props.onChange === 'function') {
+            this.props.onChange({ target: { value: this.state.value } });
+        }
 
         if(typeof this.props.submitFileName === 'function') {
             this.props.submitFileName(file.originalName);
@@ -70,7 +86,25 @@ let InputFineUploader = React.createClass({
         this.refs.fineuploader.reset();
     },
 
+    createBlobRoutine() {
+        const { fineuploader } = this.refs;
+        const { file } = this.state;
+
+        fineuploader.createBlob(file);
+    },
+
     render() {
+        const { fileInputElement,
+                keyRoutine,
+                createBlobRoutine,
+                validation,
+                setIsUploadReady,
+                isReadyForFormSubmission,
+                areAssetsDownloadable,
+                onLoggedOut,
+                enableLocalHashing,
+                fileClassToUpload,
+                location } = this.props;
         let editable = this.props.isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
@@ -82,14 +116,14 @@ let InputFineUploader = React.createClass({
         return (
             <ReactS3FineUploader
                 ref="fineuploader"
-                onClick={this.props.onClick}
-                keyRoutine={this.props.keyRoutine}
-                createBlobRoutine={this.props.createBlobRoutine}
-                validation={this.props.validation}
+                fileInputElement={fileInputElement}
+                keyRoutine={keyRoutine}
+                createBlobRoutine={createBlobRoutine}
+                validation={validation}
                 submitFile={this.submitFile}
-                setIsUploadReady={this.props.setIsUploadReady}
-                isReadyForFormSubmission={this.props.isReadyForFormSubmission}
-                areAssetsDownloadable={this.props.areAssetsDownloadable}
+                setIsUploadReady={setIsUploadReady}
+                isReadyForFormSubmission={isReadyForFormSubmission}
+                areAssetsDownloadable={areAssetsDownloadable}
                 areAssetsEditable={editable}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',
@@ -105,10 +139,10 @@ let InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing}
-                fileClassToUpload={this.props.fileClassToUpload}
-                location={this.props.location}/>
+                onInactive={onLoggedOut}
+                enableLocalHashing={enableLocalHashing}
+                fileClassToUpload={fileClassToUpload}
+                location={location}/>
         );
     }
 });

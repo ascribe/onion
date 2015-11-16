@@ -29,6 +29,8 @@ Additionally, to work on the white labeling functionality, you need to edit your
 127.0.0.1   cyland.localhost.com
 127.0.0.1   ikonotv.localhost.com
 127.0.0.1   sluice.localhost.com
+127.0.0.1   lumenus.localhost.com
+127.0.0.1   portfolioreview.localhost.com
 ```
 
 
