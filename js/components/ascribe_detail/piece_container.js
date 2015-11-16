@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { History } from 'react-router';
+import Moment from 'moment';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
@@ -49,6 +50,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
+        params: React.PropTypes.object,
         location: React.PropTypes.object
     },
 
@@ -70,15 +72,16 @@ let PieceContainer = React.createClass({
         PieceListStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
+
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
+
+        this.loadPiece();
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
@@ -199,7 +202,7 @@ let PieceContainer = React.createClass({
                         <AclButtonList
                             className="ascribe-button-list"
                             availableAcls={piece.acl}
-                            editions={piece}
+                            pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
                                     label={getLangText('CREATE EDITIONS')}
@@ -234,7 +237,7 @@ let PieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
-                            <DetailProperty label="DATE" value={ new Date(this.state.piece.date_created).getFullYear() } />
+                            <DetailProperty label="DATE" value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year() } />
                             {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
                             <hr/>
                         </div>
@@ -266,6 +269,15 @@ let PieceContainer = React.createClass({
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
+                            currentUser={this.state.currentUser}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Piece note (public)')}
+                            defaultValue={this.state.piece.public_note || null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={!!this.state.piece.acl.acl_edit}
+                            successMessage={getLangText('Public piece note saved')}
+                            url={ApiUrls.note_public_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph

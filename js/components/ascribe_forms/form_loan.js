@@ -285,7 +285,7 @@ let LoanForm = React.createClass({
                         rows={1}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required={this.props.showPersonalMessage ? 'required' : ''}/>
+                        required={this.props.showPersonalMessage}/>
                 </Property>
                 {this.getContractCheckbox()}
                 {this.getAppendix()}

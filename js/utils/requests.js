@@ -8,6 +8,7 @@ import { getCookie } from '../utils/fetch_api_utils';
 import { omitFromObject } from '../utils/general_utils';
 import { argsToQueryParams } from '../utils/url_utils';
 
+
 class Requests {
     unpackResponse(response) {
         if (response.status >= 500) {

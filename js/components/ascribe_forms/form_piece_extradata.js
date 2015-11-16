@@ -50,7 +50,7 @@ let PieceExtraDataForm = React.createClass({
                         rows={1}
                         defaultValue={defaultValue}
                         placeholder={getLangText('Fill in%s', ' ') + this.props.title}
-                        required="required"/>
+                        required />
                 </Property>
                 <hr />
             </Form>
