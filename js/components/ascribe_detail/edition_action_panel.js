@@ -107,7 +107,7 @@ let EditionActionPanel = React.createClass({
                         <AclButtonList
                             className="ascribe-button-list"
                             availableAcls={edition.acl}
-                            editions={[edition]}
+                            pieceOrEditions={[edition]}
                             handleSuccess={this.handleSuccess}>
                             <AclProxy
                                 aclObject={edition.acl}

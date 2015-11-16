@@ -11,7 +11,7 @@ let constants = {
     'serverUrl': window.SERVER_URL,
     'baseUrl': window.BASE_URL,
     'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
-                'acl_loan', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
+                'acl_loan', 'acl_loan_request', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
                 'acl_withdraw_transfer', 'acl_wallet_submit'],
 
     'version': 0.1,
@@ -46,6 +46,13 @@ let constants = {
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-logo-black.png',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
+        },
+        {
+            'subdomain': 'portfolioreview',
+            'name': 'Portfolio Review',
+            'logo': 'http://notfoundlogo.de',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'prize'
         }
     ],
     'defaultDomain': {
