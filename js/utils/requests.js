@@ -6,7 +6,7 @@ import { argsToQueryParams, getCookie } from '../utils/fetch_api_utils';
 
 import AppConstants from '../constants/application_constants';
 
-import {excludePropFromObject} from '../utils/general_utils';
+import { omitFromObject } from '../utils/general_utils';
 
 class Requests {
     _merge(defaults, options) {
@@ -138,9 +138,9 @@ class Requests {
         return this.request('delete', newUrl);
     }
 
-    _putOrPost(url, paramsAndBody, method){
-        let paramsCopy = this._merge(paramsAndBody);
-        let params = excludePropFromObject(paramsAndBody, ['body']);
+    _putOrPost(url, paramsAndBody, method) {
+        let paramsCopy = Object.assign({}, paramsAndBody);
+        let params = omitFromObject(paramsAndBody, ['body']);
         let newUrl = this.prepareUrl(url, params);
         let body = null;
         if (paramsCopy && paramsCopy.body) {

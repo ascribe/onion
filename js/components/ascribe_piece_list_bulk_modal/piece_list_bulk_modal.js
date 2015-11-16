@@ -117,7 +117,7 @@ let PieceListBulkModal = React.createClass({
                             <div className="row-fluid">
                                 <AclButtonList
                                     availableAcls={availableAcls}
-                                    editions={selectedEditions}
+                                    pieceOrEditions={selectedEditions}
                                     handleSuccess={this.handleSuccess}
                                     className="text-center ascribe-button-list collapse-group">
                                     <DeleteButton

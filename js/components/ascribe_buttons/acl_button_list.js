@@ -5,21 +5,25 @@ import React from 'react/addons';
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
-import AclButton from '../ascribe_buttons/acl_button';
+import ConsignButton from './acls/consign_button';
+import LoanButton from './acls/loan_button';
+import LoanRequestButton from './acls/loan_request_button';
+import ShareButton from './acls/share_button';
+import TransferButton from './acls/transfer_button';
+import UnconsignButton from './acls/unconsign_button';
 
 import { mergeOptions } from '../../utils/general_utils';
-
 
 let AclButtonList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        editions: React.PropTypes.oneOfType([
+        pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
-        ]),
-        availableAcls: React.PropTypes.object,
+        ]).isRequired,
+        availableAcls: React.PropTypes.object.isRequired,
         buttonsStyle: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -78,7 +82,7 @@ let AclButtonList = React.createClass({
         const { className,
                 buttonsStyle,
                 availableAcls,
-                editions,
+                pieceOrEditions,
                 handleSuccess } = this.props;
 
         const { currentUser } = this.state;
@@ -86,34 +90,29 @@ let AclButtonList = React.createClass({
         return (
             <div className={className}>
                 <span ref="buttonList" style={buttonsStyle}>
-                    <AclButton
+                    <ShareButton
                         availableAcls={availableAcls}
-                        action="acl_share"
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
-                    <AclButton
+                    <TransferButton
                         availableAcls={availableAcls}
-                        action="acl_transfer"
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess}/>
-                    <AclButton
+                    <ConsignButton
                         availableAcls={availableAcls}
-                        action="acl_consign"
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
-                    <AclButton
+                    <UnconsignButton
                         availableAcls={availableAcls}
-                        action="acl_unconsign"
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
-                    <AclButton
+                    <LoanButton
                         availableAcls={availableAcls}
-                        action="acl_loan"
-                        pieceOrEditions={editions}
+                        pieceOrEditions={pieceOrEditions}
                         currentUser={currentUser}
                         handleSuccess={handleSuccess} />
                     {this.renderChildren()}
