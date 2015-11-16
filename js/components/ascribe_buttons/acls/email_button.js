@@ -8,7 +8,7 @@ import { getLangText } from '../../../utils/lang_utils';
 
 export default AclButton({
     action: 'acl_share',
-    displayName: 'ShareButton',
-    title: getLangText('Share artwork'),
-    tooltip: getLangText('Share the artwork')
+    displayName: 'EmailButton',
+    title: getLangText('Share artwork via email'),
+    tooltip: getLangText("Share the artwork to another user's collection through email")
 });

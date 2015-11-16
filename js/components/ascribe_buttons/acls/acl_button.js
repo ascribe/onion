@@ -11,6 +11,8 @@ import ModalWrapper from '../../ascribe_modal/modal_wrapper';
 
 import AppConstants from '../../../constants/application_constants';
 
+import { AclInformationText } from '../../../constants/acl_information_text';
+
 
 export default function ({ action, displayName, title, tooltip }) {
     if (AppConstants.aclList.indexOf(action) < 0) {
@@ -34,12 +36,11 @@ export default function ({ action, displayName, title, tooltip }) {
             className: React.PropTypes.string
         },
 
-        // Removes the acl_ prefix and converts to upper case
         sanitizeAction() {
             if (this.props.buttonAcceptName) {
                 return this.props.buttonAcceptName;
             }
-            return action.split('acl_')[1].toUpperCase();
+            return AclInformationText.titles[action];
         },
 
         render() {
