@@ -259,7 +259,7 @@ let ReactS3FineUploader = React.createClass({
     // Resets the whole react fineuploader component to its initial state
     reset() {
         // Cancel all currently ongoing uploads
-        this.state.uploader.cancelAll();
+        this.cancelUploads();
 
         // and reset component in general
         this.state.uploader.reset();
@@ -269,6 +269,22 @@ let ReactS3FineUploader = React.createClass({
 
         // reset internal data structures of component
         this.setState(this.getInitialState());
+    },
+
+    // Cancel uploads and clear previously selected files on the input element
+    cancelUploads(id) {
+        !!id ? this.state.uploader.cancel(id) : this.state.uploader.cancelAll();
+
+        // Reset the file input element to clear the previously selected files so that
+        // the user can reselect them again.
+        this.clearFileSelection();
+    },
+
+    clearFileSelection() {
+        const { fileInput } = this.refs;
+        if (fileInput && typeof fileInput.clearSelection === 'function') {
+            fileInput.clearSelection();
+        }
     },
 
     requestKey(fileId) {
@@ -456,8 +472,9 @@ let ReactS3FineUploader = React.createClass({
             files: this.state.filesToUpload,
             chunks: this.state.chunks
         });
+
         this.props.setIsUploadReady(true);
-        this.state.uploader.cancelAll();
+        this.cancelUploads();
 
         let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -600,7 +617,7 @@ let ReactS3FineUploader = React.createClass({
     },
 
     handleCancelFile(fileId) {
-        this.state.uploader.cancel(fileId);
+        this.cancelUploads(fileId);
     },
 
     handlePauseFile(fileId) {
@@ -627,6 +644,7 @@ let ReactS3FineUploader = React.createClass({
         // If multiple set and user already uploaded its work,
         // cancel upload
         if(!this.props.multiple && this.state.filesToUpload.filter(displayValidFilesFilter).length > 0) {
+            this.clearFileSelection();
             return;
         }
 
@@ -856,19 +874,16 @@ let ReactS3FineUploader = React.createClass({
 
     render() {
         const {
-            multiple,
-            areAssetsDownloadable,
-            areAssetsEditable,
-            onInactive,
-            enableLocalHashing,
-            uploadMethod,
-            fileClassToUpload,
-            validation,
-            fileInputElement } = this.props;
+             multiple,
+             areAssetsDownloadable,
+             areAssetsEditable,
+             onInactive,
+             enableLocalHashing,
+             fileClassToUpload,
+             fileInputElement: FileInputElement,
+             uploadMethod } = this.props;
 
-        // Here we initialize the template that has been either provided from the outside
-        // or the default input that is FileDragAndDrop.
-        return React.createElement(fileInputElement, {
+        const props = {
             multiple,
             areAssetsDownloadable,
             areAssetsEditable,
@@ -886,10 +901,14 @@ let ReactS3FineUploader = React.createClass({
             dropzoneInactive: this.isDropzoneInactive(),
             hashingProgress: this.state.hashingProgress,
             allowedExtensions: this.getAllowedExtensions()
-        });
+        };
+
+        return (
+            <FileInputElement
+                ref="fileInput"
+                {...props} />
+        );
     }
-
 });
-
 
 export default ReactS3FineUploader;
