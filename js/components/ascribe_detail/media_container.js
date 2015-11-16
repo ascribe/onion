@@ -7,10 +7,18 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
+import FacebookShareButton from '../ascribe_social_share/facebook_share_button';
+import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
+
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
 
+import UserActions from '../../actions/user_actions';
+import UserStore from '../../stores/user_store';
+
+import { mergeOptions } from '../../utils/general_utils.js';
+import { getLangText } from '../../utils/lang_utils.js';
 
 const EMBED_IFRAME_HEIGHT = {
     video: 315,
@@ -24,10 +32,17 @@ let MediaContainer = React.createClass({
     },
 
     getInitialState() {
-        return {timerId: null};
+        return mergeOptions(
+            UserStore.getState(),
+            {
+                timerId: null
+            });
     },
 
     componentDidMount() {
+        UserStore.listen(this.onChange);
+        UserActions.fetchCurrentUser();
+
         if (!this.props.content.digital_work) {
             return;
         }
@@ -45,19 +60,32 @@ let MediaContainer = React.createClass({
     },
 
     componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+
         window.clearInterval(this.state.timerId);
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
-        let thumbnail = this.props.content.thumbnail.thumbnail_sizes && this.props.content.thumbnail.thumbnail_sizes['600x600'] ?
-            this.props.content.thumbnail.thumbnail_sizes['600x600'] : this.props.content.thumbnail.url_safe;
-        let mimetype = this.props.content.digital_work.mime;
+        const { content } = this.props;
+        // Pieces and editions are joined to the user by a foreign key in the database, so
+        // the information in content will be updated if a user updates their username.
+        // We also force uniqueness of usernames, so this check is safe to dtermine if the
+        // content was registered by the current user.
+        const didUserRegisterContent = this.state.currentUser && (this.state.currentUser.username === content.user_registered);
+
+        let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
+            content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
+        let mimetype = content.digital_work.mime;
         let embed = null;
         let extraData = null;
-        let isEmbedDisabled = mimetype === 'video' && this.props.content.digital_work.isEncoding !== undefined && this.props.content.digital_work.isEncoding !== 100;
+        let isEmbedDisabled = mimetype === 'video' && content.digital_work.isEncoding !== undefined && content.digital_work.isEncoding !== 100;
 
-        if (this.props.content.digital_work.encoding_urls) {
-            extraData = this.props.content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
+        if (content.digital_work.encoding_urls) {
+            extraData = content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
         }
 
         if (['video', 'audio'].indexOf(mimetype) > -1) {
@@ -73,7 +101,7 @@ let MediaContainer = React.createClass({
                     panel={
                         <pre className="">
                             {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
-                                + this.props.content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
+                                + content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
                     }/>
             );
@@ -83,13 +111,19 @@ let MediaContainer = React.createClass({
                 <MediaPlayer
                     mimetype={mimetype}
                     preview={thumbnail}
-                    url={this.props.content.digital_work.url}
+                    url={content.digital_work.url}
                     extraData={extraData}
-                    encodingStatus={this.props.content.digital_work.isEncoding} />
+                    encodingStatus={content.digital_work.isEncoding} />
                 <p className="text-center">
+                    <span className="ascribe-social-button-list">
+                        <FacebookShareButton />
+                        <TwitterShareButton
+                            text={getLangText('Check out %s ascribed piece', didUserRegisterContent ? 'my latest' : 'this' )} />
+                    </span>
+
                     <AclProxy
-                        show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || this.props.content.acl.acl_download}
-                        aclObject={this.props.content.acl}
+                        show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
+                        aclObject={content.acl}
                         aclName="acl_download">
                         <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
                             Download .{mimetype} <Glyphicon glyph="cloud-download"/>

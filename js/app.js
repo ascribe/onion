@@ -30,6 +30,7 @@ import GoogleAnalyticsHandler from './third_party/ga';
 import RavenHandler from './third_party/raven';
 import IntercomHandler from './third_party/intercom';
 import NotificationsHandler from './third_party/notifications';
+import FacebookHandler from './third_party/facebook';
 /* eslint-enable */
 
 initLogging();

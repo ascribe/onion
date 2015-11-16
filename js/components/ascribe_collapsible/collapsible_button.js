@@ -21,13 +21,13 @@ let CollapsibleButton = React.createClass({
         this.setState({expanded: !this.state.expanded});
     },
     render() {
-        let isVisible = (this.state.expanded) ? '' : 'invisible';
+        let isHidden = (this.state.expanded) ? '' : 'hidden';
         return (
             <span>
                 <span onClick={this.handleToggle}>
                     {this.props.button}
                 </span>
-                <div ref='panel' className={isVisible}>
+                <div ref='panel' className={isHidden}>
                     {this.props.panel}
                 </div>
             </span>
