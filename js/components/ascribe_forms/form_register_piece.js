@@ -94,7 +94,8 @@ let RegisterPieceForm = React.createClass({
                 children,
                 enableLocalHashing } = this.props;
         const { currentUser,
-                isUploadReady } = this.state;
+                digitalWorkKeyReady,
+                thumbnailKeyReady } = this.state;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;
@@ -110,7 +111,7 @@ let RegisterPieceForm = React.createClass({
                     <button
                         type="submit"
                         className="btn btn-default btn-wide"
-                        disabled={!isUploadReady || disabled}>
+                        disabled={!(digitalWorkKeyReady && thumbnailKeyReady)}>
                         {submitMessage}
                     </button>
                 }

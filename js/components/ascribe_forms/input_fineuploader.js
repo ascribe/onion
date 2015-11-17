@@ -10,13 +10,13 @@ import AppConstants from '../../constants/application_constants';
 import { getCookie } from '../../utils/fetch_api_utils';
 
 
-const { func, bool, object, shape, string, number, arrayOf } = React.PropTypes;
+const { func, bool, shape, string, number, arrayOf } = React.PropTypes;
 
 const InputFineUploader = React.createClass({
     propTypes: {
         setIsUploadReady: func,
         isReadyForFormSubmission: func,
-        submitFileName: func,
+        submitFile: func,
         fileInputElement: func,
 
         areAssetsDownloadable: bool,
@@ -77,8 +77,8 @@ const InputFineUploader = React.createClass({
             this.props.onChange({ target: { value: this.state.value } });
         }
 
-        if(typeof this.props.submitFileName === 'function') {
-            this.props.submitFileName(file.originalName);
+        if(typeof this.props.submitFile === 'function') {
+            this.props.submitFile(file);
         }
     },
 
@@ -104,7 +104,7 @@ const InputFineUploader = React.createClass({
                 onLoggedOut,
                 enableLocalHashing,
                 fileClassToUpload,
-                location } = this.props;
+                uploadMethod } = this.props;
         let editable = this.props.isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
@@ -139,10 +139,10 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing}
-                uploadMethod={this.props.uploadMethod}
-                fileClassToUpload={this.props.fileClassToUpload} />
+                onInactive={onLoggedOut}
+                enableLocalHashing={enableLocalHashing}
+                uploadMethod={uploadMethod}
+                fileClassToUpload={fileClassToUpload} />
         );
     }
 });
