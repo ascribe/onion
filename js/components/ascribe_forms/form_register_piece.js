@@ -7,6 +7,7 @@ import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
+import PropertyCollapsible from './property_collapsible';
 import InputFineUploader from './input_fineuploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
@@ -16,7 +17,7 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation, displayValidFilesFilter } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -50,7 +51,8 @@ let RegisterPieceForm = React.createClass({
         return mergeOptions(
             {
                 digitalWorkKeyReady: false,
-                thumbnailKeyReady: true
+                thumbnailKeyReady: true,
+                thumbnailKeyDialogExpanded: false
             },
             UserStore.getState()
         );
@@ -82,6 +84,20 @@ let RegisterPieceForm = React.createClass({
         };
     },
 
+    handleSelectFiles(files) {
+        const validFiles = files.filter(displayValidFilesFilter);
+
+        if(validFiles.length > 0) {
+            const { type: fileType } = validFiles[0].type;
+            const fileExtension = fileType && fileType.split('/').length ? fileType.split('/')[1]
+                                                                         : 'unknown';
+            const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(fileExtension) === -1;
+            this.setState({ thumbnailKeyDialogExpanded });
+        } else {
+            this.setState({ thumbnailKeyDialogExpanded: false });
+        }
+    },
+
     render() {
         const { disabled,
                 handleSuccess,
@@ -95,7 +111,8 @@ let RegisterPieceForm = React.createClass({
                 enableLocalHashing } = this.props;
         const { currentUser,
                 digitalWorkKeyReady,
-                thumbnailKeyReady } = this.state;
+                thumbnailKeyReady,
+                thumbnailKeyDialogExpanded } = this.state;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;
@@ -141,10 +158,12 @@ let RegisterPieceForm = React.createClass({
                         onLoggedOut={onLoggedOut}
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
-                        uploadMethod={location.query.method} />
+                        uploadMethod={location.query.method}
+                        handleSelectFiles={this.handleSelectFiles}/>
                 </Property>
                 <Property
-                    name="thumbnail_file">
+                    name="thumbnail_file"
+                    expanded={thumbnailKeyDialogExpanded}>
                     <InputFineUploader
                             fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
                             createBlobRoutine={{
