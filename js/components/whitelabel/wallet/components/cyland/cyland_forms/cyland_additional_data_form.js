@@ -116,7 +116,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}
-                        hidden={disabled && !piece.extra_data.artist_bio}>
+                        expanded={!disabled && piece.extra_data.artist_bio}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
@@ -125,7 +125,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_contact_information'
                         label={getLangText('Artist Contact Information')}
-                        hidden={disabled && !piece.extra_data.artist_contact_information}>
+                        expanded={!disabled && piece.extra_data.artist_contact_information}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_contact_information}
@@ -134,7 +134,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Conceptual Overview')}
-                        hidden={disabled && !piece.extra_data.conceptual_overview}>
+                        expanded={!disabled && piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.conceptual_overview}
@@ -143,7 +143,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='medium'
                         label={getLangText('Medium (technical specifications)')}
-                        hidden={disabled && !piece.extra_data.medium}>
+                        expanded={!disabled && piece.extra_data.medium}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.medium}
@@ -152,7 +152,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='size_duration'
                         label={getLangText('Size / Duration')}
-                        hidden={disabled && !piece.extra_data.size_duration}>
+                        expanded={!disabled && piece.extra_data.size_duration}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.size_duration}
@@ -161,7 +161,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='display_instructions'
                         label={getLangText('Display instructions')}
-                        hidden={disabled && !piece.extra_data.display_instructions}>
+                        expanded={!disabled && piece.extra_data.display_instructions}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.display_instructions}
@@ -170,7 +170,7 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='additional_details'
                         label={getLangText('Additional details')}
-                        hidden={disabled && !piece.extra_data.additional_details}>
+                        expanded={!disabled && piece.extra_data.additional_details}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.additional_details}
