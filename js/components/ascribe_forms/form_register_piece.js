@@ -8,6 +8,7 @@ import UserActions from '../../actions/user_actions';
 import Form from './form';
 import Property from './property';
 import InputFineUploader from './input_fineuploader';
+import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -48,7 +49,8 @@ let RegisterPieceForm = React.createClass({
     getInitialState(){
         return mergeOptions(
             {
-                isUploadReady: false
+                digitalWorkKeyReady: false,
+                thumbnailKeyReady: true
             },
             UserStore.getState()
         );
@@ -67,30 +69,49 @@ let RegisterPieceForm = React.createClass({
         this.setState(state);
     },
 
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
+    /**
+     * This method is overloaded so that we can track the ready-state
+     * of each uploader in the component
+     * @param {string} uploaderKey Name of the uploader's key to track
+     */
+    setIsUploadReady(uploaderKey) {
+        return (isUploadReady) => {
+            this.setState({
+                [uploaderKey]: isUploadReady
+            });
+        };
     },
 
     render() {
-        let currentUser = this.state.currentUser;
-        let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
-        enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+        const { disabled,
+                handleSuccess,
+                submitMessage,
+                headerMessage,
+                isFineUploaderActive,
+                onLoggedOut,
+                isFineUploaderEditable,
+                location,
+                children,
+                enableLocalHashing } = this.props;
+        const { currentUser,
+                isUploadReady } = this.state;
+
+        const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
+        const hashLocally = profileHashLocally && enableLocalHashing;
 
         return (
             <Form
-                disabled={this.props.disabled}
+                disabled={disabled}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 buttons={
                     <button
                         type="submit"
                         className="btn btn-default btn-wide"
-                        disabled={!this.state.isUploadReady || this.props.disabled}>
-                        {this.props.submitMessage}
+                        disabled={!isUploadReady || disabled}>
+                        {submitMessage}
                     </button>
                 }
                 spinner={
@@ -99,7 +120,7 @@ let RegisterPieceForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>{this.props.headerMessage}</h3>
+                    <h3>{headerMessage}</h3>
                 </div>
                 <Property
                     name="digital_work_key"
@@ -113,13 +134,37 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_digitalworks
                         }}
                         validation={AppConstants.fineUploader.validation.registerWork}
-                        setIsUploadReady={this.setIsUploadReady}
+                        setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        isFineUploaderActive={this.props.isFineUploaderActive}
-                        onLoggedOut={this.props.onLoggedOut}
-                        disabled={!this.props.isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}
-                        uploadMethod={this.props.location.query.method} />
+                        isFineUploaderActive={isFineUploaderActive}
+                        onLoggedOut={onLoggedOut}
+                        disabled={!isFineUploaderEditable}
+                        enableLocalHashing={hashLocally}
+                        uploadMethod={location.query.method} />
+                </Property>
+                <Property
+                    name="thumbnail_file">
+                    <InputFineUploader
+                            fileInputElement={UploadButton}
+                            createBlobRoutine={{
+                                url: ApiUrls.blob_thumbnails
+                            }}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            keyRoutine={{
+                                url: AppConstants.serverUrl + 's3/key/',
+                                fileClass: 'thumbnail'
+                            }}
+                            validation={{
+                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                            }}
+                            setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
+                            location={location}
+                            fileClassToUpload={{
+                                singular: getLangText('Select representative image'),
+                                plural: getLangText('Select representative images')
+                            }}/>
                 </Property>
                 <Property
                     name='artist_name'
@@ -146,7 +191,7 @@ let RegisterPieceForm = React.createClass({
                         min={1}
                         required/>
                 </Property>
-                {this.props.children}
+                {children}
             </Form>
         );
     }
