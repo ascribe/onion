@@ -145,7 +145,7 @@ let RegisterPieceForm = React.createClass({
                 <Property
                     name="thumbnail_file">
                     <InputFineUploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_thumbnails
                             }}
