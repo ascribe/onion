@@ -87,10 +87,10 @@ let RegisterPieceForm = React.createClass({
         const validFiles = files.filter(displayValidFilesFilter);
 
         if(validFiles.length > 0) {
-            const { type: fileType } = validFiles[0].type;
-            const fileExtension = fileType && fileType.split('/').length ? fileType.split('/')[1]
+            const { type: mimeType } = validFiles[0];
+            const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
                                                                          : 'unknown';
-            const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(fileExtension) === -1;
+            const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
             this.setState({ thumbnailKeyDialogExpanded });
         } else {
             this.setState({ thumbnailKeyDialogExpanded: false });
