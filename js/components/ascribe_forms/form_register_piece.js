@@ -7,7 +7,6 @@ import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
-import PropertyCollapsible from './property_collapsible';
 import InputFineUploader from './input_fineuploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
