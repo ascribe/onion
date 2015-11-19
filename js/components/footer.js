@@ -11,7 +11,7 @@ let Footer = React.createClass({
                 <p className="ascribe-sub-sub-statement">
                   <br />
                   <a href="http://docs.ascribe.apiary.io/" target="_blank">api</a> |
-                  <a href="https://www.ascribe.io/impressum/" target="_blank"> impressum</a> |
+                  <a href="https://www.ascribe.io/imprint/" target="_blank"> {getLangText('imprint')}</a> |
                   <a href="https://www.ascribe.io/terms/" target="_blank"> {getLangText('terms of service')}</a> |
                   <a href="https://www.ascribe.io/privacy/" target="_blank"> {getLangText('privacy')}</a>
                 </p>
