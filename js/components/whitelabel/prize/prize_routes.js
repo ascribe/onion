@@ -71,7 +71,7 @@ const ROUTES = {
                 component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPLoginContainer)} />
             <Route
                 path='logout'
-                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)} />
             <Route
                 path='signup'
                 component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPSignupContainer)} />

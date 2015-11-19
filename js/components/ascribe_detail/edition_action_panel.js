@@ -162,7 +162,7 @@ let EditionActionPanel = React.createClass({
                                 editions={[edition]}/>
                             <AclInformation
                                 aim="button"
-                                verbs={['acl_share', 'acl_consign', 'acl_loan', 'acl_delete']}
+                                verbs={['acl_share', 'acl_transfer', 'acl_consign', 'acl_loan', 'acl_delete']}
                                 aclObject={edition.acl}/>
                         </AclButtonList>
                     </Col>
