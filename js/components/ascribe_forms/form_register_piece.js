@@ -93,8 +93,17 @@ let RegisterPieceForm = React.createClass({
             const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
             this.setState({ thumbnailKeyDialogExpanded });
         } else {
+            this.refs.form.refs.thumbnail_file.reset();
+            this.refs.form.refs.digital_work_key.reset();
             this.setState({ thumbnailKeyDialogExpanded: false });
         }
+    },
+
+    handleSelectFilesThumbnail([thumbnailFile, ]) {
+        // This is truly terrible, but at least we're not coding this mess into ReactS3Fineuploader
+        let file = this.refs.form.refs.digital_work_key.refs.input.refs.fineuploader.state.filesToUpload[0];
+        file.type = thumbnailFile.type;
+        file.url = thumbnailFile.url;
     },
 
     render() {
@@ -168,6 +177,7 @@ let RegisterPieceForm = React.createClass({
                             createBlobRoutine={{
                                 url: ApiUrls.blob_thumbnails
                             }}
+                            handleSelectFiles={this.handleSelectFilesThumbnail}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
