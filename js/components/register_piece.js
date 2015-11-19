@@ -84,10 +84,14 @@ let RegisterPiece = React.createClass( {
     },
 
     getUploadedInfo() {
-        if (this.state.uploadInfos.length > 0 && this.state.testStarted) {
+        const resultMsg = this.state.testComplete ? (
+            <p>Please send these results by screenshot or by copying the values to <a href="mailto:brett@ascribe.io">brett@ascribe.io</a></p>
+        ) : null;
+
+        if (this.state.testStarted) {
             return (
                 <div style={{'backgroundColor': '#FFF'}}>
-                    <h4>{this.state.testComplete? 'Results:' : 'Test in progress...'}</h4>
+                    <h4>{this.state.testComplete ? 'Results:' : 'Test in progress...'}</h4>
                     For file of size: {this.state.testFileSize}
                     <ul>
                         {this.state.uploadInfos.map((uploadInfo) => {
@@ -98,7 +102,7 @@ let RegisterPiece = React.createClass( {
                             }
                         })}
                     </ul>
-                    <p>Please send these results by screenshot or by copying the values to <a href="mailto:brett@ascribe.io">brett@ascribe.io</a></p>
+                    {resultMsg}
                 </div>
             );
         }
