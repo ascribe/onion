@@ -93,8 +93,12 @@ let RegisterPieceForm = React.createClass({
             const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
             this.setState({ thumbnailKeyDialogExpanded });
         } else {
+            // Reset the thumbnail that has been set in `handleSelectFilesThumbnail`
+            let file = this.refs.form.refs.digital_work_key.refs.input.refs.fineuploader.state.filesToUpload[0];
+            file.type = '';
+            file.url = '';
+
             this.refs.form.refs.thumbnail_file.reset();
-            this.refs.form.refs.digital_work_key.reset();
             this.setState({ thumbnailKeyDialogExpanded: false });
         }
     },
