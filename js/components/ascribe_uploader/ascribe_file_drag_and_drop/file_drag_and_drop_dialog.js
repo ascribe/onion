@@ -46,65 +46,19 @@ let FileDragAndDropDialog = React.createClass({
         if (hasFiles) {
             return null;
         } else {
-            if (enableLocalHashing && !uploadMethod) {
-                const currentQueryParams = getCurrentQueryParams();
+            const dialog = uploadMethod === 'hash' ? getLangText('choose a %s to hash', fileClassToUpload.singular)
+                                                   : getLangText('choose a %s to upload', fileClassToUpload.singular);
 
-                const queryParamsHash = Object.assign({}, currentQueryParams);
-                queryParamsHash.method = 'hash';
-
-                const queryParamsUpload = Object.assign({}, currentQueryParams);
-                queryParamsUpload.method = 'upload';
-
-                return (
-                    <div className="file-drag-and-drop-dialog present-options">
-                        <p>{getLangText('Would you rather')}</p>
-                        <Link
-                            to={window.location.pathname}
-                            query={queryParamsHash}>
-                            <span className="btn btn-default btn-sm">
-                                {getLangText('Hash your work')}
-                            </span>
-                        </Link>
-
-                        <span> or </span>
-
-                       <Link
-                            to={window.location.pathname}
-                            query={queryParamsUpload}>
-                            <span className="btn btn-default btn-sm">
-                                {getLangText('Upload and hash your work')}
-                            </span>
-                        </Link>
-                    </div>
-                );
-            } else {
-                if (multipleFiles) {
-                    return (
-                        <span className="file-drag-and-drop-dialog">
-                            {this.getDragDialog(fileClassToUpload.plural)}
-                            <span
-                                className="btn btn-default"
-                                onClick={onClick}>
-                                    {getLangText('choose %s to upload', fileClassToUpload.plural)}
-                            </span>
-                        </span>
-                    );
-                } else {
-                    const dialog = uploadMethod === 'hash' ? getLangText('choose a %s to hash', fileClassToUpload.singular)
-                                                           : getLangText('choose a %s to upload', fileClassToUpload.singular);
-
-                    return (
-                        <span className="file-drag-and-drop-dialog">
-                            {this.getDragDialog(fileClassToUpload.singular)}
-                            <span
-                                className="btn btn-default"
-                                onClick={onClick}>
-                                    {dialog}
-                            </span>
-                        </span>
-                    );
-                }
-            }
+            return (
+                <span className="file-drag-and-drop-dialog">
+                    {this.getDragDialog(fileClassToUpload.singular)}
+                    <span
+                        className="btn btn-default"
+                        onClick={onClick}>
+                            {dialog}
+                    </span>
+                </span>
+            );
         }
     }
 });

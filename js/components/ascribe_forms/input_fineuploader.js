@@ -51,7 +51,12 @@ const InputFineUploader = React.createClass({
         fileClassToUpload: shape({
             singular: string,
             plural: string
-        })
+        }),
+
+
+
+        uploadTests: React.PropTypes.array,
+        onTestComplete: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -142,7 +147,10 @@ const InputFineUploader = React.createClass({
                 onInactive={this.props.onLoggedOut}
                 enableLocalHashing={this.props.enableLocalHashing}
                 uploadMethod={this.props.uploadMethod}
-                fileClassToUpload={this.props.fileClassToUpload} />
+                fileClassToUpload={this.props.fileClassToUpload}
+                uploadTests={this.props.uploadTests}
+                onTestsStart={this.props.onTestsStart}
+                onTestComplete={this.props.onTestComplete} />
         );
     }
 });

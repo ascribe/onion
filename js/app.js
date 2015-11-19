@@ -69,7 +69,7 @@ class AppGateway {
     load(settings) {
         let type = 'default';
         let subdomain = 'www';
-        let redirectRoute = (<Redirect from="/" to="/collection" />);
+        let redirectRoute = (<Redirect from="/" to="/register_piece" />);
 
         if (settings) {
             type = settings.type;

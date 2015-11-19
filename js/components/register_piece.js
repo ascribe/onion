@@ -6,18 +6,8 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-
-import PieceListStore from '../stores/piece_list_store';
-import PieceListActions from '../actions/piece_list_actions';
-
 import UserStore from '../stores/user_store';
 
-import GlobalNotificationModel from '../models/global_notification_model';
-import GlobalNotificationActions from '../actions/global_notification_actions';
-
-import PropertyCollapsible from './ascribe_forms/property_collapsible';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
 import { mergeOptions } from '../utils/general_utils';
@@ -43,25 +33,22 @@ let RegisterPiece = React.createClass( {
     getInitialState(){
         return mergeOptions(
             UserStore.getState(),
-            WhitelabelStore.getState(),
-            PieceListStore.getState(),
             {
                 selectedLicense: 0,
-                isFineUploaderActive: false
+                isFineUploaderActive: false,
+                uploadInfos: [],
+                testFileSize: 0,
+                testStarted: false,
+                testComplete: false
             });
     },
 
     componentDidMount() {
-        PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
-        PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -75,36 +62,44 @@ let RegisterPiece = React.createClass( {
         }
     },
 
-    handleSuccess(response){
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-
-        // once the user was able to register a piece successfully, we need to make sure to keep
-        // the piece list up to date
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
-
-        this.history.pushState(null, `/pieces/${response.piece.id}`);
+    onSingleTestComplete(uploadInfo) {
+        this.setState({
+            uploadInfos: this.state.uploadInfos.concat([uploadInfo])
+        });
     },
 
-    getSpecifyEditions() {
-        if(this.state.whitelabel && this.state.whitelabel.acl_create_editions || Object.keys(this.state.whitelabel).length === 0) {
+    onTestsStart(files) {
+        this.setState({
+            testStarted: true,
+            testFileSize: files[0].size
+        });
+    },
+
+    onTestsComplete() {
+        this.setState({
+            testComplete: true
+        }, () => {
+            alert('Tests are complete. Please send the results to brett@ascribe.io');
+        });
+    },
+
+    getUploadedInfo() {
+        if (this.state.uploadInfos.length > 0 && this.state.testStarted) {
             return (
-                <PropertyCollapsible
-                    name="num_editions"
-                    checkboxLabel={getLangText('Specify editions')}>
-                    <span>{getLangText('Editions')}</span>
-                    <input
-                        type="number"
-                        placeholder="(e.g. 32)"
-                        min={0}/>
-                </PropertyCollapsible>
+                <div style={{'backgroundColor': '#FFF'}}>
+                    <h4>{this.state.testComplete? 'Results:' : 'Test in progress...'}</h4>
+                    For file of size: {this.state.testFileSize}
+                    <ul>
+                        {this.state.uploadInfos.map((uploadInfo) => {
+                            if (!uploadInfo.error) {
+                                return (<li key={uploadInfo.name}><strong>{uploadInfo.name}</strong>: {uploadInfo.time}s</li>);
+                            } else {
+                                return (<li key={uploadInfo.name}><strong style={{'color': 'red'}}>Error</strong>: {uploadInfo.error} after {uploadInfo.time}s on completing {uploadInfo.progress}%</li>);
+                            }
+                        })}
+                    </ul>
+                    <p>Please send these results by screenshot or by copying the values to <a href="mailto:brett@ascribe.io">brett@ascribe.io</a></p>
+                </div>
             );
         }
     },
@@ -118,11 +113,13 @@ let RegisterPiece = React.createClass( {
                     <RegisterPieceForm
                         {...this.props}
                         isFineUploaderActive={this.state.isFineUploaderActive}
-                        handleSuccess={this.handleSuccess}
-                        location={this.props.location}>
-                        {this.props.children}
-                        {this.getSpecifyEditions()}
-                    </RegisterPieceForm>
+                        isFineUploaderEditable={!this.state.testComplete}
+                        location={this.props.location}
+
+                        onSingleTestComplete={this.onSingleTestComplete}
+                        onTestsStart={this.onTestsStart}
+                        onTestsComplete={this.onTestsComplete} />
+                    {this.getUploadedInfo()}
                 </Col>
             </Row>
         );

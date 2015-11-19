@@ -17,6 +17,7 @@ import { computeHashOfFile } from '../../utils/file_utils';
 import { displayValidFilesFilter, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { startTimer, endTimer } from '../../utils/timer_utils';
 
 let ReactS3FineUploader = React.createClass({
     propTypes: {
@@ -128,7 +129,14 @@ let ReactS3FineUploader = React.createClass({
         fileInputElement: React.PropTypes.oneOfType([
             React.PropTypes.func,
             React.PropTypes.element
-        ])
+        ]),
+
+
+
+
+        uploadTests: React.PropTypes.array,
+        onTestsStart: React.PropTypes.func,
+        onTestComplete: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -188,6 +196,11 @@ let ReactS3FineUploader = React.createClass({
     },
 
     getInitialState() {
+        const uploadTestDeferreds = [];
+        this.props.uploadTests.forEach(() => {
+            uploadTestDeferreds.push(Q.defer());
+        });
+
         return {
             filesToUpload: [],
             uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
@@ -198,7 +211,11 @@ let ReactS3FineUploader = React.createClass({
             hashingProgress: -2,
 
             // this is for logging
-            chunks: {}
+            chunks: {},
+
+
+            curUploadTest: 0,
+            uploadTestDeferreds
         };
     },
 
@@ -226,11 +243,13 @@ let ReactS3FineUploader = React.createClass({
         let objectProperties = this.props.objectProperties;
         objectProperties.key = this.requestKey;
 
+        let request = this.props.request;
+
         return {
             autoUpload: this.props.autoUpload,
             debug: this.props.debug,
             objectProperties: objectProperties, // do a special key handling here
-            request: this.props.request,
+            request: request,
             signature: this.props.signature,
             uploadSuccess: this.props.uploadSuccess,
             cors: this.props.cors,
@@ -274,10 +293,6 @@ let ReactS3FineUploader = React.createClass({
     // Cancel uploads and clear previously selected files on the input element
     cancelUploads(id) {
         !!id ? this.state.uploader.cancel(id) : this.state.uploader.cancelAll();
-
-        // Reset the file input element to clear the previously selected files so that
-        // the user can reselect them again.
-        this.clearFileSelection();
     },
 
     clearFileSelection() {
@@ -419,6 +434,13 @@ let ReactS3FineUploader = React.createClass({
             });
         // onError will catch any errors, so we can ignore them here
         } else if (!res.error || res.success) {
+            const completedTime = endTimer() / 1000;
+            this.props.onTestComplete({
+                'name': this.props.uploadTests[this.state.curUploadTest].name,
+                'time': completedTime
+            });
+
+
             let files = this.state.filesToUpload;
 
             // Set the state of the completed file to 'upload successful' in order to
@@ -432,27 +454,7 @@ let ReactS3FineUploader = React.createClass({
             // Only after the blob has been created server-side, we can make the form submittable.
             this.createBlob(files[id])
                 .then(() => {
-                    // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-                    // are optional, we'll only trigger them when they're actually defined
-                    if(this.props.submitFile) {
-                        this.props.submitFile(files[id]);
-                    } else {
-                        console.warn('You didn\'t define submitFile as a prop in react-s3-fine-uploader');
-                    }
-
-                    // for explanation, check comment of if statement above
-                    if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-                        // also, lets check if after the completion of this upload,
-                        // the form is ready for submission or not
-                        if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                            // if so, set uploadstatus to true
-                            this.props.setIsUploadReady(true);
-                        } else {
-                            this.props.setIsUploadReady(false);
-                        }
-                    } else {
-                        console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-                    }
+                    this.handleDeleteFile(id);
                 })
                 .catch(this.onErrorPromiseProxy);
         }
@@ -470,6 +472,14 @@ let ReactS3FineUploader = React.createClass({
     },
 
     onError(id, name, errorReason, xhr) {
+        const errorTime = endTimer() / 1000;
+        this.props.onTestComplete({
+            'name': this.props.uploadTests[this.state.curUploadTest].name,
+            'time': errorTime,
+            'progress': this.state.filesToUpload[id] ? this.state.filesToUpload[id].progress : 0,
+            'error': errorReason
+        });
+
         console.logGlobal(errorReason, false, {
             files: this.state.filesToUpload,
             chunks: this.state.chunks,
@@ -477,10 +487,12 @@ let ReactS3FineUploader = React.createClass({
         });
 
         this.props.setIsUploadReady(true);
-        this.cancelUploads();
+        this.cancelUploads(id);
 
         let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
+        this.state.uploadTestDeferreds[this.state.curUploadTest].resolve();
     },
 
     getXhrErrorComment(xhr) {
@@ -514,19 +526,6 @@ let ReactS3FineUploader = React.createClass({
 
         let notification = new GlobalNotificationModel(getLangText('File upload canceled'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-        // are optional, we'll only trigger them when they're actually defined
-        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                // if so, set uploadstatus to true
-                this.props.setIsUploadReady(true);
-            } else {
-                this.props.setIsUploadReady(false);
-            }
-        } else {
-            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-        }
 
         return true;
     },
@@ -574,28 +573,9 @@ let ReactS3FineUploader = React.createClass({
     onDeleteComplete(id, xhr, isError) {
         if(isError) {
             this.setStatusOfFile(id, 'online');
-
-            let notification = new GlobalNotificationModel(getLangText('There was an error deleting your file.'), 'danger', 10000);
-            GlobalNotificationActions.appendGlobalNotification(notification);
-        } else {
-            let notification = new GlobalNotificationModel(getLangText('File deleted'), 'success', 5000);
-            GlobalNotificationActions.appendGlobalNotification(notification);
         }
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-        // are optional, we'll only trigger them when they're actually defined
-        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-            // also, lets check if after the completion of this upload,
-            // the form is ready for submission or not
-            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                // if so, set uploadstatus to true
-                this.props.setIsUploadReady(true);
-            } else {
-                this.props.setIsUploadReady(false);
-            }
-        } else {
-            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-        }
+        this.state.uploadTestDeferreds[this.state.curUploadTest].resolve();
     },
 
     handleDeleteFile(fileId) {
@@ -655,13 +635,6 @@ let ReactS3FineUploader = React.createClass({
         // for submission
         this.props.setIsUploadReady(false);
 
-        // If multiple set and user already uploaded its work,
-        // cancel upload
-        if(!this.props.multiple && this.state.filesToUpload.filter(displayValidFilesFilter).length > 0) {
-            this.clearFileSelection();
-            return;
-        }
-
         // validate each submitted file if it fits the file size
         let validFiles = [];
         for(let i = 0; i < files.length; i++) {
@@ -690,99 +663,8 @@ let ReactS3FineUploader = React.createClass({
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
 
-        // As mentioned already in the propTypes declaration, in some instances we need to calculate the
-        // md5 hash of a file locally and just upload a txt file containing that hash.
-        //
-        // In the view this only happens when the user is allowed to do local hashing as well
-        // as when the correct method prop is present ('hash' and not 'upload')
-        if (this.props.enableLocalHashing && this.props.uploadMethod === 'hash') {
-            const convertedFilePromises = [];
-            let overallFileSize = 0;
-
-            // "files" is not a classical Javascript array but a Javascript FileList, therefore
-            // we can not use map to convert values
-            for(let i = 0; i < files.length; i++) {
-                // for calculating the overall progress of all submitted files
-                // we'll need to calculate the overall sum of all files' sizes
-                overallFileSize += files[i].size;
-
-                // also, we need to set the files' initial progress value
-                files[i].progress = 0;
-
-                // since the actual computation of a file's hash is an async task ,
-                // we're using promises to handle that
-                let hashedFilePromise = computeHashOfFile(files[i]);
-                convertedFilePromises.push(hashedFilePromise);
-            }
-
-            // To react after the computation of all files, we define the resolvement
-            // with the all function for iterables and essentially replace all original files
-            // with their txt representative
-            Q.all(convertedFilePromises)
-                .progress(({index, value: {progress, reject}}) => {
-                    // hashing progress has been aborted from outside
-                    // To get out of the executing, we need to call reject from the
-                    // inside of the promise's execution.
-                    // This is why we're passing (along with value) a function that essentially
-                    // just does that (calling reject(err))
-                    //
-                    // In the promises catch method, we're then checking if the interruption
-                    // was due to that error or another generic one.
-                    if(this.state.hashingProgress === -1) {
-                        reject(new Error(getLangText('Hashing canceled')));
-                    }
-
-                    // update file's progress
-                    files[index].progress = progress;
-
-                    // calculate weighted average for overall progress of all
-                    // currently hashing files
-                    let overallHashingProgress = 0;
-                    for(let i = 0; i < files.length; i++) {
-                        let filesSliceOfOverall = files[i].size / overallFileSize;
-                        overallHashingProgress += filesSliceOfOverall * files[i].progress;
-                    }
-
-                    // Multiply by 100, since react-progressbar expects decimal numbers
-                    this.setState({ hashingProgress: overallHashingProgress * 100});
-                })
-                .then((convertedFiles) => {
-                    // clear hashing progress, since its done
-                    this.setState({ hashingProgress: -2});
-
-                    // actually replacing all files with their txt-hash representative
-                    files = convertedFiles;
-
-                    // routine for adding all the files submitted to fineuploader for actual uploading them
-                    // to the server
-                    this.state.uploader.addFiles(files);
-                    this.synchronizeFileLists(files);
-
-                })
-                .catch((err) => {
-                    // If the error is that hashing has been canceled, we want to display a success
-                    // message instead of a danger message
-                    let typeOfMessage = 'danger';
-
-                    if(err.message === getLangText('Hashing canceled')) {
-                        typeOfMessage = 'success';
-                        this.setState({ hashingProgress: -2 });
-                    } else {
-                        // if there was a more generic error, we also log it
-                        console.logGlobal(err);
-                    }
-
-                    let notification = new GlobalNotificationModel(err.message, typeOfMessage, 5000);
-                    GlobalNotificationActions.appendGlobalNotification(notification);
-                });
-
-        // if we're not hashing the files locally, we're just going to hand them over to fineuploader
-        // to upload them to the server
-        } else {
-            if(files.length > 0) {
-                this.state.uploader.addFiles(files);
-                this.synchronizeFileLists(files);
-            }
+        if (files.length > 0) {
+            this.startTests(files);
         }
     },
 
@@ -884,6 +766,40 @@ let ReactS3FineUploader = React.createClass({
         } else {
             return null;
         }
+    },
+
+
+    startTests(files) {
+        this.props.onTestsStart(files);
+
+        this.props.uploadTests.reduce((deferred, test, testIndex) => {
+            return deferred.then(() => {
+                this.startTest(test, files, testIndex);
+                return this.state.uploadTestDeferreds[testIndex].promise;
+            });
+        }, Q.when());
+    },
+
+    startTest(test, files, testIndex) {
+        const uploaderConfig = this.propsToConfig();
+        uploaderConfig.request = Object.assign({}, uploaderConfig.request);
+        uploaderConfig.chunking = Object.assign({}, uploaderConfig.chunking);
+
+        if (!!test.endpoint) {
+            uploaderConfig.request.endpoint = test.endpoint;
+        }
+        if (!!test.chunkSize) {
+            uploaderConfig.chunking.partSize = test.chunkSize;
+        }
+
+        this.setState({
+            uploader: new fineUploader.s3.FineUploaderBasic(uploaderConfig),
+            curUploadTest: testIndex
+        }, () => {
+            startTimer();
+            this.state.uploader.addFiles(files);
+            this.synchronizeFileLists(files);
+        });
     },
 
     render() {

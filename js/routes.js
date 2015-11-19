@@ -32,33 +32,17 @@ let COMMON_ROUTES = (
     <Route path='/' component={App}>
         <Route
             path='login'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(LoginContainer)} />
         <Route
             path='register_piece'
             component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
             headerTitle='+ NEW WORK'/>
         <Route
-            path='collection'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
-            headerTitle='COLLECTION'/>
-        <Route
             path='signup'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SignupContainer)} />
         <Route
             path='logout'
             component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LogoutContainer)}/>
-        <Route path='pieces/:pieceId' component={PieceContainer} />
-        <Route path='editions/:editionId' component={EditionContainer} />
-        <Route
-            path='password_reset'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
-        <Route
-            path='settings'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
-        <Route
-            path='contract_settings'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
-        <Route path='coa_verify' component={CoaVerifyContainer} />
         <Route path='*' component={ErrorNotFoundPage} />
     </Route>
 );

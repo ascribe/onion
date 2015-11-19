@@ -34,7 +34,11 @@ let RegisterPieceForm = React.createClass({
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+
+        onSingleTestComplete: React.PropTypes.func,
+        onTestsStart: React.PropTypes.func,
+        onTestsComplete: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -73,36 +77,51 @@ let RegisterPieceForm = React.createClass({
         });
     },
 
+    getUploadTests() {
+        return [
+            {
+                'name': 'Direct to S3',
+                'endpoint': 'https://ascribe0.s3.amazonaws.com'
+            },
+            {
+                'name': 'Direct to S3 with large chunking',
+                'endpoint': 'https://ascribe0.s3.amazonaws.com',
+                'chunkSize': 52428800
+            },
+            {
+                'name': 'Fastly to S3',
+                'endpoint': 'http://www.ascribe.io.global.prod.fastly.net'
+            },
+            {
+                'name': 'Fastly to S3 with large chunking',
+                'endpoint': 'http://www.ascribe.io.global.prod.fastly.net',
+                'chunkSize': 52428800
+            }
+        ];
+    },
+
+    onTestComplete(testInfo) {
+        this.props.onSingleTestComplete(testInfo);
+
+        const uploadTests = this.getUploadTests();
+        if (testInfo.name === uploadTests[uploadTests.length - 1].name) {
+            this.props.onTestsComplete();
+        }
+    },
+
     render() {
         let currentUser = this.state.currentUser;
         let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
 
         return (
-            <Form
-                disabled={this.props.disabled}
-                className="ascribe-form-bordered"
-                ref='form'
-                url={ApiUrls.pieces_list}
-                handleSuccess={this.props.handleSuccess}
-                buttons={
-                    <button
-                        type="submit"
-                        className="btn btn-default btn-wide"
-                        disabled={!this.state.isUploadReady || this.props.disabled}>
-                        {this.props.submitMessage}
-                    </button>
-                }
-                spinner={
-                    <span className="btn btn-default btn-wide btn-spinner">
-                        <AscribeSpinner color="dark-blue" size="md" />
-                    </span>
-                    }>
+            <div>
                 <div className="ascribe-form-header">
-                    <h3>{this.props.headerMessage}</h3>
+                    <h3>Upload test</h3>
                 </div>
                 <Property
                     name="digital_work_key"
+                    editable={this.props.isFineUploaderEditable}
                     ignoreFocus={true}>
                     <InputFineUploader
                         keyRoutine={{
@@ -114,40 +133,14 @@ let RegisterPieceForm = React.createClass({
                         }}
                         validation={AppConstants.fineUploader.validation.registerWork}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
                         onLoggedOut={this.props.onLoggedOut}
-                        disabled={!this.props.isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}
-                        uploadMethod={this.props.location.query.method} />
+
+                        uploadTests={this.getUploadTests()}
+                        onTestsStart={this.props.onTestsStart}
+                        onTestComplete={this.onTestComplete} />
                 </Property>
-                <Property
-                    name='artist_name'
-                    label={getLangText('Artist Name')}>
-                    <input
-                        type="text"
-                        placeholder="(e.g. Andy Warhol)"
-                        required/>
-                </Property>
-                <Property
-                    name='title'
-                    label={getLangText('Title')}>
-                    <input
-                        type="text"
-                        placeholder="(e.g. 32 Campbell's Soup Cans)"
-                        required/>
-                </Property>
-                <Property
-                    name='date_created'
-                    label={getLangText('Year Created')}>
-                    <input
-                        type="number"
-                        placeholder="(e.g. 1962)"
-                        min={1}
-                        required/>
-                </Property>
-                {this.props.children}
-            </Form>
+            </div>
         );
     }
 });

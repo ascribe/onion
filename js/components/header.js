@@ -82,7 +82,7 @@ let Header = React.createClass({
 
         return (
             <span>
-                <Link className="icon-ascribe-logo" to="/collection"/>
+                <a className="icon-ascribe-logo" href="http://www.ascribe.io"/>
             </span>
         );
     },
@@ -203,16 +203,15 @@ let Header = React.createClass({
                     toggleNavKey={0}
                     fixedTop={true}>
                     <CollapsibleNav eventKey={0}>
-                        <Nav navbar left>
-                            {this.getPoweredBy()}
-                        </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show = {false}/>
-                            {account}
-                            {signup}
+                            <LinkContainer
+                                to="/logout">
+                                <MenuItem
+                                    eventKey="1">
+                                    {getLangText('Log out')}
+                                </MenuItem>
+                            </LinkContainer>
                         </Nav>
-                        <HeaderNotifications />
-                        {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
             </div>
