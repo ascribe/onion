@@ -177,27 +177,27 @@ let RegisterPieceForm = React.createClass({
                     name="thumbnail_file"
                     expanded={thumbnailKeyDialogExpanded}>
                     <InputFineUploader
-                            fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
-                            createBlobRoutine={{
-                                url: ApiUrls.blob_thumbnails
-                            }}
-                            handleSelectFiles={this.handleSelectFilesThumbnail}
-                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            keyRoutine={{
-                                url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'thumbnail'
-                            }}
-                            validation={{
-                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
-                            }}
-                            setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
-                            location={location}
-                            fileClassToUpload={{
-                                singular: getLangText('Select representative image'),
-                                plural: getLangText('Select representative images')
-                            }}/>
+                        fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
+                        createBlobRoutine={{
+                            url: ApiUrls.blob_thumbnails
+                        }}
+                        handleSelectFiles={this.handleSelectFilesThumbnail}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'thumbnail'
+                        }}
+                        validation={{
+                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                        }}
+                        setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
+                        location={location}
+                        fileClassToUpload={{
+                            singular: getLangText('Select representative image'),
+                            plural: getLangText('Select representative images')
+                        }}/>
                 </Property>
                 <Property
                     name='artist_name'
