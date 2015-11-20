@@ -154,7 +154,8 @@ let RegisterPieceForm = React.createClass({
                 </div>
                 <Property
                     name="digital_work_key"
-                    ignoreFocus={true}>
+                    ignoreFocus={true}
+                    label={'Your Work'}>
                     <InputFineUploader
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
