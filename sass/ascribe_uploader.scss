@@ -111,6 +111,7 @@
     cursor: default;
     overflow: hidden;
 }
+
 .action-file {
     color: white;
     cursor: pointer;
@@ -129,6 +130,11 @@
     &:hover {
         color: #d9534f;
     }
+
+    &.glyphicon-ok, &.glyphicon-ok:hover {
+        cursor: default;
+        color: lighten($ascribe--button-default-color, 20%);
+    }
 }
 
 .spinner-file {
@@ -144,6 +150,10 @@
     width: 104px;
 
     .action-file, .spinner-file {
+        margin-top: .8em;
+    }
+
+    .ascribe-progress-bar + .action-file, .ascribe-progress-bar + .spinner-file {
         margin-top: .6em;
     }
 }
