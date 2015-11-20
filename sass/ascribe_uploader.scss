@@ -118,9 +118,10 @@
         color: #d9534f;
     }
 
-    &.glyphicon-ok, &.glyphicon-ok:hover {
+    &.icon-ascribe-ok, &.icon-ascribe-ok:hover {
         cursor: default;
         color: lighten($ascribe--button-default-color, 20%);
+        font-size: 5em;
     }
 }
 
@@ -145,7 +146,6 @@
     }
 }
 
-
 .file-drag-and-drop-preview-other {
     display: table-cell;
     text-align: center;
@@ -155,7 +155,7 @@
         margin-top: 5px;
     }
 
-    .action-file, .spinner-file {
+    .action-file:not(.icon-ascribe-ok), .spinner-file {
         margin-top: 0;
         position: relative;
         top: .3em;

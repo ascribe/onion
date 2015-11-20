@@ -76,8 +76,8 @@ let CylandAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Submitted to Cyland')} <span className="glyphicon glyphicon-ok"
-                                                                  aria-hidden="true"></span>
+                        {getLangText('Submitted to Cyland') + ' '}
+                        <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
                 </AclProxy>
                 <AclProxy
@@ -86,8 +86,8 @@ let CylandAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Loaned to Cyland')} <span className="glyphicon glyphicon-ok"
-                                                                  aria-hidden="true"></span>
+                        {getLangText('Loaned to Cyland') + ' '}
+                        <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
                 </AclProxy>
             </div>
