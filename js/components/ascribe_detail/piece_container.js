@@ -57,6 +57,7 @@ let PieceContainer = React.createClass({
     mixins: [History],
 
     getInitialState() {
+        console.log('Piece initially ... ', PieceStore.getState());
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
@@ -103,7 +104,6 @@ let PieceContainer = React.createClass({
 
             let pieceState = mergeOptions({}, state.piece);
             pieceState.acl.acl_loan = false;
-
             this.setState({
                 piece: pieceState
             });
@@ -273,14 +273,17 @@ let PieceContainer = React.createClass({
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={this.getId}
-                            label={getLangText('Piece note (public)')}
+                            label={getLangText('Personal note (public)')}
                             defaultValue={this.state.piece.public_note || null}
                             placeholder={getLangText('Enter your comments ...')}
-                            editable={!!this.state.piece.acl.acl_edit}
-                            successMessage={getLangText('Public piece note saved')}
+                            editable={this.state.piece.acl.acl_edit}
+                            successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
+                    {console.log('hey')}
+                    {console.log(this.state.piece)}
+                    {console.log(this.state.piece.acl.acl_edit)}
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.state.piece.acl.acl_edit
