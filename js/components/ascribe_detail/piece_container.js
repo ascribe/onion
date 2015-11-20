@@ -57,7 +57,6 @@ let PieceContainer = React.createClass({
     mixins: [History],
 
     getInitialState() {
-        console.log('Piece initially ... ', PieceStore.getState());
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
@@ -252,7 +251,6 @@ let PieceContainer = React.createClass({
                     }
                     buttons={this.getActions()}>
                     {this.getCreateEditionsDialog()}
-
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
@@ -261,7 +259,8 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
+                        show={(!!(this.state.currentUser.username || this.state.piece.public_note)) &&
+                        (!!this.state.piece.acl.acl_edit)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
@@ -276,14 +275,11 @@ let PieceContainer = React.createClass({
                             label={getLangText('Personal note (public)')}
                             defaultValue={this.state.piece.public_note || null}
                             placeholder={getLangText('Enter your comments ...')}
-                            editable={this.state.piece.acl.acl_edit}
+                            editable={!!this.state.piece.acl.acl_edit}
                             successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-                    {console.log('hey')}
-                    {console.log(this.state.piece)}
-                    {console.log(this.state.piece.acl.acl_edit)}
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.state.piece.acl.acl_edit
