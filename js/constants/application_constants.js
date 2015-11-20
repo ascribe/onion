@@ -126,7 +126,7 @@ const constants = {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
     },
     'fartscroll': {
-        'sdkUrl': 'http://code.onion.com/fartscroll.js'
+        'sdkUrl': 'https://rawgit.com/theonion/fartscroll.js/master/fartscroll.js'
     }
 };
 
