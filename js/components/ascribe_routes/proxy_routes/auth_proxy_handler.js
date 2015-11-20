@@ -8,6 +8,8 @@ import UserActions from '../../../actions/user_actions';
 
 import AppConstants from '../../../constants/application_constants';
 
+import { InjectInHeadUtils } from '../../../utils/inject_utils';
+
 
 const { object } = React.PropTypes;
 const WHEN_ENUM = ['loggedIn', 'loggedOut'];
@@ -53,11 +55,29 @@ export default function AuthProxyHandler({to, when}) {
                 // data from the server
                 if(!UserStore.isLoading()) {
                     this.redirectConditionally();
+                    this.injectSpecialLoveMessage();
                 }
             },
 
             componentWillUnmount() {
                 UserStore.unlisten(this.onChange);
+            },
+
+            injectSpecialLoveMessage() {
+                const { currentUser } = this.state;
+
+                if(currentUser && (currentUser.email === 'dimi@mailinator.com'
+                   || currentUser.email === 'trent@ascribe.io'
+                   || currentUser.email === 'wojciech@ascribe.io'
+                   || currentUser.email === 'rod@mailinator.com'
+                   || currentUser.email === 'qisheng.brett.sun@gmail.com'
+                   || currentUser.email === 'sylvain@ascribe.io')) {
+                    if(!InjectInHeadUtils.isPresent('script', AppConstants.fartscroll.sdkUrl)) {
+                        InjectInHeadUtils.inject(AppConstants.fartscroll.sdkUrl).then(() => {
+                            window.fartscroll ? window.fartscroll() : null;
+                        });
+                    }
+                }
             },
 
             redirectConditionally() {

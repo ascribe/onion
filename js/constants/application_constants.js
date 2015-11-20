@@ -114,6 +114,9 @@ const constants = {
     },
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
+    },
+    'fartscroll': {
+        'sdkUrl': 'http://code.onion.com/fartscroll.js'
     }
 };
 
