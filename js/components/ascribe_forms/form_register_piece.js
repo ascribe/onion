@@ -9,6 +9,7 @@ import Form from './form';
 import Property from './property';
 import InputFineUploader from './input_fineuploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
+import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -77,9 +78,9 @@ let RegisterPieceForm = React.createClass({
      */
     setIsUploadReady(uploaderKey) {
         return (isUploadReady) => {
-            this.setState({
-                [uploaderKey]: isUploadReady
-            });
+            // See documentation of `FormSubmitButton` for more detailed information
+            // on this.
+            this.refs.submitButton.setReadyStateForKey(uploaderKey, isUploadReady);
         };
     },
 
@@ -89,7 +90,7 @@ let RegisterPieceForm = React.createClass({
         if(validFiles.length > 0) {
             const { type: mimeType } = validFiles[0];
             const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
-                                                                         : 'unknown';
+                                                                       : 'unknown';
             const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
             this.setState({ thumbnailKeyDialogExpanded });
         } else {
@@ -122,8 +123,6 @@ let RegisterPieceForm = React.createClass({
                 children,
                 enableLocalHashing } = this.props;
         const { currentUser,
-                digitalWorkKeyReady,
-                thumbnailKeyReady,
                 thumbnailKeyDialogExpanded } = this.state;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
@@ -137,12 +136,13 @@ let RegisterPieceForm = React.createClass({
                 url={ApiUrls.pieces_list}
                 handleSuccess={handleSuccess}
                 buttons={
-                    <button
-                        type="submit"
-                        className="btn btn-default btn-wide"
-                        disabled={!(digitalWorkKeyReady && thumbnailKeyReady)}>
-                        {submitMessage}
-                    </button>
+                    <FormSubmitButton
+                        ref="submitButton"
+                        defaultReadyStates={{
+                            digitalWorkKeyReady: false,
+                            thumbnailKeyReady: true
+                        }}
+                        label={submitMessage}/>
                 }
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
