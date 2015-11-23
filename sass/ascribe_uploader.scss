@@ -121,7 +121,8 @@
     &.icon-ascribe-ok, &.icon-ascribe-ok:hover {
         cursor: default;
         color: lighten($ascribe--button-default-color, 20%);
-        font-size: 5em;
+        font-size: 4.2em;
+        top: .15em;
     }
 }
 
@@ -137,8 +138,9 @@
     text-align: center;
     width: 104px;
 
-    .action-file, .spinner-file {
+    .action-file, .spinner-file, .icon-ascribe-ok {
         margin-top: 1em;
+        line-height: 1.3;
     }
 
     .ascribe-progress-bar + .action-file, .ascribe-progress-bar + .spinner-file {
