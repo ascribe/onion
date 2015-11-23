@@ -4,7 +4,6 @@ import Raven from 'raven-js';
 
 import AppConstants from '../constants/application_constants';
 
-
 /**
  * Logs an error in to the console but also sends it to
  * Sentry.
@@ -14,7 +13,6 @@ import AppConstants from '../constants/application_constants';
  * @param  {string} comment  Will also be submitted to Sentry, but will not be logged
  */
 function logGlobal(error, ignoreSentry, comment) {
-
     console.error(error);
 
     if(!ignoreSentry) {
@@ -24,7 +22,6 @@ function logGlobal(error, ignoreSentry, comment) {
             Raven.captureException(error);
         }
     }
-    
 }
 
 export function initLogging() {
