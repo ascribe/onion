@@ -17,7 +17,9 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { formSubmissionValidation, displayValidFilesFilter } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation,
+        displayValidFilesFilter,
+        displayRemovedFilesFilter } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -50,9 +52,7 @@ let RegisterPieceForm = React.createClass({
     getInitialState(){
         return mergeOptions(
             {
-                digitalWorkKeyReady: false,
-                thumbnailKeyReady: true,
-                thumbnailKeyDialogExpanded: false
+                digitalWorkFile: null
             },
             UserStore.getState()
         );
@@ -84,31 +84,34 @@ let RegisterPieceForm = React.createClass({
         };
     },
 
-    handleSelectFiles(files) {
-        const validFiles = files.filter(displayValidFilesFilter);
-
-        if(validFiles.length > 0) {
-            const { type: mimeType } = validFiles[0];
-            const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
-                                                                       : 'unknown';
-            const thumbnailKeyDialogExpanded = AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
-            this.setState({ thumbnailKeyDialogExpanded });
-        } else {
-            // Reset the thumbnail that has been set in `handleSelectFilesThumbnail`
-            let file = this.refs.form.refs.digital_work_key.refs.input.refs.fineuploader.state.filesToUpload[0];
-            file.type = '';
-            file.url = '';
-
+    handleChangedDigitalWork(digitalWorkFile) {
+        if (digitalWorkFile &&
+            (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
             this.refs.form.refs.thumbnail_file.reset();
-            this.setState({ thumbnailKeyDialogExpanded: false });
+            this.setState({ digitalWorkFile: null });
+        } else {
+            this.setState({ digitalWorkFile });
         }
     },
 
-    handleSelectFilesThumbnail([thumbnailFile, ]) {
-        // This is truly terrible, but at least we're not coding this mess into ReactS3Fineuploader
-        let file = this.refs.form.refs.digital_work_key.refs.input.refs.fineuploader.state.filesToUpload[0];
-        file.type = thumbnailFile.type;
-        file.url = thumbnailFile.url;
+    handleChangedThumbnail(thumbnailFile) {
+        const { digitalWorkFile } = this.state;
+        const { fineuploader } = this.refs.digitalWorkFineUploader.refs;
+
+        fineuploader.setThumbnailForFileId(digitalWorkFile.id, thumbnailFile.url);
+    },
+
+    isThumbnailDialogExpanded() {
+        const { digitalWorkFile } = this.state;
+
+        if(digitalWorkFile) {
+            const { type: mimeType } = digitalWorkFile;
+            const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
+                                                                       : 'unknown';
+            return AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
+        } else {
+            return false;
+        }
     },
 
     render() {
@@ -122,8 +125,7 @@ let RegisterPieceForm = React.createClass({
                 location,
                 children,
                 enableLocalHashing } = this.props;
-        const { currentUser,
-                thumbnailKeyDialogExpanded } = this.state;
+        const { currentUser} = this.state;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;
@@ -155,8 +157,9 @@ let RegisterPieceForm = React.createClass({
                 <Property
                     name="digital_work_key"
                     ignoreFocus={true}
-                    label={'Your Work'}>
+                    label={getLangText('Your Work')}>
                     <InputFineUploader
+                        ref={ref => this.refs.digitalWorkFineUploader = ref}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'digitalwork'
@@ -172,17 +175,18 @@ let RegisterPieceForm = React.createClass({
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
-                        handleSelectFiles={this.handleSelectFiles}/>
+                        handleChangedFile={this.handleChangedDigitalWork}/>
                 </Property>
                 <Property
                     name="thumbnail_file"
-                    expanded={thumbnailKeyDialogExpanded}>
+                    expanded={this.isThumbnailDialogExpanded()}>
                     <InputFineUploader
+                        ref={ref => this.refs.thumbnailFineUploader = ref}
                         fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
                         createBlobRoutine={{
                             url: ApiUrls.blob_thumbnails
                         }}
-                        handleSelectFiles={this.handleSelectFilesThumbnail}
+                        handleChangedFile={this.handleChangedThumbnail}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',

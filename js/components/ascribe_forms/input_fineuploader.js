@@ -52,7 +52,7 @@ const InputFineUploader = React.createClass({
             singular: string,
             plural: string
         }),
-        handleSelectFiles: func
+        handleChangedFile: func
     },
 
     getDefaultProps() {
@@ -106,7 +106,7 @@ const InputFineUploader = React.createClass({
                 enableLocalHashing,
                 fileClassToUpload,
                 uploadMethod,
-                handleSelectFiles } = this.props;
+                handleChangedFile } = this.props;
         let editable = this.props.isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
@@ -145,7 +145,7 @@ const InputFineUploader = React.createClass({
                 enableLocalHashing={enableLocalHashing}
                 uploadMethod={uploadMethod}
                 fileClassToUpload={fileClassToUpload}
-                handleSelectFiles={handleSelectFiles}/>
+                handleChangedFile={handleChangedFile}/>
         );
     }
 });
