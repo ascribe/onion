@@ -26,7 +26,7 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 import AscribeSpinner from './ascribe_spinner';
 
 import { getAvailableAcls } from '../utils/acl_utils';
-import { mergeOptions } from '../utils/general_utils';
+import { mergeOptions, isShallowEqual } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
@@ -35,6 +35,7 @@ let PieceList = React.createClass({
     propTypes: {
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
+        canLoadPieceList: React.PropTypes.bool,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
         filterParams: React.PropTypes.array,
@@ -49,6 +50,7 @@ let PieceList = React.createClass({
         return {
             accordionListItemType: AccordionListItemWallet,
             bulkModalButtonListType: AclButtonList,
+            canLoadPieceList: true,
             orderParams: ['artist_name', 'title'],
             filterParams: [{
                 label: getLangText('Show works I can'),
@@ -62,27 +64,51 @@ let PieceList = React.createClass({
     },
 
     getInitialState() {
+        const pieceListStore = PieceListStore.getState();
         const stores = mergeOptions(
-            PieceListStore.getState(),
-            EditionListStore.getState()
+            pieceListStore,
+            EditionListStore.getState(),
+            {
+                isFilterDirty: false
+            }
         );
 
-        // Use the default filters but use the stores' settings if they're available
-        stores.filterBy = Object.assign(this.getDefaultFilterBy(), stores.filterBy);
+        // Use the default filters but use the pieceListStore's settings if they're available
+        stores.filterBy = Object.assign(this.getDefaultFilterBy(), pieceListStore.filterBy);
 
         return stores;
     },
 
     componentDidMount() {
-        let page = this.props.location.query.page || 1;
-
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
 
-        let orderBy = this.props.orderBy ? this.props.orderBy : this.state.orderBy;
-        if (this.state.pieceList.length === 0 || this.state.page !== page){
-            PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                            orderBy, this.state.orderAsc, this.state.filterBy);
+        let page = this.props.location.query.page || 1;
+        if (this.props.canLoadPieceList && (this.state.pieceList.length === 0 || this.state.page !== page)) {
+            this.loadPieceList({ page });
+        }
+    },
+
+    componentWillReceiveProps(nextProps) {
+        let filterBy;
+        let page = this.props.location.query.page || 1;
+
+        // If the user hasn't changed the filter and the new default filter is different
+        // than the current filter, apply the new default filter
+        if (!this.state.isFilterDirty) {
+            const newDefaultFilterBy = this.getDefaultFilterBy(nextProps);
+
+            // Only need to check shallowly since the filterBy shouldn't be nested
+            if (!isShallowEqual(this.state.filterBy, newDefaultFilterBy)) {
+                filterBy = newDefaultFilterBy;
+                page = 1;
+            }
+        }
+
+        // Only load if we are applying a new filter or if it's the first time we can
+        // load the piece list
+        if (nextProps.canLoadPieceList && (filterBy || !this.props.canLoadPieceList)) {
+            this.loadPieceList({ page, filterBy });
         }
     },
 
@@ -102,17 +128,19 @@ let PieceList = React.createClass({
         this.setState(state);
     },
 
-    getDefaultFilterBy() {
-        const { filterParams } = this.props;
+    getDefaultFilterBy(props = this.props) {
+        const { filterParams } = props;
         const defaultFilterBy = {};
 
-        filterParams.forEach(({ label, items }) => {
-            items.forEach((item) => {
-                if (typeof item === 'object' && item.defaultValue) {
-                    defaultFilterBy[item.key] = true;
-                }
+        if (filterParams && typeof filterParams.forEach === 'function') {
+            filterParams.forEach(({ label, items }) => {
+                items.forEach((item) => {
+                    if (typeof item === 'object' && item.defaultValue) {
+                        defaultFilterBy[item.key] = true;
+                    }
+                });
             });
-        });
+        }
 
         return defaultFilterBy;
     },
@@ -122,9 +150,7 @@ let PieceList = React.createClass({
             // if the users clicks a pager of the pagination,
             // the site should go to the top
             document.body.scrollTop = document.documentElement.scrollTop = 0;
-            PieceListActions.fetchPieceList(page, this.state.pageSize, this.state.search,
-                                            this.state.orderBy, this.state.orderAsc,
-                                            this.state.filterBy);
+            this.loadPieceList({ page });
         };
     },
 
@@ -143,29 +169,35 @@ let PieceList = React.createClass({
     },
 
     searchFor(searchTerm) {
-         PieceListActions.fetchPieceList(1, this.state.pageSize, searchTerm, this.state.orderBy,
-                                        this.state.orderAsc, this.state.filterBy);
-         this.history.pushState(null, this.props.location.pathname, {page: 1});
+        this.loadPieceList({
+            page: 1,
+            search: searchTerm
+        });
+        this.history.pushState(null, this.props.location.pathname, {page: 1});
     },
 
     applyFilterBy(filterBy){
-        // first we need to apply the filter on the piece list
-        PieceListActions.fetchPieceList(1, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, filterBy)
-                        .then(() => {
-                            // but also, we need to filter all the open edition lists
-                            this.state.pieceList
-                                .forEach((piece) => {
-                                    // but only if they're actually open
-                                    if(this.state.isEditionListOpenForPieceId[piece.id].show) {
-                                        EditionListActions.refreshEditionList({
-                                            pieceId: piece.id,
-                                            filterBy
-                                        });
-                                    }
+        this.setState({
+            isFilterDirty: true
+        });
 
-                                });
-                        });
+        // first we need to apply the filter on the piece list
+        this
+            .loadPieceList({ page: 1, filterBy })
+            .then(() => {
+                // but also, we need to filter all the open edition lists
+                this.state.pieceList
+                    .forEach((piece) => {
+                        // but only if they're actually open
+                        if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                            EditionListActions.refreshEditionList({
+                                pieceId: piece.id,
+                                filterBy
+                            });
+                        }
+
+                    });
+            });
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
@@ -175,6 +207,13 @@ let PieceList = React.createClass({
     applyOrderBy(orderBy) {
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         orderBy, this.state.orderAsc, this.state.filterBy);
+    },
+
+    loadPieceList({ page, filterBy = this.state.filterBy, search = this.state.search }) {
+        let orderBy = this.state.orderBy ? this.state.orderBy : this.props.orderBy;
+
+        return PieceListActions.fetchPieceList(page, this.state.pageSize, search,
+                                               orderBy, this.state.orderAsc, filterBy);
     },
 
     fetchSelectedPieceEditionList() {

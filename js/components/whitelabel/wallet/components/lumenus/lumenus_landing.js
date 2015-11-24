@@ -21,6 +21,10 @@ let LumenusLanding = React.createClass({
         );
     },
 
+    componentWillMount() {
+        setDocumentTitle('Lumenus Marketplace');
+    },
+
     componentDidMount() {
         WhitelabelStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel();
@@ -35,8 +39,6 @@ let LumenusLanding = React.createClass({
     },
 
     render() {
-        setDocumentTitle('Lumenus Marketplace');
-
         return (
             <div className="container ascribe-form-wrapper">
                 <div className="row">

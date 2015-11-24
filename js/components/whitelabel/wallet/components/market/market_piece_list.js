@@ -27,6 +27,10 @@ let MarketPieceList = React.createClass({
         );
     },
 
+    componentWillMount() {
+        setDocumentTitle(getLangText('Collection'));
+    },
+
     componentDidMount() {
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
@@ -46,23 +50,30 @@ let MarketPieceList = React.createClass({
 
     render() {
         const { currentUser, whitelabel } = this.state;
-        const isUserAdmin = currentUser.email === whitelabel.user;
+        let filterParams = undefined;
+        let canLoadPieceList = false;
 
-        setDocumentTitle(getLangText('Collection'));
+        if (currentUser.email && whitelabel.user) {
+            canLoadPieceList = true;
+            const isUserAdmin = currentUser.email === whitelabel.user;
+
+            filterParams = [{
+                label: getLangText('Show works I can'),
+                items: [{
+                    key: isUserAdmin ? 'acl_transfer' : 'acl_consign',
+                    label: getLangText(isUserAdmin ? 'transfer' : 'consign to %s', whitelabel.name),
+                    defaultValue: true
+                }]
+            }];
+        }
 
         return (
             <PieceList
+                canLoadPieceList={canLoadPieceList}
                 redirectTo="/register_piece?slide_num=0"
                 bulkModalButtonListType={MarketAclButtonList}
-                filterParams={[{
-                    label: getLangText('Show works I can'),
-                    items: [{
-                        key: isUserAdmin ? 'acl_transfer' : 'acl_consign',
-                        label: getLangText(isUserAdmin ? 'transfer' : 'consign to Market'),
-                        defaultValue: true
-                    }]
-                }]}
-                location={this.props.location}/>
+                filterParams={filterParams}
+                location={this.props.location} />
         );
     }
 });

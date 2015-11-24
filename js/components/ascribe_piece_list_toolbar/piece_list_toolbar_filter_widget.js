@@ -28,7 +28,7 @@ let PieceListToolbarFilterWidget = React.createClass({
     },
 
     generateFilterByStatement(param) {
-        const { filterBy } = this.props;
+        const filterBy = Object.assign({}, this.props.filterBy);
 
         if(filterBy) {
             // we need hasOwnProperty since the values are all booleans
