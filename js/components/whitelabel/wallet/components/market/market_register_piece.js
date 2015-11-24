@@ -6,7 +6,7 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import LumenusAdditionalDataForm from './lumenus_forms/lumenus_additional_data_form';
+import MarketAdditionalDataForm from './market_forms/market_additional_data_form';
 
 import Property from '../../../../ascribe_forms/property';
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
@@ -23,7 +23,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
-let LumenusRegisterPiece = React.createClass({
+let MarketRegisterPiece = React.createClass({
     propTypes: {
         location: React.PropTypes.object
     },
@@ -138,7 +138,7 @@ let LumenusRegisterPiece = React.createClass({
                             <RegisterPieceForm
                                 disabled={this.state.step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Consign to Lumenus')}
+                                headerMessage={getLangText('Consign to Market')}
                                 submitMessage={getLangText('Proceed to additional details')}
                                 isFineUploaderActive={this.state.isFineUploaderActive}
                                 handleSuccess={this.handleRegisterSuccess}
@@ -160,7 +160,7 @@ let LumenusRegisterPiece = React.createClass({
                 <div data-slide-title={getLangText('Additional details')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
-                            <LumenusAdditionalDataForm
+                            <MarketAdditionalDataForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
                                 pieceId={this.getPieceFromQueryParam()}
                                 showHeading />
@@ -172,4 +172,4 @@ let LumenusRegisterPiece = React.createClass({
     }
 });
 
-export default LumenusRegisterPiece;
+export default MarketRegisterPiece;

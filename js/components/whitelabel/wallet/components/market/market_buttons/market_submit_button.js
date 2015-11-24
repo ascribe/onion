@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import LumenusAdditionalDataForm from '../lumenus_forms/lumenus_additional_data_form';
+import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
 import ConsignForm from '../../../../../ascribe_forms/form_consign';
@@ -21,7 +21,7 @@ import ApiUrls from '../../../../../../constants/api_urls';
 import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 
-let LumenusSubmitButton = React.createClass({
+let MarketSubmitButton = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object,
@@ -102,7 +102,7 @@ let LumenusSubmitButton = React.createClass({
 
         const triggerButton = (
             <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
-                {getLangText('CONSIGN TO LUMENUS')}
+                {getLangText('CONSIGN TO TODO')}
             </button>
         );
         const consignForm = (
@@ -127,7 +127,7 @@ let LumenusSubmitButton = React.createClass({
                         trigger={triggerButton}
                         handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
                         title={getLangText('Add additional information')}>
-                        <LumenusAdditionalDataForm
+                        <MarketAdditionalDataForm
                             pieceId={solePieceId} />
                     </ModalWrapper>
 
@@ -147,7 +147,7 @@ let LumenusSubmitButton = React.createClass({
                     <ModalWrapper
                         trigger={triggerButton}
                         handleSuccess={handleSuccess}
-                        title={getLangText('Consign artwork to Lumenus')}>
+                        title={getLangText('Consign artwork to TODO')}>
                         {consignForm}
                     </ModalWrapper>
                 </AclProxy>
@@ -156,4 +156,4 @@ let LumenusSubmitButton = React.createClass({
     }
 });
 
-export default LumenusSubmitButton;
+export default MarketSubmitButton;

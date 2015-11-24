@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-import LumenusAdditionalDataForm from '../lumenus_forms/lumenus_additional_data_form'
+import MarketAdditionalDataForm from '../market_forms/market_additional_data_form'
 
-let LumenusFurtherDetails = React.createClass({
+let MarketFurtherDetails = React.createClass({
     propTypes: {
         pieceId: React.PropTypes.number,
         handleSuccess: React.PropTypes.func,
@@ -12,7 +12,7 @@ let LumenusFurtherDetails = React.createClass({
 
     render() {
         return (
-            <LumenusAdditionalDataForm
+            <MarketAdditionalDataForm
                 {...this.props}
                 isInline
                 showNotification />
@@ -20,4 +20,4 @@ let LumenusFurtherDetails = React.createClass({
     }
 });
 
-export default LumenusFurtherDetails;
+export default MarketFurtherDetails;

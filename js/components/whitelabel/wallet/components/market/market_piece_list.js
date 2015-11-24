@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import LumenusAclButtonList from './lumenus_buttons/lumenus_acl_button_list';
+import MarketAclButtonList from './market_buttons/market_acl_button_list';
 
 import PieceList from '../../../../piece_list';
 
@@ -15,7 +15,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
-let LumenusPieceList = React.createClass({
+let MarketPieceList = React.createClass({
     propTypes: {
         location: React.PropTypes.object
     },
@@ -53,12 +53,12 @@ let LumenusPieceList = React.createClass({
         return (
             <PieceList
                 redirectTo="/register_piece?slide_num=0"
-                bulkModalButtonListType={LumenusAclButtonList}
+                bulkModalButtonListType={MarketAclButtonList}
                 filterParams={[{
                     label: getLangText('Show works I can'),
                     items: [{
                         key: isUserAdmin ? 'acl_transfer' : 'acl_consign',
-                        label: getLangText(isUserAdmin ? 'transfer' : 'consign to Lumenus'),
+                        label: getLangText(isUserAdmin ? 'transfer' : 'consign to Market'),
                         defaultValue: true
                     }]
                 }]}
@@ -67,4 +67,4 @@ let LumenusPieceList = React.createClass({
     }
 });
 
-export default LumenusPieceList;
+export default MarketPieceList;

@@ -2,17 +2,17 @@
 
 import React from 'react';
 
-import LumenusSubmitButton from './lumenus_submit_button';
+import MarketSubmitButton from './market_submit_button';
 
 import DeleteButton from '../../../../../ascribe_buttons/delete_button';
-import ShareButton from '../../../../../ascribe_buttons/acls/share_button';
+import EmailButton from '../../../../../ascribe_buttons/acls/email_button';
 import TransferButton from '../../../../../ascribe_buttons/acls/transfer_button';
 import UnconsignButton from '../../../../../ascribe_buttons/acls/unconsign_button';
 
 import UserActions from '../../../../../../actions/user_actions';
 import UserStore from '../../../../../../stores/user_store';
 
-let LumenusAclButtonList = React.createClass({
+let MarketAclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
         className: React.PropTypes.string,
@@ -45,12 +45,12 @@ let LumenusAclButtonList = React.createClass({
         let { availableAcls, className, pieceOrEditions, handleSuccess } = this.props;
         return (
             <div className={className}>
-                <LumenusSubmitButton
+                <MarketSubmitButton
                     availableAcls={availableAcls}
                     currentUser={this.state.currentUser}
                     editions={pieceOrEditions}
                     handleSuccess={handleSuccess} />
-                <ShareButton
+                <EmailButton
                     availableAcls={availableAcls}
                     currentUser={this.state.currentUser}
                     pieceOrEditions={pieceOrEditions}
@@ -71,4 +71,4 @@ let LumenusAclButtonList = React.createClass({
     }
 });
 
-export default LumenusAclButtonList;
+export default MarketAclButtonList;

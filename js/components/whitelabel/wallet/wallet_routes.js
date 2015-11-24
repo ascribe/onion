@@ -15,7 +15,8 @@ import EditionContainer from '../../../components/ascribe_detail/edition_contain
 import SettingsContainer from '../../../components/ascribe_settings/settings_container';
 import ContractSettings from '../../../components/ascribe_settings/contract_settings';
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
-import RegisterPiece from '../../../components/register_piece'; //TODO: Remove once finished with LumenusRegisterPiece
+
+import CCRegisterPiece from './components/cc/cc_register_piece';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
@@ -29,13 +30,12 @@ import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
-import LumenusLanding from './components/lumenus/lumenus_landing';
-import LumenusPieceList from './components/lumenus/lumenus_piece_list';
-import LumenusRegisterPiece from './components/lumenus/lumenus_register_piece';
-import LumenusPieceContainer from './components/lumenus/lumenus_detail/lumenus_piece_container';
-import LumenusEditionContainer from './components/lumenus/lumenus_detail/lumenus_edition_container';
+import MarketPieceList from './components/market/market_piece_list';
+import MarketRegisterPiece from './components/market/market_register_piece';
+import MarketPieceContainer from './components/market/market_detail/market_piece_container';
+import MarketEditionContainer from './components/market/market_detail/market_edition_container';
 
-import CCRegisterPiece from './components/cc/cc_register_piece';
+import LumenusLanding from './components/lumenus/lumenus_landing';
 
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
@@ -179,14 +179,14 @@ let ROUTES = {
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LumenusRegisterPiece)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LumenusPieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketPieceList)}
                 headerTitle='COLLECTION'/>
-            <Route path='pieces/:pieceId' component={LumenusPieceContainer} />
-            <Route path='editions/:editionId' component={LumenusEditionContainer} />
+            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
+            <Route path='editions/:editionId' component={MarketEditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>

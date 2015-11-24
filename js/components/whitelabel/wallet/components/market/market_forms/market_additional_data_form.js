@@ -24,7 +24,7 @@ import requests from '../../../../../../utils/requests';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 
-let LumenusAdditionalDataForm = React.createClass({
+let MarketAdditionalDataForm = React.createClass({
     propTypes: {
         pieceId: React.PropTypes.oneOfType([
             React.PropTypes.number,
@@ -163,7 +163,7 @@ let LumenusAdditionalDataForm = React.createClass({
                     spinner={spinner}>
                     {heading}
                     <FurtherDetailsFileuploader
-                        label={getLangText('Marketplace image')}
+                        label={getLangText('Marketplace Thumbnail Image')}
                         uploadStarted={this.uploadStarted}
                         submitFile={function () {}}
                         setIsUploadReady={this.setIsUploadReady}
@@ -194,7 +194,7 @@ let LumenusAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.technology_details}
-                            placeholder={getLangText('Enter technological details about the work was produced...')}
+                            placeholder={getLangText('Enter technological details about the work...')}
                             required />
                     </Property>
                     <Property
@@ -218,4 +218,4 @@ let LumenusAdditionalDataForm = React.createClass({
     }
 });
 
-export default LumenusAdditionalDataForm;
+export default MarketAdditionalDataForm;
