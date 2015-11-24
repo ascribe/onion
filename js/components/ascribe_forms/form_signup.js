@@ -61,7 +61,7 @@ let SignupForm = React.createClass({
             // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         } else {
-            UserActions.fetchCurrentUser();
+            UserActions.fetchCurrentUser(true);
         }
     },
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { InformationTexts } from '../../constants/information_text';
+import { AclInformationText } from '../../constants/acl_information_text';
 import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
@@ -38,7 +38,7 @@ let AclInformation = React.createClass({
     },
 
     getInfoText(title, info, example){
-        let aim = this.props.aim;
+        const aim = this.props.aim;
 
         if(aim) {
             if(aim === 'form') {
@@ -75,7 +75,7 @@ let AclInformation = React.createClass({
     },
 
     produceInformationBlock() {
-        const { titles, informationSentences, exampleSentences } = InformationTexts;
+        const { titles, informationSentences, exampleSentences } = AclInformationText;
         const { verbs, aim } = this.props;
 
         const availableInformations = intersectLists(verbs, Object.keys(titles));
@@ -95,7 +95,13 @@ let AclInformation = React.createClass({
         }
 
         return verbsToDisplay.map((verb) => {
-            return this.getInfoText(getLangText(titles[verb]), getLangText(informationSentences[verb]), getLangText(exampleSentences[verb]));
+            const title = titles[verb];
+            const informationSentence = informationSentences[verb];
+            const exampleSentence = exampleSentences[verb];
+
+            if (title && informationSentence && exampleSentence) {
+                return this.getInfoText(getLangText(title), getLangText(informationSentence), getLangText(exampleSentence));
+            }
         });
     },
 

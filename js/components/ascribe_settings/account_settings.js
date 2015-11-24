@@ -27,7 +27,7 @@ let AccountSettings = React.createClass({
     },
 
     handleSuccess(){
-        this.props.loadUser();
+        this.props.loadUser(true);
         let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
