@@ -19,12 +19,12 @@ function getWalletApiUrls(subdomain) {
         };
     } else if (subdomain === 'lumenus') {
         return {
-            'editions_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/editions/',
-            'edition': walletConstants.walletApiEndpoint + subdomain + '/editions/${bitcoin_id}/',
-            'pieces_list': walletConstants.walletApiEndpoint + subdomain + '/pieces/',
-            'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/',
-            'piece_extradata': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/extradata/',
-            'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
+            'editions_list': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/pieces/${piece_id}/editions/',
+            'edition': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/editions/${bitcoin_id}/',
+            'pieces_list': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/pieces/',
+            'piece': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/pieces/${piece_id}/',
+            'piece_extradata': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/pieces/${piece_id}/extradata/',
+            'user': walletConstants.walletApiEndpoint + 'market/' + subdomain + '/users/'
         };
     }
     return {};
