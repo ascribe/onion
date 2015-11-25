@@ -42,8 +42,7 @@ import { getLangText } from '../../utils/lang_utils';
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        loadEdition: React.PropTypes.func,
-        location: React.PropTypes.object
+        loadEdition: React.PropTypes.func
     },
 
     mixins: [History],
@@ -156,8 +155,7 @@ let Edition = React.createClass({
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}
-                            location={this.props.location}/>
+                            handleSuccess={this.props.loadEdition} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
