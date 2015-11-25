@@ -10,7 +10,7 @@ class ErrorQueueStore {
     constructor() {
         const { upload: { slowConnection, tryDifferentBrowser } } = ErrorClasses;
 
-        this.errorQueue = {
+        this.errorQueues = {
             'upload': {
                 queue: [slowConnection, tryDifferentBrowser],
                 loop: true
@@ -19,10 +19,13 @@ class ErrorQueueStore {
 
         // Add intial index to each error queue
         Object
-            .keys(this.errorQueue)
+            .keys(this.errorQueues)
             .forEach((type) => {
-                this.errorQueue[type].index = 0;
+                this.errorQueues[type].index = 0;
             });
+
+        // Bind the exported functions to this instance
+        this.getNextError = this.getNextError.bind(this);
 
         this.exportPublicMethods({
             getNextError: this.getNextError
