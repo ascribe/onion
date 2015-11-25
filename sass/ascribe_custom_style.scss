@@ -580,11 +580,6 @@ fieldset[disabled] .btn-secondary.active {
     background-color: lighten($ascribe--button-default-color, 20%);
 }
 
-// uploader
-.ascribe-progress-bar > .progress-bar {
-    background-color: lighten($ascribe--button-default-color, 20%);
-}
-
 .action-file {
     text-shadow: -1px 0 black,
                   0 1px black,
