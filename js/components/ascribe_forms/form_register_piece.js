@@ -17,9 +17,7 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { formSubmissionValidation,
-        displayValidFilesFilter,
-        displayRemovedFilesFilter } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
