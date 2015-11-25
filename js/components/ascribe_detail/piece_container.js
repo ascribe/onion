@@ -259,12 +259,12 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={(!!(this.state.currentUser.username || this.state.piece.public_note)) &&
-                        (!!this.state.piece.acl.acl_edit)}>
+                        show={(!!(this.state.currentUser.username || this.state.piece.public_note))}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note || null}
+                            show = {!!this.state.currentUser.username}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
