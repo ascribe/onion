@@ -111,6 +111,17 @@ const ErrorClasses = {
                                           'are working to resolve them. Please try again in a few hours.'),
             'test': 'Problem signing the chunk'
         },
+
+        // Fallback error tips
+        'slowConnection': {
+            'prettifiedText': getLangText('Are you on a slow or unstable network? Uploading large files requires a fast Internet connection.')
+        },
+        'tryDifferentBrowser': {
+            'prettifiedText': getLangText("We still can't seem to upload your file. Maybe try another browser?")
+        },
+        'contactUs': {
+            'prettifiedText': getLangText("We're having a really hard time with your upload. Please contact us for more help.")
+        }
     },
     'default': {
         'default': {
@@ -120,10 +131,12 @@ const ErrorClasses = {
 };
 
 // Dynamically inject the name and group properties into the classes
-Object.keys(ErrorClasses).forEach((errorGroup) => {
-    Object.keys(ErrorClasses[errorGroup]).forEach((errorClass) => {
-        errorClass.name = errorClass;
-        errorClass.group = errorGroup;
+Object.keys(ErrorClasses).forEach((errorGroupKey) => {
+    const errorGroup = ErrorClasses[errorGroupKey];
+    Object.keys(errorGroup).forEach((errorClassKey) => {
+        const errorClass = errorGroup[errorClassKey];
+        errorClass.name = errorClassKey;
+        errorClass.group = errorGroupKey;
     });
 });
 
