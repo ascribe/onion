@@ -8,6 +8,8 @@ import UserActions from '../../actions/user_actions';
 import Form from './form';
 import Property from './property';
 import InputFineUploader from './input_fineuploader';
+import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
+import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -15,7 +17,9 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { formSubmissionValidation,
+        displayValidFilesFilter,
+        displayRemovedFilesFilter } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -48,7 +52,7 @@ let RegisterPieceForm = React.createClass({
     getInitialState(){
         return mergeOptions(
             {
-                isUploadReady: false
+                digitalWorkFile: null
             },
             UserStore.getState()
         );
@@ -67,31 +71,80 @@ let RegisterPieceForm = React.createClass({
         this.setState(state);
     },
 
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
+    /**
+     * This method is overloaded so that we can track the ready-state
+     * of each uploader in the component
+     * @param {string} uploaderKey Name of the uploader's key to track
+     */
+    setIsUploadReady(uploaderKey) {
+        return (isUploadReady) => {
+            // See documentation of `FormSubmitButton` for more detailed information
+            // on this.
+            this.refs.submitButton.setReadyStateForKey(uploaderKey, isUploadReady);
+        };
+    },
+
+    handleChangedDigitalWork(digitalWorkFile) {
+        if (digitalWorkFile &&
+            (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
+            this.refs.form.refs.thumbnail_file.reset();
+            this.setState({ digitalWorkFile: null });
+        } else {
+            this.setState({ digitalWorkFile });
+        }
+    },
+
+    handleChangedThumbnail(thumbnailFile) {
+        const { digitalWorkFile } = this.state;
+        const { fineuploader } = this.refs.digitalWorkFineUploader.refs;
+
+        fineuploader.setThumbnailForFileId(digitalWorkFile.id, thumbnailFile.url);
+    },
+
+    isThumbnailDialogExpanded() {
+        const { digitalWorkFile } = this.state;
+
+        if(digitalWorkFile) {
+            const { type: mimeType } = digitalWorkFile;
+            const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
+                                                                       : 'unknown';
+            return AppConstants.supportedThumbnailFileFormats.indexOf(mimeSubType) === -1;
+        } else {
+            return false;
+        }
     },
 
     render() {
-        let currentUser = this.state.currentUser;
-        let enableLocalHashing = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
-        enableLocalHashing = enableLocalHashing && this.props.enableLocalHashing;
+        const { disabled,
+                handleSuccess,
+                submitMessage,
+                headerMessage,
+                isFineUploaderActive,
+                onLoggedOut,
+                isFineUploaderEditable,
+                location,
+                children,
+                enableLocalHashing } = this.props;
+        const { currentUser} = this.state;
+
+        const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
+        const hashLocally = profileHashLocally && enableLocalHashing;
 
         return (
             <Form
-                disabled={this.props.disabled}
+                disabled={disabled}
                 className="ascribe-form-bordered"
                 ref='form'
                 url={ApiUrls.pieces_list}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 buttons={
-                    <button
-                        type="submit"
-                        className="btn btn-default btn-wide"
-                        disabled={!this.state.isUploadReady || this.props.disabled}>
-                        {this.props.submitMessage}
-                    </button>
+                    <FormSubmitButton
+                        ref="submitButton"
+                        defaultReadyStates={{
+                            digitalWorkKeyReady: false,
+                            thumbnailKeyReady: true
+                        }}
+                        label={submitMessage}/>
                 }
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
@@ -99,12 +152,14 @@ let RegisterPieceForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>{this.props.headerMessage}</h3>
+                    <h3>{headerMessage}</h3>
                 </div>
                 <Property
                     name="digital_work_key"
-                    ignoreFocus={true}>
+                    ignoreFocus={true}
+                    label={getLangText('Your Work')}>
                     <InputFineUploader
+                        ref={ref => this.refs.digitalWorkFineUploader = ref}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'digitalwork'
@@ -113,13 +168,41 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_digitalworks
                         }}
                         validation={AppConstants.fineUploader.validation.registerWork}
-                        setIsUploadReady={this.setIsUploadReady}
+                        setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        isFineUploaderActive={this.props.isFineUploaderActive}
-                        onLoggedOut={this.props.onLoggedOut}
-                        disabled={!this.props.isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}
-                        uploadMethod={this.props.location.query.method} />
+                        isFineUploaderActive={isFineUploaderActive}
+                        onLoggedOut={onLoggedOut}
+                        disabled={!isFineUploaderEditable}
+                        enableLocalHashing={hashLocally}
+                        uploadMethod={location.query.method}
+                        handleChangedFile={this.handleChangedDigitalWork}/>
+                </Property>
+                <Property
+                    name="thumbnail_file"
+                    expanded={this.isThumbnailDialogExpanded()}>
+                    <InputFineUploader
+                        ref={ref => this.refs.thumbnailFineUploader = ref}
+                        fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
+                        createBlobRoutine={{
+                            url: ApiUrls.blob_thumbnails
+                        }}
+                        handleChangedFile={this.handleChangedThumbnail}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        keyRoutine={{
+                            url: AppConstants.serverUrl + 's3/key/',
+                            fileClass: 'thumbnail'
+                        }}
+                        validation={{
+                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                        }}
+                        setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
+                        location={location}
+                        fileClassToUpload={{
+                            singular: getLangText('Select representative image'),
+                            plural: getLangText('Select representative images')
+                        }}/>
                 </Property>
                 <Property
                     name='artist_name'
@@ -146,7 +229,7 @@ let RegisterPieceForm = React.createClass({
                         min={1}
                         required/>
                 </Property>
-                {this.props.children}
+                {children}
             </Form>
         );
     }

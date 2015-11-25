@@ -123,7 +123,7 @@ let LoanForm = React.createClass({
                     <Property
                         name="terms"
                         label={getLangText('Loan Contract')}
-                        hidden={false}
+                        expanded={true}
                         className="notification-contract-pdf">
                         <embed
                             className="loan-form"
@@ -164,7 +164,7 @@ let LoanForm = React.createClass({
                 <Property
                     name="terms"
                     style={{paddingBottom: 0}}
-                    hidden={true}>
+                    expanded={false}>
                     <InputCheckbox
                         key="terms_implicitly"
                         defaultChecked={true} />
@@ -260,7 +260,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Start date')}
                     editable={!this.props.startdate}
                     overrideForm={!!this.props.startdate}
-                    hidden={!this.props.showStartDate}>
+                    expanded={this.props.showStartDate}>
                     <InputDate
                         defaultValue={this.props.startdate}
                         placeholderText={getLangText('Loan start date')} />
@@ -270,7 +270,7 @@ let LoanForm = React.createClass({
                     editable={!this.props.enddate}
                     overrideForm={!!this.props.enddate}
                     label={getLangText('End date')}
-                    hidden={!this.props.showEndDate}>
+                    expanded={this.props.showEndDate}>
                     <InputDate
                         defaultValue={this.props.enddate}
                         placeholderText={getLangText('Loan end date')} />
@@ -280,7 +280,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Personal Message')}
                     editable={true}
                     overrideForm={true}
-                    hidden={!this.props.showPersonalMessage}>
+                    expanded={this.props.showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
                         defaultValue={this.props.message}
@@ -292,7 +292,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='password'
                     label={getLangText('Password')}
-                    hidden={!this.props.showPassword}>
+                    expanded={this.props.showPassword}>
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}

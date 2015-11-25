@@ -253,7 +253,7 @@ const PRRegisterPieceForm = React.createClass({
                         name="digitalWorkKey"
                         label={getLangText('Select the PDF with your work')}>
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                             createBlobRoutine={{
@@ -279,7 +279,7 @@ const PRRegisterPieceForm = React.createClass({
                         name="thumbnailKey"
                         label={getLangText('Featured Cover photo')}>
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton()}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_thumbnails
                             }}
@@ -305,7 +305,7 @@ const PRRegisterPieceForm = React.createClass({
                         name="supportingMaterials"
                         label={getLangText('Supporting Materials (Optional)')}>
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('supportingMaterialsReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
@@ -327,7 +327,7 @@ const PRRegisterPieceForm = React.createClass({
                         name="proofOfPayment"
                         label={getLangText('Proof of payment')}>
                         <InputFineuploader
-                            fileInputElement={UploadButton}
+                            fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('proofOfPaymentReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}

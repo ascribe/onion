@@ -13,7 +13,6 @@ import { getCookie } from '../../utils/fetch_api_utils';
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
-        uploadStarted: React.PropTypes.func,
         pieceId: React.PropTypes.number,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
@@ -46,7 +45,6 @@ let FurtherDetailsFileuploader = React.createClass({
                 name="other_data_key"
                 label="Additional files">
                 <ReactS3FineUploader
-                    uploadStarted={this.props.uploadStarted}
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'otherdata',

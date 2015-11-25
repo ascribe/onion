@@ -104,7 +104,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='artist_website'
                         label={getLangText('Artist Website')}
-                        hidden={this.props.disabled && !this.props.piece.extra_data.artist_website}>
+                        expanded={!this.props.disabled && this.props.piece.extra_data.artist_website}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.artist_website}
@@ -113,7 +113,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='gallery_website'
                         label={getLangText('Website of related Gallery, Museum, etc.')}
-                        hidden={this.props.disabled && !this.props.piece.extra_data.gallery_website}>
+                        expanded={!this.props.disabled && this.props.piece.extra_data.gallery_website}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.gallery_website}
@@ -122,7 +122,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='additional_websites'
                         label={getLangText('Additional Websites/Publications/Museums/Galleries')}
-                        hidden={this.props.disabled && !this.props.piece.extra_data.additional_websites}>
+                        expanded={!this.props.disabled && this.props.piece.extra_data.additional_websites}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.additional_websites}
@@ -131,7 +131,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Short text about the Artist')}
-                        hidden={this.props.disabled && !this.props.piece.extra_data.conceptual_overview}>
+                        expanded={!this.props.disabled && this.props.piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.conceptual_overview}

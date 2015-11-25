@@ -55,7 +55,7 @@ let ContractSettingsUpdateButton = React.createClass({
     render() {
         return (
            <ReactS3FineUploader
-                fileInputElement={UploadButton}
+                fileInputElement={UploadButton()}
                 keyRoutine={{
                     url: AppConstants.serverUrl + 's3/key/',
                     fileClass: 'contract'

@@ -11,7 +11,6 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import Form from './form';
 import Property from './property';
-import PropertyCollapsible from './property_collapsible';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 import ApiUrls from '../../constants/api_urls';
@@ -122,9 +121,10 @@ let ContractAgreementForm = React.createClass({
                             required/>
                     </Property>
                     {this.getContracts()}
-                    <PropertyCollapsible
+                    <Property
                         name='appendix'
-                        checkboxLabel={getLangText('Add appendix to the contract')}>
+                        checkboxLabel={getLangText('Add appendix to the contract')}
+                        expanded={false}>
                         <span>{getLangText('Appendix')}</span>
                         {/* We're using disabled on a form here as PropertyCollapsible currently
                         does not support the disabled + overrideForm functionality */}
@@ -132,7 +132,7 @@ let ContractAgreementForm = React.createClass({
                             rows={1}
                             disabled={false}
                             placeholder={getLangText('This will be appended to the contract selected above')}/>
-                    </PropertyCollapsible>
+                    </Property>
                 </Form>
             );
         }
