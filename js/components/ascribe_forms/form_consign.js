@@ -24,7 +24,13 @@ let ConsignForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    getFormData(){
+    getInitialProps() {
+        return {
+            labels: {}
+        };
+    },
+
+    getFormData() {
         return this.props.id;
     },
 
