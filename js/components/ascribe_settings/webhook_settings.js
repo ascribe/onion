@@ -11,6 +11,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
+import AclProxy from '../acl_proxy';
+
 import ActionPanel from '../ascribe_panel/action_panel';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
@@ -43,16 +45,18 @@ let WebhookSettings = React.createClass({
         this.setState(state);
     },
 
-    onDeleteWebhook(event) {
-        let webhookId = event.target.getAttribute('data-id');
-        WebhookActions.deleteWebhook(webhookId);
+    onRemoveWebhook(webhookId) {
+        return (event) => {
+            WebhookActions.removeWebhook(webhookId);
 
-        let notification = new GlobalNotificationModel(getLangText('Webhook deleted'), 'success', 2000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+            let notification = new GlobalNotificationModel(getLangText('Webhook deleted'), 'success', 2000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+        };
     },
 
     handleCreateSuccess() {
-        WebhookActions.fetchWebhooks();
+        this.refs.webhookCreateForm.reset();
+        WebhookActions.fetchWebhooks(true);
         let notification = new GlobalNotificationModel(getLangText('Webhook successfully created'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -60,7 +64,7 @@ let WebhookSettings = React.createClass({
     getWebhooks(){
         let content = <AscribeSpinner color='dark-blue' size='lg'/>;
 
-        if (this.state.webhooks.length > -1) {
+        if (this.state.webhooks) {
             content = this.state.webhooks.map(function(webhook, i) {
                 const event = webhook.event.split('.')[0];
                 return (
@@ -82,8 +86,7 @@ let WebhookSettings = React.createClass({
                                 <div className="pull-right">
                                     <button
                                         className="pull-right btn btn-tertiary btn-sm"
-                                        onClick={this.onDeleteWebhook}
-                                        data-id={webhook.id}>
+                                        onClick={this.onRemoveWebhook(webhook.id)}>
                                         {getLangText('DELETE')}
                                     </button>
                                 </div>
@@ -96,14 +99,13 @@ let WebhookSettings = React.createClass({
     },
 
     getEvents() {
-        if (this.state.events && this.state.events.length > 1) {
+        if (this.state.webhookEvents && this.state.webhookEvents.length) {
             return (
                 <Property
                     name='event'
-                    label={getLangText('Select the event to trigger a webhook', '...')}
-                    onChange={this.onLicenseChange}>
-                    <select name="license">
-                        {this.state.events.map((event, i) => {
+                    label={getLangText('Select the event to trigger a webhook', '...')}>
+                    <select name="events">
+                        {this.state.webhookEvents.map((event, i) => {
                             return (
                                 <option
                                     name={i}
@@ -125,23 +127,24 @@ let WebhookSettings = React.createClass({
             <CollapsibleParagraph
                 title={getLangText('Webhooks')}
                 defaultExpanded={this.props.defaultExpanded}>
-                <Form
-                    url={ApiUrls.webhooks}
-                    handleSuccess={this.handleCreateSuccess}>
-                    { this.getEvents() }
-                    <Property
-                        name='target'
-                        label={getLangText('Redirect Url')}>
-                        <input
-                            type="text"
-                            placeholder={getLangText('Enter the url to be triggered')}
-                            required/>
-                    </Property>
-                    <hr />
-                </Form>
-                <pre>
-                    Usage: curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
-                </pre>
+                <AclProxy
+                    show={this.state.webhookEvents && this.state.webhookEvents.length}>
+                    <Form
+                        ref="webhookCreateForm"
+                        url={ApiUrls.webhooks}
+                        handleSuccess={this.handleCreateSuccess}>
+                        { this.getEvents() }
+                        <Property
+                            name='target'
+                            label={getLangText('Redirect Url')}>
+                            <input
+                                type="text"
+                                placeholder={getLangText('Enter the url to be triggered')}
+                                required/>
+                        </Property>
+                        <hr />
+                    </Form>
+                </AclProxy>
                 {this.getWebhooks()}
             </CollapsibleParagraph>
         );
