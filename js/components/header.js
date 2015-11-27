@@ -142,7 +142,9 @@ let Header = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    // On route change, close expanded navbar again
+    // On route change, close expanded navbar again since react-bootstrap doesn't close
+    // the collapsibleNav by itself on click. setState() isn't available on a ref so
+    // doing this explicitly is the only way for now.
     onRouteChange() {
         this.refs.navbar.state.navExpanded = false;
     },
