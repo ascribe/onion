@@ -30,6 +30,7 @@ class ErrorQueueStore {
         this.exportPublicMethods({
             getNextError: this.getNextError
         });
+        this.bindActions(ErrorQueueActions);
     }
 
     getNextError(type) {
@@ -40,7 +41,7 @@ class ErrorQueueStore {
         return queue[index];
     }
 
-    onShiftQueue(type) {
+    onShiftErrorQueue(type) {
         const errorQueue = this.errorQueues[type];
         const { queue, loop } = errorQueue;
 
