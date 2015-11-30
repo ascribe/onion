@@ -70,24 +70,16 @@ let PieceContainer = React.createClass({
     },
 
     componentDidMount() {
-        // Every time we're entering the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
+
         // Every time we enter the piece detail page, just reset the piece
         // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-
         this.loadPiece();
-
         UserActions.fetchCurrentUser();
-        PieceActions.fetchOne(this.props.params.pieceId);
     },
 
     componentDidUpdate() {

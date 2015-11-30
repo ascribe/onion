@@ -32,12 +32,13 @@ let EditionContainer = React.createClass({
     },
 
     componentDidMount() {
+        EditionStore.listen(this.onChange);
+
         // Every time we're entering the edition detail page,
         // just reset the edition that is saved in the edition store
         // as it will otherwise display wrong/old data once the user loads
         // the edition detail a second time
         EditionActions.updateEdition({});
-        EditionStore.listen(this.onChange);
         this.loadEdition();
     },
 
