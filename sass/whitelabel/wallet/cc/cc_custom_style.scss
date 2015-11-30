@@ -1,0 +1,210 @@
+$cc--nav-bg-color: #fcfcfc;
+$cc--nav-fg-prim-color: #1E1E1E;
+$cc--button-color: $cc--nav-fg-prim-color;
+
+.client--cc {
+    .navbar-default {
+        background-color: $cc--nav-bg-color;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        color: $cc--nav-fg-prim-color;
+        background-color: $cc--nav-bg-color;
+    }
+    .navbar-nav > li > a:hover {
+        color: lighten($cc--nav-fg-prim-color, 40%);
+    }
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: $cc--nav-fg-prim-color;
+        border-bottom-color: $cc--nav-fg-prim-color;
+        background-color: $cc--nav-bg-color;
+    }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($cc--nav-fg-prim-color, 40%);
+        background-color: $cc--nav-bg-color;
+    }
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: lighten($cc--nav-fg-prim-color, 40%);
+        background-color: $cc--nav-bg-color;
+    }
+    .dropdown-menu {
+        background-color: $cc--nav-bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color: $cc--nav-fg-prim-color;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: $cc--nav-fg-prim-color;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: $cc--nav-bg-color;
+    }
+}
+
+.client--cc .ascribe-footer {
+    display: none;
+}
+
+
+.client--cc .icon-ascribe-search{
+    color: $cc--button-color;
+}
+
+.client--cc .ascribe-piece-list-toolbar .btn-ascribe-add{
+    display: none;
+}
+
+// disabled buttons
+.client--cc {
+    // disabled buttons
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: $cc--nav-bg-color;
+        color: $cc--nav-fg-prim-color;
+    }
+}
+
+.client--cc {
+    .btn-secondary {
+        background-color: $cc--nav-bg-color;
+        border-color: $cc--nav-fg-prim-color;
+        color: $cc--nav-fg-prim-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $cc--nav-fg-prim-color;
+            border-color: $cc--nav-fg-prim-color;
+            color: $cc--nav-bg-color;
+        }
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--cc {
+    .ascribe-piece-list-toolbar-filter-widget button {
+        color: $cc--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &:hover,
+        &:active {
+            background-color: $cc--button-color !important;
+            border-color: $cc--button-color !important;
+            color: white !important;
+        }
+    }
+
+    .btn-wide,
+    .btn-default {
+        background-color: $cc--button-color;
+        border-color: $cc--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($cc--button-color, 20%);
+            border-color: lighten($cc--button-color, 20%);
+        }
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
+        background-color: darken($cc--button-color, 20%);
+        border-color: darken($cc--button-color, 20%);
+    }
+
+    .pager li > a,
+    .pager li > span {
+        background-color: $cc--button-color;
+        border-color: $cc--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $cc--button-color !important;
+        border-color: $cc--button-color;
+    }
+}
+
+// spinner!
+.client--cc {
+    .btn-spinner {
+        color: $cc--button-color;
+    }
+    .spinner-circle {
+        border-color: $cc--button-color;
+    }
+    .spinner-inner {
+        color: $cc--button-color;
+        display: none;
+    }
+}
+
+// intercom stuff
+.client--cc {
+    #intercom-container .intercom-launcher-button {
+        background-color: $cc--button-color !important;;
+        border-color: $cc--button-color !important;;
+    }
+}
+
+// notifications
+.client--cc .ascribe-global-notification-success {
+    background-color: lighten($cc--button-color, 50%);
+}
+
+// progress bar
+.client--cc .ascribe-progress-bar > .progress-bar {
+    background-color: $cc--button-color;
+}
+
+.client--cc .acl-information-dropdown-list .title {
+    color: $cc--button-color;
+}

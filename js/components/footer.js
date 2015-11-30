@@ -8,11 +8,10 @@ let Footer = React.createClass({
     render() {
         return (
             <div className="ascribe-footer">
-                <hr />
                 <p className="ascribe-sub-sub-statement">
                   <br />
-                  <a href="https://github.com/ascribe/REST-main/" target="_blank">api</a> |
-                  <a href="https://www.ascribe.io/impressum/" target="_blank"> impressum</a> |
+                  <a href="http://docs.ascribe.apiary.io/" target="_blank">api</a> |
+                  <a href="https://www.ascribe.io/imprint/" target="_blank"> {getLangText('imprint')}</a> |
                   <a href="https://www.ascribe.io/terms/" target="_blank"> {getLangText('terms of service')}</a> |
                   <a href="https://www.ascribe.io/privacy/" target="_blank"> {getLangText('privacy')}</a>
                 </p>

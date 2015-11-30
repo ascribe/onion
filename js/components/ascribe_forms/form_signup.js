@@ -3,8 +3,6 @@
 import React from 'react';
 import { History } from 'react-router';
 
-import { getLangText } from '../../utils/lang_utils';
-
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
 
@@ -16,6 +14,9 @@ import Property from './property';
 import InputCheckbox from './input_checkbox';
 
 import ApiUrls from '../../constants/api_urls';
+import AscribeSpinner from '../ascribe_spinner';
+
+import { getLangText } from '../../utils/lang_utils';
 
 
 let SignupForm = React.createClass({
@@ -60,7 +61,7 @@ let SignupForm = React.createClass({
             // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         } else {
-            UserActions.fetchCurrentUser();
+            UserActions.fetchCurrentUser(true);
         }
     },
 
@@ -86,12 +87,12 @@ let SignupForm = React.createClass({
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={
-                    <button type="submit" className="btn ascribe-btn ascribe-btn-login">
+                    <button type="submit" className="btn btn-default btn-wide">
                         {this.props.submitMessage}
                     </button>}
                 spinner={
-                    <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                        <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
                     </span>
                     }>
                 <div className="ascribe-form-header">
@@ -130,7 +131,7 @@ let SignupForm = React.createClass({
                 {this.props.children}
                 <Property
                     name="terms"
-                    className="ascribe-settings-property-collapsible-toggle"
+                    className="ascribe-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>

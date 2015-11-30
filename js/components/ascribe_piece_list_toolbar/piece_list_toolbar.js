@@ -74,15 +74,15 @@ let PieceListToolbar = React.createClass({
                             <span className="pull-left">
                                 {children}
                             </span>
+                            <span className="pull-right">
+                                {this.getOrderWidget()}
+                                {this.getFilterWidget()}
+                            </span>
                             <SearchBar
                                 className="pull-right search-bar ascribe-input-glyph"
                                 searchFor={searchFor}
                                 searchQuery={searchQuery}
                                 threshold={AppConstants.searchThreshold}/>
-                            <span className="pull-right">
-                                {this.getOrderWidget()}
-                                {this.getFilterWidget()}
-                            </span>
                         </div>
                     </div>
                 </div>

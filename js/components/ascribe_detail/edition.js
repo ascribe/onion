@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link, History } from 'react-router';
+import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -25,11 +26,12 @@ import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
 import EditionActionPanel from './edition_action_panel';
+import AclProxy from '../acl_proxy';
 
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -40,8 +42,7 @@ import { getLangText } from '../../utils/lang_utils';
 let Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object,
-        loadEdition: React.PropTypes.func,
-        location: React.PropTypes.object
+        loadEdition: React.PropTypes.func
     },
 
     mixins: [History],
@@ -81,10 +82,10 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details">
                     <div className="ascribe-detail-header">
-                        <hr/>
+                        <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
                         <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={ this.props.edition.date_created.slice(0, 4) } />
+                        <EditionDetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary
@@ -144,7 +145,6 @@ let Edition = React.createClass({
                             url={ApiUrls.note_public_edition}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
                         show={this.props.edition.acl.acl_edit
@@ -155,10 +155,8 @@ let Edition = React.createClass({
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
                             otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition}
-                            location={this.props.location}/>
+                            handleSuccess={this.props.loadEdition} />
                     </CollapsibleParagraph>
-
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
@@ -212,10 +210,15 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <EditionActionPanel
-                    edition={edition}
-                    currentUser={currentUser}
-                    handleSuccess={this.handleSuccess} />
+                <AclProxy show={currentUser && currentUser.email}>
+                    <EditionDetailProperty
+                        label={getLangText('ACTIONS')}>
+                        <EditionActionPanel
+                            edition={edition}
+                            currentUser={currentUser}
+                            handleSuccess={this.handleSuccess} />
+                    </EditionDetailProperty>
+                </AclProxy>
                 <hr/>
             </div>
         );
@@ -279,7 +282,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                <AscribeSpinner color='dark-blue' size='lg'/>
             </div>
         );
     }

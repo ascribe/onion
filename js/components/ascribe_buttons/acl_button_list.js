@@ -1,21 +1,29 @@
 'use strict';
 
-import React from 'react';
+import React from 'react/addons';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
 
-import AclButton from '../ascribe_buttons/acl_button';
+import ConsignButton from './acls/consign_button';
+import EmailButton from './acls/email_button';
+import LoanButton from './acls/loan_button';
+import LoanRequestButton from './acls/loan_request_button';
+import TransferButton from './acls/transfer_button';
+import UnconsignButton from './acls/unconsign_button';
+
+import { mergeOptions } from '../../utils/general_utils';
 
 let AclButtonList = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        editions: React.PropTypes.oneOfType([
+        pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
-        ]),
-        availableAcls: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func,
+        ]).isRequired,
+        availableAcls: React.PropTypes.object.isRequired,
+        buttonsStyle: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -23,56 +31,92 @@ let AclButtonList = React.createClass({
     },
 
     getInitialState() {
-        return UserStore.getState();
+        return mergeOptions(
+            UserStore.getState(),
+            {
+                buttonListSize: 0
+            }
+        );
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
+        UserActions.fetchCurrentUser.defer();
+
+        window.addEventListener('resize', this.handleResize);
+        window.dispatchEvent(new Event('resize'));
+    },
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.availableAcls && prevProps.availableAcls !== this.props.availableAcls) {
+            window.dispatchEvent(new Event('resize'));
+        }
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+
+        window.removeEventListener('resize', this.handleResize);
+    },
+
+    handleResize() {
+        this.setState({
+            buttonListSize: this.refs.buttonList.getDOMNode().offsetWidth
+        });
     },
 
     onChange(state) {
         this.setState(state);
     },
 
+    renderChildren() {
+        const { children } = this.props;
+        const { buttonListSize } = this.state;
+
+        return React.Children.map(children, (child) => {
+            return React.addons.cloneWithProps(child, { buttonListSize });
+        });
+    },
+
     render() {
+        const { className,
+                buttonsStyle,
+                availableAcls,
+                pieceOrEditions,
+                handleSuccess } = this.props;
+
+        const { currentUser } = this.state;
+
         return (
-            <div className={this.props.className}>
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_transfer"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess}/>
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_consign"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_unconsign"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_loan"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                <AclButton
-                    availableAcls={this.props.availableAcls}
-                    action="acl_share"
-                    pieceOrEditions={this.props.editions}
-                    currentUser={this.state.currentUser}
-                    handleSuccess={this.props.handleSuccess} />
-                {this.props.children}
+            <div className={className}>
+                <span ref="buttonList" style={buttonsStyle}>
+                    <EmailButton
+                        availableAcls={availableAcls}
+                        pieceOrEditions={pieceOrEditions}
+                        currentUser={currentUser}
+                        handleSuccess={handleSuccess} />
+                    <TransferButton
+                        availableAcls={availableAcls}
+                        pieceOrEditions={pieceOrEditions}
+                        currentUser={currentUser}
+                        handleSuccess={handleSuccess}/>
+                    <ConsignButton
+                        availableAcls={availableAcls}
+                        pieceOrEditions={pieceOrEditions}
+                        currentUser={currentUser}
+                        handleSuccess={handleSuccess} />
+                    <UnconsignButton
+                        availableAcls={availableAcls}
+                        pieceOrEditions={pieceOrEditions}
+                        currentUser={currentUser}
+                        handleSuccess={handleSuccess} />
+                    <LoanButton
+                        availableAcls={availableAcls}
+                        pieceOrEditions={pieceOrEditions}
+                        currentUser={currentUser}
+                        handleSuccess={handleSuccess} />
+                    {this.renderChildren()}
+                </span>
             </div>
         );
     }

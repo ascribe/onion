@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Moment from 'moment';
 
 import Piece from '../../../../../components/ascribe_detail/piece';
 
@@ -13,7 +14,7 @@ import Note from '../../../../ascribe_detail/note';
 import DetailProperty from '../../../../ascribe_detail/detail_property';
 
 import ApiUrls from '../../../../../constants/api_urls';
-import AppConstants from '../../../../../constants/application_constants';
+import AscribeSpinner from '../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 
@@ -23,6 +24,7 @@ let WalletPieceContainer = React.createClass({
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
+        handleDeleteSuccess: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired
     },
 
@@ -38,7 +40,7 @@ let WalletPieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.props.piece.title}</h1>
                             <DetailProperty label="BY" value={this.props.piece.artist_name} />
-                            <DetailProperty label="DATE" value={ this.props.piece.date_created.slice(0, 4) } />
+                            <DetailProperty label="DATE" value={Moment(this.props.piece.date_created, 'YYYY-MM-DD').year()} />
                             <hr/>
                         </div>
                     }
@@ -53,6 +55,7 @@ let WalletPieceContainer = React.createClass({
                         piece={this.props.piece}
                         currentUser={this.props.currentUser}
                         loadPiece={this.props.loadPiece}
+                        handleDeleteSuccess={this.props.handleDeleteSuccess}
                         submitButtonType={this.props.submitButtonType}/>
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
@@ -81,7 +84,7 @@ let WalletPieceContainer = React.createClass({
         else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

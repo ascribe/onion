@@ -9,8 +9,10 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
+import AclInformation from '../ascribe_buttons/acl_information';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
+
 import { getLangText } from '../../utils/lang_utils.js';
 
 
@@ -48,8 +50,11 @@ let TransferForm = React.createClass({
                     </div>}
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
+                <AclInformation aim={'form'} verbs={['acl_transfer']}/>
                 <Property
                     name='transferee'
                     label={getLangText('Email')}>
@@ -67,7 +72,7 @@ let TransferForm = React.createClass({
                         rows={1}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name='password'

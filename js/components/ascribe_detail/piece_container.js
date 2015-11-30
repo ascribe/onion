@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { History } from 'react-router';
+import Moment from 'moment';
 
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
@@ -27,6 +28,9 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+import AclProxy from '../acl_proxy';
+
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -35,16 +39,17 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Note from './note';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
+
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
 let PieceContainer = React.createClass({
     propTypes: {
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -71,6 +76,12 @@ let PieceContainer = React.createClass({
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
+
+        this.loadPiece();
 
         UserActions.fetchCurrentUser();
         PieceActions.fetchOne(this.props.params.pieceId);
@@ -82,7 +93,7 @@ let PieceContainer = React.createClass({
         if(pieceError && pieceError.status === 404) {
             // Even though this path doesn't exist we can redirect
             // to it as it catches all unknown paths
-            this.history.pushState(null, '/404');
+            this.history.pushState(null, '/404'); 
         }
     },
 
@@ -190,39 +201,50 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
+        const { piece, currentUser } = this.state;
+
+        if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
-        }
-        else {
+                    notifications={piece.notifications}/>);
+        } else {
             return (
-                <AclButtonList
-                    className="text-center ascribe-button-list"
-                    availableAcls={this.state.piece.acl}
-                    editions={this.state.piece}
-                    handleSuccess={this.loadPiece}>
-                        <CreateEditionsButton
-                            label={getLangText('CREATE EDITIONS')}
-                            className="btn-sm"
-                            piece={this.state.piece}
-                            toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
-                            onPollingSuccess={this.handlePollingSuccess}/>
-                        <DeleteButton
-                            handleSuccess={this.handleDeleteSuccess}
-                            piece={this.state.piece}/>
-                </AclButtonList>
+                <AclProxy
+                    show={currentUser && currentUser.email}>
+                    <DetailProperty label={getLangText('ACTIONS')}>
+                        <AclButtonList
+                            className="ascribe-button-list"
+                            availableAcls={piece.acl}
+                            pieceOrEditions={piece}
+                            handleSuccess={this.loadPiece}>
+                                <CreateEditionsButton
+                                    label={getLangText('CREATE EDITIONS')}
+                                    className="btn-sm"
+                                    piece={piece}
+                                    toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
+                                    onPollingSuccess={this.handlePollingSuccess}/>
+                                <DeleteButton
+                                    handleSuccess={this.handleDeleteSuccess}
+                                    piece={piece}/>
+                                <AclInformation
+                                    aim="button"
+                                    verbs={['acl_share', 'acl_transfer', 'acl_create_editions', 'acl_loan', 'acl_delete',
+                                            'acl_consign']}
+                                    aclObject={piece.acl}/>
+                        </AclButtonList>
+                    </DetailProperty>
+                </AclProxy>
             );
         }
     },
 
     render() {
-        if(this.state.piece && this.state.piece.title) {
+        if(this.state.piece && this.state.piece.id) {
+            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
+
             return (
                 <Piece
                     piece={this.state.piece}
@@ -232,7 +254,7 @@ let PieceContainer = React.createClass({
                             <hr style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
-                            <DetailProperty label="DATE" value={ this.state.piece.date_created.slice(0, 4) } />
+                            <DetailProperty label="DATE" value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year() } />
                             {this.state.piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ this.state.piece.num_editions } /> : null}
                             <hr/>
                         </div>
@@ -265,6 +287,15 @@ let PieceContainer = React.createClass({
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
                             currentUser={this.state.currentUser}/>
+                        <Note
+                            id={this.getId}
+                            label={getLangText('Piece note (public)')}
+                            defaultValue={this.state.piece.public_note || null}
+                            placeholder={getLangText('Enter your comments ...')}
+                            editable={!!this.state.piece.acl.acl_edit}
+                            successMessage={getLangText('Public piece note saved')}
+                            url={ApiUrls.note_public_piece}
+                            currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -277,8 +308,7 @@ let PieceContainer = React.createClass({
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}
                             otherData={this.state.piece.other_data}
-                            handleSuccess={this.loadPiece}
-                            location={this.props.location}/>
+                            handleSuccess={this.loadPiece} />
                     </CollapsibleParagraph>
 
                 </Piece>
@@ -286,7 +316,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg'/>
                 </div>
             );
         }

@@ -4399,7 +4399,9 @@ qq.UploadHandlerController = function(o, namespace) {
                     }
                 )
                     .done(function() {
-                        handler.clearXhr(id, chunkIdx);
+                        if (handler._getFileState(id)) {
+                            handler.clearXhr(id, chunkIdx);
+                        }
                     }) ;
             }
         }
@@ -8681,7 +8683,7 @@ qq.s3.RequestSigner = function(o) {
                 options.log(errorMessage, "error");
             }
 
-            promise.failure(errorMessage);
+            promise.failure(errorMessage, xhrOrXdr);
         }
         else {
             promise.success(response);
@@ -8813,7 +8815,7 @@ qq.s3.RequestSigner = function(o) {
                             credentialsProvider.get().accessKey,
                             credentialsProvider.get().sessionToken);
                     }, function(errorMsg) {
-                        options.log("Attempt to update expired credentials apparently failed! Unable to sign request.  ", "error");
+                        options.log("Attempt to update expired credentials apparently failed! Unable to sign request: " + errorMsg, "error");
                         signatureEffort.failure("Unable to sign request - expired credentials.");
                     });
                 }
@@ -9627,8 +9629,8 @@ qq.s3.XhrUploadHandler = function(spec, proxy) {
                     });
 
                     xhr.send(chunkData.blob);
-                }, function() {
-                    promise.failure({error: "Problem signing the chunk!"}, xhr);
+                }, function(errorMsg, xhr) {
+                    promise.failure({error: "Problem signing the chunk: " + errorMsg}, xhr);
                 });
 
                 return promise;
@@ -9672,10 +9674,10 @@ qq.s3.XhrUploadHandler = function(spec, proxy) {
                             uploadIdPromise.success(uploadId);
                             promise.success(uploadId);
                         },
-                        function(errorMsg) {
+                        function(errorMsg, xhr) {
                             handler._getPersistableData(id).uploadId = null;
-                            promise.failure(errorMsg);
-                            uploadIdPromise.failure(errorMsg);
+                            promise.failure(errorMsg, xhr);
+                            uploadIdPromise.failure(errorMsg, xhr);
                         }
                     );
                 }

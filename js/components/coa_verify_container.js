@@ -9,12 +9,17 @@ import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
 import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
 
+import AscribeSpinner from './ascribe_spinner';
+
 import ApiUrls from '../constants/api_urls';
 import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
     render() {
+        setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
+
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
@@ -59,12 +64,12 @@ let CoaVerifyForm = React.createClass({
                     buttons={
                         <button
                             type="submit"
-                            className="btn ascribe-btn ascribe-btn-login">
+                            className="btn btn-default btn-wide">
                             {getLangText('Verify your Certificate of Authenticity')}
                         </button>}
                     spinner={
-                        <span className="btn ascribe-btn ascribe-btn-login ascribe-btn-login-spinner">
-                            <img src="https://s3-us-west-2.amazonaws.com/ascribe0/media/thumbnails/ascribe_animated_medium.gif" />
+                        <span className="btn btn-default btn-wide btn-spinner">
+                            <AscribeSpinner color="dark-blue" size="md" />
                         </span>
                         }>
                     <Property

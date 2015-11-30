@@ -8,7 +8,9 @@ import EditionStore from '../../stores/edition_store';
 
 import Edition from './edition';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
+
+import { setDocumentTitle } from '../../utils/dom_utils';
 
 
 /**
@@ -16,7 +18,6 @@ import AppConstants from '../../constants/application_constants';
  */
 let EditionContainer = React.createClass({
     propTypes: {
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -34,7 +35,13 @@ let EditionContainer = React.createClass({
         EditionActions.updateEdition({});
 
         EditionStore.listen(this.onChange);
-        EditionActions.fetchOne(this.props.params.editionId);
+
+        // Every time we enter the edition detail page, just reset the edition
+        // store as it will otherwise display wrong/old data once the user loads
+        // the edition detail a second time
+        EditionActions.updateEdition({});
+
+        this.loadEdition();
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -78,17 +85,18 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        if(this.state.edition && this.state.edition.title) {
+        if(this.state.edition && this.state.edition.id) {
+            setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
+
             return (
                 <Edition
                     edition={this.state.edition}
-                    loadEdition={this.loadEdition}
-                    location={this.props.location}/>
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (
                 <div className="fullpage-spinner">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg'/>
                 </div>
             );
         }

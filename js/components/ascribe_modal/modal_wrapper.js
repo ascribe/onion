@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 
 let ModalWrapper = React.createClass({
     propTypes: {
-        trigger: React.PropTypes.element.isRequired,
+        trigger: React.PropTypes.element,
         title: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
@@ -38,7 +38,7 @@ let ModalWrapper = React.createClass({
         });
     },
 
-    handleSuccess(response){
+    handleSuccess(response) {
         this.props.handleSuccess(response);
         this.hide();
     },
@@ -52,20 +52,22 @@ let ModalWrapper = React.createClass({
     },
 
     render() {
-        // this adds the onClick method show of modal_wrapper to the trigger component
-        // which is in most cases a button.
-        let trigger = React.cloneElement(this.props.trigger, {onClick: this.show});
+        const { trigger, title } = this.props;
 
+        // If the trigger component exists, we add the ModalWrapper's show() as its onClick method.
+        // The trigger component should, in most cases, be a button.
+        const clonedTrigger = React.isValidElement(trigger) ? React.cloneElement(trigger, {onClick: this.show})
+                                                            : null;
         return (
             <span>
-                {trigger}
+                {clonedTrigger}
                 <Modal show={this.state.showModal} onHide={this.hide}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            {this.props.title}
+                            {title}
                         </Modal.Title>
                     </Modal.Header>
-                    <div className="modal-body">
+                    <div className="modal-body" >
                         {this.renderChildren()}
                     </div>
                 </Modal>

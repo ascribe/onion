@@ -3,12 +3,13 @@
 import React from 'react';
 import Q from 'q';
 
-import { escapeHTML } from '../../utils/general_utils';
-
-import InjectInHeadMixin from '../../mixins/inject_in_head_mixin';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
-import AppConstants from '../../constants/application_constants.js';
+
+import AppConstants from '../../constants/application_constants';
+
+import { escapeHTML } from '../../utils/general_utils';
+import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
  * This is the component that implements display-specific functionality.
@@ -50,25 +51,33 @@ let Other = React.createClass({
 
 let Image = React.createClass({
     propTypes: {
-        url: React.PropTypes.string.isRequired,
+        url: React.PropTypes.string,
         preview: React.PropTypes.string.isRequired
     },
 
-    mixins: [InjectInHeadMixin],
-
     componentDidMount() {
-        this.inject('https://code.jquery.com/jquery-2.1.4.min.js')
-            .then(() =>
-                Q.all([
-                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/shmui.css'),
-                    this.inject(AppConstants.baseUrl + 'static/thirdparty/shmui/jquery.shmui.js')
-                ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
+        if(this.props.url) {
+            InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
+                .then(() =>
+                    Q.all([
+                        InjectInHeadUtils.inject(AppConstants.shmui.cssUrl),
+                        InjectInHeadUtils.inject(AppConstants.shmui.sdkUrl)
+                    ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
+        }
     },
 
     render() {
-        return (
-            <img className="shmui-ascribe" src={this.props.preview} data-large-src={this.props.url}/>
-        );
+        const { url, preview } = this.props;
+
+        if(url) {
+            return (
+                <img className="shmui-ascribe" src={preview} data-large-src={url}/>
+            );
+        } else {
+            return (
+                <img src={preview}/>
+            );
+        }
     }
 });
 
@@ -77,10 +86,8 @@ let Audio = React.createClass({
         url: React.PropTypes.string.isRequired
     },
 
-    mixins: [InjectInHeadMixin],
-
     componentDidMount() {
-        this.inject(AppConstants.baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js').then(this.ready);
+        InjectInHeadUtils.inject(AppConstants.audiojs.sdkUrl).then(this.ready);
     },
 
     ready() {
@@ -103,14 +110,17 @@ let Video = React.createClass({
      * ReactJS is responsible for DOM manipulation but VideoJS updates the DOM
      * to install itself to display the video, therefore ReactJS complains that we are
      * changing the DOM under its feet.
+     * The component supports a fall-back to HTML5 video tag.
      *
      * What we do is the following:
-     * 1) set `state.ready = false`
-     * 2) render the cover using the `<Image />` component (because ready is false)
+     * 1) set `state.libraryLoaded = null` (state.libraryLoaded can be in three states: `null`
+     *    if we don't know anything about it, `true` if the external library has been loaded,
+     *    `false` if we failed to load the external library)
+     * 2) render the cover using the `<Image />` component (because libraryLoaded is null)
      * 3) on `componentDidMount`, we load the external `css` and `js` resources using
-     *    the `InjectInHeadMixin`, attaching a function to `Promise.then` to change
-     *    `state.ready` to true
-     * 4) when the promise is succesfully resolved, we change `state.ready` triggering
+     *    the `InjectInHeadUtils`, attaching a function to `Promise.then` to change
+     *    `state.libraryLoaded` to true
+     * 4) when the promise is succesfully resolved, we change `state.libraryLoaded` triggering
      *    a re-render
      * 5) the new render calls `prepareVideoHTML` to get the raw HTML of the video tag
      *    (that will be later processed and expanded by VideoJS)
@@ -126,21 +136,24 @@ let Video = React.createClass({
         encodingStatus: React.PropTypes.number
     },
 
-    mixins: [InjectInHeadMixin],
-
     getInitialState() {
-        return { ready: false, videoMounted: false };
+        return { libraryLoaded: null, videoMounted: false };
     },
 
     componentDidMount() {
         Q.all([
-            this.inject('//vjs.zencdn.net/4.12/video-js.css'),
-            this.inject('//vjs.zencdn.net/4.12/video.js')
-        ]).then(this.ready);
+            InjectInHeadUtils.inject(AppConstants.videojs.cssUrl),
+            InjectInHeadUtils.inject(AppConstants.videojs.sdkUrl)])
+        .then(() => this.setState({libraryLoaded: true}))
+        .fail(() => this.setState({libraryLoaded: false}));
+    },
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.videoMounted === false;
     },
 
     componentDidUpdate() {
-        if (this.state.ready && !this.state.videoMounted) {
+        if (this.state.libraryLoaded && !this.state.videoMounted) {
             window.videojs('#mainvideo');
             /* eslint-disable */
             this.setState({videoMounted: true});
@@ -149,11 +162,9 @@ let Video = React.createClass({
     },
 
     componentWillUnmount() {
-        window.videojs('#mainvideo').dispose();
-    },
-
-    ready() {
-        this.setState({ready: true, videoMounted: false});
+        if (this.state.videoMounted) {
+            window.videojs('#mainvideo').dispose();
+        }
     },
 
     prepareVideoHTML() {
@@ -166,12 +177,8 @@ let Video = React.createClass({
         return html.join('\n');
     },
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextState.videoMounted === false;
-    },
-
     render() {
-        if (this.state.ready) {
+        if (this.state.libraryLoaded !== null) {
             return (
                 <div dangerouslySetInnerHTML={{__html: this.prepareVideoHTML() }}/>
             );
@@ -200,26 +207,50 @@ let MediaPlayer = React.createClass({
     },
 
     render() {
-        if (this.props.mimetype === 'video' && this.props.encodingStatus !== undefined && this.props.encodingStatus !== 100) {
+        const { mimetype,
+                preview,
+                url,
+                extraData,
+                encodingStatus } = this.props;
+
+        if (mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100) {
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
                     <p>
                         <em>We successfully received your video and it is now being encoded.
                         <br />You can leave this page and check back on the status later.</em>
                     </p>
-                    <ProgressBar now={this.props.encodingStatus}
+                    <ProgressBar now={encodingStatus}
                         label="%(percent)s%"
                         className="ascribe-progress-bar" />
                 </div>
             );
         } else {
-            let Component = resourceMap[this.props.mimetype] || Other;
+            let Component = resourceMap[mimetype] || Other;
+            let componentProps = {
+                preview,
+                url,
+                extraData,
+                encodingStatus
+            };
+
+            // Since the launch of the portfolio whitelabel submission,
+            // we allow the user to specify a thumbnail upon piece-registration.
+            // As the `Component` is chosen according to its filetype but could potentially
+            // have a manually submitted thumbnail, we match if the to `Mediaplayer` submitted thumbnail
+            // is not the generally used fallback `url` (ascribe_spiral.png).
+            //
+            // If this is the case, we disable shmui by deleting the original `url` prop and replace
+            // the assigned component to `Image`.
+            if(!decodeURIComponent(preview).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
+               Component === Other) {
+                Component = resourceMap.image;
+                delete componentProps.url;
+            }
+
             return (
                 <div className="ascribe-media-player">
-                    <Component preview={this.props.preview}
-                               url={this.props.url}
-                               extraData={this.props.extraData}
-                               encodingStatus={this.props.encodingStatus} />
+                    <Component {...componentProps}/>
                 </div>
             );
         }

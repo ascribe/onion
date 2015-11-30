@@ -1,0 +1,527 @@
+$ikono--landing-bg-color: #093;
+$ikono--bg-color: #06c;
+$ikono--button-color: $ikono--bg-color;
+$ikono--logo: 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono_tv.png';
+$ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
+
+@include keyframes(color-loop) {
+    0%  { background: $ikono--landing-bg-color; }
+    33% { background: #099; }
+    66% { background: #09f; }
+}
+
+
+.client--ikonotv {
+    font-family: $ikono--font;
+    h1, h3 {
+        font-family: $ikono--font;
+    }
+}
+
+
+.client--ikonotv .navbar-default {
+    background-color: $ikono--bg-color;
+    box-shadow: none;
+
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        text-transform: uppercase;
+        border-bottom-color: transparent;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .navbar-nav > li > a {
+        color: white;
+    }
+
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: black;
+        border-bottom-color: transparent;
+        background-color: transparent;
+        font-weight: bold;
+    }
+
+    .navbar-nav > .active {
+        background-color: white;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: white;
+    }
+
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: white;
+        background-color: $ikono--bg-color;
+    }
+
+    .dropdown-menu {
+        background-color: $ikono--bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color:  white;
+        font-weight: bold;
+    }
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color:  $ikono--bg-color;
+        background-color: white;
+    }
+
+    .notification-menu {
+        .dropdown-menu {
+            background-color: white;
+            li:hover {
+                background-color: rgba($ikono--button-color, 0.1);
+            }
+        }
+    }
+
+    .img-brand.navbar-brand {
+        width: 0;
+        height: 0;
+        padding-right: 120px;
+        padding-bottom: 36px;
+        padding-left: 30px;
+        background-image: url($ikono--logo);
+        background-color: transparent;
+        background-position: center 4px;
+        background-repeat: no-repeat;
+        background-size: 150px;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+
+.client--ikonotv .route--landing {
+    background-color: $ikono--landing-bg-color;
+    animation: color-loop 20s;
+    -o-animation: color-loop 20s infinite;
+    -ms-animation: color-loop 20s infinite;
+    -moz-animation: color-loop 20s infinite;
+    -webkit-animation: color-loop 20s infinite;
+    
+    margin: 0;
+    width: 100%;
+    padding: 5em 1em;
+}
+
+
+.client--ikonotv .route--login,
+.client--ikonotv .route--signup {
+    background-color: $ikono--landing-bg-color;
+
+    .btn-wide {
+        display: block;
+        margin: 50px auto 0;
+        width: auto;
+        padding: 10px 30px;
+        text-transform: uppercase;
+        font-weight: bold;
+        width: 180px;
+    }
+
+    .btn-spinner {
+        background-color: $ikono--button-color;
+    }
+
+    .ascribe-form-header {
+        background-image: url($ikono--logo);
+        background-color: transparent;
+        background-position: center 0;
+        background-repeat: no-repeat;
+        background-size: 300px;
+        margin-bottom: 0;
+        height: 150px;
+        position: relative;
+
+        h3 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+            font-size: 22px;
+            text-indent: -99999px;
+        }
+    }
+
+    .ascribe-property-wrapper {
+        background-color: transparent;
+
+        &:hover {
+            border-left: 3px solid transparent;
+        }
+
+        &.is-focused {
+            border-left: 3px solid transparent !important;
+        }
+    }
+
+    .ascribe-property {
+        border: none;
+    }
+
+    .ascribe-property > p > span {
+        color: white;
+    }
+
+    .ascribe-property > input {
+        padding: 10px;
+        background-color: #fff;
+        margin-top: .1em;
+
+        &:focus {
+            background-color: #ffff00;
+        }
+    }
+
+    .checkbox,
+    .checkbox a {
+        color: white !important;
+    }
+
+    .ascribe-login-text {
+        color: white;
+        text-align: center;
+
+        a {
+            color: white;
+            text-decoration: underline;
+        }
+    }
+}
+
+
+.client--ikonotv {
+    .route--login,
+    .route--signup {
+        .ascribe-form-bordered {
+            border: none;
+        }
+    }
+}
+
+.client--ikonotv .ascribe-login-wrapper {
+}
+
+.client--ikonotv .ascribe-footer {
+    display: none;
+}
+
+.client--ikonotv .icon-ascribe-search{
+    color: $ikono--button-color;
+}
+
+.client--ikonotv .ascribe-piece-list-toolbar .btn-ascribe-add{
+    display: none;
+}
+
+// spinner!
+.client--ikonotv {
+
+    .btn-spinner {
+        color: $ikono--button-color;
+    }
+    .spinner-circle {
+        border-color: $ikono--button-color;
+    }
+    .spinner-inner {
+        display: none;
+        font-family: $ascribe--font;
+        color: $ikono--button-color;
+    }
+}
+
+.ikonotv-landing {
+    /* center all text on the page */
+    text-align: center;
+    color: white;
+
+    header {
+        /* center all images on the page */
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ikonotv logo */
+        img:first-child {
+            max-width: 200px;
+        }
+
+        > .tagline {
+            margin-top: 2em;
+            margin-bottom: 2em;
+
+            > h1 {
+                font-size: 7em;
+                font-weight: bold;
+
+                margin-top: 10px;
+                margin-bottom: 10px;
+
+                @media only screen and (max-width: 600px) {
+                    font-size: 4em;
+                }
+            }
+
+            > .poster {
+                max-width: 600px;
+                margin: 0 auto;
+                > .content {
+                    width: 100%;
+                    padding-bottom: 56.25%;
+                    height: 0;
+                    background-color: #ffff00;
+                }
+            }
+        }
+
+        > h2 {
+            font-weight: 600;
+            font-size: 2.75em;
+            @media only screen and (max-width: 600px) {
+                font-size: 1.75em;
+            }
+        }
+
+        > h2 + h2 {
+            margin-top: 0;
+        }
+    }
+
+    article {
+        > section {
+            width: 100%;
+            max-width: 60em;
+            margin: 3em auto 1em auto;
+
+            > h1 {
+                text-align: center;
+                font-size: 1.35em;
+                font-weight: 600;
+            }
+
+            > p {
+                text-align: left;
+                font-size: 1.3em;
+                line-height: 1.8;
+                @media only screen and (max-width: 600px) {
+                    font-size: 1.1em;
+                }
+            }
+        }
+    }
+
+    footer {
+        margin-top: 5em;
+        margin-bottom: 3em;
+
+        > p {
+            font-size: 1.3em;
+        }
+
+        > p + p {
+            margin-bottom: 3em;
+        }
+
+        > .btn-default {
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+    }
+}
+
+// disabled buttons
+.client--ikonotv {
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: darken($ikono--button-color, 20%);
+        border-color: darken($ikono--button-color, 20%);
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--ikonotv {
+    .ascribe-piece-list-toolbar-filter-widget button {
+        color: $ikono--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &:hover,
+        &:active {
+            background-color: $ikono--button-color !important;
+            border-color: $ikono--button-color !important;
+            color: white !important;
+        }
+    }
+
+    .btn-wide,
+    .btn-default {
+        background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($ikono--button-color, 20%);
+            border-color: lighten($ikono--button-color, 20%);
+        }
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
+        background-color: darken($ikono--button-color, 20%);
+        border-color: darken($ikono--button-color, 20%);
+    }
+
+    .pager li > a, .pager li > span {
+        background-color: $ikono--button-color;
+        border-color: $ikono--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $ikono--button-color !important;
+        border-color: $ikono--button-color;
+    }
+}
+
+// inputs!
+.client--ikonotv {
+
+    .ascribe-input-glyph > .form-group > .input-group > .input-group-addon > .filter-glyph {
+        color: $ikono--button-color;
+    }
+
+    .ascribe-input-glyph > .form-group > .input-group > .input-group-addon,
+    .ascribe-input-glyph > .form-group > .input-group input {
+        border-color: $ikono--button-color;
+    }
+
+    .ascribe-property-collapsible-toggle [type=checkbox]:checked + .checkbox:before,
+    .ascribe-checkbox-wrapper [type=checkbox]:checked + .checkbox:before {
+        color: $ikono--button-color;
+    }
+    .search-bar > .form-group > .input-group > .input-group-addon {
+        border-color: transparent;
+    }
+}
+
+
+// properties!
+.client--ikonotv {
+    input {
+        background-color: white;
+    }
+    .ascribe-property {
+        > div,
+        > input,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > textarea {
+            font-family: $ikono--font;
+        }
+        > div {
+            > div:not(.file-drag-and-drop div) {
+                font-family: $ikono--font;
+            }
+        }
+    }
+    .is-focused {
+        border-left-color: $ikono--button-color !important;
+        background-color: rgba($ikono--button-color, .05);
+    }
+    .is-error {
+        > div {
+            > span {
+                color: white !important;
+            }
+            > input,
+            > textarea {
+                color: rgba($ascribe-red-error, 1) !important;
+            }
+        }
+        &:hover {
+            border-left: 3px solid rgba($ascribe-red-error, .5)!important;
+        }
+    }
+    .ascribe-property-wrapper:hover {
+        border-left-color: rgba($ikono--button-color, .5);
+    }
+}
+
+.client--ikonotv {
+    .ascribe-accordion-list-item .wrapper:hover {
+        background-color: rgba($ikono--button-color, .05);
+    }
+}
+
+
+// intercom stuff
+.client--ikonotv {
+    #intercom-container .intercom-launcher-button {
+        background-color: $ikono--button-color !important;;
+        border-color: $ikono--button-color !important;;
+    }
+}
+
+
+// notifications
+.client--ikonotv .ascribe-global-notification-success {
+    background-color: lighten($ikono--button-color, 20%);
+}
+
+// progress bar
+.client--ikonotv .ascribe-progress-bar > .progress-bar {
+    background-color: $ikono--button-color;
+}
+
+.client--ikonotv .acl-information-dropdown-list .title {
+    color: $ikono--button-color;
+}

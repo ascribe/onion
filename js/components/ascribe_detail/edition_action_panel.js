@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Router from 'react-router';
+import { History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -22,6 +22,8 @@ import DeleteButton from '../ascribe_buttons/delete_button';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
@@ -39,7 +41,7 @@ let EditionActionPanel = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    mixins: [Router.Navigation],
+    mixins: [History],
 
     getInitialState() {
         return PieceListStore.getState();
@@ -66,7 +68,7 @@ let EditionActionPanel = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.transitionTo('pieces');
+        this.history.pushState(null, '/collection');
     },
 
     refreshCollection() {
@@ -103,9 +105,9 @@ let EditionActionPanel = React.createClass({
                 <Row>
                     <Col md={12}>
                         <AclButtonList
-                            className="text-center ascribe-button-list"
+                            className="ascribe-button-list"
                             availableAcls={edition.acl}
-                            editions={[edition]}
+                            pieceOrEditions={[edition]}
                             handleSuccess={this.handleSuccess}>
                             <AclProxy
                                 aclObject={edition.acl}
@@ -122,7 +124,7 @@ let EditionActionPanel = React.createClass({
                                              type="text"
                                              value={edition.bitcoin_id} />
                                     </Property>
-                                    <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
+                                    <Button bsStyle="default" className="pull-center" bsSize="small" type="submit">
                                         {getLangText('WITHDRAW TRANSFER')}
                                     </Button>
                                 </Form>
@@ -158,6 +160,10 @@ let EditionActionPanel = React.createClass({
                             <DeleteButton
                                 handleSuccess={this.handleDeleteSuccess}
                                 editions={[edition]}/>
+                            <AclInformation
+                                aim="button"
+                                verbs={['acl_share', 'acl_transfer', 'acl_consign', 'acl_loan', 'acl_delete']}
+                                aclObject={edition.acl}/>
                         </AclButtonList>
                     </Col>
                 </Row>

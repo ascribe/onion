@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 
 let AccordionListItem = React.createClass({
@@ -12,6 +13,7 @@ let AccordionListItem = React.createClass({
         subheading: React.PropTypes.object,
         subsubheading: React.PropTypes.object,
         buttons: React.PropTypes.object,
+        linkData: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -19,29 +21,49 @@ let AccordionListItem = React.createClass({
     },
 
     render() {
+        const { linkData,
+                className,
+                thumbnail,
+                heading,
+                subheading,
+                subsubheading,
+                buttons,
+                badge,
+                children } = this.props;
+
+
         return (
             <div className="row">
-                <div className={this.props.className}>
+                <div className={className}>
                     <div className="wrapper">
-                        <div className="col-xs-4 col-sm-3 col-md-2 col-lg-2 clear-paddings">
-                            <div className="thumbnail-wrapper">
-                                {this.props.thumbnail}
+                            <div className="pull-left">
+                                <Link to={linkData}>
+                                    <div className="thumbnail-wrapper">
+                                        {thumbnail}
+                                    </div>
+                                </Link>
                             </div>
-                        </div>
-                        <div className="col-xs-8 col-sm-9 col-md-9 col-lg-9 col-md-offset-1 col-lg-offset-1 accordion-list-item-header">
-                            {this.props.heading}
-                            {this.props.subheading}
-                            {this.props.subsubheading}
-                            {this.props.buttons}
-                        </div>
+                            <div className="accordion-list-item-header">
+                                <Link to={linkData}>
+                                    {heading}
+                                </Link>
+                                <Link to={linkData}>
+                                    {subheading}
+                                    {subsubheading}
+                                </Link>
+                                <div className="accordion-list-item-buttons">
+                                    {buttons}
+                                </div>
+                            </div>
+
                         <span style={{'clear': 'both'}}></span>
 
                         <div className="request-action-badge">
-                            {this.props.badge}
+                            {badge}
                         </div>
                     </div>
                 </div>
-                {this.props.children}
+                {children}
             </div>
         );
     }

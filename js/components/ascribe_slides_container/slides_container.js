@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
-import { History } from 'react-router';
+import { History, Lifecycle } from 'react-router';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
@@ -17,14 +17,16 @@ const SlidesContainer = React.createClass({
             pending: string,
             complete: string
         }),
-        location: object
+        location: object,
+        pageExitWarning: string
     },
 
-    mixins: [History],
+    mixins: [History, Lifecycle],
 
     getInitialState() {
         return {
-            containerWidth: 0
+            containerWidth: 0,
+            pageExitWarning: null
         };
     },
 
@@ -39,6 +41,10 @@ const SlidesContainer = React.createClass({
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleContainerResize);
+    },
+
+    routerWillLeave() {
+        return this.props.pageExitWarning;
     },
 
     handleContainerResize() {

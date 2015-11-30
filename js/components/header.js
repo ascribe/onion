@@ -1,6 +1,9 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
+
+import history from '../history';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -29,6 +32,8 @@ import NavRoutesLinks from './nav_routes_links';
 import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
+import { constructHead } from '../utils/dom_utils';
+
 
 let Header = React.createClass({
     propTypes: {
@@ -54,21 +59,37 @@ let Header = React.createClass({
         UserStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel();
         WhitelabelStore.listen(this.onChange);
+
+        // react-bootstrap 0.25.1 has a bug in which it doesn't
+        // close the mobile expanded navigation after a click by itself.
+        // To get rid of this, we set the state of the component ourselves.
+        history.listen(this.onRouteChange);
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
+        history.unlisten(this.onRouteChange);
     },
 
-    getLogo(){
-        if (this.state.whitelabel && this.state.whitelabel.logo){
-            return <img className="img-brand" src={this.state.whitelabel.logo} />;
+    getLogo() {
+        let { whitelabel } = this.state;
+
+        if (whitelabel.head) {
+            constructHead(whitelabel.head);
         }
+
+        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
+            return (
+                <Link to="/collection">
+                    <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
+                </Link>
+            );
+        }
+
         return (
             <span>
-                <span>ascribe </span>
-                <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                <Link className="icon-ascribe-logo" to="/collection"/>
             </span>
         );
     },
@@ -79,10 +100,9 @@ let Header = React.createClass({
                 aclObject={this.state.whitelabel}
                 aclName="acl_view_powered_by">
                     <li>
-                        <a className="pull-right" href="https://www.ascribe.io/" target="_blank">
+                        <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
                             <span id="powered">{getLangText('powered by')} </span>
-                            <span>ascribe </span>
-                            <span className="glyph-ascribe-spool-chunked ascribe-color"></span>
+                            <span className="icon-ascribe-logo"></span>
                         </a>
                     </li>
             </AclProxy>
@@ -120,6 +140,13 @@ let Header = React.createClass({
         Hence, we do this manually
         */
         this.refs.dropdownbutton.setDropdownState(false);
+    },
+
+    // On route change, close expanded navbar again since react-bootstrap doesn't close
+    // the collapsibleNav by itself on click. setState() isn't available on a ref so
+    // doing this explicitly is the only way for now.
+    onRouteChange() {
+        this.refs.navbar.state.navExpanded = false;
     },
 
     render() {
@@ -188,13 +215,15 @@ let Header = React.createClass({
                 <Navbar
                     brand={this.getLogo()}
                     toggleNavKey={0}
-                    fixedTop={true}>
-                    <CollapsibleNav eventKey={0}>
+                    fixedTop={true}
+                    ref="navbar">
+                    <CollapsibleNav
+                        eventKey={0}>
                         <Nav navbar left>
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show={false}/>
+                            <HeaderNotificationDebug show = {false}/>
                             {account}
                             {signup}
                         </Nav>

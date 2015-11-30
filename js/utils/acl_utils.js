@@ -1,10 +1,6 @@
 'use strict';
 
-import { sanitize } from './general_utils';
-
-function intersectAcls(a, b) {
-    return a.filter((val) => b.indexOf(val) > -1);
-}
+import { sanitize, intersectLists } from './general_utils';
 
 export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];
@@ -44,7 +40,7 @@ export function getAvailableAcls(editions, filterFn) {
     }
     if(editionsCopy.length >= 2) {
         for(let i = 1; i < editionsCopy.length; i++) {
-            availableAcls = intersectAcls(availableAcls, editionsCopy[i].acl);
+            availableAcls = intersectLists(availableAcls, editionsCopy[i].acl);
         }
     }
 

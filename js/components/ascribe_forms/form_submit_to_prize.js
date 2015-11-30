@@ -9,7 +9,7 @@ import InputCheckbox from './input_checkbox';
 
 import Alert from 'react-bootstrap/lib/Alert';
 
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils.js';
@@ -40,7 +40,9 @@ let PieceSubmitToPrizeForm = React.createClass({
                     </div>}
                 spinner={
                     <div className="modal-footer">
-                        <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                        <p className="pull-right">
+                            <AscribeSpinner color='dark-blue' size='md'/>
+                        </p>
                     </div>}>
                 <Property
                     name='artist_statement'
@@ -50,7 +52,7 @@ let PieceSubmitToPrizeForm = React.createClass({
                     <InputTextAreaToggable
                         rows={1}
                         placeholder={getLangText('Enter your statement')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name='work_description'
@@ -60,11 +62,11 @@ let PieceSubmitToPrizeForm = React.createClass({
                     <InputTextAreaToggable
                         rows={1}
                         placeholder={getLangText('Enter the description for your work')}
-                        required="required"/>
+                        required />
                 </Property>
                 <Property
                     name="terms"
-                    className="ascribe-settings-property-collapsible-toggle"
+                    className="ascribe-property-collapsible-toggle"
                     style={{paddingBottom: 0}}>
                     <InputCheckbox>
                         <span>

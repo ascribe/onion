@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
+import { History, RouteContext } from 'react-router';
 
 import UserStore from '../../../stores/user_store';
 import UserActions from '../../../actions/user_actions';
@@ -31,11 +31,15 @@ export default function AuthProxyHandler({to, when}) {
 
     return (Component) => {
         return React.createClass({
+            displayName: 'AuthProxyHandler',
+
             propTypes: {
                 location: object
             },
 
-            mixins: [History],
+            // We need insert `RouteContext` here in order to be able
+            // to use the `Lifecycle` widget in further down nested components
+            mixins: [History, RouteContext],
 
             getInitialState() {
                 return UserStore.getState();
@@ -47,7 +51,11 @@ export default function AuthProxyHandler({to, when}) {
             },
 
             componentDidUpdate() {
-                this.redirectConditionally();
+                // Only refresh this component, when UserSources are not loading
+                // data from the server
+                if(!UserStore.isLoading()) {
+                    this.redirectConditionally();
+                }
             },
 
             componentWillUnmount() {

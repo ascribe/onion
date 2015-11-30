@@ -15,7 +15,7 @@ import AclProxy from '../acl_proxy';
 import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
+import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -27,7 +27,7 @@ let AccountSettings = React.createClass({
     },
 
     handleSuccess(){
-        this.props.loadUser();
+        this.props.loadUser(true);
         let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
@@ -37,7 +37,7 @@ let AccountSettings = React.createClass({
     },
     
     render() {
-        let content = <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />;
+        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
         let profile = null;
 
         if (this.props.currentUser.username) {
@@ -78,7 +78,7 @@ let AccountSettings = React.createClass({
                         getFormData={this.getFormDataProfile}>
                         <Property
                             name="hash_locally"
-                            className="ascribe-settings-property-collapsible-toggle"
+                            className="ascribe-property-collapsible-toggle"
                             style={{paddingBottom: 0}}>
                             <InputCheckbox
                                 defaultChecked={this.props.currentUser.profile.hash_locally}>
@@ -96,7 +96,11 @@ let AccountSettings = React.createClass({
                 title={getLangText('Account')}
                 defaultExpanded={true}>
                 {content}
-                <CopyrightAssociationForm currentUser={this.props.currentUser}/>
+                <AclProxy
+                    aclObject={this.props.whitelabel}
+                    aclName="acl_view_settings_copyright_association">
+                    <CopyrightAssociationForm currentUser={this.props.currentUser}/>
+                </AclProxy>
                 {profile}
             </CollapsibleParagraph>
         );

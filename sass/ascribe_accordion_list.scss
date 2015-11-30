@@ -1,4 +1,4 @@
-$ascribe-accordion-list-item-height: 8em;
+$ascribe-accordion-list-item-height: 100px;
 
 .ascribe-accordion-list {
     padding-left: 15px;
@@ -12,11 +12,11 @@ $ascribe-accordion-list-item-height: 8em;
 .ascribe-accordion-list-item {
     background-color: white;
     border: 1px solid black;
-    height: $ascribe-accordion-list-item-height;
+    height: $ascribe-accordion-list-item-height + 2px;
 
     padding-left: 0;
     padding-right: 0;
-    margin-top: 1.5em;
+    margin-top: 1.2em;
     overflow: hidden;
 
     border-radius: 1px;
@@ -39,23 +39,33 @@ $ascribe-accordion-list-item-height: 8em;
 
         // ToDo: Include media queries for thumbnail
         .thumbnail-wrapper {
+            background-color: #EEEEEE;
+            margin-right: 2em;
+            width: $ascribe-accordion-list-item-height;
+            height: $ascribe-accordion-list-item-height;
             cursor: pointer;
-            height: 110px;
             padding: 0;
             text-align: center;
-            width: 110px;
 
             img {
                 max-height: 100%;
                 max-width: 100%;
             }
 
-            &::before {
-                content: ' ';
+            div {
                 display: inline-block;
-                height: 100%;
-                vertical-align: middle; // vertical alignment of the inline element
+                width: 100px;
+                height: 100px;
+                background-position: center center;
+                background-size: cover;
             }
+
+            //&::before {
+            //    content: ' ';
+            //    display: inline-block;
+            //    height: 100%;
+            //    vertical-align: middle; // vertical alignment of the inline element
+            //}
         }
 
         h1 {
@@ -76,18 +86,35 @@ $ascribe-accordion-list-item-height: 8em;
             white-space: nowrap;
         }
 
-        a:not(.btn) {
-            color: #666;
-        }
+        a {
+            text-decoration: none
+        };
 
     }
 }
 
 .accordion-list-item-header {
-    margin-top: .65em;
+    margin-top: 0;
+    padding: 0.5em 0;
 
-    > a {
-        text-decoration: none;
+    h1 {
+        font-size: 1.9em;
+    }
+    h3 {
+        font-size: 1.1em;
+        margin-top: 0.4em;
+    }
+
+
+}
+
+.accordion-list-item-buttons {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    @media (max-width: 400px) {
+        right: 0;
+        bottom: 0;
     }
 }
 
@@ -132,7 +159,7 @@ $ascribe-accordion-list-item-height: 8em;
             td {
                 border: none !important;
                 a {
-                    color: #444;
+                    color: #222;
                 }
             }
         }
@@ -152,7 +179,7 @@ $ascribe-accordion-list-item-height: 8em;
     -webkit-user-select: none;
 
     &:hover {
-        color: $ascribe-color-green;
+        color: $ascribe-dark-blue;
         cursor: pointer;
     }
 }
@@ -168,7 +195,7 @@ $ascribe-accordion-list-item-height: 8em;
 }
 
 .request-action-badge {
-    color: $ascribe-color-green;
+    color: $ascribe-dark-blue;
     font-size: 1.2em;
     padding: .8em;
     position: absolute;
@@ -185,7 +212,7 @@ $ascribe-accordion-list-item-height: 8em;
     -webkit-user-select: none;
 
     &:hover {
-        color: $ascribe-color-green;
+        color: $ascribe-dark-blue;
     }
 
     .glyphicon {

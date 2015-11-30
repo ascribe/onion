@@ -34,6 +34,7 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
@@ -177,6 +178,8 @@ let CylandRegisterPiece = React.createClass({
         let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
         datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
 
+        setDocumentTitle(getLangText('Register a new piece'));
+
         return (
             <SlidesContainer
                 ref="slidesContainer"
@@ -207,8 +210,7 @@ let CylandRegisterPiece = React.createClass({
                             <CylandAdditionalDataForm
                                 disabled={this.state.step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}
-                                location={this.props.location}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
@@ -217,7 +219,12 @@ let CylandRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to Cyland archive')}
-                                message={getAclFormMessage('acl_loan', '\"' + this.state.piece.title + '\"', this.state.currentUser.username)}
+                                message={getAclFormMessage({
+                                    aclName: 'acl_loan',
+                                    entities: this.state.piece,
+                                    isPiece: true,
+                                    senderName: this.state.currentUser.username
+                                })}
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
                                 email={this.state.whitelabel.user}
