@@ -210,7 +210,7 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
-                <AclProxy show={currentUser && currentUser.email}>
+                <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
                     <EditionDetailProperty
                         label={getLangText('ACTIONS')}>
                         <EditionActionPanel

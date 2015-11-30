@@ -196,7 +196,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser && currentUser.email}>
+                    show={currentUser && currentUser.email && Object.keys(piece.acl).length > 1}>
                     <DetailProperty label={getLangText('ACTIONS')}>
                         <AclButtonList
                             className="ascribe-button-list"
