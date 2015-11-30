@@ -5,6 +5,8 @@ require('babel/polyfill');
 import React from 'react';
 import { Router, Redirect } from 'react-router';
 import history from './history';
+import { ReactError, ResourceNotFoundError } from './react_error.js';
+import { ResourceNotFoundErrorHandler } from './react_error_handlers';
 
 /* eslint-disable */
 import fetch from 'isomorphic-fetch';
@@ -91,12 +93,20 @@ class AppGateway {
         // us in that case.
         history.listen(EventActions.routeDidChange);
 
-        React.render((
-            <Router history={history}>
-                {redirectRoute}
-                {getRoutes(type, subdomain)}
-            </Router>
-        ), document.getElementById('main'));
+        ReactError({
+            render: React.render,
+            params: [(
+                <Router history={history}>
+                    {redirectRoute}
+                    {getRoutes(type, subdomain)}
+                </Router>
+            ),
+            document.getElementById('main')],
+            errors: [{
+                error: ResourceNotFoundError,
+                handler: ResourceNotFoundErrorHandler
+            }]
+        });
 
         // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
