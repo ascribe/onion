@@ -3,6 +3,9 @@
 import React from 'react';
 import { History } from 'react-router';
 
+import ReactError from '../../mixins/react_error';
+import { ResourceNotFoundError } from '../../models/errors';
+
 import EditionActions from '../../actions/edition_actions';
 import EditionStore from '../../stores/edition_store';
 
@@ -10,6 +13,7 @@ import Edition from './edition';
 
 import AscribeSpinner from '../ascribe_spinner';
 
+import { getLangText } from '../../utils/lang_utils';
 import { setDocumentTitle } from '../../utils/dom_utils';
 
 
@@ -21,7 +25,7 @@ let EditionContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    mixins: [History, ReactError],
 
     getInitialState() {
         return EditionStore.getState();
@@ -33,14 +37,7 @@ let EditionContainer = React.createClass({
         // as it will otherwise display wrong/old data once the user loads
         // the edition detail a second time
         EditionActions.updateEdition({});
-
         EditionStore.listen(this.onChange);
-
-        // Every time we enter the edition detail page, just reset the edition
-        // store as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.updateEdition({});
-
         this.loadEdition();
     },
 
@@ -57,9 +54,7 @@ let EditionContainer = React.createClass({
         const { editionError } = this.state;
 
         if(editionError && editionError.status === 404) {
-            // Even though the /404 path doesn't really exist,
-            // we can still redirect there and the page will show up
-            this.history.pushState(null, '/404');
+            this.throws(new ResourceNotFoundError(getLangText('Ups, the edition you\'re looking for doesn\'t exist.')));
         }
     },
 

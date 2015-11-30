@@ -4,6 +4,9 @@ import React from 'react';
 import { History } from 'react-router';
 import Moment from 'moment';
 
+import ReactError from '../../mixins/react_error';
+import { ResourceNotFoundError } from '../../models/errors';
+
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
@@ -53,7 +56,7 @@ let PieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    mixins: [History, ReactError],
 
     getInitialState() {
         return mergeOptions(
@@ -91,9 +94,7 @@ let PieceContainer = React.createClass({
         const { pieceError } = this.state;
 
         if(pieceError && pieceError.status === 404) {
-            // Even though this path doesn't exist we can redirect
-            // to it as it catches all unknown paths
-            this.history.pushState(null, '/404'); 
+            this.throws(new ResourceNotFoundError(getLangText('Ups, the piece you\'re looking for doesn\'t exist.')));
         }
     },
 

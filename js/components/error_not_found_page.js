@@ -6,6 +6,16 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let ErrorNotFoundPage = React.createClass({
+    propTypes: {
+        message: React.PropTypes.string
+    },
+
+    getDefaultProps() {
+        return {
+            message: getLangText('Ups, the page you are looking for does not exist.')
+        };
+    },
+
     render() {
         return (
             <div className="row">
@@ -13,7 +23,7 @@ let ErrorNotFoundPage = React.createClass({
                     <div className="error-wrapper">
                         <h1>404</h1>
                         <p>
-                            {getLangText('Ups, the page you are looking for does not exist.')}
+                            {this.props.message}
                         </p>
                     </div>
                 </div>
