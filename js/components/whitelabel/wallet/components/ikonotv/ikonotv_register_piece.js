@@ -32,6 +32,7 @@ import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
+
 let IkonotvRegisterPiece = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
@@ -47,7 +48,8 @@ let IkonotvRegisterPiece = React.createClass({
             PieceListStore.getState(),
             PieceStore.getState(),
             {
-                step: 0
+                step: 0,
+                pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
             });
     },
 
@@ -94,7 +96,6 @@ let IkonotvRegisterPiece = React.createClass({
 
 
     handleRegisterSuccess(response){
-
         this.refreshPieceList();
 
         // also start loading the piece for the next step
@@ -108,7 +109,6 @@ let IkonotvRegisterPiece = React.createClass({
             this.incrementStep();
             this.refs.slidesContainer.nextSlide();
         }
-
     },
 
     handleAdditionalDataSuccess() {
@@ -126,6 +126,8 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     handleLoanSuccess(response) {
+        this.setState({ pageExitWarning: null });
+
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
@@ -238,6 +240,8 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
+        const { pageExitWarning } = this.state;
+
         return (
             <SlidesContainer
                 ref="slidesContainer"
@@ -246,7 +250,8 @@ let IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}>
+                location={this.props.location}
+                pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>

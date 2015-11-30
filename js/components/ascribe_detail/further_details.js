@@ -23,8 +23,7 @@ let FurtherDetails = React.createClass({
         pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
-        handleSuccess: React.PropTypes.func,
-        location: React.PropTypes.object
+        handleSuccess: React.PropTypes.func
     },
 
     getInitialState() {
@@ -86,8 +85,7 @@ let FurtherDetails = React.createClass({
                             overrideForm={true}
                             pieceId={this.props.pieceId}
                             otherData={this.props.otherData}
-                            multiple={true}
-                            location={this.props.location}/>
+                            multiple={true} />
                     </Form>
                 </Col>
             </Row>
