@@ -32,7 +32,7 @@ class EditionListStore {
             // page
             let storeEditionIndex = (page - 1) * pageSize + i;
             let editionsForPieces = this.editionList[pieceId];
-            
+
             // if edition already exists, just merge
             if(editionsForPieces[storeEditionIndex]) {
                 editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
@@ -60,46 +60,29 @@ class EditionListStore {
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList({pieceId, filterBy}) {
+    onRefreshEditionList({pieceId, filterBy = this.editionList[pieceId].filterBy}) {
+        const pieceEditionList = this.editionList[pieceId];
+
         // It may happen that the user enters the site logged in already
         // through /editions
         // If he then tries to delete a piece/edition and this method is called,
         // we'll not be able to refresh his edition list since its not yet there.
         // Therefore we can just return, since there is no data to be refreshed
-        if(!this.editionList[pieceId]) {
+        if (!pieceEditionList) {
             return;
-        }
-
-        let prevEditionListLength = this.editionList[pieceId].length;
-        let prevEditionListPage = this.editionList[pieceId].page;
-        let prevEditionListPageSize = this.editionList[pieceId].pageSize;
-
-        // we can also refresh the edition list using filterBy,
-        // if we decide not to do that then the old filter will just be applied.
-        if(filterBy && Object.keys(filterBy).length <= 0) {
-            filterBy = this.editionList[pieceId].filterBy;
-            prevEditionListLength = 10;
-            prevEditionListPage = 1;
-            prevEditionListPageSize = 10;
         }
 
         // to clear an array, david walsh recommends to just set it's length to zero
         // http://davidwalsh.name/empty-array
-        this.editionList[pieceId].length = 0;
+        pieceEditionList.length = 0;
 
-        // refetch editions with adjusted page size
-        EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength,
-                                             this.editionList[pieceId].orderBy,
-                                             this.editionList[pieceId].orderAsc,
-                                             filterBy)
-            .then(() => {
-                // reset back to the normal pageSize and page
-                this.editionList[pieceId].page = prevEditionListPage;
-                this.editionList[pieceId].pageSize = prevEditionListPageSize;
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-            });
+        // refetch editions from the beginning with the previous settings
+        EditionsListActions
+            .fetchEditionList(pieceId, 1, pieceEditionList.pageSize,
+                                    pieceEditionList.orderBy,
+                                    pieceEditionList.orderAsc,
+                                    filterBy)
+            .catch(console.logGlobal);
     }
 
     onSelectEdition({pieceId, editionId, toValue}) {
