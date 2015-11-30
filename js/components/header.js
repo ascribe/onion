@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
-
 import { Link } from 'react-router';
+
+import history from '../history';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
@@ -58,11 +59,17 @@ let Header = React.createClass({
         UserStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel();
         WhitelabelStore.listen(this.onChange);
+
+        // react-bootstrap 0.25.1 has a bug in which it doesn't
+        // close the mobile expanded navigation after a click by itself.
+        // To get rid of this, we set the state of the component ourselves.
+        history.listen(this.onRouteChange);
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
+        history.unlisten(this.onRouteChange);
     },
 
     getLogo() {
@@ -135,6 +142,13 @@ let Header = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
+    // On route change, close expanded navbar again since react-bootstrap doesn't close
+    // the collapsibleNav by itself on click. setState() isn't available on a ref so
+    // doing this explicitly is the only way for now.
+    onRouteChange() {
+        this.refs.navbar.state.navExpanded = false;
+    },
+
     render() {
         let account;
         let signup;
@@ -201,8 +215,10 @@ let Header = React.createClass({
                 <Navbar
                     brand={this.getLogo()}
                     toggleNavKey={0}
-                    fixedTop={true}>
-                    <CollapsibleNav eventKey={0}>
+                    fixedTop={true}
+                    ref="navbar">
+                    <CollapsibleNav
+                        eventKey={0}>
                         <Nav navbar left>
                             {this.getPoweredBy()}
                         </Nav>
