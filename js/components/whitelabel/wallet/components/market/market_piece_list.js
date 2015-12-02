@@ -49,19 +49,23 @@ let MarketPieceList = React.createClass({
     },
 
     render() {
-        const { currentUser, whitelabel } = this.state;
+        const {
+            currentUser: { email: userEmail },
+            whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail }
+        } = this.state;
+
         let filterParams = null;
         let canLoadPieceList = false;
 
-        if (currentUser.email && whitelabel.user) {
+        if (userEmail && whitelabelAdminEmail) {
             canLoadPieceList = true;
-            const isUserAdmin = currentUser.email === whitelabel.user;
+            const isUserAdmin = userEmail === whitelabelAdminEmail;
 
             filterParams = [{
                 label: getLangText('Show works I can'),
                 items: [{
                     key: isUserAdmin ? 'acl_transfer' : 'acl_consign',
-                    label: getLangText(isUserAdmin ? 'transfer' : 'consign to %s', whitelabel.name),
+                    label: getLangText(isUserAdmin ? 'transfer' : 'consign to %s', whitelabelName),
                     defaultValue: true
                 }]
             }];
