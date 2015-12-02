@@ -72,6 +72,9 @@ let ApiUrls = {
     'users_username': AppConstants.apiEndpoint + 'users/username/',
     'users_profile': AppConstants.apiEndpoint + 'users/profile/',
     'wallet_settings': AppConstants.apiEndpoint + 'users/wallet_settings/',
+    'webhook': AppConstants.apiEndpoint + 'webhooks/${webhook_id}/',
+    'webhooks': AppConstants.apiEndpoint + 'webhooks/',
+    'webhooks_events': AppConstants.apiEndpoint + 'webhooks/events/',
     'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
     'delete_s3_file': AppConstants.serverUrl + 's3/delete/',
     'prize_list': AppConstants.apiEndpoint + 'prize/'

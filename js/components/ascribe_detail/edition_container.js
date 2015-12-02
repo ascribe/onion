@@ -17,8 +17,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let EditionContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
+        params: React.PropTypes.object
     },
 
     getInitialState() {
@@ -67,14 +66,13 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        if(this.state.edition && this.state.edition.title) {
+        if(this.state.edition && this.state.edition.id) {
             setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
 
             return (
                 <Edition
                     edition={this.state.edition}
-                    loadEdition={this.loadEdition}
-                    location={this.props.location}/>
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (

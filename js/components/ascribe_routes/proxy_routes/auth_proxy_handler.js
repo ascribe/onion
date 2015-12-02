@@ -1,14 +1,12 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
+import { History, RouteContext } from 'react-router';
 
 import UserStore from '../../../stores/user_store';
 import UserActions from '../../../actions/user_actions';
 
 import AppConstants from '../../../constants/application_constants';
-
-import { InjectInHeadUtils } from '../../../utils/inject_utils';
 
 
 const { object } = React.PropTypes;
@@ -39,7 +37,9 @@ export default function AuthProxyHandler({to, when}) {
                 location: object
             },
 
-            mixins: [History],
+            // We need insert `RouteContext` here in order to be able
+            // to use the `Lifecycle` widget in further down nested components
+            mixins: [History, RouteContext],
 
             getInitialState() {
                 return UserStore.getState();
@@ -55,29 +55,11 @@ export default function AuthProxyHandler({to, when}) {
                 // data from the server
                 if(!UserStore.isLoading()) {
                     this.redirectConditionally();
-                    this.injectSpecialLoveMessage();
                 }
             },
 
             componentWillUnmount() {
                 UserStore.unlisten(this.onChange);
-            },
-
-            injectSpecialLoveMessage() {
-                const { currentUser } = this.state;
-
-                if(currentUser && (currentUser.email === 'dimi@mailinator.com'
-                   || currentUser.email === 'trent@ascribe.io'
-                   || currentUser.email === 'wojciech@ascribe.io'
-                   || currentUser.email === 'rod@mailinator.com'
-                   || currentUser.email === 'qisheng.brett.sun@gmail.com'
-                   || currentUser.email === 'sylvain@ascribe.io')) {
-                    if(!InjectInHeadUtils.isPresent('script', AppConstants.fartscroll.sdkUrl)) {
-                        InjectInHeadUtils.inject(AppConstants.fartscroll.sdkUrl).then(() => {
-                            window.fartscroll ? window.fartscroll() : null;
-                        });
-                    }
-                }
             },
 
             redirectConditionally() {

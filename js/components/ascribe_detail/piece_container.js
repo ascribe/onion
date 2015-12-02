@@ -50,8 +50,7 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
+        params: React.PropTypes.object
     },
 
     mixins: [History],
@@ -225,7 +224,7 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        if(this.state.piece && this.state.piece.title) {
+        if(this.state.piece && this.state.piece.id) {
             setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
 
             return (
@@ -291,8 +290,7 @@ let PieceContainer = React.createClass({
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}
                             otherData={this.state.piece.other_data}
-                            handleSuccess={this.loadPiece}
-                            location={this.props.location}/>
+                            handleSuccess={this.loadPiece} />
                     </CollapsibleParagraph>
 
                 </Piece>

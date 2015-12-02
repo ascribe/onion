@@ -11,6 +11,7 @@ import WhitelabelActions from '../../actions/whitelabel_actions';
 import AccountSettings from './account_settings';
 import BitcoinWalletSettings from './bitcoin_wallet_settings';
 import APISettings from './api_settings';
+import WebhookSettings from './webhook_settings';
 
 import AclProxy from '../acl_proxy';
 
@@ -70,6 +71,7 @@ let SettingsContainer = React.createClass({
                         aclName="acl_view_settings_api">
                         <APISettings />
                     </AclProxy>
+                    <WebhookSettings />
                     <AclProxy
                         aclObject={this.state.whitelabel}
                         aclName="acl_view_settings_bitcoin">

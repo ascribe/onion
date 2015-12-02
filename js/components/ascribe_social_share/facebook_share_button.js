@@ -8,7 +8,6 @@ import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 let FacebookShareButton = React.createClass({
     propTypes: {
-        url: React.PropTypes.string,
         type: React.PropTypes.string
     },
 
@@ -28,12 +27,14 @@ let FacebookShareButton = React.createClass({
          * To circumvent this, we always have the sdk parse the entire DOM on the initial load
          * (see FacebookHandler) and then use FB.XFBML.parse() on the mounting component later.
          */
-        if (!InjectInHeadUtils.isPresent('script', AppConstants.facebook.sdkUrl)) {
-            InjectInHeadUtils.inject(AppConstants.facebook.sdkUrl);
-        } else {
-            // Parse() searches the children of the element we give it, not the element itself.
-            FB.XFBML.parse(this.refs.fbShareButton.getDOMNode().parentElement);
-        }
+
+        InjectInHeadUtils
+            .inject(AppConstants.facebook.sdkUrl)
+            .then(() => { FB.XFBML.parse(this.refs.fbShareButton.getDOMNode().parentElement) });
+    },
+
+    shouldComponentUpdate(nextProps) {
+        return this.props.type !== nextProps.type;
     },
 
     render() {
@@ -41,7 +42,6 @@ let FacebookShareButton = React.createClass({
             <span
                 ref="fbShareButton"
                 className="fb-share-button btn btn-ascribe-social"
-                data-href={this.props.url}
                 data-layout={this.props.type}>
             </span>
         );
