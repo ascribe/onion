@@ -1,0 +1,325 @@
+/** Sass cannot use a number as the first character of a variable, so we'll have to settle with vivi23 **/
+$vivi23--fg-color: black;
+$vivi23--bg-color: white;
+$vivi23--nav-fg-prim-color: $vivi23--fg-color;
+$vivi23--nav-fg-sec-color: #3a3a3a;
+$vivi23--nav-bg-color: $vivi23--bg-color;
+$vivi23--nav-highlight-color: #f8f8f8;
+$vivi23--button-default-color: $vivi23--fg-color;
+$vivi23--highlight-color: #de2600;
+
+
+.client--23vivi {
+    /** Navbar **/
+    .navbar-default {
+        background-color: $vivi23--nav-fg-prim-color;
+
+        .navbar-brand .icon-ascribe-logo {
+            color: $vivi23--bg-color;
+            &:hover {
+                color: darken($vivi23--bg-color, 20%);
+            }
+        }
+
+    }
+
+    .navbar-nav > li > a,
+    .navbar-nav > li > a:focus,
+    .navbar-nav > li > .active a,
+    .navbar-nav > li > .active a:focus {
+        color: $vivi23--nav-bg-color;
+    }
+
+    .navbar-nav > li > a:hover {
+        color: darken($vivi23--nav-bg-color, 20%);
+    }
+
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        background-color: $vivi23--nav-fg-prim-color;
+        border-bottom-color: $vivi23--nav-bg-color;
+        color: $vivi23--nav-bg-color;
+    }
+
+    .navbar-nav > .open > a,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > li > a {
+        color: $vivi23--nav-fg-prim-color;
+        background-color: $vivi23--nav-bg-color;
+    }
+
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus,
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($vivi23--nav-fg-prim-color, 20%);
+        background-color: $vivi23--nav-highlight-color;
+    }
+
+    .navbar-collapse.collapsing,
+    .navbar-collapse.collapse.in {
+        background-color: $vivi23--nav-bg-color;
+
+        .navbar-nav > .open > a,
+        .navbar-nav > .active > a {
+            background-color: $vivi23--nav-highlight-color;
+        }
+    }
+
+    .navbar-collapse.collapsing li a,
+    .navbar-collapse.collapse.in li a {
+        color: $vivi23--nav-fg-prim-color;
+    }
+    .navbar-collapse.collapse.in li a:not(.ascribe-powered-by):hover {
+        color: lighten($vivi23--nav-fg-prim-color, 20%);
+        background-color: $vivi23--nav-highlight-color;
+    }
+
+    .navbar-toggle {
+        border-color: $vivi23--highlight-color;
+
+        .icon-bar {
+            background-color: $vivi23--highlight-color;
+        }
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        border-color: lighten($vivi23--highlight-color, 10%);
+        background-color: $vivi23--nav-fg-prim-color;
+
+        .icon-bar {
+            background-color: lighten($vivi23--highlight-color, 10%);
+        }
+    }
+
+    .notification-menu {
+        .dropdown-menu {
+            background-color: $vivi23--nav-bg-color;
+        }
+
+        .notification-header {
+            background-color: $vivi23--nav-fg-sec-color;
+            border-top-width: 0;
+            color: $vivi23--nav-bg-color;
+        }
+
+        .notification-action {
+            color: $vivi23--highlight-color;
+        }
+    }
+
+    /** Buttons **/
+    // reset disabled button styling for btn-default
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: lighten($vivi23--button-default-color, 30%);
+        border-color: lighten($vivi23--button-default-color, 30%);
+    }
+
+    .btn-default {
+        background-color: $vivi23--button-default-color;
+        border-color: $vivi23--button-default-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($vivi23--button-default-color, 30%);
+            border-color: lighten($vivi23--button-default-color, 30%);
+        }
+    }
+
+    // disabled buttons
+    .btn-secondary.disabled,
+    .btn-secondary.disabled:hover,
+    .btn-secondary.disabled:focus,
+    .btn-secondary.disabled.focus,
+    .btn-secondary.disabled:active,
+    .btn-secondary.disabled.active,
+    .btn-secondary[disabled],
+    .btn-secondary[disabled]:hover,
+    .btn-secondary[disabled]:focus,
+    .btn-secondary[disabled].focus,
+    .btn-secondary[disabled]:active,
+    .btn-secondary[disabled].active,
+    fieldset[disabled] .btn-secondary,
+    fieldset[disabled] .btn-secondary:hover,
+    fieldset[disabled] .btn-secondary:focus,
+    fieldset[disabled] .btn-secondary.focus,
+    fieldset[disabled] .btn-secondary:active,
+    fieldset[disabled] .btn-secondary.active {
+        background-color: darken($vivi23--bg-color, 20%);
+        border-color: $vivi23--button-default-color;
+    }
+
+    .btn-secondary {
+        border-color: $vivi23--button-default-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $vivi23--button-default-color;
+            border-color: $vivi23--button-default-color;
+        }
+    }
+
+    .btn-tertiary {
+        &:hover,
+        &:active,
+        &ctive:hover,
+        &.active:hover{
+            background-color: $vivi23--highlight-color;
+            border-color: $vivi23--highlight-color;
+            color: $vivi23--highlight-color;
+        }
+    }
+
+    /** Other components **/
+    .ascribe-piece-list-toolbar .btn-ascribe-add {
+        display: none;
+    }
+
+    .ascribe-footer {
+        display: none;
+    }
+
+    .ascribe-accordion-list-table-toggle:hover {
+        color: $vivi23--fg-color;
+    }
+
+    .request-action-badge {
+        color: $vivi23--fg-color;
+    }
+
+    .acl-information-dropdown-list .title {
+        color: $vivi23--fg-color;
+    }
+
+    // filter widget
+    .ascribe-piece-list-toolbar-filter-widget button {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: $vivi23--button-default-color !important;
+
+        &:hover,
+        &:active {
+            background-color: $vivi23--button-default-color !important;
+            border-color: $vivi23--button-default-color !important;
+            color: $vivi23--bg-color !important;
+        }
+    }
+
+    .icon-ascribe-search {
+        color: $vivi23--fg-color;
+    }
+
+    // forms
+    .ascribe-property-wrapper:hover {
+        border-left-color: rgba($vivi23--fg-color, 0.5);
+    }
+
+    .ascribe-property textarea,
+    .ascribe-property input,
+    .search-bar > .form-group > .input-group input {
+        &::-webkit-input-placeholder {
+            color: rgba($vivi23--fg-color, 0.5);
+        }
+        &::-moz-placeholder {
+            color: rgba($vivi23--fg-color, 0.5);
+        }
+        &:-ms-input-placeholder {
+            color: rgba($vivi23--fg-color, 0.5);
+        }
+        &:-moz-placeholder {
+            color: rgba($vivi23--fg-color, 0.5);
+        }
+    }
+
+    .ascribe-property {
+        > div,
+        > input,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > p,
+        > p > span,
+        > textarea {
+            color: $vivi23--fg-color;
+        }
+    }
+
+    // global notification
+    .ascribe-global-notification-success {
+        background-color: lighten($vivi23--fg-color, 20%);
+    }
+
+    // uploader progress
+    .ascribe-progress-bar > .progress-bar {
+        background-color: lighten($vivi23--fg-color, 20%);
+    }
+
+    // spinner
+    .spinner-circle {
+        border-color: $vivi23--fg-color;
+    }
+    .spinner-inner {
+        display: none;
+    }
+
+    // video player
+    .ascribe-media-player .vjs-default-skin {
+        .vjs-play-progress,
+        .vjs-volume-level {
+            background-color: $vivi23--highlight-color;
+        }
+    }
+
+    // pager
+    .pager li > a,
+    .pager li > span {
+        background-color: $vivi23--fg-color;
+        border-color: $vivi23--fg-color;
+    }
+    .pager .disabled > a,
+    .pager .disabled > span {
+        background-color: $vivi23--fg-color !important;
+        border-color: $vivi23--fg-color;
+    }
+
+    // intercom
+    #intercom-container .intercom-launcher-button {
+        background-color: $vivi23--button-default-color !important;
+        border-color: $vivi23--button-default-color !important;
+    }
+}
