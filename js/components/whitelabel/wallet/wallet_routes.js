@@ -228,16 +228,6 @@ let ROUTES = {
     )
 };
 
-
-function getRoutes(commonRoutes, subdomain) {
-    if(subdomain in ROUTES) {
-        return ROUTES[subdomain];
-    } else {
-        throw new Error('Subdomain wasn\'t specified in the wallet app.');
-    }
-};
-
-
 function getRoutes(commonRoutes, subdomain) {
     if(subdomain in ROUTES) {
         return ROUTES[subdomain];
@@ -245,6 +235,5 @@ function getRoutes(commonRoutes, subdomain) {
         throw new Error('Subdomain wasn\'t specified in the wallet app.');
     }
 }
-
 
 export default getRoutes;

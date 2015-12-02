@@ -35,8 +35,6 @@ let MarketRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             {
-                selectedLicense: 0,
-                isFineUploaderActive: false,
                 step: 0
             });
     },
@@ -58,13 +56,6 @@ let MarketRegisterPiece = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleRegisterSuccess(response) {
@@ -140,7 +131,7 @@ let MarketRegisterPiece = React.createClass({
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Consign to Market')}
                                 submitMessage={getLangText('Proceed to additional details')}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
                                 onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}>

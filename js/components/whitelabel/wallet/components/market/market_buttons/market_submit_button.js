@@ -53,8 +53,8 @@ let MarketSubmitButton = React.createClass({
             const { extra_data, other_data } = edition;
 
             if (extra_data.artist_bio && extra_data.work_description &&
-                    extra_data.technology_details && extra_data.display_instructions &&
-                    other_data.length > 0) {
+                extra_data.technology_details && extra_data.display_instructions &&
+                other_data.length > 0) {
                 return true;
             }
         }
