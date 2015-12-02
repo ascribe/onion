@@ -38,7 +38,6 @@ const InputFineUploader = React.createClass({
         // a user is actually not logged in already to prevent him from droping files
         // before login in
         isFineUploaderActive: bool,
-        onLoggedOut: func,
 
         enableLocalHashing: bool,
         uploadMethod: string,
@@ -51,7 +50,10 @@ const InputFineUploader = React.createClass({
         fileClassToUpload: shape({
             singular: string,
             plural: string
-        })
+        }),
+
+        // Provided by `Property`
+        onChange: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -101,16 +103,16 @@ const InputFineUploader = React.createClass({
                 setIsUploadReady,
                 isReadyForFormSubmission,
                 areAssetsDownloadable,
-                onLoggedOut,
                 enableLocalHashing,
+                uploadMethod,
                 fileClassToUpload,
-                location } = this.props;
+                disabled } = this.props;
         let editable = this.props.isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
         // isFineUploaderActive
-        if(typeof this.props.disabled !== 'undefined') {
-            editable = !this.props.disabled;
+        if(typeof disabled !== 'undefined') {
+            editable = !disabled;
         }
 
         return (
@@ -139,10 +141,9 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing}
-                uploadMethod={this.props.uploadMethod}
-                fileClassToUpload={this.props.fileClassToUpload} />
+                enableLocalHashing={enableLocalHashing}
+                uploadMethod={uploadMethod}
+                fileClassToUpload={fileClassToUpload} />
         );
     }
 });

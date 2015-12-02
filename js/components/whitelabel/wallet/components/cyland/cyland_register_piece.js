@@ -53,8 +53,6 @@ let CylandRegisterPiece = React.createClass({
             PieceStore.getState(),
             WhitelabelStore.getState(),
             {
-                selectedLicense: 0,
-                isFineUploaderActive: false,
                 step: 0
             });
     },
@@ -90,13 +88,6 @@ let CylandRegisterPiece = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleRegisterSuccess(response){
@@ -167,11 +158,6 @@ let CylandRegisterPiece = React.createClass({
         }
     },
 
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.history.pushState(null, '/login');
-    },
-
     render() {
 
         let today = new Moment();
@@ -197,9 +183,8 @@ let CylandRegisterPiece = React.createClass({
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Submit to Cyland Archive')}
                                 submitMessage={getLangText('Submit')}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}/>
                         </Col>
                     </Row>

@@ -35,8 +35,6 @@ let MarketRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             {
-                selectedLicense: 0,
-                isFineUploaderActive: false,
                 step: 0
             });
     },
@@ -58,13 +56,6 @@ let MarketRegisterPiece = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleRegisterSuccess(response) {
@@ -115,11 +106,6 @@ let MarketRegisterPiece = React.createClass({
         );
     },
 
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.history.pushState(null, '/login');
-    },
-
     render() {
         setDocumentTitle(getLangText('Register a new piece'));
 
@@ -140,9 +126,8 @@ let MarketRegisterPiece = React.createClass({
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Consign to Market')}
                                 submitMessage={getLangText('Proceed to additional details')}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}>
                                 <Property
                                     name="num_editions"

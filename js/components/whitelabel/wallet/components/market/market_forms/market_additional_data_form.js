@@ -8,6 +8,7 @@ import Property from '../../../../../ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
@@ -23,6 +24,7 @@ import AppConstants from '../../../../../../constants/application_constants';
 import requests from '../../../../../../utils/requests';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
+
 
 let MarketAdditionalDataForm = React.createClass({
     propTypes: {
@@ -96,7 +98,7 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     isUploadReadyOnChange(piece) {
-        return piece && piece.other_data && piece.other_data.length > 0 ? true : false;
+        return piece && piece.other_data && piece.other_data.length > 0;
     },
 
     handleSuccessWithNotification() {
@@ -211,7 +213,7 @@ let MarketAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_medium.gif'} />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

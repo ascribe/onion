@@ -26,7 +26,6 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
-        onLoggedOut: React.PropTypes.func,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
@@ -116,7 +115,6 @@ let RegisterPieceForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={this.props.isFineUploaderActive}
-                        onLoggedOut={this.props.onLoggedOut}
                         disabled={!this.props.isFineUploaderEditable}
                         enableLocalHashing={enableLocalHashing}
                         uploadMethod={this.props.location.query.method} />

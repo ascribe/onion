@@ -10,6 +10,8 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
+import { getLangText } from '../../utils/lang_utils';
+
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
@@ -26,7 +28,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
     getDefaultProps() {
         return {
-            label: 'Additional files',
+            label: getLangText('Additional files'),
             multiple: false
         };
     },

@@ -97,12 +97,12 @@ let PieceListFilterDisplay = React.createClass({
 
     render() {
         let { filterBy } = this.props;
-        let filtersWithLabel = this.transformFilterParamsItemsToBools();
 
         // do not show the FilterDisplay if there are no filters applied
         if(filterBy && Object.keys(filterBy).length === 0) {
             return null;
         } else {
+            const filtersWithLabel = this.transformFilterParamsItemsToBools();
             return (
                 <div className="row">
                     <div className="ascribe-piece-list-filter-display col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">

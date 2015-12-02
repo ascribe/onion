@@ -50,7 +50,7 @@ let MarketPieceList = React.createClass({
 
     render() {
         const { currentUser, whitelabel } = this.state;
-        let filterParams = undefined;
+        let filterParams = null;
         let canLoadPieceList = false;
 
         if (currentUser.email && whitelabel.user) {
