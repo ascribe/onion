@@ -133,7 +133,7 @@ let PieceList = React.createClass({
         const defaultFilterBy = {};
 
         if (filterParams && typeof filterParams.forEach === 'function') {
-            filterParams.forEach(({ label, items }) => {
+            filterParams.forEach(({ items }) => {
                 items.forEach((item) => {
                     if (typeof item === 'object' && item.defaultValue) {
                         defaultFilterBy[item.key] = true;
@@ -211,7 +211,7 @@ let PieceList = React.createClass({
     },
 
     loadPieceList({ page, filterBy = this.state.filterBy, search = this.state.search }) {
-        let orderBy = this.state.orderBy ? this.state.orderBy : this.props.orderBy;
+        const orderBy = this.state.orderBy || this.props.orderBy;
 
         return PieceListActions.fetchPieceList(page, this.state.pageSize, search,
                                                orderBy, this.state.orderAsc, filterBy);
@@ -259,7 +259,6 @@ let PieceList = React.createClass({
         const availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         setDocumentTitle(getLangText('Collection'));
-
         return (
             <div>
                 <PieceListToolbar
