@@ -44,7 +44,7 @@ let RegisterPiece = React.createClass( {
         return mergeOptions(
             UserStore.getState(),
             WhitelabelStore.getState(),
-            PieceListStore.getState(),
+            PieceListStore.getState()
         );
     },
 
