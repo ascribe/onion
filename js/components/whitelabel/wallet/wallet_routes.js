@@ -37,6 +37,9 @@ import MarketEditionContainer from './components/market/market_detail/market_edi
 
 import LumenusLanding from './components/lumenus/lumenus_landing';
 
+import Vivi23Landing from './components/23vivi/23vivi_landing';
+import Vivi23PieceList from './components/23vivi/23vivi_piece_list';
+
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
 import WalletApp from './wallet_app';
@@ -193,7 +196,7 @@ let ROUTES = {
     ),
     '23vivi': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LumenusLanding)} />
+            <IndexRoute component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(Vivi23Landing)} />
             <Route
                 path='login'
                 component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
@@ -218,7 +221,7 @@ let ROUTES = {
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketPieceList)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(Vivi23PieceList)}
                 headerTitle='COLLECTION'/>
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
