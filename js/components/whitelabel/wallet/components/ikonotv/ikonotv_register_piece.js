@@ -85,13 +85,6 @@ let IkonotvRegisterPiece = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
 
@@ -155,19 +148,6 @@ let IkonotvRegisterPiece = React.createClass({
             this.state.orderAsc,
             this.state.filterBy
         );
-    },
-
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
-    },
-
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.history.pushState(null, '/login');
     },
 
     canSubmit() {
@@ -260,9 +240,8 @@ let IkonotvRegisterPiece = React.createClass({
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Register work')}
                                 submitMessage={getLangText('Register')}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}/>
                         </Col>
                     </Row>

@@ -106,11 +106,6 @@ let MarketRegisterPiece = React.createClass({
         );
     },
 
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.history.pushState(null, '/login');
-    },
-
     render() {
         setDocumentTitle(getLangText('Register a new piece'));
 
@@ -133,7 +128,6 @@ let MarketRegisterPiece = React.createClass({
                                 submitMessage={getLangText('Proceed to additional details')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}>
                                 <Property
                                     name="num_editions"
