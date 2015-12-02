@@ -117,8 +117,9 @@ let MarketRegisterPiece = React.createClass({
         const {
             isFineUploaderActive,
             step,
-            whitelabel: { name: whitelabelName = 'Market' }
-        } = this.state;
+            whitelabel: {
+                name: whitelabelName = 'Market'
+            } } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
 
