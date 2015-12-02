@@ -35,7 +35,7 @@ let MarketAdditionalDataForm = React.createClass({
         isInline: React.PropTypes.bool,
         showHeading: React.PropTypes.bool,
         showNotification: React.PropTypes.bool,
-        submitLabel: React.PropTypes.bool,
+        submitLabel: React.PropTypes.string,
         handleSuccess: React.PropTypes.func
     },
 
