@@ -35,7 +35,14 @@ let MarketAdditionalDataForm = React.createClass({
         isInline: React.PropTypes.bool,
         showHeading: React.PropTypes.bool,
         showNotification: React.PropTypes.bool,
+        submitLabel: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
+    },
+
+    getDefaultProps() {
+        return {
+            submitLabel: getLangText('Register work')
+        };
     },
 
     getInitialState() {
@@ -123,7 +130,7 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     render() {
-        const { isInline, handleSuccess, showHeading, showNotification } = this.props;
+        const { isInline, handleSuccess, showHeading, showNotification, submitLabel } = this.props;
         const { piece } = this.state;
         let buttons, spinner, heading;
 
@@ -133,7 +140,7 @@ let MarketAdditionalDataForm = React.createClass({
                     type="submit"
                     className="btn btn-default btn-wide"
                     disabled={!this.state.isUploadReady}>
-                    {getLangText('Register work')}
+                    {submitLabel}
                 </button>
             );
 
