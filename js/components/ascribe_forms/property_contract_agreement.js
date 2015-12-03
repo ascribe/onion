@@ -13,10 +13,16 @@ import { isEmail } from '../../utils/regex_utils';
 
 let ContractAgreementProperty = React.createClass({
     propTypes: {
-        createPublicContractAgreement: React.PropTypes.string,
+        createPublicContractAgreement: React.PropTypes.bool,
         email: React.PropTypes.string,
         embedClassName: React.PropTypes.string,
-        label: React.PropTypes.string
+        label: React.PropTypes.string,
+
+        // Necessary for Form to pick this element up as a ref
+        name: React.PropTypes.string,
+
+        // Passed down from Form element
+        handleChange: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -37,10 +43,12 @@ let ContractAgreementProperty = React.createClass({
     componentWillReceiveProps({ email: nextEmail }) {
         const { contractAgreementList } = this.state;
 
-        if (nextEmail && this.props.email !== nextEmail && isEmail(nextEmail)) {
-            this.getContractAgreementsOrCreatePublic(nextEmail);
-        } else if (contractAgreementList && contractAgreementList.length > 0) {
-            ContractAgreementListActions.flushContractAgreementList();
+        if (this.props.email !== nextEmail) {
+            if (isEmail(nextEmail)) {
+                this.getContractAgreementsOrCreatePublic(nextEmail);
+            } else if (contractAgreementList && contractAgreementList.length > 0) {
+                ContractAgreementListActions.flushContractAgreementList();
+            }
         }
     },
 
@@ -53,14 +61,21 @@ let ContractAgreementProperty = React.createClass({
     },
 
     getFormDataForProperty() {
-        return this.getContractAgreementId();
+        const contractAgreementId = this.getContractAgreementId();
+        const formData = {
+            'terms': this.refs.terms.state.value
+        };
+
+        if (contractAgreementId) {
+            formData.contract_agreement_id = contractAgreementId;
+        }
+
+        return formData;
     },
 
     getContractAgreementId() {
         if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
-            return { 'contract_agreement_id': this.state.contractAgreementList[0].id };
-        } else {
-            return {};
+            return this.state.contractAgreementList[0].id;
         }
     },
 
@@ -82,7 +97,8 @@ let ContractAgreementProperty = React.createClass({
                 return (
                     <Property
                         name='appendix'
-                        label={getLangText('Appendix')}>
+                        label={getLangText('Appendix')}
+                        handleChange={this.props.handleChange}>
                         <pre className="ascribe-pre">{appendix.default}</pre>
                     </Property>
                 );
@@ -91,24 +107,27 @@ let ContractAgreementProperty = React.createClass({
     },
 
     getContractCheckbox() {
+        const { embedClassName, handleChange, label } = this.props;
         const { contractAgreementList } = this.state;
 
         if (contractAgreementList && contractAgreementList.length > 0) {
-            // we need to define a key on the InputCheckboxes as otherwise
-            // react is not rerendering them on a store switch and is keeping
-            // the default value of the component (which is in that case true)
             const contractAgreement = contractAgreementList[0];
             const { issuer: contractIssuer, blob: { url_safe: contractUrl } } = contractAgreement.contract;
 
+            // we need to define a key on the InputCheckboxes as otherwise
+            // react is not rerendering them on a store switch and is keeping
+            // the default value of the component (which is in that case true)
             if (contractAgreement.datetime_accepted) {
                 return (
                     <Property
+                        ref="terms"
                         name="terms"
-                        label={this.props.label}
+                        label={label}
                         hidden={false}
+                        handleChange={handleChange}
                         className="notification-contract-pdf">
                         <embed
-                            className={this.props.embedClassName}
+                            className={embedClassName}
                             src={contractUrl}
                             alt="pdf"
                             pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
@@ -125,8 +144,10 @@ let ContractAgreementProperty = React.createClass({
             } else {
                 return (
                     <Property
+                        ref="terms"
                         name="terms"
                         className="ascribe-property-collapsible-toggle"
+                        handleChange={handleChange}
                         style={{paddingBottom: 0}}>
                         <InputCheckbox
                             key="terms_explicitly"
@@ -144,7 +165,9 @@ let ContractAgreementProperty = React.createClass({
         } else {
             return (
                 <Property
+                    ref="terms"
                     name="terms"
+                    handleChange={handleChange}
                     style={{paddingBottom: 0}}
                     hidden={true}>
                     <InputCheckbox

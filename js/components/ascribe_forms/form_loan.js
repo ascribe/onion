@@ -57,13 +57,6 @@ let LoanForm = React.createClass({
         };
     },
 
-    getFormData() {
-        return mergeOptions(
-            this.props.id,
-            this.refs.contractAgreement.getFormDataForProperty()
-        );
-    },
-
     handleEmailOnChange(event) {
         // event.target.value is the submitted email of the loanee
         this.setState({
@@ -73,6 +66,13 @@ let LoanForm = React.createClass({
 
     handleReset(event) {
         this.handleEmailOnChange();
+    },
+
+    getFormData() {
+        return mergeOptions(
+            this.props.id,
+            this.refs.contractAgreement.getFormDataForProperty()
+        );
     },
 
     getButtons() {
@@ -191,10 +191,11 @@ let LoanForm = React.createClass({
                         required={showPersonalMessage}/>
                 </Property>
                 <ContractAgreementProperty
-                    ref='contractAgreement'
+                    ref={ref => this.refs.contractAgreement = ref}
                     createPublicContractAgreement={createPublicContractAgreement}
                     email={email}
                     embedClassName={'loan-form'}
+                    name='contract_agreement'
                     label={getLangText('Loan Contract')} />
                 <Property
                     name='password'
