@@ -6,20 +6,18 @@ import classnames from 'classnames';
 
 import Button from 'react-bootstrap/lib/Button';
 
+import ContractAgreementProperty from './property_contract_agreement';
 import Form from './form';
-import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 import InputDate from './input_date';
-import InputCheckbox from './input_checkbox';
-
-import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
-import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
+import Property from './property';
 
 import AscribeSpinner from '../ascribe_spinner';
 
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import AclInformation from '../ascribe_buttons/acl_information';
 
 let LoanForm = React.createClass({
     propTypes: {
@@ -49,55 +47,20 @@ let LoanForm = React.createClass({
             showPersonalMessage: true,
             showEndDate: true,
             showStartDate: true,
-            showPassword: true,
-            createPublicContractAgreement: true
+            showPassword: true
         };
     },
 
     getInitialState() {
-        return ContractAgreementListStore.getState();
-    },
-
-    componentDidMount() {
-        ContractAgreementListStore.listen(this.onChange);
-        this.getContractAgreementsOrCreatePublic(this.props.email);
-    },
-
-    /**
-     * This method needs to be in form_loan as some whitelabel pages (Cyland) load
-     * the loanee's email async!
-     *
-     * SO LEAVE IT IN!
-     */
-    componentWillReceiveProps(nextProps) {
-        if(nextProps && nextProps.email && this.props.email !== nextProps.email) {
-            this.getContractAgreementsOrCreatePublic(nextProps.email);
-        }
-    },
-
-    componentWillUnmount() {
-        ContractAgreementListStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
-    getContractAgreementsOrCreatePublic(email){
-        ContractAgreementListActions.flushContractAgreementList.defer();
-        if (email) {
-            // fetch the available contractagreements (pending/accepted)
-            ContractAgreementListActions.fetchAvailableContractAgreementList(email, true);
-        }
         return {
             email: this.props.email || ''
         };
     },
 
-    getFormData(){
+    getFormData() {
         return mergeOptions(
             this.props.id,
-            this.getContractAgreementId()
+            this.refs.contractAgreement.getFormDataForProperty()
         );
     },
 
@@ -108,90 +71,8 @@ let LoanForm = React.createClass({
         });
     },
 
-    getContractAgreementId() {
-        if (this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
-            return {'contract_agreement_id': this.state.contractAgreementList[0].id};
-        }
-        return {};
-    },
-
-    getContractCheckbox() {
-        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
-            // we need to define a key on the InputCheckboxes as otherwise
-            // react is not rerendering them on a store switch and is keeping
-            // the default value of the component (which is in that case true)
-            let contractAgreement = this.state.contractAgreementList[0];
-            let contract = contractAgreement.contract;
-
-            if(contractAgreement.datetime_accepted) {
-                return (
-                    <Property
-                        name="terms"
-                        label={getLangText('Loan Contract')}
-                        hidden={false}
-                        className="notification-contract-pdf">
-                        <embed
-                            className="loan-form"
-                            src={contract.blob.url_safe}
-                            alt="pdf"
-                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
-                        <a href={contract.blob.url_safe} target="_blank">
-                            <span className="glyphicon glyphicon-download" aria-hidden="true"></span> {getLangText('Download contract')}
-                        </a>
-                        {/* We still need to send the server information that we're accepting */}
-                        <InputCheckbox
-                                style={{'display': 'none'}}
-                                key="terms_implicitly"
-                                defaultChecked={true} />
-                    </Property>
-                );
-            } else {
-                return (
-                    <Property
-                        name="terms"
-                        className="ascribe-property-collapsible-toggle"
-                        style={{paddingBottom: 0}}>
-                        <InputCheckbox
-                            key="terms_explicitly"
-                            defaultChecked={false}>
-                            <span>
-                                {getLangText('I agree to the')}&nbsp;
-                                <a href={contract.blob.url_safe} target="_blank">
-                                    {getLangText('terms of ')} {contract.issuer}
-                                </a>
-                            </span>
-                        </InputCheckbox>
-                    </Property>
-                );
-            }
-        } else {
-            return (
-                <Property
-                    name="terms"
-                    style={{paddingBottom: 0}}
-                    hidden={true}>
-                    <InputCheckbox
-                        key="terms_implicitly"
-                        defaultChecked={true} />
-                </Property>
-            );
-        }
-    },
-
-    getAppendix() {
-        if(this.state.contractAgreementList && this.state.contractAgreementList.length > 0) {
-            let appendix = this.state.contractAgreementList[0].appendix;
-            if (appendix && appendix.default) {
-                return (
-                    <Property
-                        name='appendix'
-                        label={getLangText('Appendix')}>
-                        <pre className="ascribe-pre">{appendix.default}</pre>
-                    </Property>
-                );
-            }
-        }
-        return null;
+    handleReset(event) {
+        this.handleEmailOnChange();
     },
 
     getButtons() {
@@ -222,7 +103,7 @@ let LoanForm = React.createClass({
         const { email } = this.state;
         const {
             children,
-            email,
+            createPublicContractAgreement,
             email: defaultEmail,
             handleSuccess,
             gallery,
@@ -242,7 +123,7 @@ let LoanForm = React.createClass({
                 ref='form'
                 url={url}
                 getFormData={this.getFormData}
-                onReset={this.handleOnChange}
+                onReset={this.handleReset}
                 handleSuccess={handleSuccess}
                 buttons={this.getButtons()}
                 spinner={
@@ -309,8 +190,12 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required={showPersonalMessage}/>
                 </Property>
-                {this.getContractCheckbox()}
-                {this.getAppendix()}
+                <ContractAgreementProperty
+                    ref='contractAgreement'
+                    createPublicContractAgreement={createPublicContractAgreement}
+                    email={email}
+                    embedClassName={'loan-form'}
+                    label={getLangText('Loan Contract')} />
                 <Property
                     name='password'
                     label={getLangText('Password')}

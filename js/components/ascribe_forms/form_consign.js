@@ -4,6 +4,7 @@ import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
 
+import ContractAgreementProperty from './property_contract_agreement';
 import InputTextAreaToggable from './input_textarea_toggable';
 import Form from './form';
 import Property from './property';
@@ -22,6 +23,7 @@ let ConsignForm = React.createClass({
         email: React.PropTypes.string,
         message: React.PropTypes.string,
         labels: React.PropTypes.object,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
@@ -52,6 +54,7 @@ let ConsignForm = React.createClass({
         const { email } = this.state;
         const {
             autoFocusProperty,
+            createPublicContractAgreement,
             email: defaultEmail,
             handleSuccess,
             id,
@@ -107,6 +110,12 @@ let ConsignForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required />
                 </Property>
+                <ContractAgreementProperty
+                    ref='contractAgreement'
+                    createPublicContractAgreement={createPublicContractAgreement}
+                    email={email}
+                    embedClassName={'consign-form'}
+                    label={getLangText('Consign Contract')} />
                 <Property
                     name='password'
                     label={getLangText('Password')}>
