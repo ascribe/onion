@@ -16,6 +16,9 @@ import UserActions from '../../../../../actions/user_actions';
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
 
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
@@ -47,6 +50,7 @@ let IkonotvRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
+            WhitelabelStore.getState(),
             {
                 step: 0,
                 pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
@@ -57,7 +61,9 @@ let IkonotvRegisterPiece = React.createClass({
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
 
         // Before we load the new piece, we reset the piece store to delete old data that we do
         // not want to display to the user.
@@ -81,6 +87,7 @@ let IkonotvRegisterPiece = React.createClass({
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
+        WhitelabelStore.listen(this.onChange);
     },
 
     onChange(state) {
@@ -152,7 +159,8 @@ let IkonotvRegisterPiece = React.createClass({
 
     canSubmit() {
         let currentUser = this.state.currentUser;
-        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit;
+        let whitelabel = this.state.whitelabel;
+        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel && whitelabel.user;
     },
 
     getSlideArtistDetails() {
@@ -194,15 +202,16 @@ let IkonotvRegisterPiece = React.createClass({
             let today = new Moment();
             let enddate = new Moment();
             enddate.add(2, 'years');
+            const {piece, whitelabel} = this.state;
             return (
                 <div data-slide-title={getLangText('Loan')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to IkonoTV archive')}
-                                id={{piece_id: this.state.piece.id}}
+                                id={{piece_id: piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email="submissions@ikono.org"
+                                email={whitelabel.user}
                                 startdate={today}
                                 enddate={enddate}
                                 showStartDate={false}
