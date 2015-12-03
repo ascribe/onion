@@ -91,14 +91,14 @@ let CreateContractForm = React.createClass({
                 <Property
                     name='name'
                     label={getLangText('Contract name')}
-                    hidden={true}>
+                    expanded={false}>
                     <input
                         type="text"
                         value={this.state.contractName}/>
                 </Property>
                 <Property
                     name="is_public"
-                    hidden={true}>
+                    expanded={false}>
                     <input
                         type="checkbox"
                         value={this.props.isPublic} />

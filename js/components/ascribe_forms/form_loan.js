@@ -64,7 +64,7 @@ let LoanForm = React.createClass({
         });
     },
 
-    handleReset(event) {
+    handleReset() {
         this.handleEmailOnChange();
     },
 
@@ -163,7 +163,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Start date')}
                     editable={!startDate}
                     overrideForm={!!startDate}
-                    hidden={!showStartDate}>
+                    expanded={showStartDate}>
                     <InputDate
                         defaultValue={startDate}
                         placeholderText={getLangText('Loan start date')} />
@@ -173,7 +173,7 @@ let LoanForm = React.createClass({
                     editable={!endDate}
                     overrideForm={!!endDate}
                     label={getLangText('End date')}
-                    hidden={!showEndDate}>
+                    expanded={showEndDate}>
                     <InputDate
                         defaultValue={endDate}
                         placeholderText={getLangText('Loan end date')} />
@@ -183,7 +183,7 @@ let LoanForm = React.createClass({
                     label={getLangText('Personal Message')}
                     editable={true}
                     overrideForm={true}
-                    hidden={!showPersonalMessage}>
+                    expanded={showPersonalMessage}>
                     <InputTextAreaToggable
                         rows={1}
                         defaultValue={message}
@@ -200,7 +200,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='password'
                     label={getLangText('Password')}
-                    hidden={!showPassword}>
+                    expanded={showPassword}>
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
