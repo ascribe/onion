@@ -411,6 +411,26 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
         }
     }
 
+    .btn-secondary {
+        background-color: white;
+        border-color: $ikono--button-color;
+        color: $ikono--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $ikono--button-color;
+            border-color: $ikono--button-color;
+            color: white;
+        }
+    }
+
     .open > .btn-default.dropdown-toggle:hover,
     .open > .btn-default.dropdown-toggle:focus,
     .open > .btn-default.dropdown-toggle.focus,
@@ -523,5 +543,21 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 }
 
 .client--ikonotv .acl-information-dropdown-list .title {
+    color: $ikono--button-color;
+}
+
+.client--ikonotv .action-file.icon-ascribe-ok,
+.client--ikonotv .action-file.icon-ascribe-ok:hover {
+    color: $ikono--button-color;
+}
+
+.client--ikonotv .ascribe-progress-bar span {
+    text-shadow: -1px 0 $ikono--button-color,
+                 0 1px $ikono--button-color,
+                 1px 0 $ikono--button-color,
+                 0 -1px $ikono--button-color;
+}
+
+.client--ikonotv  .upload-button-wrapper > span {
     color: $ikono--button-color;
 }
