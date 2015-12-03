@@ -59,7 +59,6 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     display: none;
 }
 
-
 .client--cyland .icon-ascribe-search{
     color: $cyland--button-color;
 }
@@ -145,6 +144,24 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     .pager li.disabled > span {
         background-color: $cyland--button-color !important;
         border-color: $cyland--button-color;
+    }
+}
+
+// landing page
+.client--cyland {
+    .route--landing {
+        display: table;
+
+        > .container {
+            display: table-cell;
+            padding-bottom: 100px;
+            vertical-align: middle;
+        }
+
+        .cyland-landing {
+            font-weight: normal;
+            text-align: center;
+        }
     }
 }
 
