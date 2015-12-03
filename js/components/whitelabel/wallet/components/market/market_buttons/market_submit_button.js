@@ -91,7 +91,7 @@ let MarketSubmitButton = React.createClass({
 
     render() {
         const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
-        const { whitelabel } = this.state;
+        const { whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.state;
         const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
         const message = getAclFormMessage({
             aclName: 'acl_consign',
@@ -103,14 +103,14 @@ let MarketSubmitButton = React.createClass({
 
         const triggerButton = (
             <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
-                {getLangText('CONSIGN TO %s', whitelabel.name.toUpperCase())}
+                {getLangText('CONSIGN TO %s', whitelabelName.toUpperCase())}
             </button>
         );
         const consignForm = (
             <AclFormFactory
                 action='acl_consign'
                 autoFocusProperty='message'
-                email={whitelabel.user}
+                email={whitelabelAdminEmail}
                 message={message}
                 labels={{
                     'message': getLangText('Message (also suggest a sales price if necessary)')
@@ -149,7 +149,7 @@ let MarketSubmitButton = React.createClass({
                     <ModalWrapper
                         trigger={triggerButton}
                         handleSuccess={handleSuccess}
-                        title={getLangText('Consign artwork to %s', whitelabel.name)}>
+                        title={getLangText('Consign artwork to %s', whitelabelName)}>
                         {consignForm}
                     </ModalWrapper>
                 </AclProxy>

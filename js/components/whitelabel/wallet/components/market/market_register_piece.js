@@ -11,11 +11,13 @@ import MarketAdditionalDataForm from './market_forms/market_additional_data_form
 import Property from '../../../../ascribe_forms/property';
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
 import PieceActions from '../../../../../actions/piece_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
+import UserStore from '../../../../../stores/user_store';
+import UserActions from '../../../../../actions/user_actions';
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -32,8 +34,9 @@ let MarketRegisterPiece = React.createClass({
 
     getInitialState(){
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
+            UserStore.getState(),
+            WhitelabelStore.getState(),
             {
                 step: 0
             });
@@ -42,7 +45,10 @@ let MarketRegisterPiece = React.createClass({
     componentDidMount() {
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+
         UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
 
         // Reset the piece store to make sure that we don't display old data
         // if the user repeatedly registers works
@@ -52,6 +58,7 @@ let MarketRegisterPiece = React.createClass({
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -107,6 +114,13 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
+        const {
+            isFineUploaderActive,
+            step,
+            whitelabel: {
+                name: whitelabelName = 'Market'
+            } } = this.state;
+
         setDocumentTitle(getLangText('Register a new piece'));
 
         return (
@@ -122,9 +136,9 @@ let MarketRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                disabled={this.state.step > 0}
+                                disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Consign to Market')}
+                                headerMessage={getLangText('Consign to %s', whitelabelName)}
                                 submitMessage={getLangText('Proceed to additional details')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
