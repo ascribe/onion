@@ -89,6 +89,9 @@ let LoanForm = React.createClass({
             // fetch the available contractagreements (pending/accepted)
             ContractAgreementListActions.fetchAvailableContractAgreementList(email, true);
         }
+        return {
+            email: this.props.email || ''
+        };
     },
 
     getFormData(){
@@ -98,13 +101,11 @@ let LoanForm = React.createClass({
         );
     },
 
-    handleOnChange(event) {
+    handleEmailOnChange(event) {
         // event.target.value is the submitted email of the loanee
-        if(event && event.target && event.target.value && event.target.value.match(/.*@.*\..*/)) {
-            this.getContractAgreementsOrCreatePublic(event.target.value);
-        } else {
-            ContractAgreementListActions.flushContractAgreementList();
-        }
+        this.setState({
+            email: event && event.target && event.target.value || ''
+        });
     },
 
     getContractAgreementId() {
@@ -218,9 +219,11 @@ let LoanForm = React.createClass({
     },
 
     render() {
+        const { email } = this.state;
         const {
             children,
             email,
+            email: defaultEmail,
             handleSuccess,
             gallery,
             loanHeading,
@@ -255,9 +258,9 @@ let LoanForm = React.createClass({
                 <Property
                     name='loanee'
                     label={getLangText('Loanee Email')}
-                    editable={!email}
-                    onChange={this.handleOnChange}
-                    overrideForm={!!email}>
+                    editable={!defaultEmail}
+                    onChange={this.handleEmailOnChange}
+                    overrideForm={!!defaultEmail}>
                     <input
                         value={email}
                         type="email"
