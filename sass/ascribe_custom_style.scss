@@ -257,6 +257,24 @@ hr {
     font-weight: $ascribe--font-weight-light;
 }
 
+.btn-default {
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:hover,
+    &:active:focus,
+    &:active.focus,
+    &.active:hover,
+    &.active:focus,
+    &.active.focus {
+        background-color: lighten($ascribe--button-default-color, 20%);
+        border-color: lighten($ascribe--button-default-color, 20%);
+    }
+}
+
 // disabled buttons
 .btn-default.disabled,
 .btn-default.disabled:hover,
@@ -280,9 +298,10 @@ fieldset[disabled] .btn-default.active {
     border-color: darken($ascribe--button-default-color, 20%);
 }
 
-.btn-default {
-    background-color: $ascribe--button-default-color;
-    border-color: $ascribe--button-default-color;
+.btn-secondary {
+    background-color: $ascribe--button-secondary-bg-color;
+    border-color: $ascribe--button-secondary-fg-color;
+    color: $ascribe--button-secondary-fg-color;
 
     &:hover,
     &:active,
@@ -293,8 +312,9 @@ fieldset[disabled] .btn-default.active {
     &.active:hover,
     &.active:focus,
     &.active.focus {
-        background-color: lighten($ascribe--button-default-color, 20%);
-        border-color: lighten($ascribe--button-default-color, 20%);
+        background-color: $ascribe--button-secondary-fg-color;
+        border-color: $ascribe--button-secondary-bg-color;
+        color: $ascribe--button-secondary-bg-color;
     }
 }
 
@@ -320,26 +340,6 @@ fieldset[disabled] .btn-secondary.active {
     background-color: darken($ascribe--button-secondary-bg-color, 20%);
     border-color: darken($ascribe--button-secondary-fg-color, 20%);
     color: darken($ascribe--button-secondary-fg-color, 20%);
-}
-
-.btn-secondary {
-    background-color: $ascribe--button-secondary-bg-color;
-    border-color: $ascribe--button-secondary-fg-color;
-    color: $ascribe--button-secondary-fg-color;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &:active:hover,
-    &:active:focus,
-    &:active.focus,
-    &.active:hover,
-    &.active:focus,
-    &.active.focus {
-        background-color: $ascribe--button-secondary-fg-color;
-        border-color: $ascribe--button-secondary-bg-color;
-        color: $ascribe--button-secondary-bg-color;
-    }
 }
 
 .btn-tertiary {

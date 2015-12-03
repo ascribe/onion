@@ -98,7 +98,11 @@ let RegisterPieceForm = React.createClass({
         const { digitalWorkFile } = this.state;
         const { fineuploader } = this.refs.digitalWorkFineUploader.refs;
 
-        fineuploader.setThumbnailForFileId(digitalWorkFile.id, thumbnailFile.url);
+        fineuploader.setThumbnailForFileId(
+            digitalWorkFile.id,
+            // if thumbnail was delete, we delete it from the display as well
+            thumbnailFile.status !== 'deleted' ? thumbnailFile.url : null
+        );
     },
 
     isThumbnailDialogExpanded() {
@@ -187,7 +191,7 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_thumbnails
                         }}
                         handleChangedFile={this.handleChangedThumbnail}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'thumbnail'
