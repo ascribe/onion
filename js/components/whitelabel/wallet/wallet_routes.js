@@ -25,7 +25,7 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
-import ContractAgreementForm from '../../../components/ascribe_forms/form_contract_agreement';
+import SendContractAgreementForm from '../../../components/ascribe_forms/form_send_contract_agreement';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
@@ -135,7 +135,7 @@ let ROUTES = {
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='request_loan'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractAgreementForm)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SendContractAgreementForm)}
                 headerTitle='SEND NEW CONTRACT'
                 aclName='acl_create_contractagreement'/>
             <Route
