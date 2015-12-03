@@ -192,8 +192,8 @@ let IkonotvRegisterPiece = React.createClass({
     getSlideLoan() {
         if (this.canSubmit()) {
             let today = new Moment();
-            let enddate = new Moment();
-            enddate.add(2, 'years');
+            let endDate = new Moment();
+            endDate.add(2, 'years');
             return (
                 <div data-slide-title={getLangText('Loan')}>
                     <Row className="no-margin">
@@ -203,8 +203,8 @@ let IkonotvRegisterPiece = React.createClass({
                                 id={{piece_id: this.state.piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
                                 email="submissions@ikono.org"
-                                startdate={today}
-                                enddate={enddate}
+                                startDate={today}
+                                endDate={endDate}
                                 showStartDate={false}
                                 showEndDate={false}
                                 gallery="IkonoTV archive"
