@@ -4,10 +4,12 @@ import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
 
-import ContractAgreementProperty from './property_contract_agreement';
-import InputTextAreaToggable from './input_textarea_toggable';
 import Form from './form';
 import Property from './property';
+
+import InputContractAgreementCheckbox from './input_contract_agreement_checkbox';
+import InputTextAreaToggable from './input_textarea_toggable';
+
 
 import AscribeSpinner from '../ascribe_spinner';
 
@@ -110,12 +112,14 @@ let ConsignForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required />
                 </Property>
-                <ContractAgreementProperty
-                    ref='contractAgreement'
-                    createPublicContractAgreement={createPublicContractAgreement}
-                    email={email}
-                    embedClassName={'consign-form'}
-                    label={getLangText('Consign Contract')} />
+                <Property
+                    name='contract_agreement'
+                    label={getLangText('Consign Contract')}
+                    className="ascribe-property-collapsible-toggle">
+                    <InputContractAgreementCheckbox
+                        createPublicContractAgreement={createPublicContractAgreement}
+                        email={email} />
+                </Property>
                 <Property
                     name='password'
                     label={getLangText('Password')}>

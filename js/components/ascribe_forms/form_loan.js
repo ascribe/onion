@@ -1,23 +1,26 @@
 'use strict';
 
 import React from 'react';
-
 import classnames from 'classnames';
 
 import Button from 'react-bootstrap/lib/Button';
 
-import ContractAgreementProperty from './property_contract_agreement';
+import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
+
 import Form from './form';
-import InputTextAreaToggable from './input_textarea_toggable';
-import InputDate from './input_date';
 import Property from './property';
+
+import InputDate from './input_date';
+import InputTextAreaToggable from './input_textarea_toggable';
+import InputContractAgreementCheckbox from './input_contract_agreement_checkbox';
 
 import AscribeSpinner from '../ascribe_spinner';
 
 import AclInformation from '../ascribe_buttons/acl_information';
 
-import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general_utils';
+
 
 let LoanForm = React.createClass({
     propTypes: {
@@ -57,6 +60,10 @@ let LoanForm = React.createClass({
         };
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
+
     handleEmailOnChange(event) {
         // event.target.value is the submitted email of the loanee
         this.setState({
@@ -69,10 +76,7 @@ let LoanForm = React.createClass({
     },
 
     getFormData() {
-        return mergeOptions(
-            this.props.id,
-            this.refs.contractAgreement.getFormDataForProperty()
-        );
+        return this.props.id;
     },
 
     getButtons() {
@@ -190,13 +194,14 @@ let LoanForm = React.createClass({
                         placeholder={getLangText('Enter a message...')}
                         required={showPersonalMessage}/>
                 </Property>
-                <ContractAgreementProperty
-                    ref={ref => this.refs.contractAgreement = ref}
-                    createPublicContractAgreement={createPublicContractAgreement}
-                    email={email}
-                    embedClassName={'loan-form'}
+                <Property
                     name='contract_agreement'
-                    label={getLangText('Loan Contract')} />
+                    label={getLangText('Loan Contract')}
+                    className="ascribe-property-collapsible-toggle">
+                    <InputContractAgreementCheckbox
+                        createPublicContractAgreement={createPublicContractAgreement}
+                        email={email} />
+                </Property>
                 <Property
                     name='password'
                     label={getLangText('Password')}
