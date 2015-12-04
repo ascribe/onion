@@ -74,7 +74,21 @@ const InputContractAgreementCheckbox = React.createClass({
 
         state = mergeOptions(state, {
             value: {
+                // If `email` is defined in this component, `getContractAgreementsOrCreatePublic`
+                // is either:
+                //
+                // - fetching a already existing contract agreement; or
+                // - trying to create a contract agreement
+                //
+                // If both attempts result in `contractAgreement` being not defined,
+                // it means that the receiver hasn't defined a contract, which means
+                // a contract agreement cannot be created, which means we don't have to
+                // specify `contract_agreement_id` when sending a request to the server.
                 contract_agreement_id: contractAgreement ? contractAgreement.id : null,
+                // If the receiver hasn't set a contract or the contract was
+                // previously accepted, we set the terms to `true`
+                // as we always need to at least give a boolean value for `terms`
+                // to the API endpoint
                 terms: !contractAgreement || !!contractAgreement.datetime_accepted
             }
         });
@@ -91,7 +105,7 @@ const InputContractAgreementCheckbox = React.createClass({
         this.props.onChange(event);
     },
 
-    getContractAgreement(contractAgreementList) {
+    getContractAgreement(contractAgreementList = this.state.contractAgreementList) {
         if (contractAgreementList && contractAgreementList.length > 0) {
             return contractAgreementList[0];
         }
@@ -107,30 +121,22 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     getAppendix() {
-        const { contractAgreementList } = this.state;
+        const contractAgreement = this.getContractAgreement();
 
-        if (contractAgreementList && contractAgreementList.length > 0) {
-            const appendix = contractAgreementList[0].appendix;
-            if (appendix && appendix.default) {
-                return (
-                    <pre className="ascribe-pre">{appendix.default}</pre>
-                );
-            }
+        if (contractAgreement &&
+            contractAgreement.appendix &&
+            contractAgreement.appendix.default) {
+            return (
+                <div className="ascribe-property contract-appendix-form">
+                    <p><span>{getLangText('Appendix')}</span></p>
+                    <pre className="ascribe-pre">{contractAgreement.appendix.default}</pre>
+                </div>
+            );
         }
     },
 
     getContractCheckbox() {
-        const { name,
-                disabled,
-                style } = this.props;
-        const { contractAgreementList } = this.state;
-        const contractAgreement = this.getContractAgreement(contractAgreementList);
-        const inputCheckboxProps = {
-            name,
-            disabled,
-            style,
-            onChange: this.onChange
-        };
+        const contractAgreement = this.getContractAgreement();
 
         if(contractAgreement) {
             const {
@@ -145,19 +151,27 @@ const InputContractAgreementCheckbox = React.createClass({
                 return (
                     <div className="notification-contract-pdf">
                         <embed
-                            className="loan-form"
+                            className="embed-form"
                             src={contractUrl}
                             alt="pdf"
-                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
                         <a href={contractUrl} target="_blank">
                             <span className="glyphicon glyphicon-download" aria-hidden="true" /> {getLangText('Download contract')}
                         </a>
                     </div>
                 );
             } else {
+                const {
+                    name,
+                    disabled,
+                    style } = this.props;
+
                 return (
                     <InputCheckbox
-                        {...inputCheckboxProps}
+                        name={name}
+                        disabled={disabled}
+                        style={style}
+                        onChange={this.onChange}
                         key="terms_explicitly"
                         defaultChecked={false}>
                         <span>
