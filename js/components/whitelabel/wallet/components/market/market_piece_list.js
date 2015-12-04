@@ -17,7 +17,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
-        customThumbnailPlaceholder: React.PropTypes.element,
+        customThumbnailPlaceholder: React.PropTypes.func,
         location: React.PropTypes.object
     },
 

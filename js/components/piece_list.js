@@ -38,7 +38,7 @@ let PieceList = React.createClass({
         canLoadPieceList: React.PropTypes.bool,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
-        customThumbnailPlaceholder: React.PropTypes.element,
+        customThumbnailPlaceholder: React.PropTypes.func,
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,

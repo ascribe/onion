@@ -21,7 +21,7 @@ let AccordionListItemPiece = React.createClass({
         subsubheading: React.PropTypes.object,
         buttons: React.PropTypes.object,
         badge: React.PropTypes.object,
-        thumbnailPlaceholder: React.PropTypes.element
+        thumbnailPlaceholder: React.PropTypes.func
     },
 
     getDefaultProps() {

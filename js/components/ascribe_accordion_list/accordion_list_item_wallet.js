@@ -31,7 +31,7 @@ let AccordionListItemWallet = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         content: React.PropTypes.object,
-        thumbnailPlaceholder: React.PropTypes.element,
+        thumbnailPlaceholder: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
