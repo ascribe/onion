@@ -1,3 +1,8 @@
+.panel {
+    /* Here we are overriding bootstrap to show the is-focused background color */
+    background-color: transparent;
+}
+
 .ascribe-panel-wrapper {
     border: 1px solid #ddd;
     height: 5em;
