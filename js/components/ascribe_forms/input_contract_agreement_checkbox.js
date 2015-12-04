@@ -16,7 +16,7 @@ const InputContractAgreementCheckbox = React.createClass({
     propTypes: {
         createPublicContractAgreement: React.PropTypes.bool,
         email: React.PropTypes.string,
-        
+
         required: React.PropTypes.bool,
 
         // provided by Property
@@ -69,7 +69,7 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     onStoreChange(state) {
-        const contractAgreement = this.getContractAgreement(state.contractAgreementList);
+       const contractAgreement = this.getContractAgreement(state.contractAgreementList);
         this.props.setExpanded(!!contractAgreement);
 
         state = mergeOptions(state, {
@@ -92,7 +92,7 @@ const InputContractAgreementCheckbox = React.createClass({
                 terms: !contractAgreement || !!contractAgreement.datetime_accepted
             }
         });
-        
+
         this.setState(state);
     },
 
@@ -149,7 +149,9 @@ const InputContractAgreementCheckbox = React.createClass({
 
             if(datetimeAccepted) {
                 return (
-                    <div className="notification-contract-pdf">
+                    <div
+                        className="notification-contract-pdf"
+                        style={{paddingBottom: '1em'}}>
                         <embed
                             className="embed-form"
                             src={contractUrl}
