@@ -38,6 +38,7 @@ let PieceList = React.createClass({
         canLoadPieceList: React.PropTypes.bool,
         redirectTo: React.PropTypes.string,
         customSubmitButton: React.PropTypes.element,
+        customThumbnailPlaceholder: React.PropTypes.element,
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
@@ -250,9 +251,15 @@ let PieceList = React.createClass({
     },
 
     render() {
+        const {
+            accordionListItemType: AccordionListItemType,
+            bulkModalButtonListType: BulkModalButtonListType,
+            customSubmitButton,
+            customThumbnailPlaceholder,
+            filterParams,
+            orderParams } = this.props;
+
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
-        const AccordionListItemType = this.props.accordionListItemType;
-        const BulkModalButtonListType = this.props.bulkModalButtonListType;
 
         const selectedEditions = this.fetchSelectedEditionList();
         const availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
@@ -264,14 +271,14 @@ let PieceList = React.createClass({
                     className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
                     searchQuery={this.state.search}
-                    filterParams={this.props.filterParams}
-                    orderParams={this.props.orderParams}
+                    filterParams={filterParams}
+                    orderParams={orderParams}
                     filterBy={this.state.filterBy}
                     orderBy={this.state.orderBy}
                     applyFilterBy={this.applyFilterBy}
                     applyOrderBy={this.applyOrderBy}>
-                    {this.props.customSubmitButton ?
-                        this.props.customSubmitButton :
+                    {customSubmitButton ?
+                        customSubmitButton :
                         <button className="btn btn-default btn-ascribe-add">
                             <span className="icon-ascribe icon-ascribe-add" />
                         </button>
@@ -293,7 +300,7 @@ let PieceList = React.createClass({
                 </PieceListBulkModal>
                 <PieceListFilterDisplay
                     filterBy={this.state.filterBy}
-                    filterParams={this.props.filterParams}/>
+                    filterParams={filterParams}/>
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
@@ -311,6 +318,7 @@ let PieceList = React.createClass({
                             <AccordionListItemType
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
+                                thumbnailPlaceholder={customThumbnailPlaceholder}
                                 key={i}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"

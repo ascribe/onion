@@ -17,6 +17,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
+        customThumbnailPlaceholder: React.PropTypes.element,
         location: React.PropTypes.object
     },
 
@@ -49,6 +50,7 @@ let MarketPieceList = React.createClass({
     },
 
     render() {
+        const { customThumbnailPlaceholder, location } = this.props;
         const {
             currentUser: { email: userEmail },
             whitelabel: {
@@ -78,8 +80,9 @@ let MarketPieceList = React.createClass({
                 canLoadPieceList={canLoadPieceList}
                 redirectTo="/register_piece?slide_num=0"
                 bulkModalButtonListType={MarketAclButtonList}
+                customThumbnailPlaceholder={customThumbnailPlaceholder}
                 filterParams={filterParams}
-                location={this.props.location} />
+                location={location} />
         );
     }
 });
