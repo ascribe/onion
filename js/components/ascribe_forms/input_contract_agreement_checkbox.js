@@ -124,6 +124,7 @@ const InputContractAgreementCheckbox = React.createClass({
                 disabled,
                 style } = this.props;
         const { contractAgreementList } = this.state;
+        const contractAgreement = this.getContractAgreement(contractAgreementList);
         const inputCheckboxProps = {
             name,
             disabled,
@@ -131,29 +132,24 @@ const InputContractAgreementCheckbox = React.createClass({
             onChange: this.onChange
         };
 
-        if (contractAgreementList && contractAgreementList.length > 0) {
-            const contractAgreement = contractAgreementList[0];
-            const { issuer: contractIssuer, blob: { url_safe: contractUrl } } = contractAgreement.contract;
+        if(contractAgreement) {
+            const {
+                datetime_accepted: datetimeAccepted,
+                issuer: contractIssuer,
+                blob: { url_safe: contractUrl },
+            } = contractAgreement.contract;
 
-            
-            if (contractAgreement.datetime_accepted) {
-                // For `InputCheckbox` we want to override style in this case
-                Object.assign(inputCheckboxProps, { style: { 'display': 'none' } });
-
+            if(datetimeAccepted) {
                 return (
                     <div className="notification-contract-pdf">
                         <embed
                             className="loan-form"
                             src={contractUrl}
                             alt="pdf"
-                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                           pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
                         <a href={contractUrl} target="_blank">
                             <span className="glyphicon glyphicon-download" aria-hidden="true" /> {getLangText('Download contract')}
                         </a>
-                        <InputCheckbox
-                            {...inputCheckboxProps}
-                            key="terms_implicitly"
-                            defaultChecked={true} />
                     </div>
                 );
             } else {
@@ -171,13 +167,6 @@ const InputContractAgreementCheckbox = React.createClass({
                     </InputCheckbox>
                 );
             }
-        } else {
-            return (
-                <InputCheckbox
-                    {...inputCheckboxProps}
-                    key="terms_implicitly"
-                    defaultChecked={true} />
-            );
         }
     },
 

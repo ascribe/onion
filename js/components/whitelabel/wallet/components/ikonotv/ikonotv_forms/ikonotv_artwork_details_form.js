@@ -103,7 +103,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='medium'
                         label={getLangText('Medium')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.medium}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.medium}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.medium}
@@ -112,7 +112,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='size_duration'
                         label={getLangText('Size/Duration')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.size_duration}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.size_duration}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.size_duration}
@@ -121,7 +121,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='copyright'
                         label={getLangText('Copyright')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.copyright}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.copyright}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.copyright}
@@ -130,7 +130,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='courtesy_of'
                         label={getLangText('Courtesy of')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.courtesy_of}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.courtesy_of}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.courtesy_of}
@@ -139,7 +139,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='copyright_of_photography'
                         label={getLangText('Copyright of Photography')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.copyright_of_photography}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.copyright_of_photography}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.copyright_of_photography}
@@ -148,7 +148,7 @@ let IkonotvArtworkDetailsForm = React.createClass({
                     <Property
                         name='additional_details'
                         label={getLangText('Additional Details about the artwork')}
-                        expanded={!this.props.disabled && this.props.piece.extra_data.additional_details}>
+                        expanded={!this.props.disabled || !!this.props.piece.extra_data.additional_details}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={this.props.piece.extra_data.additional_details}
