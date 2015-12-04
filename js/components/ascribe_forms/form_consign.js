@@ -6,9 +6,13 @@ import Button from 'react-bootstrap/lib/Button';
 
 import Form from './form';
 import Property from './property';
+
+import InputContractAgreementCheckbox from './input_contract_agreement_checkbox';
 import InputTextAreaToggable from './input_textarea_toggable';
 
+
 import AscribeSpinner from '../ascribe_spinner';
+
 import AclInformation from '../ascribe_buttons/acl_information';
 
 import { getLangText } from '../../utils/lang_utils.js';
@@ -21,6 +25,7 @@ let ConsignForm = React.createClass({
         email: React.PropTypes.string,
         message: React.PropTypes.string,
         labels: React.PropTypes.object,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
@@ -30,12 +35,34 @@ let ConsignForm = React.createClass({
         };
     },
 
+    getInitialState() {
+        return {
+            email: this.props.email
+        };
+    },
+
     getFormData() {
         return this.props.id;
     },
 
+    handleEmailOnChange(event) {
+        // event.target.value is the submitted email of the consignee
+        this.setState({
+            email: event && event.target && event.target.value || ''
+        });
+    },
+
     render() {
-        const { autoFocusProperty, email, id, handleSuccess, message, labels, url } = this.props;
+        const { email } = this.state;
+        const {
+            autoFocusProperty,
+            createPublicContractAgreement,
+            email: defaultEmail,
+            handleSuccess,
+            id,
+            message,
+            labels,
+            url } = this.props;
 
         return (
             <Form
@@ -64,12 +91,13 @@ let ConsignForm = React.createClass({
                     autoFocus={autoFocusProperty === 'email'}
                     name='consignee'
                     label={labels.email || getLangText('Email')}
-                    editable={!email}
-                    overrideForm={!!email}>
+                    editable={!defaultEmail}
+                    onChange={this.handleEmailOnChange}
+                    overrideForm={!!defaultEmail}>
                     <input
                         type="email"
+                        value={email}
                         placeholder={getLangText('Email of the consignee')}
-                        defaultValue={email}
                         required/>
                 </Property>
                 <Property
@@ -83,6 +111,15 @@ let ConsignForm = React.createClass({
                         defaultValue={message}
                         placeholder={getLangText('Enter a message...')}
                         required />
+                </Property>
+                <Property
+                    name='contract_agreement'
+                    label={getLangText('Consign Contract')}
+                    className="ascribe-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputContractAgreementCheckbox
+                        createPublicContractAgreement={createPublicContractAgreement}
+                        email={email} />
                 </Property>
                 <Property
                     name='password'

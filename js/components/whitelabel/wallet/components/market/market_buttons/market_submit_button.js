@@ -129,7 +129,8 @@ let MarketSubmitButton = React.createClass({
                         handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
                         title={getLangText('Add additional information')}>
                         <MarketAdditionalDataForm
-                            pieceId={solePieceId} />
+                            pieceId={solePieceId}
+                            submitLabel={getLangText('Continue to consignment')} />
                     </ModalWrapper>
 
                     <ModalWrapper

@@ -127,7 +127,7 @@ let EditionActionPanel = React.createClass({
                                     isInline={true}>
                                     <Property
                                         name="bitcoin_id"
-                                        hidden={true}>
+                                        expanded={false}>
                                         <input
                                             type="text"
                                             value={edition.bitcoin_id}
@@ -148,7 +148,7 @@ let EditionActionPanel = React.createClass({
                                     isInline={true}>
                                     <Property
                                         name="bitcoin_id"
-                                        hidden={true}>
+                                        expanded={false}>
                                         <input
                                             type="text"
                                             value={edition.bitcoin_id}

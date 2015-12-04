@@ -8,7 +8,7 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Panel from 'react-bootstrap/lib/Panel';
 
 
-let PropertyCollapsile = React.createClass({
+let PropertyCollapsible = React.createClass({
     propTypes: {
         children: React.PropTypes.arrayOf(React.PropTypes.element),
         checkboxLabel: React.PropTypes.string,
@@ -93,4 +93,4 @@ let PropertyCollapsile = React.createClass({
     }
 });
 
-export default PropertyCollapsile;
+export default PropertyCollapsible;
