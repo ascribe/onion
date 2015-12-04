@@ -21,7 +21,7 @@ import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
 
-let ContractAgreementForm = React.createClass({
+let SendContractAgreementForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func
     },
@@ -55,7 +55,7 @@ let ContractAgreementForm = React.createClass({
     },
 
     handleSubmitSuccess() {
-        let notification = 'Contract agreement send';
+        let notification = 'Contract agreement sent';
         notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
@@ -148,4 +148,4 @@ let ContractAgreementForm = React.createClass({
     }
 });
 
-export default ContractAgreementForm;
+export default SendContractAgreementForm;

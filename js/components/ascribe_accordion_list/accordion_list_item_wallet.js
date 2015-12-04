@@ -31,6 +31,7 @@ let AccordionListItemWallet = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         content: React.PropTypes.object,
+        thumbnailPlaceholder: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -123,32 +124,36 @@ let AccordionListItemWallet = React.createClass({
     },
 
     render() {
+        const { children, className, content, thumbnailPlaceholder } = this.props;
 
         return (
             <AccordionListItemPiece
-                className={this.props.className}
-                piece={this.props.content}
+                className={className}
+                piece={content}
                 subsubheading={
                     <div className="pull-left">
-                        <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
+                        <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
                         {this.getLicences()}
-                    </div>}
+                    </div>
+                }
                 buttons={
                     <div>
                         <AclProxy
-                            aclObject={this.props.content.acl}
+                            aclObject={content.acl}
                             aclName="acl_view_editions">
                             <AccordionListItemEditionWidget
                                 className="pull-right"
-                                piece={this.props.content}
+                                piece={content}
                                 toggleCreateEditionsDialog={this.toggleCreateEditionsDialog}
                                 onPollingSuccess={this.onPollingSuccess}/>
                         </AclProxy>
-                    </div>}
-                    badge={this.getGlyphicon()}>
+                    </div>
+                }
+                badge={this.getGlyphicon()}
+                thumbnailPlaceholder={thumbnailPlaceholder}>
                 {this.getCreateEditionsDialog()}
                 {/* this.props.children is AccordionListItemTableEditions */}
-                {this.props.children}
+                {children}
             </AccordionListItemPiece>
         );
     }

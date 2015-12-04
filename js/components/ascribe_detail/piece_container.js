@@ -50,10 +50,17 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
+        furtherDetailsType: React.PropTypes.func,
         params: React.PropTypes.object
     },
 
     mixins: [History],
+
+    getDefaultProps() {
+        return {
+            furtherDetailsType: FurtherDetails
+        };
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -88,7 +95,7 @@ let PieceContainer = React.createClass({
 
     onChange(state) {
         /*
-        
+
             ATTENTION:
             THIS IS JUST A TEMPORARY USABILITY FIX THAT ESSENTIALLY REMOVES THE LOAN BUTTON
             FROM THE PIECE DETAIL PAGE SO THAT USERS DO NOT CONFUSE A PIECE WITH AN EDITION.
@@ -225,7 +232,8 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        if(this.state.piece && this.state.piece.id) {
+        if (this.state.piece && this.state.piece.id) {
+            let FurtherDetailsType = this.props.furtherDetailsType;
             setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
 
             return (
@@ -286,7 +294,7 @@ let PieceContainer = React.createClass({
                             || Object.keys(this.state.piece.extra_data).length > 0
                             || this.state.piece.other_data.length > 0}
                         defaultExpanded={true}>
-                        <FurtherDetails
+                        <FurtherDetailsType
                             editable={this.state.piece.acl.acl_edit}
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}

@@ -20,7 +20,10 @@ let Piece = React.createClass({
         subheader: React.PropTypes.object,
         buttons: React.PropTypes.object,
         loadPiece: React.PropTypes.func,
-        children: React.PropTypes.object
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ])
     },
 
 

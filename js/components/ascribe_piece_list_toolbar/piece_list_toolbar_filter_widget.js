@@ -28,7 +28,7 @@ let PieceListToolbarFilterWidget = React.createClass({
     },
 
     generateFilterByStatement(param) {
-        let filterBy = this.props.filterBy;
+        const filterBy = Object.assign({}, this.props.filterBy);
 
         if(filterBy) {
             // we need hasOwnProperty since the values are all booleans
@@ -56,13 +56,13 @@ let PieceListToolbarFilterWidget = React.createClass({
      */
     filterBy(param) {
         return () => {
-            let filterBy = this.generateFilterByStatement(param);
+            const filterBy = this.generateFilterByStatement(param);
             this.props.applyFilterBy(filterBy);
         };
     },
 
     isFilterActive() {
-        let trueValuesOnly = Object.keys(this.props.filterBy).filter((acl) => acl);
+        const trueValuesOnly = Object.keys(this.props.filterBy).filter((acl) => acl);
 
         // We're hiding the star in that complicated matter so that,
         // the surrounding button is not resized up on appearance
@@ -74,7 +74,7 @@ let PieceListToolbarFilterWidget = React.createClass({
     },
 
     render() {
-        let filterIcon = (
+        const filterIcon = (
             <span>
                 <span className="ascribe-icon icon-ascribe-filter" aria-hidden="true"></span>
                 <span style={this.isFilterActive()}>*</span>

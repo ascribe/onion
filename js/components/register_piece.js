@@ -44,11 +44,8 @@ let RegisterPiece = React.createClass( {
         return mergeOptions(
             UserStore.getState(),
             WhitelabelStore.getState(),
-            PieceListStore.getState(),
-            {
-                selectedLicense: 0,
-                isFineUploaderActive: false
-            });
+            PieceListStore.getState()
+        );
     },
 
     componentDidMount() {
@@ -66,13 +63,6 @@ let RegisterPiece = React.createClass( {
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleSuccess(response){
@@ -117,7 +107,7 @@ let RegisterPiece = React.createClass( {
                 <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                     <RegisterPieceForm
                         {...this.props}
-                        isFineUploaderActive={this.state.isFineUploaderActive}
+                        isFineUploaderActive={true}
                         handleSuccess={this.handleSuccess}
                         location={this.props.location}>
                         {this.props.children}

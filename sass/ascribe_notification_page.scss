@@ -31,14 +31,9 @@
         margin-top: .5em;
         margin-bottom: 1em;
 
-        .loan-form {
-            margin-top: .5em;
+        &.embed-form {
             height: 45vh;
         }
-    }
-
-    .loan-form {
-        height: 40vh;
     }
 
     .notification-contract-pdf-download {
@@ -69,4 +64,8 @@
         padding-left: 0;
         width: 100%;
     }
+}
+
+.ascribe-property.contract-appendix-form {
+    padding-left: 0;
 }

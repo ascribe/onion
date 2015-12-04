@@ -2,6 +2,8 @@
 
 import { getLangText } from './lang_utils';
 
+import AppConstants from '../constants/application_constants';
+
 /**
  * Get the data ids of the given piece or editions.
  * @param  {boolean} isPiece                   Is the given entities parameter a piece? (False: array of editions)
@@ -68,6 +70,10 @@ export function getAclFormMessage(options) {
         message += getLangText('with you');
     } else {
         throw new Error('Your specified aclName did not match a an acl class.');
+    }
+
+    if (options.additionalMessage) {
+        message += '\n\n' + options.additionalMessage;
     }
 
     if (options.senderName) {

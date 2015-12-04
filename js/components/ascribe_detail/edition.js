@@ -41,11 +41,19 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let Edition = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
+        furtherDetailsType: React.PropTypes.func,
         edition: React.PropTypes.object,
         loadEdition: React.PropTypes.func
     },
 
     mixins: [History],
+
+    getDefaultProps() {
+        return {
+            furtherDetailsType: FurtherDetails
+        };
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -74,6 +82,8 @@ let Edition = React.createClass({
     },
 
     render() {
+        let FurtherDetailsType = this.props.furtherDetailsType;
+
         return (
             <Row>
                 <Col md={6}>
@@ -89,6 +99,7 @@ let Edition = React.createClass({
                         <hr/>
                     </div>
                     <EditionSummary
+                        actionPanelButtonListType={this.props.actionPanelButtonListType}
                         edition={this.props.edition}
                         currentUser={this.state.currentUser}
                         handleSuccess={this.props.loadEdition}/>
@@ -150,7 +161,7 @@ let Edition = React.createClass({
                         show={this.props.edition.acl.acl_edit
                             || Object.keys(this.props.edition.extra_data).length > 0
                             || this.props.edition.other_data.length > 0}>
-                        <FurtherDetails
+                        <FurtherDetailsType
                             editable={this.props.edition.acl.acl_edit}
                             pieceId={this.props.edition.parent}
                             extraData={this.props.edition.extra_data}
@@ -171,6 +182,7 @@ let Edition = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
+        actionPanelButtonListType: React.PropTypes.func,
         edition: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
@@ -183,7 +195,7 @@ let EditionSummary = React.createClass({
     getStatus(){
         let status = null;
         if (this.props.edition.status.length > 0){
-            let statusStr = this.props.edition.status.join().replace(/_/, ' ');
+            let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
             status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
@@ -195,7 +207,7 @@ let EditionSummary = React.createClass({
     },
 
     render() {
-        let { edition, currentUser } = this.props;
+        let { actionPanelButtonListType, edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
                 <EditionDetailProperty
@@ -214,6 +226,7 @@ let EditionSummary = React.createClass({
                     <EditionDetailProperty
                         label={getLangText('ACTIONS')}>
                         <EditionActionPanel
+                            actionPanelButtonListType={actionPanelButtonListType}
                             edition={edition}
                             currentUser={currentUser}
                             handleSuccess={this.handleSuccess} />
