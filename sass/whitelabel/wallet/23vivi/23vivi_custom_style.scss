@@ -331,6 +331,9 @@ $vivi23--highlight-color: #de2600;
     .spinner-inner {
         display: none;
     }
+    .btn-secondary .spinner-circle {
+        border-color: $vivi23--bg-color;
+    }
 
     // video player
     .ascribe-media-player .vjs-default-skin {
