@@ -135,9 +135,11 @@ const InputContractAgreementCheckbox = React.createClass({
         if(contractAgreement) {
             const {
                 datetime_accepted: datetimeAccepted,
-                issuer: contractIssuer,
-                blob: { url_safe: contractUrl },
-            } = contractAgreement.contract;
+                contract: {
+                    issuer: contractIssuer,
+                    blob: { url_safe: contractUrl }
+                }
+            } = contractAgreement;
 
             if(datetimeAccepted) {
                 return (
