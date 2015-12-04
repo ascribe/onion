@@ -37,7 +37,7 @@ let ConsignForm = React.createClass({
 
     getInitialState() {
         return {
-            email: this.props.email
+            email: this.props.email || ''
         };
     },
 
@@ -69,7 +69,7 @@ let ConsignForm = React.createClass({
                 ref='form'
                 url={url}
                 getFormData={this.getFormData}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 buttons={
                     <div className="modal-footer">
                         <p className="pull-right">

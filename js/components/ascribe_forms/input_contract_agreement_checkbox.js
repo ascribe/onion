@@ -53,12 +53,10 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     componentWillReceiveProps({ email: nextEmail }) {
-        const { contractAgreementList } = this.state;
-
         if (this.props.email !== nextEmail) {
             if (isEmail(nextEmail)) {
                 this.getContractAgreementsOrCreatePublic(nextEmail);
-            } else if (contractAgreementList && contractAgreementList.length > 0) {
+            } else if (this.getContractAgreement()) {
                 ContractAgreementListActions.flushContractAgreementList();
             }
         }
@@ -69,7 +67,9 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     onStoreChange(state) {
-       const contractAgreement = this.getContractAgreement(state.contractAgreementList);
+        const contractAgreement = this.getContractAgreement(state.contractAgreementList);
+
+        // If there is no contract available, hide this `Property` from the user
         this.props.setExpanded(!!contractAgreement);
 
         state = mergeOptions(state, {
@@ -97,16 +97,21 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     onChange(event) {
+        // Sync the value between our `InputCheckbox` and this component's `terms`
+        // so the parent `Property` is able to get the correct value of this component
+        // when the `Form` queries it.
         this.setState({
             value: React.addons.update(this.state.value, {
                 terms: { $set: event.target.value }
             })
         });
+
+        // Propagate change events from the checkbox up to the parent `Property`
         this.props.onChange(event);
     },
 
     getContractAgreement(contractAgreementList = this.state.contractAgreementList) {
-        if (contractAgreementList && contractAgreementList.length > 0) {
+        if (contractAgreementList && contractAgreementList.length) {
             return contractAgreementList[0];
         }
     },

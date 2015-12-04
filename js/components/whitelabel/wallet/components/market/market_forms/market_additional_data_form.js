@@ -55,7 +55,7 @@ let MarketAdditionalDataForm = React.createClass({
             {
                 // Allow the form to be submitted if there's already an additional image uploaded
                 isUploadReady: this.isUploadReadyOnChange(pieceStore.piece),
-                forceUpdateKey: 0,
+                forceUpdateKey: 0
             });
     },
 
@@ -72,9 +72,7 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     onChange(state) {
-        this.setState(state);
-
-        this.setState({
+        Object.assign({}, state, {
             // Allow the form to be submitted if the updated piece already has an additional image uploaded
             isUploadReady: this.isUploadReadyOnChange(state.piece),
 
@@ -87,6 +85,8 @@ let MarketAdditionalDataForm = React.createClass({
              */
             forceUpdateKey: this.state.forceUpdateKey + 1
         });
+
+        this.setState(state);
     },
 
     getFormData() {
@@ -134,7 +134,9 @@ let MarketAdditionalDataForm = React.createClass({
     render() {
         const { editable, isInline, handleSuccess, showHeading, showNotification, submitLabel } = this.props;
         const { piece } = this.state;
-        let buttons, spinner, heading;
+        let buttons, heading;
+
+        let spinner = <AscribeSpinner color='dark-blue' size='lg' />;
 
         if (!isInline) {
             buttons = (
@@ -148,7 +150,9 @@ let MarketAdditionalDataForm = React.createClass({
 
             spinner = (
                 <div className="modal-footer">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    <p className="pull-right">
+                        {spinner}
+                    </p>
                 </div>
             );
 
@@ -228,7 +232,7 @@ let MarketAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <AscribeSpinner color='dark-blue' size='lg' />
+                    {spinner}
                 </div>
             );
         }

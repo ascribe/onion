@@ -210,7 +210,7 @@ let LoanForm = React.createClass({
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        required={showPassword ? 'required' : ''}/>
+                        required={showPassword}/>
                 </Property>
                 {children}
             </Form>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-let accordionListItemThumbnailPlaceholder = React.createClass({
+let AccordionListItemThumbnailPlaceholder = React.createClass({
     render() {
         return (
             <span className="ascribe-logo-circle">
@@ -12,4 +12,4 @@ let accordionListItemThumbnailPlaceholder = React.createClass({
     }
 });
 
-export default accordionListItemThumbnailPlaceholder;
+export default AccordionListItemThumbnailPlaceholder;

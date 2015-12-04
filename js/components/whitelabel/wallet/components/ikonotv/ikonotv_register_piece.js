@@ -199,7 +199,7 @@ let IkonotvRegisterPiece = React.createClass({
 
     getSlideLoan() {
         if (this.canSubmit()) {
-            const {piece, whitelabel} = this.state;
+            const { piece, whitelabel } = this.state;
             let today = new Moment();
             let endDate = new Moment();
             endDate.add(2, 'years');
