@@ -3,6 +3,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import MarketConsignError from '../market_consign_error';
+
 import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
@@ -12,6 +14,7 @@ import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import AclProxy from '../../../../../acl_proxy';
 
+import EditionListActions from '../../../../../../actions/edition_list_actions';
 import PieceActions from '../../../../../../actions/piece_actions';
 import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../../stores/whitelabel_store';
@@ -89,6 +92,11 @@ let MarketSubmitButton = React.createClass({
         this.refs.consignModal.show();
     },
 
+    handleConsignError() {
+        // Unselect failed editions
+        EditionListActions.clearAllEditionSelections();
+    },
+
     render() {
         const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
         const { whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.state;
@@ -120,27 +128,45 @@ let MarketSubmitButton = React.createClass({
         );
 
         if (solePieceId && !canSubmit) {
-            return (
-                <AclProxy
-                    aclObject={availableAcls}
-                    aclName='acl_consign'>
+            if (availableAcls.acl_edit) {
+                return (
+                    <AclProxy
+                        aclObject={availableAcls}
+                        aclName='acl_consign'>
+                        <ModalWrapper
+                            trigger={triggerButton}
+                            handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
+                            title={getLangText('Add additional information')}>
+                            <MarketAdditionalDataForm
+                                pieceId={solePieceId}
+                                submitLabel={getLangText('Continue to consignment')} />
+                        </ModalWrapper>
+
+                        <ModalWrapper
+                            ref="consignModal"
+                            handleSuccess={handleSuccess}
+                            title={getLangText('Consign artwork')}>
+                            {consignForm}
+                        </ModalWrapper>
+                    </AclProxy>
+                );
+            } else {
+                // Oops, well this is a difficult situation...
+                // The user's likely already transferred another edition from the piece so
+                // they can't update the missing fields that are necessary for consignment
+                // to marketplaces.
+                // Let's show an error in response to explain the problem and let them
+                // contact the whitelabel themselves.
+                return (
                     <ModalWrapper
                         trigger={triggerButton}
-                        handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
-                        title={getLangText('Add additional information')}>
-                        <MarketAdditionalDataForm
-                            pieceId={solePieceId}
-                            submitLabel={getLangText('Continue to consignment')} />
+                        handleSuccess={this.handleConsignError}
+                        title={getLangText("Oops, we can't consign this piece to %s", whitelabelName)}>
+                        <MarketConsignError
+                            whitelabelName={whitelabelName} />
                     </ModalWrapper>
-
-                    <ModalWrapper
-                        ref="consignModal"
-                        handleSuccess={handleSuccess}
-                        title={getLangText('Consign artwork')}>
-                        {consignForm}
-                    </ModalWrapper>
-                </AclProxy>
-            );
+                );
+            }
         } else {
             return (
                 <AclProxy
