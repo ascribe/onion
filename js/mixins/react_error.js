@@ -4,7 +4,8 @@ import invariant from 'invariant';
 
 const ReactError = {
     throws(err) {
-        invariant(err.handler, 'You need to specify a `handler` for this error');
+        invariant(err.handler, 'Error thrown to ReactError did not have a `handler` function');
+        console.logGlobal('Error thrown to ReactError did not have a `handler` function');
         err.handler(this, err);
     }
 };

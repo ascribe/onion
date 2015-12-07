@@ -10,7 +10,12 @@ export class ResourceNotFoundError extends Error {
         super(message);
         this.name = this.constructor.name;
         this.message = message;
-        Error.captureStackTrace(this, this.constructor.name);
+
+        // `captureStackTrace` might not be available in IE:
+        // - http://stackoverflow.com/a/8460753/1263876
+        if(Error.captureStackTrace) {
+            Error.captureStackTrace(this, this.constructor.name);
+        }
     }
 
     handler(component, err) {
