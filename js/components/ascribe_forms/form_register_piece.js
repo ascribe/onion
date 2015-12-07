@@ -85,6 +85,11 @@ let RegisterPieceForm = React.createClass({
         if (digitalWorkFile &&
             (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
             this.refs.form.refs.thumbnail_file.reset();
+
+            // Manually we need to set the ready state for `thumbnailKeyReady` back
+            // to `true` as `ReactS3Fineuploader`'s `reset` method triggers
+            // `setIsUploadReady` with `false`
+            this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
             this.setState({ digitalWorkFile: null });
         } else {
             this.setState({ digitalWorkFile });
