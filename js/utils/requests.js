@@ -30,6 +30,15 @@ class Requests {
                             reject(error);
                         } else if(body && body.detail) {
                             reject(new Error(body.detail));
+                        } else if(!body.success) {
+                            let error = new Error('Client Request Error');
+                            error.json = {
+                                status: response.status,
+                                statusText: response.statusText,
+                                type: response.type,
+                                url: response.url
+                            };
+                            reject(error);
                         } else {
                             resolve(body);
                         }

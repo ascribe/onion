@@ -4,6 +4,9 @@ import React from 'react';
 import { History } from 'react-router';
 import Moment from 'moment';
 
+import ReactError from '../../mixins/react_error';
+import { ResourceNotFoundError } from '../../models/errors';
+
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
@@ -54,7 +57,7 @@ let PieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    mixins: [History, ReactError],
 
     getDefaultProps() {
         return {
@@ -76,15 +79,22 @@ let PieceContainer = React.createClass({
     componentDidMount() {
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
 
         // Every time we enter the piece detail page, just reset the piece
         // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-
         this.loadPiece();
+        UserActions.fetchCurrentUser();
+    },
+
+    componentDidUpdate() {
+        const { pieceError } = this.state;
+
+        if(pieceError && pieceError.status === 404) {
+            this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
+        }
     },
 
     componentWillUnmount() {
