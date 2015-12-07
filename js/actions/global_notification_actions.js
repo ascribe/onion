@@ -2,13 +2,15 @@
 
 import { alt } from '../alt';
 
-
 class GlobalNotificationActions {
     constructor() {
         this.generateActions(
             'appendGlobalNotification',
+            'showNextGlobalNotification',
             'shiftGlobalNotification',
-            'emulateEmptyStore'
+            'cooldownGlobalNotifications',
+            'pauseGlobalNotifications',
+            'resumeGlobalNotifications'
         );
     }
 }
