@@ -59,12 +59,7 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     display: none;
 }
 
-<<<<<<< HEAD
-
 .client--cyland .icon-ascribe-search {
-=======
-.client--cyland .icon-ascribe-search{
->>>>>>> master
     color: $cyland--button-color;
 }
 
@@ -147,9 +142,7 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     }
 }
 
-<<<<<<< HEAD
-// disabled buttons
-.client--cyland {
+.client--ikonotv {
     .btn-default.disabled,
     .btn-default.disabled:hover,
     .btn-default.disabled:focus,
@@ -170,7 +163,9 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     fieldset[disabled] .btn-default.active {
         background-color: darken($cyland--button-color, 20%);
         border-color: darken($cyland--button-color, 20%);
-=======
+    }
+}
+
 // landing page
 .client--cyland {
     .route--landing {
@@ -186,7 +181,6 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
             font-weight: normal;
             text-align: center;
         }
->>>>>>> master
     }
 }
 
@@ -225,7 +219,6 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 .client--cyland .acl-information-dropdown-list .title {
     color: $cyland--button-color;
 }
-<<<<<<< HEAD
 
 .client--cyland .action-file.icon-ascribe-ok,
 .client--cyland .action-file.icon-ascribe-ok:hover {
@@ -242,5 +235,3 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 .client--cyland  .upload-button-wrapper > span {
     color: $cyland--button-color;
 }
-=======
->>>>>>> master
