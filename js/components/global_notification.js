@@ -59,19 +59,22 @@ let GlobalNotification = React.createClass({
             notificationsPaused,
             containerWidth } = this.state;
 
-        if (notification && !notificationsPaused) {
-            const notificationClasses = [];
-            let textClass;
+        const notificationClasses = [];
 
-            if (this.state.containerWidth > 768) {
-                notificationClasses.push('ascribe-global-notification-bubble');
-                notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-bubble-on'
-                                                                       : 'ascribe-global-notification-bubble-off');
-            } else {
-                notificationClasses.push('ascribe-global-notification');
-                notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-on'
-                                                                       : 'ascribe-global-notification-off');
-            }
+        if (this.state.containerWidth > 768) {
+            notificationClasses.push('ascribe-global-notification-bubble');
+            notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-bubble-on'
+                                                                   : 'ascribe-global-notification-bubble-off');
+        } else {
+            notificationClasses.push('ascribe-global-notification');
+            notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-on'
+                                                                   : 'ascribe-global-notification-off');
+        }
+
+        let textClass;
+        let message;
+        if (notification && !notificationsPaused) {
+            message = notification.message;
 
             switch(notification.type) {
                 case 'success':
@@ -83,13 +86,13 @@ let GlobalNotification = React.createClass({
                 default:
                     console.warn('Could not find a matching notification type in global_notification.js');
             }
-
-            return (
-                <div className={classNames(...notificationClasses)}>
-                    <div className={textClass}>{notification.message}</div>
-                </div>
-            );
         }
+
+        return (
+            <div className={classNames(...notificationClasses)}>
+                <div className={textClass}>{message}</div>
+            </div>
+        );
     },
 
     render() {
