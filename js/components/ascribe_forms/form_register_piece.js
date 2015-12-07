@@ -202,7 +202,6 @@ let RegisterPieceForm = React.createClass({
                             allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                         }}
                         setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
-                        location={location}
                         fileClassToUpload={{
                             singular: getLangText('Select representative image'),
                             plural: getLangText('Select representative images')
