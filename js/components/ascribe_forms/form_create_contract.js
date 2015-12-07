@@ -51,9 +51,9 @@ let CreateContractForm = React.createClass({
         this.refs.form.reset();
     },
 
-    submitFileName(fileName) {
+    submitFile({ originalName }) {
         this.setState({
-            contractName: fileName
+            contractName: originalName
         });
 
         this.refs.form.submit();
@@ -69,7 +69,7 @@ let CreateContractForm = React.createClass({
                     name="blob"
                     label={getLangText('Contract file (*.pdf only, max. 50MB per contract)')}>
                     <InputFineUploader
-                        submitFileName={this.submitFileName}
+                        submitFile={this.submitFile}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'contract'

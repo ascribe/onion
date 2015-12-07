@@ -16,7 +16,6 @@ import { getLangText } from '../../utils/lang_utils';
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
         label: React.PropTypes.string,
-        uploadStarted: React.PropTypes.func,
         pieceId: React.PropTypes.number,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
@@ -50,7 +49,6 @@ let FurtherDetailsFileuploader = React.createClass({
                 name="other_data_key"
                 label={this.props.label}>
                 <ReactS3FineUploader
-                    uploadStarted={this.props.uploadStarted}
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'otherdata',

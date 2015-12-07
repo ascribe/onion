@@ -248,7 +248,6 @@ const Property = React.createClass({
         // if the component is actually being shown (!== 'expanded === false')
         if((this.state.expanded && this.props.checkboxLabel) || !this.props.checkboxLabel) {
             return ReactAddons.Children.map(this.props.children, (child) => {
-
                 // Since refs will be overriden by this functions return statement,
                 // we still want to be able to define refs for nested `Form` or `Property`
                 // children, which is why we're upfront simply invoking the callback-ref-
@@ -307,7 +306,6 @@ const Property = React.createClass({
 
     render() {
         let footer = null;
-        let style = Object.assign({}, this.props.style);
 
         if(this.props.footer){
             footer = (
@@ -317,18 +315,11 @@ const Property = React.createClass({
             );
         }
 
-        if (!this.state.expanded) {
-            style.paddingBottom = 0;
-        }
-        if (!this.props.editable) {
-            style.cursor = 'not-allowed';
-        }
-
         return (
             <div
                 className={'ascribe-property-wrapper ' + this.getClassName()}
                 onClick={this.handleFocus}
-                style={style}>
+                style={this.props.style}>
                 {this.getCheckbox()}
                 <Panel
                     collapsible
@@ -336,7 +327,7 @@ const Property = React.createClass({
                     className="bs-custom-panel">
                     <div className={'ascribe-property ' + this.props.className}>
                         {this.getLabelAndErrors()}
-                        {this.renderChildren(style)}
+                        {this.renderChildren(this.props.style)}
                         {footer}
                     </div>
                 </Panel>

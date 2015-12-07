@@ -59,37 +59,12 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     display: none;
 }
 
-.client--cyland .icon-ascribe-search{
+.client--cyland .icon-ascribe-search {
     color: $cyland--button-color;
 }
 
-.client--cyland .ascribe-piece-list-toolbar .btn-ascribe-add{
+.client--cyland .ascribe-piece-list-toolbar .btn-ascribe-add {
     display: none;
-}
-
-// disabled buttons
-.client--cyland {
-    .btn-default.disabled,
-    .btn-default.disabled:hover,
-    .btn-default.disabled:focus,
-    .btn-default.disabled.focus,
-    .btn-default.disabled:active,
-    .btn-default.disabled.active,
-    .btn-default[disabled],
-    .btn-default[disabled]:hover,
-    .btn-default[disabled]:focus,
-    .btn-default[disabled].focus,
-    .btn-default[disabled]:active,
-    .btn-default[disabled].active,
-    fieldset[disabled] .btn-default,
-    fieldset[disabled] .btn-default:hover,
-    fieldset[disabled] .btn-default:focus,
-    fieldset[disabled] .btn-default.focus,
-    fieldset[disabled] .btn-default:active,
-    fieldset[disabled] .btn-default.active {
-        background-color: darken($cyland--button-color, 20%);
-        border-color: darken($cyland--button-color, 20%);
-    }
 }
 
 // buttons!
@@ -128,6 +103,26 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
         }
     }
 
+    .btn-secondary {
+        background-color: white;
+        border-color: $cyland--button-color;
+        color: $cyland--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $cyland--button-color;
+            border-color: $cyland--button-color;
+            color: white;
+        }
+    }
+
     .open > .btn-default.dropdown-toggle:hover,
     .open > .btn-default.dropdown-toggle:focus,
     .open > .btn-default.dropdown-toggle.focus,
@@ -144,6 +139,30 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     .pager li.disabled > span {
         background-color: $cyland--button-color !important;
         border-color: $cyland--button-color;
+    }
+}
+
+.client--ikonotv {
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: darken($cyland--button-color, 20%);
+        border-color: darken($cyland--button-color, 20%);
     }
 }
 
@@ -198,5 +217,21 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 }
 
 .client--cyland .acl-information-dropdown-list .title {
+    color: $cyland--button-color;
+}
+
+.client--cyland .action-file.icon-ascribe-ok,
+.client--cyland .action-file.icon-ascribe-ok:hover {
+    color: $cyland--nav-fg-prim-color;
+}
+
+.client--cyland .ascribe-progress-bar span {
+    text-shadow: -1px 0 $cyland--nav-fg-prim-color,
+                 0 1px $cyland--nav-fg-prim-color,
+                 1px 0 $cyland--nav-fg-prim-color,
+                 0 -1px $cyland--nav-fg-prim-color;
+}
+
+.client--cyland  .upload-button-wrapper > span {
     color: $cyland--button-color;
 }

@@ -208,3 +208,19 @@ $cc--button-color: $cc--nav-fg-prim-color;
 .client--cc .acl-information-dropdown-list .title {
     color: $cc--button-color;
 }
+
+.client--cc .action-file.icon-ascribe-ok,
+.client--cc .action-file.icon-ascribe-ok:hover {
+    color: $cc--button-color;
+}
+
+.client--cc .ascribe-progress-bar span {
+    text-shadow: -1px 0 $cc--button-color,
+                 0 1px $cc--button-color,
+                 1px 0 $cc--button-color,
+                 0 -1px $cc--button-color;
+}
+
+.client--cc  .upload-button-wrapper > span {
+    color: $cc--button-color;
+}

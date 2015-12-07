@@ -1,250 +1,78 @@
+/*
+    These glyphs are generated using: https://icomoon.io
+    Even though it seems radically complicated, check out the site,
+    its fairly straight forward.
+
+    If someone wants you to add a new glyph go to the site,
+    drop in the regular ascribe-logo font and select all icons.
+    Then also add the new glyph, name and address it correctly and download
+    the font again.
+
+    Once you replace all the fonts they gave you, you're done.
+ */
+
 @font-face {
-  font-family: 'ascribe';
-  src: url('#{$BASE_URL}static/fonts/ascribe.eot?-oi6ttk');
-  src: url('#{$BASE_URL}static/fonts/ascribe.eot?#iefix-oi6ttk') format('embedded-opentype'),
-  url('#{$BASE_URL}static/fonts/ascribe.woff?-oi6ttk') format('woff'),
-  url('#{$BASE_URL}static/fonts/ascribe.ttf?-oi6ttk') format('truetype'),
-  url('#{$BASE_URL}static/fonts/ascribe.svg?-oi6ttk#ascribe') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ascribe-font';
+    src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae');
+    src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae#iefix') format('embedded-opentype'),
+      url('#{$BASE_URL}static/fonts/ascribe-logo.ttf?q6qoae') format('truetype'),
+      url('#{$BASE_URL}static/fonts/ascribe-logo.woff?q6qoae') format('woff'),
+      url('#{$BASE_URL}static/fonts/ascribe-logo.svg?q6qoae#ascribe-logo') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 [class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-	font-family: 'ascribe-logo';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
+    font-family: 'ascribe-font';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-@font-face {
-	font-family: 'ascribe-logo';
-	src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae');
-	src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae#iefix') format('embedded-opentype'),
-		url('#{$BASE_URL}static/fonts/ascribe-logo.ttf?q6qoae') format('truetype'),
-		url('#{$BASE_URL}static/fonts/ascribe-logo.woff?q6qoae') format('woff'),
-		url('#{$BASE_URL}static/fonts/ascribe-logo.svg?q6qoae#ascribe-logo') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-[class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-	font-family: 'ascribe-logo';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-ascribe-add:before {
-	content: "\e800";
+    content: "\e800";
 }
 .icon-ascribe-sort:before {
-	content: "\e801";
+    content: "\e801";
 }
 .icon-ascribe-search:before {
-	content: "\e802";
+    content: "\e802";
 }
 .icon-ascribe-filter:before {
-	content: "\e803";
+    content: "\e803";
 }
 .icon-ascribe-add-white:before {
-	content: "\e804";
+    content: "\e804";
 }
 .icon-ascribe-add-blue .path1:before {
-	content: "\e805";
-	color: rgb(0, 60, 106);
+    content: "\e805";
+    color: rgb(0, 60, 106);
 }
 .icon-ascribe-add-blue .path2:before {
-	content: "\e806";
-	margin-left: -1em;
-	color: rgb(255, 255, 255);
+    content: "\e806";
+    margin-left: -1em;
+    color: rgb(255, 255, 255);
 }
 .icon-ascribe-icon:before {
-	content: "\e807";
+    content: "\e807";
 }
 .icon-ascribe-logo:before {
-	content: "\e808";
+    content: "\e808";
 }
 
-
-
-.glyph-ascribe-logo-spool:before {
-  content: "\e600";
-}
-
-.glyph-ascribe-spool:before {
-  content: "\e601";
-}
-
-.glyph-ascribe-logo-spool-chunked:before {
-  content: "\e602";
-}
-
-.glyph-ascribe-spool-chunked:before {
-  content: "\e603";
-}
-
-.glyph-ascribe-home:before {
-  content: "\e900";
-}
-
-.glyph-ascribe-home2:before {
-  content: "\e901";
-}
-
-.glyph-ascribe-home3:before {
-  content: "\e902";
-}
-
-.glyph-ascribe-pencil:before {
-  content: "\e905";
-}
-
-.glyph-ascribe-pencil2:before {
-  content: "\e906";
-}
-
-.glyph-ascribe-quill:before {
-  content: "\e907";
-}
-
-.glyph-ascribe-image:before {
-  content: "\e90d";
-}
-
-.glyph-ascribe-camera:before {
-  content: "\e90f";
-}
-
-.glyph-ascribe-music:before {
-  content: "\e911";
-}
-
-.glyph-ascribe-play:before {
-  content: "\e912";
-}
-
-.glyph-ascribe-film:before {
-  content: "\e913";
-}
-
-.glyph-ascribe-credit-card:before {
-  content: "\e93f";
-}
-
-.glyph-ascribe-pushpin:before {
-  content: "\e946";
-}
-
-.glyph-ascribe-undo2:before {
-  content: "\e967";
-}
-
-.glyph-ascribe-redo2:before {
-  content: "\e968";
-}
-
-.glyph-ascribe-enlarge:before {
-  content: "\e989";
-}
-
-.glyph-ascribe-shrink:before {
-  content: "\e98a";
-}
-
-.glyph-ascribe-enlarge2:before {
-  content: "\e98b";
-}
-
-.glyph-ascribe-shrink2:before {
-  content: "\e98c";
-}
-
-.glyph-ascribe-share:before {
-  content: "\ea7d";
-}
-
-.glyph-ascribe-new-tab:before {
-  content: "\ea7e";
-}
-
-.glyph-ascribe-share2:before {
-  content: "\ea82";
-}
-
-.glyph-ascribe-google:before {
-  content: "\ea87";
-}
-
-.glyph-ascribe-google-plus:before {
-  content: "\ea88";
-}
-
-.glyph-ascribe-google-plus2:before {
-  content: "\ea89";
-}
-
-.glyph-ascribe-facebook:before {
-  content: "\ea8c";
-}
-
-.glyph-ascribe-facebook2:before {
-  content: "\ea8d";
-}
-
-.glyph-ascribe-twitter:before {
-  content: "\ea91";
-}
-
-.glyph-ascribe-twitter2:before {
-  content: "\ea92";
-}
-
-.glyph-ascribe-youtube3:before {
-  content: "\ea99";
-}
-
-.glyph-ascribe-dropbox:before {
-  content: "\eaaf";
-}
-
-.glyph-ascribe-file-pdf:before {
-  content: "\eada";
-}
-
-.glyph-ascribe-chrome:before {
-  content: "\eae5";
-}
-
-.glyph-ascribe-firefox:before {
-  content: "\eae6";
-}
-
-.glyph-ascribe-IE:before {
-  content: "\eae7";
-}
-
-.glyph-ascribe-opera:before {
-  content: "\eae8";
-}
-
-.glyph-ascribe-safari:before {
-  content: "\eae9";
+.icon-ascribe-ok:before {
+    content: "\e809";
+    font-size: .7em;
 }
 
 .btn-glyph-ascribe {
-  font-size: 18px;
-  padding: 4px 12px 0 10px
+    font-size: 18px;
+    padding: 4px 12px 0 10px
 }

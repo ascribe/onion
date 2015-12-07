@@ -89,6 +89,10 @@ $ascribe-red-error: rgb(169, 68, 66);
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
+    > .file-drag-and-drop {
+        margin-top: .5em;
+    }
+
     > p {
         height: 20px;
         margin-bottom: 0;
@@ -166,7 +170,7 @@ $ascribe-red-error: rgb(169, 68, 66);
 .ascribe-property-collapsible-toggle {
     border-top: 1px solid rgba(0, 0, 0, .05);
     display: inline-block;
-    padding: .5em 1.5em;
+    padding: .75em 0 .75em 1.5em;
     text-align: left;
     width: 100%;
 }
