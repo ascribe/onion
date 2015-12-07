@@ -12,7 +12,7 @@ let ErrorNotFoundPage = React.createClass({
 
     getDefaultProps() {
         return {
-            message: getLangText('Ups, the page you are looking for does not exist.')
+            message: getLangText('Oops, the page you are looking for does not exist.')
         };
     },
 
