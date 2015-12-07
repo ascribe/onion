@@ -115,7 +115,6 @@ let MarketRegisterPiece = React.createClass({
 
     render() {
         const {
-            isFineUploaderActive,
             step,
             whitelabel: {
                 name: whitelabelName = 'Market'
@@ -141,6 +140,7 @@ let MarketRegisterPiece = React.createClass({
                                 headerMessage={getLangText('Consign to %s', whitelabelName)}
                                 submitMessage={getLangText('Proceed to additional details')}
                                 isFineUploaderActive={true}
+                                enableSeparateThumbnail={false}
                                 handleSuccess={this.handleRegisterSuccess}
                                 location={this.props.location}>
                                 <Property

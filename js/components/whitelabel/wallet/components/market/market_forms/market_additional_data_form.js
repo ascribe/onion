@@ -119,12 +119,6 @@ let MarketAdditionalDataForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    uploadStarted() {
-        this.setState({
-            isUploadReady: false
-        });
-    },
-
     setIsUploadReady(isReady) {
         this.setState({
             isUploadReady: isReady
@@ -180,7 +174,6 @@ let MarketAdditionalDataForm = React.createClass({
                     {heading}
                     <FurtherDetailsFileuploader
                         label={getLangText('Marketplace Thumbnail Image')}
-                        uploadStarted={this.uploadStarted}
                         submitFile={function () {}}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
