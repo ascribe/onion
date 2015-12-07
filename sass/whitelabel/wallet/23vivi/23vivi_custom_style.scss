@@ -214,6 +214,7 @@ $vivi23--highlight-color: #de2600;
 
     .btn-secondary {
         border-color: $vivi23--button-default-color;
+        color: $vivi23--button-default-color;
 
         &:hover,
         &:active,
@@ -226,6 +227,7 @@ $vivi23--highlight-color: #de2600;
         &.active.focus {
             background-color: $vivi23--button-default-color;
             border-color: $vivi23--button-default-color;
+            color: $vivi23--bg-color;
         }
     }
 
@@ -322,6 +324,18 @@ $vivi23--highlight-color: #de2600;
     // uploader progress
     .ascribe-progress-bar > .progress-bar {
         background-color: lighten($vivi23--fg-color, 20%);
+    }
+
+    .ascribe-progress-bar span {
+        text-shadow: -1px 0 lighten($vivi23--fg-color, 20%),
+                     0 1px lighten($vivi23--fg-color, 20%),
+                     1px 0 lighten($vivi23--fg-color, 20%),
+                     0 -1px lighten($vivi23--fg-color, 20%);
+    }
+
+    .action-file.icon-ascribe-ok,
+    .action-file.icon-ascribe-ok:hover {
+        color: lighten($vivi23--fg-color, 20%);
     }
 
     // spinner

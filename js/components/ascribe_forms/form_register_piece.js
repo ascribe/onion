@@ -28,6 +28,7 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
+        enableSeparateThumbnail: React.PropTypes.bool,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
@@ -42,7 +43,8 @@ let RegisterPieceForm = React.createClass({
         return {
             headerMessage: getLangText('Register your work'),
             submitMessage: getLangText('Register work'),
-            enableLocalHashing: true
+            enableLocalHashing: true,
+            enableSeparateThumbnail: true
         };
     },
 
@@ -108,9 +110,10 @@ let RegisterPieceForm = React.createClass({
     },
 
     isThumbnailDialogExpanded() {
+        const { enableSeparateThumbnail } = this.props;
         const { digitalWorkFile } = this.state;
 
-        if(digitalWorkFile) {
+        if(digitalWorkFile && enableSeparateThumbnail) {
             const { type: mimeType } = digitalWorkFile;
             const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
                                                                        : 'unknown';
