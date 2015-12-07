@@ -114,7 +114,12 @@ const constants = {
     },
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
-    }
+    },
+
+    'errorMessagesToIgnore': [
+        'Authentication credentials were not provided.',
+        'Informations d\'authentification non fournies.'
+    ]
 };
 
 export default constants;
