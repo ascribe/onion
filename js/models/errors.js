@@ -19,9 +19,7 @@ export class ResourceNotFoundError extends Error {
     }
 
     handler(component, err) {
-        const { displayName } = component.constructor;
-        const monkeyPatchedKey = typeof displayName === 'string' ? `_${displayName}MonkeyPatched`
-                                                                 : '_monkeyPatched';
+        const monkeyPatchedKey = `_${this.name}MonkeyPatched`;
 
         if(!component.state[monkeyPatchedKey]) {
             component.render = () => <ErrorNotFoundPage message={err.message} />;
