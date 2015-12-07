@@ -86,7 +86,7 @@ let PieceContainer = React.createClass({
         const { pieceError } = this.state;
 
         if(pieceError && pieceError.status === 404) {
-            this.throws(new ResourceNotFoundError(getLangText('Ups, the piece you\'re looking for doesn\'t exist.')));
+            this.throws(new ResourceNotFoundError(getLangText('Oops, the piece you\'re looking for doesn\'t exist.')));
         }
     },
 

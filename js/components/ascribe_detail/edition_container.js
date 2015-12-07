@@ -55,7 +55,7 @@ let EditionContainer = React.createClass({
         const { editionError } = this.state;
 
         if(editionError && editionError.status === 404) {
-            this.throws(new ResourceNotFoundError(getLangText('Ups, the edition you\'re looking for doesn\'t exist.')));
+            this.throws(new ResourceNotFoundError(getLangText('Oops, the edition you\'re looking for doesn\'t exist.')));
         }
     },
 

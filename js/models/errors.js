@@ -14,10 +14,14 @@ export class ResourceNotFoundError extends Error {
     }
 
     handler(component, err) {
-        if(!component.state._monkeyPatched) {
+        const { displayName } = component.constructor;
+        const monkeyPatchedKey = typeof displayName === 'string' ? `_${displayName}MonkeyPatched`
+                                                                 : '_monkeyPatched';
+
+        if(!component.state[monkeyPatchedKey]) {
             component.render = () => <ErrorNotFoundPage message={err.message} />;
             component.setState({
-                _monkeyPatched: true
+                [monkeyPatchedKey]: true
             });
         }
     }
