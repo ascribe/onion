@@ -203,7 +203,12 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser && currentUser.email}>
+                    show={currentUser && currentUser.email && Object.keys(piece.acl).length > 1}>
+                    {/*
+                        `acl_view` is always available in `edition.acl`, therefore if it has
+                        no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
+                        `AclInformation` would show up
+                    */}
                     <DetailProperty label={getLangText('ACTIONS')}>
                         <AclButtonList
                             className="ascribe-button-list"
