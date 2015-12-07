@@ -10,7 +10,7 @@ let ListRequestActions = React.createClass({
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func.isRequired,
         notifications: React.PropTypes.array.isRequired
     },

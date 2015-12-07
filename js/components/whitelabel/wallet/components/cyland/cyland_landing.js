@@ -57,9 +57,9 @@ let CylandLanding = React.createClass({
         setDocumentTitle('CYLAND MediaArtLab');
 
         return (
-            <div className="container ascribe-form-wrapper">
+            <div className="container ascribe-form-wrapper cyland-landing">
                 <div className="row">
-                    <div className="col-xs-12 wp-landing-wrapper">
+                    <div className="col-xs-12">
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
                             <img src={this.state.whitelabel.logo} width="400px"/>
                             <div style={{marginTop: '1em'}}>

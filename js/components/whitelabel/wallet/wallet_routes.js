@@ -16,6 +16,8 @@ import SettingsContainer from '../../../components/ascribe_settings/settings_con
 import ContractSettings from '../../../components/ascribe_settings/contract_settings';
 import ErrorNotFoundPage from '../../../components/error_not_found_page';
 
+import CCRegisterPiece from './components/cc/cc_register_piece';
+
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
 import CylandRegisterPiece from './components/cyland/cyland_register_piece';
@@ -23,12 +25,20 @@ import CylandPieceList from './components/cyland/cyland_piece_list';
 
 import IkonotvLanding from './components/ikonotv/ikonotv_landing';
 import IkonotvPieceList from './components/ikonotv/ikonotv_piece_list';
-import ContractAgreementForm from '../../../components/ascribe_forms/form_contract_agreement';
+import SendContractAgreementForm from '../../../components/ascribe_forms/form_send_contract_agreement';
 import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
-import CCRegisterPiece from './components/cc/cc_register_piece';
+import MarketPieceList from './components/market/market_piece_list';
+import MarketRegisterPiece from './components/market/market_register_piece';
+import MarketPieceContainer from './components/market/market_detail/market_piece_container';
+import MarketEditionContainer from './components/market/market_detail/market_edition_container';
+
+import LumenusLanding from './components/lumenus/lumenus_landing';
+
+import Vivi23Landing from './components/23vivi/23vivi_landing';
+import Vivi23PieceList from './components/23vivi/23vivi_piece_list';
 
 import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
 
@@ -128,7 +138,7 @@ let ROUTES = {
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
             <Route
                 path='request_loan'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractAgreementForm)}
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SendContractAgreementForm)}
                 headerTitle='SEND NEW CONTRACT'
                 aclName='acl_create_contractagreement'/>
             <Route
@@ -148,9 +158,78 @@ let ROUTES = {
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
+    ),
+    'lumenus': (
+        <Route path='/' component={WalletApp}>
+            <IndexRoute component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LumenusLanding)} />
+            <Route
+                path='login'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            <Route
+                path='logout'
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+            <Route
+                path='signup'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+            <Route
+                path='contract_settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+            <Route
+                path='register_piece'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketRegisterPiece)}
+                headerTitle='+ NEW WORK'/>
+            <Route
+                path='collection'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketPieceList)}
+                headerTitle='COLLECTION'/>
+            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
+            <Route path='editions/:editionId' component={MarketEditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='*' component={ErrorNotFoundPage} />
+        </Route>
+    ),
+    '23vivi': (
+        <Route path='/' component={WalletApp}>
+            <IndexRoute component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(Vivi23Landing)} />
+            <Route
+                path='login'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            <Route
+                path='logout'
+                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+            <Route
+                path='signup'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+            <Route
+                path='contract_settings'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+            <Route
+                path='register_piece'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketRegisterPiece)}
+                headerTitle='+ NEW WORK'/>
+            <Route
+                path='collection'
+                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(Vivi23PieceList)}
+                headerTitle='COLLECTION'/>
+            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
+            <Route path='editions/:editionId' component={MarketEditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='*' component={ErrorNotFoundPage} />
+        </Route>
     )
 };
-
 
 function getRoutes(commonRoutes, subdomain) {
     if(subdomain in ROUTES) {
@@ -159,6 +238,5 @@ function getRoutes(commonRoutes, subdomain) {
         throw new Error('Subdomain wasn\'t specified in the wallet app.');
     }
 }
-
 
 export default getRoutes;

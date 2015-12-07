@@ -22,8 +22,7 @@ class ContractAgreementListActions {
                     if (contractAgreementList.count > 0) {
                         this.actions.updateContractAgreementList(contractAgreementList.results);
                         resolve(contractAgreementList.results);
-                    }
-                    else{
+                    } else {
                         resolve(null);
                     }
                 })
@@ -35,13 +34,13 @@ class ContractAgreementListActions {
         );
     }
 
-    fetchAvailableContractAgreementList(issuer, createContractAgreement) {
+    fetchAvailableContractAgreementList(issuer, createPublicContractAgreement) {
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.fetchContractAgreementList(issuer, true, null)
                 .then((acceptedContractAgreementList) => {
                     // if there is at least an accepted contract agreement, we're going to
                     // use it
-                    if(acceptedContractAgreementList.count > 0) {
+                    if (acceptedContractAgreementList.count > 0) {
                         this.actions.updateContractAgreementList(acceptedContractAgreementList.results);
                     } else {
                         // otherwise, we're looking for contract agreements that are still pending
@@ -50,15 +49,13 @@ class ContractAgreementListActions {
                         // overcomplicate the method
                         OwnershipFetcher.fetchContractAgreementList(issuer, null, true)
                             .then((pendingContractAgreementList) => {
-                                if(pendingContractAgreementList.count > 0) {
+                                if (pendingContractAgreementList.count > 0) {
                                     this.actions.updateContractAgreementList(pendingContractAgreementList.results);
-                                } else {
+                                } else if (createPublicContractAgreement) {
                                     // if there was neither a pending nor an active contractAgreement
-                                    // found and createContractAgreement is set to true, we create a
-                                    // new contract agreement
-                                    if(createContractAgreement) {
-                                        this.actions.createContractAgreementFromPublicContract(issuer);
-                                    }
+                                    // found and createPublicContractAgreement is set to true, we create a
+                                    // new public contract agreement
+                                    this.actions.createContractAgreementFromPublicContract(issuer);
                                 }
                             })
                             .catch((err) => {
@@ -81,8 +78,7 @@ class ContractAgreementListActions {
                 // create an agreement with the public contract if there is one
                 if (publicContract && publicContract.length > 0) {
                     return this.actions.createContractAgreement(null, publicContract[0]);
-                }
-                else {
+                } else {
                     /*
                     contractAgreementList in the store is already set to null;
                      */
@@ -91,21 +87,17 @@ class ContractAgreementListActions {
                 if (publicContracAgreement) {
                     this.actions.updateContractAgreementList([publicContracAgreement]);
                 }
-            }).catch((err) => {
-                console.logGlobal(err);
-            });
+            }).catch(console.logGlobal);
     }
 
     createContractAgreement(issuer, contract){
         return Q.Promise((resolve, reject) => {
-            OwnershipFetcher.createContractAgreement(issuer, contract).then(
-                (contractAgreement) => {
-                    resolve(contractAgreement);
-                }
-            ).catch((err) => {
-                console.logGlobal(err);
-                reject(err);
-            });
+            OwnershipFetcher
+                .createContractAgreement(issuer, contract).then(resolve)
+                .catch((err) => {
+                    console.logGlobal(err);
+                    reject(err);
+                });
         });
     }
 }
