@@ -1,17 +1,3 @@
-[class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-    font-family: 'ascribe-logo';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 /*
     These glyphs are generated using: https://icomoon.io
     Even though it seems radically complicated, check out the site,
@@ -26,7 +12,7 @@
  */
 
 @font-face {
-    font-family: 'ascribe-logo';
+    font-family: 'ascribe-font';
     src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae');
     src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae#iefix') format('embedded-opentype'),
       url('#{$BASE_URL}static/fonts/ascribe-logo.ttf?q6qoae') format('truetype'),
@@ -37,7 +23,7 @@
 }
 
 [class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-    font-family: 'ascribe-logo';
+    font-family: 'ascribe-font';
     speak: none;
     font-style: normal;
     font-weight: normal;
