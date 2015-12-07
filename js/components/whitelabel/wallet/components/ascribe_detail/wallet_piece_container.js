@@ -30,7 +30,7 @@ let WalletPieceContainer = React.createClass({
 
     
     render() {
-        if(this.props.piece && this.props.piece.title) {
+        if(this.props.piece && this.props.piece.id) {
             return (
                 <Piece
                     piece={this.props.piece}
