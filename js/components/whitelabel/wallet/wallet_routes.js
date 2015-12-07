@@ -218,7 +218,8 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'/>
+                headerTitle='+ NEW WORK'
+                aclName='acl_wallet_submit'/>
             <Route
                 path='collection'
                 component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(Vivi23PieceList)}
