@@ -52,6 +52,13 @@ $ascribe--spinner-size-sm: 15px;
     }
 }
 
+.spinner-wrapper-white {
+    color: $ascribe-white;
+    .spinner-circle {
+        border-color: $ascribe-white;
+    }
+}
+
 .spinner-wrapper-lg {
     width: $ascribe--spinner-size-lg;
     height: $ascribe--spinner-size-lg;

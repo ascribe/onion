@@ -90,25 +90,3 @@
     font-size: 18px;
     padding: 4px 12px 0 10px
 }
-
-.ascribe-logo-circle {
-    border: 6px solid #F6F6F6;
-    border-radius: 10em;
-    position: relative;
-    top: 10%;
-    left: 10%;
-
-    display: block;
-    width: 80%;
-    height: 80%;
-
-    > span {
-        color: #F6F6F6;
-        position: absolute;
-        top: -.29em;
-        left: .16em;
-
-        font-size: 5em;
-        font-weight: normal;
-    }
-}

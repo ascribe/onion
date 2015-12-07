@@ -30,7 +30,6 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
-        onLoggedOut: React.PropTypes.func,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
@@ -124,7 +123,6 @@ let RegisterPieceForm = React.createClass({
                 submitMessage,
                 headerMessage,
                 isFineUploaderActive,
-                onLoggedOut,
                 isFineUploaderEditable,
                 location,
                 children,
@@ -175,7 +173,6 @@ let RegisterPieceForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={isFineUploaderActive}
-                        onLoggedOut={onLoggedOut}
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
@@ -207,6 +204,10 @@ let RegisterPieceForm = React.createClass({
                             singular: getLangText('Select representative image'),
                             plural: getLangText('Select representative images')
                         }}/>
+                        isFineUploaderActive={isFineUploaderActive}
+                        disabled={!isFineUploaderEditable}
+                        enableLocalHashing={enableLocalHashing}
+                        uploadMethod={location.query.method} />
                 </Property>
                 <Property
                     name='artist_name'

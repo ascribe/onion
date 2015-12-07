@@ -68,15 +68,24 @@ hr {
     .dropdown-menu {
         background-color: $ascribe--nav-bg-color;
     }
+    .navbar-nav > li > .dropdown-menu {
+        padding: 0;
+    }
 
     .dropdown-menu > li > a {
         color:  $ascribe--nav-fg-prim-color;
         font-weight: $ascribe--font-weight-light;
+        padding-bottom: 9px;
+        padding-top: 9px;
     }
 
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
         background-color: rgba($ascribe--button-default-color, .05);
+    }
+
+    .dropdown-menu > .divider {
+        margin: 0;
     }
 
     .notification-menu {

@@ -41,7 +41,7 @@ let AclButtonList = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
+        UserActions.fetchCurrentUser.defer();
 
         window.addEventListener('resize', this.handleResize);
         window.dispatchEvent(new Event('resize'));

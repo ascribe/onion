@@ -20,9 +20,11 @@ import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
 let AclFormFactory = React.createClass({
     propTypes: {
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
-        currentUser: React.PropTypes.object.isRequired,
+        autoFocusProperty: React.PropTypes.string,
+        currentUser: React.PropTypes.object,
         email: React.PropTypes.string,
         message: React.PropTypes.string,
+        labels: React.PropTypes.object,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
@@ -53,10 +55,12 @@ let AclFormFactory = React.createClass({
     render() {
         const {
             action,
+            autoFocusProperty,
             pieceOrEditions,
             currentUser,
             email,
             message,
+            labels,
             handleSuccess,
             showNotification } = this.props;
 
@@ -64,14 +68,16 @@ let AclFormFactory = React.createClass({
             aclName: action,
             entities: pieceOrEditions,
             isPiece: this.isPiece(),
-            senderName: currentUser.username
+            senderName: currentUser && currentUser.username
         });
 
         if (action === 'acl_consign') {
             return (
                 <ConsignForm
+                    autoFocusProperty={autoFocusProperty}
                     email={email}
                     message={formMessage}
+                    labels={labels}
                     id={this.getFormDataId()}
                     url={ApiUrls.ownership_consigns}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />

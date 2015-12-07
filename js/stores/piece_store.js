@@ -7,11 +7,13 @@ import PieceActions from '../actions/piece_actions';
 class PieceStore {
     constructor() {
         this.piece = {};
+        this.pieceError = null;
         this.bindActions(PieceActions);
     }
 
     onUpdatePiece(piece) {
         this.piece = piece;
+        this.pieceError = null;
     }
 
     onUpdateProperty({key, value}) {
@@ -20,6 +22,10 @@ class PieceStore {
         } else {
             throw new Error('There is no piece defined in PieceStore or the piece object does not have the property you\'re looking for.');
         }
+    }
+
+    onPieceFailed(err) {
+        this.pieceError = err;
     }
 }
 

@@ -38,7 +38,6 @@ const InputFineUploader = React.createClass({
         // a user is actually not logged in already to prevent him from droping files
         // before login in
         isFineUploaderActive: bool,
-        onLoggedOut: func,
 
         enableLocalHashing: bool,
         uploadMethod: string,
@@ -52,7 +51,10 @@ const InputFineUploader = React.createClass({
             singular: string,
             plural: string
         }),
-        handleChangedFile: func
+        handleChangedFile: func,
+
+        // Provided by `Property`
+        onChange: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -95,24 +97,26 @@ const InputFineUploader = React.createClass({
     },
 
     render() {
-        const { fileInputElement,
-                keyRoutine,
-                createBlobRoutine,
-                validation,
-                setIsUploadReady,
-                isReadyForFormSubmission,
-                areAssetsDownloadable,
-                onLoggedOut,
-                enableLocalHashing,
-                fileClassToUpload,
-                uploadMethod,
-                handleChangedFile } = this.props;
-        let editable = this.props.isFineUploaderActive;
+        const {
+            areAssetsDownloadable,
+            enableLocalHashing,
+            createBlobRoutine,
+            disabled,
+            fileClassToUpload,
+            fileInputElement,
+            isFineUploaderActive,
+            isReadyForFormSubmission,
+            keyRoutine,
+            setIsUploadReady,
+            uploadMethod,
+            validation,
+            handleChangedFile } = this.props;
+        let editable = isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
         // isFineUploaderActive
-        if(typeof this.props.disabled !== 'undefined') {
-            editable = !this.props.disabled;
+        if(typeof disabled !== 'undefined') {
+            editable = !disabled;
         }
 
         return (
@@ -141,7 +145,6 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={onLoggedOut}
                 enableLocalHashing={enableLocalHashing}
                 uploadMethod={uploadMethod}
                 fileClassToUpload={fileClassToUpload}

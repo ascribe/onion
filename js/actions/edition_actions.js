@@ -7,7 +7,8 @@ import EditionFetcher from '../fetchers/edition_fetcher';
 class EditionActions {
     constructor() {
         this.generateActions(
-            'updateEdition'
+            'updateEdition',
+            'editionFailed'
         );
     }
 
@@ -18,6 +19,7 @@ class EditionActions {
             })
             .catch((err) => {
                 console.logGlobal(err);
+                this.actions.editionFailed(err.json);
             });
     }
 }

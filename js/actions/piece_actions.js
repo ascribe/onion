@@ -8,7 +8,8 @@ class PieceActions {
     constructor() {
         this.generateActions(
             'updatePiece',
-            'updateProperty'
+            'updateProperty',
+            'pieceFailed'
         );
     }
 
@@ -19,6 +20,7 @@ class PieceActions {
             })
             .catch((err) => {
                 console.logGlobal(err);
+                this.actions.pieceFailed(err.json);
             });
     }
 }

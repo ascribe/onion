@@ -60,7 +60,7 @@ class EditionListStore {
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList({pieceId, filterBy}) {
+    onRefreshEditionList({pieceId, filterBy = {}}) {
         // It may happen that the user enters the site logged in already
         // through /editions
         // If he then tries to delete a piece/edition and this method is called,
