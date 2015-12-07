@@ -12,7 +12,9 @@ const CollapsibleParagraph = React.createClass({
             React.PropTypes.object,
             React.PropTypes.array
         ]),
-        iconName: React.PropTypes.string
+        iconName: React.PropTypes.string,
+        show: React.PropTypes.bool,
+        defaultExpanded: React.PropTypes.bool
     },
 
     getDefaultProps() {

@@ -147,7 +147,7 @@ let Edition = React.createClass({
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
-                            label={getLangText('Edition note (public)')}
+                            label={getLangText('Personal note (public)')}
                             defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={!!this.props.edition.acl.acl_edit}

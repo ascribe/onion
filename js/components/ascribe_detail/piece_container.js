@@ -109,7 +109,6 @@ let PieceContainer = React.createClass({
 
             let pieceState = mergeOptions({}, state.piece);
             pieceState.acl.acl_loan = false;
-
             this.setState({
                 piece: pieceState
             });
@@ -264,7 +263,6 @@ let PieceContainer = React.createClass({
                     }
                     buttons={this.getActions()}>
                     {this.getCreateEditionsDialog()}
-
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
@@ -273,11 +271,14 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
+                        show={!!(this.state.currentUser.username
+                                || this.state.piece.acl.acl_edit
+                                || this.state.piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note || null}
+                            show = {!!this.state.currentUser.username}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
@@ -285,11 +286,12 @@ let PieceContainer = React.createClass({
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={this.getId}
-                            label={getLangText('Piece note (public)')}
+                            label={getLangText('Personal note (public)')}
                             defaultValue={this.state.piece.public_note || null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={!!this.state.piece.acl.acl_edit}
-                            successMessage={getLangText('Public piece note saved')}
+                            show={!!(this.state.piece.public_note || this.state.piece.acl.acl_edit)}
+                            successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
