@@ -69,7 +69,7 @@ let Header = React.createClass({
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
-        history.unlisten(this.onRouteChange);
+        //history.unlisten(this.onRouteChange);
     },
 
     getLogo() {
