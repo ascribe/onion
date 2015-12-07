@@ -96,18 +96,21 @@ const InputFineUploader = React.createClass({
     },
 
     render() {
-        const { fileInputElement,
-                keyRoutine,
-                createBlobRoutine,
-                validation,
-                setIsUploadReady,
-                isReadyForFormSubmission,
-                areAssetsDownloadable,
-                enableLocalHashing,
-                uploadMethod,
-                fileClassToUpload,
-                disabled } = this.props;
-        let editable = this.props.isFineUploaderActive;
+        const {
+            areAssetsDownloadable,
+            enableLocalHashing,
+            createBlobRoutine,
+            disabled,
+            fileClassToUpload,
+            fileInputElement,
+            isFineUploaderActive,
+            isReadyForFormSubmission,
+            keyRoutine,
+            setIsUploadReady,
+            uploadMethod,
+            validation } = this.props;
+
+        let editable = isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
         // isFineUploaderActive

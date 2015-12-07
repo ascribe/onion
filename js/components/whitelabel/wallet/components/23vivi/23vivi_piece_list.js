@@ -6,7 +6,7 @@ import Vivi23AccordionListItemThumbnailPlaceholder from './23vivi_accordion_list
 
 import MarketPieceList from '../market/market_piece_list';
 
-let vivi23PieceList = React.createClass({
+let Vivi23PieceList = React.createClass({
     propTypes: {
         location: React.PropTypes.object
     },
@@ -21,4 +21,4 @@ let vivi23PieceList = React.createClass({
 
 });
 
-export default vivi23PieceList;
+export default Vivi23PieceList;

@@ -32,6 +32,7 @@ let MarketAdditionalDataForm = React.createClass({
             React.PropTypes.number,
             React.PropTypes.string
         ]),
+        editable: React.PropTypes.bool,
         isInline: React.PropTypes.bool,
         showHeading: React.PropTypes.bool,
         showNotification: React.PropTypes.bool,
@@ -41,6 +42,7 @@ let MarketAdditionalDataForm = React.createClass({
 
     getDefaultProps() {
         return {
+            editable: true,
             submitLabel: getLangText('Register work')
         };
     },
@@ -53,7 +55,7 @@ let MarketAdditionalDataForm = React.createClass({
             {
                 // Allow the form to be submitted if there's already an additional image uploaded
                 isUploadReady: this.isUploadReadyOnChange(pieceStore.piece),
-                forceUpdateKey: 0,
+                forceUpdateKey: 0
             });
     },
 
@@ -70,9 +72,7 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     onChange(state) {
-        this.setState(state);
-
-        this.setState({
+        Object.assign({}, state, {
             // Allow the form to be submitted if the updated piece already has an additional image uploaded
             isUploadReady: this.isUploadReadyOnChange(state.piece),
 
@@ -85,6 +85,8 @@ let MarketAdditionalDataForm = React.createClass({
              */
             forceUpdateKey: this.state.forceUpdateKey + 1
         });
+
+        this.setState(state);
     },
 
     getFormData() {
@@ -130,9 +132,11 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     render() {
-        const { isInline, handleSuccess, showHeading, showNotification, submitLabel } = this.props;
+        const { editable, isInline, handleSuccess, showHeading, showNotification, submitLabel } = this.props;
         const { piece } = this.state;
-        let buttons, spinner, heading;
+        let buttons, heading;
+
+        let spinner = <AscribeSpinner color='dark-blue' size='lg' />;
 
         if (!isInline) {
             buttons = (
@@ -146,7 +150,9 @@ let MarketAdditionalDataForm = React.createClass({
 
             spinner = (
                 <div className="modal-footer">
-                    <img src={AppConstants.baseUrl + 'static/img/ascribe_animated_small.gif'} />
+                    <p className="pull-right">
+                        {spinner}
+                    </p>
                 </div>
             );
 
@@ -169,7 +175,8 @@ let MarketAdditionalDataForm = React.createClass({
                     handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
-                    spinner={spinner}>
+                    spinner={spinner}
+                    disabled={!this.props.editable || !piece.acl.acl_edit}>
                     {heading}
                     <FurtherDetailsFileuploader
                         label={getLangText('Marketplace Thumbnail Image')}
@@ -178,10 +185,12 @@ let MarketAdditionalDataForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         pieceId={piece.id}
-                        otherData={piece.other_data} />
+                        otherData={piece.other_data}
+                        editable={editable} />
                     <Property
                         name='artist_bio'
-                        label={getLangText('Artist Bio')}>
+                        label={getLangText('Artist Bio')}
+                        expanded={editable || !!piece.extra_data.artist_bio}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
@@ -190,7 +199,8 @@ let MarketAdditionalDataForm = React.createClass({
                     </Property>
                     <Property
                         name='work_description'
-                        label={getLangText('Work Description')}>
+                        label={getLangText('Work Description')}
+                        expanded={editable || !!piece.extra_data.work_description}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.work_description}
@@ -199,7 +209,8 @@ let MarketAdditionalDataForm = React.createClass({
                     </Property>
                     <Property
                         name='technology_details'
-                        label={getLangText('Technology Details')}>
+                        label={getLangText('Technology Details')}
+                        expanded={editable || !!piece.extra_data.technology_details}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.technology_details}
@@ -208,7 +219,8 @@ let MarketAdditionalDataForm = React.createClass({
                     </Property>
                     <Property
                         name='display_instructions'
-                        label={getLangText('Display Instructions')}>
+                        label={getLangText('Display Instructions')}
+                        expanded={editable || !!piece.extra_data.display_instructions}>
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.display_instructions}
@@ -220,7 +232,7 @@ let MarketAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <AscribeSpinner color='dark-blue' size='lg' />
+                    {spinner}
                 </div>
             );
         }

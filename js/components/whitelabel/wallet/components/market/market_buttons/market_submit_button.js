@@ -144,8 +144,7 @@ let MarketSubmitButton = React.createClass({
         } else {
             return (
                 <AclProxy
-                    aclObject={{'acl_consign': availableAcls.acl_consign && canSubmit}}
-                    aclName='acl_consign'>
+                    show={availableAcls.acl_consign && canSubmit}>
                     <ModalWrapper
                         trigger={triggerButton}
                         handleSuccess={handleSuccess}

@@ -82,7 +82,7 @@ let MarketRegisterPiece = React.createClass({
     handleAdditionalDataSuccess() {
         this.refreshPieceList();
 
-        this.history.pushState(null, `/collection`);
+        this.history.pushState(null, '/collection');
     },
 
     // We need to increase the step to lock the forms that are already filled out

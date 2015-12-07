@@ -195,7 +195,7 @@ let EditionSummary = React.createClass({
     getStatus(){
         let status = null;
         if (this.props.edition.status.length > 0){
-            let statusStr = this.props.edition.status.join().replace(/_/, ' ');
+            let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
             status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (

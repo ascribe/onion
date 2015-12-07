@@ -30,7 +30,7 @@ let PieceListBulkModal = React.createClass({
     },
 
     render() {
-        if (Object.keys(this.props.availableAcls).length > 0) {
+        if (Object.keys(this.props.availableAcls).length) {
             return (
                 <div className={this.props.className}>
                     <div className="row no-margin">
