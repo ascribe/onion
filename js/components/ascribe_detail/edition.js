@@ -210,6 +210,11 @@ let EditionSummary = React.createClass({
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
                 {this.getStatus()}
+                {/*
+                    `acl_view` is always available in `edition.acl`, therefore if it has
+                    no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
+                    `AclInformation` would show up
+                */}
                 <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
                     <EditionDetailProperty
                         label={getLangText('ACTIONS')}>
