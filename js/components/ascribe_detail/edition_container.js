@@ -1,6 +1,10 @@
 'use strict';
 
 import React from 'react';
+import { History } from 'react-router';
+
+import ReactError from '../../mixins/react_error';
+import { ResourceNotFoundError } from '../../models/errors';
 
 import EditionActions from '../../actions/edition_actions';
 import EditionStore from '../../stores/edition_store';
@@ -9,6 +13,7 @@ import Edition from './edition';
 
 import AscribeSpinner from '../ascribe_spinner';
 
+import { getLangText } from '../../utils/lang_utils';
 import { setDocumentTitle } from '../../utils/dom_utils';
 
 
@@ -17,9 +22,12 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let EditionContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
+        actionPanelButtonListType: React.PropTypes.func,
+        furtherDetailsType: React.PropTypes.func,
+        params: React.PropTypes.object
     },
+
+    mixins: [History, ReactError],
 
     getInitialState() {
         return EditionStore.getState();
@@ -28,11 +36,11 @@ let EditionContainer = React.createClass({
     componentDidMount() {
         EditionStore.listen(this.onChange);
 
-        // Every time we enter the edition detail page, just reset the edition
-        // store as it will otherwise display wrong/old data once the user loads
+        // Every time we're entering the edition detail page,
+        // just reset the edition that is saved in the edition store
+        // as it will otherwise display wrong/old data once the user loads
         // the edition detail a second time
         EditionActions.updateEdition({});
-
         this.loadEdition();
     },
 
@@ -42,6 +50,14 @@ let EditionContainer = React.createClass({
         if(this.props.params.editionId !== nextProps.params.editionId) {
             EditionActions.updateEdition({});
             EditionActions.fetchOne(nextProps.params.editionId);
+        }
+    },
+
+    componentDidUpdate() {
+        const { editionError } = this.state;
+
+        if(editionError && editionError.status === 404) {
+            this.throws(new ResourceNotFoundError(getLangText("Oops, the edition you're looking for doesn't exist.")));
         }
     },
 
@@ -67,14 +83,15 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        if(this.state.edition && this.state.edition.title) {
+        if(this.state.edition && this.state.edition.id) {
             setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
 
             return (
                 <Edition
+                    actionPanelButtonListType={this.props.actionPanelButtonListType}
+                    furtherDetailsType={this.props.furtherDetailsType}
                     edition={this.state.edition}
-                    loadEdition={this.loadEdition}
-                    location={this.props.location}/>
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (

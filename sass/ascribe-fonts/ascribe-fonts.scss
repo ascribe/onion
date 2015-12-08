@@ -1,24 +1,10 @@
-[class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-    font-family: 'ascribe-logo';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 /*
     These glyphs are generated using: https://icomoon.io
     Even though it seems radically complicated, check out the site,
     its fairly straight forward.
 
     If someone wants you to add a new glyph go to the site,
-    drop in the regular ascribe-logo font and select all icons.
+    drop in the regular ascribe-font font and select all icons.
     Then also add the new glyph, name and address it correctly and download
     the font again.
 
@@ -26,18 +12,19 @@
  */
 
 @font-face {
-    font-family: 'ascribe-logo';
-    src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae');
-    src:url('#{$BASE_URL}static/fonts/ascribe-logo.eot?q6qoae#iefix') format('embedded-opentype'),
-      url('#{$BASE_URL}static/fonts/ascribe-logo.ttf?q6qoae') format('truetype'),
-      url('#{$BASE_URL}static/fonts/ascribe-logo.woff?q6qoae') format('woff'),
-      url('#{$BASE_URL}static/fonts/ascribe-logo.svg?q6qoae#ascribe-logo') format('svg');
+    font-family: 'ascribe-font';
+    src:url('#{$BASE_URL}static/fonts/ascribe-font.eot?q6qoae');
+    src:url('#{$BASE_URL}static/fonts/ascribe-font.eot?q6qoae#iefix') format('embedded-opentype'),
+      url('#{$BASE_URL}static/fonts/ascribe-font.ttf?q6qoae') format('truetype'),
+      url('#{$BASE_URL}static/fonts/ascribe-font.woff?q6qoae') format('woff'),
+      url('#{$BASE_URL}static/fonts/ascribe-font.svg?q6qoae#ascribe-font') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 [class^="icon-ascribe-"], [class*=" icon-ascribe-"] {
-    font-family: 'ascribe-logo';
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'ascribe-font' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -80,35 +67,15 @@
 .icon-ascribe-logo:before {
     content: "\e808";
 }
-
 .icon-ascribe-ok:before {
     content: "\e809";
     font-size: .7em;
+}
+.icon-ascribe-thin-cross:before {
+    content: "\e810";
 }
 
 .btn-glyph-ascribe {
     font-size: 18px;
     padding: 4px 12px 0 10px
-}
-
-.ascribe-logo-circle {
-    border: 6px solid #F6F6F6;
-    border-radius: 10em;
-    position: relative;
-    top: 10%;
-    left: 10%;
-
-    display: block;
-    width: 80%;
-    height: 80%;
-
-    > span {
-        color: #F6F6F6;
-        position: absolute;
-        top: -.29em;
-        left: .16em;
-
-        font-size: 5em;
-        font-weight: normal;
-    }
 }

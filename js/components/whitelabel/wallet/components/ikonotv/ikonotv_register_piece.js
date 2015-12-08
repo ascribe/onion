@@ -16,6 +16,9 @@ import UserActions from '../../../../../actions/user_actions';
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
 
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
@@ -32,6 +35,7 @@ import ApiUrls from '../../../../../constants/api_urls';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
+
 let IkonotvRegisterPiece = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
@@ -46,8 +50,10 @@ let IkonotvRegisterPiece = React.createClass({
             UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
+            WhitelabelStore.getState(),
             {
-                step: 0
+                step: 0,
+                pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
             });
     },
 
@@ -55,7 +61,9 @@ let IkonotvRegisterPiece = React.createClass({
         PieceListStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
 
         // Before we load the new piece, we reset the piece store to delete old data that we do
         // not want to display to the user.
@@ -79,22 +87,15 @@ let IkonotvRegisterPiece = React.createClass({
         PieceListStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
+        WhitelabelStore.listen(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
 
     handleRegisterSuccess(response){
-
         this.refreshPieceList();
 
         // also start loading the piece for the next step
@@ -108,7 +109,6 @@ let IkonotvRegisterPiece = React.createClass({
             this.incrementStep();
             this.refs.slidesContainer.nextSlide();
         }
-
     },
 
     handleAdditionalDataSuccess() {
@@ -126,6 +126,8 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     handleLoanSuccess(response) {
+        this.setState({ pageExitWarning: null });
+
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
@@ -155,22 +157,10 @@ let IkonotvRegisterPiece = React.createClass({
         );
     },
 
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
-    },
-
-    // basically redirects to the second slide (index: 1), when the user is not logged in
-    onLoggedOut() {
-        this.history.pushState(null, '/login');
-    },
-
     canSubmit() {
         let currentUser = this.state.currentUser;
-        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit;
+        let whitelabel = this.state.whitelabel;
+        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel && whitelabel.user;
     },
 
     getSlideArtistDetails() {
@@ -209,20 +199,22 @@ let IkonotvRegisterPiece = React.createClass({
 
     getSlideLoan() {
         if (this.canSubmit()) {
+            const { piece, whitelabel } = this.state;
             let today = new Moment();
-            let enddate = new Moment();
-            enddate.add(2, 'years');
+            let endDate = new Moment();
+            endDate.add(2, 'years');
+
             return (
                 <div data-slide-title={getLangText('Loan')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to IkonoTV archive')}
-                                id={{piece_id: this.state.piece.id}}
+                                id={{piece_id: piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email="submissions@ikono.org"
-                                startdate={today}
-                                enddate={enddate}
+                                email={whitelabel.user}
+                                startDate={today}
+                                endDate={endDate}
                                 showStartDate={false}
                                 showEndDate={false}
                                 gallery="IkonoTV archive"
@@ -238,6 +230,8 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
+        const { pageExitWarning } = this.state;
+
         return (
             <SlidesContainer
                 ref="slidesContainer"
@@ -246,7 +240,8 @@ let IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}>
+                location={this.props.location}
+                pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -255,9 +250,8 @@ let IkonotvRegisterPiece = React.createClass({
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Register work')}
                                 submitMessage={getLangText('Register')}
-                                isFineUploaderActive={this.state.isFineUploaderActive}
+                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                onLoggedOut={this.onLoggedOut}
                                 location={this.props.location}/>
                         </Col>
                     </Row>

@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
+import GlobalNotificationActions from '../actions/global_notification_actions';
 import GlobalNotificationStore from '../stores/global_notification_store';
 
 import Row from 'react-bootstrap/lib/Row';
@@ -9,14 +11,18 @@ import Col from 'react-bootstrap/lib/Col';
 
 import { mergeOptions } from '../utils/general_utils';
 
+const MAX_NOTIFICATION_BUBBLE_CONTAINER_WIDTH = 768;
+
 let GlobalNotification = React.createClass({
 
     getInitialState() {
+        const notificationStore = GlobalNotificationStore.getState();
+
         return mergeOptions(
             {
                 containerWidth: 0
             },
-            this.extractFirstElem(GlobalNotificationStore.getState().notificationQue)
+            notificationStore
         );
     },
 
@@ -36,35 +42,8 @@ let GlobalNotification = React.createClass({
         window.removeEventListener('resize', this.handleContainerResize);
     },
 
-    extractFirstElem(l) {
-        if(l.length > 0) {
-            return {
-                show: true,
-                message: l[0]
-            };
-        } else {
-            return {
-                show: false,
-                message: ''
-            };
-        }
-    },
-
     onChange(state) {
-        let notification = this.extractFirstElem(state.notificationQue);
-
-        // error handling for notifications
-        if(notification.message && notification.type === 'danger') {
-            console.logGlobal(new Error(notification.message.message));
-        }
-
-        if(notification.show) {
-            this.setState(notification);
-        } else {
-            this.setState({
-                show: false
-            });
-        }
+        this.setState(state);
     },
 
     handleContainerResize() {
@@ -73,32 +52,31 @@ let GlobalNotification = React.createClass({
         });
     },
 
-    render() {
-        let notificationClass = 'ascribe-global-notification';
-        let textClass;
+    renderNotification() {
+        const {
+            notificationQueue: [notification],
+            notificationStatus,
+            notificationsPaused,
+            containerWidth } = this.state;
 
-        if(this.state.containerWidth > 768) {
-            notificationClass = 'ascribe-global-notification-bubble';
+        const notificationClasses = [];
 
-            if(this.state.show) {
-                notificationClass += ' ascribe-global-notification-bubble-on';
-            } else {
-                notificationClass += ' ascribe-global-notification-bubble-off';
-            }
-
+        if (this.state.containerWidth > 768) {
+            notificationClasses.push('ascribe-global-notification-bubble');
+            notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-bubble-on'
+                                                                   : 'ascribe-global-notification-bubble-off');
         } else {
-            notificationClass = 'ascribe-global-notification';
-
-            if(this.state.show) {
-                notificationClass += ' ascribe-global-notification-on';
-            } else {
-                notificationClass += ' ascribe-global-notification-off';
-            }
-
+            notificationClasses.push('ascribe-global-notification');
+            notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-on'
+                                                                   : 'ascribe-global-notification-off');
         }
 
-        if(this.state.message) {
-            switch(this.state.message.type) {
+        let textClass;
+        let message;
+        if (notification && !notificationsPaused) {
+            message = notification.message;
+
+            switch(notification.type) {
                 case 'success':
                     textClass = 'ascribe-global-notification-success';
                     break;
@@ -106,18 +84,23 @@ let GlobalNotification = React.createClass({
                     textClass = 'ascribe-global-notification-danger';
                     break;
                 default:
-                    console.warn('Could not find a matching type in global_notification.js');
+                    console.warn('Could not find a matching notification type in global_notification.js');
             }
         }
-        
 
+        return (
+            <div className={classNames(...notificationClasses)}>
+                <div className={textClass}>{message}</div>
+            </div>
+        );
+    },
+
+    render() {
         return (
             <div ref="notificationWrapper">
                 <Row>
                     <Col>
-                        <div className={notificationClass}>
-                            <div className={textClass}>{this.state.message.message}</div>
-                        </div>
+                        {this.renderNotification()}
                     </Col>
                 </Row>
             </div>

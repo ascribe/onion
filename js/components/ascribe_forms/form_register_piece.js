@@ -31,7 +31,7 @@ let RegisterPieceForm = React.createClass({
         isFineUploaderActive: React.PropTypes.bool,
         isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
-        onLoggedOut: React.PropTypes.func,
+        enableSeparateThumbnail: React.PropTypes.bool,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
@@ -46,7 +46,8 @@ let RegisterPieceForm = React.createClass({
         return {
             headerMessage: getLangText('Register your work'),
             submitMessage: getLangText('Register work'),
-            enableLocalHashing: true
+            enableLocalHashing: true,
+            enableSeparateThumbnail: true
         };
     },
 
@@ -89,6 +90,11 @@ let RegisterPieceForm = React.createClass({
         if (digitalWorkFile &&
             (digitalWorkFile.status === FileStatus.DELETED || digitalWorkFile.status === FileStatus.CANCELED)) {
             this.refs.form.refs.thumbnail_file.reset();
+
+            // Manually we need to set the ready state for `thumbnailKeyReady` back
+            // to `true` as `ReactS3Fineuploader`'s `reset` method triggers
+            // `setIsUploadReady` with `false`
+            this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
             this.setState({ digitalWorkFile: null });
         } else {
             this.setState({ digitalWorkFile });
@@ -99,13 +105,18 @@ let RegisterPieceForm = React.createClass({
         const { digitalWorkFile } = this.state;
         const { fineuploader } = this.refs.digitalWorkFineUploader.refs;
 
-        fineuploader.setThumbnailForFileId(digitalWorkFile.id, thumbnailFile.url);
+        fineuploader.setThumbnailForFileId(
+            digitalWorkFile.id,
+            // if thumbnail was deleted, we delete it from the display as well
+            thumbnailFile.status !== FileStatus.DELETED ? thumbnailFile.url : null
+        );
     },
 
     isThumbnailDialogExpanded() {
+        const { enableSeparateThumbnail } = this.props;
         const { digitalWorkFile } = this.state;
 
-        if(digitalWorkFile) {
+        if(digitalWorkFile && enableSeparateThumbnail) {
             const { type: mimeType } = digitalWorkFile;
             const mimeSubType = mimeType && mimeType.split('/').length ? mimeType.split('/')[1]
                                                                        : 'unknown';
@@ -121,7 +132,6 @@ let RegisterPieceForm = React.createClass({
                 submitMessage,
                 headerMessage,
                 isFineUploaderActive,
-                onLoggedOut,
                 isFineUploaderEditable,
                 location,
                 children,
@@ -172,7 +182,6 @@ let RegisterPieceForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={isFineUploaderActive}
-                        onLoggedOut={onLoggedOut}
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
@@ -189,7 +198,7 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_thumbnails
                         }}
                         handleChangedFile={this.handleChangedThumbnail}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'thumbnail'
@@ -203,7 +212,9 @@ let RegisterPieceForm = React.createClass({
                         fileClassToUpload={{
                             singular: getLangText('Select representative image'),
                             plural: getLangText('Select representative images')
-                        }} />
+                        }}
+                        isFineUploaderActive={isFineUploaderActive}
+                        disabled={!isFineUploaderEditable} />
                 </Property>
                 <Property
                     name='artist_name'

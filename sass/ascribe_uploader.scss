@@ -120,7 +120,7 @@
 
     &.icon-ascribe-ok, &.icon-ascribe-ok:hover {
         cursor: default;
-        color: lighten($ascribe--button-default-color, 20%);
+        color: $ascribe-dark-blue;
         font-size: 4.2em;
         top: .2em;
     }
@@ -328,9 +328,12 @@
     }
 
     span {
-        font-size: 1.25em;
+        font-size: 1.2em;
         color: white;
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        text-shadow: -1px 0 $ascribe--button-default-color,
+                      0 1px $ascribe--button-default-color,
+                      1px 0 $ascribe--button-default-color,
+                      0 -1px $ascribe--button-default-color;
     }
 }
 

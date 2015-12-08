@@ -7,6 +7,7 @@ let DetailProperty = React.createClass({
     propTypes: {
         label: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
+            React.PropTypes.number,
             React.PropTypes.string,
             React.PropTypes.element
         ]),

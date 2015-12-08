@@ -10,12 +10,15 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
+import { getLangText } from '../../utils/lang_utils';
+
 
 
 const { func, bool, number, object, arrayOf } = React.PropTypes;
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
+        label: string,
         pieceId: number,
         otherData: arrayOf(object),
         editable: bool,
@@ -31,6 +34,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
     getDefaultProps() {
         return {
+            label: getLangText('Additional files'),
             multiple: false
         };
     },
@@ -60,7 +64,7 @@ let FurtherDetailsFileuploader = React.createClass({
         return (
             <Property
                 name="other_data_key"
-                label="Additional files">
+                label={this.props.label}>
                 <ReactS3FineUploader
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',

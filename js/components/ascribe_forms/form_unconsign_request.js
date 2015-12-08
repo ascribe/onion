@@ -57,7 +57,7 @@ let UnConsignRequestForm = React.createClass({
                         rows={1}
                         defaultValue={this.props.message}
                         placeholder={getLangText('Enter a message...')}
-                        required="required"/>
+                        required />
                 </Property>
                 <hr />
             </Form>

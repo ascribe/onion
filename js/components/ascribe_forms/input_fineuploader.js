@@ -18,10 +18,10 @@ const InputFineUploader = React.createClass({
         // a user is actually not logged in already to prevent him from droping files
         // before login in
         isFineUploaderActive: bool,
-        onLoggedOut: func,
 
         // provided by Property
         disabled: bool,
+        onChange: func,
 
         // Props for ReactS3FineUploader
         areAssetsDownloadable: bool,
@@ -110,22 +110,22 @@ const InputFineUploader = React.createClass({
     },
 
     render() {
-        const { fileInputElement,
-                keyRoutine,
-                createBlobRoutine,
-                validation,
-                setIsUploadReady,
-                isReadyForFormSubmission,
-                isFineUploaderActive,
-                areAssetsDownloadable,
-                onLoggedOut,
-                enableLocalHashing,
-                fileClassToUpload,
-                uploadMethod,
-                handleChangedFile,
-                setWarning,
-                showErrorPrompt,
-                disabled } = this.props;
+        const {
+            areAssetsDownloadable,
+            createBlobRoutine,
+            enableLocalHashing,
+            disabled,
+            fileClassToUpload,
+            fileInputElement,
+            handleChangedFile,
+            isFineUploaderActive,
+            isReadyForFormSubmission,
+            keyRoutine,
+            setIsUploadReady,
+            setWarning,
+            showErrorPrompt,
+            uploadMethod,
+            validation } = this.props;
         let editable = isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
@@ -162,7 +162,6 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={onLoggedOut}
                 enableLocalHashing={enableLocalHashing}
                 uploadMethod={uploadMethod}
                 fileClassToUpload={fileClassToUpload}

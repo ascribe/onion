@@ -51,8 +51,7 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
+        params: React.PropTypes.object
     },
 
     getInitialState() {
@@ -111,7 +110,7 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        if(this.state.piece && this.state.piece.title) {
+        if(this.state.piece && this.state.piece.id) {
             /*
             
                 This really needs a refactor!
@@ -162,7 +161,7 @@ let PieceContainer = React.createClass({
                             piece={this.state.piece}
                             currentUser={this.state.currentUser}/>
                     }>
-                    <PrizePieceDetails piece={this.state.piece} location={this.props.location}/>
+                    <PrizePieceDetails piece={this.state.piece} />
                 </Piece>
             );
         } else {
@@ -292,8 +291,8 @@ let PrizePieceRatings = React.createClass({
                         url={ApiUrls.ownership_loans_pieces_request}
                         email={this.props.currentUser.email}
                         gallery={this.props.piece.prize.name}
-                        startdate={today}
-                        enddate={endDate}
+                        startDate={today}
+                        endDate={endDate}
                         showPersonalMessage={true}
                         showPassword={false}
                         handleSuccess={this.handleLoanSuccess} />
@@ -426,8 +425,7 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        location: React.PropTypes.object
+        piece: React.PropTypes.object
     },
 
     render() {
@@ -464,8 +462,7 @@ let PrizePieceDetails = React.createClass({
                             overrideForm={true}
                             pieceId={this.props.piece.id}
                             otherData={this.props.piece.other_data}
-                            multiple={true}
-                            location={location}/>
+                            multiple={true} />
                     </Form>
                 </CollapsibleParagraph>
             );

@@ -12,7 +12,8 @@ import AppConstants from '../constants/application_constants';
  * @param  {boolean} ignoreSentry Defines whether or not the error should be submitted to Sentry
  * @param  {string} comment  Will also be submitted to Sentry, but will not be logged
  */
-function logGlobal(error, ignoreSentry, comment) {
+function logGlobal(error, ignoreSentry = AppConstants.errorMessagesToIgnore.indexOf(error.message) > -1,
+                   comment) {
     console.error(error);
 
     if(!ignoreSentry) {

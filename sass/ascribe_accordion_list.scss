@@ -60,6 +60,34 @@ $ascribe-accordion-list-item-height: 100px;
                 background-size: cover;
             }
 
+            .ascribe-logo-circle {
+                border: 6px solid #F6F6F6;
+                border-radius: 10em;
+                position: relative;
+                top: 10%;
+                left: 10%;
+
+                display: block;
+                width: 80%;
+                height: 80%;
+
+                > span {
+                    color: #F6F6F6;
+                    position: absolute;
+                    top: -.29em;
+                    left: .16em;
+
+                    font-size: 5em;
+                    font-weight: normal;
+                }
+            }
+
+            .ascribe-thumbnail-placeholder {
+                color: #F6F6F6;
+                font-size: 5em;
+                font-weight: normal;
+            }
+
             //&::before {
             //    content: ' ';
             //    display: inline-block;
@@ -210,10 +238,6 @@ $ascribe-accordion-list-item-height: 100px;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
-
-    &:hover {
-        color: $ascribe-dark-blue;
-    }
 
     .glyphicon {
         font-size: .8em;

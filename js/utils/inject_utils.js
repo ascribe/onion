@@ -12,16 +12,16 @@ let mapTag = {
     css: 'link'
 };
 
+let tags = {};
+
 function injectTag(tag, src) {
-    return Q.Promise((resolve, reject) => {
-        if (isPresent(tag, src)) {
-            resolve();
-        } else {
+    if(!tags[src]) {
+        tags[src] = Q.Promise((resolve, reject) => {
             let attr = mapAttr[tag];
             let element = document.createElement(tag);
             if (tag === 'script') {
-                element.onload = () => resolve();
-                element.onerror = () => reject();
+                element.onload = resolve;
+                element.onerror = reject;
             } else {
                 resolve();
             }
@@ -30,14 +30,10 @@ function injectTag(tag, src) {
             if (tag === 'link') {
                 element.rel = 'stylesheet';
             }
-        }
-    });
-}
+        });
+    }
 
-function isPresent(tag, src) {
-    let attr = mapAttr[tag];
-    let query = `head > ${tag}[${attr}="${src}"]`;
-    return document.querySelector(query);
+    return tags[src];
 }
 
 function injectStylesheet(src) {
@@ -65,7 +61,6 @@ export const InjectInHeadUtils = {
      * you don't want to embed everything inside the build file.
      */
 
-    isPresent,
     injectStylesheet,
     injectScript,
     inject
