@@ -12,7 +12,11 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy}) {
+    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy, maxEdition}) {
+        // if editionList for a specific piece does not exist yet,
+        // just initialize a new array
+        const pieceEditionList = this.editionList[pieceId] || [];
+
         /*
             Basically there are two modes an edition list can be updated.
 
@@ -20,27 +24,42 @@ class EditionListStore {
                 2. The elements are already defined => merge current objects with the new ones from the server
 
          */
-        for(let i = 0; i < editionListOfPiece.length; i++) {
-
-            // if editionList for a specific piece does not exist yet,
-            // just initialize a new array
-            if(!this.editionList[pieceId]) {
-                this.editionList[pieceId] = [];
-            }
-
-            // this is the index formula for accessing an edition of a specific
-            // page
-            let storeEditionIndex = (page - 1) * pageSize + i;
-            let editionsForPieces = this.editionList[pieceId];
+        editionListOfPiece.forEach((updatedEdition, index) => {
+            // this is the index formula for accessing an edition starting from a specific page
+            const storeEditionIndex = (page - 1) * pageSize + index;
 
             // if edition already exists, just merge
-            if(editionsForPieces[storeEditionIndex]) {
-                editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
+            if(pieceEditionList[storeEditionIndex]) {
+                pieceEditionList[storeEditionIndex] = React.addons.update(pieceEditionList[storeEditionIndex], {$merge: updatedEdition});
             } else {
                 // if does not exist, assign
-                editionsForPieces[storeEditionIndex] = editionListOfPiece[i];
+                pieceEditionList[storeEditionIndex] = updatedEdition;
+            }
+        });
+
+        // Remove editions after specified max by finding the index of the first
+        // edition larger than the max edition and using that to cut off the rest of the list
+        if (typeof maxEdition === 'number') {
+            const largerThanMaxIndex = pieceEditionList.findIndex(edition => edition.edition_number > maxEdition);
+
+            if (largerThanMaxIndex !== -1) {
+                // The API defines inflexible page buckets based on the page number
+                // and page size, so we cannot just arbitrarily cut off the end of
+                // a page and expect get the rest of it on the next pagination request.
+                // Hence, we use the max edition index as a guide for which page to
+                // cut off to so as to always provide complete pages.
+                page = Math.ceil(largerThanMaxIndex / pageSize);
+
+                // We only want to cut off the list if there are more editions than
+                // there should be (ie. we're not already at the end of the editions)
+                const totalPageSize = page * pageSize;
+                if (pieceEditionList.length > totalPageSize) {
+                    pieceEditionList.length = totalPageSize;
+                }
             }
         }
+
+        const lastEdition = pieceEditionList[pieceEditionList.length - 1];
 
         /**
          * page, pageSize, orderBy, orderAsc and count are specific to a single list of editions
@@ -48,12 +67,18 @@ class EditionListStore {
          *
          * Default values for both are set in the editon_list_actions.
          */
-        this.editionList[pieceId].page = page;
-        this.editionList[pieceId].pageSize = pageSize;
-        this.editionList[pieceId].orderBy = orderBy;
-        this.editionList[pieceId].orderAsc = orderAsc;
-        this.editionList[pieceId].count = count;
-        this.editionList[pieceId].filterBy = filterBy;
+        pieceEditionList.page = page;
+        pieceEditionList.pageSize = pageSize;
+        pieceEditionList.orderBy = orderBy;
+        pieceEditionList.orderAsc = orderAsc;
+        pieceEditionList.count = count;
+        pieceEditionList.filterBy = filterBy;
+
+        if (pieceEditionList.maxSeen == null || lastEdition.edition_number > pieceEditionList.maxSeen) {
+            pieceEditionList.maxSeen = lastEdition.edition_number;
+        }
+
+        this.editionList[pieceId] = pieceEditionList;
     }
 
     /**

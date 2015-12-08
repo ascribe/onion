@@ -63,7 +63,7 @@ let PieceList = React.createClass({
 
     componentDidMount() {
         let page = this.props.location.query.page || 1;
-        
+
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
 
