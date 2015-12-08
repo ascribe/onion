@@ -93,7 +93,7 @@ class EditionListStore {
         // If he then tries to delete a piece/edition and this method is called,
         // we'll not be able to refresh his edition list since its not yet there.
         // Therefore we can just return, since there is no data to be refreshed
-        if (!pieceEditionList) {
+        if(!this.editionList[pieceId]) {
             return;
         }
 
