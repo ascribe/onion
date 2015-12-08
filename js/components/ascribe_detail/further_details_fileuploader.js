@@ -11,15 +11,21 @@ import AppConstants from '../../constants/application_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 
+
+const { func, bool, number, object, arrayOf } = React.PropTypes;
+
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.number,
-        otherData: React.PropTypes.arrayOf(React.PropTypes.object),
-        setIsUploadReady: React.PropTypes.func,
-        submitFile: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func,
-        editable: React.PropTypes.bool,
-        multiple: React.PropTypes.bool
+        pieceId: number,
+        otherData: arrayOf(object),
+        editable: bool,
+
+        // Props for ReactS3FineUploader
+        multiple: bool,
+        submitFile: func, // TODO: rename to onSubmitFile
+
+        setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
+        isReadyForFormSubmission: func
     },
 
     getDefaultProps() {
@@ -29,16 +35,25 @@ let FurtherDetailsFileuploader = React.createClass({
     },
 
     render() {
+        const {
+            editable,
+            isReadyForFormSubmission,
+            multiple,
+            otherData,
+            pieceId,
+            setIsUploadReady,
+            submitFile } = this.props;
+
         // Essentially there a three cases important to the fileuploader
         //
         // 1. there is no other_data => do not show the fileuploader at all (where otherData is now an array)
         // 2. there is other_data, but user has no edit rights => show fileuploader but without action buttons
         // 3. both other_data and editable are defined or true => show fileuploader with all action buttons
-        if (!this.props.editable && (!this.props.otherData || this.props.otherData.length === 0)) {
+        if (!editable && (!otherData || otherData.length === 0)) {
             return null;
         }
 
-        let otherDataIds = this.props.otherData ? this.props.otherData.map((data) => data.id).join() : null;
+        let otherDataIds = otherData ? otherData.map((data) => data.id).join() : null;
 
         return (
             <Property
@@ -48,16 +63,16 @@ let FurtherDetailsFileuploader = React.createClass({
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'otherdata',
-                        pieceId: this.props.pieceId
+                        pieceId: pieceId
                     }}
                     createBlobRoutine={{
                         url: ApiUrls.blob_otherdatas,
-                        pieceId: this.props.pieceId
+                        pieceId: pieceId
                     }}
                     validation={AppConstants.fineUploader.validation.additionalData}
-                    submitFile={this.props.submitFile}
-                    setIsUploadReady={this.props.setIsUploadReady}
-                    isReadyForFormSubmission={this.props.isReadyForFormSubmission}
+                    submitFile={submitFile}
+                    setIsUploadReady={setIsUploadReady}
+                    isReadyForFormSubmission={isReadyForFormSubmission}
                     session={{
                         endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
                         customHeaders: {
