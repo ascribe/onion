@@ -313,16 +313,10 @@ let PrizePieceRatings = React.createClass({
 
     onSelectChange() {
         PrizeRatingActions.toggleShortlist(this.props.piece.id)
-        .then(
-            (res) => {
-                this.refreshPieceData();
-                return res;
-            })
-        .then(
-            (res) => {
-                this.handleShortlistSuccess(res.notification);
-            }
-        );
+        .then((res) => {
+            this.refreshPieceData();
+            this.handleShortlistSuccess(res.notification);
+        });
     },
 
     render(){
