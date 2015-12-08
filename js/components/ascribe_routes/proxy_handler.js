@@ -12,6 +12,8 @@ import AppConstants from '../../constants/application_constants';
 const { object } = React.PropTypes;
 const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 
+
+
 /**
  * Can be used in combination with `Route` as an intermediate Handler
  * between the actual component we want to display dependent on a certain state
@@ -20,7 +22,7 @@ const WHEN_ENUM = ['loggedIn', 'loggedOut'];
  * @param {string} options.to   Any type of route path that is defined in routes.js
  * @param {enum/string} options.when ('loggedIn' || 'loggedOut')
  */
-export default function AuthProxyHandler({to, when}) {
+export function ProxyHandler({to, when}) {
 
     // validate `when`, must be contained in `WHEN_ENUM`.
     // Throw an error otherwise.
@@ -31,7 +33,7 @@ export default function AuthProxyHandler({to, when}) {
 
     return (Component) => {
         return React.createClass({
-            displayName: 'AuthProxyHandler',
+            displayName: 'ProxyHandler',
 
             propTypes: {
                 location: object

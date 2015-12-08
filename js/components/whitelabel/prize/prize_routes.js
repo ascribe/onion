@@ -22,7 +22,7 @@ import PasswordResetContainer from '../../password_reset_container';
 import CoaVerifyContainer from '../../coa_verify_container';
 import ErrorNotFoundPage from '../../error_not_found_page';
 
-import AuthProxyHandler from '../../../components/ascribe_routes/auth_proxy_handler';
+import { ProxyHandler } from '../../../components/ascribe_routes/proxy_handler';
 
 
 const ROUTES = {
@@ -31,26 +31,26 @@ const ROUTES = {
             <IndexRoute component={SPLanding} />
             <Route
                 path='login'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPLoginContainer)} />
+                component={ProxyHandler({to: '/collection', when: 'loggedIn'})(SPLoginContainer)} />
             <Route
                 path='logout'
-                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
+                component={ProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)}/>
             <Route
                 path='signup'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SPSignupContainer)} />
+                component={ProxyHandler({to: '/collection', when: 'loggedIn'})(SPSignupContainer)} />
             <Route
                 path='password_reset'
-                component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={ProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route
                 path='settings'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPSettingsContainer)}/>
+                component={ProxyHandler({to: '/login', when: 'loggedOut'})(SPSettingsContainer)}/>
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPRegisterPiece)}
+                component={ProxyHandler({to: '/login', when: 'loggedOut'})(SPRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='collection'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SPPieceList)}
+                component={ProxyHandler({to: '/login', when: 'loggedOut'})(SPPieceList)}
                 headerTitle='COLLECTION'/>
 
             <Route path='pieces/:pieceId' component={SPPieceContainer} />
@@ -64,20 +64,20 @@ const ROUTES = {
             <IndexRoute component={PRLanding} />
             <Route
                 path='register_piece'
-                component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PRRegisterPiece)}
+                component={ProxyHandler({to: '/login', when: 'loggedOut'})(PRRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
                 path='login'
-                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPLoginContainer)} />
+                component={ProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPLoginContainer)} />
             <Route
                 path='logout'
-                component={AuthProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)} />
+                component={ProxyHandler({to: '/', when: 'loggedOut'})(LogoutContainer)} />
             <Route
                 path='signup'
-                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPSignupContainer)} />
+                component={ProxyHandler({to: '/register_piece', when: 'loggedIn'})(SPSignupContainer)} />
             <Route
                 path='password_reset'
-                component={AuthProxyHandler({to: '/register_piece', when: 'loggedIn'})(PasswordResetContainer)} />
+                component={ProxyHandler({to: '/register_piece', when: 'loggedIn'})(PasswordResetContainer)} />
             <Route path='pieces/:pieceId' component={SPPieceContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
