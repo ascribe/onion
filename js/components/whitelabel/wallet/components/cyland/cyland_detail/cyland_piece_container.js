@@ -89,7 +89,7 @@ let CylandPieceContainer = React.createClass({
     },
 
     render() {
-        if(this.state.piece && this.state.piece.title) {
+        if(this.state.piece && this.state.piece.id) {
             setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
 
             return (

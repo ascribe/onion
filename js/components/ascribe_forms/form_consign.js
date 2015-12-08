@@ -6,31 +6,70 @@ import Button from 'react-bootstrap/lib/Button';
 
 import Form from './form';
 import Property from './property';
+
+import InputContractAgreementCheckbox from './input_contract_agreement_checkbox';
 import InputTextAreaToggable from './input_textarea_toggable';
 
+
 import AscribeSpinner from '../ascribe_spinner';
-import { getLangText } from '../../utils/lang_utils.js';
+
 import AclInformation from '../ascribe_buttons/acl_information';
+
+import { getLangText } from '../../utils/lang_utils.js';
 
 let ConsignForm = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
         id: React.PropTypes.object,
+        autoFocusProperty: React.PropTypes.string,
+        email: React.PropTypes.string,
         message: React.PropTypes.string,
+        labels: React.PropTypes.object,
+        createPublicContractAgreement: React.PropTypes.bool,
         handleSuccess: React.PropTypes.func
     },
 
-    getFormData(){
+    getDefaultProps() {
+        return {
+            labels: {}
+        };
+    },
+
+    getInitialState() {
+        return {
+            email: this.props.email || ''
+        };
+    },
+
+    getFormData() {
         return this.props.id;
     },
 
+    handleEmailOnChange(event) {
+        // event.target.value is the submitted email of the consignee
+        this.setState({
+            email: event && event.target && event.target.value || ''
+        });
+    },
+
     render() {
+        const { email } = this.state;
+        const {
+            autoFocusProperty,
+            createPublicContractAgreement,
+            email: defaultEmail,
+            handleSuccess,
+            id,
+            message,
+            labels,
+            url } = this.props;
+
         return (
             <Form
                 ref='form'
-                url={this.props.url}
+                url={url}
                 getFormData={this.getFormData}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 buttons={
                     <div className="modal-footer">
                         <p className="pull-right">
@@ -49,23 +88,38 @@ let ConsignForm = React.createClass({
                     </div>}>
                 <AclInformation aim={'form'} verbs={['acl_consign']}/>
                 <Property
+                    autoFocus={autoFocusProperty === 'email'}
                     name='consignee'
-                    label={getLangText('Email')}>
+                    label={labels.email || getLangText('Email')}
+                    editable={!defaultEmail}
+                    onChange={this.handleEmailOnChange}
+                    overrideForm={!!defaultEmail}>
                     <input
                         type="email"
+                        value={email}
                         placeholder={getLangText('Email of the consignee')}
                         required/>
                 </Property>
                 <Property
+                    autoFocus={autoFocusProperty === 'message'}
                     name='consign_message'
-                    label={getLangText('Personal Message')}
-                    editable={true}
-                    overrideForm={true}>
+                    label={labels.message || getLangText('Personal Message')}
+                    editable
+                    overrideForm>
                     <InputTextAreaToggable
                         rows={1}
-                        defaultValue={this.props.message}
+                        defaultValue={message}
                         placeholder={getLangText('Enter a message...')}
                         required />
+                </Property>
+                <Property
+                    name='contract_agreement'
+                    label={getLangText('Consign Contract')}
+                    className="ascribe-property-collapsible-toggle"
+                    style={{paddingBottom: 0}}>
+                    <InputContractAgreementCheckbox
+                        createPublicContractAgreement={createPublicContractAgreement}
+                        email={email} />
                 </Property>
                 <Property
                     name='password'

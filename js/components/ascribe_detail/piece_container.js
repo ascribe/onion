@@ -4,6 +4,9 @@ import React from 'react';
 import { History } from 'react-router';
 import Moment from 'moment';
 
+import ReactError from '../../mixins/react_error';
+import { ResourceNotFoundError } from '../../models/errors';
+
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
@@ -50,10 +53,17 @@ import { setDocumentTitle } from '../../utils/dom_utils';
  */
 let PieceContainer = React.createClass({
     propTypes: {
+        furtherDetailsType: React.PropTypes.func,
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    mixins: [History, ReactError],
+
+    getDefaultProps() {
+        return {
+            furtherDetailsType: FurtherDetails
+        };
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -69,15 +79,22 @@ let PieceContainer = React.createClass({
     componentDidMount() {
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         PieceStore.listen(this.onChange);
 
         // Every time we enter the piece detail page, just reset the piece
         // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
-
         this.loadPiece();
+        UserActions.fetchCurrentUser();
+    },
+
+    componentDidUpdate() {
+        const { pieceError } = this.state;
+
+        if(pieceError && pieceError.status === 404) {
+            this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
+        }
     },
 
     componentWillUnmount() {
@@ -88,7 +105,7 @@ let PieceContainer = React.createClass({
 
     onChange(state) {
         /*
-        
+
             ATTENTION:
             THIS IS JUST A TEMPORARY USABILITY FIX THAT ESSENTIALLY REMOVES THE LOAN BUTTON
             FROM THE PIECE DETAIL PAGE SO THAT USERS DO NOT CONFUSE A PIECE WITH AN EDITION.
@@ -102,7 +119,6 @@ let PieceContainer = React.createClass({
 
             let pieceState = mergeOptions({}, state.piece);
             pieceState.acl.acl_loan = false;
-
             this.setState({
                 piece: pieceState
             });
@@ -196,7 +212,12 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser && currentUser.email}>
+                    show={currentUser && currentUser.email && Object.keys(piece.acl).length > 1}>
+                    {/*
+                        `acl_view` is always available in `edition.acl`, therefore if it has
+                        no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
+                        `AclInformation` would show up
+                    */}
                     <DetailProperty label={getLangText('ACTIONS')}>
                         <AclButtonList
                             className="ascribe-button-list"
@@ -225,7 +246,8 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        if(this.state.piece && this.state.piece.id) {
+        if (this.state.piece && this.state.piece.id) {
+            let FurtherDetailsType = this.props.furtherDetailsType;
             setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
 
             return (
@@ -251,7 +273,6 @@ let PieceContainer = React.createClass({
                     }
                     buttons={this.getActions()}>
                     {this.getCreateEditionsDialog()}
-
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={this.state.piece.loan_history && this.state.piece.loan_history.length > 0}>
@@ -260,11 +281,14 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(this.state.currentUser.username || this.state.piece.public_note)}>
+                        show={!!(this.state.currentUser.username
+                                || this.state.piece.acl.acl_edit
+                                || this.state.piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note || null}
+                            show = {!!this.state.currentUser.username}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
@@ -272,11 +296,12 @@ let PieceContainer = React.createClass({
                             currentUser={this.state.currentUser}/>
                         <Note
                             id={this.getId}
-                            label={getLangText('Piece note (public)')}
+                            label={getLangText('Personal note (public)')}
                             defaultValue={this.state.piece.public_note || null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={!!this.state.piece.acl.acl_edit}
-                            successMessage={getLangText('Public piece note saved')}
+                            show={!!(this.state.piece.public_note || this.state.piece.acl.acl_edit)}
+                            successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
                             currentUser={this.state.currentUser}/>
                     </CollapsibleParagraph>
@@ -286,7 +311,7 @@ let PieceContainer = React.createClass({
                             || Object.keys(this.state.piece.extra_data).length > 0
                             || this.state.piece.other_data.length > 0}
                         defaultExpanded={true}>
-                        <FurtherDetails
+                        <FurtherDetailsType
                             editable={this.state.piece.acl.acl_edit}
                             pieceId={this.state.piece.id}
                             extraData={this.state.piece.extra_data}

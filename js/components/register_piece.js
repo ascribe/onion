@@ -17,7 +17,7 @@ import UserStore from '../stores/user_store';
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
-import PropertyCollapsible from './ascribe_forms/property_collapsible';
+import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
 import { mergeOptions } from '../utils/general_utils';
@@ -44,11 +44,8 @@ let RegisterPiece = React.createClass( {
         return mergeOptions(
             UserStore.getState(),
             WhitelabelStore.getState(),
-            PieceListStore.getState(),
-            {
-                selectedLicense: 0,
-                isFineUploaderActive: false
-            });
+            PieceListStore.getState()
+        );
     },
 
     componentDidMount() {
@@ -66,13 +63,6 @@ let RegisterPiece = React.createClass( {
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            // we should also make the fineuploader component editable again
-            this.setState({
-                isFineUploaderActive: true
-            });
-        }
     },
 
     handleSuccess(response){
@@ -96,15 +86,16 @@ let RegisterPiece = React.createClass( {
     getSpecifyEditions() {
         if(this.state.whitelabel && this.state.whitelabel.acl_create_editions || Object.keys(this.state.whitelabel).length === 0) {
             return (
-                <PropertyCollapsible
+                <Property
                     name="num_editions"
-                    checkboxLabel={getLangText('Specify editions')}>
+                    checkboxLabel={getLangText('Specify editions')}
+                    expanded={false}>
                     <span>{getLangText('Editions')}</span>
                     <input
                         type="number"
                         placeholder="(e.g. 32)"
                         min={0}/>
-                </PropertyCollapsible>
+                </Property>
             );
         }
     },
@@ -117,7 +108,7 @@ let RegisterPiece = React.createClass( {
                 <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                     <RegisterPieceForm
                         {...this.props}
-                        isFineUploaderActive={this.state.isFineUploaderActive}
+                        isFineUploaderActive={true}
                         handleSuccess={this.handleSuccess}
                         location={this.props.location}>
                         {this.props.children}

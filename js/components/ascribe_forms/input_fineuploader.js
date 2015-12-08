@@ -10,13 +10,13 @@ import AppConstants from '../../constants/application_constants';
 import { getCookie } from '../../utils/fetch_api_utils';
 
 
-const { func, bool, object, shape, string, number, arrayOf } = React.PropTypes;
+const { func, bool, shape, string, number, arrayOf } = React.PropTypes;
 
 const InputFineUploader = React.createClass({
     propTypes: {
         setIsUploadReady: func,
         isReadyForFormSubmission: func,
-        submitFileName: func,
+        submitFile: func,
         fileInputElement: func,
 
         areAssetsDownloadable: bool,
@@ -38,7 +38,6 @@ const InputFineUploader = React.createClass({
         // a user is actually not logged in already to prevent him from droping files
         // before login in
         isFineUploaderActive: bool,
-        onLoggedOut: func,
 
         enableLocalHashing: bool,
         uploadMethod: string,
@@ -51,7 +50,11 @@ const InputFineUploader = React.createClass({
         fileClassToUpload: shape({
             singular: string,
             plural: string
-        })
+        }),
+        handleChangedFile: func,
+
+        // Provided by `Property`
+        onChange: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -77,8 +80,8 @@ const InputFineUploader = React.createClass({
             this.props.onChange({ target: { value: this.state.value } });
         }
 
-        if(typeof this.props.submitFileName === 'function') {
-            this.props.submitFileName(file.originalName);
+        if(typeof this.props.submitFile === 'function') {
+            this.props.submitFile(file);
         }
     },
 
@@ -94,23 +97,26 @@ const InputFineUploader = React.createClass({
     },
 
     render() {
-        const { fileInputElement,
-                keyRoutine,
-                createBlobRoutine,
-                validation,
-                setIsUploadReady,
-                isReadyForFormSubmission,
-                areAssetsDownloadable,
-                onLoggedOut,
-                enableLocalHashing,
-                fileClassToUpload,
-                location } = this.props;
-        let editable = this.props.isFineUploaderActive;
+        const {
+            areAssetsDownloadable,
+            enableLocalHashing,
+            createBlobRoutine,
+            disabled,
+            fileClassToUpload,
+            fileInputElement,
+            isFineUploaderActive,
+            isReadyForFormSubmission,
+            keyRoutine,
+            setIsUploadReady,
+            uploadMethod,
+            validation,
+            handleChangedFile } = this.props;
+        let editable = isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
         // isFineUploaderActive
-        if(typeof this.props.disabled !== 'undefined') {
-            editable = !this.props.disabled;
+        if(typeof disabled !== 'undefined') {
+            editable = !disabled;
         }
 
         return (
@@ -139,10 +145,10 @@ const InputFineUploader = React.createClass({
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
                 }}
-                onInactive={this.props.onLoggedOut}
-                enableLocalHashing={this.props.enableLocalHashing}
-                uploadMethod={this.props.uploadMethod}
-                fileClassToUpload={this.props.fileClassToUpload} />
+                enableLocalHashing={enableLocalHashing}
+                uploadMethod={uploadMethod}
+                fileClassToUpload={fileClassToUpload}
+                handleChangedFile={handleChangedFile}/>
         );
     }
 });

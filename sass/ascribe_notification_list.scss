@@ -2,8 +2,9 @@ $break-small: 764px;
 $break-medium: 991px;
 $break-medium: 1200px;
 
-.notification-header,.notification-wrapper {
-    width: 350px;
+.notification-header, .notification-wrapper {
+    min-width: 350px;
+    width: 100%;
 }
 
 .notification-header {

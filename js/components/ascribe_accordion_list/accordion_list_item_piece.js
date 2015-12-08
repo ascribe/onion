@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import AccordionListItem from './accordion_list_item';
+import AccordionListItemThumbnailPlacholder from './accordion_list_item_thumbnail_placeholder';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -19,7 +20,14 @@ let AccordionListItemPiece = React.createClass({
         ]),
         subsubheading: React.PropTypes.object,
         buttons: React.PropTypes.object,
-        badge: React.PropTypes.object
+        badge: React.PropTypes.object,
+        thumbnailPlaceholder: React.PropTypes.func
+    },
+
+    getDefaultProps() {
+        return {
+            thumbnailPlaceholder: AccordionListItemThumbnailPlacholder
+        };
     },
 
     getLinkData() {
@@ -34,19 +42,23 @@ let AccordionListItemPiece = React.createClass({
     },
 
     render() {
-        const { className, piece, artistName, buttons, badge, children, subsubheading } = this.props;
+        const {
+            artistName,
+            badge,
+            buttons,
+            children,
+            className,
+            piece,
+            subsubheading,
+            thumbnailPlaceholder: ThumbnailPlaceholder } = this.props;
         const { url, url_safe } = piece.thumbnail;
         let thumbnail;
 
         // Since we're going to refactor the thumbnail generation anyway at one point,
         // for not use the annoying ascribe_spiral.png, we're matching the url against
         // this name and replace it with a CSS version of the new logo.
-        if(url.match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/)) {
-            thumbnail = (
-                <span className="ascribe-logo-circle">
-                    <span>A</span>
-                </span>
-            );
+        if (url.match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/)) {
+            thumbnail = (<ThumbnailPlaceholder />);
         } else {
             thumbnail = (
                 <div style={{backgroundImage: 'url("' + url_safe + '")'}}/>

@@ -81,8 +81,8 @@ let IkonotvAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Submitted to IkonoTV')} <span className="glyphicon glyphicon-ok"
-                                                                  aria-hidden="true"></span>
+                        {getLangText('Submitted to IkonoTV') + ' '}
+                        <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
                 </AclProxy>
                 <AclProxy
@@ -91,8 +91,8 @@ let IkonotvAccordionListItem = React.createClass({
                     <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                        {getLangText('Loaned to IkonoTV')} <span className="glyphicon glyphicon-ok"
-                                                                  aria-hidden="true"></span>
+                        {getLangText('Loaned to IkonoTV') + ' '}
+                        <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
                 </AclProxy>
             </div>

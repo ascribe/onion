@@ -78,7 +78,6 @@ let AccordionListItemEditionWidget = React.createClass({
                 return (
                     <AscribeSpinner
                         size='sm'
-                        color='white'
                         classNames='pull-right margin-left-2px'/>
                 );
             } else {

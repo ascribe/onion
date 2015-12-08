@@ -52,6 +52,20 @@ const constants = {
             'type': 'wallet'
         },
         {
+            'subdomain': 'lumenus',
+            'name': 'Lumenus',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/lumenus/lumenus-logo.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
+        },
+        {
+            'subdomain': '23vivi',
+            'name': '23VIVI',
+            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/23vivi/23vivi-logo.png',
+            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
+            'type': 'wallet'
+        },
+        {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'logo': 'http://notfoundlogo.de',
@@ -85,7 +99,17 @@ const constants = {
         'Bildrecht GmbH', 'SABAM', 'AUTVIS', 'CREAIMAGEN', 'SONECA', 'Copydan', 'EAU', 'Kuvasto', 'GCA', 'HUNGART',
         'IVARO', 'SIAE', 'JASPAR-SPDA', 'AKKA/LAA', 'LATGA-A', 'SOMAAP', 'ARTEGESTION', 'CARIER', 'BONO', 'APSAV',
         'SPA', 'GESTOR', 'VISaRTA', 'RAO', 'LITA', 'DALRO', 'VeGaP', 'BUS', 'ProLitteris', 'AGADU', 'AUTORARTE', 'BUBEDRA', 'BBDA', 'BCDA', 'BURIDA', 'ADAVIS', 'BSDA'],
+
     'searchThreshold': 500,
+
+    'supportedThumbnailFileFormats': [
+        'x-sgi-movie', 'x-msvideo', 'quicktime', 'mpeg', 'png', 'jpeg', 'gif',
+        'ogg', 'oga', 'ogv', 'ogx', 'wmv', 'wma', 'flv', '3gpp2', '3p2', '3pg',
+        'png', 'jpg', 'jpeg', 'gif', '264', '3g', '3g2', '3gp', '3gp2', '3gpp',
+        'mp4', 'm4a', 'm4v', 'f4v', 'f4a', 'm4b', 'm4r', 'f4b', 'mov', 'quicktime',
+        'webm', 'x264', 'mpeg', 'mpeg4', 'mpg4', 'bmp', 'eps', 'jp2', 'j2k', 'jpm',
+        'mj2'
+    ],
 
     // in case of whitelabel customization, we store stuff here
     'whitelabel': {},
@@ -114,7 +138,12 @@ const constants = {
     },
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
-    }
+    },
+
+    'errorMessagesToIgnore': [
+        'Authentication credentials were not provided.',
+        'Informations d\'authentification non fournies.'
+    ]
 };
 
 export default constants;

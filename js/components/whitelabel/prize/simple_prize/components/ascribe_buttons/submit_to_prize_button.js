@@ -8,6 +8,7 @@ import PieceSubmitToPrizeForm from '../../../../../ascribe_forms/form_submit_to_
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
+
 let SubmitToPrizeButton = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
@@ -21,8 +22,8 @@ let SubmitToPrizeButton = React.createClass({
                 <button
                     disabled
                     className="btn btn-default btn-xs pull-right">
-                    {getLangText('Submitted to prize')} <span className="glyphicon glyphicon-ok"
-                                                              aria-hidden="true"></span>
+                    {getLangText('Submitted to prize') + ' '}
+                    <span className='ascribe-icon icon-ascribe-ok'/>
                 </button>
             );
         }
