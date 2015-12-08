@@ -66,20 +66,28 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     filterSelectedEditions() {
-        let selectedEditions = this.state.editionList[this.props.parentId]
-            .filter((edition) => edition.selected);
-        return selectedEditions;
+        return this.state
+                   .editionList[this.props.parentId]
+                   .filter((edition) => edition.selected);
     },
 
     loadFurtherEditions() {
+        const { parentId: pieceId } = this.props;
+        const { page, pageSize, orderBy, orderAsc, filterBy } = this.state.editionList[pieceId];
+
         // trigger loading animation
         this.setState({
             showMoreLoading: true
         });
 
-        let editionList = this.state.editionList[this.props.parentId];
-        EditionListActions.fetchEditionList(this.props.parentId, editionList.page + 1, editionList.pageSize,
-                                            editionList.orderBy, editionList.orderAsc, editionList.filterBy);
+        EditionListActions.fetchEditionList({
+            pieceId,
+            page: page + 1,
+            pageSize,
+            orderBy,
+            orderAsc,
+            filterBy
+        });
     },
     render() {
         let selectedEditionsCount = 0;

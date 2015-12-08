@@ -32,7 +32,7 @@ class EditionListStore {
             // page
             let storeEditionIndex = (page - 1) * pageSize + i;
             let editionsForPieces = this.editionList[pieceId];
-            
+
             // if edition already exists, just merge
             if(editionsForPieces[storeEditionIndex]) {
                 editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
@@ -88,10 +88,15 @@ class EditionListStore {
         this.editionList[pieceId].length = 0;
 
         // refetch editions with adjusted page size
-        EditionsListActions.fetchEditionList(pieceId, 1, prevEditionListLength,
-                                             this.editionList[pieceId].orderBy,
-                                             this.editionList[pieceId].orderAsc,
-                                             filterBy)
+        EditionsListActions
+            .fetchEditionList({
+                pieceId,
+                page: 1,
+                pageSize: prevEditionListLength,
+                orderBy: this.editionList[pieceId].orderBy,
+                orderAsc: this.editionList[pieceId].orderAsc,
+                filterBy
+            })
             .then(() => {
                 // reset back to the normal pageSize and page
                 this.editionList[pieceId].page = prevEditionListPage;
@@ -144,7 +149,7 @@ class EditionListStore {
         if(!this.isEditionListOpenForPieceId[pieceId].show) {
             // to clear an array, david walsh recommends to just set it's length to zero
             // http://davidwalsh.name/empty-array
-            
+
             this.editionList[pieceId].length = 0;
         }
     }

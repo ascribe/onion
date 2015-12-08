@@ -9,7 +9,7 @@ let EditionListFetcher = {
     /**
      * Fetches a list of editions from the API.
      */
-    fetch(pieceId, page, pageSize, orderBy, orderAsc, filterBy) {
+    fetch({pieceId, page, pageSize, orderBy, orderAsc, filterBy}) {
         let ordering = generateOrderingQueryParams(orderBy, orderAsc);
 
         let queryParams = mergeOptions(

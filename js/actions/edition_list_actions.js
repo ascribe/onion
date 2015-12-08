@@ -17,7 +17,7 @@ class EditionListActions {
         );
     }
 
-    fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc, filterBy) {
+    fetchEditionList({pieceId, page, pageSize, orderBy, orderAsc, filterBy}) {
         if((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
             orderBy = 'edition_number';
             orderAsc = true;
@@ -31,7 +31,7 @@ class EditionListActions {
 
         return Q.Promise((resolve, reject) => {
             EditionListFetcher
-                .fetch(pieceId, page, pageSize, orderBy, orderAsc, filterBy)
+                .fetch({pieceId, page, pageSize, orderBy, orderAsc, filterBy})
                 .then((res) => {
                     if(res && !res.editions) {
                         throw new Error('Piece has no editions to fetch.');
@@ -54,7 +54,6 @@ class EditionListActions {
                     reject(err);
                 });
         });
-        
     }
 }
 

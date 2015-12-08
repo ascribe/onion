@@ -49,16 +49,18 @@ let CreateEditionsButton = React.createClass({
 
             // requests, will try to merge the filterBy parameter with other parameters (mergeOptions).
             // Therefore it can't but null but instead has to be an empty object
-            EditionListActions.fetchEditionList(this.props.piece.id, null, null, null, null, {})
-            .then((res) => {
-
-                clearInterval(this.state.pollingIntervalIndex);
-                this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
-
-            })
-            .catch((err) => {
-                /* Ignore and keep going */
-            });
+            EditionListActions
+                .fetchEditionList({
+                    pieceId: this.props.piece.id,
+                    filterBy: {}
+                })
+                .then((res) => {
+                    clearInterval(this.state.pollingIntervalIndex);
+                    this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
+                })
+                .catch((err) => {
+                    /* Ignore and keep going */
+                });
         }, 5000);
 
         this.setState({
