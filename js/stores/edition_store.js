@@ -1,23 +1,57 @@
 'use strict';
 
 import { alt } from '../alt';
+
 import EditionActions from '../actions/edition_actions';
+import EditionSource from '../sources/edition_source';
 
 
 class EditionStore {
     constructor() {
-        this.edition = {};
-        this.editionError = null;
+        this.edition = null;
+        this.editionMeta = {
+            err: null,
+            idToFetch: null
+        };
+        this.coaMeta = {
+            err: null
+        };
+
         this.bindActions(EditionActions);
+        this.registerAsync(EditionSource);
     }
 
-    onUpdateEdition(edition) {
+    onFetchEdition(idToFetch) {
+        this.editionMeta.idToFetch = idToFetch;
+
+        if(!this.getInstance().isLoading()) {
+            this.getInstance().lookupEdition();
+        }
+    }
+
+    onSuccessFetchEdition({ edition }) {
+        this.editionMeta.err = null;
+        this.editionMeta.idToFetch = null;
         this.edition = edition;
-        this.editionError = null;
+
+        if(this.edition && this.edition.coa && typeof this.edition.coa.constructor !== Object) {
+            this.getInstance().lookupCoa();
+        } else if(this.edition && !this.edition.coa) {
+            this.getInstance().performCreateCoa();
+        }
     }
 
-    onEditionFailed(error) {
-        this.editionError = error;
+    onSuccessFetchCoa({ coa }) {
+        this.coaMeta.err = null;
+        this.edition.coa = coa;
+    }
+
+    onEditionError(err) {
+        this.editionMeta.err = err;
+    }
+
+    onCoaError(err) {
+        this.coaMeta.err = err;
     }
 }
 

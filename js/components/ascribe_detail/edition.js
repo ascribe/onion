@@ -8,11 +8,6 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
-import CoaActions from '../../actions/coa_actions';
-import CoaStore from '../../stores/coa_store';
-
 import HistoryIterator from './history_iterator';
 
 import MediaContainer from './media_container';
@@ -44,6 +39,7 @@ let Edition = React.createClass({
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
         edition: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
         loadEdition: React.PropTypes.func
     },
 
@@ -53,32 +49,6 @@ let Edition = React.createClass({
         return {
             furtherDetailsType: FurtherDetails
         };
-    },
-
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        // Flushing the coa state is essential to not displaying the same
-        // data to the user while he's on another edition
-        //
-        // BUGFIX: Previously we had this line in the componentWillUnmount of
-        // CoaDetails, but since we're reloading the edition after performing an ACL action
-        // on it, this resulted in multiple events occupying the dispatcher, which eventually
-        // resulted in crashing the app.
-        CoaActions.flushCoa();
-
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     render() {
@@ -101,13 +71,13 @@ let Edition = React.createClass({
                     <EditionSummary
                         actionPanelButtonListType={this.props.actionPanelButtonListType}
                         edition={this.props.edition}
-                        currentUser={this.state.currentUser}
+                        currentUser={this.props.currentUser}
                         handleSuccess={this.props.loadEdition}/>
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.acl_coa === true}>
                         <CoaDetails
-                            edition={this.props.edition}/>
+                            coa={this.props.edition.coa}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -133,7 +103,7 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title="Notes"
-                        show={!!(this.state.currentUser.username
+                        show={!!(this.props.currentUser.username
                                 || this.props.edition.acl.acl_edit
                                 || this.props.edition.public_note)}>
                         <Note
@@ -144,7 +114,7 @@ let Edition = React.createClass({
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={this.props.currentUser}/>
                         <Note
                             id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
@@ -154,7 +124,7 @@ let Edition = React.createClass({
                             show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
                             successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={this.props.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -246,38 +216,15 @@ let EditionSummary = React.createClass({
 
 let CoaDetails = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object
-    },
-
-    getInitialState() {
-        return CoaStore.getState();
-    },
-
-    componentDidMount() {
-        let { edition } = this.props;
-        CoaStore.listen(this.onChange);
-        if(edition.coa) {
-            CoaActions.fetchOrCreate(edition.coa, edition.bitcoin_id);
-        }
-        else {
-            CoaActions.create(edition.bitcoin_id);
-        }
-    },
-
-    componentWillUnmount() {
-        CoaStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        coa: React.PropTypes.object
     },
 
     render() {
-        if(this.state.coa && this.state.coa.url_safe) {
+        if(this.props.coa && this.props.coa.url_safe) {
             return (
                 <div>
                     <p className="text-center ascribe-button-list">
-                        <a href={this.state.coa.url_safe} target="_blank">
+                        <a href={this.props.coa.url_safe} target="_blank">
                             <button className="btn btn-default btn-xs">
                                 {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
                             </button>
@@ -291,10 +238,10 @@ let CoaDetails = React.createClass({
                     </p>
                 </div>
             );
-        } else if(typeof this.state.coa === 'string'){
+        } else if(typeof this.props.coa === 'string'){
             return (
                 <div className="text-center">
-                    {this.state.coa}
+                    {this.props.coa}
                 </div>
             );
         }
