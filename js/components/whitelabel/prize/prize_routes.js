@@ -61,15 +61,14 @@ const ROUTES = {
     ),
     portfolioreview: (
         <Route path='/' component={PRApp}>
-            <IndexRoute component={PRLanding} />
+        <IndexRoute component={ProxyHandler(AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }))(PRLanding)} />
             <Route
                 path='register_piece'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PRRegisterPiece)}
-                headerTitle='+ NEW WORK'/>
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PRRegisterPiece)}/>
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
-                headerTitle='COLLECTION'/>
+                headerTitle='SUBMISSIONS'/>
             <Route
                 path='login'
                 component={ProxyHandler(

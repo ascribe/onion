@@ -37,14 +37,7 @@ import { constructHead } from '../utils/dom_utils';
 
 let Header = React.createClass({
     propTypes: {
-        showAddWork: React.PropTypes.bool,
         routes: React.PropTypes.arrayOf(React.PropTypes.object)
-    },
-
-    getDefaultProps() {
-        return {
-            showAddWork: true
-        };
     },
 
     getInitialState() {

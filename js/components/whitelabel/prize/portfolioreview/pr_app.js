@@ -52,7 +52,7 @@ let PRApp = React.createClass({
             header = <Hero />;
             style = { paddingTop: '0 !important' };
         } else if(currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
-            header = <Header routes={routes} showAddWork={false} />;
+            header = <Header routes={routes} />;
         } else {
             style = { paddingTop: '0 !important' };
         }

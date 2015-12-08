@@ -13,7 +13,7 @@ export function AuthPrizeRoleRedirect({ to, when }) {
 
     return function(currentUser, query) {
         const exprToValidate = when
-            .map((role) => currentUser[role])
+            .map(role => currentUser[role])
             .reduce((a, b) => a || b);
 
         if(exprToValidate) {

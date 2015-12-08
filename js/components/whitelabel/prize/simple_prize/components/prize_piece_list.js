@@ -48,7 +48,9 @@ let PrizePieceList = React.createClass({
     },
 
     getButtonSubmit() {
-        if (this.state.prize && this.state.prize.active && !this.state.currentUser.is_jury){
+        const { currentUser } = this.state;
+        if (this.state.prize && this.state.prize.active &&
+            !currentUser.is_jury && !currentUser.is_admin && !currentUser.is_judge){
             return (
                 <LinkContainer to="/register_piece">
                     <Button>
@@ -56,9 +58,6 @@ let PrizePieceList = React.createClass({
                     </Button>
                 </LinkContainer>
             );
-        }
-        else if (this.state.prize && this.state.currentUser.is_judge){
-            return null;
         }
         return null;
     },
