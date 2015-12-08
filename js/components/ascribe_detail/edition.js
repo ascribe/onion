@@ -269,6 +269,8 @@ let CoaDetails = React.createClass({
         return (
             <div className="text-center">
                 <AscribeSpinner color='dark-blue' size='lg'/>
+                <p>{getLangText("Just a sec, we\'re generating your COA")}</p>
+                <p>{getLangText('(you may leave the page)')}</p>
             </div>
         );
     }

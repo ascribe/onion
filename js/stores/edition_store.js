@@ -29,21 +29,30 @@ class EditionStore {
         }
     }
 
-    onSuccessFetchEdition({ edition }) {
-        this.editionMeta.err = null;
-        this.editionMeta.idToFetch = null;
-        this.edition = edition;
+    onSuccessFetchEdition(res) {
+        if(res && res.edition) {
+            this.edition = res.edition;
+            this.editionMeta.err = null;
+            this.editionMeta.idToFetch = null;
 
-        if(this.edition && this.edition.coa && typeof this.edition.coa.constructor !== Object) {
-            this.getInstance().lookupCoa();
-        } else if(this.edition && !this.edition.coa && this.edition.acl.acl_coa) {
-            this.getInstance().performCreateCoa();
+            if (this.edition.coa && this.edition.acl.acl_coa &&
+                typeof this.edition.coa.constructor !== Object) {
+                this.getInstance().lookupCoa();
+            } else if(!this.edition.coa && this.edition.acl.acl_coa) {
+                this.getInstance().performCreateCoa();
+            }
+        } else {
+            this.editionMeta.err = new Error('Problem fetching the edition');
         }
     }
 
-    onSuccessFetchCoa({ coa }) {
-        this.coaMeta.err = null;
-        this.edition.coa = coa;
+    onSuccessFetchCoa(res) {
+        if (res && res.coa && this.edition) {
+            this.edition.coa = res.coa;
+            this.coaMeta.err = null;
+        } else {
+            this.coaMeta.err = new Error('Problem generating/fetching the COA');
+        }
     }
 
     onFlushEdition() {

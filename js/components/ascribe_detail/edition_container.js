@@ -64,8 +64,7 @@ let EditionContainer = React.createClass({
 
     componentDidUpdate() {
         const { editionMeta } = this.state;
-
-        if(editionMeta.err && editionMeta.err.status === 404) {
+        if(editionMeta.err && editionMeta.err.json && editionMeta.err.json.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the edition you're looking for doesn't exist.")));
         }
     },
