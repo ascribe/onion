@@ -85,7 +85,7 @@ class EditionListStore {
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList({pieceId, filterBy = this.editionList[pieceId].filterBy}) {
+    onRefreshEditionList({pieceId, filterBy}) {
         const pieceEditionList = this.editionList[pieceId];
 
         // It may happen that the user enters the site logged in already
@@ -97,16 +97,21 @@ class EditionListStore {
             return;
         }
 
+        if (typeof filterBy !== 'object') {
+            filterBy = pieceEditionList.filterBy;
+        }
+
+        const { maxSeen, orderAsc, orderBy, pageSize } = pieceEditionList;
+
         // to clear an array, david walsh recommends to just set it's length to zero
         // http://davidwalsh.name/empty-array
         pieceEditionList.length = 0;
 
-        // refetch editions from the beginning with the previous settings
         EditionsListActions
-            .fetchEditionList(pieceId, 1, pieceEditionList.pageSize,
-                                    pieceEditionList.orderBy,
-                                    pieceEditionList.orderAsc,
-                                    filterBy)
+            .fetchEditionList(pieceId, 1, pageSize,
+                                    orderBy,
+                                    orderAsc,
+                                    filterBy, maxSeen)
             .catch(console.logGlobal);
     }
 
@@ -152,7 +157,7 @@ class EditionListStore {
         if(!this.isEditionListOpenForPieceId[pieceId].show) {
             // to clear an array, david walsh recommends to just set it's length to zero
             // http://davidwalsh.name/empty-array
-            
+
             this.editionList[pieceId].length = 0;
         }
     }
