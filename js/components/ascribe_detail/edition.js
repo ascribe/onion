@@ -39,6 +39,7 @@ let Edition = React.createClass({
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
         edition: React.PropTypes.object,
+        coaError: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         loadEdition: React.PropTypes.func
     },
@@ -77,7 +78,9 @@ let Edition = React.createClass({
                         title={getLangText('Certificate of Authenticity')}
                         show={this.props.edition.acl.acl_coa === true}>
                         <CoaDetails
-                            coa={this.props.edition.coa}/>
+                            coa={this.props.edition.coa}
+                            coaError={this.props.coaError}
+                            editionId={this.props.edition.bitcoin_id}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -216,10 +219,28 @@ let EditionSummary = React.createClass({
 
 let CoaDetails = React.createClass({
     propTypes: {
-        coa: React.PropTypes.object
+        editionId: React.PropTypes.string,
+        coa: React.PropTypes.object,
+        coaError: React.PropTypes.object
+    },
+
+    contactOnIntercom() {
+        window.Intercom('showNewMessage', `Hi, I'm having problems generating a Certificate of Authenticity for Edition: ${this.props.editionId}`);
+        console.logGlobal(new Error(`Coa couldn't be created for edition: ${this.props.editionId}`));
     },
 
     render() {
+        if(this.props.coaError) {
+            return (
+                <div className="text-center">
+                    <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>
+                    <p>
+                        {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
+                        <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
+                    </p>
+                </div>
+            );
+        }
         if(this.props.coa && this.props.coa.url_safe) {
             return (
                 <div>

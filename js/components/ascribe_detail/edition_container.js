@@ -48,6 +48,7 @@ let EditionContainer = React.createClass({
         // just reset the edition that is saved in the edition store
         // as it will otherwise display wrong/old data once the user loads
         // the edition detail a second time
+        EditionActions.flushEdition();
         EditionActions.fetchEdition(this.props.params.editionId);
 
         UserActions.fetchCurrentUser();
@@ -95,6 +96,7 @@ let EditionContainer = React.createClass({
                     actionPanelButtonListType={this.props.actionPanelButtonListType}
                     furtherDetailsType={this.props.furtherDetailsType}
                     edition={this.state.edition}
+                    coaError={this.state.coaMeta.err}
                     currentUser={this.state.currentUser}
                     loadEdition={() => EditionActions.fetchEdition(this.props.params.editionId)} />
             );

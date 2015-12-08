@@ -9,6 +9,7 @@ class EditionActions {
             'fetchEdition',
             'successFetchEdition',
             'successFetchCoa',
+            'flushEdition',
             'errorCoa',
             'errorEdition'
         );

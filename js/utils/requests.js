@@ -12,7 +12,14 @@ import { argsToQueryParams } from '../utils/url_utils';
 class Requests {
     unpackResponse(response) {
         if (response.status >= 500) {
-            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+            let err = new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+            response
+                .text()
+                .then((resText) => JSON.parse(resText))
+                .then((resJSON) => {
+                    err = new Error(resJSON.errors.pop());
+                })
+                .catch(() => { throw err; });
         }
 
         return Q.Promise((resolve, reject) => {

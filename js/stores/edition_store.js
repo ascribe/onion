@@ -36,7 +36,7 @@ class EditionStore {
 
         if(this.edition && this.edition.coa && typeof this.edition.coa.constructor !== Object) {
             this.getInstance().lookupCoa();
-        } else if(this.edition && !this.edition.coa) {
+        } else if(this.edition && !this.edition.coa && this.edition.acl.acl_coa) {
             this.getInstance().performCreateCoa();
         }
     }
@@ -46,11 +46,22 @@ class EditionStore {
         this.edition.coa = coa;
     }
 
-    onEditionError(err) {
+    onFlushEdition() {
+        this.edition = null;
+        this.editionMeta = {
+            err: null,
+            idToFetch: null
+        };
+        this.coaMeta = {
+            err: null
+        };
+    }
+
+    onErrorEdition(err) {
         this.editionMeta.err = err;
     }
 
-    onCoaError(err) {
+    onErrorCoa(err) {
         this.coaMeta.err = err;
     }
 }
