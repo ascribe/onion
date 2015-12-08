@@ -22,7 +22,7 @@ import PasswordResetContainer from '../../password_reset_container';
 import CoaVerifyContainer from '../../coa_verify_container';
 import ErrorNotFoundPage from '../../error_not_found_page';
 
-import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
+import AuthProxyHandler from '../../../components/ascribe_routes/auth_proxy_handler';
 
 
 const ROUTES = {

@@ -40,7 +40,7 @@ import LumenusLanding from './components/lumenus/lumenus_landing';
 import Vivi23Landing from './components/23vivi/23vivi_landing';
 import Vivi23PieceList from './components/23vivi/23vivi_piece_list';
 
-import AuthProxyHandler from '../../../components/ascribe_routes/proxy_routes/auth_proxy_handler';
+import AuthProxyHandler from '../../../components/ascribe_routes/auth_proxy_handler';
 
 import WalletApp from './wallet_app';
 

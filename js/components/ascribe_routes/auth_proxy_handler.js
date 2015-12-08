@@ -3,10 +3,10 @@
 import React from 'react';
 import { History, RouteContext } from 'react-router';
 
-import UserStore from '../../../stores/user_store';
-import UserActions from '../../../actions/user_actions';
+import UserStore from '../../stores/user_store';
+import UserActions from '../../actions/user_actions';
 
-import AppConstants from '../../../constants/application_constants';
+import AppConstants from '../../constants/application_constants';
 
 
 const { object } = React.PropTypes;
@@ -89,7 +89,7 @@ export default function AuthProxyHandler({to, when}) {
 
                 } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
                     /*
-                     * redirectAuthenticated contains an arbirary path
+                     * redirectAuthenticated contains an arbitrary path
                      * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
                      * hence transitionTo cannot be used directly.
                      *

@@ -25,7 +25,7 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 
 import RegisterPiece from './components/register_piece';
 
-import AuthProxyHandler from './components/ascribe_routes/proxy_routes/auth_proxy_handler';
+import AuthProxyHandler from './components/ascribe_routes/auth_proxy_handler';
 
 
 let COMMON_ROUTES = (
