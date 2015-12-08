@@ -28,6 +28,12 @@ let CreateEditionsButton = React.createClass({
         EditionListStore.listen(this.onChange);
     },
 
+    componentDidUpdate() {
+        if(this.props.piece.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
+            this.startPolling();
+        }
+    },
+
     componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
         clearInterval(this.state.pollingIntervalIndex);
@@ -35,12 +41,6 @@ let CreateEditionsButton = React.createClass({
 
     onChange(state) {
         this.setState(state);
-    },
-
-    componentDidUpdate() {
-        if(this.props.piece.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
-            this.startPolling();
-        }
     },
 
     startPolling() {
