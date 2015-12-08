@@ -41,7 +41,7 @@ let PRApp = React.createClass({
     },
 
     render() {
-        const { history, children } = this.props;
+        const { history, children, routes } = this.props;
         const { currentUser } = this.state;
         let style = {};
         let subdomain = getSubdomain();
@@ -51,8 +51,8 @@ let PRApp = React.createClass({
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
             header = <Hero />;
             style = { paddingTop: '0 !important' };
-        } else if(history.isActive('/collection') || history.isActive('/settings')) {
-            header = <Header />;
+        } else if(currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
+            header = <Header routes={routes} showAddWork={false} />;
         } else {
             style = { paddingTop: '0 !important' };
         }

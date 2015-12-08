@@ -55,10 +55,11 @@ let Header = React.createClass({
     },
 
     componentDidMount() {
-        UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
+        UserActions.fetchCurrentUser.defer();
+
         WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel.defer();
 
         // react-bootstrap 0.25.1 has a bug in which it doesn't
         // close the mobile expanded navigation after a click by itself.
@@ -223,7 +224,7 @@ let Header = React.createClass({
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show = {false}/>
+                            <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>

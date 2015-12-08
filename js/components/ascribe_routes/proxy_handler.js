@@ -101,6 +101,7 @@ export function ProxyHandler(...redirectFunctions) {
                 if(!UserStore.isLoading()) {
                     const { currentUser } = this.state;
                     const { query } = this.props.location;
+
                     for(let i = 0; i < redirectFunctions.length; i++) {
                         // if a redirectFunction redirects the user,
                         // it should return `true` and therefore
