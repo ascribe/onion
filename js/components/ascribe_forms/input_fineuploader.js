@@ -25,6 +25,7 @@ const InputFineUploader = React.createClass({
 
         // Props for ReactS3FineUploader
         areAssetsDownloadable: bool,
+        setWarning: func,
         showErrorPrompt: bool,
 
         handleChangedFile: func, // TODO: rename to onChangedFile
@@ -122,6 +123,7 @@ const InputFineUploader = React.createClass({
                 fileClassToUpload,
                 uploadMethod,
                 handleChangedFile,
+                setWarning,
                 showErrorPrompt,
                 disabled } = this.props;
         let editable = isFineUploaderActive;
@@ -144,6 +146,7 @@ const InputFineUploader = React.createClass({
                 isReadyForFormSubmission={isReadyForFormSubmission}
                 areAssetsDownloadable={areAssetsDownloadable}
                 areAssetsEditable={editable}
+                setWarning={setWarning}
                 showErrorPrompt={showErrorPrompt}
                 signature={{
                     endpoint: AppConstants.serverUrl + 's3/signature/',

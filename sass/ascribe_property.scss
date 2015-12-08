@@ -37,7 +37,6 @@ $ascribe-red-error: rgb(169, 68, 66);
                 margin-right: 1em;
             }
         }
-        
 
         > input,
         > textarea {
@@ -48,6 +47,10 @@ $ascribe-red-error: rgb(169, 68, 66);
     &:hover {
       border-left: 3px solid rgba($ascribe-red-error, 1);
     }
+}
+
+.is-warning {
+    border-left: 3px solid $ascribe-pink
 }
 
 .is-fixed {
