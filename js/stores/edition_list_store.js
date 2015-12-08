@@ -108,10 +108,7 @@ class EditionListStore {
         pieceEditionList.length = 0;
 
         EditionsListActions
-            .fetchEditionList(pieceId, 1, pageSize,
-                                    orderBy,
-                                    orderAsc,
-                                    filterBy, maxSeen)
+            .fetchEditionList(pieceId, 1, pageSize, orderBy, orderAsc, filterBy, maxSeen)
             .catch(console.logGlobal);
     }
 
