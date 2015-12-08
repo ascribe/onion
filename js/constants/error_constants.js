@@ -135,7 +135,7 @@ Object.keys(ErrorClasses).forEach((errorGroupKey) => {
     const errorGroup = ErrorClasses[errorGroupKey];
     Object.keys(errorGroup).forEach((errorClassKey) => {
         const errorClass = errorGroup[errorClassKey];
-        errorClass.name = errorClassKey;
+        errorClass.name = errorGroupKey + '-' + errorClassKey;
         errorClass.group = errorGroupKey;
     });
 });

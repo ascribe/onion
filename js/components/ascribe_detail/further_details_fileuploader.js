@@ -22,6 +22,7 @@ let FurtherDetailsFileuploader = React.createClass({
 
         // Props for ReactS3FineUploader
         multiple: bool,
+        showErrorPrompt: bool,
         submitFile: func, // TODO: rename to onSubmitFile
 
         setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
@@ -42,6 +43,7 @@ let FurtherDetailsFileuploader = React.createClass({
             otherData,
             pieceId,
             setIsUploadReady,
+            showErrorPrompt,
             submitFile } = this.props;
 
         // Essentially there a three cases important to the fileuploader
@@ -101,8 +103,9 @@ let FurtherDetailsFileuploader = React.createClass({
                         }
                     }}
                     areAssetsDownloadable={true}
-                    areAssetsEditable={this.props.editable}
-                    multiple={this.props.multiple} />
+                    areAssetsEditable={editable}
+                    multiple={multiple}
+                    showErrorPrompt={showErrorPrompt} />
             </Property>
         );
     }

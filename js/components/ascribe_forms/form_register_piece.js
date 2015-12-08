@@ -173,7 +173,8 @@ let RegisterPieceForm = React.createClass({
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
-                        handleChangedFile={this.handleChangedDigitalWork}/>
+                        handleChangedFile={this.handleChangedDigitalWork}
+                        showErrorPrompt />
                 </Property>
                 <Property
                     name="thumbnail_file"
@@ -196,11 +197,10 @@ let RegisterPieceForm = React.createClass({
                             allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                         }}
                         setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
-                        location={location}
                         fileClassToUpload={{
                             singular: getLangText('Select representative image'),
                             plural: getLangText('Select representative images')
-                        }}/>
+                        }} />
                 </Property>
                 <Property
                     name='artist_name'
