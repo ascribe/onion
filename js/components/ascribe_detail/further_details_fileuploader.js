@@ -14,7 +14,7 @@ import { getLangText } from '../../utils/lang_utils';
 
 
 
-const { func, bool, number, object, arrayOf } = React.PropTypes;
+const { func, bool, number, object, string, arrayOf } = React.PropTypes;
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
