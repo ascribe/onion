@@ -31,7 +31,7 @@ class PieceListStore {
         this.requestActions = {};
         this.bindActions(PieceListActions);
     }
-    
+
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount, unfilteredPieceListCount, filterBy }) {
         this.page = page;
         this.pageSize = pageSize;
@@ -66,7 +66,7 @@ class PieceListStore {
                     show: { $set: oldPiece.show }
                 });
             }
-            
+
         });
 
         this.pieceList = pieceList;

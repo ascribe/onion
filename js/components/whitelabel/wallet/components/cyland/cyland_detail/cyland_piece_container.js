@@ -74,8 +74,9 @@ let CylandPieceContainer = React.createClass({
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
 
         // since we're deleting a piece, we just need to close
         // all editions dialogs and not reload them
