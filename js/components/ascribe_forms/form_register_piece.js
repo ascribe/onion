@@ -11,9 +11,12 @@ import InputFineUploader from './input_fineuploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
+import { FileStatus } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+
+import AscribeSpinner from '../ascribe_spinner';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
-import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -84,7 +87,7 @@ let RegisterPieceForm = React.createClass({
 
     handleChangedDigitalWork(digitalWorkFile) {
         if (digitalWorkFile &&
-            (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
+            (digitalWorkFile.status === FileStatus.DELETED || digitalWorkFile.status === FileStatus.CANCELED)) {
             this.refs.form.refs.thumbnail_file.reset();
             this.setState({ digitalWorkFile: null });
         } else {

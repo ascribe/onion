@@ -10,7 +10,7 @@ import AppConstants from '../../constants/application_constants';
 import { getCookie } from '../../utils/fetch_api_utils';
 
 
-const { func, bool, shape, string, number, element, oneOf, arrayOf } = React.PropTypes;
+const { func, bool, shape, string, number, element, oneOf, oneOfType, arrayOf } = React.PropTypes;
 
 const InputFineUploader = React.createClass({
     propTypes: {
