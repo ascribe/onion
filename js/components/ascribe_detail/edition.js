@@ -256,7 +256,6 @@ let CoaDetails = React.createClass({
     componentDidMount() {
         let { edition } = this.props;
         CoaStore.listen(this.onChange);
-        CoaActions.updateCoa({});
         if(edition.coa) {
             CoaActions.fetchOrCreate(edition.coa, edition.bitcoin_id);
         }
@@ -301,7 +300,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <AscribeSpinner color='dark-blue' size='md'/>
+                <AscribeSpinner color='dark-blue' size='lg'/>
             </div>
         );
     }
