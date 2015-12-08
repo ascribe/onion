@@ -41,6 +41,7 @@ export function AuthRedirect({to, when}) {
         // and redirect if `true`.
         if(exprToValidate) {
             window.setTimeout(() => history.replaceState(null, to, query));
+            return true;
 
             // Otherwise there can also be the case that the backend
             // wants to redirect the user to a specific route when the user is logged out already
@@ -48,6 +49,7 @@ export function AuthRedirect({to, when}) {
 
             delete query.redirect;
             window.setTimeout(() => history.replaceState(null, '/' + redirect, query));
+            return true;
 
         } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
             /*
@@ -60,7 +62,9 @@ export function AuthRedirect({to, when}) {
              * `baseUrl` + `redirectAuthenticated`, as it gets rid of queries as well.
              */
             window.location = AppConstants.baseUrl + redirectAuthenticated;
+            return true;
         }
+        return false;
     };
 }
 
@@ -71,7 +75,7 @@ export function AuthRedirect({to, when}) {
  *
  * @param {[function]} redirectFn A function that conditionally redirects
  */
-export function ProxyHandler(redirectFn) {
+export function ProxyHandler(...redirectFunctions) {
     return (Component) => {
         return React.createClass({
             displayName: 'ProxyHandler',
@@ -97,7 +101,15 @@ export function ProxyHandler(redirectFn) {
                 if(!UserStore.isLoading()) {
                     const { currentUser } = this.state;
                     const { query } = this.props.location;
-                    redirectFn(currentUser, query);
+                    for(let i = 0; i < redirectFunctions.length; i++) {
+                        // if a redirectFunction redirects the user,
+                        // it should return `true` and therefore
+                        // stop/avoid the execution of all functions
+                        // that follow
+                        if(redirectFunctions[i](currentUser, query)) {
+                            break;
+                        }
+                    }
                 }
             },
 

@@ -23,6 +23,7 @@ import CoaVerifyContainer from '../../coa_verify_container';
 import ErrorNotFoundPage from '../../error_not_found_page';
 
 import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
+import { AuthPrizeRoleRedirect } from './portfolioreview/components/pr_routes/pr_proxy_handler';
 
 
 const ROUTES = {
@@ -52,7 +53,6 @@ const ROUTES = {
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
                 headerTitle='COLLECTION'/>
-
             <Route path='pieces/:pieceId' component={SPPieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
@@ -67,8 +67,15 @@ const ROUTES = {
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PRRegisterPiece)}
                 headerTitle='+ NEW WORK'/>
             <Route
+                path='collection'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
+                headerTitle='COLLECTION'/>
+            <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/register_piece', when: 'loggedIn'}))(SPLoginContainer)} />
+                component={ProxyHandler(
+                    AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }),
+                    AuthRedirect({to: '/register_piece', when: 'loggedIn'})
+                )(SPLoginContainer)} />
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
@@ -78,7 +85,12 @@ const ROUTES = {
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/register_piece', when: 'loggedIn'}))(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPSettingsContainer)}/>
             <Route path='pieces/:pieceId' component={SPPieceContainer} />
+            <Route path='editions/:editionId' component={EditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     )
