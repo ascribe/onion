@@ -24,9 +24,7 @@ class EditionStore {
     onFetchEdition(idToFetch) {
         this.editionMeta.idToFetch = idToFetch;
 
-        if(!this.getInstance().isLoading()) {
-            this.getInstance().lookupEdition();
-        }
+        this.getInstance().lookupEdition();
     }
 
     onSuccessFetchEdition(res) {
