@@ -121,6 +121,9 @@ const ErrorClasses = {
         },
         'contactUs': {
             'prettifiedText': getLangText("We're having a really hard time with your upload. Please contact us for more help.")
+        },
+        'offline': {
+            'prettifiedText': getLangText('It looks like your Internet connection might have gone down during the upload. Please check your connection and try again.')
         }
     },
     'default': {
