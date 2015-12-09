@@ -18,7 +18,7 @@ let Vivi23Landing = React.createClass({
     },
 
     componentWillMount() {
-        setDocumentTitle('23vivi Marketplace');
+        setDocumentTitle('23VIVI Marketplace');
     },
 
     componentDidMount() {
@@ -42,7 +42,7 @@ let Vivi23Landing = React.createClass({
                         <div className="row vivi23-landing--header">
                             <img className="vivi23-landing--header-logo" src={this.state.whitelabel.logo} />
                             <div>
-                                {getLangText('Artwork from the 23vivi Marketplace is powered by') + ' '}
+                                {getLangText('Artwork from the 23VIVI Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />
                             </div>
                         </div>
