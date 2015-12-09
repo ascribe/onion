@@ -72,6 +72,7 @@ let EditionContainer = React.createClass({
     componentWillUnmount() {
         window.clearInterval(this.state.timerId);
         EditionStore.unlisten(this.onChange);
+        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
