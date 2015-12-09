@@ -173,12 +173,13 @@ let MarketAdditionalDataForm = React.createClass({
                     disabled={!this.props.editable || !piece.acl.acl_edit}>
                     {heading}
                     <FurtherDetailsFileuploader
+                        pieceId={piece.id}
                         label={getLangText('Marketplace Thumbnail Image')}
                         submitFile={function () {}}
                         setIsUploadReady={this.setIsUploadReady}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        pieceId={piece.id}
                         otherData={piece.other_data}
+                        areAssetsDownloadable={!!isInline}
                         editable={editable} />
                     <Property
                         name='artist_bio'

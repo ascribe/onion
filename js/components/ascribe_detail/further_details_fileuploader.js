@@ -22,11 +22,13 @@ let FurtherDetailsFileuploader = React.createClass({
         submitFile: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        multiple: React.PropTypes.bool
+        multiple: React.PropTypes.bool,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     getDefaultProps() {
         return {
+            areAssetsDownloadable: true,
             label: getLangText('Additional files'),
             multiple: false
         };
@@ -89,7 +91,7 @@ let FurtherDetailsFileuploader = React.createClass({
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }
                     }}
-                    areAssetsDownloadable={true}
+                    areAssetsDownloadable={this.props.areAssetsDownloadable}
                     areAssetsEditable={this.props.editable}
                     multiple={this.props.multiple} />
             </Property>
