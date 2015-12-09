@@ -95,11 +95,10 @@ import { getLangText } from '../utils/lang_utils';
 const ErrorClasses = {
     'upload': {
         'requestTimeTooSkewed': {
-            'prettifiedText': getLangText('It appears that the time set on your computer is too ' +
-                                          'inaccurate compared to your current local time. As a security ' +
-                                          'measure, we check to make sure that our users are not falsifying ' +
-                                          "their registration times. Please synchronize your computer's " +
-                                          'clock and try again.'),
+            'prettifiedText': getLangText('Check your time and date preferences. Sometimes being off by even ' +
+                                          'a few minutes from our servers can cause a glitch preventing your ' +
+                                          'upload. For a quick fix, make sure that you have the “set date and ' +
+                                          'time automatically” option selected.'),
             'test': {
                 'xhr': {
                     'response': 'RequestTimeTooSkewed'
@@ -107,7 +106,7 @@ const ErrorClasses = {
             }
         },
         'chunkSignatureError': {
-            'prettifiedText': getLangText('We are experiencing some problems with uploads at the moment and ' +
+            'prettifiedText': getLangText("We're experiencing some problems with uploads at the moment and " +
                                           'are working to resolve them. Please try again in a few hours.'),
             'test': 'Problem signing the chunk'
         },
@@ -117,7 +116,15 @@ const ErrorClasses = {
             'prettifiedText': getLangText('Are you on a slow or unstable network? Uploading large files requires a fast Internet connection.')
         },
         'tryDifferentBrowser': {
-            'prettifiedText': getLangText("We still can't seem to upload your file. Maybe try another browser?")
+            'prettifiedText': getLangText("We're still having trouble uploading your file. It might be your " +
+                                          "browser; try a different browser or make sure you’re using the " +
+                                          'latest version.')
+        },
+        'largeFileSize': {
+            'prettifiedText': getLangText('We handle files up to 25GB but your Internet connection may not. ' +
+                                          'If your file is large and your bandwidth is limited, it may take ' +
+                                          'some time to complete. If your upload doesn’t seem to be in ' +
+                                          'progress at all, try restarting the process.')
         },
         'contactUs': {
             'prettifiedText': getLangText("We're having a really hard time with your upload. Please contact us for more help.")
