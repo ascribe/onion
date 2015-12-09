@@ -3,7 +3,9 @@
 import { alt } from '../alt';
 
 import EditionActions from '../actions/edition_actions';
+
 import EditionSource from '../sources/edition_source';
+import CoaSource from '../sources/coa_source';
 
 
 class EditionStore {
@@ -18,7 +20,7 @@ class EditionStore {
         };
 
         this.bindActions(EditionActions);
-        this.registerAsync(EditionSource);
+        this.registerAsync(Object.assign(EditionSource, CoaSource));
     }
 
     onFetchEdition(idToFetch) {
