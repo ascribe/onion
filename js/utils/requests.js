@@ -12,7 +12,20 @@ import { argsToQueryParams } from '../utils/url_utils';
 class Requests {
     unpackResponse(response) {
         if (response.status >= 500) {
-            throw new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+            let err = new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+
+            return response
+                .text()
+                .then((resText) => {
+                    const resJson = JSON.parse(resText);
+                    err = new Error(resJson.errors.pop());
+
+                    // ES6 promises don't have a .finally() clause so
+                    // we fake that here by forcing the .catch() clause
+                    // to run
+                    return Promise.reject();
+                })
+                .catch(() => { throw err; });
         }
 
         return Q.Promise((resolve, reject) => {
@@ -50,9 +63,7 @@ class Requests {
                             resolve({});
                         }
                     }
-                }).catch((err) => {
-                    reject(err);
-                });
+                }).catch(reject);
             });
     }
 
