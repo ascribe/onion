@@ -17,13 +17,14 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
-
     propTypes: {
         location: React.PropTypes.object
     },
 
     render() {
+        const { message, signature } = this.props.location.query;
         setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
+
         return (
             <div className="ascribe-login-wrapper">
                 <br/>
@@ -31,7 +32,9 @@ let CoaVerifyContainer = React.createClass({
                     {getLangText('Verify your Certificate of Authenticity')}
                 </div>
 
-                <CoaVerifyForm location={this.props.location}/>
+                <CoaVerifyForm
+                    message={message}
+                    signature={signature}/>
                 <br />
                 <br />
                     {getLangText('ascribe is using the following public key for verification')}:
@@ -52,7 +55,8 @@ let CoaVerifyContainer = React.createClass({
 
 let CoaVerifyForm = React.createClass({
     propTypes: {
-        location: React.PropTypes.object
+        message: React.PropTypes.string,
+        signature: React.PropTypes.string
     },
 
     handleSuccess(response){
@@ -64,7 +68,8 @@ let CoaVerifyForm = React.createClass({
     },
 
     render() {
-        const {message, signature} = this.props.location.query;
+        const { message, signature } = this.props;
+
         return (
             <div>
                 <Form
