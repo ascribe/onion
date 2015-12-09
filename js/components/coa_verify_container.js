@@ -17,7 +17,12 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
+    propTypes: {
+        location: React.PropTypes.object
+    },
+
     render() {
+        const { message, signature } = this.props.location.query;
         setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
 
         return (
@@ -27,7 +32,9 @@ let CoaVerifyContainer = React.createClass({
                     {getLangText('Verify your Certificate of Authenticity')}
                 </div>
 
-                <CoaVerifyForm />
+                <CoaVerifyForm
+                    message={message}
+                    signature={signature}/>
                 <br />
                 <br />
                     {getLangText('ascribe is using the following public key for verification')}:
@@ -47,6 +54,11 @@ let CoaVerifyContainer = React.createClass({
 
 
 let CoaVerifyForm = React.createClass({
+    propTypes: {
+        message: React.PropTypes.string,
+        signature: React.PropTypes.string
+    },
+
     handleSuccess(response){
         let notification = null;
         if (response.verdict) {
@@ -56,6 +68,8 @@ let CoaVerifyForm = React.createClass({
     },
 
     render() {
+        const { message, signature } = this.props;
+
         return (
             <div>
                 <Form
@@ -79,6 +93,7 @@ let CoaVerifyForm = React.createClass({
                             type="text"
                             placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
                             autoComplete="on"
+                            defaultValue={message}
                             name="username"
                             required/>
                     </Property>
@@ -90,6 +105,7 @@ let CoaVerifyForm = React.createClass({
                         <InputTextAreaToggable
                             rows={3}
                             placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
+                            defaultValue={signature}
                             required/>
                     </Property>
                     <hr />
