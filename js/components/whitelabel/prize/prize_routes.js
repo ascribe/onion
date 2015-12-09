@@ -80,10 +80,16 @@ const ROUTES = {
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/register_piece', when: 'loggedIn'}))(SPSignupContainer)} />
+                component={ProxyHandler(
+                    AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }),
+                    AuthRedirect({to: '/register_piece', when: 'loggedIn'})
+                )(SPSignupContainer)} />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/register_piece', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(
+                    AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }),
+                    AuthRedirect({to: '/register_piece', when: 'loggedIn'})
+                )(PasswordResetContainer)} />
             <Route
                 path='settings'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPSettingsContainer)}/>
