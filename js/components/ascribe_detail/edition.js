@@ -244,7 +244,16 @@ let CoaDetails = React.createClass({
         if(this.props.coa && this.props.coa.url_safe) {
             return (
                 <div>
-                    <p className="text-center ascribe-button-list">
+                    <div
+                        className="notification-contract-pdf"
+                        style={{paddingBottom: '1em'}}>
+                        <embed
+                            className="embed-form"
+                            src={this.props.coa.url_safe}
+                            alt="pdf"
+                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                    </div>
+                    <div className="text-center ascribe-button-list">
                         <a href={this.props.coa.url_safe} target="_blank">
                             <button className="btn btn-default btn-xs">
                                 {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
@@ -256,7 +265,7 @@ let CoaDetails = React.createClass({
                             </button>
                         </Link>
 
-                    </p>
+                    </div>
                 </div>
             );
         } else if(typeof this.props.coa === 'string'){
@@ -268,7 +277,7 @@ let CoaDetails = React.createClass({
         }
         return (
             <div className="text-center">
-                <AscribeSpinner color='dark-blue' size='lg'/>
+                <AscribeSpinner color='dark-blue' size='md'/>
                 <p>{getLangText("Just a sec, we\'re generating your COA")}</p>
                 <p>{getLangText('(you may leave the page)')}</p>
             </div>

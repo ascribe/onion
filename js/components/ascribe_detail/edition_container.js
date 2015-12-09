@@ -87,16 +87,16 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        if (this.state.edition && this.state.edition.id &&
-            this.state.currentUser && this.state.currentUser.email) {
-            setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
+        const {edition, currentUser, coaMeta} = this.state;
+        if (edition && edition.id && currentUser && currentUser.email) {
+            setDocumentTitle([edition.artist_name, edition.title].join(', '));
             return (
                 <Edition
                     actionPanelButtonListType={this.props.actionPanelButtonListType}
                     furtherDetailsType={this.props.furtherDetailsType}
-                    edition={this.state.edition}
-                    coaError={this.state.coaMeta.err}
-                    currentUser={this.state.currentUser}
+                    edition={edition}
+                    coaError={coaMeta.err}
+                    currentUser={currentUser}
                     loadEdition={() => EditionActions.fetchEdition(this.props.params.editionId)} />
             );
         } else {
