@@ -60,7 +60,7 @@ const constants = {
         },
         {
             'subdomain': '23vivi',
-            'name': '23vivi',
+            'name': '23VIVI',
             'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/23vivi/23vivi-logo.png',
             'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
