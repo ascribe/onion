@@ -30,15 +30,15 @@ let PieceListToolbarFilterWidget = React.createClass({
     generateFilterByStatement(param) {
         const filterBy = Object.assign({}, this.props.filterBy);
 
-        if(filterBy) {
+        if (filterBy) {
             // we need hasOwnProperty since the values are all booleans
-            if(filterBy.hasOwnProperty(param)) {
+            if (filterBy.hasOwnProperty(param)) {
                 filterBy[param] = !filterBy[param];
 
                 // if the parameter is false, then we want to remove it again
                 // from the list of queryParameters as this component is only about
                 // which actions *CAN* be done and not what *CANNOT*
-                if(!filterBy[param]) {
+                if (!filterBy[param]) {
                     delete filterBy[param];
                 }
 
@@ -66,7 +66,7 @@ let PieceListToolbarFilterWidget = React.createClass({
 
         // We're hiding the star in that complicated matter so that,
         // the surrounding button is not resized up on appearance
-        if(trueValuesOnly.length > 0) {
+        if (trueValuesOnly.length) {
             return { visibility: 'visible'};
         } else {
             return { visibility: 'hidden' };
@@ -81,7 +81,7 @@ let PieceListToolbarFilterWidget = React.createClass({
             </span>
         );
 
-        if(this.props.filterParams.length) {
+        if (this.props.filterParams && this.props.filterParams.length) {
             return (
                 <DropdownButton
                     pullRight={true}
@@ -108,7 +108,7 @@ let PieceListToolbarFilterWidget = React.createClass({
                                     // }
                                     //
                                     // This is why we need to distinguish between both here.
-                                    if(typeof param !== 'string') {
+                                    if (typeof param !== 'string') {
                                         label = param.label;
                                         param = param.key;
                                     } else {
