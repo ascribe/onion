@@ -47,14 +47,14 @@ class EditionListActions {
 
                     this.actions.updateEditionList({
                         pieceId,
-                        editionListOfPiece: res.editions,
                         page,
                         pageSize,
                         orderBy,
                         orderAsc,
-                        count: res.count,
                         filterBy,
-                        maxEdition
+                        maxEdition,
+                        count: res.count,
+                        editionListOfPiece: res.editions
                     });
                     resolve(res);
                 })
