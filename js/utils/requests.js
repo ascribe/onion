@@ -30,7 +30,7 @@ class Requests {
                             reject(error);
                         } else if(body && body.detail) {
                             reject(new Error(body.detail));
-                        } else if(!body.success) {
+                        } else if('success' in body && !body.success) {
                             let error = new Error('Client Request Error');
                             error.json = {
                                 status: response.status,
