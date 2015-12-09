@@ -87,8 +87,8 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        const {edition, currentUser, coaMeta} = this.state;
-        if (edition && edition.id && currentUser && currentUser.email) {
+        const { edition, currentUser, coaMeta } = this.state;
+        if (Object.keys(edition).length && edition.id && currentUser && currentUser.email) {
             setDocumentTitle([edition.artist_name, edition.title].join(', '));
             return (
                 <Edition

@@ -10,7 +10,7 @@ import CoaSource from '../sources/coa_source';
 
 class EditionStore {
     constructor() {
-        this.edition = null;
+        this.edition = {};
         this.editionMeta = {
             err: null,
             idToFetch: null
@@ -47,7 +47,7 @@ class EditionStore {
     }
 
     onSuccessFetchCoa(res) {
-        if (res && res.coa && this.edition) {
+        if (res && res.coa && Object.keys(this.edition).length) {
             this.edition.coa = res.coa;
             this.coaMeta.err = null;
         } else {
@@ -56,7 +56,7 @@ class EditionStore {
     }
 
     onFlushEdition() {
-        this.edition = null;
+        this.edition = {};
         this.editionMeta = {
             err: null,
             idToFetch: null
