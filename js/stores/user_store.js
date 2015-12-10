@@ -26,7 +26,7 @@ class UserStore {
         }
     }
 
-    onSuccessFetchCurrentUser({users: [user]}) {
+    onSuccessFetchCurrentUser({users: [user = {}]}) {
         this.userMeta.invalidateCache = false;
         this.userMeta.err = null;
         this.currentUser = user;
