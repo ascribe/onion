@@ -183,7 +183,7 @@ const PRRegisterPieceForm = React.createClass({
         return (
             <div className="register-piece--form">
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="registerPieceForm">
                     <Property
@@ -220,7 +220,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="additionalDataForm">
                     <Property
@@ -246,7 +246,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="uploadersForm">
                     <Property
@@ -349,7 +349,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered">
                     <Property
                         name="terms"
