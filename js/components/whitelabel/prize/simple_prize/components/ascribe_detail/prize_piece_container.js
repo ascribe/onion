@@ -112,7 +112,7 @@ let PieceContainer = React.createClass({
     render() {
         if(this.state.piece && this.state.piece.id) {
             /*
-            
+
                 This really needs a refactor!
 
                     - Tim
@@ -122,7 +122,7 @@ let PieceContainer = React.createClass({
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 null : this.state.piece.artist_name;
-            
+
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
@@ -146,7 +146,7 @@ let PieceContainer = React.createClass({
                             <NavigationHeader
                                 piece={this.state.piece}
                                 currentUser={this.state.currentUser}/>
-                            
+
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year()} />
@@ -176,8 +176,8 @@ let PieceContainer = React.createClass({
 
 let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        piece: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired
     },
 
     render() {
@@ -213,9 +213,9 @@ let NavigationHeader = React.createClass({
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
-        loadPiece: React.PropTypes.func,
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        loadPiece: React.PropTypes.func.isRequired,
+        piece: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
@@ -227,9 +227,15 @@ let PrizePieceRatings = React.createClass({
 
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
-        PrizeRatingActions.fetchOne(this.props.piece.id);
-        PrizeRatingActions.fetchAverage(this.props.piece.id);
         PieceListStore.listen(this.onChange);
+
+        this.fetchRatingsIfAuthorized();
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.fetchRatingsIfAuthorized();
+        }
     },
 
     componentWillUnmount() {
@@ -255,6 +261,21 @@ let PrizePieceRatings = React.createClass({
                 caption: this.refs.rating.props.caption,
                 name: this.refs.rating.props.name
             };
+        }
+    },
+
+    fetchRatingsIfAuthorized() {
+        const {
+            currentUser: {
+                is_admin: isAdmin,
+                is_judge: isJudge,
+                is_jury: isJury
+            },
+            piece: { id: pieceId } } = this.props;
+
+        if (isAdmin || isJudge || isJury) {
+            PrizeRatingActions.fetchOne(pieceId);
+            PrizeRatingActions.fetchAverage(pieceId);
         }
     },
 
@@ -425,12 +446,11 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
-        if (this.props.piece
-            && this.props.piece.prize
+        if (this.props.piece.prize
             && this.props.piece.prize.name
             && Object.keys(this.props.piece.extra_data).length !== 0){
             return (
