@@ -7,6 +7,8 @@ import EditionActions from '../actions/edition_actions';
 import EditionSource from '../sources/edition_source';
 import CoaSource from '../sources/coa_source';
 
+import { mergeOptions } from '../utils/general_utils';
+
 
 class EditionStore {
     constructor() {
@@ -20,7 +22,7 @@ class EditionStore {
         };
 
         this.bindActions(EditionActions);
-        this.registerAsync(Object.assign(EditionSource, CoaSource));
+        this.registerAsync(mergeOptions(EditionSource, CoaSource));
     }
 
     onFetchEdition(idToFetch) {
