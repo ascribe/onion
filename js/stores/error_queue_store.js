@@ -8,11 +8,11 @@ import { ErrorClasses } from '../constants/error_constants.js';
 
 class ErrorQueueStore {
     constructor() {
-        const { upload: { largeFileSize, slowConnection, tryDifferentBrowser } } = ErrorClasses;
+        const { upload: { largeFileSize, tryDifferentBrowser } } = ErrorClasses;
 
         this.errorQueues = {
             'upload': {
-                queue: [slowConnection, tryDifferentBrowser, largeFileSize],
+                queue: [largeFileSize, tryDifferentBrowser],
                 loop: true
             }
         };

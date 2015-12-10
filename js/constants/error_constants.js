@@ -95,10 +95,9 @@ import { getLangText } from '../utils/lang_utils';
 const ErrorClasses = {
     'upload': {
         'requestTimeTooSkewed': {
-            'prettifiedText': getLangText('Check your time and date preferences. Sometimes being off by even ' +
-                                          'a few minutes from our servers can cause a glitch preventing your ' +
-                                          'upload. For a quick fix, make sure that you have the “set date and ' +
-                                          'time automatically” option selected.'),
+            'prettifiedText': getLangText('Check your time and date preferences and select "set date and time ' +
+                                          'automatically." Being off by a few minutes from our servers can ' +
+                                          'prevent your upload.'),
             'test': {
                 'xhr': {
                     'response': 'RequestTimeTooSkewed'
@@ -112,19 +111,15 @@ const ErrorClasses = {
         },
 
         // Fallback error tips
-        'slowConnection': {
-            'prettifiedText': getLangText('Are you on a slow or unstable network? Uploading large files requires a fast Internet connection.')
+        'largeFileSize': {
+            'prettifiedText': getLangText('We handle files up to 25GB but your Internet connection may not. With ' +
+                                          'large files and limited bandwith, it may take some time to complete. If ' +
+                                          'it doesn’t seem to progress at all, try restarting the process.')
         },
         'tryDifferentBrowser': {
             'prettifiedText': getLangText("We're still having trouble uploading your file. It might be your " +
                                           "browser; try a different browser or make sure you’re using the " +
                                           'latest version.')
-        },
-        'largeFileSize': {
-            'prettifiedText': getLangText('We handle files up to 25GB but your Internet connection may not. ' +
-                                          'If your file is large and your bandwidth is limited, it may take ' +
-                                          'some time to complete. If your upload doesn’t seem to be in ' +
-                                          'progress at all, try restarting the process.')
         },
         'contactUs': {
             'prettifiedText': getLangText("We're having a really hard time with your upload. Please contact us for more help.")
