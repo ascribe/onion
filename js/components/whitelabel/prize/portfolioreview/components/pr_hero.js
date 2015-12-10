@@ -1,11 +1,14 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
+
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
 const PRHero = React.createClass({
@@ -31,9 +34,11 @@ const PRHero = React.createClass({
 
         return (
             <div className="piece--hero">
-                <h2><Glyphicon glyph="ok" /> Congratulations {currentUser.email}!</h2>
-                <h1>You have successfully submitted to Portfolio Review 2016</h1>
-                <p>See below, your uploaded portfolio:</p>
+                <h2><Glyphicon glyph="ok" />
+                    &nbsp;{getLangText('Congratulations') + (currentUser.email ? ` ${currentUser.email}!` : '!')}
+                </h2>
+                <h1>{getLangText('You have successfully submitted to Portfolio Review 2016.')}</h1>
+                <p>Not you? <Link to="/logout">{getLangText('Change account.')}</Link></p>
             </div>
         );
     }
