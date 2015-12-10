@@ -4,6 +4,7 @@ import React from 'react';
 import GlobalNotification from '../../../global_notification';
 
 import Hero from './components/pr_hero';
+import Header from '../../../header';
 
 import UserStore from '../../../../stores/user_store';
 import UserActions from '../../../../actions/user_actions';
@@ -40,19 +41,28 @@ let PRApp = React.createClass({
     },
 
     render() {
-        const { history, children } = this.props;
+        const { history, children, routes } = this.props;
         const { currentUser } = this.state;
+        let style = {};
         let subdomain = getSubdomain();
         let header;
 
+
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
             header = <Hero />;
+            style = { paddingTop: '0 !important' };
+        } else if(currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
+            header = <Header routes={routes} />;
+        } else {
+            style = { paddingTop: '0 !important' };
         }
 
         return (
             <div>
                 {header}
-                <div className={'container ascribe-prize-app client--' + subdomain}>
+                <div
+                    style={style}
+                    className={'container ascribe-prize-app client--' + subdomain}>
                     {children}
                     <GlobalNotification />
                     <div id="modal" className="container"></div>

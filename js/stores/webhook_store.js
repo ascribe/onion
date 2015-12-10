@@ -28,7 +28,7 @@ class WebhookStore {
         this.getInstance().lookupWebhooks();
     }
 
-    onSuccessFetchWebhooks({ webhooks }) {
+    onSuccessFetchWebhooks({ webhooks = [] }) {
         this.webhookMeta.invalidateCache = false;
         this.webhookMeta.err = null;
         this.webhooks = webhooks;
