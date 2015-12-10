@@ -16,7 +16,7 @@ class PrizeActions {
             .fetch()
             .then((res) => {
                 this.actions.updatePrize({
-                    prize: res.prize
+                    prize: res
                 });
             })
             .catch((err) => {
