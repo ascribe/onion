@@ -4,10 +4,10 @@ import history from '../../../../../../history';
 
 
 export function AuthPrizeRoleRedirect({ to, when }) {
-    if(when.constructor !== Array && when.length) {
+    if (when.constructor !== Array || !when.length) {
         throw new Error('`when` of AuthPrizeRoleRedirect must be an array containing values');
     }
-    if(!to && to.indexOf('/') !== -1) {
+    if (!to || to.indexOf('/') === -1) {
         throw new Error('`to` of AuthPrizeRoleRedirect must be defined and contain a valid route');
     }
 
@@ -16,7 +16,7 @@ export function AuthPrizeRoleRedirect({ to, when }) {
             .map(role => currentUser[role])
             .reduce((a, b) => a || b);
 
-        if(exprToValidate) {
+        if (exprToValidate) {
             window.setTimeout(() => history.replaceState(null, to, query));
             return true;
         } else {
