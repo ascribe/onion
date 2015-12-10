@@ -140,7 +140,9 @@ let Header = React.createClass({
     // the collapsibleNav by itself on click. setState() isn't available on a ref so
     // doing this explicitly is the only way for now.
     onRouteChange() {
-        this.refs.navbar.state.navExpanded = false;
+        if (this.refs.navbar) {
+            this.refs.navbar.state.navExpanded = false;
+        }
     },
 
     render() {
