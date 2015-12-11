@@ -61,8 +61,12 @@ let SendContractAgreementForm = React.createClass({
         this.history.pushState(null, '/collection');
     },
 
-    getFormData(){
-        return {'appendix': {'default': this.refs.form.refs.appendix.state.value}};
+    getFormData() {
+        const appendixValue = this.refs.form.refs.appendix.state.value;
+
+        if (appendixValue) {
+            return { 'appendix': { 'default': appendixValue } };
+        }
     },
 
     getContracts() {
@@ -124,7 +128,8 @@ let SendContractAgreementForm = React.createClass({
                     <Property
                         name='appendix'
                         checkboxLabel={getLangText('Add appendix to the contract')}
-                        expanded={false}>
+                        expanded={false}
+                        style={{paddingBottom: 0}}>
                         <span>{getLangText('Appendix')}</span>
                         {/* We're using disabled on a form here as PropertyCollapsible currently
                         does not support the disabled + overrideForm functionality */}
