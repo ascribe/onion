@@ -91,7 +91,7 @@ let EditionContainer = React.createClass({
         const { edition, currentUser, coaMeta } = this.state;
         const { actionPanelButtonListType, furtherDetailsType } = this.props;
 
-        if (Object.keys(edition).length && edition.id && currentUser && currentUser.email) {
+        if (Object.keys(edition).length && edition.id) {
             setDocumentTitle([edition.artist_name, edition.title].join(', '));
 
             return (
