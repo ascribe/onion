@@ -5,9 +5,6 @@ import { alt } from '../alt';
 import EditionActions from '../actions/edition_actions';
 
 import EditionSource from '../sources/edition_source';
-import CoaSource from '../sources/coa_source';
-
-import { mergeOptions } from '../utils/general_utils';
 
 
 class EditionStore {
@@ -22,7 +19,7 @@ class EditionStore {
         };
 
         this.bindActions(EditionActions);
-        this.registerAsync(mergeOptions(EditionSource, CoaSource));
+        this.registerAsync(EditionSource);
     }
 
     onFetchEdition(idToFetch) {

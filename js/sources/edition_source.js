@@ -13,6 +13,24 @@ const EditionSource = {
 
         success: EditionActions.successFetchEdition,
         error: EditionActions.errorEdition
+    },
+
+    // For COA
+    lookupCoa: {
+        remote(state) {
+            return requests.get('coa', { id: state.edition.coa });
+        },
+
+        success: EditionActions.successFetchCoa,
+        error: EditionActions.errorCoa
+    },
+
+    performCreateCoa: {
+        remote(state) {
+            return requests.post('coa_create', {body: { bitcoin_id: state.edition.bitcoin_id }});
+        },
+        success: EditionActions.successFetchCoa,
+        error: EditionActions.errorCoa
     }
 };
 
