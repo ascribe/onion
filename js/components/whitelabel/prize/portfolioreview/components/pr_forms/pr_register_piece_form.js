@@ -75,7 +75,7 @@ const PRRegisterPieceForm = React.createClass({
         const additionalDataFormData = additionalDataForm.getFormData();
 
         // composing data for piece registration
-        let registerPieceFormData = registerPieceForm.getFormData();
+        const registerPieceFormData = registerPieceForm.getFormData();
         registerPieceFormData.digital_work_key = digitalWorkKey.state.value;
         registerPieceFormData.thumbnail_file = thumbnailKey.state.value;
         registerPieceFormData.terms = true;
@@ -83,33 +83,33 @@ const PRRegisterPieceForm = React.createClass({
         // submitting the piece
         requests
             .post(ApiUrls.pieces_list, { body: registerPieceFormData })
-            .then(({ success, piece, notification }) => {
-                if(success) {
-                    this.setState({
-                        piece
-                    }, () => {
-                        supportingMaterials.refs.input.createBlobRoutine();
-                        proofOfPayment.refs.input.createBlobRoutine();
-                    });
+            .then(({ piece, notification }) => {
+                this.setState({piece}, () => {
+                    supportingMaterials.refs.input.createBlobRoutine();
+                    proofOfPayment.refs.input.createBlobRoutine();
+                });
 
-                    setCookie(currentUser.email, piece.id);
+                setCookie(currentUser.email, piece.id);
 
-                    return requests.post(ApiUrls.piece_extradata, {
+                return requests
+                    .post(ApiUrls.piece_extradata, {
                         body: {
                             extradata: additionalDataFormData,
                             piece_id: piece.id
                         },
                         piece_id: piece.id
+                    })
+                    .then(() => {
+                        const notificationMessage = new GlobalNotificationModel(notification || getLangText('You have successfully submitted "%s" to Portfolio Review 2015', piece.title), 'success', 5000);
+                        GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                     });
-                } else {
-                    const notificationMessage = new GlobalNotificationModel(notification, 'danger', 5000);
-                    GlobalNotificationActions.appendGlobalNotification(notificationMessage);
-                }
             })
             .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
-            .catch(() => {
+            .catch((err) => {
                 const notificationMessage = new GlobalNotificationModel(getLangText("Oops! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notificationMessage);
+
+                console.logGlobal(new Error('Portfolio Review piece registration failed'), err);
             });
     },
 
@@ -167,7 +167,7 @@ const PRRegisterPieceForm = React.createClass({
         } else {
             return (
                 <button
-                    type="submit"
+                    type="button"
                     className="btn btn-default btn-wide"
                     disabled={!(digitalWorkKeyReady && thumbnailKeyReady && proofOfPaymentReady && supportingMaterialsReady)}
                     onClick={this.submit}>
