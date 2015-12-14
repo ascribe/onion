@@ -145,7 +145,7 @@ let ROUTES = {
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvRegisterPiece)}
                 headerTitle='+ NEW WORK'
-                aclName='acl_create_piece'/>
+                aclName='acl_wallet_submit' />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvPieceList)}
@@ -183,7 +183,8 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'/>
+                headerTitle='+ NEW WORK'
+                aclName='acl_wallet_submit' />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
