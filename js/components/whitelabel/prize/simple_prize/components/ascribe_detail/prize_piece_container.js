@@ -6,6 +6,9 @@ import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
 
+import ReactError from '../../../../../../mixins/react_error';
+import { ResourceNotFoundError } from '../../../../../../models/errors';
+
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
 
@@ -54,6 +57,8 @@ let PieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
+    mixins: [ReactError],
+
     getInitialState() {
         return mergeOptions(
             PieceStore.getState(),
@@ -63,14 +68,15 @@ let PieceContainer = React.createClass({
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        PieceActions.fetchOne(this.props.params.pieceId);
         UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
 
         // Every time we enter the piece detail page, just reset the piece
         // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
+
+        PieceActions.fetchOne(this.props.params.pieceId);
+        UserActions.fetchCurrentUser();
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -82,6 +88,14 @@ let PieceContainer = React.createClass({
         }
     },
 
+    componentDidUpdate() {
+        const { pieceError } = this.state;
+
+        if (pieceError && pieceError.status === 404) {
+            this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
+        }
+    },
+
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
@@ -90,10 +104,6 @@ let PieceContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
-    },
-
-    loadPiece() {
-        PieceActions.fetchOne(this.props.params.pieceId);
     },
 
     getActions() {
@@ -112,7 +122,7 @@ let PieceContainer = React.createClass({
     render() {
         if(this.state.piece && this.state.piece.id) {
             /*
-            
+
                 This really needs a refactor!
 
                     - Tim
@@ -122,7 +132,7 @@ let PieceContainer = React.createClass({
             let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
                 (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
                 null : this.state.piece.artist_name;
-            
+
             // Only show the artist email if you are a judge and the piece is shortlisted
             let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
                 <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
@@ -146,7 +156,7 @@ let PieceContainer = React.createClass({
                             <NavigationHeader
                                 piece={this.state.piece}
                                 currentUser={this.state.currentUser}/>
-                            
+
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year()} />
