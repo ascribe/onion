@@ -439,18 +439,21 @@ let PrizePieceDetails = React.createClass({
     },
 
     render() {
-        if (this.props.piece
-            && this.props.piece.prize
-            && this.props.piece.prize.name
-            && Object.keys(this.props.piece.extra_data).length !== 0){
+        const { piece } = this.props;
+
+        if (piece &&
+            piece.prize &&
+            piece.prize.name &&
+            Object.keys(piece.extra_data).length !== 0) {
             return (
                 <CollapsibleParagraph
                     title={getLangText('Prize Details')}
                     defaultExpanded={true}>
                     <Form ref='form'>
-                        {Object.keys(this.props.piece.extra_data).map((data) => {
-                            let label = data.replace('_', ' ');
-                            const value = this.props.piece.extra_data[data] || 'N/A';
+                        {Object.keys(piece.extra_data).sort().map((data) => {
+                            // Remove leading number (for sorting), if any, and underscores with spaces
+                            let label = data.replace(/^\d-/, '').replace(/_/g, ' ');
+                            const value = piece.extra_data[data] || 'N/A';
 
                             return (
                                 <Property
@@ -470,8 +473,8 @@ let PrizePieceDetails = React.createClass({
                             isReadyForFormSubmission={() => {}}
                             editable={false}
                             overrideForm={true}
-                            pieceId={this.props.piece.id}
-                            otherData={this.props.piece.other_data}
+                            pieceId={piece.id}
+                            otherData={piece.other_data}
                             multiple={true} />
                     </Form>
                 </CollapsibleParagraph>

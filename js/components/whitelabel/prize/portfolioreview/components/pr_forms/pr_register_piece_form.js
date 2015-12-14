@@ -191,7 +191,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Full name')}>
                         <input
                             type="text"
-                            placeholder="(e.g. Andy Warhol)"
+                            placeholder={getLangText('(e.g. Andy Warhol)')}
                             required/>
                     </Property>
                     <Property
@@ -199,7 +199,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Title of the Work')}>
                         <input
                             type="text"
-                            placeholder="(e.g. 32 Campbell's Soup Cans)"
+                            placeholder={getLangText("(e.g. 32 Campbell's Soup Cans)")}
                             required/>
                     </Property>
                     <Property
@@ -207,7 +207,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Year of creation')}>
                         <input
                             type="number"
-                            placeholder="(e.g. 1962)"
+                            placeholder={getLangText('(e.g. 1962)')}
                             min={1}
                             required/>
                     </Property>
@@ -224,25 +224,51 @@ const PRRegisterPieceForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref="additionalDataForm">
                     <Property
-                        name='artist_bio'
+                        name='1-date_of_birth'
+                        label={getLangText('Date of Birth')}>
+                        <input
+                            type="number"
+                            placeholder={getLangText('(e.g. 1962)')}
+                            min={1900}
+                            required/>
+                    </Property>
+                    <Property
+                        name='2-artist_bio'
                         label={getLangText('Biography')}>
                         <InputTextAreaToggable
                             rows={1}
                             placeholder={getLangText('Enter your biography')}/>
                     </Property>
                     <Property
-                        name='exhibition'
+                        name='3-exhibition'
                         label={getLangText('Exhibition / Publication history (optional)')}>
                         <InputTextAreaToggable
                             rows={1}
                             placeholder={getLangText('Enter exhibitions and publication history')}/>
                     </Property>
                     <Property
-                        name='contact_information'
-                        label={getLangText('Contact information')}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            placeholder={getLangText('Enter your contact information (phone/website)')}/>
+                        name='4-phone_number'
+                        label={getLangText('Phone Number')}>
+                        <input
+                            type="tel"
+                            placeholder={getLangText('Enter your phone number')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='5-email'
+                        label={getLangText('Email Address')}>
+                        <input
+                            type="email"
+                            placeholder={getLangText('Enter your email')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='6-website'
+                        label={getLangText('Website')}>
+                        <input
+                            type="url"
+                            placeholder={getLangText('Enter your website')}
+                            required/>
                     </Property>
                 </Form>
                 <Form
