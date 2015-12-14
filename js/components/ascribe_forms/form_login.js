@@ -93,7 +93,6 @@ let LoginForm = React.createClass({
                     <input
                         type="email"
                         placeholder={getLangText('Enter your email')}
-                        name="email"
                         defaultValue={email}
                         required/>
                 </Property>
@@ -103,7 +102,6 @@ let LoginForm = React.createClass({
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password')}
-                        name="password"
                         required/>
                 </Property>
             </Form>

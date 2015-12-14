@@ -5,32 +5,18 @@ import { Link } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
-
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
 const PRHero = React.createClass({
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser.defer();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+    propTypes: {
+        currentUser: React.PropTypes.shape({
+            email: React.PropTypes.object
+        })
     },
 
     render() {
-        const { currentUser } = this.state;
+        const { currentUser } = this.props;
 
         return (
             <div className="piece--hero">

@@ -85,6 +85,7 @@ let PieceContainer = React.createClass({
         // store as it will otherwise display wrong/old data once the user loads
         // the piece detail a second time
         PieceActions.updatePiece({});
+
         this.loadPiece();
         UserActions.fetchCurrentUser();
     },
@@ -92,7 +93,7 @@ let PieceContainer = React.createClass({
     componentDidUpdate() {
         const { pieceError } = this.state;
 
-        if(pieceError && pieceError.status === 404) {
+        if (pieceError && pieceError.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
         }
     },
