@@ -16,12 +16,13 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import AclProxy from './acl_proxy';
 
+import EventActions from '../actions/event_actions';
+
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
-import EventActions from '../actions/event_actions';
 
 import HeaderNotifications from './header_notification';
 
@@ -58,6 +59,19 @@ let Header = React.createClass({
         // close the mobile expanded navigation after a click by itself.
         // To get rid of this, we set the state of the component ourselves.
         history.listen(this.onRouteChange);
+
+        if (this.state.currentUser && this.state.currentUser.email) {
+            EventActions.profileDidLoad.defer(this.state.currentUser);
+        }
+    },
+
+    componentWillUpdate(nextProps, nextState) {
+        const { currentUser: { email: curEmail } = {} } = this.state;
+        const { currentUser: { email: nextEmail } = {} } = nextState;
+
+        if (nextEmail && curEmail !== nextEmail) {
+            EventActions.profileDidLoad.defer(nextState.currentUser);
+        }
     },
 
     componentWillUnmount() {
@@ -105,10 +119,6 @@ let Header = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
     },
 
     onMenuItemClick() {

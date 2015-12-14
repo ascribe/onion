@@ -145,4 +145,10 @@ $pr--button-color: $pr--nav-fg-prim-color;
             text-transform: capitalize;
         }
     }
+
+    // intercom
+    #intercom-container .intercom-launcher-button {
+        background-color: $pr--button-color !important;
+        border-color: $pr--button-color !important;
+    }
 }
