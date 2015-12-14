@@ -13,8 +13,7 @@ import AppConstants from '../constants/application_constants';
  * @param  {boolean} ignoreSentry Defines whether or not the error should be submitted to Sentry
  * @param  {string} comment  Will also be submitted to Sentry, but will not be logged
  */
-function logGlobal(error, ignoreSentry = AppConstants.errorMessagesToIgnore.indexOf(error.message) > -1,
-                   comment) {
+function logGlobal(error, comment, ignoreSentry = AppConstants.errorMessagesToIgnore.indexOf(error.message) > -1) {
     console.error(error);
 
     if(!ignoreSentry) {
@@ -24,7 +23,6 @@ function logGlobal(error, ignoreSentry = AppConstants.errorMessagesToIgnore.inde
             Raven.captureException(error);
         }
     }
-    
 }
 
 export function initLogging() {
