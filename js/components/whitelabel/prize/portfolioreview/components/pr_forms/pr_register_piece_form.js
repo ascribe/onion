@@ -108,7 +108,7 @@ const PRRegisterPieceForm = React.createClass({
             })
             .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
             .catch(() => {
-                const notificationMessage = new GlobalNotificationModel(getLangText("Ups! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
+                const notificationMessage = new GlobalNotificationModel(getLangText("Oops! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notificationMessage);
             });
     },
@@ -311,7 +311,7 @@ const PRRegisterPieceForm = React.createClass({
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'other_data'
+                                fileClass: 'otherdata'
                             }}
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
@@ -333,7 +333,7 @@ const PRRegisterPieceForm = React.createClass({
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'other_data'
+                                fileClass: 'otherdata'
                             }}
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
