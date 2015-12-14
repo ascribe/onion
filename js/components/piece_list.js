@@ -37,6 +37,7 @@ let PieceList = React.createClass({
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
         redirectTo: React.PropTypes.string,
+        shouldRedirect: React.PropTypes.func,
         customSubmitButton: React.PropTypes.element,
         customThumbnailPlaceholder: React.PropTypes.func,
         filterParams: React.PropTypes.array,
@@ -114,7 +115,11 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
+        const { redirectTo, shouldRedirect } = this.props;
+        const { unfilteredPieceListCount } = this.state;
+
+        if (redirectTo && unfilteredPieceListCount === 0 &&
+            (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
             window.setTimeout(() => this.history.pushState(null, this.props.redirectTo, this.props.location.query), 0);
         }
