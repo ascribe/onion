@@ -52,7 +52,7 @@ let AccordionListItemEditionWidget = React.createClass({
     toggleTable() {
         let pieceId = this.props.piece.id;
         let isEditionListOpen = this.state.isEditionListOpenForPieceId[pieceId] ? this.state.isEditionListOpenForPieceId[pieceId].show : false;
-        
+
         if(isEditionListOpen) {
             EditionListActions.toggleEditionList(pieceId);
         } else {
@@ -68,7 +68,7 @@ let AccordionListItemEditionWidget = React.createClass({
     getGlyphicon() {
         let pieceId = this.props.piece.id;
         let isEditionListOpen = this.state.isEditionListOpenForPieceId[pieceId] ? this.state.isEditionListOpenForPieceId[pieceId].show : false;
-        
+
         if(isEditionListOpen) {
             // this is the loading feedback for the editions
             // button.
@@ -118,7 +118,7 @@ let AccordionListItemEditionWidget = React.createClass({
                     <button
                         disabled
                         title={getLangText('All editions for this have been deleted already.')}
-                        className={classNames('btn', 'btn-default', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {'0 ' + getLangText('Editions')}
                     </button>
                 );
