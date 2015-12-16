@@ -107,20 +107,22 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
+        const { currentUser, piece } = this.state;
+
+        if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
+                    notifications={piece.notifications}/>);
         }
     },
 
     render() {
-        if(this.state.piece && this.state.piece.id) {
+        const { currentUser, piece } = this.state;
+
+        if (piece && piece.id) {
             /*
 
                 This really needs a refactor!
@@ -129,37 +131,32 @@ let PieceContainer = React.createClass({
 
              */
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
-            let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
-                (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
-                null : this.state.piece.artist_name;
+            let artistName;
+            if ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !piece.selected )) {
+                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
+                setDocumentTitle(piece.title);
+            } else {
+                artistName = piece.artist_name;
+                setDocumentTitle([artistName, piece.title].join(', '));
+            }
 
             // Only show the artist email if you are a judge and the piece is shortlisted
-            let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
-                <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
-
-            if (artistName === null) {
-                setDocumentTitle(this.state.piece.title);
-            } else {
-                setDocumentTitle([artistName, this.state.piece.title].join(', '));
-            }
-
-            if (artistName === null) {
-                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
-            }
+            const artistEmail = (currentUser.is_judge && piece.selected ) ?
+                <DetailProperty label={getLangText('REGISTREE')} value={ piece.user_registered } /> : null;
 
             return (
                 <Piece
-                    piece={this.state.piece}
-                    loadPiece={this.loadPiece}
+                    piece={piece}
+                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <NavigationHeader
-                                piece={this.state.piece}
-                                currentUser={this.state.currentUser}/>
+                                piece={piece}
+                                currentUser={currentUser}/>
 
-                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <h1 className="ascribe-detail-title">{piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
-                            <DetailProperty label={getLangText('DATE')} value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year()} />
+                            <DetailProperty label={getLangText('DATE')} value={Moment(piece.date_created, 'YYYY-MM-DD').year()} />
                             {artistEmail}
                             {this.getActions()}
                             <hr/>
@@ -168,10 +165,10 @@ let PieceContainer = React.createClass({
                     subheader={
                         <PrizePieceRatings
                             loadPiece={this.loadPiece}
-                            piece={this.state.piece}
-                            currentUser={this.state.currentUser}/>
+                            piece={piece}
+                            currentUser={currentUser}/>
                     }>
-                    <PrizePieceDetails piece={this.state.piece} />
+                    <PrizePieceDetails piece={piece} />
                 </Piece>
             );
         } else {
