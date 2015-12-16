@@ -152,14 +152,6 @@ let CylandRegisterPiece = React.createClass({
         );
     },
 
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
-    },
-
     render() {
         const { location } = this.props;
         const { currentUser, piece, step, whitelabel } = this.state;
