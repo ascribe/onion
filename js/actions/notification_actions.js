@@ -12,8 +12,8 @@ class NotificationActions {
             'flushPieceListNotifications',
             'updateEditionListNotifications',
             'flushEditionListNotifications',
-            'updateEditionNotifications',
             'updatePieceNotifications',
+            'updateEditionNotifications',
             'updateContractAgreementListNotifications',
             'flushContractAgreementListNotifications'
         );

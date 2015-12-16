@@ -8,13 +8,15 @@ import NotificationActions from '../actions/notification_actions';
 
 class NotificationStore {
     constructor() {
-        this.pieceListNotifications = {};
-        this.editionListNotifications = {};
+        this.pieceListNotifications = [];
+        this.pieceNotifications = null;
+        this.editionListNotifications = [];
+        this.editionNotifications = null;
+
         // Need to determine if contract agreement notifications have been loaded or not,
         // so we use null here instead of an empty array
         this.contractAgreementListNotifications = null;
-        this.editionNotifications = null;
-        this.pieceNotifications = null;
+
         this.bindActions(NotificationActions);
     }
 
