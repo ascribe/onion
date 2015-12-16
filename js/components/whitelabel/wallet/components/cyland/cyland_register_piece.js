@@ -166,6 +166,13 @@ let CylandRegisterPiece = React.createClass({
                 <div
                     className='col-xs-6 pull-left'
                     style={{padding: '0 2px 2px 0'}}>
+                    <button className='btn btn-default btn-wide'>
+                        {getLangText('Loan to archive')}
+                    </button>
+                </div>
+                <div
+                    className='col-xs-6 pull-right'
+                    style={{padding: '0 0 2px 2px'}}>
                     <LinkContainer to='/collection'>
                         <button
                             type='button'
@@ -173,13 +180,6 @@ let CylandRegisterPiece = React.createClass({
                             {getLangText('Loan later')}
                         </button>
                     </LinkContainer>
-                </div>
-                <div
-                    className='col-xs-6 pull-right'
-                    style={{padding: '0 0 2px 2px'}}>
-                    <button className='btn btn-default btn-wide'>
-                        {getLangText('Loan to archive')}
-                    </button>
                 </div>
             </div>
         );
