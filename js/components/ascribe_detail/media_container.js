@@ -81,8 +81,11 @@ let MediaContainer = React.createClass({
             embed = (
                 <CollapsibleButton
                     button={
-                        <Button bsSize="xsmall" className="ascribe-margin-1px" disabled={isEmbedDisabled ? '"disabled"' : ''}>
-                            Embed
+                        <Button
+                            bsSize="xsmall"
+                            className="ascribe-margin-1px"
+                            disabled={isEmbedDisabled}>
+                            {getLangText('Embed')}
                         </Button>
                     }
                     panel={

@@ -223,7 +223,11 @@ let EditionSummary = React.createClass({
 let CoaDetails = React.createClass({
     propTypes: {
         editionId: React.PropTypes.string,
-        coa: React.PropTypes.object,
+        coa: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.string,
+            React.PropTypes.object
+        ]),
         coaError: React.PropTypes.object
     },
 
