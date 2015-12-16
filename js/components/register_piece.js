@@ -65,7 +65,7 @@ let RegisterPiece = React.createClass( {
         this.setState(state);
     },
 
-    handleSuccess(response){
+    handleSuccess(response) {
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
@@ -94,7 +94,8 @@ let RegisterPiece = React.createClass( {
                     <input
                         type="number"
                         placeholder="(e.g. 32)"
-                        min={0}/>
+                        min={1}
+                        max={100} />
                 </Property>
             );
         }
