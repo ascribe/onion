@@ -57,7 +57,7 @@ let SignupForm = React.createClass({
         if (response.user) {
             let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
             GlobalNotificationActions.appendGlobalNotification(notification);
-            
+
             // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         } else {
@@ -131,8 +131,7 @@ let SignupForm = React.createClass({
                 {this.props.children}
                 <Property
                     name="terms"
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
+                    className="ascribe-property-collapsible-toggle">
                     <InputCheckbox>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service of ascribe') + ' '}

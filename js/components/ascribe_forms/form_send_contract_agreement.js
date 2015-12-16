@@ -128,8 +128,7 @@ let SendContractAgreementForm = React.createClass({
                     <Property
                         name='appendix'
                         checkboxLabel={getLangText('Add appendix to the contract')}
-                        expanded={false}
-                        style={{paddingBottom: 0}}>
+                        expanded={false}>
                         <span>{getLangText('Appendix')}</span>
                         {/* We're using disabled on a form here as PropertyCollapsible currently
                         does not support the disabled + overrideForm functionality */}
