@@ -70,7 +70,7 @@ let CylandLanding = React.createClass({
                             </div>
                         </div>
                         <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
-                            <div className="col-sm-6">
+                            <div className="col-xs-6">
                                 <p>
                                     {getLangText('Existing ascribe user?')}
                                 </p>
@@ -80,7 +80,7 @@ let CylandLanding = React.createClass({
                                     </Button>
                                 </LinkContainer>
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-xs-6">
                                 <p>
                                     {getLangText('Do you need an account?')}
                                 </p>
