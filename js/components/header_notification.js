@@ -58,66 +58,42 @@ let HeaderNotifications = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    getPieceNotifications() {
-        if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
+    getNotifications({ notifications, isPiece }) {
+        if (notifications.length) {
             return (
                 <div>
                     <div className="notification-header">
-                        Artworks ({this.state.pieceListNotifications.length})
+                        {`${(isPiece ? 'Artworks' : 'Editions')} (${notifications.length})`}
                     </div>
-                    {this.state.pieceListNotifications.map((pieceNotification, i) => {
+                    {notifications.map((notification, i) => {
                         return (
                             <MenuItem eventKey={i + 2}>
                                 <NotificationListItem
-                                    ref={i}
-                                    notification={pieceNotification.notification}
-                                    pieceOrEdition={pieceNotification.piece}
+                                    notification={notification.notification}
+                                    pieceOrEdition={isPiece ? notification.piece : notification.edition}
                                     onClick={this.onMenuItemClick}/>
                             </MenuItem>
-                            );
-                        }
-                    )}
+                        );
+                    })}
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
-    },
-
-    getEditionNotifications() {
-        if (this.state.editionListNotifications && this.state.editionListNotifications.length > 0) {
-            return (
-                <div>
-                    <div className="notification-header">
-                        Editions ({this.state.editionListNotifications.length})
-                    </div>
-                    {this.state.editionListNotifications.map((editionNotification, i) => {
-                        return (
-                            <MenuItem eventKey={i + 2}>
-                                <NotificationListItem
-                                    ref={'edition' + i}
-                                    notification={editionNotification.notification}
-                                    pieceOrEdition={editionNotification.edition}
-                                    onClick={this.onMenuItemClick}/>
-                            </MenuItem>
-                            );
-                        }
-                    )}
-                </div>
-            );
-        }
-        return null;
     },
 
     render() {
-        if ((this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) ||
-            (this.state.editionListNotifications && this.state.editionListNotifications.length > 0)) {
+        const { editionListNotifications, pieceListNotifications } = this.state;
+        if (pieceListNotifications.length || editionListNotifications.length) {
             let numNotifications = 0;
-            if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
-                numNotifications += this.state.pieceListNotifications.length;
+
+            if (pieceListNotifications.length) {
+                numNotifications += pieceListNotifications.length;
             }
-            if (this.state.editionListNotifications && this.state.editionListNotifications.length > 0) {
-                numNotifications += this.state.editionListNotifications.length;
+            if (editionListNotifications.length) {
+                numNotifications += editionListNotifications.length;
             }
+
             return (
                 <Nav navbar right>
                     <DropdownButton
@@ -131,8 +107,8 @@ let HeaderNotifications = React.createClass({
                             </span>
                         }
                         className="notification-menu">
-                        {this.getPieceNotifications()}
-                        {this.getEditionNotifications()}
+                        {this.getNotifications({ notifications: pieceListNotifications, isPiece: true })}
+                        {this.getNotifications({ notifications: editionListNotifications, isPiece: false })}
                     </DropdownButton>
                 </Nav>
             );
