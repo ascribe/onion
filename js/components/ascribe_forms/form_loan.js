@@ -25,6 +25,7 @@ import { mergeOptions } from '../../utils/general_utils';
 let LoanForm = React.createClass({
     propTypes: {
         loanHeading: React.PropTypes.string,
+        buttons: React.PropTypes.element,
         email: React.PropTypes.string,
         gallery: React.PropTypes.string,
         startDate: React.PropTypes.object,
@@ -80,7 +81,11 @@ let LoanForm = React.createClass({
     },
 
     getButtons() {
-        if(this.props.loanHeading) {
+        const { buttons, loanHeading } = this.props;
+
+        if (buttons) {
+            return buttons;
+        } else if (loanHeading) {
             return (
                 <button
                     type="submit"
