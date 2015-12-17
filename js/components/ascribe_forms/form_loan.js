@@ -61,6 +61,14 @@ let LoanForm = React.createClass({
         };
     },
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.email !== nextProps.email) {
+            this.setState({
+                email: nextProps.email
+            });
+        }
+    },
+
     onChange(state) {
         this.setState(state);
     },
