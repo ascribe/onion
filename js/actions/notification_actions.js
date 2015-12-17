@@ -9,10 +9,13 @@ class NotificationActions {
     constructor() {
         this.generateActions(
             'updatePieceListNotifications',
+            'flushPieceListNotifications',
             'updateEditionListNotifications',
+            'flushEditionListNotifications',
             'updateEditionNotifications',
             'updatePieceNotifications',
-            'updateContractAgreementListNotifications'
+            'updateContractAgreementListNotifications',
+            'flushContractAgreementListNotifications'
         );
     }
 
