@@ -75,7 +75,7 @@ let PieceContainer = React.createClass({
         // the piece detail a second time
         PieceActions.updatePiece({});
 
-        PieceActions.fetchOne(this.props.params.pieceId);
+        this.loadPiece();
         UserActions.fetchCurrentUser();
     },
 
@@ -117,6 +117,10 @@ let PieceContainer = React.createClass({
                     handleSuccess={this.loadPiece}
                     notifications={piece.notifications}/>);
         }
+    },
+
+    loadPiece() {
+        PieceActions.fetchOne(this.props.params.pieceId);
     },
 
     render() {
