@@ -31,16 +31,16 @@ class EditionStore {
         this.getInstance().lookupEdition();
     }
 
-    onSuccessFetchEdition(res) {
-        if(res && res.edition) {
-            this.edition = res.edition;
+    onSuccessFetchEdition({ edition }) {
+        if (edition) {
+            this.edition = edition;
             this.editionMeta.err = null;
             this.editionMeta.idToFetch = null;
 
             if (this.edition.coa && this.edition.acl.acl_coa &&
                 typeof this.edition.coa.constructor !== Object) {
                 this.getInstance().lookupCoa();
-            } else if(!this.edition.coa && this.edition.acl.acl_coa) {
+            } else if (!this.edition.coa && this.edition.acl.acl_coa) {
                 this.getInstance().performCreateCoa();
             }
         } else {
@@ -48,9 +48,9 @@ class EditionStore {
         }
     }
 
-    onSuccessFetchCoa(res) {
-        if (res && res.coa && Object.keys(this.edition).length) {
-            this.edition.coa = res.coa;
+    onSuccessFetchCoa({ coa }) {
+        if (coa && Object.keys(this.edition).length) {
+            this.edition.coa = coa;
             this.coaMeta.err = null;
         } else {
             this.coaMeta.err = new Error('Problem generating/fetching the COA');
@@ -73,7 +73,12 @@ class EditionStore {
     }
 
     onErrorCoa(err) {
-        this.coaMeta.err = err;
+        // On 404s, create a new COA as the COA has not been made yet
+        if (err && err.json && err.json.status === 404) {
+            this.getInstance().performCreateCoa();
+        } else {
+            this.coaMeta.err = err;
+        }
     }
 }
 
