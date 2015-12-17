@@ -21,6 +21,7 @@ import requests from '../../../../../../utils/requests';
 
 import { getErrorNotificationMessage } from '../../../../../../utils/error_utils';
 import { setCookie } from '../../../../../../utils/fetch_api_utils';
+import { validateForms } from '../../../../../../utils/form_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
@@ -55,7 +56,7 @@ const PRRegisterPieceForm = React.createClass({
      * second adding all the additional details
      */
     submit() {
-        if(!this.validateForms()) {
+        if (!this.validateForms()) {
             return;
         }
 
@@ -127,11 +128,7 @@ const PRRegisterPieceForm = React.createClass({
                 additionalDataForm,
                 uploadersForm } = this.refs;
 
-        const registerPieceFormValidation = registerPieceForm.validate();
-        const additionalDataFormValidation = additionalDataForm.validate();
-        const uploaderFormValidation = uploadersForm.validate();
-
-        return registerPieceFormValidation && additionalDataFormValidation && uploaderFormValidation;
+        return validateForms([registerPieceForm, additionalDataForm, uploadersForm], true);
     },
 
     getCreateBlobRoutine() {
