@@ -90,10 +90,8 @@ let PieceListToolbarFilterWidget = React.createClass({
                     label also iterate over its items, to get all filterable options */}
                 {this.props.filterParams.map(({ label, items }, i) => {
                     return (
-                        <div>
-                            <li
-                                style={{'textAlign': 'center'}}
-                                key={i}>
+                        <div key={label}>
+                            <li style={{'textAlign': 'center'}}>
                                 <em>{label}:</em>
                             </li>
                             {items.map((param, j) => {
@@ -117,7 +115,7 @@ let PieceListToolbarFilterWidget = React.createClass({
 
                                 return (
                                     <li
-                                        key={j}
+                                        key={param}
                                         onClick={this.filterBy(param)}
                                         className="filter-widget-item">
                                         <div className="checkbox-line">

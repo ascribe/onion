@@ -62,9 +62,8 @@ let PieceListToolbarOrderWidget = React.createClass({
                 </li>
                 {this.props.orderParams.map((param) => {
                     return (
-                        <div>
+                        <div key={param}>
                             <li
-                                key={param}
                                 onClick={this.orderBy(param)}
                                 className="filter-widget-item">
                                 <div className="checkbox-line">
