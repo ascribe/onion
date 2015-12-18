@@ -130,7 +130,7 @@ let AccordionListItemTableEditions = React.createClass({
                         'selected': item.selected
                     };
                 },
-                displayName: (
+                displayElement: (
                     <AccordionListItemTableSelectAllEditionsCheckbox
                         onChange={this.toggleAllItems}
                         numOfSelectedEditions={selectedEditionsCount}
@@ -147,7 +147,7 @@ let AccordionListItemTableEditions = React.createClass({
                     };
                 },
                 columnName: 'edition_number',
-                displayName: getLangText('Edition'),
+                displayElement: getLangText('Edition'),
                 displayType: TableItemText,
                 rowWidth: 1
             }),
@@ -159,7 +159,7 @@ let AccordionListItemTableEditions = React.createClass({
                     };
                 },
                 columnName: 'bitcoin_id',
-                displayName: getLangText('ID'),
+                displayElement: getLangText('ID'),
                 displayType: TableItemText,
                 rowWidth: 5,
                 className: 'hidden-xs visible-sm visible-md visible-lg'
@@ -173,9 +173,9 @@ let AccordionListItemTableEditions = React.createClass({
                     };
                 },
                 columnName: 'acl',
-                displayName: getLangText('Actions'),
+                displayElement: getLangText('Actions'),
                 displayType: TableItemAclFiltered,
-                rowWidth: 4,
+                rowWidth: 4
             })
         ];
 
