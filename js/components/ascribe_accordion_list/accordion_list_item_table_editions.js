@@ -121,62 +121,62 @@ let AccordionListItemTableEditions = React.createClass({
         });
 
         const columnList = [
-            new ColumnModel(
-                (item) => {
+            new ColumnModel({
+                transformFn: (item) => {
                     return {
                         'editionId': item.id,
                         'pieceId': parentId,
                         'selectItem': this.selectItem,
                         'selected': item.selected
-                    }; },
-                    '',
+                    };
+                },
+                displayName: (
                     <AccordionListItemTableSelectAllEditionsCheckbox
                         onChange={this.toggleAllItems}
                         numOfSelectedEditions={selectedEditionsCount}
-                        numOfAllEditions={allEditionsCount}/>,
-                    TableItemCheckbox,
-                    1,
-                    false
-            ),
-            new ColumnModel(
-                (item) => {
+                        numOfAllEditions={allEditionsCount}/>
+                ),
+                displayType: TableItemCheckbox,
+                rowWidth: 1
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
                         'content': item.edition_number + ' ' + getLangText('of') + ' ' + item.num_editions
-                    }; },
-                    'edition_number',
-                    getLangText('Edition'),
-                    TableItemText,
-                    1,
-                    false,
-                    transition
-            ),
-            new ColumnModel(
-                (item) => {
+                    };
+                },
+                columnName: 'edition_number',
+                displayName: getLangText('Edition'),
+                displayType: TableItemText,
+                rowWidth: 1
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
                         'content': item.bitcoin_id
-                    }; },
-                    'bitcoin_id',
-                    getLangText('ID'),
-                    TableItemText,
-                    5,
-                    false,
-                    transition,
-                    'hidden-xs visible-sm visible-md visible-lg'
-            ),
-            new ColumnModel(
-                (item) => {
-                    let content = item.acl;
+                    };
+                },
+                columnName: 'bitcoin_id',
+                displayName: getLangText('ID'),
+                displayType: TableItemText,
+                rowWidth: 5,
+                className: 'hidden-xs visible-sm visible-md visible-lg'
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
-                        'content': content,
+                        'content': item.acl,
                         'notifications': item.notifications
-                    }; },
-                    'acl',
-                    getLangText('Actions'),
-                    TableItemAclFiltered,
-                    4,
-                    false,
-                    transition
-            )
+                    };
+                },
+                columnName: 'acl',
+                displayName: getLangText('Actions'),
+                displayType: TableItemAclFiltered,
+                rowWidth: 4,
+            })
         ];
 
         if (show && editionsForPiece && editionsForPiece.length) {

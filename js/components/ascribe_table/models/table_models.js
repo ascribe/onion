@@ -2,7 +2,7 @@
 
 export class ColumnModel {
     // ToDo: Add validation for all passed-in parameters
-    constructor(transformFn, columnName, displayName, displayType, rowWidth, canBeOrdered, transition, className) {
+    constructor({ transformFn, columnName = '', displayName, displayType, rowWidth, canBeOrdered, transition, className = '' }) {
         this.transformFn = transformFn;
         this.columnName = columnName;
         this.displayName = displayName;
@@ -10,7 +10,7 @@ export class ColumnModel {
         this.rowWidth = rowWidth;
         this.canBeOrdered = canBeOrdered;
         this.transition = transition;
-        this.className = className ? className : '';
+        this.className = className;
     }
 }
 
