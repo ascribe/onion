@@ -37,6 +37,7 @@
     "babel-jest": "^5.2.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
+    "dotenv": "^1.2.0",
     "jest-cli": "^0.4.0",
     "mocha": "^2.3.4",
     "wd": "^0.4.0"
