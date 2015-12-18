@@ -28,7 +28,7 @@ export class ColumnModel {
  * our selfes, using this TransitionModel.
  */
 export class TransitionModel {
-    constructor(to, queryKey, valueKey, callback) {
+    constructor({ to, queryKey, valueKey, callback }) {
         this.to = to;
         this.queryKey = queryKey;
         this.valueKey = valueKey;

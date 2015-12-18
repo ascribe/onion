@@ -113,7 +113,12 @@ let AccordionListItemTableEditions = React.createClass({
             showExpandOption = true;
         }
 
-        let transition = new TransitionModel('editions', 'editionId', 'bitcoin_id', (e) => e.stopPropagation() );
+        const transition = new TransitionModel({
+            to: 'editions',
+            queryKey: 'editionId',
+            valueKey: 'bitcoin_id',
+            callback: (e) => e.stopPropagation()
+        });
 
         const columnList = [
             new ColumnModel(
