@@ -1,7 +1,5 @@
 'use strict';
 
-require('dotenv').load();
-
 const wd = require('wd');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -10,13 +8,11 @@ chai.should();
 
 
 describe('Login logs users in', function() {
+    this.timeout(0);
     let browser;
 
     before(function() {
-        browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80,
-                                        process.env.ONION_SAUCELABS_USER,
-                                        process.env.ONION_SAUCELABS_APIKEY);
-
+        browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
         return browser.init({ browserName: 'chrome' });
     });
 

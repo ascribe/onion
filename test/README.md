@@ -34,7 +34,11 @@ The components involved are:
  - **[Selenium WebDriver](https://www.npmjs.com/package/wd)**: it's a library
    that can control a browser.  You can use the **WebDriver** to load new URLs,
    click around, fill out forms, submit forms etc.  It's basically a way to
-   control remotely a browser. There are other implementations in Python, PHP,
+   control remotely a browser. The protocol (language agnostic) is called
+   [JsonWire](https://code.google.com/p/selenium/wiki/JsonWireProtocol), `wd`
+   wraps it and gives you a nice
+   [API](https://github.com/admc/wd/blob/master/doc/jsonwire-full-mapping.md)
+   you can use in JavaScript. There are other implementations in Python, PHP,
    Java, etc. Also, a **WebDriver** can be initialized with a list of [desired
    capabilities](https://code.google.com/p/selenium/wiki/DesiredCapabilities)
    describing which features (like the platform, browser name and version) you
@@ -53,9 +57,12 @@ The components involved are:
    systems. (They do other things, check out their websites).
 
  - **[SauceConnect](https://wiki.saucelabs.com/display/DOCS/Setting+Up+Sauce+Connect)**:
-   it allows Saucelabs to connect to your `localhost` to test the app.  (There
-   is also a [Node.js wrapper](https://www.npmjs.com/package/sauce-connect), so
-   you can use it programmatically within your code for tests).
+   is a Java software by Saucelabs to connect to your `localhost` to test the
+   application. There is also a Node.js wrapper
+   [sauce-connect-launcher](https://www.npmjs.com/package/sauce-connect-launcher),
+   so you can use it programmatically within your code for tests. Please note
+   that this module is just a wrapper around the actual software. Running `npm
+   install` should install the additional Java software as well.
 
 
 On the JavaScript side, we use:
@@ -74,7 +81,48 @@ On the JavaScript side, we use:
    environment variables from `.env` into `process.env`.
 
 
+## How to set up your `.env` config file
+In the root of this repository there is a file called `.env-template`. Create a
+copy and call it `.env`. This file will store some values we need to connect to
+Saucelabs.
+
+There are two values to be set:
+ - `SAUCE_ACCESS_KEY`
+ - `SAUCE_USERNAME`
+
+The two keys are the [default
+ones](https://github.com/admc/wd#environment-variables-for-saucelabs) used by
+many products related to Saucelabs. This allow us to keep the configuration
+fairly straightforward and simple.
+
+After logging in to https://saucelabs.com/, you can find your **api key** under
+the **My Account**. Copy paste the value in your `.env` file.
+
+
 ## Anatomy of a test
+
+First, you need to learn how [Mocha](https://mochajs.org/) works. Brew a coffee
+(or tea, if coffee is not your cup of tea), sit down and read the docs.
+
+Done? Great, let's move on and analyze how a test is written.
+
+From a very high level, the flow of a test is the following:
+ 1. load a page with a specific URL
+ 2. do something on the page (click a button, submit a form, etc.)
+ 3. maybe wait some seconds, or wait if something has changed
+ 4. check if the new page contains some text you expect to be there
+
+This is not set in stone, so go crazy if you want. But keep in mind that we
+have a one page application, there might be some gotchas on how to wait for
+stuff to happen. I suggest you to read the section [Wait for
+something](https://github.com/admc/wd#waiting-for-something) to understand
+better which tools you have to solve this problem.
+Again, take a look to the [`wd` implementation of the JsonWire
+protocol](https://github.com/admc/wd/blob/master/doc/jsonwire-full-mapping.md)
+to know all the methods you can use to control the browser.
+
+
+Import the libraries we need.
 
 ```javascript
 'use strict';
@@ -84,33 +132,61 @@ require('dotenv').load();
 const wd = require('wd');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+```
+
+
+Set up `chai` to use `chaiAsPromised`.
+
+```javascript
 chai.use(chaiAsPromised);
 chai.should();
 ```
 
+`browser` is the main object to interact with Saucelab "real" browsers. We will
+use this object a lot. It allow us to load pages, click around, check if a
+specific text is present etc.
 
 ```javascript
 describe('Login logs users in', function() {
     let browser;
+```
 
+Create the driver to control the browser.
+```javascript
     before(function() {
-        browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80,
-                                        process.env.ONION_SAUCELABS_USER,
-                                        process.env.ONION_SAUCELABS_APIKEY,
+        browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
         return browser.init({ browserName: 'chrome' });
     });
+```
 
+This function will be executed before each `it` function. Here we point the browser to a specific URL.
+
+```javascript
     beforeEach(function() {
         return browser.get('http://www.ascribe.ninja/app/login');
     });
+```
 
+While this function will be executed after each `it` function. `quit` will destroy the browser session.
+
+```javascript
     after(function() {
         return browser.quit();
     });
+```
 
+The actual test. We query the `browser` object to get the title of the page.
+Note that `.title()` returns a `promise` **but**, since we are using
+`chaiAsPromised`, we have some syntactic sugar to handle the promise in line,
+without writing new functions.
+
+```javascript
     it('should contain "Log in" in the title', function() {
         return browser.title().should.become('Log in');
     });
 
 });
 ```
+
+## How to run the test suite
+

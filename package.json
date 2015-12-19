@@ -8,6 +8,7 @@
   },
   "scripts": {
     "lint": "eslint ./js",
+    "preinstall": "export SAUCE_CONNECT_DOWNLOAD_ON_INSTALL=true",
     "postinstall": "npm run build",
     "build": "gulp build --production",
     "start": "node server.js"
@@ -40,6 +41,7 @@
     "dotenv": "^1.2.0",
     "jest-cli": "^0.4.0",
     "mocha": "^2.3.4",
+    "sauce-connect-launcher": "^0.13.0",
     "wd": "^0.4.0"
   },
   "dependencies": {
