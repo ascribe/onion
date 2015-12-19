@@ -11,15 +11,16 @@ You will notice that the setup is a bit convoluted. This section will explain
 you why.  Testing single functions in JavaScript is not that hard (if you don't
 need to interact with the DOM), and can be easily achieved using frameworks
 like [Mocha](https://mochajs.org/). Integration and cross browser testing is,
-on the other side, a huge [PITA](https://saucelabs.com/selenium/selenium-grid).
-Moreover, "browser testing" includes also "mobile browser testing". Moreover,
-the same browser (type and version) can behave in a different way on different
-operating systems.
+on the other side, a huge PITA.  Moreover, "browser testing" includes also
+"mobile browser testing". On the top of that the same browser (type and
+version) can behave in a different way on different operating systems.
 
 To achieve that you can have your own cluster of machines with different
 operating systems and browsers or, if you don't want to spend the rest of your
 life configuring an average of 100 browsers for each different operating
-system, you can pay someone else to do that.
+system, you can pay someone else to do that. Check out [this
+article](https://saucelabs.com/selenium/selenium-grid) if you want to know why
+using Selenium Grid is better than a DIY approach.
 
 We decided to use [saucelabs](https://saucelabs.com/) cloud (they support [over
 700 combinations](https://saucelabs.com/platforms/) of operating systems and
@@ -77,7 +78,7 @@ On the JavaScript side, we use:
    writing callbacks but just chaining operators. Check out their `README` on
    GitHub to see an example.
 
- - [dotenv](https://github.com/motdotla/dotenv): a super nice package to loads
+ - [dotenv](https://github.com/motdotla/dotenv): a super nice package to load
    environment variables from `.env` into `process.env`.
 
 
