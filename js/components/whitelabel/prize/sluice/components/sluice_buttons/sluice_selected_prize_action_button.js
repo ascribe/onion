@@ -14,7 +14,7 @@ import ApiUrls from '../../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 
-const SelectedPrizeLoanRequestButton = React.createClass({
+const SluiceSelectedPrizeActionButton = React.createClass({
     propTypes: {
         piece: React.PropTypes.object,
         currentUser: React.PropTypes.object,
@@ -66,4 +66,5 @@ const SelectedPrizeLoanRequestButton = React.createClass({
     }
 });
 
-export default SelectedPrizeLoanRequestButton;
+export default SluiceSelectedPrizeActionButton;
+

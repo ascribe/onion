@@ -6,8 +6,6 @@ import Moment from 'moment';
 
 import StarRating from 'react-star-rating';
 
-import SelectedPrizeLoanRequestButton from '../ascribe_buttons/selected_prize_loan_request_button';
-
 import ReactError from '../../../../../../mixins/react_error';
 import { ResourceNotFoundError } from '../../../../../../models/errors';
 
@@ -59,12 +57,6 @@ let PrizePieceContainer = React.createClass({
     },
 
     mixins: [ReactError],
-
-    getDefaultProps() {
-        return {
-            selectedPrizeActionButton: SelectedPrizeLoanRequestButton
-        };
-    },
 
     getInitialState() {
         return mergeOptions(
