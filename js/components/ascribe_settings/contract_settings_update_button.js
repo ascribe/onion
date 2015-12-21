@@ -55,40 +55,40 @@ let ContractSettingsUpdateButton = React.createClass({
     render() {
         return (
            <ReactS3FineUploader
-                fileInputElement={UploadButton()}
-                keyRoutine={{
-                    url: AppConstants.serverUrl + 's3/key/',
-                    fileClass: 'contract'
-                }}
-                createBlobRoutine={{
-                    url: ApiUrls.blob_contracts
-                }}
-                validation={{
-                    itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                    sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                    allowedExtensions: ['pdf']
-                }}
-                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
-                signature={{
-                    endpoint: AppConstants.serverUrl + 's3/signature/',
-                    customHeaders: {
-                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                    }
-                }}
-                deleteFile={{
-                    enabled: true,
-                    method: 'DELETE',
-                    endpoint: AppConstants.serverUrl + 's3/delete',
-                    customHeaders: {
-                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                    }
-                }}
-                fileClassToUpload={{
-                    singular: getLangText('UPDATE'),
-                    plural: getLangText('UPDATE')
-                }}
-                isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                submitFile={this.submitFile} />
+               fileInputElement={UploadButton({ showLabel: false })}
+               keyRoutine={{
+                   url: AppConstants.serverUrl + 's3/key/',
+                   fileClass: 'contract'
+               }}
+               createBlobRoutine={{
+                   url: ApiUrls.blob_contracts
+               }}
+               validation={{
+                   itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
+                   sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                   allowedExtensions: ['pdf']
+               }}
+               setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+               signature={{
+                   endpoint: AppConstants.serverUrl + 's3/signature/',
+                   customHeaders: {
+                      'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                   }
+               }}
+               deleteFile={{
+                   enabled: true,
+                   method: 'DELETE',
+                   endpoint: AppConstants.serverUrl + 's3/delete',
+                   customHeaders: {
+                      'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                   }
+               }}
+               fileClassToUpload={{
+                   singular: getLangText('UPDATE'),
+                   plural: getLangText('UPDATE')
+               }}
+               isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+               submitFile={this.submitFile} />
         );
     }
 });
