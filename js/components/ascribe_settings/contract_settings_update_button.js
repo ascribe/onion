@@ -24,37 +24,41 @@ let ContractSettingsUpdateButton = React.createClass({
     },
 
     submitFile(file) {
-        let contract = this.props.contract;
-
         // override the blob with the key's value
-        contract.blob = file.key;
+        const contract = Object.assign(this.props.contract, { blob: file.key });
 
         // send it to the server
         ContractListActions
             .changeContract(contract)
             .then((res) => {
-
                 // Display feedback to the user
-                let notification = new GlobalNotificationModel(getLangText('Contract %s successfully updated', res.name), 'success', 5000);
+                const notification = new GlobalNotificationModel(getLangText('Contract %s successfully updated', contract.name), 'success', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
 
                 // and refresh the contract list to get the updated contracs
-                return ContractListActions.fetchContractList(true);
-            })
-            .then(() => {
-                // Also, reset the fineuploader component so that the user can again 'update' his contract
-                this.refs.fineuploader.reset();
-            })
-            .catch((err) => {
-                console.logGlobal(err);
-                let notification = new GlobalNotificationModel(getLangText('Contract could not be updated'), 'success', 5000);
+                return ContractListActions
+                            .fetchContractList(true)
+                            // Also, reset the fineuploader component if fetch is successful so that the user can again 'update' his contract
+                            .then(this.refs.fineuploader.reset)
+                            .catch((err) => {
+                                const notification = new GlobalNotificationModel(getLangText('Latest contract failed to load'), 'danger', 5000);
+                                GlobalNotificationActions.appendGlobalNotification(notification);
+
+                                return Promise.reject(err);
+                            });
+            }, (err) => {
+                const notification = new GlobalNotificationModel(getLangText('Contract could not be updated'), 'danger', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
-            });
+
+                return Promise.reject(err);
+            })
+            .catch(console.logGlobal);
     },
 
     render() {
         return (
            <ReactS3FineUploader
+               ref='fineuploader'
                fileInputElement={UploadButton({ showLabel: false })}
                keyRoutine={{
                    url: AppConstants.serverUrl + 's3/key/',
