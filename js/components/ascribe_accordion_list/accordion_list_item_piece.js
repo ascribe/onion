@@ -13,7 +13,7 @@ let AccordionListItemPiece = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
         artistName: React.PropTypes.string,
-        piece: React.PropTypes.object,
+        piece: React.PropTypes.object.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -51,17 +51,21 @@ let AccordionListItemPiece = React.createClass({
             piece,
             subsubheading,
             thumbnailPlaceholder: ThumbnailPlaceholder } = this.props;
-        const { url, url_safe } = piece.thumbnail;
+        const { url: thumbnailUrl, url_safe: thumbnailSafeUrl } = piece.thumbnail;
+
+        // Display the 300x300 thumbnail if we have it, otherwise just use the safe url
+        const thumbnailDisplayUrl = (piece.thumbnail.thumbnail_sizes && piece.thumbnail.thumbnail_sizes['300x300']) || thumbnailSafeUrl;
+
         let thumbnail;
 
         // Since we're going to refactor the thumbnail generation anyway at one point,
         // for not use the annoying ascribe_spiral.png, we're matching the url against
         // this name and replace it with a CSS version of the new logo.
-        if (url.match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/)) {
+        if (thumbnailUrl.match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/)) {
             thumbnail = (<ThumbnailPlaceholder />);
         } else {
             thumbnail = (
-                <div style={{backgroundImage: 'url("' + url_safe + '")'}}/>
+                <div style={{backgroundImage: 'url("' + thumbnailDisplayUrl + '")'}} />
             );
         }
 
@@ -79,8 +83,7 @@ let AccordionListItemPiece = React.createClass({
                 subsubheading={subsubheading}
                 buttons={buttons}
                 badge={badge}
-                linkData={this.getLinkData()}
-                >
+                linkData={this.getLinkData()}>
                 {children}
             </AccordionListItem>
         );
