@@ -29,7 +29,7 @@
 
 .file-drag-and-drop-dialog {
     margin: 1.5em 0 1.5em 0;
-    
+
     > p:first-child {
         font-size: 1.5em !important;
         margin-bottom: 0;
@@ -189,15 +189,20 @@
     height: 12px;
 }
 
-.upload-button-wrapper {
+.ascribe-upload-button {
+    display: inline-block;
     text-align: left;
 
-    .btn {
-        font-size: 1em;
-        margin-right: 1em;
-    }
+    &.ascribe-upload-button-has-label {
+        display: block;
 
-    span + .btn {
-        margin-left: 1em;
+        .btn {
+            font-size: 1em;
+            margin-right: 1em;
+        }
+
+        span + .btn {
+            margin-left: 1em;
+        }
     }
 }
