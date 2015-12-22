@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import PrizeAdvanceRoundModal from './ascribe_modal/prize_advance_round_modal';
+
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 import PrizeActions from '../actions/prize_actions';
@@ -15,6 +17,8 @@ import CollapsibleParagraph from '../../../../ascribe_collapsible/collapsible_pa
 import Form from '../../../../ascribe_forms/form';
 import Property from '../../../../ascribe_forms/property';
 
+import ModalWrapper from '../../../../ascribe_modal/modal_wrapper';
+
 import ActionPanel from '../../../../ascribe_panel/action_panel';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
@@ -27,7 +31,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
-let Settings = React.createClass({
+const Settings = React.createClass({
     getInitialState() {
         return UserStore.getState();
     },
@@ -48,20 +52,15 @@ let Settings = React.createClass({
     render() {
         setDocumentTitle(getLangText('Account settings'));
 
-        let prizeSettings = null;
-        if (this.state.currentUser.is_admin){
-            prizeSettings = <PrizeSettings />;
-        }
         return (
             <SettingsContainer>
-                {prizeSettings}
+                {this.state.currentUser.is_admin ? <PrizeSettings /> : null}
             </SettingsContainer>
         );
     }
 });
 
-let PrizeSettings = React.createClass({
-
+const PrizeSettings = React.createClass({
     getInitialState() {
         return PrizeStore.getState();
     },
@@ -78,40 +77,74 @@ let PrizeSettings = React.createClass({
     onChange(state) {
         this.setState(state);
     },
+
+    advanceRound() {
+        // TODO: add action to prizes to advance round once api is available
+    },
+
     render() {
         return (
-            <CollapsibleParagraph
-                title={'Prize Settings for ' + this.state.prize.name}
-                defaultExpanded={true}>
-                <Form >
-                    <Property
-                        name='prize_name'
-                        label={getLangText('Prize name')}
-                        editable={false}>
-                        <pre className="ascribe-pre">{this.state.prize.name}</pre>
-                    </Property>
-                    <Property
-                        name='prize_rounds'
-                        label={getLangText('Active round/Number of rounds')}
-                        editable={false}>
-                        <pre className="ascribe-pre">{this.state.prize.active_round}/{this.state.prize.rounds}</pre>
-                    </Property>
-                    <Property
-                        name='num_submissions'
-                        label={getLangText('Allowed number of submissions per user')}
-                        editable={false}>
-                        <pre className="ascribe-pre">{this.state.prize.num_submissions}</pre>
-                    </Property>
+            <div>
+                <CollapsibleParagraph
+                    title={'Prize Settings for ' + this.state.prize.name}
+                    defaultExpanded={true}>
+                    <Form>
+                        <Property
+                            name='prize_name'
+                            label={getLangText('Prize name')}
+                            editable={false}>
+                            <pre className="ascribe-pre">{this.state.prize.name}</pre>
+                        </Property>
+                        <Property
+                            name='num_submissions'
+                            label={getLangText('Allowed number of submissions per user')}
+                            editable={false}>
+                            <pre className="ascribe-pre">{this.state.prize.num_submissions}</pre>
+                        </Property>
+                    </Form>
                     <hr />
-                </Form>
-                <PrizeJurySettings
-                    prize={this.state.prize}/>
-            </CollapsibleParagraph>
+                    <Form
+                        buttons={(
+                            <div className="row" style={{margin: 0}}>
+                                <ModalWrapper
+                                    title={getLangText('Advance to next round')}
+                                    handleSuccess={this.advanceRound}
+                                    trigger={(
+                                        <button
+                                            type="button"
+                                            onClick={this.onAdvanceRound}
+                                            className="btn btn-default btn-sm pull-right">
+                                            {getLangText('ADVANCE ROUND')}
+                                        </button>
+                                    )}>
+                                    <PrizeAdvanceRoundModal />
+                                </ModalWrapper>
+                            </div>
+                        )}>
+                        <h4>{getLangText('Judging Rounds')}</h4>
+                        <Property
+                            name='prize_rounds'
+                            label={getLangText('Number of rounds')}
+                            editable={false}>
+                            <pre className="ascribe-pre">{this.state.prize.rounds}</pre>
+                        </Property>
+                        <Property
+                            name='prize_active_round'
+                            label={getLangText('Active round')}
+                            editable={false}>
+                            <pre className="ascribe-pre">{this.state.prize.active_round}</pre>
+                        </Property>
+                    </Form>
+                    <hr />
+                    <PrizeJurySettings
+                        prize={this.state.prize}/>
+                </CollapsibleParagraph>
+            </div>
         );
     }
 });
 
-let PrizeJurySettings = React.createClass({
+const PrizeJurySettings = React.createClass({
     propTypes: {
         prize: React.PropTypes.object
     },
@@ -141,29 +174,31 @@ let PrizeJurySettings = React.createClass({
     },
 
     handleActivate(event) {
-        let email = event.target.getAttribute('data-id');
-        PrizeJuryActions.activateJury(email).then((response) => {
+        const email = event.target.getAttribute('data-id');
+        PrizeJuryActions
+            .activateJury(email)
+            .then((response) => {
                 PrizeJuryActions.fetchJury();
                 this.displayNotification(response);
             });
     },
 
     handleRevoke(event) {
-        let email = event.target.getAttribute('data-id');
+        const email = event.target.getAttribute('data-id');
         PrizeJuryActions
             .revokeJury(email)
             .then(this.displayNotification);
     },
 
     handleResend(event) {
-        let email = event.target.getAttribute('data-id');
+        const email = event.target.getAttribute('data-id');
         PrizeJuryActions
             .resendJuryInvitation(email)
             .then(this.displayNotification);
     },
 
     displayNotification(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -172,7 +207,7 @@ let PrizeJurySettings = React.createClass({
             return (
                 <ActionPanel
                     name={member.email}
-                    key={i}
+                    key={member.email}
                     content={
                         <div>
                             <div className='ascribe-panel-title'>
@@ -207,7 +242,7 @@ let PrizeJurySettings = React.createClass({
             return (
                 <ActionPanel
                     name={member.email}
-                    key={i}
+                    key={member.email}
                     content={
                         <div>
                             <div className='ascribe-panel-title'>
@@ -235,7 +270,7 @@ let PrizeJurySettings = React.createClass({
             return (
                 <ActionPanel
                     name={member.email}
-                    key={i}
+                    key={member.email}
                     content={
                         <div>
                             <div className='ascribe-panel-title'>
@@ -260,9 +295,8 @@ let PrizeJurySettings = React.createClass({
     },
 
     getMembers() {
-        let content = <AscribeSpinner color='dark-blue' size='md' />;
         if (this.state.members.length > -1) {
-            content = (
+            return (
                 <div>
                     <CollapsibleParagraph
                         title={getLangText('Active Jury Members')}
@@ -280,9 +314,11 @@ let PrizeJurySettings = React.createClass({
                         {this.getMembersInactive()}
                     </CollapsibleParagraph>
                 </div>);
+        } else {
+            return <AscribeSpinner color='dark-blue' size='md' />;
         }
-        return content;
     },
+
     render() {
         return (
             <div>
