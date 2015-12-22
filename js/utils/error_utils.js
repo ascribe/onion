@@ -35,3 +35,31 @@ export function initLogging() {
 
     console.logGlobal = logGlobal;
 }
+
+/*
+ * Gets the json errors from the error as an array
+ * @param  {Error} error A Javascript error
+ * @return {Array}       List of json errors
+ */
+export function getJsonErrorsAsArray(error) {
+    const { json: { errors = {} } = {} } = error;
+
+    const errorArrays = Object
+        .keys(errors)
+        .map((errorKey) => {
+            return errors[errorKey];
+        });
+
+    // Collapse each errorKey's errors into a flat array
+    return [].concat(...errorArrays);
+}
+
+/*
+ * Tries to get an error message from the error, either by using its notification
+ * property or first json error (if any)
+ * @param  {Error} error A Javascript error
+ * @return {string}      Error message string
+ */
+export function getErrorNotificationMessage(error) {
+    return (error && error.notification) || getJsonErrorsAsArray(error)[0] || '';
+}

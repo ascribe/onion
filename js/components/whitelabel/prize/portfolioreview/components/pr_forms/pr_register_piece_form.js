@@ -19,8 +19,10 @@ import ApiUrls from '../../../../../../constants/api_urls';
 
 import requests from '../../../../../../utils/requests';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getErrorNotificationMessage } from '../../../../../../utils/error_utils';
 import { setCookie } from '../../../../../../utils/fetch_api_utils';
+import { validateForms } from '../../../../../../utils/form_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
@@ -35,7 +37,7 @@ const PRRegisterPieceForm = React.createClass({
 
     mixins: [History],
 
-    getInitialState(){
+    getInitialState() {
         return {
             digitalWorkKeyReady: true,
             thumbnailKeyReady: true,
@@ -54,15 +56,15 @@ const PRRegisterPieceForm = React.createClass({
      * second adding all the additional details
      */
     submit() {
-        if(!this.validateForms()) {
+        if (!this.validateForms()) {
             return;
-        } else {
-            // disable the submission button right after the user
-            // clicks on it to avoid double submission
-            this.setState({
-                submitted: true
-            });
         }
+
+        // disable the submission button right after the user
+        // clicks on it to avoid double submission
+        this.setState({
+            submitted: true
+        });
 
         const { currentUser } = this.props;
         const { registerPieceForm,
@@ -106,10 +108,18 @@ const PRRegisterPieceForm = React.createClass({
             })
             .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
             .catch((err) => {
-                const notificationMessage = new GlobalNotificationModel(getLangText("Oops! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
+                const errMessage = (getErrorNotificationMessage(err) || getLangText("Oops! We weren't able to send your submission.")) +
+                                        getLangText(' Please contact support@ascribe.io');
+
+                const notificationMessage = new GlobalNotificationModel(errMessage, 'danger', 10000);
                 GlobalNotificationActions.appendGlobalNotification(notificationMessage);
 
                 console.logGlobal(new Error('Portfolio Review piece registration failed'), err);
+
+                // Reset the submit button
+                this.setState({
+                    submitted: false
+                });
             });
     },
 
@@ -118,11 +128,7 @@ const PRRegisterPieceForm = React.createClass({
                 additionalDataForm,
                 uploadersForm } = this.refs;
 
-        const registerPieceFormValidation = registerPieceForm.validate();
-        const additionalDataFormValidation = additionalDataForm.validate();
-        const uploaderFormValidation = uploadersForm.validate();
-
-        return registerPieceFormValidation && additionalDataFormValidation && uploaderFormValidation;
+        return validateForms([registerPieceForm, additionalDataForm, uploadersForm], true);
     },
 
     getCreateBlobRoutine() {
