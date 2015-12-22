@@ -1,0 +1,164 @@
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+
+.btn {
+    font-weight: $ascribe--font-weight-light;
+}
+
+.btn-default {
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:hover,
+    &:active:focus,
+    &:active.focus,
+    &.active:hover,
+    &.active:focus,
+    &.active.focus {
+        background-color: lighten($ascribe--button-default-color, 20%);
+        border-color: lighten($ascribe--button-default-color, 20%);
+    }
+}
+
+// disabled buttons
+.btn-default.disabled,
+.btn-default.disabled:hover,
+.btn-default.disabled:focus,
+.btn-default.disabled.focus,
+.btn-default.disabled:active,
+.btn-default.disabled.active,
+.btn-default[disabled],
+.btn-default[disabled]:hover,
+.btn-default[disabled]:focus,
+.btn-default[disabled].focus,
+.btn-default[disabled]:active,
+.btn-default[disabled].active,
+fieldset[disabled] .btn-default,
+fieldset[disabled] .btn-default:hover,
+fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-default:active,
+fieldset[disabled] .btn-default.active {
+    background-color: darken($ascribe--button-default-color, 20%);
+    border-color: darken($ascribe--button-default-color, 20%);
+}
+
+.btn-secondary {
+    background-color: $ascribe--button-secondary-bg-color;
+    border-color: $ascribe--button-secondary-fg-color;
+    color: $ascribe--button-secondary-fg-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:hover,
+    &:active:focus,
+    &:active.focus,
+    &.active:hover,
+    &.active:focus,
+    &.active.focus {
+        background-color: $ascribe--button-secondary-fg-color;
+        border-color: $ascribe--button-secondary-bg-color;
+        color: $ascribe--button-secondary-bg-color;
+    }
+}
+
+// disabled buttons
+.btn-secondary.disabled,
+.btn-secondary.disabled:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary.disabled.focus,
+.btn-secondary.disabled:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled],
+.btn-secondary[disabled]:hover,
+.btn-secondary[disabled]:focus,
+.btn-secondary[disabled].focus,
+.btn-secondary[disabled]:active,
+.btn-secondary[disabled].active,
+fieldset[disabled] .btn-secondary,
+fieldset[disabled] .btn-secondary:hover,
+fieldset[disabled] .btn-secondary:focus,
+fieldset[disabled] .btn-secondary.focus,
+fieldset[disabled] .btn-secondary:active,
+fieldset[disabled] .btn-secondary.active {
+    background-color: darken($ascribe--button-secondary-bg-color, 20%);
+    border-color: darken($ascribe--button-secondary-fg-color, 20%);
+    color: darken($ascribe--button-secondary-fg-color, 20%);
+}
+
+.btn-tertiary {
+    background-color: transparent;
+    border-color: transparent;
+    color: $ascribe-dark-blue;
+
+    &:focus,
+    &:active:focus,
+    &:active.focus {
+        background-color: transparent;
+        border-color: transparent;
+        color: $ascribe-dark-blue;
+    }
+
+    &:hover,
+    &:active,
+    &:active:hover,
+    &.active:hover{
+        background-color: $ascribe-pink;
+        border-color: $ascribe-pink;
+        color: $ascribe-white;
+    }
+}
+
+.btn-wide {
+    font-weight: $ascribe--font-weight-light;
+}
+
+.btn-spinner, .btn-spinner:hover {
+    background-color: $ascribe--button-default-color;
+    border-color: $ascribe--button-default-color;
+    [class^="spinner-wrapper-"] {
+        color: white;
+        .spinner-circle {
+            border-color: white;
+        }
+    }
+}
+
+.btn-secondary .spinner-wrapper {
+    .spinner-circle,
+    .spinner-inner {
+        border-color: $ascribe--button-secondary-fg-color;
+        color: $ascribe--button-secondary-fg-color;
+    }
+}
+
+.btn-ascribe-add {
+    width: 30px;
+    height: 30px;
+    background-color: transparent !important;
+    border: 1px solid $ascribe-dark-blue;
+    border-radius: 50%;
+
+    &:hover {
+        border-color: white!important;
+        background-color: $ascribe-dark-blue!important;
+    }
+
+    > span {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 30px;
+        height: 30px;
+        color: $ascribe-dark-blue;
+        padding: 0.4em;
+        &:hover {
+            color: white;
+        }
+    }
+}
