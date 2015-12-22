@@ -62,7 +62,7 @@ const PRRegisterPiece = React.createClass({
                 <Col xs={6}>
                     <div className="register-piece--info">
                         <h1>Portfolio Review</h1>
-                        <h2>{getLangText('Submission closing on %s', ' 22 Dec 2015')}</h2>
+                        <h2>{getLangText('Submission closing on %s', ' 27 Dec 2015')}</h2>
                         <p>For more information, visit:&nbsp;
                             <a href="http://www.portfolio-review.de/submission/" target="_blank">
                                 portfolio-review.de
