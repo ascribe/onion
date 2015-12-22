@@ -52,7 +52,8 @@ let ModalWrapper = React.createClass({
                     }
 
                     this.handleSuccess(response);
-                }
+                },
+                handleCancel: this.hide
             });
         });
     },
