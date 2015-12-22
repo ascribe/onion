@@ -317,7 +317,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                     <Property
                         name="thumbnailKey"
-                        label={getLangText('Featured Cover photo (max 2MB)')}>
+                        label={getLangText('Featured Cover photo (max 5MB)')}>
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             createBlobRoutine={{
