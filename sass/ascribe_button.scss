@@ -2,6 +2,16 @@
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 
+.ascribe-btn-container-left {
+    float: left;
+    padding: 0 2px 2px 0;
+}
+
+.ascribe-btn-container-right {
+    float: right;
+    padding: 0 0 2px 2px;
+}
+
 .btn {
     font-weight: $ascribe--font-weight-light;
 }
