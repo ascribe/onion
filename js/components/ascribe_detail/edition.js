@@ -16,7 +16,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
-import EditionDetailProperty from './detail_property';
+import DetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
@@ -63,10 +63,10 @@ let Edition = React.createClass({
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
-                        <hr style={{marginTop: 0}}/>
+                        <hr className="hidden-print" style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
-                        <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
+                        <DetailProperty label="BY" value={this.props.edition.artist_name} />
+                        <DetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary
@@ -169,10 +169,10 @@ let EditionSummary = React.createClass({
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
-            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            status = <DetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
-                    <EditionDetailProperty label="STATUS" value={ statusStr } />
+                    <DetailProperty label="STATUS" value={ statusStr } />
                 );
             }
         }
@@ -183,14 +183,14 @@ let EditionSummary = React.createClass({
         let { actionPanelButtonListType, edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('EDITION')}
                     value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('ID')}
                     value={ edition.bitcoin_id }
                     ellipsis={true} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('OWNER')}
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
@@ -201,14 +201,15 @@ let EditionSummary = React.createClass({
                     `AclInformation` would show up
                 */}
                 <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
-                    <EditionDetailProperty
-                        label={getLangText('ACTIONS')}>
+                    <DetailProperty
+                        label={getLangText('ACTIONS')}
+                        className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
                             edition={edition}
                             currentUser={currentUser}
                             handleSuccess={this.handleSuccess} />
-                    </EditionDetailProperty>
+                    </DetailProperty>
                 </AclProxy>
                 <hr/>
             </div>
