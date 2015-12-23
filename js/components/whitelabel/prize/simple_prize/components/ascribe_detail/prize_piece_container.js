@@ -59,31 +59,32 @@ let PrizePieceContainer = React.createClass({
     mixins: [ReactError],
 
     getInitialState() {
-        return mergeOptions(
-            PieceStore.getState(),
-            UserStore.getState()
-        );
+        //FIXME: this component uses the PieceStore, but we avoid using the getState() here since it may contain stale data
+        //       It should instead use something like getInitialState() where that call also resets the state.
+        return UserStore.getState();
+    },
+
+    componentWillMount() {
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
         UserStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
-        this.loadPiece();
         UserActions.fetchCurrentUser();
+        this.loadPiece();
     },
 
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+        if (this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
+            this.loadPiece(nextProps.params.pieceId);
         }
     },
 
@@ -99,7 +100,6 @@ let PrizePieceContainer = React.createClass({
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
-
 
     onChange(state) {
         this.setState(state);
@@ -118,8 +118,8 @@ let PrizePieceContainer = React.createClass({
         }
     },
 
-    loadPiece() {
-        PieceActions.fetchOne(this.props.params.pieceId);
+    loadPiece(pieceId = this.props.params.pieceId) {
+        PieceActions.fetchOne(pieceId);
     },
 
     render() {
@@ -234,23 +234,19 @@ let PrizePieceRatings = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState()
+            PrizeRatingStore.getInitialState()
         );
     },
 
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
+
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PrizeRatingActions.fetchAverage(this.props.piece.id);
-        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
     },
@@ -311,7 +307,7 @@ let PrizePieceRatings = React.createClass({
             });
     },
 
-    render(){
+    render() {
         if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
             // Judge sees shortlisting, average and per-jury notes
             return (
@@ -380,8 +376,7 @@ let PrizePieceRatings = React.createClass({
                         <hr />
                     </CollapsibleParagraph>
                 </div>);
-        }
-        else if (this.props.currentUser && this.props.currentUser.is_jury) {
+        } else if (this.props.currentUser && this.props.currentUser.is_jury) {
             // Jury can set rating and note
             return (
                 <CollapsibleParagraph
@@ -408,8 +403,9 @@ let PrizePieceRatings = React.createClass({
                         url={ApiUrls.notes}
                         currentUser={this.props.currentUser}/>
                 </CollapsibleParagraph>);
+        } else {
+            return null;
         }
-        return null;
     }
 });
 
