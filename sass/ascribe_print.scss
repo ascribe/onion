@@ -1,0 +1,9 @@
+@media print {
+    @page {
+        margin: 1.2cm;
+    }
+
+    .ascribe-default-app {
+        padding: 0 !important;
+    }
+}
