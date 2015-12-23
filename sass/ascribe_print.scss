@@ -6,4 +6,12 @@
     .ascribe-default-app {
         padding: 0 !important;
     }
+
+    // Replace navbar header with ascribe logo
+    .ascribe-print-header {
+        border-bottom: 1px solid rgba(0, 60, 105, 0.1);
+        font-size: 1.2em;
+        margin: 0.5em 0;
+        text-align: center;
+    }
 }
