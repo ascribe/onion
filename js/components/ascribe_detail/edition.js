@@ -296,16 +296,34 @@ let SpoolDetails = React.createClass({
     },
 
     render() {
-        let bitcoinIdValue = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
+        const { edition: {
+            bitcoin_id: bitcoinId,
+            hash_as_address: hashAsAddress,
+            btc_owner_address_noprefix: bitcoinOwnerAddress
+        } } = this.props;
+
+        const bitcoinIdValue = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinId}>
+                {bitcoinId}
+            </a>
         );
 
-        let hashOfArtwork = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        const hashOfArtwork = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + hashAsAddress}>
+                {hashAsAddress}
+            </a>
         );
 
-        let ownerAddress = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
+        const ownerAddress = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinOwnerAddress}>
+                {bitcoinOwnerAddress}
+            </a>
         );
 
         return (

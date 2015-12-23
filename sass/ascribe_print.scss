@@ -7,6 +7,11 @@
         padding: 0 !important;
     }
 
+    // Utility class to not automatically expand an anchor href after the text
+    .anchor-no-expand-print:after {
+        content: '' !important;
+    }
+
     // Replace navbar header with ascribe logo
     .ascribe-print-header {
         border-bottom: 1px solid rgba(0, 60, 105, 0.1);
