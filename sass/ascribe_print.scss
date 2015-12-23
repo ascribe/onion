@@ -14,4 +14,14 @@
         margin: 0.5em 0;
         text-align: center;
     }
+
+    // Force left and right columns
+    .ascribe-print-col-left {
+        width: 50% !important;
+        float: left !important;
+    }
+    .ascribe-print-col-right {
+        width: 50% !important;
+        float: right !important;
+    }
 }

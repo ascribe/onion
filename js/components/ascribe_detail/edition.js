@@ -57,11 +57,11 @@ let Edition = React.createClass({
 
         return (
             <Row>
-                <Col md={6}>
+                <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={this.props.edition}/>
                 </Col>
-                <Col md={6} className="ascribe-edition-details">
+                <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
                         <hr style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
