@@ -108,6 +108,12 @@ hr {
     color: $ascribe-dark-blue;
 }
 
+.add-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .ascribe-subheader {
     padding-bottom: 10px;
     margin-top: -10px;

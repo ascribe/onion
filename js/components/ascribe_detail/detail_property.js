@@ -35,17 +35,12 @@ const DetailProperty = React.createClass({
         const {
             children,
             className,
+            ellipsis,
             label,
             labelClassName,
             separator,
             valueClassName,
             value } = this.props;
-
-        const styles = this.props.ellipsis ? {
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-        } : null;
 
         return (
             <div className={classNames('row ascribe-detail-property', className)}>
@@ -53,9 +48,7 @@ const DetailProperty = React.createClass({
                     <div className={labelClassName}>
                         {label} {separator}
                     </div>
-                    <div
-                        className={valueClassName}
-                        style={styles}>
+                    <div className={classNames(valueClassName, {'add-overflow-ellipsis': ellipsis})}>
                         {children || value}
                     </div>
                 </div>
