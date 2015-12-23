@@ -231,56 +231,60 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        if(this.props.coaError) {
-            return (
-                <div className="text-center">
-                    <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>
-                    <p>
-                        {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
-                        <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
-                    </p>
-                </div>
-            );
-        }
-        if(this.props.coa && this.props.coa.url_safe) {
-            return (
-                <div>
-                    <div
-                        className="notification-contract-pdf"
-                        style={{paddingBottom: '1em'}}>
-                        <embed
-                            className="embed-form"
-                            src={this.props.coa.url_safe}
-                            alt="pdf"
-                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
-                    </div>
-                    <div className="text-center ascribe-button-list">
-                        <a href={this.props.coa.url_safe} target="_blank">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
-                            </button>
-                        </a>
-                        <Link to="/coa_verify">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Verify')} <Glyphicon glyph="check"/>
-                            </button>
-                        </Link>
+        const { coa = {}, coaError } = this.props;
 
-                    </div>
+        let coaDetailElement;
+        if (coaError) {
+            coaDetailElement = [
+                <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
+                <p>
+                    {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
+                    <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
+                </p>
+            ];
+        } else if (coa.url_safe) {
+            coaDetailElement = [
+                <div
+                    className="notification-contract-pdf"
+                    style={{paddingBottom: '1em'}}>
+                    <embed
+                        className="embed-form"
+                        src={coa.url_safe}
+                        alt="pdf"
+                        pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                </div>,
+                <div className="text-center ascribe-button-list">
+                    <a href={coa.url_safe} target="_blank">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
+                        </button>
+                    </a>
+                    <Link to="/coa_verify">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Verify')} <Glyphicon glyph="check"/>
+                        </button>
+                    </Link>
                 </div>
-            );
-        } else if(typeof this.props.coa === 'string'){
-            return (
-                <div className="text-center">
-                    {this.props.coa}
-                </div>
-            );
-        }
-        return (
-            <div className="text-center">
-                <AscribeSpinner color='dark-blue' size='md'/>
-                <p>{getLangText("Just a sec, we\'re generating your COA")}</p>
+            ];
+        } else if (typeof coa === 'string') {
+            coaDetailElement = coa;
+        } else {
+            coaDetailElement = [
+                <AscribeSpinner color='dark-blue' size='md'/>,
+                <p>{getLangText("Just a sec, we're generating your COA")}</p>,
                 <p>{getLangText('(you may leave the page)')}</p>
+            ];
+        }
+
+        return (
+            <div>
+                <div className="text-center hidden-print">
+                    {coaDetailElement}
+                </div>
+                {/* Hide the COA and just show that it's a seperate document when printing */}
+                <div className="visible-print ascribe-coa-print-placeholder">
+                    {getLangText('The COA is available as a seperate document')}
+                </div>
             </div>
         );
     }
