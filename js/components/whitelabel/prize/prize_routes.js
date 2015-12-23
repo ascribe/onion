@@ -12,6 +12,8 @@ import SPPieceContainer from './simple_prize/components/ascribe_detail/prize_pie
 import SPSettingsContainer from './simple_prize/components/prize_settings_container';
 import SPApp from './simple_prize/prize_app';
 
+import SluicePieceContainer from './sluice/components/sluice_detail/sluice_piece_container';
+
 import PRApp from './portfolioreview/pr_app';
 import PRLanding from './portfolioreview/components/pr_landing';
 import PRRegisterPiece from './portfolioreview/components/pr_register_piece';
@@ -53,7 +55,7 @@ const ROUTES = {
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
                 headerTitle='COLLECTION'/>
-            <Route path='pieces/:pieceId' component={SPPieceContainer} />
+            <Route path='pieces/:pieceId' component={SluicePieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />

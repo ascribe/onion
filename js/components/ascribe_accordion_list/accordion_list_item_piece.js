@@ -12,7 +12,10 @@ import { getLangText } from '../../utils/lang_utils';
 let AccordionListItemPiece = React.createClass({
     propTypes: {
         className: React.PropTypes.string,
-        artistName: React.PropTypes.string,
+        artistName: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]),
         piece: React.PropTypes.object.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),

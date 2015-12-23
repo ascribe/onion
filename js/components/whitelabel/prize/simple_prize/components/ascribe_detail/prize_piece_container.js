@@ -34,9 +34,7 @@ import CollapsibleParagraph from '../../../../../../components/ascribe_collapsib
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
 import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
-import LoanForm from '../../../../../ascribe_forms/form_loan';
 import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
-import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
@@ -52,39 +50,41 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 /**
  * This is the component that implements resource/data specific functionality
  */
-let PieceContainer = React.createClass({
+let PrizePieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object
+        params: React.PropTypes.object,
+        selectedPrizeActionButton: React.PropTypes.func
     },
 
     mixins: [ReactError],
 
     getInitialState() {
-        return mergeOptions(
-            PieceStore.getState(),
-            UserStore.getState()
-        );
+        //FIXME: this component uses the PieceStore, but we avoid using the getState() here since it may contain stale data
+        //       It should instead use something like getInitialState() where that call also resets the state.
+        return UserStore.getState();
+    },
+
+    componentWillMount() {
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
         UserStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
-        PieceActions.fetchOne(this.props.params.pieceId);
         UserActions.fetchCurrentUser();
+        this.loadPiece();
     },
 
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+        if (this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
+            this.loadPiece(nextProps.params.pieceId);
         }
     },
 
@@ -101,26 +101,32 @@ let PieceContainer = React.createClass({
         UserStore.unlisten(this.onChange);
     },
 
-
     onChange(state) {
         this.setState(state);
     },
 
     getActions() {
-        if (this.state.piece &&
-            this.state.piece.notifications &&
-            this.state.piece.notifications.length > 0) {
+        const { currentUser, piece } = this.state;
+
+        if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.state.piece}
-                    currentUser={this.state.currentUser}
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={this.state.piece.notifications}/>);
+                    notifications={piece.notifications}/>);
         }
     },
 
+    loadPiece(pieceId = this.props.params.pieceId) {
+        PieceActions.fetchOne(pieceId);
+    },
+
     render() {
-        if(this.state.piece && this.state.piece.id) {
+        const { selectedPrizeActionButton } = this.props;
+        const { currentUser, piece } = this.state;
+
+        if (piece && piece.id) {
             /*
 
                 This really needs a refactor!
@@ -129,37 +135,32 @@ let PieceContainer = React.createClass({
 
              */
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
-            let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
-                (this.state.currentUser.is_judge && !this.state.piece.selected )) ?
-                null : this.state.piece.artist_name;
+            let artistName;
+            if ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !piece.selected )) {
+                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
+                setDocumentTitle(piece.title);
+            } else {
+                artistName = piece.artist_name;
+                setDocumentTitle([artistName, piece.title].join(', '));
+            }
 
             // Only show the artist email if you are a judge and the piece is shortlisted
-            let artistEmail = (this.state.currentUser.is_judge && this.state.piece.selected ) ?
-                <DetailProperty label={getLangText('REGISTREE')} value={ this.state.piece.user_registered } /> : null;
-
-            if (artistName === null) {
-                setDocumentTitle(this.state.piece.title);
-            } else {
-                setDocumentTitle([artistName, this.state.piece.title].join(', '));
-            }
-
-            if (artistName === null) {
-                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
-            }
+            const artistEmail = (currentUser.is_judge && piece.selected ) ?
+                <DetailProperty label={getLangText('REGISTREE')} value={ piece.user_registered } /> : null;
 
             return (
                 <Piece
-                    piece={this.state.piece}
-                    loadPiece={this.loadPiece}
+                    piece={piece}
+                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <NavigationHeader
-                                piece={this.state.piece}
-                                currentUser={this.state.currentUser}/>
+                                piece={piece}
+                                currentUser={currentUser}/>
 
-                            <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
+                            <h1 className="ascribe-detail-title">{piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
-                            <DetailProperty label={getLangText('DATE')} value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year()} />
+                            <DetailProperty label={getLangText('DATE')} value={Moment(piece.date_created, 'YYYY-MM-DD').year()} />
                             {artistEmail}
                             {this.getActions()}
                             <hr/>
@@ -168,10 +169,11 @@ let PieceContainer = React.createClass({
                     subheader={
                         <PrizePieceRatings
                             loadPiece={this.loadPiece}
-                            piece={this.state.piece}
-                            currentUser={this.state.currentUser}/>
+                            piece={piece}
+                            currentUser={currentUser}
+                            selectedPrizeActionButton={selectedPrizeActionButton} />
                     }>
-                    <PrizePieceDetails piece={this.state.piece} />
+                    <PrizePieceDetails piece={piece} />
                 </Piece>
             );
         } else {
@@ -225,29 +227,26 @@ let PrizePieceRatings = React.createClass({
     propTypes: {
         loadPiece: React.PropTypes.func,
         piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object,
+        selectedPrizeActionButton: React.PropTypes.func
     },
 
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState()
+            PrizeRatingStore.getInitialState()
         );
     },
 
     componentDidMount() {
         PrizeRatingStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
+
         PrizeRatingActions.fetchOne(this.props.piece.id);
         PrizeRatingActions.fetchAverage(this.props.piece.id);
-        PieceListStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PrizeRatingActions.updateRating({});
         PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
     },
@@ -270,48 +269,23 @@ let PrizePieceRatings = React.createClass({
 
     onRatingClick(event, args) {
         event.preventDefault();
-        PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
-            this.refreshPieceData()
-        );
+        PrizeRatingActions
+            .createRating(this.props.piece.id, args.rating)
+            .then(this.refreshPieceData);
     },
 
-    handleLoanRequestSuccess(message){
-        let notification = new GlobalNotificationModel(message, 'success', 4000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
+    getSelectedActionButton() {
+        const { currentUser, piece, selectedPrizeActionButton: SelectedPrizeActionButton } = this.props;
 
-    getLoanButton(){
-        let today = new Moment();
-        let endDate = new Moment();
-        endDate.add(6, 'months');
-        return (
-            <ModalWrapper
-                trigger={
-                    <button className='btn btn-default btn-sm'>
-                        {getLangText('SEND LOAN REQUEST')}
-                    </button>
-                }
-                handleSuccess={this.handleLoanRequestSuccess}
-                title='REQUEST LOAN'>
-                    <LoanForm
-                        loanHeading={null}
-                        message={getLangText('Congratulations,\nYou have been selected for the prize.\n' +
-                         'Please accept the loan request to proceed.')}
-                        id={{piece_id: this.props.piece.id}}
-                        url={ApiUrls.ownership_loans_pieces_request}
-                        email={this.props.currentUser.email}
-                        gallery={this.props.piece.prize.name}
-                        startDate={today}
-                        endDate={endDate}
-                        showPersonalMessage={true}
-                        showPassword={false}
-                        handleSuccess={this.handleLoanSuccess} />
-            </ModalWrapper>);
-    },
-
-    handleShortlistSuccess(message){
-        let notification = new GlobalNotificationModel(message, 'success', 2000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        if (piece.selected && SelectedPrizeActionButton) {
+            return (
+                <span className="pull-right">
+                    <SelectedPrizeActionButton
+                        piece={piece}
+                        currentUser={currentUser} />
+                </span>
+            );
+        }
     },
 
     refreshPieceData() {
@@ -321,20 +295,19 @@ let PrizePieceRatings = React.createClass({
     },
 
     onSelectChange() {
-        PrizeRatingActions.toggleShortlist(this.props.piece.id)
-        .then(
-            (res) => {
+        PrizeRatingActions
+            .toggleShortlist(this.props.piece.id)
+            .then((res) => {
                 this.refreshPieceData();
-                return res;
-            })
-        .then(
-            (res) => {
-                this.handleShortlistSuccess(res.notification);
-            }
-        );
+
+                if (res && res.notification) {
+                    const notification = new GlobalNotificationModel(res.notification, 'success', 2000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+                }
+            });
     },
 
-    render(){
+    render() {
         if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
             // Judge sees shortlisting, average and per-jury notes
             return (
@@ -352,9 +325,7 @@ let PrizePieceRatings = React.createClass({
                                     </span>
                                 </InputCheckbox>
                             </span>
-                            <span className="pull-right">
-                                {this.props.piece.selected ? this.getLoanButton() : null}
-                            </span>
+                            {this.getSelectedActionButton()}
                         </div>
                         <hr />
                     </CollapsibleParagraph>
@@ -373,13 +344,19 @@ let PrizePieceRatings = React.createClass({
                         </div>
                         <hr />
                         {this.state.ratings.map((item, i) => {
-                            let note = item.note ?
+                            let note = item.note ? (
                                 <div className="rating-note">
                                     note: {item.note}
-                                </div> : null;
+                                </div>
+                            ) : null;
+
                             return (
-                                <div className="rating-list">
-                                    <div id="list-rating" className="row no-margin">
+                                <div
+                                    key={item.user}
+                                    className="rating-list">
+                                    <div
+                                        id="list-rating"
+                                        className="row no-margin">
                                     <span className="pull-right">
                                         <StarRating
                                             ref={'rating' + i}
@@ -399,8 +376,7 @@ let PrizePieceRatings = React.createClass({
                         <hr />
                     </CollapsibleParagraph>
                 </div>);
-        }
-        else if (this.props.currentUser && this.props.currentUser.is_jury) {
+        } else if (this.props.currentUser && this.props.currentUser.is_jury) {
             // Jury can set rating and note
             return (
                 <CollapsibleParagraph
@@ -427,8 +403,9 @@ let PrizePieceRatings = React.createClass({
                         url={ApiUrls.notes}
                         currentUser={this.props.currentUser}/>
                 </CollapsibleParagraph>);
+        } else {
+            return null;
         }
-        return null;
     }
 });
 
@@ -457,6 +434,7 @@ let PrizePieceDetails = React.createClass({
 
                             return (
                                 <Property
+                                    key={label}
                                     name={data}
                                     label={label}
                                     editable={false}
@@ -484,4 +462,4 @@ let PrizePieceDetails = React.createClass({
     }
 });
 
-export default PieceContainer;
+export default PrizePieceContainer;

@@ -10,7 +10,8 @@ class PrizeRatingActions {
         this.generateActions(
             'updatePrizeRatings',
             'updatePrizeRatingAverage',
-            'updatePrizeRating'
+            'updatePrizeRating',
+            'resetPrizeRatings'
         );
     }
 
