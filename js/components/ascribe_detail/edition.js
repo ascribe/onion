@@ -225,8 +225,10 @@ let CoaDetails = React.createClass({
     },
 
     contactOnIntercom() {
-        window.Intercom('showNewMessage', `Hi, I'm having problems generating a Certificate of Authenticity for Edition: ${this.props.editionId}`);
-        console.logGlobal(new Error(`Coa couldn't be created for edition: ${this.props.editionId}`), this.props.coaError);
+        const { coaError, editionId } = this.props;
+
+        window.Intercom('showNewMessage', getLangText("Hi, I'm having problems generating a Certificate of Authenticity for Edition: %s", editionId));
+        console.logGlobal(new Error(`Coa couldn't be created for edition: ${editionId}`), coaError);
     },
 
     render() {
