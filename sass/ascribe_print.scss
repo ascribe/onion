@@ -46,4 +46,73 @@
         padding: 0 1.5em 1em 1.5em;
         margin: 0;
     }
+
+    // Force collapsible properties to be expanded
+    .ascribe-collapsible-content .collapse {
+        display: block;
+    }
+
+    // Decrease property spacing
+    .ascribe-property-wrapper {
+        padding-bottom: 0.5em;
+    }
+
+    .ascribe-property {
+        padding-top: 0.5em;
+
+        > div,
+        > input,
+        > p,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > textarea {
+            margin: 0;
+        }
+    }
+
+    .ascribe-collapsible-wrapper {
+        margin-bottom: 5px;
+
+        > div:first-child {
+            margin-top: 0;
+            padding-bottom: 5px;
+        }
+    }
+
+    .ascribe-form hr {
+        margin-bottom: 3px;
+    }
+
+    // Hide placeholder text
+    input::-webkit-input-placeholder {
+        opacity: 0;
+    }
+    textarea::-webkit-input-placeholder {
+        opacity: 0;
+    }
+
+    /* firefox 18- */
+    input:-moz-placeholder {
+        opacity: 0;
+    }
+    textarea:-moz-placeholder {
+        opacity: 0;
+    }
+
+    /* firefox 19+ */
+    input::-moz-placeholder {
+        opacity: 0;
+    }
+    textarea::-moz-placeholder {
+        opacity: 0;
+    }
+
+    /* ie */
+    input:-ms-input-placeholder {
+        opacity: 0;
+    }
+    textarea:-ms-input-placeholder  {
+        opacity: 0;
+    }
 }
