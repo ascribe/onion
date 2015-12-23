@@ -25,12 +25,16 @@ let WalletPieceContainer = React.createClass({
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
-        submitButtonType: React.PropTypes.func.isRequired
+        submitButtonType: React.PropTypes.func.isRequired,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ])
     },
 
-    
+
     render() {
-        if(this.props.piece && this.props.piece.id) {
+        if (this.props.piece && this.props.piece.id) {
             return (
                 <Piece
                     piece={this.props.piece}
@@ -45,12 +49,12 @@ let WalletPieceContainer = React.createClass({
                         </div>
                     }
                     subheader={
-                    <div className="ascribe-detail-header">
-                        <DetailProperty label={getLangText('REGISTREE')} value={ this.props.piece.user_registered } />
-                        <DetailProperty label={getLangText('ID')} value={ this.props.piece.bitcoin_id } ellipsis={true} />
-                        <hr/>
-                    </div>
-                }>
+                        <div className="ascribe-detail-header">
+                            <DetailProperty label={getLangText('REGISTREE')} value={ this.props.piece.user_registered } />
+                            <DetailProperty label={getLangText('ID')} value={ this.props.piece.bitcoin_id } ellipsis={true} />
+                            <hr/>
+                        </div>
+                    }>
                     <WalletActionPanel
                         piece={this.props.piece}
                         currentUser={this.props.currentUser}
@@ -76,12 +80,10 @@ let WalletPieceContainer = React.createClass({
                             url={ApiUrls.note_private_piece}
                             currentUser={this.props.currentUser}/>
                     </CollapsibleParagraph>
-
                     {this.props.children}
                 </Piece>
             );
-        }
-        else {
+        } else {
             return (
                 <div className="fullpage-spinner">
                     <AscribeSpinner color='dark-blue' size='lg' />

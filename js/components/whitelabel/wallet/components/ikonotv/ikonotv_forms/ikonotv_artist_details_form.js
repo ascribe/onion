@@ -60,9 +60,8 @@ let IkonotvArtistDetailsForm = React.createClass({
     render() {
         let buttons, spinner, heading;
         let { isInline, handleSuccess } = this.props;
-        
 
-        if(!isInline) {
+        if (!isInline) {
             buttons = (
                 <button
                     type="submit"
@@ -89,7 +88,7 @@ let IkonotvArtistDetailsForm = React.createClass({
             );
         }
 
-        if(this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
+        if (this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
             return (
                 <Form
                     disabled={this.props.disabled}

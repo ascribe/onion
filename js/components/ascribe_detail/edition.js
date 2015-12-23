@@ -16,7 +16,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
-import EditionDetailProperty from './detail_property';
+import DetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
@@ -57,16 +57,16 @@ let Edition = React.createClass({
 
         return (
             <Row>
-                <Col md={6}>
+                <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={this.props.edition}/>
                 </Col>
-                <Col md={6} className="ascribe-edition-details">
+                <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
-                        <hr style={{marginTop: 0}}/>
+                        <hr className="hidden-print" style={{marginTop: 0}}/>
                         <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
-                        <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
+                        <DetailProperty label="BY" value={this.props.edition.artist_name} />
+                        <DetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary
@@ -169,10 +169,10 @@ let EditionSummary = React.createClass({
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
-            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            status = <DetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
-                    <EditionDetailProperty label="STATUS" value={ statusStr } />
+                    <DetailProperty label="STATUS" value={ statusStr } />
                 );
             }
         }
@@ -183,14 +183,14 @@ let EditionSummary = React.createClass({
         let { actionPanelButtonListType, edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('EDITION')}
                     value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('ID')}
                     value={ edition.bitcoin_id }
                     ellipsis={true} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('OWNER')}
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
@@ -201,14 +201,15 @@ let EditionSummary = React.createClass({
                     `AclInformation` would show up
                 */}
                 <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
-                    <EditionDetailProperty
-                        label={getLangText('ACTIONS')}>
+                    <DetailProperty
+                        label={getLangText('ACTIONS')}
+                        className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
                             edition={edition}
                             currentUser={currentUser}
                             handleSuccess={this.handleSuccess} />
-                    </EditionDetailProperty>
+                    </DetailProperty>
                 </AclProxy>
                 <hr/>
             </div>
@@ -232,56 +233,60 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        if(this.props.coaError) {
-            return (
-                <div className="text-center">
-                    <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>
-                    <p>
-                        {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
-                        <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
-                    </p>
-                </div>
-            );
-        }
-        if(this.props.coa && this.props.coa.url_safe) {
-            return (
-                <div>
-                    <div
-                        className="notification-contract-pdf"
-                        style={{paddingBottom: '1em'}}>
-                        <embed
-                            className="embed-form"
-                            src={this.props.coa.url_safe}
-                            alt="pdf"
-                            pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
-                    </div>
-                    <div className="text-center ascribe-button-list">
-                        <a href={this.props.coa.url_safe} target="_blank">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
-                            </button>
-                        </a>
-                        <Link to="/coa_verify">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Verify')} <Glyphicon glyph="check"/>
-                            </button>
-                        </Link>
+        const { coa = {}, coaError } = this.props;
 
-                    </div>
+        let coaDetailElement;
+        if (coaError) {
+            coaDetailElement = [
+                <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
+                <p>
+                    {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
+                    <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
+                </p>
+            ];
+        } else if (coa.url_safe) {
+            coaDetailElement = [
+                <div
+                    className="notification-contract-pdf"
+                    style={{paddingBottom: '1em'}}>
+                    <embed
+                        className="embed-form"
+                        src={coa.url_safe}
+                        alt="pdf"
+                        pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                </div>,
+                <div className="text-center ascribe-button-list">
+                    <a href={coa.url_safe} target="_blank">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
+                        </button>
+                    </a>
+                    <Link to="/coa_verify">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Verify')} <Glyphicon glyph="check"/>
+                        </button>
+                    </Link>
                 </div>
-            );
-        } else if(typeof this.props.coa === 'string'){
-            return (
-                <div className="text-center">
-                    {this.props.coa}
-                </div>
-            );
-        }
-        return (
-            <div className="text-center">
-                <AscribeSpinner color='dark-blue' size='md'/>
-                <p>{getLangText("Just a sec, we\'re generating your COA")}</p>
+            ];
+        } else if (typeof coa === 'string') {
+            coaDetailElement = coa;
+        } else {
+            coaDetailElement = [
+                <AscribeSpinner color='dark-blue' size='md'/>,
+                <p>{getLangText("Just a sec, we're generating your COA")}</p>,
                 <p>{getLangText('(you may leave the page)')}</p>
+            ];
+        }
+
+        return (
+            <div>
+                <div className="text-center hidden-print">
+                    {coaDetailElement}
+                </div>
+                {/* Hide the COA and just show that it's a seperate document when printing */}
+                <div className="visible-print ascribe-coa-print-placeholder">
+                    {getLangText('The COA is available as a seperate document')}
+                </div>
             </div>
         );
     }
@@ -293,16 +298,34 @@ let SpoolDetails = React.createClass({
     },
 
     render() {
-        let bitcoinIdValue = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
+        const { edition: {
+            bitcoin_id: bitcoinId,
+            hash_as_address: hashAsAddress,
+            btc_owner_address_noprefix: bitcoinOwnerAddress
+        } } = this.props;
+
+        const bitcoinIdValue = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinId}>
+                {bitcoinId}
+            </a>
         );
 
-        let hashOfArtwork = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        const hashOfArtwork = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + hashAsAddress}>
+                {hashAsAddress}
+            </a>
         );
 
-        let ownerAddress = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
+        const ownerAddress = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinOwnerAddress}>
+                {bitcoinOwnerAddress}
+            </a>
         );
 
         return (
