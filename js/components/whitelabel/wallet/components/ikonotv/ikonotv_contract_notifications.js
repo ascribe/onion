@@ -106,22 +106,27 @@ let IkonotvContractNotifications = React.createClass({
 
     handleConfirm() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        OwnershipFetcher.confirmContractAgreement(contractAgreement).then(
-            () => this.handleConfirmSuccess()
-        );
+        OwnershipFetcher
+            .confirmContractAgreement(contractAgreement)
+            .then(this.handleConfirmSuccess);
     },
 
     handleConfirmSuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have accepted the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
+        // Flush contract notifications and refetch
+        NotificationActions.flushContractAgreementListNotifications();
+        NotificationActions.fetchContractAgreementListNotifications();
+
         this.history.pushState(null, '/collection');
     },
 
     handleDeny() {
         let contractAgreement = this.state.contractAgreementListNotifications[0].contract_agreement;
-        OwnershipFetcher.denyContractAgreement(contractAgreement).then(
-            () => this.handleDenySuccess()
-        );
+        OwnershipFetcher
+            .denyContractAgreement(contractAgreement)
+            .then(this.handleDenySuccess);
     },
 
     handleDenySuccess() {

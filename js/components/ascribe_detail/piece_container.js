@@ -219,7 +219,9 @@ let PieceContainer = React.createClass({
                         no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
                         `AclInformation` would show up
                     */}
-                    <DetailProperty label={getLangText('ACTIONS')}>
+                    <DetailProperty
+                        label={getLangText('ACTIONS')}
+                        className="hidden-print">
                         <AclButtonList
                             className="ascribe-button-list"
                             availableAcls={piece.acl}
@@ -257,7 +259,7 @@ let PieceContainer = React.createClass({
                     loadPiece={this.loadPiece}
                     header={
                         <div className="ascribe-detail-header">
-                            <hr style={{marginTop: 0}}/>
+                            <hr className="hidden-print" style={{marginTop: 0}}/>
                             <h1 className="ascribe-detail-title">{this.state.piece.title}</h1>
                             <DetailProperty label="BY" value={this.state.piece.artist_name} />
                             <DetailProperty label="DATE" value={Moment(this.state.piece.date_created, 'YYYY-MM-DD').year() } />
