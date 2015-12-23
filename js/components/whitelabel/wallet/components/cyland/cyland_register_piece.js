@@ -163,12 +163,12 @@ let CylandRegisterPiece = React.createClass({
         const loanHeading = getLangText('Loan to Cyland archive');
         const loanButtons = (
             <div>
-                <div className='col-xs-6 ascribe-form-btn-container-left'>
+                <div className='col-xs-6 ascribe-btn-container-left'>
                     <button className='btn btn-default btn-wide'>
                         {getLangText('Loan to archive')}
                     </button>
                 </div>
-                <div className='col-xs-6 ascribe-form-btn-container-right'>
+                <div className='col-xs-6 ascribe-btn-container-right'>
                     <LinkContainer to='/collection'>
                         <button
                             type='button'

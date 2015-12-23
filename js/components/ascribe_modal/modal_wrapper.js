@@ -46,7 +46,14 @@ let ModalWrapper = React.createClass({
     renderChildren() {
         return ReactAddons.Children.map(this.props.children, (child) => {
             return ReactAddons.addons.cloneWithProps(child, {
-                handleSuccess: this.handleSuccess
+                handleSuccess: (response) => {
+                    if (typeof child.props.handleSuccess === 'function') {
+                        child.props.handleSuccess(response);
+                    }
+
+                    this.handleSuccess(response);
+                },
+                handleCancel: this.hide
             });
         });
     },

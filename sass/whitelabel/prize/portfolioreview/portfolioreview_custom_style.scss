@@ -22,6 +22,26 @@ $pr--button-color: $pr--nav-fg-prim-color;
         }
     }
 
+    .btn-secondary {
+        background-color: white;
+        border-color: $pr--button-color;
+        color: $pr--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($pr--button-color, 20%);
+            border-color: lighten($pr--button-color, 20%);
+            color: white;
+        }
+    }
+
     .navbar-default {
         .navbar-nav > .ascribe-powered-by, li > a {
             color: $pr--button-color !important;
