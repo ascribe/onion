@@ -25,6 +25,17 @@
         float: right !important;
     }
 
+    // Restyle file uploader dialogs
+    .file-drag-and-drop {
+        padding-top: 0;
+        outline-width: 0;
+        text-align: left;
+    }
+
+    .file-drag-and-drop-position {
+        margin: 0;
+    }
+
     // Restyle COA
     .ascribe-coa-print-placeholder {
         padding: 0 1.5em 1em 1.5em;
