@@ -33,22 +33,8 @@ import NotificationsHandler from './third_party/notifications';
 import FacebookHandler from './third_party/facebook';
 /* eslint-enable */
 
-initLogging();
 
-let headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-};
-
-requests.defaults({
-    urlMap: ApiUrls,
-    http: {
-        headers: headers,
-        credentials: 'include'
-    }
-});
-
-class AppGateway {
+const AppGateway = {
     start() {
         try {
             const subdomain = getSubdomain();
@@ -63,7 +49,7 @@ class AppGateway {
             console.logGlobal(err);
             this.load(getDefaultSubdomainSettings());
         }
-    }
+    },
 
     load(settings) {
         const { subdomain, type } = settings;
@@ -97,8 +83,21 @@ class AppGateway {
         // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
     }
-}
+};
 
-let ag = new AppGateway();
-ag.start();
+// Initialize pre-start components
+initLogging();
 
+requests.defaults({
+    urlMap: ApiUrls,
+    http: {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    }
+});
+
+// And bootstrap app
+AppGateway.start();
