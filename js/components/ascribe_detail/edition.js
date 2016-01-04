@@ -233,9 +233,9 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        const { coa = {}, coaError } = this.props;
-
+        const { coa, coaError } = this.props;
         let coaDetailElement;
+
         if (coaError) {
             coaDetailElement = [
                 <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
@@ -244,7 +244,7 @@ let CoaDetails = React.createClass({
                     <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
                 </p>
             ];
-        } else if (coa.url_safe) {
+        } else if (coa && coa.url_safe) {
             coaDetailElement = [
                 <div
                     className="notification-contract-pdf"
