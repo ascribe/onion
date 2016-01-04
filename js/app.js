@@ -17,7 +17,7 @@ import getRoutes from './routes';
 import requests from './utils/requests';
 
 import { updateApiUrls } from './constants/api_urls';
-import { getSubdomainSettings } from './utils/constants_utils';
+import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 import { getSubdomain } from './utils/general_utils';
 
@@ -50,11 +50,10 @@ requests.defaults({
 
 class AppGateway {
     start() {
-        let settings;
-        let subdomain = getSubdomain();
-
         try {
-            settings = getSubdomainSettings(subdomain);
+            const subdomain = getSubdomain();
+            const settings = getSubdomainSettings(subdomain);
+
             AppConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
             this.load(settings);
@@ -62,27 +61,24 @@ class AppGateway {
             // if there are no matching subdomains, we're routing
             // to the default frontend
             console.logGlobal(err);
-            this.load();
+            this.load(getDefaultSubdomainSettings());
         }
     }
 
     load(settings) {
-        let type = 'default';
-        let subdomain = 'www';
+        const { subdomain, type } = settings;
         let redirectRoute = (<Redirect from="/" to="/collection" />);
 
-        if (settings) {
-            type = settings.type;
-            subdomain = settings.subdomain;
-        }
+        if (subdomain) {
+            // Some whitelabels have landing pages so we should not automatically redirect from / to /collection.
+            // Only www and cc do not have a landing page.
+            if (subdomain !== 'cc') {
+                redirectRoute = null;
+            }
 
-        // www and cc do not have a landing page
-        if(subdomain && subdomain !== 'cc') {
-            redirectRoute = null;
+            // Adds a client specific class to the body for whitelabel styling
+            window.document.body.classList.add('client--' + subdomain);
         }
-
-        // Adds a client specific class to the body for whitelabel styling
-        window.document.body.classList.add('client--' + subdomain);
 
         // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
