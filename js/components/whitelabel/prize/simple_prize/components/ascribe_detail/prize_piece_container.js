@@ -9,14 +9,15 @@ import StarRating from 'react-star-rating';
 import ReactError from '../../../../../../mixins/react_error';
 import { ResourceNotFoundError } from '../../../../../../models/errors';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
-
-import PieceListStore from '../../../../../../stores/piece_list_store';
-import PieceListActions from '../../../../../../actions/piece_list_actions';
-
+import PrizeActions from '../../actions/prize_actions';
+import PrizeStore from '../../stores/prize_store';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
+
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
+import PieceListStore from '../../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../../actions/piece_list_actions';
 
 import UserStore from '../../../../../../stores/user_store';
 import UserActions from '../../../../../../actions/user_actions';
@@ -234,21 +235,24 @@ let PrizePieceRatings = React.createClass({
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
+            PrizeStore.getState(),
             PrizeRatingStore.getInitialState()
         );
     },
 
     componentDidMount() {
-        PrizeRatingStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
+        PrizeStore.listen(this.onChange);
+        PrizeRatingStore.listen(this.onChange);
 
-        PrizeRatingActions.fetchOne(this.props.piece.id);
-        PrizeRatingActions.fetchAverage(this.props.piece.id);
+        PrizeActions.fetchPrize();
+        this.fetchPrizeRatings();
     },
 
     componentWillUnmount() {
-        PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        PrizeStore.unlisten(this.onChange);
+        PrizeRatingStore.unlisten(this.onChange);
     },
 
     // The StarRating component does not have a property that lets us set
@@ -256,7 +260,12 @@ let PrizePieceRatings = React.createClass({
     // every mouseover be overridden, we need to set it ourselves initially to deal
     // with the problem.
     onChange(state) {
+        if (state.prize && state.prize.active_round != this.state.prize.active_round) {
+            this.fetchPrizeRatings(state);
+        }
+
         this.setState(state);
+
         if (this.refs.rating) {
             this.refs.rating.state.ratingCache = {
                 pos: this.refs.rating.state.pos,
@@ -267,10 +276,15 @@ let PrizePieceRatings = React.createClass({
         }
     },
 
+    fetchPrizeRatings(state = this.state) {
+        PrizeRatingActions.fetchOne(this.props.piece.id, state.prize.active_round);
+        PrizeRatingActions.fetchAverage(this.props.piece.id, state.prize.active_round);
+    },
+
     onRatingClick(event, args) {
         event.preventDefault();
         PrizeRatingActions
-            .createRating(this.props.piece.id, args.rating)
+            .createRating(this.props.piece.id, args.rating, this.state.prize.active_round)
             .then(this.refreshPieceData);
     },
 
