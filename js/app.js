@@ -1,6 +1,7 @@
 'use strict';
 
 import 'babel/polyfill';
+import 'classlist-polyfill';
 
 import React from 'react';
 import { Router, Redirect } from 'react-router';
