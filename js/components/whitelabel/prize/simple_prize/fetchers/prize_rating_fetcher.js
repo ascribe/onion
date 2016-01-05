@@ -10,7 +10,7 @@ let PrizeRatingFetcher = {
         };
 
         if (typeof round === 'number') {
-            params.round = round;
+            params['prize_round'] = round;
         }
 
         return requests.get('rating_average', params);
@@ -22,7 +22,7 @@ let PrizeRatingFetcher = {
         };
 
         if (typeof round === 'number') {
-            params.round = round;
+            params['prize_round'] = round;
         }
 
         return requests.get('rating', params);
@@ -35,7 +35,7 @@ let PrizeRatingFetcher = {
         };
 
         if (typeof round === 'number') {
-            body.round = round;
+            body['prize_round'] = round;
         }
 
         return requests.post('ratings', { body });
