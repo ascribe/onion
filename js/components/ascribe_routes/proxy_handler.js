@@ -40,7 +40,7 @@ export function AuthRedirect({to, when}) {
 
         // and redirect if `true`.
         if(exprToValidate) {
-            window.setTimeout(() => history.replaceState(null, to, query));
+            window.setTimeout(() => history.replace({ query, pathname: to }));
             return true;
 
             // Otherwise there can also be the case that the backend
@@ -48,7 +48,7 @@ export function AuthRedirect({to, when}) {
         } else if(!exprToValidate && when === 'loggedIn' && redirect) {
 
             delete query.redirect;
-            window.setTimeout(() => history.replaceState(null, '/' + redirect, query));
+            window.setTimeout(() => history.replace({ query, pathname: '/' + redirect }));
             return true;
 
         } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {

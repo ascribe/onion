@@ -57,21 +57,21 @@ const SlidesContainer = React.createClass({
     // When the start_from parameter is used, this.setSlideNum can not simply be used anymore.
     nextSlide(additionalQueryParams) {
         const slideNum = parseInt(this.props.location.query.slide_num, 10) || 0;
-        let nextSlide = slideNum + 1;
-        this.setSlideNum(nextSlide, additionalQueryParams);
+        this.setSlideNum(slideNum + 1, additionalQueryParams);
     },
 
     setSlideNum(nextSlideNum, additionalQueryParams = {}) {
-        let queryParams = Object.assign(this.props.location.query, additionalQueryParams);
-        queryParams.slide_num = nextSlideNum;
-        this.history.pushState(null, this.props.location.pathname, queryParams);
+        const { location: { pathname } } = this.props;
+        const query = Object.assign({}, this.props.location.query, additionalQueryParams, { slide_num: nextSlideNum });
+
+        this.history.push({ pathname, query });
     },
 
     // breadcrumbs are defined as attributes of the slides.
     // To extract them we have to read the DOM element's attributes
     extractBreadcrumbs() {
         const startFrom = parseInt(this.props.location.query.start_from, 10) || -1;
-        let breadcrumbs = [];
+        const breadcrumbs = [];
 
         React.Children.map(this.props.children, (child, i) => {
             if(child && i >= startFrom && child.props['data-slide-title']) {

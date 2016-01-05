@@ -72,10 +72,10 @@ let EditionActionPanel = React.createClass({
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
-        let notification = new GlobalNotificationModel(response.notification, 'success');
+        const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     refreshCollection() {
@@ -84,7 +84,7 @@ let EditionActionPanel = React.createClass({
         EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
     },
 
-    handleSuccess(response){
+    handleSuccess(response) {
         this.refreshCollection();
         this.props.handleSuccess();
         if (response){
@@ -93,7 +93,7 @@ let EditionActionPanel = React.createClass({
         }
     },
 
-    render(){
+    render() {
         const {
             actionPanelButtonListType: ActionPanelButtonListType,
             edition,
