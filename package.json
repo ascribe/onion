@@ -47,6 +47,7 @@
     "browserify": "^9.0.8",
     "browserify-shim": "^3.8.10",
     "camelcase": "^1.2.1",
+    "classlist-polyfill": "^1.0.2",
     "classnames": "^1.2.2",
     "compression": "^1.4.4",
     "decamelize": "^1.1.1",
