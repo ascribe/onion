@@ -53,7 +53,6 @@ let PieceList = React.createClass({
             accordionListItemType: AccordionListItemWallet,
             bulkModalButtonListType: AclButtonList,
             canLoadPieceList: true,
-            orderParams: ['artist_name', 'title'],
             filterParams: [{
                 label: getLangText('Show works I can'),
                 items: [
@@ -61,7 +60,9 @@ let PieceList = React.createClass({
                     'acl_consign',
                     'acl_create_editions'
                 ]
-            }]
+            }],
+            orderParams: ['artist_name', 'title'],
+            shouldRedirect: () => true
         };
     },
 
