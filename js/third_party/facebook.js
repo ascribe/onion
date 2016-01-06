@@ -1,13 +1,18 @@
 'use strict';
 
 import { altThirdParty } from '../alt';
+
 import EventActions from '../actions/event_actions';
+import FacebookActions from '../actions/facebook_actions';
 
 import AppConstants from '../constants/application_constants'
 
 class FacebookHandler {
     constructor() {
+        this.loaded = false;
+
         this.bindActions(EventActions);
+        this.bindActions(FacebookActions);
     }
 
     onApplicationWillBoot(settings) {
@@ -16,14 +21,18 @@ class FacebookHandler {
         window.fbAsyncInit = () => {
             FB.init({
                 appId: AppConstants.facebook.appId,
-                // Force FB to parse everything on first load to make sure all the XFBML components are initialized.
-                // If we don't do this, we can run into issues with components on the first load who are not be
-                // initialized.
-                xfbml: true,
+                // Don't parse anything on the first load as we will parse all XFBML components as necessary.
+                xfbml: false,
                 version: 'v2.5',
                 cookie: false
             });
+
+            FacebookActions.sdkReady();
         };
+    }
+
+    onSdkReady() {
+        this.loaded = true;
     }
 }
 
