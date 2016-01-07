@@ -32,13 +32,13 @@ let FurtherDetails = React.createClass({
         };
     },
 
-    showNotification(){
+    showNotification() {
         this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Details updated', 'success');
+        const notification = new GlobalNotificationModel('Details updated', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitFile(file){
+    submitFile(file) {
         this.setState({
             otherDataKey: file.key
         });
@@ -51,6 +51,8 @@ let FurtherDetails = React.createClass({
     },
 
     render() {
+        const { editable, extraData, otherData, pieceId } = this.props;
+
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
@@ -58,33 +60,33 @@ let FurtherDetails = React.createClass({
                         name='artist_contact_info'
                         title='Artist Contact Info'
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData}
-                        />
+                        editable={editable}
+                        pieceId={pieceId}
+                        extraData={extraData}
+                        convertLinks />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        editable={editable}
+                        pieceId={pieceId}
+                        extraData={extraData} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        editable={editable}
+                        pieceId={pieceId}
+                        extraData={extraData} />
                     <Form>
                         <FurtherDetailsFileuploader
                             submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            editable={this.props.editable}
+                            editable={editable}
                             overrideForm={true}
-                            pieceId={this.props.pieceId}
-                            otherData={this.props.otherData}
+                            pieceId={pieceId}
+                            otherData={otherData}
                             multiple={true} />
                     </Form>
                 </Col>
