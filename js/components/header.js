@@ -59,19 +59,6 @@ let Header = React.createClass({
         // close the mobile expanded navigation after a click by itself.
         // To get rid of this, we set the state of the component ourselves.
         history.listen(this.onRouteChange);
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
-    },
-
-    componentWillUpdate(nextProps, nextState) {
-        const { currentUser: { email: curEmail } = {} } = this.state;
-        const { currentUser: { email: nextEmail } = {} } = nextState;
-
-        if (nextEmail && curEmail !== nextEmail) {
-            EventActions.profileDidLoad.defer(nextState.currentUser);
-        }
     },
 
     componentWillUnmount() {
@@ -81,7 +68,7 @@ let Header = React.createClass({
     },
 
     getLogo() {
-        let { whitelabel } = this.state;
+        const { whitelabel } = this.state;
 
         if (whitelabel.head) {
             constructHead(whitelabel.head);
@@ -102,7 +89,7 @@ let Header = React.createClass({
         );
     },
 
-    getPoweredBy(){
+    getPoweredBy() {
         return (
             <AclProxy
                 aclObject={this.state.whitelabel}

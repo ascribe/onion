@@ -6,7 +6,6 @@ import { History } from 'react-router';
 import AscribeSpinner from './ascribe_spinner';
 
 import UserActions from '../actions/user_actions';
-import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
@@ -17,12 +16,6 @@ let LogoutContainer = React.createClass({
 
     componentDidMount() {
         UserActions.logoutCurrentUser();
-        alt.flush();
-        altWhitelabel.flush();
-        altUser.flush();
-        altThirdParty.flush();
-        // kill intercom (with fire)
-        window.Intercom('shutdown');
     },
 
     render() {

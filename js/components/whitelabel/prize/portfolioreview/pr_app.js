@@ -32,19 +32,6 @@ let PRApp = React.createClass({
     componentDidMount() {
         UserStore.listen(this.onChange);
         UserActions.fetchCurrentUser();
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
-    },
-
-    componentWillUpdate(nextProps, nextState) {
-        const { currentUser: { email: curEmail } = {} } = this.state;
-        const { currentUser: { email: nextEmail } = {} } = nextState;
-
-        if (nextEmail && curEmail !== nextEmail) {
-            EventActions.profileDidLoad.defer(nextState.currentUser);
-        }
     },
 
     componentWillUnmount() {

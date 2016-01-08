@@ -12,25 +12,28 @@ class IntercomHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad(profile) {
+    onUserDidAuthenticate(user) {
         if (this.loaded) {
             return;
         }
 
-        /* eslint-disable */
-        Intercom('boot', {
-            /* eslint-enable */
+        window.Intercom('boot', {
             app_id: 'oboxh5w1',
-            email: profile.email,
+            email: user.email,
             subdomain: getSubdomain(),
             widget: {
                 activator: '#IntercomDefaultWidget'
-            }  
+            }
         });
         console.log('Intercom loaded');
         this.loaded = true;
     }
 
+    onUserDidLogout() {
+        // kill intercom (with fire)
+        window.Intercom('shutdown');
+        this.loaded = false;
+    }
 }
 
 export default altThirdParty.createStore(IntercomHandler, 'IntercomHandler');

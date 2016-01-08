@@ -1,8 +1,10 @@
 'use strict';
 
-import { altUser } from '../alt';
-import UserActions from '../actions/user_actions';
+import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
 
+import EventActions from '../actions/event_actions';
+
+import UserActions from '../actions/user_actions';
 import UserSource from '../sources/user_source';
 
 
@@ -21,7 +23,7 @@ class UserStore {
     onFetchCurrentUser(invalidateCache) {
         this.userMeta.invalidateCache = invalidateCache;
 
-        if(!this.getInstance().isLoading()) {
+        if (!this.getInstance().isLoading()) {
             this.getInstance().lookupCurrentUser();
         }
     }
@@ -29,11 +31,26 @@ class UserStore {
     onSuccessFetchCurrentUser({users: [user = {}]}) {
         this.userMeta.invalidateCache = false;
         this.userMeta.err = null;
+
+        if (user.email && user.email !== this.currentUser.email) {
+            EventActions.userDidAuthenticate(user);
+        }
+
         this.currentUser = user;
     }
 
     onLogoutCurrentUser() {
-        this.getInstance().performLogoutCurrentUser();
+        this.getInstance()
+            .performLogoutCurrentUser()
+            .then(() => {
+                EventActions.userDidLogout();
+
+                // Reset all stores back to their initial state
+                alt.recycle();
+                altWhitelabel.recycle();
+                altUser.recycle();
+                altThirdParty.recycle();
+            });
     }
 
     onSuccessLogoutCurrentUser() {

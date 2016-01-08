@@ -17,24 +17,29 @@ class NotificationsHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad() {
+    onUserDidAuthenticate() {
         if (this.loaded) {
             return;
         }
 
-        let subdomain = getSubdomain();
+        const subdomain = getSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
                     if (res.notifications && res.notifications.length > 0) {
-                        this.loaded = true;
                         console.log('Contractagreement notifications loaded');
+                        this.loaded = true;
+
                         history.pushState(null, '/contract_notifications');
                     }
                 }
             );
         }
         this.loaded = true;
+    }
+
+    onUserDidLogout() {
+        this.loaded = false;
     }
 }
 
