@@ -1,10 +1,13 @@
 'use strict';
 
 import React from 'react';
+import { History } from 'react-router';
 
-import Header from '../components/header';
-import Footer from '../components/footer';
+import Header from './header';
+import Footer from './footer';
 import GlobalNotification from './global_notification';
+
+import AppConstants from '../constants/application_constants';
 
 
 let AscribeApp = React.createClass({
@@ -13,11 +16,28 @@ let AscribeApp = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        routes: React.PropTypes.arrayOf(React.PropTypes.object),
+        location: React.PropTypes.object
+    },
+
+    mixins: [History],
+
+    componentDidMount() {
+        this.history.locationQueue.push(this.props.location);
+    },
+
+    componentWillReceiveProps(nextProps) {
+        const { locationQueue } = this.history;
+        locationQueue.unshift(nextProps.location);
+
+        // Limit the number of locations to keep in memory to avoid too much memory usage
+        if (locationQueue.length > AppConstants.locationThreshold) {
+            locationQueue.length = AppConstants.locationThreshold;
+        }
     },
 
     render() {
-        let { children, routes } = this.props;
+        const { children, routes } = this.props;
 
         return (
             <div className="container ascribe-default-app">
