@@ -4,44 +4,38 @@ import React from 'react';
 
 import PieceList from '../../../../piece_list';
 
-import UserActions from '../../../../../actions/user_actions';
-import UserStore from '../../../../../stores/user_store';
 import NotificationStore from '../../../../../stores/notification_store';
 
 import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion_list_item';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let IkonotvPieceList = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
     getInitialState() {
-        return mergeOptions(
-            NotificationStore.getState(),
-            UserStore.getState()
-        );
+        return NotificationStore.getState();
     },
 
     componentDidMount() {
         NotificationStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         NotificationStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-
     },
 
     redirectIfNoContractNotifications() {
@@ -56,6 +50,7 @@ let IkonotvPieceList = React.createClass({
         return (
             <div>
                 <PieceList
+                    {...this.props}
                     redirectTo="/register_piece?slide_num=0"
                     shouldRedirect={this.redirectIfNoContractNotifications}
                     accordionListItemType={IkonotvAccordionListItem}
@@ -71,8 +66,7 @@ let IkonotvPieceList = React.createClass({
                                 label: getLangText('loaned')
                             }
                         ]
-                    }]}
-                    location={this.props.location}/>
+                    }]} />
             </div>
         );
     }
