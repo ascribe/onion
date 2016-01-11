@@ -6,6 +6,8 @@ import { History } from 'react-router';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import UserActions from '../../actions/user_actions';
+
 import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';

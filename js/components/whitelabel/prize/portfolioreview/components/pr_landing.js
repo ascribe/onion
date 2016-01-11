@@ -35,8 +35,6 @@ const PRLanding = React.createClass({
         const { location } = this.props;
 
         PrizeStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
         PrizeActions.fetchPrize();
 
         if (location.query.redirect) {
