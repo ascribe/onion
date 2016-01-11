@@ -184,7 +184,7 @@ let Video = React.createClass({
             );
         } else {
             return (
-                <Image src={this.props.preview} />
+                <Image preview={this.props.preview} />
             );
         }
     }
