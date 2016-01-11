@@ -8,12 +8,6 @@ import CreateContractForm from '../ascribe_forms/form_create_contract';
 import ContractListStore from '../../stores/contract_list_store';
 import ContractListActions from '../../actions/contract_list_actions';
 
-import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
-
-import WhitelabelStore from '../../stores/whitelabel_store';
-import WhitelabelActions from '../../actions/whitelabel_actions';
-
 import ActionPanel from '../ascribe_panel/action_panel';
 import ContractSettingsUpdateButton from './contract_settings_update_button';
 
