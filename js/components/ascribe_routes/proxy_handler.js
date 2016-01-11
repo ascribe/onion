@@ -5,7 +5,6 @@ import { RouteContext } from 'react-router';
 import history from '../../history';
 
 import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -35,23 +34,22 @@ export function AuthRedirect({to, when}) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        let exprToValidate = when === 'loggedIn' ? currentUser && currentUser.email
-                                                 : currentUser && !currentUser.email;
+        const exprToValidate = when === 'loggedIn' ? currentUser && currentUser.email
+                                                   : currentUser && !currentUser.email;
 
         // and redirect if `true`.
-        if(exprToValidate) {
+        if (exprToValidate) {
             window.setTimeout(() => history.replaceState(null, to, query));
             return true;
 
             // Otherwise there can also be the case that the backend
             // wants to redirect the user to a specific route when the user is logged out already
-        } else if(!exprToValidate && when === 'loggedIn' && redirect) {
-
+        } else if (!exprToValidate && when === 'loggedIn' && redirect) {
             delete query.redirect;
             window.setTimeout(() => history.replaceState(null, '/' + redirect, query));
             return true;
 
-        } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
+        } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
             /*
              * redirectAuthenticated contains an arbitrary path
              * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
@@ -64,6 +62,7 @@ export function AuthRedirect({to, when}) {
             window.location = AppConstants.baseUrl + redirectAuthenticated;
             return true;
         }
+
         return false;
     };
 }
@@ -81,6 +80,7 @@ export function ProxyHandler(...redirectFunctions) {
             displayName: 'ProxyHandler',
 
             propTypes: {
+                currentUser: object,
                 location: object
             },
 
@@ -88,38 +88,20 @@ export function ProxyHandler(...redirectFunctions) {
             // to use the `Lifecycle` widget in further down nested components
             mixins: [RouteContext],
 
-            getInitialState() {
-                return UserStore.getState();
-            },
-
-            componentDidMount() {
-                UserStore.listen(this.onChange);
-                UserActions.fetchCurrentUser();
-            },
-
             componentDidUpdate() {
-                if(!UserStore.isLoading()) {
-                    const { currentUser } = this.state;
-                    const { query } = this.props.location;
+                const { currentUser, location: { query } } = this.props;
 
-                    for(let i = 0; i < redirectFunctions.length; i++) {
+                if (!UserStore.isLoading()) {
+                    for (let i = 0; i < redirectFunctions.length; i++) {
                         // if a redirectFunction redirects the user,
                         // it should return `true` and therefore
                         // stop/avoid the execution of all functions
                         // that follow
-                        if(redirectFunctions[i](currentUser, query)) {
+                        if (redirectFunctions[i](currentUser, query)) {
                             break;
                         }
                     }
                 }
-            },
-
-            componentWillUnmount() {
-                UserStore.unlisten(this.onChange);
-            },
-
-            onChange(state) {
-                this.setState(state);
             },
 
             render() {

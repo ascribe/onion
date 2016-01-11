@@ -54,6 +54,13 @@ import { setDocumentTitle } from '../../utils/dom_utils';
 let PieceContainer = React.createClass({
     propTypes: {
         furtherDetailsType: React.PropTypes.func,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -67,7 +74,6 @@ let PieceContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
             {
@@ -77,7 +83,6 @@ let PieceContainer = React.createClass({
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
 
@@ -87,7 +92,6 @@ let PieceContainer = React.createClass({
         PieceActions.updatePiece({});
 
         this.loadPiece();
-        UserActions.fetchCurrentUser();
     },
 
     componentDidUpdate() {
@@ -100,7 +104,6 @@ let PieceContainer = React.createClass({
 
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
     },
 
@@ -201,7 +204,8 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        const { piece, currentUser } = this.state;
+        const { piece } = this.state;
+        const { currentUser } = this.props;
 
         if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
@@ -284,19 +288,19 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(this.state.currentUser.username
+                        show={!!(this.props.currentUser.username
                                 || this.state.piece.acl.acl_edit
                                 || this.state.piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={this.state.piece.private_note || null}
-                            show = {!!this.state.currentUser.username}
+                            show = {!!this.props.currentUser.username}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={this.props.currentUser}/>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (public)')}
@@ -306,7 +310,7 @@ let PieceContainer = React.createClass({
                             show={!!(this.state.piece.public_note || this.state.piece.acl.acl_edit)}
                             successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={this.props.currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}

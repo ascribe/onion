@@ -18,6 +18,11 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let CoaVerifyContainer = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
@@ -60,9 +65,8 @@ let CoaVerifyForm = React.createClass({
     },
 
     handleSuccess(response){
-        let notification = null;
         if (response.verdict) {
-            notification = new GlobalNotificationModel(getLangText('Certificate of Authenticity successfully verified'), 'success');
+            const notification = new GlobalNotificationModel(getLangText('Certificate of Authenticity successfully verified'), 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
     },

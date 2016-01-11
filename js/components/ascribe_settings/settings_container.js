@@ -2,11 +2,7 @@
 
 import React from 'react';
 
-import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
-
-import WhitelabelStore from '../../stores/whitelabel_store';
-import WhitelabelActions from '../../actions/whitelabel_actions';
 
 import AccountSettings from './account_settings';
 import BitcoinWalletSettings from './bitcoin_wallet_settings';
@@ -24,56 +20,42 @@ let SettingsContainer = React.createClass({
     propTypes: {
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element])
+            React.PropTypes.element
+        ]),
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
+        location: React.PropTypes.object
     },
 
-    getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            WhitelabelStore.getState()
-        );
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-
-        WhitelabelActions.fetchWhitelabel();
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
-    },
-
-    loadUser(invalidateCache){
+    loadUser(invalidateCache) {
         UserActions.fetchCurrentUser(invalidateCache);
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
+        const { currentUser, whitelabel } = this.props;
+
         setDocumentTitle(getLangText('Account settings'));
 
-        if (this.state.currentUser && this.state.currentUser.username) {
+        if (currentUser && currentUser.username) {
             return (
                 <div className="settings-container">
                     <AccountSettings
-                        currentUser={this.state.currentUser}
+                        currentUser={currentUser}
                         loadUser={this.loadUser}
-                        whitelabel={this.state.whitelabel}/>
+                        whitelabel={whitelabel} />
                     {this.props.children}
                     <AclProxy
-                        aclObject={this.state.whitelabel}
+                        aclObject={whitelabel}
                         aclName="acl_view_settings_api">
                         <APISettings />
                     </AclProxy>
                     <WebhookSettings />
                     <AclProxy
-                        aclObject={this.state.whitelabel}
+                        aclObject={whitelabel}
                         aclName="acl_view_settings_bitcoin">
                         <BitcoinWalletSettings />
                     </AclProxy>

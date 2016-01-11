@@ -43,6 +43,12 @@ let PieceList = React.createClass({
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
@@ -85,7 +91,7 @@ let PieceList = React.createClass({
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
 
-        let page = this.props.location.query.page || 1;
+        const page = this.props.location.query.page || 1;
         if (this.props.canLoadPieceList && (this.state.pieceList.length === 0 || this.state.page !== page)) {
             this.loadPieceList({ page });
         }
@@ -161,8 +167,8 @@ let PieceList = React.createClass({
     },
 
     getPagination() {
-        let currentPage = parseInt(this.props.location.query.page, 10) || 1;
-        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+        const currentPage = parseInt(this.props.location.query.page, 10) || 1;
+        const totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
         if (this.state.pieceListCount > 20) {
             return (
@@ -188,8 +194,7 @@ let PieceList = React.createClass({
         });
 
         // first we need to apply the filter on the piece list
-        this
-            .loadPieceList({ page: 1, filterBy })
+        this.loadPieceList({ page: 1, filterBy })
             .then(() => {
                 // but also, we need to filter all the open edition lists
                 this.state.pieceList
@@ -223,23 +228,22 @@ let PieceList = React.createClass({
     },
 
     fetchSelectedPieceEditionList() {
-        let filteredPieceIdList = Object.keys(this.state.editionList)
-                                        .filter((pieceId) => {
-                                            return this.state.editionList[pieceId]
-                                                .filter((edition) => edition.selected).length > 0;
-                                        });
+        const filteredPieceIdList = Object.keys(this.state.editionList)
+                                          .filter((pieceId) => {
+                                              return this.state.editionList[pieceId]
+                                                         .filter((edition) => edition.selected)
+                                                         .length;
+                                          });
         return filteredPieceIdList;
     },
 
     fetchSelectedEditionList() {
-        let selectedEditionList = [];
-
-        Object
-            .keys(this.state.editionList)
-            .forEach((pieceId) => {
-                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
-                selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
-            });
+        const selectedEditionList = Object.keys(this.state.editionList)
+                                          .reduce((selectedList, pieceId) => {
+                                              const selectedEditionsForPiece = this.state.editionList[pieceId]
+                                                                                   .filter((edition) => edition.selected);
+                                              return selectedList.concat(selectedEditionsForPiece);
+                                          }, []);
 
         return selectedEditionList;
     },
@@ -250,7 +254,7 @@ let PieceList = React.createClass({
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                EditionListActions.refreshEditionList({pieceId});
+                EditionListActions.refreshEditionList({ pieceId });
             });
         EditionListActions.clearAllEditionSelections();
     },

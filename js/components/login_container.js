@@ -15,6 +15,12 @@ let LoginContainer = React.createClass({
         redirectOnLoggedIn: React.PropTypes.bool,
         redirectOnLoginSuccess: React.PropTypes.bool,
         onLogin: React.PropTypes.func,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 

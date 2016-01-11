@@ -16,39 +16,43 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let PasswordResetContainer = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
     getInitialState() {
-        return {isRequested: false};
+        return { isRequested: false };
     },
 
     handleRequestSuccess(email) {
-        this.setState({isRequested: email});
+        this.setState({ isRequested: email });
     },
 
     render() {
-        let { location } = this.props;
+        const { email: emailQuery, token: tokenQuery } = this.props.location.query;
+        const { isRequested } = this.state;
 
-        if (location.query.email && location.query.token) {
+        if (emailQuery && tokenQuery) {
             return (
                 <div>
                     <PasswordResetForm
-                        email={location.query.email}
-                        token={location.query.token}/>
+                        email={emailQuery}
+                        token={tokenQuery} />
                 </div>
             );
-        }
-        else {
-            if (this.state.isRequested === false) {
+        } else {
+            if (isRequested === false) {
                 return (
                     <div>
                         <PasswordRequestResetForm
-                            handleRequestSuccess={this.handleRequestSuccess}/>
+                            handleRequestSuccess={this.handleRequestSuccess} />
                     </div>
                 );
-            }
-            else if (this.state.isRequested) {
+            } else if (isRequested) {
                 return (
                     <div>
                         <div className="ascribe-login-text ascribe-login-header">
@@ -56,12 +60,11 @@ let PasswordResetContainer = React.createClass({
                         </div>
                     </div>
                 );
-            }
-            else {
+            } else {
                 return <span />;
             }
         }
-  }
+    }
 });
 
 let PasswordRequestResetForm = React.createClass({
@@ -70,9 +73,10 @@ let PasswordRequestResetForm = React.createClass({
     },
 
     handleSuccess() {
-        let notificationText = getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.');
-        let notification = new GlobalNotificationModel(notificationText, 'success', 50000);
+        const notificationText = getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.');
+        const notification = new GlobalNotificationModel(notificationText, 'success', 50000);
         GlobalNotificationActions.appendGlobalNotification(notification);
+
         this.props.handleRequestSuccess(this.refs.form.refs.email.state.value);
     },
 
@@ -90,12 +94,13 @@ let PasswordRequestResetForm = React.createClass({
                         type="submit"
                         className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
-                    </button>}
+                    </button>
+                }
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
                         <AscribeSpinner color="dark-blue" size="md" />
                     </span>
-                    }>
+                }>
                 <div className="ascribe-form-header">
                     <h3>{getLangText('Reset your password')}</h3>
                 </div>
@@ -131,7 +136,7 @@ let PasswordResetForm = React.createClass({
 
     handleSuccess() {
         this.history.pushState(null, '/collection');
-        let notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -148,12 +153,13 @@ let PasswordResetForm = React.createClass({
                         type="submit"
                         className="btn btn-default btn-wide">
                         {getLangText('Reset your password')}
-                    </button>}
+                    </button>
+                }
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
                         <AscribeSpinner color="dark-blue" size="md" />
                     </span>
-                    }>
+                }>
                 <div className="ascribe-form-header">
                     <h3>{getLangText('Reset the password for')} {this.props.email}</h3>
                 </div>

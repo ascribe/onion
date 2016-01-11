@@ -12,21 +12,17 @@ import WhitelabelStore from '../stores/whitelabel_store';
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 
-import UserStore from '../stores/user_store';
-
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
-import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let RegisterPiece = React.createClass( {
-
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
@@ -35,30 +31,27 @@ let RegisterPiece = React.createClass( {
             React.PropTypes.element,
             React.PropTypes.string
         ]),
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
     mixins: [History],
 
     getInitialState(){
-        return mergeOptions(
-            UserStore.getState(),
-            WhitelabelStore.getState(),
-            PieceListStore.getState()
-        );
+        return PieceListStore.getState();
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -66,7 +59,7 @@ let RegisterPiece = React.createClass( {
     },
 
     handleSuccess(response){
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // once the user was able to register a piece successfully, we need to make sure to keep
@@ -84,7 +77,7 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if(this.state.whitelabel && this.state.whitelabel.acl_create_editions || Object.keys(this.state.whitelabel).length === 0) {
+        if (this.props.whitelabel && this.props.whitelabel.acl_create_editions || Object.keys(this.props.whitelabel).length === 0) {
             return (
                 <Property
                     name="num_editions"

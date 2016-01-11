@@ -29,29 +29,24 @@ import { mergeOptions, truncateTextAtCharIndex } from '../../utils/general_utils
 
 let ContractSettings = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
-    getInitialState(){
-        return mergeOptions(
-            ContractListStore.getState(),
-            UserStore.getState()
-        );
+    getInitialState() {
+        return ContractListStore.getState();
     },
 
     componentDidMount() {
         ContractListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-
-        WhitelabelActions.fetchWhitelabel();
-        UserActions.fetchCurrentUser();
         ContractListActions.fetchContractList(true);
     },
 
     componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         ContractListStore.unlisten(this.onChange);
     },
 
@@ -74,22 +69,23 @@ let ContractSettings = React.createClass({
         };
     },
 
-    getPublicContracts(){
+    getPublicContracts() {
         return this.state.contractList.filter((contract) => contract.is_public);
     },
 
-    getPrivateContracts(){
+    getPrivateContracts() {
         return this.state.contractList.filter((contract) => !contract.is_public);
     },
 
     render() {
-        let publicContracts = this.getPublicContracts();
-        let privateContracts = this.getPrivateContracts();
+        const { currentUser, location, whitelabel } = this.props;
+        const publicContracts = this.getPublicContracts();
+        const privateContracts = this.getPrivateContracts();
         let createPublicContractForm = null;
 
         setDocumentTitle(getLangText('Contracts settings'));
 
-        if(publicContracts.length === 0) {
+        if (publicContracts.length === 0) {
             createPublicContractForm = (
                 <CreateContractForm
                     isPublic={true}
@@ -97,7 +93,7 @@ let ContractSettings = React.createClass({
                         singular: 'new contract',
                         plural: 'new contracts'
                     }}
-                    location={this.props.location}/>
+                    location={location} />
             );
         }
 
@@ -108,7 +104,7 @@ let ContractSettings = React.createClass({
                     defaultExpanded={true}>
                     <AclProxy
                         aclName="acl_edit_public_contract"
-                        aclObject={this.state.currentUser.acl}>
+                        aclObject={currentUser.acl}>
                         <div>
                             {createPublicContractForm}
                             {publicContracts.map((contract, i) => {
@@ -120,11 +116,11 @@ let ContractSettings = React.createClass({
                                         buttons={
                                             <div className="pull-right">
                                                 <AclProxy
-                                                    aclObject={this.state.whitelabel}
+                                                    aclObject={whitelabel}
                                                     aclName="acl_update_public_contract">
                                                     <ContractSettingsUpdateButton
                                                         contract={contract}
-                                                        location={this.props.location}/>
+                                                        location={location}/>
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
@@ -147,7 +143,7 @@ let ContractSettings = React.createClass({
                     </AclProxy>
                     <AclProxy
                         aclName="acl_edit_private_contract"
-                        aclObject={this.state.currentUser.acl}>
+                        aclObject={currentUser.acl}>
                         <div>
                             <CreateContractForm
                             isPublic={false}
@@ -155,7 +151,7 @@ let ContractSettings = React.createClass({
                                 singular: getLangText('new contract'),
                                 plural: getLangText('new contracts')
                             }}
-                            location={this.props.location}/>
+                            location={location}/>
                             {privateContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel
@@ -165,11 +161,11 @@ let ContractSettings = React.createClass({
                                         buttons={
                                             <div className="pull-right">
                                                <AclProxy
-                                                    aclObject={this.state.whitelabel}
+                                                    aclObject={whitelabel}
                                                     aclName="acl_update_private_contract">
                                                     <ContractSettingsUpdateButton
                                                         contract={contract}
-                                                        location={this.props.location}/>
+                                                        location={location}/>
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"

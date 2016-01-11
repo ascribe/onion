@@ -11,6 +11,11 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let SignupContainer = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 
@@ -31,7 +36,7 @@ let SignupContainer = React.createClass({
     render() {
         setDocumentTitle(getLangText('Sign up'));
 
-        if (this.state.submitted){
+        if (this.state.submitted) {
             return (
                 <div className="ascribe-login-wrapper">
                     <br/>
