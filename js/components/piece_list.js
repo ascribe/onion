@@ -325,13 +325,14 @@ let PieceList = React.createClass({
                     page={this.state.page}
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>
-                    {this.state.pieceList.map((piece, i) => {
+                    {this.state.pieceList.map((piece) => {
                         return (
                             <AccordionListItemType
+                                key={piece.id}
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
-                                thumbnailPlaceholder={customThumbnailPlaceholder}
-                                key={i}>
+                                currentUser={currentUser}
+                                thumbnailPlaceholder={customThumbnailPlaceholder}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />

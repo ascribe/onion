@@ -29,8 +29,9 @@ import { mergeOptions } from '../../utils/general_utils';
 
 let AccordionListItemWallet = React.createClass({
     propTypes: {
+        content: React.PropTypes.object.isRequired,
+
         className: React.PropTypes.string,
-        content: React.PropTypes.object,
         thumbnailPlaceholder: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -62,8 +63,8 @@ let AccordionListItemWallet = React.createClass({
         this.setState(state);
     },
 
-    getGlyphicon(){
-        if ((this.props.content.notifications && this.props.content.notifications.length > 0)){
+    getGlyphicon() {
+        if (this.props.content.notifications && this.props.content.notifications.length){
             return (
                 <OverlayTrigger
                     delay={500}

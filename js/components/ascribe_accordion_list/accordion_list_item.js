@@ -21,16 +21,16 @@ let AccordionListItem = React.createClass({
     },
 
     render() {
-        const { linkData,
-                className,
-                thumbnail,
-                heading,
-                subheading,
-                subsubheading,
-                buttons,
-                badge,
-                children } = this.props;
-
+        const {
+            linkData,
+            className,
+            thumbnail,
+            heading,
+            subheading,
+            subsubheading,
+            buttons,
+            badge,
+            children } = this.props;
 
         return (
             <div className="row">

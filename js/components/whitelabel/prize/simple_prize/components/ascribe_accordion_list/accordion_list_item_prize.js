@@ -10,8 +10,6 @@ import PieceListStore from '../../../../../../stores/piece_list_store';
 
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 
-import UserStore from '../../../../../../stores/user_store';
-
 import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
 
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
@@ -23,13 +21,14 @@ import AclProxy from '../../../../../acl_proxy';
 import SubmitToPrizeButton from './../ascribe_buttons/submit_to_prize_button';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
 let AccordionListItemPrize = React.createClass({
     propTypes: {
+        content: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired,
+
         className: React.PropTypes.string,
-        content: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -37,20 +36,15 @@ let AccordionListItemPrize = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
-            PieceListStore.getState(),
-            UserStore.getState()
-        );
+        return PieceListStore.getState();
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -61,29 +55,30 @@ let AccordionListItemPrize = React.createClass({
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getPrizeButtons() {
-        if (this.state.currentUser && this.state.currentUser.is_jury){
-            if ((this.props.content.ratings) &&
-                (this.props.content.ratings.rating || this.props.content.ratings.average)){
+        const { currentUser, content: { id, ratings } } = this.props;
+
+        if (currentUser && (currentUser.is_jury || currentUser.is_judge)) {
+            if (ratings && (ratings.rating || ratings.average)) {
                 // jury and rating available
-                let rating = null,
-                    caption = null;
-                if (this.props.content.ratings.rating){
-                    rating = parseInt(this.props.content.ratings.rating, 10);
+                let rating = null;
+                let caption = null;
+
+                if (ratings.rating) {
+                    rating = parseInt(ratings.rating, 10);
                     caption = getLangText('Your rating');
-                }
-                else if (this.props.content.ratings.average){
-                    rating = this.props.content.ratings.average;
-                    caption = getLangText('Average of ' + this.props.content.ratings.num_ratings + ' rating(s)');
+                } else if (ratings.average) {
+                    rating = ratings.average;
+                    caption = getLangText('Average of ' + ratings.num_ratings + ' rating(s)');
                 }
 
                 return (
                     <div id="list-rating" className="pull-right">
-                        <Link to={`/pieces/${this.props.content.id}`}>
+                        <Link to={`/pieces/${id}`}>
                             <StarRating
                                 ref='rating'
                                 name="prize-rating"
@@ -94,23 +89,23 @@ let AccordionListItemPrize = React.createClass({
                                 ratingAmount={5} />
                         </Link>
                     </div>);
-            }
-            else {
-                if (this.state.currentUser.is_judge){
+            } else {
+                if (currentUser.is_judge) {
                     return (
                         <div className="react-rating-caption pull-right">
                             {getLangText('Not rated')}
                         </div>
                     );
+                } else {
+                    // jury and no rating yet
+                    return (
+                        <div className="react-rating-caption pull-right">
+                            <Link to={`/pieces/${id}`}>
+                                {getLangText('Submit your rating')}
+                            </Link>
+                        </div>
+                    );
                 }
-                // jury and no rating yet
-                return (
-                    <div className="react-rating-caption pull-right">
-                        <Link to={`/pieces/${this.props.content.id}`}>
-                            {getLangText('Submit your rating')}
-                        </Link>
-                    </div>
-                );
             }
         }
         return this.getPrizeButtonsParticipant();
@@ -132,8 +127,8 @@ let AccordionListItemPrize = React.createClass({
         );
     },
 
-    handleShortlistSuccess(message){
-        let notification = new GlobalNotificationModel(message, 'success', 2000);
+    handleShortlistSuccess(message) {
+        const notification = new GlobalNotificationModel(message, 'success', 2000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -142,23 +137,17 @@ let AccordionListItemPrize = React.createClass({
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
     },
 
-    onSelectChange(){
+    onSelectChange() {
         PrizeRatingActions.toggleShortlist(this.props.content.id)
-        .then(
-            (res) => {
-                this.refreshPieceData();
-                return res;
-            })
-        .then(
-            (res) => {
-                this.handleShortlistSuccess(res.notification);
-            }
-        );
+        .then((res) => {
+            this.refreshPieceData();
+            this.handleShortlistSuccess(res.notification);
+        });
 
     },
 
-    getPrizeBadge(){
-        if (this.state.currentUser && this.state.currentUser.is_judge) {
+    getPrizeBadge() {
+        if (currentUser && currentUser.is_judge) {
             return (
                 <span className="pull-right ascribe-checkbox-wrapper ascribe-checkbox-badge">
                     <InputCheckbox
@@ -166,17 +155,18 @@ let AccordionListItemPrize = React.createClass({
                         onChange={this.onSelectChange}/>
                 </span>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     render() {
-        const { children, className, content } = this.props;
-        const { currentUser } = this.state;
+        const { children, className, content, currentUser } = this.props;
 
         // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
-        let artistName = ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !content.selected )) ?
+        const artistName = ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !content.selected )) ?
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : content.artist_name;
+
         return (
             <div>
                 <AccordionListItemPiece
@@ -186,7 +176,8 @@ let AccordionListItemPrize = React.createClass({
                     subsubheading={
                         <div>
                             <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
-                        </div>}
+                        </div>
+                    }
                     buttons={this.getPrizeButtons()}
                     badge={this.getPrizeBadge()}>
                     {children}
