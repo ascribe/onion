@@ -94,7 +94,7 @@ let IkonotvRegisterPiece = React.createClass({
             PieceActions.updatePiece(response.piece);
         }
         if (!this.canSubmit()) {
-            this.history.pushState(null, '/collection');
+            this.history.push('/collection');
         }
         else {
             this.incrementStep();
@@ -125,7 +125,7 @@ let IkonotvRegisterPiece = React.createClass({
         this.refreshPieceList();
 
         PieceActions.fetchOne(this.state.piece.id);
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
     // We need to increase the step to lock the forms that are already filled out

@@ -11,6 +11,7 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import PrizeActions from '../../simple_prize/actions/prize_actions';
 import PrizeStore from '../../simple_prize/stores/prize_store';
 
+import { omitFromObject } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
@@ -34,12 +35,15 @@ const PRLanding = React.createClass({
         const { location } = this.props;
 
         PrizeStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
         PrizeActions.fetchPrize();
 
         if (location.query.redirect) {
-            let queryCopy = JSON.parse(JSON.stringify(location.query));
-            delete queryCopy.redirect;
-            window.setTimeout(() => this.history.replaceState(null, `/${location.query.redirect}`, queryCopy));
+            window.setTimeout(() => this.history.replace({
+                pathname: `/${location.query.redirect}`,
+                query: omitFromObject(location.query, ['redirect'])
+            }));
         }
     },
 

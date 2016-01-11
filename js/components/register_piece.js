@@ -73,7 +73,7 @@ let RegisterPiece = React.createClass( {
             this.state.filterBy
         );
 
-        this.history.pushState(null, `/pieces/${response.piece.id}`);
+        this.history.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {

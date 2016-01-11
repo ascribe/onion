@@ -32,7 +32,7 @@ const PRRegisterPiece = React.createClass({
         if (currentUser && currentUser.email) {
             const submittedPieceId = getCookie(currentUser.email);
             if (submittedPieceId) {
-                this.history.pushState(null, `/pieces/${submittedPieceId}`);
+                this.history.push(`/pieces/${submittedPieceId}`);
             }
         }
     },

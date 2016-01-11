@@ -20,8 +20,8 @@ const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 export function AuthRedirect({to, when}) {
     // validate `when`, must be contained in `WHEN_ENUM`.
     // Throw an error otherwise.
-    if(WHEN_ENUM.indexOf(when) === -1) {
-        let whenValues = WHEN_ENUM.join(', ');
+    if (WHEN_ENUM.indexOf(when) === -1) {
+        const whenValues = WHEN_ENUM.join(', ');
         throw new Error(`"when" must be one of: [${whenValues}] got "${when}" instead`);
     }
 
@@ -39,14 +39,14 @@ export function AuthRedirect({to, when}) {
 
         // and redirect if `true`.
         if (exprToValidate) {
-            window.setTimeout(() => history.replaceState(null, to, query));
+            window.setTimeout(() => history.replace({ query, pathname: to }));
             return true;
 
             // Otherwise there can also be the case that the backend
             // wants to redirect the user to a specific route when the user is logged out already
         } else if (!exprToValidate && when === 'loggedIn' && redirect) {
             delete query.redirect;
-            window.setTimeout(() => history.replaceState(null, '/' + redirect, query));
+            window.setTimeout(() => history.replace({ query, pathname: '/' + redirect }));
             return true;
 
         } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {

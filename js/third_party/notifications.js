@@ -30,7 +30,7 @@ class NotificationsHandler {
                         console.log('Contractagreement notifications loaded');
                         this.loaded = true;
 
-                        history.pushState(null, '/contract_notifications');
+                        history.push('/contract_notifications');
                     }
                 }
             );

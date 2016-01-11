@@ -63,22 +63,20 @@ let PieceListToolbarOrderWidget = React.createClass({
                     </li>
                     {this.props.orderParams.map((param) => {
                         return (
-                            <div>
-                                <li
-                                    key={param}
-                                    onClick={this.orderBy(param)}
-                                    className="filter-widget-item">
-                                    <div className="checkbox-line">
-                                        <span>
-                                            {getLangText(param.replace('_', ' '))}
-                                        </span>
-                                        <input
-                                            readOnly
-                                            type="radio"
-                                            checked={param.indexOf(this.props.orderBy) > -1} />
-                                    </div>
-                                </li>
-                            </div>
+                            <li
+                                key={param}
+                                onClick={this.orderBy(param)}
+                                className="filter-widget-item">
+                                <div className="checkbox-line">
+                                    <span>
+                                        {getLangText(param.replace('_', ' '))}
+                                    </span>
+                                    <input
+                                        readOnly
+                                        type="radio"
+                                        checked={param.indexOf(this.props.orderBy) > -1} />
+                                </div>
+                            </li>
                         );
                     })}
                 </DropdownButton>

@@ -105,7 +105,7 @@ const PRRegisterPieceForm = React.createClass({
                         GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                     });
             })
-            .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
+            .then(() => this.history.push(`/pieces/${this.state.piece.id}`))
             .catch((err) => {
                 const errMessage = (getErrorNotificationMessage(err) || getLangText("Oops! We weren't able to send your submission.")) +
                                         getLangText(' Please contact support@ascribe.io');

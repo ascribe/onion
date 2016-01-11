@@ -117,7 +117,7 @@ let CylandRegisterPiece = React.createClass({
 
         PieceActions.fetchOne(this.state.piece.id);
 
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
     // We need to increase the step to lock the forms that are already filled out

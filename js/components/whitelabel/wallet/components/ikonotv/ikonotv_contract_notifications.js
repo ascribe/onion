@@ -115,7 +115,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationActions.flushContractAgreementListNotifications();
         NotificationActions.fetchContractAgreementListNotifications();
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     handleDeny() {
@@ -129,7 +129,7 @@ let IkonotvContractNotifications = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     getCopyrightAssociationForm(){

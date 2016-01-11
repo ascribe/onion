@@ -91,13 +91,13 @@ let PieceListToolbarFilterWidget = React.createClass({
                         label also iterate over its items, to get all filterable options */}
                     {this.props.filterParams.map(({ label, items }, i) => {
                         return (
-                            <div>
-                                <li
-                                    style={{'textAlign': 'center'}}
-                                    key={i}>
+                            <div key={label}>
+                                <li style={{'textAlign': 'center'}}>
                                     <em>{label}:</em>
                                 </li>
-                                {items.map((param, j) => {
+                                {items.map((paramItem) => {
+                                    let itemLabel;
+                                    let param;
 
                                     // As can be seen in the PropTypes, a param can either
                                     // be a string or an object of the shape:
@@ -108,22 +108,22 @@ let PieceListToolbarFilterWidget = React.createClass({
                                     // }
                                     //
                                     // This is why we need to distinguish between both here.
-                                    if (typeof param !== 'string') {
-                                        label = param.label;
-                                        param = param.key;
+                                    if (typeof paramItem !== 'string') {
+                                        param = paramItem.key;
+                                        itemLabel = paramItem.label;
                                     } else {
-                                        param = param;
-                                        label = param.split('acl_')[1].replace(/_/g, ' ');
+                                        param = paramItem;
+                                        itemLabel = paramItem.split('acl_')[1].replace(/_/g, ' ');
                                     }
 
                                     return (
                                         <li
-                                            key={j}
+                                            key={itemLabel}
                                             onClick={this.filterBy(param)}
                                             className="filter-widget-item">
                                             <div className="checkbox-line">
                                                 <span>
-                                                    {getLangText(label)}
+                                                    {getLangText(itemLabel)}
                                                 </span>
                                                 <input
                                                     readOnly

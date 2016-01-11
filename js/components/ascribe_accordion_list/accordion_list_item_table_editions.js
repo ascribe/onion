@@ -82,6 +82,10 @@ let AccordionListItemTableEditions = React.createClass({
                                             editionList.orderBy, editionList.orderAsc, editionList.filterBy);
     },
     render() {
+        const { className, parentId } = this.props;
+        const { editionList, isEditionListOpenForPieceId, showMoreLoading } = this.state;
+        const editionsForPiece = editionList[parentId];
+
         let selectedEditionsCount = 0;
         let allEditionsCount = 0;
         let orderBy;
@@ -89,95 +93,97 @@ let AccordionListItemTableEditions = React.createClass({
         let show = false;
         let showExpandOption = false;
 
-        let editionsForPiece = this.state.editionList[this.props.parentId];
-        let loadingSpinner = <AscribeSpinner size="sm" color="dark-blue" />;
-
         // here we need to check if all editions of a specific
         // piece are already defined. Otherwise .length will throw an error and we'll not
         // be notified about it.
-        if(editionsForPiece) {
+        if (editionsForPiece) {
             selectedEditionsCount = this.filterSelectedEditions().length;
             allEditionsCount = editionsForPiece.length;
             orderBy = editionsForPiece.orderBy;
             orderAsc = editionsForPiece.orderAsc;
         }
 
-        if(this.props.parentId in this.state.isEditionListOpenForPieceId) {
-            show = this.state.isEditionListOpenForPieceId[this.props.parentId].show;
+        if (parentId in isEditionListOpenForPieceId) {
+            show = isEditionListOpenForPieceId[parentId].show;
         }
 
         // if the number of editions in the array is equal to the maximum number of editions,
         // then the "Show me more" dialog should be hidden from the user's view
-        if(editionsForPiece && editionsForPiece.count > editionsForPiece.length) {
+        if (editionsForPiece && editionsForPiece.count > editionsForPiece.length) {
             showExpandOption = true;
         }
 
-        let transition = new TransitionModel('editions', 'editionId', 'bitcoin_id', (e) => e.stopPropagation() );
+        const transition = new TransitionModel({
+            to: 'editions',
+            queryKey: 'editionId',
+            valueKey: 'bitcoin_id',
+            callback: (e) => e.stopPropagation()
+        });
 
-        let columnList = [
-            new ColumnModel(
-                (item) => {
+        const columnList = [
+            new ColumnModel({
+                transformFn: (item) => {
                     return {
                         'editionId': item.id,
-                        'pieceId': this.props.parentId,
+                        'pieceId': parentId,
                         'selectItem': this.selectItem,
                         'selected': item.selected
-                    }; },
-                    '',
+                    };
+                },
+                displayElement: (
                     <AccordionListItemTableSelectAllEditionsCheckbox
                         onChange={this.toggleAllItems}
                         numOfSelectedEditions={selectedEditionsCount}
-                        numOfAllEditions={allEditionsCount}/>,
-                    TableItemCheckbox,
-                    1,
-                    false
-            ),
-            new ColumnModel(
-                (item) => {
+                        numOfAllEditions={allEditionsCount}/>
+                ),
+                displayType: TableItemCheckbox,
+                rowWidth: 1
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
                         'content': item.edition_number + ' ' + getLangText('of') + ' ' + item.num_editions
-                    }; },
-                    'edition_number',
-                    getLangText('Edition'),
-                    TableItemText,
-                    1,
-                    false,
-                    transition
-            ),
-            new ColumnModel(
-                (item) => {
+                    };
+                },
+                columnName: 'edition_number',
+                displayElement: getLangText('Edition'),
+                displayType: TableItemText,
+                rowWidth: 1
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
                         'content': item.bitcoin_id
-                    }; },
-                    'bitcoin_id',
-                    getLangText('ID'),
-                    TableItemText,
-                    5,
-                    false,
-                    transition,
-                    'hidden-xs visible-sm visible-md visible-lg'
-            ),
-            new ColumnModel(
-                (item) => {
-                    let content = item.acl;
+                    };
+                },
+                columnName: 'bitcoin_id',
+                displayElement: getLangText('ID'),
+                displayType: TableItemText,
+                rowWidth: 5,
+                className: 'hidden-xs visible-sm visible-md visible-lg'
+            }),
+            new ColumnModel({
+                transition,
+                transformFn: (item) => {
                     return {
-                        'content': content,
+                        'content': item.acl,
                         'notifications': item.notifications
-                    }; },
-                    'acl',
-                    getLangText('Actions'),
-                    TableItemAclFiltered,
-                    4,
-                    false,
-                    transition
-            )
+                    };
+                },
+                columnName: 'acl',
+                displayElement: getLangText('Actions'),
+                displayType: TableItemAclFiltered,
+                rowWidth: 4
+            })
         ];
 
-        if(show && editionsForPiece && editionsForPiece.length > 0) {
+        if (show && editionsForPiece && editionsForPiece.length) {
             return (
-                <div className={this.props.className}>
+                <div className={className}>
                     <AccordionListItemTable
-                        parentId={this.props.parentId}
+                        parentId={parentId}
                         itemList={editionsForPiece}
                         columnList={columnList}
                         show={show}
@@ -188,7 +194,14 @@ let AccordionListItemTableEditions = React.createClass({
                     <AccordionListItemTableToggle
                         className="ascribe-accordion-list-table-toggle"
                         onClick={this.loadFurtherEditions}
-                        message={show && showExpandOption ? <span>{this.state.showMoreLoading ? loadingSpinner : <span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}} />} Show me more</span> : null} />
+                        message={show && showExpandOption ? (
+                                <span>
+                                    {showMoreLoading ? <AscribeSpinner size="sm" color="dark-blue" />
+                                                     : <span className="glyphicon glyphicon-option-horizontal" aria-hidden="true" style={{top: 3}} />}
+                                    {getLangText('Show me more')}
+                                </span>
+                            ) : null
+                        } />
                 </div>
             );
         } else {
