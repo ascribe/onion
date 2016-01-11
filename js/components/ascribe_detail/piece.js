@@ -26,8 +26,7 @@ let Piece = React.createClass({
         ])
     },
 
-
-    updateObject() {
+    updatePiece() {
         return PieceActions.fetchOne(this.props.piece.id);
     },
 
@@ -40,7 +39,7 @@ let Piece = React.createClass({
                     <MediaContainer
                         content={piece}
                         currentUser={currentUser}
-                        refreshObject={this.updateObject} />
+                        refreshObject={this.updatePiece} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     {header}

@@ -8,22 +8,22 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import HistoryIterator from './history_iterator';
+import EditionActions from '../../actions/edition_actions';
 
-import MediaContainer from './media_container';
-
-import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
-
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
 import DetailProperty from './detail_property';
-import LicenseDetail from './license_detail';
-import FurtherDetails from './further_details';
-
 import EditionActionPanel from './edition_action_panel';
-import AclProxy from '../acl_proxy';
-
+import FurtherDetails from './further_details';
+import HistoryIterator from './history_iterator';
+import LicenseDetail from './license_detail';
+import MediaContainer from './media_container';
 import Note from './note';
+
+import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
+
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+
+import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
@@ -37,10 +37,10 @@ import { getLangText } from '../../utils/lang_utils';
 let Edition = React.createClass({
     propTypes: {
         actionPanelButtonListType: React.PropTypes.func,
-        furtherDetailsType: React.PropTypes.func,
-        edition: React.PropTypes.object,
         coaError: React.PropTypes.object,
         currentUser: React.PropTypes.object,
+        edition: React.PropTypes.object,
+        furtherDetailsType: React.PropTypes.func,
         loadEdition: React.PropTypes.func
     },
 
@@ -48,6 +48,10 @@ let Edition = React.createClass({
         return {
             furtherDetailsType: FurtherDetails
         };
+    },
+
+    updateEdition() {
+        return EditionActions.fetchEdition(this.props.edition.bitcoin_id);
     },
 
     render() {
@@ -64,7 +68,8 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={edition}
-                        currentUser={currentUser} />
+                        currentUser={currentUser}
+                        refreshObject={this.updateEdition} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
