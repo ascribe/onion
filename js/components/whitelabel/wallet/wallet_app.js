@@ -1,14 +1,20 @@
 'use strict';
 
 import React from 'react';
-import Header from '../../header';
-import Footer from '../../footer';
-
-import GlobalNotification from '../../global_notification';
-
 import classNames from 'classnames';
 
-import { getSubdomain } from '../../../utils/general_utils';
+import UserStore from '../../../stores/user_store';
+import UserActions from '../../../actions/user_actions';
+
+import WhitelabelActions from '../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../stores/whitelabel_store';
+
+import AppRouteWrapper from '../../app_route_wrapper';
+import Header from '../../header';
+import Footer from '../../footer';
+import GlobalNotification from '../../global_notification';
+
+import { getSubdomain, mergeOptions } from '../../../utils/general_utils';
 
 
 let WalletApp = React.createClass({
@@ -21,21 +27,46 @@ let WalletApp = React.createClass({
         routes: React.PropTypes.arrayOf(React.PropTypes.object)
     },
 
+    getInitialState() {
+        return mergeOptions(
+            UserStore.getState(),
+            WhitelabelStore.getState()
+        );
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+        WhitelabelActions.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
-        let header = null;
-        let subdomain = getSubdomain();
         const { history, routes, children } = this.props;
+        const { currentUser, whitelabel } = this.state;
+        const subdomain = getSubdomain();
 
         // The second element of routes is always the active component object, where we can
         // extract the path.
         let path = routes[1] ? routes[1].path : null;
 
+        let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
         if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
             && (['cyland', 'ikonotv', 'lumenus', '23vivi']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
-            header = <Header routes={routes} />;
+            header = (<Header routes={routes} />);
         }
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
@@ -44,10 +75,15 @@ let WalletApp = React.createClass({
             <div className={classNames('ascribe-wallet-app', 'route--' + (path ? path.split('/')[0] : 'landing'))}>
                 <div className='container'>
                     {header}
-                    {children}
+                    <AppRouteWrapper
+                        currentUser={currentUser}
+                        whitelabel={whitelabel}>
+                        {/* Routes are injected here */}
+                        {children}
+                    </AppRouteWrapper>
+                    <Footer />
                     <GlobalNotification />
                     <div id="modal" className="container"></div>
-                    <Footer />
                 </div>
             </div>
         );

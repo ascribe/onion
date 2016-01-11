@@ -19,7 +19,7 @@ let Landing = React.createClass({
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 
-        //Provided from router
+        // Provided from router
         location: React.PropTypes.object
     },
 

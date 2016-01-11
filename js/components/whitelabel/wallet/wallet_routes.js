@@ -48,7 +48,7 @@ import WalletApp from './wallet_app';
 let ROUTES = {
     'cyland': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={CylandLanding} />
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(CylandLanding)} />
             <Route
                 path='login'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
@@ -118,7 +118,7 @@ let ROUTES = {
     ),
     'ikonotv': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={IkonotvLanding} />
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(IkonotvLanding)} />
             <Route
                 path='login'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
