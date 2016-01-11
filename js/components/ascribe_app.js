@@ -55,7 +55,10 @@ let AscribeApp = React.createClass({
 
         return (
             <div className="container ascribe-default-app">
-                <Header routes={routes} />
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel} />
                 <AppRouteWrapper
                     currentUser={currentUser}
                     whitelabel={whitelabel}>

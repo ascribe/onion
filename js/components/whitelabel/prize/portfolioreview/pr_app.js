@@ -54,8 +54,7 @@ let PRApp = React.createClass({
     },
 
     render() {
-        const { children, history, routes } = this.props;
-        const { currentUser, whitelabel } = this.state;
+        const { children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
 
         // Add the current user and whitelabel settings to all child routes
@@ -69,10 +68,16 @@ let PRApp = React.createClass({
         let style = {};
         let header;
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
-            header = <Hero currentUser={currentUser} />;
+            header = (<Hero currentUser={currentUser} />);
             style = { paddingTop: '0 !important' };
         } else if(currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
-            header = <Header routes={routes} />;
+            header = (
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel}
+                />
+            );
         } else {
             style = { paddingTop: '0 !important' };
         }

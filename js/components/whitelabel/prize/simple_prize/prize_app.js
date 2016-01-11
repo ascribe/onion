@@ -53,8 +53,7 @@ let PrizeApp = React.createClass({
     },
 
     render() {
-        const { history, routes, children } = this.props;
-        const { currentUser, whitelabel } = this.state;
+        const { children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
 
         // The second element of routes is always the active component object, where we can
@@ -64,9 +63,14 @@ let PrizeApp = React.createClass({
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
         if (!path || history.isActive('/login') || history.isActive('/signup')) {
-            header = <Hero />;
+            header = (<Hero />);
         } else {
-            header = <Header routes={routes}/>;
+            header = (
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel} />
+            );
         }
 
         return (
