@@ -9,14 +9,15 @@ import StarRating from 'react-star-rating';
 import ReactError from '../../../../../../mixins/react_error';
 import { ResourceNotFoundError } from '../../../../../../models/errors';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
-
-import PieceListStore from '../../../../../../stores/piece_list_store';
-import PieceListActions from '../../../../../../actions/piece_list_actions';
-
+import PrizeActions from '../../actions/prize_actions';
+import PrizeStore from '../../stores/prize_store';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
+
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
+import PieceListStore from '../../../../../../stores/piece_list_store';
+import PieceListActions from '../../../../../../actions/piece_list_actions';
 
 import UserStore from '../../../../../../stores/user_store';
 import UserActions from '../../../../../../actions/user_actions';
@@ -34,9 +35,7 @@ import CollapsibleParagraph from '../../../../../../components/ascribe_collapsib
 import FurtherDetailsFileuploader from '../../../../../ascribe_detail/further_details_fileuploader';
 
 import InputCheckbox from '../../../../../ascribe_forms/input_checkbox';
-import LoanForm from '../../../../../ascribe_forms/form_loan';
 import ListRequestActions from '../../../../../ascribe_forms/list_form_request_actions';
-import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
@@ -52,39 +51,41 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 /**
  * This is the component that implements resource/data specific functionality
  */
-let PieceContainer = React.createClass({
+let PrizePieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object
+        params: React.PropTypes.object,
+        selectedPrizeActionButton: React.PropTypes.func
     },
 
     mixins: [ReactError],
 
     getInitialState() {
-        return mergeOptions(
-            PieceStore.getState(),
-            UserStore.getState()
-        );
+        //FIXME: this component uses the PieceStore, but we avoid using the getState() here since it may contain stale data
+        //       It should instead use something like getInitialState() where that call also resets the state.
+        return UserStore.getState();
+    },
+
+    componentWillMount() {
+        // Every time we enter the piece detail page, just reset the piece
+        // store as it will otherwise display wrong/old data once the user loads
+        // the piece detail a second time
+        PieceActions.updatePiece({});
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
         UserStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
-        PieceActions.fetchOne(this.props.params.pieceId);
         UserActions.fetchCurrentUser();
+        this.loadPiece();
     },
 
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
+        if (this.props.params.pieceId !== nextProps.params.pieceId) {
             PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
+            this.loadPiece(nextProps.params.pieceId);
         }
     },
 
@@ -100,7 +101,6 @@ let PieceContainer = React.createClass({
         PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
-
 
     onChange(state) {
         this.setState(state);
@@ -119,7 +119,12 @@ let PieceContainer = React.createClass({
         }
     },
 
+    loadPiece(pieceId = this.props.params.pieceId) {
+        PieceActions.fetchOne(pieceId);
+    },
+
     render() {
+        const { selectedPrizeActionButton } = this.props;
         const { currentUser, piece } = this.state;
 
         if (piece && piece.id) {
@@ -166,7 +171,8 @@ let PieceContainer = React.createClass({
                         <PrizePieceRatings
                             loadPiece={this.loadPiece}
                             piece={piece}
-                            currentUser={currentUser}/>
+                            currentUser={currentUser}
+                            selectedPrizeActionButton={selectedPrizeActionButton} />
                     }>
                     <PrizePieceDetails piece={piece} />
                 </Piece>
@@ -222,31 +228,31 @@ let PrizePieceRatings = React.createClass({
     propTypes: {
         loadPiece: React.PropTypes.func,
         piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object,
+        selectedPrizeActionButton: React.PropTypes.func
     },
 
     getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
-            PrizeRatingStore.getState()
+            PrizeStore.getState(),
+            PrizeRatingStore.getInitialState()
         );
     },
 
     componentDidMount() {
-        PrizeRatingStore.listen(this.onChange);
-        PrizeRatingActions.fetchOne(this.props.piece.id);
-        PrizeRatingActions.fetchAverage(this.props.piece.id);
         PieceListStore.listen(this.onChange);
+        PrizeStore.listen(this.onChange);
+        PrizeRatingStore.listen(this.onChange);
+
+        PrizeActions.fetchPrize();
+        this.fetchPrizeRatings();
     },
 
     componentWillUnmount() {
-        // Every time we're leaving the piece detail page,
-        // just reset the piece that is saved in the piece store
-        // as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PrizeRatingActions.updateRating({});
-        PrizeRatingStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
+        PrizeStore.unlisten(this.onChange);
+        PrizeRatingStore.unlisten(this.onChange);
     },
 
     // The StarRating component does not have a property that lets us set
@@ -254,7 +260,12 @@ let PrizePieceRatings = React.createClass({
     // every mouseover be overridden, we need to set it ourselves initially to deal
     // with the problem.
     onChange(state) {
+        if (state.prize && state.prize.active_round != this.state.prize.active_round) {
+            this.fetchPrizeRatings(state);
+        }
+
         this.setState(state);
+
         if (this.refs.rating) {
             this.refs.rating.state.ratingCache = {
                 pos: this.refs.rating.state.pos,
@@ -265,50 +276,30 @@ let PrizePieceRatings = React.createClass({
         }
     },
 
+    fetchPrizeRatings(state = this.state) {
+        PrizeRatingActions.fetchOne(this.props.piece.id, state.prize.active_round);
+        PrizeRatingActions.fetchAverage(this.props.piece.id, state.prize.active_round);
+    },
+
     onRatingClick(event, args) {
         event.preventDefault();
-        PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
-            this.refreshPieceData()
-        );
+        PrizeRatingActions
+            .createRating(this.props.piece.id, args.rating, this.state.prize.active_round)
+            .then(this.refreshPieceData);
     },
 
-    handleLoanRequestSuccess(message){
-        let notification = new GlobalNotificationModel(message, 'success', 4000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
-    },
+    getSelectedActionButton() {
+        const { currentUser, piece, selectedPrizeActionButton: SelectedPrizeActionButton } = this.props;
 
-    getLoanButton(){
-        let today = new Moment();
-        let endDate = new Moment();
-        endDate.add(6, 'months');
-        return (
-            <ModalWrapper
-                trigger={
-                    <button className='btn btn-default btn-sm'>
-                        {getLangText('SEND LOAN REQUEST')}
-                    </button>
-                }
-                handleSuccess={this.handleLoanRequestSuccess}
-                title='REQUEST LOAN'>
-                    <LoanForm
-                        loanHeading={null}
-                        message={getLangText('Congratulations,\nYou have been selected for the prize.\n' +
-                         'Please accept the loan request to proceed.')}
-                        id={{piece_id: this.props.piece.id}}
-                        url={ApiUrls.ownership_loans_pieces_request}
-                        email={this.props.currentUser.email}
-                        gallery={this.props.piece.prize.name}
-                        startDate={today}
-                        endDate={endDate}
-                        showPersonalMessage={true}
-                        showPassword={false}
-                        handleSuccess={this.handleLoanSuccess} />
-            </ModalWrapper>);
-    },
-
-    handleShortlistSuccess(message){
-        let notification = new GlobalNotificationModel(message, 'success', 2000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        if (piece.selected && SelectedPrizeActionButton) {
+            return (
+                <span className="pull-right">
+                    <SelectedPrizeActionButton
+                        piece={piece}
+                        currentUser={currentUser} />
+                </span>
+            );
+        }
     },
 
     refreshPieceData() {
@@ -318,20 +309,19 @@ let PrizePieceRatings = React.createClass({
     },
 
     onSelectChange() {
-        PrizeRatingActions.toggleShortlist(this.props.piece.id)
-        .then(
-            (res) => {
+        PrizeRatingActions
+            .toggleShortlist(this.props.piece.id)
+            .then((res) => {
                 this.refreshPieceData();
-                return res;
-            })
-        .then(
-            (res) => {
-                this.handleShortlistSuccess(res.notification);
-            }
-        );
+
+                if (res && res.notification) {
+                    const notification = new GlobalNotificationModel(res.notification, 'success', 2000);
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+                }
+            });
     },
 
-    render(){
+    render() {
         if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
             // Judge sees shortlisting, average and per-jury notes
             return (
@@ -349,9 +339,7 @@ let PrizePieceRatings = React.createClass({
                                     </span>
                                 </InputCheckbox>
                             </span>
-                            <span className="pull-right">
-                                {this.props.piece.selected ? this.getLoanButton() : null}
-                            </span>
+                            {this.getSelectedActionButton()}
                         </div>
                         <hr />
                     </CollapsibleParagraph>
@@ -370,13 +358,19 @@ let PrizePieceRatings = React.createClass({
                         </div>
                         <hr />
                         {this.state.ratings.map((item, i) => {
-                            let note = item.note ?
+                            let note = item.note ? (
                                 <div className="rating-note">
                                     note: {item.note}
-                                </div> : null;
+                                </div>
+                            ) : null;
+
                             return (
-                                <div className="rating-list">
-                                    <div id="list-rating" className="row no-margin">
+                                <div
+                                    key={item.user}
+                                    className="rating-list">
+                                    <div
+                                        id="list-rating"
+                                        className="row no-margin">
                                     <span className="pull-right">
                                         <StarRating
                                             ref={'rating' + i}
@@ -396,8 +390,7 @@ let PrizePieceRatings = React.createClass({
                         <hr />
                     </CollapsibleParagraph>
                 </div>);
-        }
-        else if (this.props.currentUser && this.props.currentUser.is_jury) {
+        } else if (this.props.currentUser && this.props.currentUser.is_jury) {
             // Jury can set rating and note
             return (
                 <CollapsibleParagraph
@@ -424,8 +417,9 @@ let PrizePieceRatings = React.createClass({
                         url={ApiUrls.notes}
                         currentUser={this.props.currentUser}/>
                 </CollapsibleParagraph>);
+        } else {
+            return null;
         }
-        return null;
     }
 });
 
@@ -454,6 +448,7 @@ let PrizePieceDetails = React.createClass({
 
                             return (
                                 <Property
+                                    key={label}
                                     name={data}
                                     label={label}
                                     editable={false}
@@ -481,4 +476,4 @@ let PrizePieceDetails = React.createClass({
     }
 });
 
-export default PieceContainer;
+export default PrizePieceContainer;

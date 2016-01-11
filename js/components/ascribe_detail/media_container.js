@@ -104,7 +104,7 @@ let MediaContainer = React.createClass({
                     url={content.digital_work.url}
                     extraData={extraData}
                     encodingStatus={content.digital_work.isEncoding} />
-                <p className="text-center">
+                <p className="text-center hidden-print">
                     <span className="ascribe-social-button-list">
                         <FacebookShareButton />
                         <TwitterShareButton

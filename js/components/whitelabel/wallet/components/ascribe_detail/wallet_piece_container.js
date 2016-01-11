@@ -25,7 +25,11 @@ let WalletPieceContainer = React.createClass({
         currentUser: React.PropTypes.object.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
-        submitButtonType: React.PropTypes.func.isRequired
+        submitButtonType: React.PropTypes.func.isRequired,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.object,
+            React.PropTypes.array
+        ])
     },
 
     render() {
@@ -37,7 +41,7 @@ let WalletPieceContainer = React.createClass({
             piece,
             submitButtonType } = this.props;
 
-        if(piece && piece.id) {
+        if (piece && piece.id) {
             return (
                 <Piece
                     piece={piece}
@@ -83,12 +87,10 @@ let WalletPieceContainer = React.createClass({
                             url={ApiUrls.note_private_piece}
                             currentUser={currentUser}/>
                     </CollapsibleParagraph>
-
                     {children}
                 </Piece>
             );
-        }
-        else {
+        } else {
             return (
                 <div className="fullpage-spinner">
                     <AscribeSpinner color='dark-blue' size='lg' />

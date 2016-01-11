@@ -7,7 +7,7 @@ import { getLangText } from '../utils/lang_utils';
 let Footer = React.createClass({
     render() {
         return (
-            <div className="ascribe-footer">
+            <div className="ascribe-footer hidden-print">
                 <p className="ascribe-sub-sub-statement">
                   <br />
                   <a href="http://docs.ascribe.apiary.io/" target="_blank">api</a> |

@@ -6,10 +6,12 @@ import PrizeRatingActions from '../actions/prize_rating_actions';
 
 class PrizeRatingStore {
     constructor() {
-        this.ratings = [];
-        this.currentRating = null;
-        this.average = null;
+        this.getInitialState();
+
         this.bindActions(PrizeRatingActions);
+        this.exportPublicMethods({
+            getInitialState: this.getInitialState.bind(this)
+        });
     }
 
     onUpdatePrizeRatings(ratings) {
@@ -23,6 +25,22 @@ class PrizeRatingStore {
     onUpdatePrizeRatingAverage(data) {
         this.average = data.average;
         this.ratings = data.ratings;
+    }
+
+    onResetPrizeRatings() {
+        this.getInitialState();
+    }
+
+    getInitialState() {
+        this.ratings = [];
+        this.currentRating = null;
+        this.average = null;
+
+        return {
+            ratings: this.ratings,
+            currentRating: this.currentRating,
+            average: this.average
+        };
     }
 }
 

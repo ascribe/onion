@@ -36,13 +36,13 @@ let Piece = React.createClass({
 
         return (
             <Row>
-                <Col md={6}>
+                <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={piece}
                         currentUser={currentUser}
                         refreshObject={this.updateObject} />
                 </Col>
-                <Col md={6} className="ascribe-edition-details">
+                <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     {header}
                     {subheader}
                     {buttons}
