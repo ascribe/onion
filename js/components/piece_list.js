@@ -263,6 +263,7 @@ let PieceList = React.createClass({
         const {
             accordionListItemType: AccordionListItemType,
             bulkModalButtonListType: BulkModalButtonListType,
+            currentUser,
             customSubmitButton,
             customThumbnailPlaceholder,
             filterParams,
@@ -299,6 +300,7 @@ let PieceList = React.createClass({
                     className="ascribe-piece-list-bulk-modal">
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
+                        currentUser={currentUser}
                         pieceOrEditions={selectedEditions}
                         handleSuccess={this.handleAclSuccess}
                         className="text-center ascribe-button-list collapse-group">

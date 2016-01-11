@@ -37,10 +37,9 @@ export default function ({ action, displayName, title, tooltip }) {
         },
 
         sanitizeAction() {
-            if (this.props.buttonAcceptName) {
-                return this.props.buttonAcceptName;
-            }
-            return AclInformationText.titles[action];
+            const { buttonAcceptName } = this.props;
+
+            return buttonAcceptName ? buttonAcceptName : AclInformationText.titles[action];
         },
 
         render() {

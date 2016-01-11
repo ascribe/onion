@@ -210,10 +210,10 @@ let PieceContainer = React.createClass({
         if (piece && piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={piece}
                     currentUser={currentUser}
-                    handleSuccess={this.loadPiece}
-                    notifications={piece.notifications}/>);
+                    pieceOrEditions={piece}
+                    notifications={piece.notifications}
+                    handleSuccess={this.loadPiece} />);
         } else {
             return (
                 <AclProxy
@@ -227,8 +227,9 @@ let PieceContainer = React.createClass({
                         label={getLangText('ACTIONS')}
                         className="hidden-print">
                         <AclButtonList
-                            className="ascribe-button-list"
                             availableAcls={piece.acl}
+                            className="ascribe-button-list"
+                            currentUser={currentUser}
                             pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton

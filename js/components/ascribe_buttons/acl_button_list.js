@@ -2,9 +2,6 @@
 
 import React from 'react/addons';
 
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
-
 import ConsignButton from './acls/consign_button';
 import EmailButton from './acls/email_button';
 import LoanButton from './acls/loan_button';
@@ -12,50 +9,44 @@ import LoanRequestButton from './acls/loan_request_button';
 import TransferButton from './acls/transfer_button';
 import UnconsignButton from './acls/unconsign_button';
 
-import { mergeOptions } from '../../utils/general_utils';
+import { selectFromObject } from '../../utils/general_utils';
 
 let AclButtonList = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
+        availableAcls: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired,
+        handleSuccess: React.PropTypes.func.isRequired,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
-        availableAcls: React.PropTypes.object.isRequired,
+
         buttonsStyle: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func.isRequired,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+        className: React.PropTypes.string
     },
 
     getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            {
-                buttonListSize: 0
-            }
-        );
+        return {
+            buttonListSize: 0
+        }
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser.defer();
-
         window.addEventListener('resize', this.handleResize);
         window.dispatchEvent(new Event('resize'));
     },
 
     componentDidUpdate(prevProps) {
-        if(prevProps.availableAcls && prevProps.availableAcls !== this.props.availableAcls) {
+        if (prevProps.availableAcls && prevProps.availableAcls !== this.props.availableAcls) {
             window.dispatchEvent(new Event('resize'));
         }
     },
 
     componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-
         window.removeEventListener('resize', this.handleResize);
     },
 
@@ -63,10 +54,6 @@ let AclButtonList = React.createClass({
         this.setState({
             buttonListSize: this.refs.buttonList.getDOMNode().offsetWidth
         });
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     renderChildren() {
@@ -79,42 +66,29 @@ let AclButtonList = React.createClass({
     },
 
     render() {
-        const { className,
-                buttonsStyle,
-                availableAcls,
-                pieceOrEditions,
-                handleSuccess } = this.props;
+        const {
+            availableAcls,
+            buttonsStyle,
+            className,
+            currentUser,
+            handleSuccess,
+            pieceOrEditions } = this.props;
 
-        const { currentUser } = this.state;
+        const buttonProps = selectFromObject(this.props, [
+            'availableAcls',
+            'currentUser',
+            'handleSuccess',
+            'pieceOrEditions'
+        ]);
 
         return (
             <div className={className}>
                 <span ref="buttonList" style={buttonsStyle}>
-                    <EmailButton
-                        availableAcls={availableAcls}
-                        pieceOrEditions={pieceOrEditions}
-                        currentUser={currentUser}
-                        handleSuccess={handleSuccess} />
-                    <TransferButton
-                        availableAcls={availableAcls}
-                        pieceOrEditions={pieceOrEditions}
-                        currentUser={currentUser}
-                        handleSuccess={handleSuccess}/>
-                    <ConsignButton
-                        availableAcls={availableAcls}
-                        pieceOrEditions={pieceOrEditions}
-                        currentUser={currentUser}
-                        handleSuccess={handleSuccess} />
-                    <UnconsignButton
-                        availableAcls={availableAcls}
-                        pieceOrEditions={pieceOrEditions}
-                        currentUser={currentUser}
-                        handleSuccess={handleSuccess} />
-                    <LoanButton
-                        availableAcls={availableAcls}
-                        pieceOrEditions={pieceOrEditions}
-                        currentUser={currentUser}
-                        handleSuccess={handleSuccess} />
+                    <EmailButton {...buttonProps} />
+                    <TransferButton {...buttonProps} />
+                    <ConsignButton {...buttonProps} />
+                    <UnconsignButton {...buttonProps} />
+                    <LoanButton {...buttonProps} />
                     {this.renderChildren()}
                 </span>
             </div>

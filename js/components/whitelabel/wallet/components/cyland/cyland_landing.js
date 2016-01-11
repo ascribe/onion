@@ -19,7 +19,7 @@ let CylandLanding = React.createClass({
         whitelabel: React.PropTypes.object,
 
         // Provided from router
-        location: object
+        location: React.PropTypes.object
     },
 
     render() {

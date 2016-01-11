@@ -20,49 +20,49 @@ let WalletActionPanel = React.createClass({
         submitButtonType: React.PropTypes.func.isRequired
     },
 
-    render(){
-        if (this.props.piece &&
-            this.props.piece.notifications &&
-            this.props.piece.notifications.length > 0) {
+    render() {
+        const { currentUser, handleDeleteSuccess, loadPiece, piece, submitButtonType } = this.props;
+
+        if (piece && piece.notifications && piece.notifications.length) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={this.props.piece}
-                    currentUser={this.props.currentUser}
-                    handleSuccess={this.props.loadPiece}
-                    notifications={this.props.piece.notifications}/>);
-        }
-        else {
+                    pieceOrEditions={piece}
+                    currentUser={currentUser}
+                    handleSuccess={loadPiece}
+                    notifications={piece.notifications}/>);
+        } else {
 
             //We need to disable the normal acl_loan because we're inserting a custom acl_loan button
             let availableAcls;
 
-            if (this.props.piece && this.props.piece.acl && typeof this.props.piece.acl.acl_loan !== 'undefined') {
+            if (piece && piece.acl && typeof piece.acl.acl_loan !== 'undefined') {
                 // make a copy to not have side effects
-                availableAcls = mergeOptions({}, this.props.piece.acl);
+                availableAcls = mergeOptions({}, piece.acl);
                 availableAcls.acl_loan = false;
             }
-            let SubmitButtonType = this.props.submitButtonType;
+            let SubmitButtonType = submitButtonType;
 
             return (
                 <AclButtonList
-                    className="text-center ascribe-button-list"
                     availableAcls={availableAcls}
-                    pieceOrEditions={this.props.piece}
-                    handleSuccess={this.props.loadPiece}>
+                    className="text-center ascribe-button-list"
+                    currentUser={currentUser}
+                    pieceOrEditions={piece}
+                    handleSuccess={loadPiece}>
                     <AclProxy
-                        aclObject={this.props.currentUser.acl}
+                        aclObject={currentUser.acl}
                         aclName="acl_wallet_submit">
                         <AclProxy
                             aclObject={availableAcls}
                             aclName="acl_wallet_submit">
                             <SubmitButtonType
                                 className="btn-sm"
-                                piece={this.props.piece}/>
+                                piece={piece}/>
                         </AclProxy>
                     </AclProxy>
                     <DeleteButton
-                        handleSuccess={this.props.handleDeleteSuccess}
-                        piece={this.props.piece}/>
+                        handleSuccess={handleDeleteSuccess}
+                        piece={piece}/>
                 </AclButtonList>
             );
         }

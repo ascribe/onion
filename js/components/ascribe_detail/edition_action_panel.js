@@ -36,9 +36,10 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let EditionActionPanel = React.createClass({
     propTypes: {
+        edition: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired,
+
         actionPanelButtonListType: React.PropTypes.func,
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
@@ -72,7 +73,7 @@ let EditionActionPanel = React.createClass({
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
-        let notification = new GlobalNotificationModel(response.notification, 'success');
+        const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.history.pushState(null, '/collection');
@@ -99,24 +100,22 @@ let EditionActionPanel = React.createClass({
             edition,
             currentUser } = this.props;
 
-        if (edition &&
-            edition.notifications &&
+        if (edition.notifications &&
             edition.notifications.length > 0){
             return (
                 <ListRequestActions
-                    pieceOrEditions={[edition]}
                     currentUser={currentUser}
-                    handleSuccess={this.handleSuccess}
-                    notifications={edition.notifications}/>);
-        }
-
-        else {
+                    notifications={edition.notifications}
+                    pieceOrEditions={[edition]}
+                    handleSuccess={this.handleSuccess} />);
+        } else {
             return (
                 <Row>
                     <Col md={12}>
                         <ActionPanelButtonListType
-                            className="ascribe-button-list"
                             availableAcls={edition.acl}
+                            className="ascribe-button-list"
+                            currentUser={currentUser}
                             pieceOrEditions={[edition]}
                             handleSuccess={this.handleSuccess}>
                             <AclProxy
