@@ -6,9 +6,6 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
 

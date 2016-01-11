@@ -7,19 +7,18 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 
-import AccordionListItemPiece from './accordion_list_item_piece';
-import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
-import CreateEditionsForm from '../ascribe_forms/create_editions_form';
-
-import PieceListActions from '../../actions/piece_list_actions';
-import PieceListStore from '../../stores/piece_list_store';
-
-import WhitelabelStore from '../../stores/whitelabel_store';
-
 import EditionListActions from '../../actions/edition_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import PieceListActions from '../../actions/piece_list_actions';
+import PieceListStore from '../../stores/piece_list_store';
+
+import AccordionListItemPiece from './accordion_list_item_piece';
+import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
+
 
 import AclProxy from '../acl_proxy';
 
@@ -30,6 +29,7 @@ import { mergeOptions } from '../../utils/general_utils';
 let AccordionListItemWallet = React.createClass({
     propTypes: {
         content: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         className: React.PropTypes.string,
         thumbnailPlaceholder: React.PropTypes.func,
@@ -41,22 +41,19 @@ let AccordionListItemWallet = React.createClass({
 
     getInitialState() {
         return mergeOptions(
+            PieceListStore.getState(),
             {
                 showCreateEditionsDialog: false
-            },
-            PieceListStore.getState(),
-            WhitelabelStore.getState()
+            }
         );
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -64,7 +61,7 @@ let AccordionListItemWallet = React.createClass({
     },
 
     getGlyphicon() {
-        if (this.props.content.notifications && this.props.content.notifications.length){
+        if (this.props.content.notifications && this.props.content.notifications.length) {
             return (
                 <OverlayTrigger
                     delay={500}
@@ -93,7 +90,7 @@ let AccordionListItemWallet = React.createClass({
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         EditionListActions.toggleEditionList(pieceId);
 
-        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        const notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -112,7 +109,7 @@ let AccordionListItemWallet = React.createClass({
 
     getLicences() {
         // convert this to acl_view_licences later
-        if (this.state.whitelabel && this.state.whitelabel.name === 'Creative Commons France') {
+        if (this.props.whitelabel && this.props.whitelabel.name === 'Creative Commons France') {
             return (
                 <span>
                     <span>, </span>

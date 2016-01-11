@@ -268,7 +268,8 @@ let PieceList = React.createClass({
             customSubmitButton,
             customThumbnailPlaceholder,
             filterParams,
-            orderParams } = this.props;
+            orderParams,
+            whitelabel } = this.props;
 
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
 
@@ -276,6 +277,7 @@ let PieceList = React.createClass({
         const availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         setDocumentTitle(getLangText('Collection'));
+
         return (
             <div>
                 <PieceListToolbar
@@ -302,8 +304,9 @@ let PieceList = React.createClass({
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
                         currentUser={currentUser}
-                        pieceOrEditions={selectedEditions}
                         handleSuccess={this.handleAclSuccess}
+                        pieceOrEditions={selectedEditions}
+                        whitelabel={whitelabel}
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton
                             handleSuccess={this.handleAclSuccess}
@@ -332,7 +335,8 @@ let PieceList = React.createClass({
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
                                 currentUser={currentUser}
-                                thumbnailPlaceholder={customThumbnailPlaceholder}>
+                                thumbnailPlaceholder={customThumbnailPlaceholder}
+                                whitelabel={whitelabel}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />

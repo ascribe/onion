@@ -84,8 +84,8 @@ let EditionContainer = React.createClass({
     },
 
     render() {
+        const { actionPanelButtonListType, currentUser, furtherDetailsType, whitelabel } = this.props;
         const { edition, coaMeta } = this.state;
-        const { actionPanelButtonListType, currentUser, furtherDetailsType } = this.props;
 
         if (Object.keys(edition).length && edition.id) {
             setDocumentTitle([edition.artist_name, edition.title].join(', '));
@@ -93,11 +93,12 @@ let EditionContainer = React.createClass({
             return (
                 <Edition
                     actionPanelButtonListType={actionPanelButtonListType}
-                    furtherDetailsType={furtherDetailsType}
-                    edition={edition}
                     coaError={coaMeta.err}
                     currentUser={currentUser}
-                    loadEdition={() => EditionActions.fetchEdition(this.props.params.editionId)} />
+                    edition={edition}
+                    furtherDetailsType={furtherDetailsType}
+                    loadEdition={() => EditionActions.fetchEdition(this.props.params.editionId)}
+                    whitelabel={whitelabel} />
             );
         } else {
             return (
