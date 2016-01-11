@@ -8,6 +8,7 @@ import UserStore from '../stores/user_store';
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
+import AppRouteWrapper from './app_route_wrapper';
 import Header from './header';
 import Footer from './footer';
 import GlobalNotification from './global_notification';
@@ -52,21 +53,15 @@ let AscribeApp = React.createClass({
         const { children, routes } = this.props;
         const { currentUser, whitelabel } = this.state;
 
-        // Add the current user and whitelabel settings to all child routes
-        const childrenWithProps = React.Children.map(children, (child) => {
-            return React.cloneElement(child, {
-                currentUser,
-                whitelabel
-            });
-        });
-
         return (
             <div className="container ascribe-default-app">
                 <Header routes={routes} />
-                <div className="ascribe-body">
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
                     {/* Routes are injected here */}
-                    {childrenWithProps}
-                </div>
+                    {children}
+                </AppRouteWrapper>
                 <Footer />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
