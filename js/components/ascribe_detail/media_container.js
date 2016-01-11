@@ -23,9 +23,10 @@ const EMBED_IFRAME_HEIGHT = {
 
 let MediaContainer = React.createClass({
     propTypes: {
-        content: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        refreshObject: React.PropTypes.func
+        content: React.PropTypes.object.isRequired,
+        refreshObject: React.PropTypes.func.isRequired,
+
+        currentUser: React.PropTypes.object
     },
 
     getInitialState() {
@@ -35,13 +36,14 @@ let MediaContainer = React.createClass({
     },
 
     componentDidMount() {
-        if (!this.props.content.digital_work) {
+        const { content, refreshObject } = this.props;
+        if (!content.digital_work) {
             return;
         }
 
-        const isEncoding = this.props.content.digital_work.isEncoding;
-        if (this.props.content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(this.props.refreshObject, 10000);
+        const isEncoding = content.digital_work.isEncoding;
+        if (content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+            const timerId = window.setInterval(refreshObject, 10000);
             this.setState({timerId: timerId});
         }
     },
@@ -93,7 +95,7 @@ let MediaContainer = React.createClass({
                             {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
                                 + content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
-                    }/>
+                    } />
             );
         }
         return (
@@ -120,7 +122,7 @@ let MediaContainer = React.createClass({
                             className="ascribe-margin-1px"
                             href={content.digital_work.url}
                             target="_blank">
-                            {getLangText('Download')} .{mimetype} <Glyphicon glyph="cloud-download"/>
+                            {getLangText('Download')} .{mimetype} <Glyphicon glyph="cloud-download" />
                         </Button>
                     </AclProxy>
                     {embed}

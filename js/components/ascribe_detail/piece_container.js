@@ -7,39 +7,35 @@ import Moment from 'moment';
 import ReactError from '../../mixins/react_error';
 import { ResourceNotFoundError } from '../../models/errors';
 
+import EditionListActions from '../../actions/edition_list_actions';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
-
-import EditionListActions from '../../actions/edition_list_actions';
-
-import Piece from './piece';
-import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 import FurtherDetails from './further_details';
-
 import DetailProperty from './detail_property';
-import LicenseDetail from './license_detail';
 import HistoryIterator from './history_iterator';
+import LicenseDetail from './license_detail';
+import Note from './note';
+import Piece from './piece';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
-import CreateEditionsForm from '../ascribe_forms/create_editions_form';
+import AclInformation from '../ascribe_buttons/acl_information';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
-import AclInformation from '../ascribe_buttons/acl_information';
-import AclProxy from '../acl_proxy';
+import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
-
-import Note from './note';
+import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
