@@ -44,8 +44,10 @@ let LoginForm = React.createClass({
     },
 
     render() {
-        const { headerMessage, submitMessage, location: { query: { email: emailQuery } } } = this.props;
-        console.log(emailQuery);
+        const {
+            headerMessage,
+            location: { query: { email: emailQuery } },
+            submitMessage } = this.props;
 
         return (
             <Form
