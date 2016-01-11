@@ -66,7 +66,7 @@ let RegisterPiece = React.createClass( {
     },
 
     handleSuccess(response){
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // once the user was able to register a piece successfully, we need to make sure to keep
@@ -80,7 +80,7 @@ let RegisterPiece = React.createClass( {
             this.state.filterBy
         );
 
-        this.history.pushState(null, `/pieces/${response.piece.id}`);
+        this.history.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {

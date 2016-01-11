@@ -14,7 +14,7 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { mergeOptions, omitFromObject } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
@@ -34,15 +34,18 @@ const PRLanding = React.createClass({
 
     componentDidMount() {
         const { location } = this.props;
+
         UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         PrizeStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
         PrizeActions.fetchPrize();
 
-        if(location && location.query && location.query.redirect) {
-            let queryCopy = JSON.parse(JSON.stringify(location.query));
-            delete queryCopy.redirect;
-            window.setTimeout(() => this.history.replaceState(null, `/${location.query.redirect}`, queryCopy));
+        if (location && location.query && location.query.redirect) {
+            window.setTimeout(() => this.history.replace({
+                pathname: `/${location.query.redirect}`,
+                query: omitFromObject(location.query, ['redirect'])
+            }));
         }
     },
 

@@ -34,12 +34,12 @@ let Piece = React.createClass({
     render() {
         return (
             <Row>
-                <Col md={6}>
+                <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         refreshObject={this.updateObject}
                         content={this.props.piece}/>
                 </Col>
-                <Col md={6} className="ascribe-edition-details">
+                <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     {this.props.header}
                     {this.props.subheader}
                     {this.props.buttons}

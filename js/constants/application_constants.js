@@ -91,6 +91,10 @@ const constants = {
             'registerWork': {
                 'itemLimit': 1,
                 'sizeLimit': '25000000000'
+            },
+            'workThumbnail': {
+                'itemLimit': 1,
+                'sizeLimit': '5000000'
             }
         }
     },
