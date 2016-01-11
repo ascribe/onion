@@ -94,7 +94,7 @@ let IkonotvPieceContainer = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     render() {

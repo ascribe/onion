@@ -22,14 +22,14 @@ class NotificationsHandler {
             return;
         }
 
-        let subdomain = getSubdomain();
+        const subdomain = getSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
                     if (res.notifications && res.notifications.length > 0) {
                         this.loaded = true;
                         console.log('Contractagreement notifications loaded');
-                        history.pushState(null, '/contract_notifications');
+                        history.push('/contract_notifications');
                     }
                 }
             );
