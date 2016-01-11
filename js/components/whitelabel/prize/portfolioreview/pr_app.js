@@ -1,17 +1,21 @@
 'use strict';
 
 import React from 'react';
-import GlobalNotification from '../../../global_notification';
-
-import Hero from './components/pr_hero';
-import Header from '../../../header';
 
 import EventActions from '../../../../actions/event_actions';
 
 import UserStore from '../../../../stores/user_store';
 import UserActions from '../../../../actions/user_actions';
 
-import { getSubdomain } from '../../../../utils/general_utils';
+import WhitelabelActions from '../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../stores/whitelabel_store';
+
+import AppRouteWrapper from '../../../app_route_wrapper';
+import Hero from './components/pr_hero';
+import Header from '../../../header';
+import GlobalNotification from '../../../global_notification';
+
+import { getSubdomain, mergeOptions } from '../../../../utils/general_utils';
 import { getCookie } from '../../../../utils/fetch_api_utils';
 
 
@@ -26,16 +30,23 @@ let PRApp = React.createClass({
     },
 
     getInitialState() {
-        return UserStore.getState();
+        return mergeOptions(
+            UserStore.getState(),
+            WhitelabelStore.getState()
+        );
     },
 
     componentDidMount() {
         UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+
         UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
     },
 
     componentWillUnmount() {
         UserStore.unlisten(this.onChange);
+        WhitelabelActions.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -43,13 +54,20 @@ let PRApp = React.createClass({
     },
 
     render() {
-        const { history, children, routes } = this.props;
-        const { currentUser } = this.state;
+        const { children, history, routes } = this.props;
+        const { currentUser, whitelabel } = this.state;
+        const subdomain = getSubdomain();
+
+        // Add the current user and whitelabel settings to all child routes
+        const childrenWithProps = React.Children.map(children, (child) => {
+            return React.cloneElement(child, {
+                currentUser,
+                whitelabel
+            });
+        });
+
         let style = {};
-        let subdomain = getSubdomain();
         let header;
-
-
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
             header = <Hero currentUser={currentUser} />;
             style = { paddingTop: '0 !important' };
@@ -65,7 +83,12 @@ let PRApp = React.createClass({
                 <div
                     style={style}
                     className={'container ascribe-prize-app client--' + subdomain}>
-                    {children}
+                    <AppRouteWrapper
+                        currentUser={currentUser}
+                        whitelabel={whitelabel}>
+                        {/* Routes are injected here */}
+                        {children}
+                    </AppRouteWrapper>
                     <GlobalNotification />
                     <div id="modal" className="container"></div>
                 </div>

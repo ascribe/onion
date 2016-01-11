@@ -77,7 +77,7 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if (this.props.whitelabel && this.props.whitelabel.acl_create_editions || Object.keys(this.props.whitelabel).length === 0) {
+        if (this.props.whitelabel && (this.props.whitelabel.acl_create_editions || Object.keys(this.props.whitelabel).length)) {
             return (
                 <Property
                     name="num_editions"

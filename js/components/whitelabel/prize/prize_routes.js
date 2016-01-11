@@ -31,7 +31,7 @@ import { AuthPrizeRoleRedirect } from './portfolioreview/components/pr_routes/pr
 const ROUTES = {
     sluice: (
         <Route path='/' component={SPApp}>
-            <IndexRoute component={SPLanding} />
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SPLanding)} />
             <Route
                 path='login'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SPLoginContainer)} />
@@ -63,7 +63,7 @@ const ROUTES = {
     ),
     portfolioreview: (
         <Route path='/' component={PRApp}>
-        <IndexRoute component={ProxyHandler(AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }))(PRLanding)} />
+            <IndexRoute component={ProxyHandler(AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }))(PRLanding)} />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PRRegisterPiece)}/>

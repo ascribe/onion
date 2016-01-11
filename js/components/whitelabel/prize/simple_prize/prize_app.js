@@ -1,12 +1,21 @@
 'use strict';
 
 import React from 'react';
+
+import UserStore from '../../../../stores/user_store';
+import UserActions from '../../../../actions/user_actions';
+
+import WhitelabelActions from '../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../stores/whitelabel_store';
+
 import Hero from './components/prize_hero';
+
+import AppRouteWrapper from '../../../app_route_wrapper';
 import Header from '../../../header';
 import Footer from '../../../footer';
 import GlobalNotification from '../../../global_notification';
 
-import { getSubdomain } from '../../../../utils/general_utils';
+import { getSubdomain, mergeOptions } from '../../../../utils/general_utils';
 
 
 let PrizeApp = React.createClass({
@@ -19,15 +28,40 @@ let PrizeApp = React.createClass({
         routes: React.PropTypes.arrayOf(React.PropTypes.object)
     },
 
+    getInitialState() {
+        return mergeOptions(
+            UserStore.getState(),
+            WhitelabelStore.getState()
+        );
+    },
+
+    componentDidMount() {
+        UserStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
+
+        UserActions.fetchCurrentUser();
+        WhitelabelActions.fetchWhitelabel();
+    },
+
+    componentWillUnmount() {
+        UserStore.unlisten(this.onChange);
+        WhitelabelActions.unlisten(this.onChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
+    },
+
     render() {
-        const { history, routes } = this.props;
-        let header = null;
-        let subdomain = getSubdomain();
+        const { history, routes, children } = this.props;
+        const { currentUser, whitelabel } = this.state;
+        const subdomain = getSubdomain();
 
         // The second element of routes is always the active component object, where we can
         // extract the path.
         let path = routes[1] ? routes[1].path : null;
 
+        let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
         if (!path || history.isActive('/login') || history.isActive('/signup')) {
             header = <Hero />;
@@ -38,10 +72,15 @@ let PrizeApp = React.createClass({
         return (
             <div className={'container ascribe-prize-app client--' + subdomain}>
                 {header}
-                {this.props.children}
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
+                    {/* Routes are injected here */}
+                    {children}
+                </AppRouteWrapper>
+                <Footer />
                 <GlobalNotification />
                 <div id="modal" className="container"></div>
-                <Footer />
             </div>
         );
     }

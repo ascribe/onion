@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
 import PrizeJuryActions from '../actions/prize_jury_actions';
@@ -28,40 +26,27 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let Settings = React.createClass({
-    getInitialState() {
-        return UserStore.getState();
-    },
+    propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
 
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        //Provided from router
+        location: React.PropTypes.object
     },
 
     render() {
         setDocumentTitle(getLangText('Account settings'));
 
-        let prizeSettings = null;
-        if (this.state.currentUser.is_admin){
-            prizeSettings = <PrizeSettings />;
-        }
         return (
-            <SettingsContainer>
-                {prizeSettings}
+            <SettingsContainer {...this.props}>
+                {this.props.currentUser.is_admin ? <PrizeSettings /> : null}
             </SettingsContainer>
         );
     }
 });
 
 let PrizeSettings = React.createClass({
-
     getInitialState() {
         return PrizeStore.getState();
     },

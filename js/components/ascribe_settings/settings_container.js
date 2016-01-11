@@ -36,7 +36,7 @@ let SettingsContainer = React.createClass({
     },
 
     render() {
-        const { currentUser, whitelabel } = this.props;
+        const { children, currentUser, whitelabel } = this.props;
 
         setDocumentTitle(getLangText('Account settings'));
 
@@ -47,7 +47,7 @@ let SettingsContainer = React.createClass({
                         currentUser={currentUser}
                         loadUser={this.loadUser}
                         whitelabel={whitelabel} />
-                    {this.props.children}
+                    {children}
                     <AclProxy
                         aclObject={whitelabel}
                         aclName="acl_view_settings_api">

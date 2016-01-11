@@ -11,6 +11,11 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let LoginContainer = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
         location: React.PropTypes.object
     },
 

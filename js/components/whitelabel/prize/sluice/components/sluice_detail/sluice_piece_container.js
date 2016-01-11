@@ -8,6 +8,12 @@ import PrizePieceContainer from '../../../simple_prize/components/ascribe_detail
 
 const SluicePieceContainer = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        //Provided from router
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
