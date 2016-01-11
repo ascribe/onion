@@ -10,16 +10,8 @@ import Row from 'react-bootstrap/lib/Row';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
-
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
 
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
@@ -30,6 +22,7 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import CylandAdditionalDataForm from './cyland_forms/cyland_additional_data_form';
 
 import LoanForm from '../../../../ascribe_forms/form_loan';
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -43,6 +36,11 @@ import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 let CylandRegisterPiece = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -50,10 +48,8 @@ let CylandRegisterPiece = React.createClass({
 
     getInitialState(){
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getState(),
-            WhitelabelStore.getState(),
             {
                 step: 0
             });
@@ -61,13 +57,9 @@ let CylandRegisterPiece = React.createClass({
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
-        let queryParams = this.props.location.query;
+        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -76,16 +68,14 @@ let CylandRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if(queryParams && 'piece_id' in queryParams) {
+        if (queryParams && 'piece_id' in queryParams) {
             PieceActions.fetchOne(queryParams.piece_id);
         }
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -93,11 +83,10 @@ let CylandRegisterPiece = React.createClass({
     },
 
     handleRegisterSuccess(response){
-
         this.refreshPieceList();
 
         // also start loading the piece for the next step
-        if(response && response.piece) {
+        if (response && response.piece) {
             PieceActions.updatePiece({});
             PieceActions.updatePiece(response.piece);
         }
@@ -108,7 +97,6 @@ let CylandRegisterPiece = React.createClass({
     },
 
     handleAdditionalDataSuccess() {
-
         // We need to refetch the piece again after submitting the additional data
         // since we want it's otherData to be displayed when the user choses to click
         // on the browsers back button.
@@ -122,7 +110,7 @@ let CylandRegisterPiece = React.createClass({
     },
 
     handleLoanSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
@@ -153,8 +141,8 @@ let CylandRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
-        const { currentUser, piece, step, whitelabel } = this.state;
+        const { currentUser, location, whitelabel } = this.props;
+        const { piece, step } = this.state;
 
         const today = new Moment();
         const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();

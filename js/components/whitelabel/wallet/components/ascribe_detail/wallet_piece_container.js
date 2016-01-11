@@ -3,18 +3,18 @@
 import React from 'react';
 import Moment from 'moment';
 
-import Piece from '../../../../../components/ascribe_detail/piece';
-
 import WalletActionPanel from './wallet_action_panel';
+
 import CollapsibleParagraph from '../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
+import DetailProperty from '../../../../ascribe_detail/detail_property';
 import HistoryIterator from '../../../../ascribe_detail/history_iterator';
 import Note from '../../../../ascribe_detail/note';
+import Piece from '../../../../../components/ascribe_detail/piece';
 
-import DetailProperty from '../../../../ascribe_detail/detail_property';
+import AscribeSpinner from '../../../../ascribe_spinner';
 
 import ApiUrls from '../../../../../constants/api_urls';
-import AscribeSpinner from '../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../utils/lang_utils';
 
