@@ -6,11 +6,6 @@ import MarketAclButtonList from './market_buttons/market_acl_button_list';
 
 import PieceList from '../../../../piece_list';
 
-import UserActions from '../../../../../actions/user_actions';
-import UserStore from '../../../../../stores/user_store';
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -18,45 +13,27 @@ import { getLangText } from '../../../../../utils/lang_utils';
 let MarketPieceList = React.createClass({
     propTypes: {
         customThumbnailPlaceholder: React.PropTypes.func,
-        location: React.PropTypes.object
-    },
 
-    getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            WhitelabelStore.getState()
-        );
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object
     },
 
     componentWillMount() {
         setDocumentTitle(getLangText('Collection'));
     },
 
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
-        const { customThumbnailPlaceholder, location } = this.props;
         const {
             currentUser: { email: userEmail },
+            customThumbnailPlaceholder,
             whitelabel: {
                 name: whitelabelName = 'Market',
                 user: whitelabelAdminEmail
-            } } = this.state;
+            } } = this.props;
 
         let filterParams = null;
         let canLoadPieceList = false;
@@ -77,12 +54,12 @@ let MarketPieceList = React.createClass({
 
         return (
             <PieceList
+                {...this.props}
                 canLoadPieceList={canLoadPieceList}
                 redirectTo="/register_piece?slide_num=0"
                 bulkModalButtonListType={MarketAclButtonList}
                 customThumbnailPlaceholder={customThumbnailPlaceholder}
-                filterParams={filterParams}
-                location={location} />
+                filterParams={filterParams} />
         );
     }
 });

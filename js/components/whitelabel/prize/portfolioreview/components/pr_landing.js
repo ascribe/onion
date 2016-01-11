@@ -32,10 +32,11 @@ const PRLanding = React.createClass({
 
     componentDidMount() {
         const { location } = this.props;
+
         PrizeStore.listen(this.onChange);
         PrizeActions.fetchPrize();
 
-        if (location && location.query && location.query.redirect) {
+        if (location.query.redirect) {
             let queryCopy = JSON.parse(JSON.stringify(location.query));
             delete queryCopy.redirect;
             window.setTimeout(() => this.history.replaceState(null, `/${location.query.redirect}`, queryCopy));
