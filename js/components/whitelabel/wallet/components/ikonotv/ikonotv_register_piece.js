@@ -219,7 +219,8 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
-        const { pageExitWarning } = this.state;
+        const { currentUser, location } = this.props;
+        const { pageExitWarning, step } = this.state;
 
         return (
             <SlidesContainer
@@ -229,19 +230,20 @@ let IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}
+                location={location}
                 pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                disabled={this.state.step > 0}
+                                currentUser={currentUser}
+                                disabled={step > 0}
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Register work')}
                                 submitMessage={getLangText('Register')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location} />
+                                location={location} />
                         </Col>
                     </Row>
                 </div>

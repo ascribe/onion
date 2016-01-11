@@ -107,6 +107,7 @@ let MarketRegisterPiece = React.createClass({
 
     render() {
         const {
+            currentUser,
             location,
             whitelabel: {
                 name: whitelabelName = 'Market'
@@ -128,6 +129,7 @@ let MarketRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                currentUser={currentUser}
                                 disabled={step > 0}
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Consign to %s', whitelabelName)}

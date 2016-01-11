@@ -102,8 +102,7 @@ let RegisterPiece = React.createClass( {
                     <RegisterPieceForm
                         {...this.props}
                         isFineUploaderActive={true}
-                        handleSuccess={this.handleSuccess}
-                        location={this.props.location}>
+                        handleSuccess={this.handleSuccess}>
                         {this.props.children}
                         {this.getSpecifyEditions()}
                     </RegisterPieceForm>

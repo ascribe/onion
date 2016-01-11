@@ -183,13 +183,14 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                currentUser={currentUser}
                                 disabled={step > 0}
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Submit to Cyland Archive')}
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={location}/>
+                                location={location} />
                         </Col>
                     </Row>
                 </div>
