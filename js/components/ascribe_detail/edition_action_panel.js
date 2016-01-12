@@ -36,8 +36,9 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let EditionActionPanel = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
+        edition: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
@@ -87,21 +88,25 @@ let EditionActionPanel = React.createClass({
 
     handleSuccess(response) {
         this.refreshCollection();
-        this.props.handleSuccess();
-        if (response){
-            let notification = new GlobalNotificationModel(response.notification, 'success');
+
+        if (response) {
+            const notification = new GlobalNotificationModel(response.notification, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
+        }
+
+        if (typeof this.props.handleSuccess === 'function') {
+            this.props.handleSuccess();
         }
     },
 
     render() {
         const {
             actionPanelButtonListType: ActionPanelButtonListType,
+            currentUser,
             edition,
-            currentUser } = this.props;
+            whitelabel } = this.props;
 
-        if (edition.notifications &&
-            edition.notifications.length > 0){
+        if (edition.notifications && edition.notifications.length) {
             return (
                 <ListRequestActions
                     currentUser={currentUser}
@@ -116,8 +121,9 @@ let EditionActionPanel = React.createClass({
                             availableAcls={edition.acl}
                             className="ascribe-button-list"
                             currentUser={currentUser}
+                            handleSuccess={this.handleSuccess}
                             pieceOrEditions={[edition]}
-                            handleSuccess={this.handleSuccess}>
+                            whitelabel={whitelabel}>
                             <AclProxy
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_transfer">

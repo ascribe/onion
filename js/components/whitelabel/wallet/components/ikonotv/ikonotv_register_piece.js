@@ -32,7 +32,6 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 let IkonotvRegisterPiece = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object.isRequired,
         handleSuccess: React.PropTypes.func,
 
         // Provided from PrizeApp
@@ -45,14 +44,15 @@ let IkonotvRegisterPiece = React.createClass({
 
     mixins: [History],
 
-    getInitialState(){
+    getInitialState() {
         return mergeOptions(
             PieceListStore.getState(),
             PieceStore.getState(),
             {
                 step: 0,
                 pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
-            });
+            }
+        );
     },
 
     componentDidMount() {
@@ -90,13 +90,12 @@ let IkonotvRegisterPiece = React.createClass({
         this.refreshPieceList();
 
         // also start loading the piece for the next step
-        if(response && response.piece) {
+        if (response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
         if (!this.canSubmit()) {
             this.history.push('/collection');
-        }
-        else {
+        } else {
             this.incrementStep();
             this.refs.slidesContainer.nextSlide();
         }
@@ -119,7 +118,7 @@ let IkonotvRegisterPiece = React.createClass({
     handleLoanSuccess(response) {
         this.setState({ pageExitWarning: null });
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
@@ -189,7 +188,8 @@ let IkonotvRegisterPiece = React.createClass({
 
     getSlideLoan() {
         if (this.canSubmit()) {
-            const { piece, whitelabel } = this.props;
+            const { whitelabel } = this.props;
+            const { piece } = this.state;
             const today = new Moment();
             const endDate = (new Moment()).add(2, 'years');
 

@@ -95,7 +95,7 @@ let SignupForm = React.createClass({
                         type="email"
                         placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
-                        defaultValue={email}
+                        defaultValue={emailQuery}
                         required/>
                 </Property>
                 <Property

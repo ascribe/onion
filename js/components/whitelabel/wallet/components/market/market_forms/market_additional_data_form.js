@@ -115,7 +115,7 @@ let MarketAdditionalDataForm = React.createClass({
             this.props.handleSuccess();
         }
 
-        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -128,7 +128,8 @@ let MarketAdditionalDataForm = React.createClass({
     render() {
         const { editable, isInline, handleSuccess, showHeading, showNotification, submitLabel } = this.props;
         const { piece } = this.state;
-        let buttons, heading;
+        let buttons;
+        let heading;
 
         let spinner = <AscribeSpinner color='dark-blue' size='lg' />;
 

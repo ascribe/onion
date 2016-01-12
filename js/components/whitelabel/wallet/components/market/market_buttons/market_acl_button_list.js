@@ -46,7 +46,10 @@ let MarketAclButtonList = React.createClass({
         return (
             <div className={className}>
                 <MarketSubmitButton
-                    {...buttonProps}
+                    availableAcls={availableAcls}
+                    currentUser={currentUser}
+                    editions={pieceOrEditions}
+                    handleSuccess={handleSuccess}
                     whitelabel={whitelabel} />
                 <EmailButton {...buttonProps} />
                 <TransferButton {...buttonProps} />
