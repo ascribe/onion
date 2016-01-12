@@ -30,7 +30,10 @@ let Vivi23Landing = React.createClass({
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row vivi23-landing--header">
-                            <img className="vivi23-landing--header-logo" src={this.props.whitelabel.logo} />
+                            <img
+                                className="vivi23-landing--header-logo"
+                                src={this.props.whitelabel.logo}
+                                height="75" />
                             <div>
                                 {getLangText('Artwork from the 23VIVI Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />

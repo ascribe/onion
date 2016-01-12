@@ -29,7 +29,7 @@ let LumenusLanding = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
-                            <img src={this.props.whitelabel.logo} width="150px"/>
+                            <img src={this.props.whitelabel.logo} height="150"/>
                             <div style={{marginTop: '1em'}}>
                                 {getLangText('Artwork from the Lumenus Marketplace is powered by') + ' '}
                                 <span>
