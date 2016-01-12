@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
+
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -36,7 +38,7 @@ let AccordionList = React.createClass({
                     </p>
                     <p className="text-center">
                         {getLangText('To register one, click')}&nbsp;
-                        <a href="register_piece">{getLangText('here')}</a>!
+                        <Link to="/register_piece">{getLangText('here')}</Link>!
                     </p>
                 </div>
             );
