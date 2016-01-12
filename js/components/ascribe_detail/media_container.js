@@ -20,6 +20,7 @@ const EMBED_IFRAME_HEIGHT = {
     video: 315,
     audio: 62
 };
+const ENCODE_UPDATE_TIME = 5000;
 
 let MediaContainer = React.createClass({
     propTypes: {
@@ -36,15 +37,15 @@ let MediaContainer = React.createClass({
     },
 
     componentDidMount() {
-        const { content, refreshObject } = this.props;
-        if (!content.digital_work) {
-            return;
-        }
+        const { content: { digital_work: digitalWork }, refreshObject } = this.props;
 
-        const isEncoding = content.digital_work.isEncoding;
-        if (content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            const timerId = window.setInterval(refreshObject, 10000);
-            this.setState({timerId: timerId});
+        if (digitalWork) {
+            const isEncoding = digitalWork.isEncoding;
+
+            if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+                const timerId = window.setInterval(refreshObject, ENCODE_UPDATE_TIME);
+                this.setState({ timerId: timerId });
+            }
         }
     },
 

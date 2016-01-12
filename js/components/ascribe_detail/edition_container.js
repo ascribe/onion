@@ -73,14 +73,6 @@ let EditionContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if (state && state.edition && state.edition.digital_work) {
-            const isEncoding = state.edition.digital_work.isEncoding;
-            if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-                const timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
-                this.setState({ timerId: timerId });
-            }
-        }
     },
 
     render() {
