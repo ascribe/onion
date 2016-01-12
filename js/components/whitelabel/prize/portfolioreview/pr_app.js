@@ -21,12 +21,13 @@ import { getCookie } from '../../../../utils/fetch_api_utils';
 
 let PRApp = React.createClass({
     propTypes: {
+        history: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ]),
-        history: React.PropTypes.object,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        ])
     },
 
     getInitialState() {
@@ -54,7 +55,8 @@ let PRApp = React.createClass({
     },
 
     render() {
-        const { children, currentUser, history, routes, whitelabel } = this.props;
+        const { children, history, routes } = this.props;
+        const { currentUser, whitelabel } = this.state;
         const subdomain = getSubdomain();
 
         // Add the current user and whitelabel settings to all child routes

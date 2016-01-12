@@ -18,11 +18,12 @@ import { mergeOptions } from '../utils/general_utils';
 
 let AscribeApp = React.createClass({
     propTypes: {
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ]),
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        ])
     },
 
     getInitialState() {

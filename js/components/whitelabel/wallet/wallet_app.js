@@ -19,12 +19,13 @@ import { getSubdomain, mergeOptions } from '../../../utils/general_utils';
 
 let WalletApp = React.createClass({
     propTypes: {
+        history: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ]),
-        history: React.PropTypes.object,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        ])
     },
 
     getInitialState() {
@@ -38,6 +39,7 @@ let WalletApp = React.createClass({
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
 
+        console.log('fetch');
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
     },
@@ -52,7 +54,8 @@ let WalletApp = React.createClass({
     },
 
     render() {
-        const { children, currentUser, history, routes, whitelabel } = this.props;
+        const { children, history, routes } = this.props;
+        const { currentUser, whitelabel } = this.state;
         const subdomain = getSubdomain();
 
         // The second element of routes is always the active component object, where we can
