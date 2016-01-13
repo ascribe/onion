@@ -12,7 +12,7 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy}) {
+    onUpdateEditionList({ pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy }) {
         /*
             Basically there are two modes an edition list can be updated.
 
@@ -20,7 +20,7 @@ class EditionListStore {
                 2. The elements are already defined => merge current objects with the new ones from the server
 
          */
-        for(let i = 0; i < editionListOfPiece.length; i++) {
+        for (let i = 0; i < editionListOfPiece.length; i++) {
 
             // if editionList for a specific piece does not exist yet,
             // just initialize a new array
@@ -32,7 +32,7 @@ class EditionListStore {
             // page
             let storeEditionIndex = (page - 1) * pageSize + i;
             let editionsForPieces = this.editionList[pieceId];
-            
+
             // if edition already exists, just merge
             if(editionsForPieces[storeEditionIndex]) {
                 editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
@@ -60,7 +60,7 @@ class EditionListStore {
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList({pieceId, filterBy = {}}) {
+    onRefreshEditionList({ pieceId, filterBy = {} }) {
         // It may happen that the user enters the site logged in already
         // through /editions
         // If he then tries to delete a piece/edition and this method is called,
@@ -102,7 +102,7 @@ class EditionListStore {
             });
     }
 
-    onSelectEdition({pieceId, editionId, toValue}) {
+    onSelectEdition({ pieceId, editionId, toValue }) {
         this.editionList[pieceId].forEach((edition) => {
 
             // Taken from: http://stackoverflow.com/a/519157/1263876
@@ -144,7 +144,7 @@ class EditionListStore {
         if(!this.isEditionListOpenForPieceId[pieceId].show) {
             // to clear an array, david walsh recommends to just set it's length to zero
             // http://davidwalsh.name/empty-array
-            
+
             this.editionList[pieceId].length = 0;
         }
     }
