@@ -12,6 +12,16 @@ import { mergeOptions } from '../utils/general_utils';
 
 class EditionStore {
     constructor() {
+        this.getInitialState();
+
+        this.bindActions(EditionActions);
+        this.registerAsync(mergeOptions(EditionSource, CoaSource));
+        this.exportPublicMethods({
+            getInitialState: this.getInitialState.bind(this)
+        });
+    }
+
+    getInitialState() {
         this.edition = {};
         this.editionMeta = {
             err: null,
@@ -21,8 +31,11 @@ class EditionStore {
             err: null
         };
 
-        this.bindActions(EditionActions);
-        this.registerAsync(mergeOptions(EditionSource, CoaSource));
+        return {
+            edition: this.edition,
+            editionMeta: this.editionMeta,
+            coaMeta: this.coaMeta
+        };
     }
 
     onFetchEdition(idToFetch) {
@@ -57,17 +70,6 @@ class EditionStore {
         }
     }
 
-    onFlushEdition() {
-        this.edition = {};
-        this.editionMeta = {
-            err: null,
-            idToFetch: null
-        };
-        this.coaMeta = {
-            err: null
-        };
-    }
-
     onErrorEdition(err) {
         this.editionMeta.err = err;
     }
@@ -79,6 +81,10 @@ class EditionStore {
         } else {
             this.coaMeta.err = err;
         }
+    }
+
+    onFlushEdition() {
+        this.getInitialState();
     }
 }
 
