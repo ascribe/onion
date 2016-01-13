@@ -34,8 +34,8 @@ export function AuthRedirect({to, when}) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        const exprToValidate = when === 'loggedIn' ? currentUser && currentUser.email
-                                                   : currentUser && !currentUser.email;
+        const isLoggedIn = currentUser && Object.keys(currentUser).length && currentUser.email;
+        const exprToValidate = when === 'loggedIn' ? isLoggedIn : !isLoggedIn;
 
         // and redirect if `true`.
         if (exprToValidate) {
@@ -80,7 +80,11 @@ export function ProxyHandler(...redirectFunctions) {
             displayName: 'ProxyHandler',
 
             propTypes: {
-                currentUser: object,
+                // Provided from AscribeApp
+                currentUser: React.PropTypes.object,
+                whitelabel: React.PropTypes.object,
+
+                // Provided from router
                 location: object
             },
 
@@ -88,10 +92,18 @@ export function ProxyHandler(...redirectFunctions) {
             // to use the `Lifecycle` widget in further down nested components
             mixins: [RouteContext],
 
-            componentDidUpdate() {
-                const { currentUser, location: { query } } = this.props;
+            componentDidMount() {
+                this.evaluateRedirectFunctions();
+            },
 
-                if (!UserStore.isLoading()) {
+            componentWillReceiveProps(nextProps) {
+                this.evaluateRedirectFunctions(nextProps);
+            },
+
+            evaluateRedirectFunctions(props = this.props) {
+                const { currentUser, location: { query } } = props;
+
+                if (UserStore.hasLoaded() && !UserStore.isLoading()) {
                     for (let i = 0; i < redirectFunctions.length; i++) {
                         // if a redirectFunction redirects the user,
                         // it should return `true` and therefore
@@ -106,7 +118,7 @@ export function ProxyHandler(...redirectFunctions) {
 
             render() {
                 return (
-                    <Component {...this.props}/>
+                    <Component {...this.props} />
                 );
             }
         });

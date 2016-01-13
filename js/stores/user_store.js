@@ -12,12 +12,16 @@ class UserStore {
     constructor() {
         this.currentUser = {};
         this.userMeta = {
+            hasLoaded: false,
             invalidateCache: false,
             err: null
         };
 
         this.bindActions(UserActions);
         this.registerAsync(UserSource);
+        this.exportPublicMethods({
+            hasLoaded: this.hasLoaded.bind(this)
+        });
     }
 
     onFetchCurrentUser(invalidateCache) {
@@ -28,7 +32,8 @@ class UserStore {
         }
     }
 
-    onSuccessFetchCurrentUser({users: [user = {}]}) {
+    onSuccessFetchCurrentUser({ users: [ user = {} ] = [] }) {
+        this.userMeta.hasLoaded = true;
         this.userMeta.invalidateCache = false;
         this.userMeta.err = null;
 
@@ -50,6 +55,10 @@ class UserStore {
                 altWhitelabel.recycle();
                 altUser.recycle();
                 altThirdParty.recycle();
+
+                // Since we've just logged out, we can set this store's
+                // hasLoaded flag back to true as there is no current user.
+                this.userMeta.hasLoaded = true;
             });
     }
 
@@ -59,7 +68,12 @@ class UserStore {
 
     onErrorCurrentUser(err) {
         console.logGlobal(err);
+        this.userMeta.hasLoaded = true;
         this.userMeta.err = err;
+    }
+
+    hasLoaded() {
+        return this.userMeta.hasLoaded;
     }
 }
 
