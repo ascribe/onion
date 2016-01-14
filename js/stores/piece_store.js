@@ -34,7 +34,7 @@ class PieceStore {
     onFetchPiece(idToFetch) {
         this.pieceMeta.idToFetch = idToFetch;
 
-        this.getInstance.lookupPiece();
+        this.getInstance().lookupPiece();
     }
 
     onSuccessFetchPiece({ piece }) {

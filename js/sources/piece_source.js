@@ -2,7 +2,7 @@
 
 import requests from '../utils/requests';
 
-import PieceActions from '../actions/edition_actions';
+import PieceActions from '../actions/piece_actions';
 
 
 const PieceSource = {
