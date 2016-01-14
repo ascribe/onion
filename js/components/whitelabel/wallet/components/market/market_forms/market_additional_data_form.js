@@ -63,7 +63,7 @@ let MarketAdditionalDataForm = React.createClass({
         PieceStore.listen(this.onChange);
 
         if (this.props.pieceId) {
-            PieceActions.fetchOne(this.props.pieceId);
+            PieceActions.fetchPiece(this.props.pieceId);
         }
     },
 
@@ -115,7 +115,7 @@ let MarketAdditionalDataForm = React.createClass({
             this.props.handleSuccess();
         }
 
-        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -159,7 +159,7 @@ let MarketAdditionalDataForm = React.createClass({
             ) : null;
         }
 
-        if (piece && piece.id) {
+        if (piece.id) {
             return (
                 <Form
                     className="ascribe-form-bordered"

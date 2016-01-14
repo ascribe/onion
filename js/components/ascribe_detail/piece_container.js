@@ -69,7 +69,7 @@ let PieceContainer = React.createClass({
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
+            PieceStore.getInitialState(),
             {
                 showCreateEditionsDialog: false
             }
@@ -81,19 +81,24 @@ let PieceContainer = React.createClass({
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
         this.loadPiece();
         UserActions.fetchCurrentUser();
     },
 
-    componentDidUpdate() {
-        const { pieceError } = this.state;
+    // This is done to update the container when the user clicks on the prev or next
+    // button to update the URL parameter (and therefore to switch pieces) or
+    // when the user clicks on a notification while being in another piece view
+    componentWillReceiveProps(nextProps) {
+        if (this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.flushPiece();
+            this.loadPiece(nextProps.params.pieceId);
+        }
+    },
 
-        if (pieceError && pieceError.status === 404) {
+    componentDidUpdate() {
+        const { pieceMeta: { err: pieceErr } } = this.state;
+
+        if (pieceErr && pieceErr.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
         }
     },
@@ -116,8 +121,7 @@ let PieceContainer = React.createClass({
             ALSO, WE ENABLED THE LOAN BUTTON FOR IKONOTV TO LET THEM LOAN ON A PIECE LEVEL
 
          */
-        if(state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
-
+        if (state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
             let pieceState = mergeOptions({}, state.piece);
             pieceState.acl.acl_loan = false;
             this.setState({
@@ -129,10 +133,9 @@ let PieceContainer = React.createClass({
         }
     },
 
-    loadPiece() {
-        PieceActions.fetchOne(this.props.params.pieceId);
+    loadPiece(pieceId = this.props.params.pieceId) {
+        PieceActions.fetchPiece(pieceId);
     },
-
 
     toggleCreateEditionsDialog() {
         this.setState({
@@ -141,7 +144,7 @@ let PieceContainer = React.createClass({
     },
 
     handleEditionCreationSuccess() {
-        PieceActions.updateProperty({key: 'num_editions', value: 0});
+        PieceActions.updateProperty({ key: 'num_editions', value: 0 });
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         this.toggleCreateEditionsDialog();
@@ -156,29 +159,28 @@ let PieceContainer = React.createClass({
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
-        let notification = new GlobalNotificationModel(response.notification, 'success');
+        const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.history.push('/collection');
     },
 
     getCreateEditionsDialog() {
-        if(this.state.piece.num_editions < 1 && this.state.showCreateEditionsDialog) {
+        if (this.state.piece.num_editions < 1 && this.state.showCreateEditionsDialog) {
             return (
                 <div style={{marginTop: '1em'}}>
                     <CreateEditionsForm
                         pieceId={this.state.piece.id}
                         handleSuccess={this.handleEditionCreationSuccess} />
-                    <hr/>
+                    <hr />
                 </div>
             );
         } else {
-            return (<hr/>);
+            return (<hr />);
         }
     },
 
     handlePollingSuccess(pieceId, numEditions) {
-
         // we need to refresh the num_editions property of the actual piece we're looking at
         PieceActions.updateProperty({
             key: 'num_editions',
@@ -192,24 +194,24 @@ let PieceContainer = React.createClass({
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
-        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        const notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getId() {
-        return {'id': this.state.piece.id};
+        return { 'id': this.state.piece.id };
     },
 
     getActions() {
         const { piece, currentUser } = this.state;
 
-        if (piece && piece.notifications && piece.notifications.length > 0) {
+        if (piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
                     pieceOrEditions={piece}
                     currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={piece.notifications}/>);
+                    notifications={piece.notifications} />);
         } else {
             return (
                 <AclProxy
@@ -235,12 +237,12 @@ let PieceContainer = React.createClass({
                                     onPollingSuccess={this.handlePollingSuccess}/>
                                 <DeleteButton
                                     handleSuccess={this.handleDeleteSuccess}
-                                    piece={piece}/>
+                                    piece={piece} />
                                 <AclInformation
                                     aim="button"
                                     verbs={['acl_share', 'acl_transfer', 'acl_create_editions', 'acl_loan', 'acl_delete',
                                             'acl_consign']}
-                                    aclObject={piece.acl}/>
+                                    aclObject={piece.acl} />
                         </AclButtonList>
                     </DetailProperty>
                 </AclProxy>
@@ -252,7 +254,7 @@ let PieceContainer = React.createClass({
         const { furtherDetailsType: FurtherDetailsType } = this.props;
         const { currentUser, piece } = this.state;
 
-        if (piece && piece.id) {
+        if (piece.id) {
             setDocumentTitle([piece.artist_name, piece.title].join(', '));
 
             return (
@@ -296,7 +298,7 @@ let PieceContainer = React.createClass({
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_piece}
-                            currentUser={currentUser}/>
+                            currentUser={currentUser} />
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (public)')}
@@ -306,7 +308,7 @@ let PieceContainer = React.createClass({
                             show={!!(piece.public_note || piece.acl.acl_edit)}
                             successMessage={getLangText('Public note saved')}
                             url={ApiUrls.note_public_piece}
-                            currentUser={currentUser}/>
+                            currentUser={currentUser} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}

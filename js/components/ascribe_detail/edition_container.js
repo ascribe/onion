@@ -52,6 +52,7 @@ let EditionContainer = React.createClass({
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
         if(this.props.params.editionId !== nextProps.params.editionId) {
+            EditionActions.flushEdition();
             this.loadEdition(nextProps.params.editionId);
         }
     },

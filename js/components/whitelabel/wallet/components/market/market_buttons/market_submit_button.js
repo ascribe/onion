@@ -84,7 +84,7 @@ let MarketSubmitButton = React.createClass({
 
     handleAdditionalDataSuccess(pieceId) {
         // Fetch newly updated piece to update the views
-        PieceActions.fetchOne(pieceId);
+        PieceActions.fetchPiece(pieceId);
 
         this.refs.consignModal.show();
     },
