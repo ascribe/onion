@@ -28,10 +28,7 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 
 let MarketAdditionalDataForm = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.oneOfType([
-            React.PropTypes.number,
-            React.PropTypes.string
-        ]),
+        pieceId: React.PropTypes.number,
         editable: React.PropTypes.bool,
         isInline: React.PropTypes.bool,
         showHeading: React.PropTypes.bool,
