@@ -126,7 +126,7 @@ let MarketSubmitButton = React.createClass({
                     aclName='acl_consign'>
                     <ModalWrapper
                         trigger={triggerButton}
-                        handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
+                        handleSuccess={() => this.handleAdditionalDataSuccess(solePieceId)}
                         title={getLangText('Add additional information')}>
                         <MarketAdditionalDataForm
                             pieceId={solePieceId}

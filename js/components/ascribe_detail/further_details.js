@@ -19,11 +19,12 @@ import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uplo
 
 let FurtherDetails = React.createClass({
     propTypes: {
+        pieceId: React.PropTypes.number.isRequired,
+
         editable: React.PropTypes.bool,
-        pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
-        handleSuccess: React.PropTypes.func
     },
 
     getInitialState() {
@@ -32,13 +33,16 @@ let FurtherDetails = React.createClass({
         };
     },
 
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Details updated', 'success');
+    showNotification() {
+        if (typeof this.props.handleSucess === 'function') {
+            this.props.handleSuccess();
+        }
+
+        const notification = new GlobalNotificationModel('Details updated', 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitFile(file){
+    submitFile(file) {
         this.setState({
             otherDataKey: file.key
         });
@@ -60,8 +64,7 @@ let FurtherDetails = React.createClass({
                         handleSuccess={this.showNotification}
                         editable={this.props.editable}
                         pieceId={this.props.pieceId}
-                        extraData={this.props.extraData}
-                        />
+                        extraData={this.props.extraData} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
