@@ -109,7 +109,7 @@ let MarketAdditionalDataForm = React.createClass({
     render() {
         const {
             editable,
-            extraData,
+            extraData = {},
             isInline,
             handleSuccess,
             otherData,
@@ -118,8 +118,9 @@ let MarketAdditionalDataForm = React.createClass({
             showNotification,
             submitLabel } = this.props;
 
-        let buttons, heading;
-        let spinner = <AscribeSpinner color='dark-blue' size='lg' />;
+        let buttons;
+        let heading;
+        let spinner;
 
         if (!isInline) {
             buttons = (
@@ -134,7 +135,7 @@ let MarketAdditionalDataForm = React.createClass({
             spinner = (
                 <div className="modal-footer">
                     <p className="pull-right">
-                        {spinner}
+                        <AscribeSpinner color='dark-blue' size='md' />
                     </p>
                 </div>
             );
@@ -148,68 +149,76 @@ let MarketAdditionalDataForm = React.createClass({
             ) : null;
         }
 
-        return (
-            <Form
-                className="ascribe-form-bordered"
-                ref='form'
-                key={this.state.forceUpdateKey}
-                url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: pieceId})}
-                handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
-                getFormData={this.getFormData}
-                buttons={buttons}
-                spinner={spinner}
-                disabled={!this.props.editable}>
-                {heading}
-                <FurtherDetailsFileuploader
-                    label={getLangText('Marketplace Thumbnail Image')}
-                    submitFile={function () {}}
-                    setIsUploadReady={this.setIsUploadReady}
-                    isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                    pieceId={pieceId}
-                    otherData={otherData}
-                    editable={editable} />
-                <Property
-                    name='artist_bio'
-                    label={getLangText('Artist Bio')}
-                    expanded={editable || !!extraData.artist_bio}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        defaultValue={extraData.artist_bio}
-                        placeholder={getLangText('Enter a biography of the artist...')}
-                        required />
-                </Property>
-                <Property
-                    name='work_description'
-                    label={getLangText('Work Description')}
-                    expanded={editable || !!extraData.work_description}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        defaultValue={extraData.work_description}
-                        placeholder={getLangText('Enter a description of the work...')}
-                        required />
-                </Property>
-                <Property
-                    name='technology_details'
-                    label={getLangText('Technology Details')}
-                    expanded={editable || !!extraData.technology_details}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        defaultValue={extraData.technology_details}
-                        placeholder={getLangText('Enter technological details about the work...')}
-                        required />
-                </Property>
-                <Property
-                    name='display_instructions'
-                    label={getLangText('Display Instructions')}
-                    expanded={editable || !!extraData.display_instructions}>
-                    <InputTextAreaToggable
-                        rows={1}
-                        defaultValue={extraData.display_instructions}
-                        placeholder={getLangText('Enter instructions on how to best display the work...')}
-                        required />
-                </Property>
-            </Form>
-        );
+        if (pieceId) {
+            return (
+                <Form
+                    className="ascribe-form-bordered"
+                    ref='form'
+                    key={this.state.forceUpdateKey}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}
+                    handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
+                    getFormData={this.getFormData}
+                    buttons={buttons}
+                    spinner={spinner}
+                    disabled={!this.props.editable}>
+                    {heading}
+                    <FurtherDetailsFileuploader
+                        label={getLangText('Marketplace Thumbnail Image')}
+                        submitFile={function () {}}
+                        setIsUploadReady={this.setIsUploadReady}
+                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        pieceId={pieceId}
+                        otherData={otherData}
+                        editable={editable} />
+                    <Property
+                        name='artist_bio'
+                        label={getLangText('Artist Bio')}
+                        expanded={editable || !!extraData.artist_bio}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={extraData.artist_bio}
+                            placeholder={getLangText('Enter a biography of the artist...')}
+                            required />
+                    </Property>
+                    <Property
+                        name='work_description'
+                        label={getLangText('Work Description')}
+                        expanded={editable || !!extraData.work_description}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={extraData.work_description}
+                            placeholder={getLangText('Enter a description of the work...')}
+                            required />
+                    </Property>
+                    <Property
+                        name='technology_details'
+                        label={getLangText('Technology Details')}
+                        expanded={editable || !!extraData.technology_details}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={extraData.technology_details}
+                            placeholder={getLangText('Enter technological details about the work...')}
+                            required />
+                    </Property>
+                    <Property
+                        name='display_instructions'
+                        label={getLangText('Display Instructions')}
+                        expanded={editable || !!extraData.display_instructions}>
+                        <InputTextAreaToggable
+                            rows={1}
+                            defaultValue={extraData.display_instructions}
+                            placeholder={getLangText('Enter instructions on how to best display the work...')}
+                            required />
+                    </Property>
+                </Form>
+            );
+        } else {
+            return (
+                <div className="ascribe-loading-position">
+                    <AscribeSpinner color='dark-blue' size='md' />
+                </div>
+            );
+        }
     }
 });
 

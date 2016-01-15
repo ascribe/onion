@@ -23,9 +23,10 @@ import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_
 
 let CylandAdditionalDataForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
+
         disabled: React.PropTypes.bool,
+        handleSuccess: React.PropTypes.func,
         isInline: React.PropTypes.bool
     },
 
@@ -42,13 +43,13 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     handleSuccess() {
-        let notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Further details successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getFormData() {
-        let extradata = {};
-        let formRefs = this.refs.form.refs;
+        const extradata = {};
+        const formRefs = this.refs.form.refs;
 
         // Put additional fields in extra data object
         Object
@@ -71,10 +72,13 @@ let CylandAdditionalDataForm = React.createClass({
     },
 
     render() {
-        let { piece, isInline, disabled, handleSuccess, location } = this.props;
-        let buttons, spinner, heading;
+        const { disabled, handleSuccess, isInline, piece } = this.props;
 
-        if(!isInline) {
+        let buttons;
+        let spinner;
+        let heading;
+
+        if (!isInline) {
             buttons = (
                 <button
                     type="submit"
@@ -87,7 +91,7 @@ let CylandAdditionalDataForm = React.createClass({
             spinner = (
                 <div className="modal-footer">
                     <p className="pull-right">
-                        <AscribeSpinner color='dark-blue' size='md'/>
+                        <AscribeSpinner color='dark-blue' size='md' />
                     </p>
                 </div>
             );
@@ -101,7 +105,7 @@ let CylandAdditionalDataForm = React.createClass({
             );
         }
 
-        if(piece && piece.id) {
+        if (piece.id && piece.extra_data) {
             return (
                 <Form
                     disabled={disabled}
@@ -120,7 +124,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_bio}
-                            placeholder={getLangText('Enter the artist\'s biography...')}/>
+                            placeholder={getLangText('Enter the artist\'s biography...')} />
                     </Property>
                     <Property
                         name='artist_contact_information'
@@ -129,7 +133,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.artist_contact_information}
-                            placeholder={getLangText('Enter the artist\'s contact information...')}/>
+                            placeholder={getLangText('Enter the artist\'s contact information...')} />
                     </Property>
                     <Property
                         name='conceptual_overview'
@@ -138,7 +142,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.conceptual_overview}
-                            placeholder={getLangText('Enter a conceptual overview...')}/>
+                            placeholder={getLangText('Enter a conceptual overview...')} />
                     </Property>
                     <Property
                         name='medium'
@@ -147,7 +151,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.medium}
-                            placeholder={getLangText('Enter the medium (and other technical specifications)...')}/>
+                            placeholder={getLangText('Enter the medium (and other technical specifications)...')} />
                     </Property>
                     <Property
                         name='size_duration'
@@ -156,7 +160,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.size_duration}
-                            placeholder={getLangText('Enter the size / duration...')}/>
+                            placeholder={getLangText('Enter the size / duration...')} />
                     </Property>
                     <Property
                         name='display_instructions'
@@ -165,7 +169,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.display_instructions}
-                            placeholder={getLangText('Enter the display instructions...')}/>
+                            placeholder={getLangText('Enter the display instructions...')} />
                     </Property>
                     <Property
                         name='additional_details'
@@ -174,7 +178,7 @@ let CylandAdditionalDataForm = React.createClass({
                         <InputTextAreaToggable
                             rows={1}
                             defaultValue={piece.extra_data.additional_details}
-                            placeholder={getLangText('Enter additional details...')}/>
+                            placeholder={getLangText('Enter additional details...')} />
                     </Property>
                     <FurtherDetailsFileuploader
                         label={getLangText('Additional files (e.g. still images, pdf)')}
@@ -189,7 +193,7 @@ let CylandAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <AscribeSpinner color='dark-blue' size='md'/>
+                    <AscribeSpinner color='dark-blue' size='md' />
                 </div>
             );
         }

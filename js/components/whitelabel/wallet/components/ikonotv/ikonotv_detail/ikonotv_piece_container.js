@@ -122,6 +122,7 @@ let IkonotvPieceContainer = React.createClass({
 
         if (piece.id) {
             setDocumentTitle([piece.artist_name, piece.title].join(', '));
+
             return (
                 <WalletPieceContainer
                     piece={piece}

@@ -20,11 +20,10 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 
 let IkonotvArtistDetailsForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
 
         disabled: React.PropTypes.bool,
-
+        handleSuccess: React.PropTypes.func,
         isInline: React.PropTypes.bool
     },
 
@@ -35,8 +34,8 @@ let IkonotvArtistDetailsForm = React.createClass({
     },
 
     getFormData() {
-        let extradata = {};
-        let formRefs = this.refs.form.refs;
+        const extradata = {};
+        const formRefs = this.refs.form.refs;
 
         // Put additional fields in extra data object
         Object
@@ -53,20 +52,23 @@ let IkonotvArtistDetailsForm = React.createClass({
     },
 
     handleSuccess() {
-        let notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
+        const notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     render() {
-        let buttons, spinner, heading;
-        let { isInline, handleSuccess } = this.props;
+        const { disabled, isInline, handleSuccess, piece } = this.props;
+
+        let buttons;
+        let spinner;
+        let heading;
 
         if (!isInline) {
             buttons = (
                 <button
                     type="submit"
                     className="btn btn-default btn-wide"
-                    disabled={this.props.disabled}>
+                    disabled={disabled}>
                     {getLangText('Proceed to loan')}
                 </button>
             );
@@ -74,7 +76,7 @@ let IkonotvArtistDetailsForm = React.createClass({
             spinner = (
                 <div className="modal-footer">
                     <p className="pull-right">
-                        <AscribeSpinner color='dark-blue' size='md'/>
+                        <AscribeSpinner color='dark-blue' size='md' />
                     </p>
                 </div>
             );
@@ -88,13 +90,13 @@ let IkonotvArtistDetailsForm = React.createClass({
             );
         }
 
-        if (this.props.piece && this.props.piece.id && this.props.piece.extra_data) {
+        if (piece.id && piece.extra_data) {
             return (
                 <Form
-                    disabled={this.props.disabled}
+                    disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.piece.id})}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
@@ -103,39 +105,38 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='artist_website'
                         label={getLangText('Artist Website')}
-                        expanded={!this.props.disabled || !!this.props.piece.extra_data.artist_website}>
+                        expanded={!disabled || !!piece.extra_data.artist_website}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={this.props.piece.extra_data.artist_website}
-                            placeholder={getLangText('The artist\'s website if present...')}/>
+                            defaultValue={piece.extra_data.artist_website}
+                            placeholder={getLangText('The artist\'s website if present...')} />
                     </Property>
                     <Property
                         name='gallery_website'
                         label={getLangText('Website of related Gallery, Museum, etc.')}
-                        expanded={!this.props.disabled || !!this.props.piece.extra_data.gallery_website}>
+                        expanded={!disabled || !!piece.extra_data.gallery_website}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={this.props.piece.extra_data.gallery_website}
-                            placeholder={getLangText('The website of any related Gallery or Museum')}/>
+                            defaultValue={piece.extra_data.gallery_website}
+                            placeholder={getLangText('The website of any related Gallery or Museum')} />
                     </Property>
                     <Property
                         name='additional_websites'
                         label={getLangText('Additional Websites/Publications/Museums/Galleries')}
-                        expanded={!this.props.disabled || !!this.props.piece.extra_data.additional_websites}>
+                        expanded={!disabled || !!piece.extra_data.additional_websites}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={this.props.piece.extra_data.additional_websites}
-                            placeholder={getLangText('Enter additional Websites/Publications if any')}/>
+                            defaultValue={piece.extra_data.additional_websites}
+                            placeholder={getLangText('Enter additional Websites/Publications if any')} />
                     </Property>
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Short text about the Artist')}
-                        expanded={!this.props.disabled || !!this.props.piece.extra_data.conceptual_overview}>
+                        expanded={!disabled || !!piece.extra_data.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={this.props.piece.extra_data.conceptual_overview}
-                            placeholder={getLangText('Enter a short bio about the Artist')}
-                            />
+                            defaultValue={piece.extra_data.conceptual_overview}
+                            placeholder={getLangText('Enter a short bio about the Artist')} />
                     </Property>
                 </Form>
             );
