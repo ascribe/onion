@@ -1,6 +1,7 @@
 'use strict';
 
 import { altUser } from '../alt';
+
 import UserActions from '../actions/user_actions';
 
 import UserSource from '../sources/user_source';
@@ -10,7 +11,6 @@ class UserStore {
     constructor() {
         this.currentUser = {};
         this.userMeta = {
-            invalidateCache: false,
             err: null
         };
 
@@ -19,15 +19,12 @@ class UserStore {
     }
 
     onFetchCurrentUser(invalidateCache) {
-        this.userMeta.invalidateCache = invalidateCache;
-
-        if(!this.getInstance().isLoading()) {
-            this.getInstance().lookupCurrentUser();
+        if (invalidateCache || !this.getInstance().isLoading()) {
+            this.getInstance().lookupCurrentUser(invalidateCache);
         }
     }
 
-    onSuccessFetchCurrentUser({users: [user = {}]}) {
-        this.userMeta.invalidateCache = false;
+    onSuccessFetchCurrentUser({ users: [ user = {} ] }) {
         this.userMeta.err = null;
         this.currentUser = user;
     }
@@ -37,6 +34,7 @@ class UserStore {
     }
 
     onSuccessLogoutCurrentUser() {
+        this.userMeta.err = null;
         this.currentUser = {};
     }
 
