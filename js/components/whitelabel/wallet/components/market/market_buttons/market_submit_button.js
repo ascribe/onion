@@ -3,8 +3,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import EditionActions from '../../../../../../actions/edition_actions';
+
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
+
 import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../../stores/whitelabel_store';
 
@@ -75,26 +78,6 @@ let MarketSubmitButton = React.createClass({
         return false;
     },
 
-    getAdditionalDataForm() {
-        const { piece } = this.state;
-
-        if (piece.id) {
-            return (
-                <MarketAdditionalDataForm
-                    extraData={piece.extra_data}
-                    otherData={piece.other_data}
-                    pieceId={piece.id}
-                    submitLabel={getLangText('Continue to consignment')} />
-            );
-        } else {
-            return (
-                <div className="fullpage-spinner">
-                    <AscribeSpinner color='dark-blue' size='lg'/>
-                </div>
-            );
-        }
-    },
-
     getAggregateEditionDetails() {
         const { editions } = this.props;
 
@@ -115,9 +98,13 @@ let MarketSubmitButton = React.createClass({
         return getAclFormDataId(false, this.props.editions);
     },
 
-    handleAdditionalDataSuccess(pieceId) {
-        // Fetch newly updated piece to update the views
-        PieceActions.fetchPiece(pieceId);
+    handleAdditionalDataSuccess() {
+        // Fetch newly updated piece and edition to update the views
+        PieceActions.fetchPiece(this.state.piece.id);
+
+        if (this.props.editions.length === 1) {
+            EditionActions.fetchEdition(this.props.editions[0].bitcoin_id);
+        }
 
         this.refs.consignModal.show();
     },
@@ -137,7 +124,7 @@ let MarketSubmitButton = React.createClass({
 
     render() {
         const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
-        const { whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.state;
+        const { piece, whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.state;
         const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
         const message = getAclFormMessage({
             aclName: 'acl_consign',
@@ -174,9 +161,13 @@ let MarketSubmitButton = React.createClass({
                     aclName='acl_consign'>
                     <ModalWrapper
                         trigger={triggerButton}
-                        handleSuccess={() => this.handleAdditionalDataSuccess(solePieceId)}
+                        handleSuccess={() => this.handleAdditionalDataSuccess()}
                         title={getLangText('Add additional information')}>
-                        {this.getAdditionalDataForm()}
+                        <MarketAdditionalDataForm
+                            extraData={piece.extra_data}
+                            otherData={piece.other_data}
+                            pieceId={piece.id}
+                            submitLabel={getLangText('Continue to consignment')} />
                     </ModalWrapper>
 
                     <ModalWrapper
