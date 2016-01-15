@@ -6,11 +6,15 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
+import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
+
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
+
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
+
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
@@ -35,6 +39,7 @@ let MarketRegisterPiece = React.createClass({
     getInitialState(){
         return mergeOptions(
             PieceListStore.getState(),
+            PieceStore.getInitialState(),
             UserStore.getState(),
             WhitelabelStore.getState(),
             {
@@ -44,19 +49,27 @@ let MarketRegisterPiece = React.createClass({
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
+        PieceStore.listen(this.onChange);
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
 
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
 
-        // Reset the piece store to make sure that we don't display old data
-        // if the user repeatedly registers works
-        PieceActions.updatePiece({});
+        const queryParams = this.props.location.query;
+
+        // Load the correct piece if the user loads the second step directly
+        // by pressing on the back button or using the url
+        // We're using 'in' here as we want to know if 'piece_id' is present in the url,
+        // we don't care about the value.
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
+        }
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
+        PieceStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
     },
@@ -68,15 +81,12 @@ let MarketRegisterPiece = React.createClass({
     handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // Use the response's piece for the next step if available
-        let pieceId = null;
+        // Also load the newly registered piece for the next step
         if (response && response.piece) {
-            pieceId = response.piece.id;
             PieceActions.updatePiece(response.piece);
         }
 
-        this.incrementStep();
-        this.refs.slidesContainer.nextSlide({ piece_id: pieceId });
+        this.nextSlide({ piece_id: response.piece.id });
     },
 
     handleAdditionalDataSuccess() {
@@ -85,21 +95,13 @@ let MarketRegisterPiece = React.createClass({
         this.history.push('/collection');
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
             step: this.state.step + 1
         });
-    },
 
-    getPieceFromQueryParam() {
-        const queryParams = this.props.location.query;
-
-        // Since every step of this register process is atomic,
-        // we may need to enter the process at step 1 or 2.
-        // If this is the case, we'll need the piece number to complete submission.
-        // It is encoded in the URL as a queryParam and we're checking for it here.
-        return queryParams && queryParams.piece_id;
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
@@ -114,7 +116,9 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
+        const { location } = this.props;
         const {
+            piece,
             step,
             whitelabel: {
                 name: whitelabelName = 'Market'
@@ -130,7 +134,7 @@ let MarketRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}>
+                location={location}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -142,7 +146,7 @@ let MarketRegisterPiece = React.createClass({
                                 isFineUploaderActive={true}
                                 enableSeparateThumbnail={false}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location}>
+                                location={location}>
                                 <Property
                                     name="num_editions"
                                     label={getLangText('Specify editions')}>
@@ -160,8 +164,10 @@ let MarketRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <MarketAdditionalDataForm
+                                extraData={piece.extra_data}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                pieceId={this.getPieceFromQueryParam()}
+                                otherData={piece.other_data}
+                                pieceId={piece.id}
                                 showHeading />
                         </Col>
                     </Row>
