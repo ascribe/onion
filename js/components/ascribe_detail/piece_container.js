@@ -96,9 +96,9 @@ let PieceContainer = React.createClass({
     },
 
     componentDidUpdate() {
-        const { pieceMeta: { err: pieceErr } } = this.state;
+        const { err: pieceErr } = this.state.pieceMeta;
 
-        if (pieceErr && pieceErr.status === 404) {
+        if (pieceErr && pieceErr.json && pieceErr.json.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
         }
     },

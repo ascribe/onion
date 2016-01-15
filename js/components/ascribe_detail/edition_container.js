@@ -51,14 +51,15 @@ let EditionContainer = React.createClass({
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.editionId !== nextProps.params.editionId) {
+        if (this.props.params.editionId !== nextProps.params.editionId) {
             EditionActions.flushEdition();
             this.loadEdition(nextProps.params.editionId);
         }
     },
 
     componentDidUpdate() {
-        const { editionErr } = this.state.editionMeta;
+        const { err: editionErr } = this.state.editionMeta;
+
         if (editionErr && editionErr.json && editionErr.json.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the edition you're looking for doesn't exist.")));
         }
