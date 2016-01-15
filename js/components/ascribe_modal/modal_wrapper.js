@@ -6,13 +6,15 @@ import Modal from 'react-bootstrap/lib/Modal';
 
 let ModalWrapper = React.createClass({
     propTypes: {
-        trigger: React.PropTypes.element,
         title: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
             React.PropTypes.string
         ]).isRequired,
-        handleSuccess: React.PropTypes.func.isRequired,
+
+        handleCancel: React.PropTypes.func,
+        handleSuccess: React.PropTypes.func,
+        trigger: React.PropTypes.element,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -37,8 +39,19 @@ let ModalWrapper = React.createClass({
         });
     },
 
+    handleCancel() {
+        if (typeof this.props.handleCancel === 'function') {
+            this.props.handleCancel();
+        }
+
+        this.hide();
+    },
+
     handleSuccess(response) {
-        this.props.handleSuccess(response);
+        if (typeof this.props.handleSuccess === 'function') {
+            this.props.handleSuccess(response);
+        }
+
         this.hide();
     },
 
@@ -75,7 +88,7 @@ let ModalWrapper = React.createClass({
         return (
             <span>
                 {clonedTrigger}
-                <Modal show={this.state.showModal} onHide={this.hide}>
+                <Modal show={this.state.showModal} onHide={this.handleCancel}>
                     <Modal.Header closeButton>
                         <Modal.Title>
                             {title}
