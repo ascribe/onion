@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 import Modal from 'react-bootstrap/lib/Modal';
 
@@ -44,8 +43,8 @@ let ModalWrapper = React.createClass({
     },
 
     renderChildren() {
-        return ReactAddons.Children.map(this.props.children, (child) => {
-            return ReactAddons.addons.cloneWithProps(child, {
+        return React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {
                 handleSuccess: (response) => {
                     if (typeof child.props.handleSuccess === 'function') {
                         child.props.handleSuccess(response);
@@ -60,10 +59,19 @@ let ModalWrapper = React.createClass({
     render() {
         const { trigger, title } = this.props;
 
-        // If the trigger component exists, we add the ModalWrapper's show() as its onClick method.
+        // If the trigger component exists, we add the ModalWrapper's show() to its onClick method.
         // The trigger component should, in most cases, be a button.
-        const clonedTrigger = React.isValidElement(trigger) ? React.cloneElement(trigger, {onClick: this.show})
-                                                            : null;
+        const clonedTrigger = React.isValidElement(trigger) ?
+            React.cloneElement(trigger, {
+                onClick: (...params) => {
+                    if (typeof trigger.props.onClick === 'function') {
+                        trigger.props.onClick(...params);
+                    }
+
+                    this.show();
+                }
+            }) : null;
+
         return (
             <span>
                 {clonedTrigger}
