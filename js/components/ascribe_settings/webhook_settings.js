@@ -49,7 +49,7 @@ let WebhookSettings = React.createClass({
         return (event) => {
             WebhookActions.removeWebhook(webhookId);
 
-            let notification = new GlobalNotificationModel(getLangText('Webhook deleted'), 'success', 2000);
+            const notification = new GlobalNotificationModel(getLangText('Webhook deleted'), 'success', 2000);
             GlobalNotificationActions.appendGlobalNotification(notification);
         };
     },
@@ -57,16 +57,16 @@ let WebhookSettings = React.createClass({
     handleCreateSuccess() {
         this.refs.webhookCreateForm.reset();
         WebhookActions.fetchWebhooks(true);
-        let notification = new GlobalNotificationModel(getLangText('Webhook successfully created'), 'success', 5000);
+
+        const notification = new GlobalNotificationModel(getLangText('Webhook successfully created'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    getWebhooks(){
-        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
-
+    getWebhooks() {
         if (this.state.webhooks) {
-            content = this.state.webhooks.map(function(webhook, i) {
+            return this.state.webhooks.map(function(webhook, i) {
                 const event = webhook.event.split('.')[0];
+
                 return (
                     <ActionPanel
                         name={webhook.event}
@@ -91,11 +91,14 @@ let WebhookSettings = React.createClass({
                                     </button>
                                 </div>
                             </div>
-                        }/>
+                        } />
                     );
             }, this);
+        } else {
+            return (
+                <AscribeSpinner color='dark-blue' size='lg'/>
+            );
         }
-        return content;
     },
 
     getEvents() {
@@ -110,18 +113,18 @@ let WebhookSettings = React.createClass({
                                 <option
                                     name={i}
                                     key={i}
-                                    value={ event + '.webhook' }>
-                                    { event.toUpperCase() }
+                                    value={event + '.webhook'}>
+                                    {event.toUpperCase()}
                                 </option>
                             );
                         })}
                     </select>
                 </Property>);
+        } else {
+            return null;
         }
-        return null;
     },
 
-    
     render() {
         return (
             <CollapsibleParagraph
@@ -138,20 +141,19 @@ let WebhookSettings = React.createClass({
                         a target url.
                     </p>
                 </div>
-                <AclProxy
-                    show={this.state.webhookEvents && this.state.webhookEvents.length}>
+                <AclProxy show={this.state.webhookEvents && this.state.webhookEvents.length}>
                     <Form
                         ref="webhookCreateForm"
                         url={ApiUrls.webhooks}
                         handleSuccess={this.handleCreateSuccess}>
-                        { this.getEvents() }
+                        {this.getEvents()}
                         <Property
                             name='target'
                             label={getLangText('Redirect Url')}>
                             <input
                                 type="text"
                                 placeholder={getLangText('Enter the url to be triggered')}
-                                required/>
+                                required />
                         </Property>
                         <hr />
                     </Form>
