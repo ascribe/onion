@@ -34,7 +34,6 @@ let WebhookSettings = React.createClass({
     componentDidMount() {
         WebhookStore.listen(this.onChange);
         WebhookActions.fetchWebhooks();
-        WebhookActions.fetchWebhookEvents();
     },
 
     componentWillUnmount() {
