@@ -5,14 +5,13 @@ import React from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import Form from './../ascribe_forms/form';
-
-import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import FurtherDetailsFileuploader from './further_details_fileuploader';
+
+import Form from './../ascribe_forms/form';
+import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 

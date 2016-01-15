@@ -3,6 +3,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
+import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../../stores/whitelabel_store';
+
 import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
@@ -11,15 +16,14 @@ import ConsignForm from '../../../../../ascribe_forms/form_consign';
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import AclProxy from '../../../../../acl_proxy';
-
-import PieceActions from '../../../../../../actions/piece_actions';
-import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../../stores/whitelabel_store';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 
 import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form_utils';
+import { mergeOptions } from '../../../../../../utils/general_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
+import { onChangeOnce } from '../../../../../../utils/store_utils';
 
 let MarketSubmitButton = React.createClass({
     propTypes: {
@@ -27,11 +31,19 @@ let MarketSubmitButton = React.createClass({
         currentUser: React.PropTypes.object,
         editions: React.PropTypes.array.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
-        className: React.PropTypes.string,
+
+        className: React.PropTypes.string
     },
 
+    // This component may eventually need to use the
+    // PieceStore, but we don't need it initially
     getInitialState() {
-        return WhitelabelStore.getState();
+        return mergeOptions(
+            WhitelabelStore.getState(),
+            {
+                piece: {}
+            }
+        );
     },
 
     componentDidMount() {
@@ -41,6 +53,7 @@ let MarketSubmitButton = React.createClass({
     },
 
     componentWillUnmount() {
+        PieceStore.unlisten(this.onChange);
         WhitelabelStore.unlisten(this.onChange);
     },
 
@@ -62,8 +75,24 @@ let MarketSubmitButton = React.createClass({
         return false;
     },
 
-    getFormDataId() {
-        return getAclFormDataId(false, this.props.editions);
+    getAdditionalDataForm() {
+        const { piece } = this.state;
+
+        if (piece.id) {
+            return (
+                <MarketAdditionalDataForm
+                    extraData={piece.extra_data}
+                    otherData={piece.other_data}
+                    pieceId={piece.id}
+                    submitLabel={getLangText('Continue to consignment')} />
+            );
+        } else {
+            return (
+                <div className="fullpage-spinner">
+                    <AscribeSpinner color='dark-blue' size='lg'/>
+                </div>
+            );
+        }
     },
 
     getAggregateEditionDetails() {
@@ -82,11 +111,28 @@ let MarketSubmitButton = React.createClass({
         });
     },
 
+    getFormDataId() {
+        return getAclFormDataId(false, this.props.editions);
+    },
+
     handleAdditionalDataSuccess(pieceId) {
         // Fetch newly updated piece to update the views
         PieceActions.fetchPiece(pieceId);
 
         this.refs.consignModal.show();
+    },
+
+    loadPieceIfNeeded(neededPieceId) {
+        if (neededPieceId) {
+            const pieceStore = PieceStore.getState();
+
+            if (pieceStore.piece.id === neededPieceId) {
+                this.setState(pieceStore);
+            } else {
+                onChangeOnce(this, PieceStore);
+                PieceActions.fetchPiece(neededPieceId);
+            }
+        }
     },
 
     render() {
@@ -102,7 +148,9 @@ let MarketSubmitButton = React.createClass({
         });
 
         const triggerButton = (
-            <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
+            <button
+                className={classNames('btn', 'btn-default', 'btn-sm', className)}
+                onClick={solePieceId && !canSubmit ? () => this.loadPieceIfNeeded(solePieceId) : () => {}}>
                 {getLangText('CONSIGN TO %s', whitelabelName.toUpperCase())}
             </button>
         );
@@ -128,9 +176,7 @@ let MarketSubmitButton = React.createClass({
                         trigger={triggerButton}
                         handleSuccess={() => this.handleAdditionalDataSuccess(solePieceId)}
                         title={getLangText('Add additional information')}>
-                        <MarketAdditionalDataForm
-                            pieceId={solePieceId}
-                            submitLabel={getLangText('Continue to consignment')} />
+                        {this.getAdditionalDataForm()}
                     </ModalWrapper>
 
                     <ModalWrapper

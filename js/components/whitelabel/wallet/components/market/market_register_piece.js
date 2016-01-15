@@ -6,11 +6,6 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import MarketAdditionalDataForm from './market_forms/market_additional_data_form';
-
-import Property from '../../../../ascribe_forms/property';
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-
 import PieceActions from '../../../../../actions/piece_actions';
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
@@ -18,6 +13,11 @@ import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
+import MarketAdditionalDataForm from './market_forms/market_additional_data_form';
+
+import Property from '../../../../ascribe_forms/property';
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 

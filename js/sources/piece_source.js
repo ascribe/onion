@@ -7,8 +7,8 @@ import PieceActions from '../actions/piece_actions';
 
 const PieceSource = {
     lookupPiece: {
-        remote(state) {
-            return requests.get('piece', { piece_id: state.pieceMeta.idToFetch });
+        remote(state, pieceId) {
+            return requests.get('piece', { piece_id: pieceId });
         },
 
         success: PieceActions.successFetchPiece,

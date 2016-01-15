@@ -21,8 +21,7 @@ class PieceStore {
     getInitialState() {
         this.piece = {};
         this.pieceMeta = {
-            err: null,
-            idToFetch: null
+            err: null
         };
 
         return {
@@ -31,10 +30,12 @@ class PieceStore {
         }
     }
 
-    onFetchPiece(idToFetch) {
-        this.pieceMeta.idToFetch = idToFetch;
+    onFetchPiece(pieceId) {
+        this.getInstance().lookupPiece(pieceId);
 
-        this.getInstance().lookupPiece();
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchPiece({ piece }) {
@@ -42,10 +43,12 @@ class PieceStore {
             this.onUpdatePiece(piece);
         } else {
             this.pieceMeta.err = new Error('Problem fetching the piece');
+            console.logGlobal(this.pieceMeta.err);
         }
     }
 
     onErrorPiece(err) {
+        console.logGlobal(err);
         this.pieceMeta.err = err;
     }
 
@@ -56,11 +59,10 @@ class PieceStore {
     onUpdatePiece(piece) {
         this.piece = piece;
         this.pieceMeta.err = null;
-        this.pieceMeta.idToFetch = null;
     }
 
     onUpdateProperty({ key, value }) {
-        if(this.piece && key in this.piece) {
+        if (this.piece && key in this.piece) {
             this.piece[key] = value;
         } else {
             throw new Error('There is no piece defined in PieceStore or the piece object does not have the property you\'re looking for.');
