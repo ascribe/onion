@@ -22,6 +22,10 @@ class UserStore {
         if (invalidateCache || !this.getInstance().isLoading()) {
             this.getInstance().lookupCurrentUser(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchCurrentUser({ users: [ user = {} ] }) {
@@ -31,6 +35,10 @@ class UserStore {
 
     onLogoutCurrentUser() {
         this.getInstance().performLogoutCurrentUser();
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessLogoutCurrentUser() {

@@ -27,6 +27,9 @@ class EditionStore {
     onFetchEdition(editionId) {
         this.getInstance().lookupEdition(editionId);
 
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchEdition({ edition }) {

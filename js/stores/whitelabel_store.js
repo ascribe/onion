@@ -22,6 +22,10 @@ class WhitelabelStore {
         if (invalidateCache || !this.getInstance().isLoading()) {
             this.getInstance().lookupWhitelabel(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchWhitelabel({ whitelabel = {} }) {

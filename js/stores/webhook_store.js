@@ -25,6 +25,10 @@ class WebhookStore {
         if (invalidateCache || !this.getInstance().isLoading()) {
             this.getInstance().lookupWebhooks(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchWebhooks({ webhooks = [] }) {
@@ -38,6 +42,10 @@ class WebhookStore {
         if (invalidateCache || !this.getInstance().isLoading()) {
             this.getInstance().lookupWebhookEvents(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchWebhookEvents({ events }) {
@@ -58,6 +66,9 @@ class WebhookStore {
     onRemoveWebhook(webhookId) {
         this.getInstance().performRemoveWebhook(webhookId);
 
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessRemoveWebhook() {
