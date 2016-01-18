@@ -90,10 +90,10 @@ let AccordionListItemWallet = React.createClass({
     onPollingSuccess(pieceId) {
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
         EditionListActions.toggleEditionList(pieceId);
 
-        let notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        const notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 

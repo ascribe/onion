@@ -54,7 +54,7 @@ let CylandAccordionListItem = React.createClass({
     handleSubmitSuccess(response) {
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);

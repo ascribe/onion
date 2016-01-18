@@ -144,7 +144,7 @@ let CylandRegisterPiece = React.createClass({
     refreshPieceList() {
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     render() {

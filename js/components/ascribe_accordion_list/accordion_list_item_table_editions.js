@@ -82,11 +82,11 @@ let AccordionListItemTableEditions = React.createClass({
 
         EditionListActions.fetchEditionList({
             pieceId,
-            page: page + 1,
             pageSize,
             orderBy,
             orderAsc,
-            filterBy
+            filterBy,
+            page: page + 1
         });
     },
     render() {

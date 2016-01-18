@@ -19,9 +19,10 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccordionListItemEditionWidget = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
         piece: React.PropTypes.object.isRequired,
         toggleCreateEditionsDialog: React.PropTypes.func.isRequired,
+
+        className: React.PropTypes.string,
         onPollingSuccess: React.PropTypes.func
     },
 
@@ -54,11 +55,11 @@ let AccordionListItemEditionWidget = React.createClass({
         const { filterBy, isEditionListOpenForPieceId } = this.state;
         const isEditionListOpen = isEditionListOpenForPieceId[pieceId] ? isEditionListOpenForPieceId[pieceId].show : false;
 
-        if(isEditionListOpen) {
+        if (isEditionListOpen) {
             EditionListActions.toggleEditionList(pieceId);
         } else {
             EditionListActions.toggleEditionList(pieceId);
-            EditionListActions.fetchEditionList({pieceId, filterBy});
+            EditionListActions.fetchEditionList({ pieceId, filterBy });
         }
     },
 

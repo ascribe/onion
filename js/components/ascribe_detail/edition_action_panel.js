@@ -81,8 +81,8 @@ let EditionActionPanel = React.createClass({
     refreshCollection() {
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
-        EditionListActions.refreshEditionList({pieceId: this.props.edition.parent});
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
+        EditionListActions.refreshEditionList({ pieceId: this.props.edition.parent });
     },
 
     handleSuccess(response) {

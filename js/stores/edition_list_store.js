@@ -109,12 +109,12 @@ class EditionListStore {
 
         EditionsListActions
             .fetchEditionList({
-                filterBy,
-                maxSeen,
-                orderAsc,
-                orderBy,
                 pieceId,
                 pageSize,
+                orderBy,
+                orderAsc,
+                filterBy,
+                maxSeen,
                 page: 1
             })
             .catch(console.logGlobal);

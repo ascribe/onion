@@ -306,7 +306,7 @@ let PrizePieceRatings = React.createClass({
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
         this.props.loadPiece();
-        PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     onSelectChange() {
