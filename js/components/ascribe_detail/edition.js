@@ -1,17 +1,12 @@
 'use strict';
 
 import React from 'react';
-import { Link, History } from 'react-router';
+import { Link } from 'react-router';
 import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
-import CoaActions from '../../actions/coa_actions';
-import CoaStore from '../../stores/coa_store';
 
 import HistoryIterator from './history_iterator';
 
@@ -21,7 +16,7 @@ import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph
 
 import Form from './../ascribe_forms/form';
 import Property from './../ascribe_forms/property';
-import EditionDetailProperty from './detail_property';
+import DetailProperty from './detail_property';
 import LicenseDetail from './license_detail';
 import FurtherDetails from './further_details';
 
@@ -44,10 +39,10 @@ let Edition = React.createClass({
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
         edition: React.PropTypes.object,
+        coaError: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
         loadEdition: React.PropTypes.func
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -55,123 +50,104 @@ let Edition = React.createClass({
         };
     },
 
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        // Flushing the coa state is essential to not displaying the same
-        // data to the user while he's on another edition
-        //
-        // BUGFIX: Previously we had this line in the componentWillUnmount of
-        // CoaDetails, but since we're reloading the edition after performing an ACL action
-        // on it, this resulted in multiple events occupying the dispatcher, which eventually
-        // resulted in crashing the app.
-        CoaActions.flushCoa();
-
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
-        let FurtherDetailsType = this.props.furtherDetailsType;
+        const {
+            actionPanelButtonListType,
+            coaError,
+            currentUser,
+            edition,
+            furtherDetailsType: FurtherDetailsType,
+            loadEdition } = this.props;
 
         return (
             <Row>
-                <Col md={6}>
+                <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
-                        content={this.props.edition}/>
+                        content={edition}
+                        currentUser={currentUser} />
                 </Col>
-                <Col md={6} className="ascribe-edition-details">
+                <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
-                        <hr style={{marginTop: 0}}/>
-                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
-                        <EditionDetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <EditionDetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
+                        <hr className="hidden-print" style={{marginTop: 0}}/>
+                        <h1 className="ascribe-detail-title">{edition.title}</h1>
+                        <DetailProperty label="BY" value={edition.artist_name} />
+                        <DetailProperty label="DATE" value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary
-                        actionPanelButtonListType={this.props.actionPanelButtonListType}
-                        edition={this.props.edition}
-                        currentUser={this.state.currentUser}
-                        handleSuccess={this.props.loadEdition}/>
+                        actionPanelButtonListType={actionPanelButtonListType}
+                        edition={edition}
+                        currentUser={currentUser}
+                        handleSuccess={loadEdition}/>
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
-                        show={this.props.edition.acl.acl_coa === true}>
+                        show={edition.acl.acl_coa === true}>
                         <CoaDetails
-                            edition={this.props.edition}/>
+                            coa={edition.coa}
+                            coaError={coaError}
+                            editionId={edition.bitcoin_id}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
-                        show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
+                        show={edition.ownership_history && edition.ownership_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.ownership_history} />
+                            history={edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
-                        show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
+                        show={edition.consign_history && edition.consign_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.consign_history} />
+                            history={edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
-                        show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
+                        show={edition.loan_history && edition.loan_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.loan_history} />
+                            history={edition.loan_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title="Notes"
-                        show={!!(this.state.currentUser.username
-                                || this.props.edition.acl.acl_edit
-                                || this.props.edition.public_note)}>
+                        show={!!(currentUser.username || edition.acl.acl_edit || edition.public_note)}>
                         <Note
-                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                            id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}
-                            defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
+                            defaultValue={edition.private_note ? edition.private_note : null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={currentUser}/>
                         <Note
-                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                            id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
-                            defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
+                            defaultValue={edition.public_note ? edition.public_note : null}
                             placeholder={getLangText('Enter your comments ...')}
-                            editable={!!this.props.edition.acl.acl_edit}
-                            show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
+                            editable={!!edition.acl.acl_edit}
+                            show={!!edition.public_note || !!edition.acl.acl_edit}
                             successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
-                            currentUser={this.state.currentUser}/>
+                            currentUser={currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={this.props.edition.acl.acl_edit
-                            || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data.length > 0}>
+                        show={edition.acl.acl_edit ||
+                              Object.keys(edition.extra_data).length > 0 ||
+                              edition.other_data.length > 0}>
                         <FurtherDetailsType
-                            editable={this.props.edition.acl.acl_edit}
-                            pieceId={this.props.edition.parent}
-                            extraData={this.props.edition.extra_data}
-                            otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition} />
+                            editable={edition.acl.acl_edit}
+                            pieceId={edition.parent}
+                            extraData={edition.extra_data}
+                            otherData={edition.other_data}
+                            handleSuccess={loadEdition} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
-                            edition={this.props.edition} />
+                            edition={edition} />
                     </CollapsibleParagraph>
                 </Col>
             </Row>
@@ -196,10 +172,10 @@ let EditionSummary = React.createClass({
         let status = null;
         if (this.props.edition.status.length > 0){
             let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
-            status = <EditionDetailProperty label="STATUS" value={ statusStr }/>;
+            status = <DetailProperty label="STATUS" value={ statusStr }/>;
             if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
                 status = (
-                    <EditionDetailProperty label="STATUS" value={ statusStr } />
+                    <DetailProperty label="STATUS" value={ statusStr } />
                 );
             }
         }
@@ -210,14 +186,14 @@ let EditionSummary = React.createClass({
         let { actionPanelButtonListType, edition, currentUser } = this.props;
         return (
             <div className="ascribe-detail-header">
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('EDITION')}
                     value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('ID')}
                     value={ edition.bitcoin_id }
                     ellipsis={true} />
-                <EditionDetailProperty
+                <DetailProperty
                     label={getLangText('OWNER')}
                     value={ edition.owner } />
                 <LicenseDetail license={edition.license_type}/>
@@ -228,14 +204,15 @@ let EditionSummary = React.createClass({
                     `AclInformation` would show up
                 */}
                 <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
-                    <EditionDetailProperty
-                        label={getLangText('ACTIONS')}>
+                    <DetailProperty
+                        label={getLangText('ACTIONS')}
+                        className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
                             edition={edition}
                             currentUser={currentUser}
                             handleSuccess={this.handleSuccess} />
-                    </EditionDetailProperty>
+                    </DetailProperty>
                 </AclProxy>
                 <hr/>
             </div>
@@ -246,61 +223,77 @@ let EditionSummary = React.createClass({
 
 let CoaDetails = React.createClass({
     propTypes: {
-        edition: React.PropTypes.object
+        editionId: React.PropTypes.string,
+        coa: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.string,
+            React.PropTypes.object
+        ]),
+        coaError: React.PropTypes.object
     },
 
-    getInitialState() {
-        return CoaStore.getState();
-    },
+    contactOnIntercom() {
+        const { coaError, editionId } = this.props;
 
-    componentDidMount() {
-        let { edition } = this.props;
-        CoaStore.listen(this.onChange);
-        if(edition.coa) {
-            CoaActions.fetchOrCreate(edition.coa, edition.bitcoin_id);
-        }
-        else {
-            CoaActions.create(edition.bitcoin_id);
-        }
-    },
-
-    componentWillUnmount() {
-        CoaStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        window.Intercom('showNewMessage', getLangText("Hi, I'm having problems generating a Certificate of Authenticity for Edition: %s", editionId));
+        console.logGlobal(new Error(`Coa couldn't be created for edition: ${editionId}`), coaError);
     },
 
     render() {
-        if(this.state.coa && this.state.coa.url_safe) {
-            return (
-                <div>
-                    <p className="text-center ascribe-button-list">
-                        <a href={this.state.coa.url_safe} target="_blank">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
-                            </button>
-                        </a>
-                        <Link to="/coa_verify">
-                            <button className="btn btn-default btn-xs">
-                                {getLangText('Verify')} <Glyphicon glyph="check"/>
-                            </button>
-                        </Link>
+        const { coa, coaError } = this.props;
+        let coaDetailElement;
 
-                    </p>
+        if (coaError) {
+            coaDetailElement = [
+                <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
+                <p>
+                    {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
+                    <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
+                </p>
+            ];
+        } else if (coa && coa.url_safe) {
+            coaDetailElement = [
+                <div
+                    className="notification-contract-pdf"
+                    style={{paddingBottom: '1em'}}>
+                    <embed
+                        className="embed-form"
+                        src={coa.url_safe}
+                        alt="pdf"
+                        pluginspage="http://www.adobe.com/products/acrobat/readstep2.html"/>
+                </div>,
+                <div className="text-center ascribe-button-list">
+                    <a href={coa.url_safe} target="_blank">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Download')} <Glyphicon glyph="cloud-download"/>
+                        </button>
+                    </a>
+                    <Link to="/coa_verify">
+                        <button className="btn btn-default btn-xs">
+                            {getLangText('Verify')} <Glyphicon glyph="check"/>
+                        </button>
+                    </Link>
                 </div>
-            );
-        } else if(typeof this.state.coa === 'string'){
-            return (
-                <div className="text-center">
-                    {this.state.coa}
-                </div>
-            );
+            ];
+        } else if (typeof coa === 'string') {
+            coaDetailElement = coa;
+        } else {
+            coaDetailElement = [
+                <AscribeSpinner color='dark-blue' size='md'/>,
+                <p>{getLangText("Just a sec, we're generating your COA")}</p>,
+                <p>{getLangText('(you may leave the page)')}</p>
+            ];
         }
+
         return (
-            <div className="text-center">
-                <AscribeSpinner color='dark-blue' size='lg'/>
+            <div>
+                <div className="text-center hidden-print">
+                    {coaDetailElement}
+                </div>
+                {/* Hide the COA and just show that it's a seperate document when printing */}
+                <div className="visible-print ascribe-coa-print-placeholder">
+                    {getLangText('The COA is available as a seperate document')}
+                </div>
             </div>
         );
     }
@@ -312,16 +305,34 @@ let SpoolDetails = React.createClass({
     },
 
     render() {
-        let bitcoinIdValue = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.bitcoin_id}>{this.props.edition.bitcoin_id}</a>
+        const { edition: {
+            bitcoin_id: bitcoinId,
+            hash_as_address: hashAsAddress,
+            btc_owner_address_noprefix: bitcoinOwnerAddress
+        } } = this.props;
+
+        const bitcoinIdValue = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinId}>
+                {bitcoinId}
+            </a>
         );
 
-        let hashOfArtwork = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.hash_as_address}>{this.props.edition.hash_as_address}</a>
+        const hashOfArtwork = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + hashAsAddress}>
+                {hashAsAddress}
+            </a>
         );
 
-        let ownerAddress = (
-            <a target="_blank" href={'https://www.blocktrail.com/BTC/address/' + this.props.edition.btc_owner_address_noprefix}>{this.props.edition.btc_owner_address_noprefix}</a>
+        const ownerAddress = (
+            <a  className="anchor-no-expand-print"
+                target="_blank"
+                href={'https://www.blocktrail.com/BTC/address/' + bitcoinOwnerAddress}>
+                {bitcoinOwnerAddress}
+            </a>
         );
 
         return (

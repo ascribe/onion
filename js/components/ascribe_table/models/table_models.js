@@ -2,15 +2,15 @@
 
 export class ColumnModel {
     // ToDo: Add validation for all passed-in parameters
-    constructor(transformFn, columnName, displayName, displayType, rowWidth, canBeOrdered, transition, className) {
+    constructor({ transformFn, columnName = '', displayElement, displayType, rowWidth, canBeOrdered, transition, className = '' }) {
         this.transformFn = transformFn;
         this.columnName = columnName;
-        this.displayName = displayName;
+        this.displayElement = displayElement;
         this.displayType = displayType;
         this.rowWidth = rowWidth;
         this.canBeOrdered = canBeOrdered;
         this.transition = transition;
-        this.className = className ? className : '';
+        this.className = className;
     }
 }
 
@@ -28,7 +28,7 @@ export class ColumnModel {
  * our selfes, using this TransitionModel.
  */
 export class TransitionModel {
-    constructor(to, queryKey, valueKey, callback) {
+    constructor({ to, queryKey, valueKey, callback }) {
         this.to = to;
         this.queryKey = queryKey;
         this.valueKey = valueKey;

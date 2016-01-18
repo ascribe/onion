@@ -119,7 +119,7 @@ let AccordionListItemEditionWidget = React.createClass({
                     <button
                         disabled
                         title={getLangText('All editions for this have been deleted already.')}
-                        className={classNames('btn', 'btn-default', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
+                        className={classNames('btn', 'btn-secondary', 'btn-sm', 'ascribe-accordion-list-item-edition-widget', this.props.className)}>
                         {'0 ' + getLangText('Editions')}
                     </button>
                 );

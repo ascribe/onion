@@ -16,12 +16,13 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import AclProxy from './acl_proxy';
 
+import EventActions from '../actions/event_actions';
+
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
 
 import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
-import EventActions from '../actions/event_actions';
 
 import HeaderNotifications from './header_notification';
 
@@ -37,14 +38,7 @@ import { constructHead } from '../utils/dom_utils';
 
 let Header = React.createClass({
     propTypes: {
-        showAddWork: React.PropTypes.bool,
         routes: React.PropTypes.arrayOf(React.PropTypes.object)
-    },
-
-    getDefaultProps() {
-        return {
-            showAddWork: true
-        };
     },
 
     getInitialState() {
@@ -55,15 +49,29 @@ let Header = React.createClass({
     },
 
     componentDidMount() {
-        UserActions.fetchCurrentUser();
         UserStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
+        UserActions.fetchCurrentUser.defer();
+
         WhitelabelStore.listen(this.onChange);
+        WhitelabelActions.fetchWhitelabel.defer();
 
         // react-bootstrap 0.25.1 has a bug in which it doesn't
         // close the mobile expanded navigation after a click by itself.
         // To get rid of this, we set the state of the component ourselves.
         history.listen(this.onRouteChange);
+
+        if (this.state.currentUser && this.state.currentUser.email) {
+            EventActions.profileDidLoad.defer(this.state.currentUser);
+        }
+    },
+
+    componentWillUpdate(nextProps, nextState) {
+        const { currentUser: { email: curEmail } = {} } = this.state;
+        const { currentUser: { email: nextEmail } = {} } = nextState;
+
+        if (nextEmail && curEmail !== nextEmail) {
+            EventActions.profileDidLoad.defer(nextState.currentUser);
+        }
     },
 
     componentWillUnmount() {
@@ -111,10 +119,6 @@ let Header = React.createClass({
 
     onChange(state) {
         this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
     },
 
     onMenuItemClick() {
@@ -146,7 +150,9 @@ let Header = React.createClass({
     // the collapsibleNav by itself on click. setState() isn't available on a ref so
     // doing this explicitly is the only way for now.
     onRouteChange() {
-        this.refs.navbar.state.navExpanded = false;
+        if (this.refs.navbar) {
+            this.refs.navbar.state.navExpanded = false;
+        }
     },
 
     render() {
@@ -213,17 +219,18 @@ let Header = React.createClass({
         return (
             <div>
                 <Navbar
+                    ref="navbar"
                     brand={this.getLogo()}
                     toggleNavKey={0}
                     fixedTop={true}
-                    ref="navbar">
+                    className="hidden-print">
                     <CollapsibleNav
                         eventKey={0}>
                         <Nav navbar left>
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show = {false}/>
+                            <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>
@@ -231,6 +238,9 @@ let Header = React.createClass({
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
+                <p className="ascribe-print-header visible-print">
+                    <span className="icon-ascribe-logo" />
+                </p>
             </div>
         );
     }

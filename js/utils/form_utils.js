@@ -2,7 +2,33 @@
 
 import { getLangText } from './lang_utils';
 
+import GlobalNotificationActions from '../actions/global_notification_actions';
+import GlobalNotificationModel from '../models/global_notification_model';
+
 import AppConstants from '../constants/application_constants';
+
+/**
+ * Validates a given list of forms
+ * @param  {Form} forms                      List of forms, each of which should have a `validate` method available
+ * @param  {boolean} showFailureNotification Show global notification if there are validation failures
+ * @return {boolean}                         True if validation did *NOT* catch any errors
+ */
+export function validateForms(forms, showFailureNotification) {
+    const validationSuccessful = forms.reduce((result, form) => {
+        if (form && typeof form.validate === 'function') {
+            return form.validate() && result;
+        } else {
+            throw new Error('Form given for validation does not have a `validate` method');
+        }
+    }, true);
+
+    if (!validationSuccessful && showFailureNotification) {
+        const notification = new GlobalNotificationModel(getLangText('Oops, there may be missing or invalid fields. Please check your inputs again.'), 'danger');
+        GlobalNotificationActions.appendGlobalNotification(notification);
+    }
+
+    return validationSuccessful;
+}
 
 /**
  * Get the data ids of the given piece or editions.

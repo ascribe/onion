@@ -8,6 +8,8 @@ import Moment from 'moment';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
+
 import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
@@ -127,7 +129,7 @@ let CylandRegisterPiece = React.createClass({
 
         PieceActions.fetchOne(this.state.piece.id);
 
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
     // We need to increase the step to lock the forms that are already filled out
@@ -145,19 +147,33 @@ let CylandRegisterPiece = React.createClass({
         PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
     },
 
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
-    },
-
     render() {
+        const { location } = this.props;
+        const { currentUser, piece, step, whitelabel } = this.state;
 
-        let today = new Moment();
-        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
+        const today = new Moment();
+        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
         datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
+
+        const loanHeading = getLangText('Loan to Cyland archive');
+        const loanButtons = (
+            <div>
+                <div className='col-xs-6 ascribe-form-btn-container-left'>
+                    <button className='btn btn-default btn-wide'>
+                        {getLangText('Loan to archive')}
+                    </button>
+                </div>
+                <div className='col-xs-6 ascribe-form-btn-container-right'>
+                    <LinkContainer to='/collection'>
+                        <button
+                            type='button'
+                            className='btn btn-secondary btn-wide'>
+                            {getLangText('Loan later')}
+                        </button>
+                    </LinkContainer>
+                </div>
+            </div>
+        );
 
         setDocumentTitle(getLangText('Register a new piece'));
 
@@ -169,18 +185,18 @@ let CylandRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}>
+                location={location}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                disabled={this.state.step > 0}
+                                disabled={step > 0}
                                 enableLocalHashing={false}
                                 headerMessage={getLangText('Submit to Cyland Archive')}
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location}/>
+                                location={location}/>
                         </Col>
                     </Row>
                 </div>
@@ -188,9 +204,9 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
-                                disabled={this.state.step > 1}
+                                disabled={step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece} />
+                                piece={piece} />
                         </Col>
                     </Row>
                 </div>
@@ -199,15 +215,16 @@ let CylandRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to Cyland archive')}
+                                buttons={loanButtons}
                                 message={getAclFormMessage({
                                     aclName: 'acl_loan',
-                                    entities: this.state.piece,
+                                    entities: piece,
                                     isPiece: true,
-                                    senderName: this.state.currentUser.username
+                                    senderName: currentUser.username
                                 })}
-                                id={{piece_id: this.state.piece.id}}
+                                id={{piece_id: piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email={this.state.whitelabel.user}
+                                email={whitelabel.user}
                                 gallery="Cyland Archive"
                                 startDate={today}
                                 endDate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}

@@ -68,14 +68,14 @@ let RegisterPiece = React.createClass( {
     handleSuccess(response) {
         const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         // once the user was able to register a piece successfully, we need to make sure to keep
         // the piece list up to date
         PieceListActions.fetchPieceList({page, pageSize, search, orderBy, orderAsc, filterBy});
 
-        this.history.pushState(null, `/pieces/${response.piece.id}`);
+        this.history.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {

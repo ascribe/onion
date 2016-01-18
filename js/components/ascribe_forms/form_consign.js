@@ -41,6 +41,14 @@ let ConsignForm = React.createClass({
         };
     },
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.email !== nextProps.email) {
+            this.setState({
+                email: nextProps.email
+            });
+        }
+    },
+
     getFormData() {
         return this.props.id;
     },
