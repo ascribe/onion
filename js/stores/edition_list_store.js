@@ -120,7 +120,7 @@ class EditionListStore {
             .catch(console.logGlobal);
     }
 
-    onSelectEdition({pieceId, editionId, toValue}) {
+    onSelectEdition({ pieceId, editionId, toValue }) {
         this.editionList[pieceId].forEach((edition) => {
 
             // Taken from: http://stackoverflow.com/a/519157/1263876

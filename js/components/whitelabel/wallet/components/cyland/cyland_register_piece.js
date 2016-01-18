@@ -52,7 +52,7 @@ let CylandRegisterPiece = React.createClass({
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
+            PieceStore.getInitialState(),
             WhitelabelStore.getState(),
             {
                 step: 0
@@ -67,7 +67,7 @@ let CylandRegisterPiece = React.createClass({
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
 
-        let queryParams = this.props.location.query;
+        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -76,8 +76,8 @@ let CylandRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if(queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
         }
     },
 
@@ -92,53 +92,44 @@ let CylandRegisterPiece = React.createClass({
         this.setState(state);
     },
 
-    handleRegisterSuccess(response){
-
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
-        if(response && response.piece) {
-            PieceActions.updatePiece({});
+        // Also load the newly registered piece for the next step
+        if (response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide({ piece_id: response.piece.id });
+        this.nextSlide({ piece_id: response.piece.id });
     },
 
     handleAdditionalDataSuccess() {
-
         // We need to refetch the piece again after submitting the additional data
-        // since we want it's otherData to be displayed when the user choses to click
+        // since we want its otherData to be displayed when the user choses to click
         // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
+        PieceActions.fetchPiece(this.state.piece.id);
 
         this.refreshPieceList();
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
+        this.nextSlide();
     },
 
     handleLoanSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
 
-        PieceActions.fetchOne(this.state.piece.id);
-
         this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
@@ -152,8 +143,7 @@ let CylandRegisterPiece = React.createClass({
         const { currentUser, piece, step, whitelabel } = this.state;
 
         const today = new Moment();
-        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
-        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
+        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment().add(1000, 'years');
 
         const loanHeading = getLangText('Loan to Cyland archive');
         const loanButtons = (
@@ -196,7 +186,7 @@ let CylandRegisterPiece = React.createClass({
                                 submitMessage={getLangText('Submit')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={location}/>
+                                location={location} />
                         </Col>
                     </Row>
                 </div>

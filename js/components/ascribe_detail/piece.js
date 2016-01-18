@@ -28,7 +28,7 @@ let Piece = React.createClass({
 
 
     updateObject() {
-        return PieceActions.fetchOne(this.props.piece.id);
+        return PieceActions.fetchPiece(this.props.piece.id);
     },
 
     render() {

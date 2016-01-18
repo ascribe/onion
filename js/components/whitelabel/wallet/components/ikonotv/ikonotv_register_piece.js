@@ -49,7 +49,7 @@ let IkonotvRegisterPiece = React.createClass({
         return mergeOptions(
             UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
+            PieceStore.getInitialState(),
             WhitelabelStore.getState(),
             {
                 step: 0,
@@ -65,11 +65,7 @@ let IkonotvRegisterPiece = React.createClass({
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
 
-        // Before we load the new piece, we reset the piece store to delete old data that we do
-        // not want to display to the user.
-        PieceActions.updatePiece({});
-
-        let queryParams = this.props.location.query;
+        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -78,8 +74,8 @@ let IkonotvRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if (queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
         }
     },
 
@@ -95,55 +91,50 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
 
-    handleRegisterSuccess(response){
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
-        if(response && response.piece) {
+        // Also load the newly registered piece for the next step
+        if (response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
+
         if (!this.canSubmit()) {
             this.history.push('/collection');
-        }
-        else {
-            this.incrementStep();
-            this.refs.slidesContainer.nextSlide();
+        } else {
+            this.nextSlide({ piece_id: response.piece.id });
         }
     },
 
     handleAdditionalDataSuccess() {
-
         // We need to refetch the piece again after submitting the additional data
         // since we want it's otherData to be displayed when the user choses to click
         // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
+        PieceActions.fetchPiece(this.state.piece.id);
 
         this.refreshPieceList();
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
+        this.nextSlide();
     },
 
     handleLoanSuccess(response) {
         this.setState({ pageExitWarning: null });
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
 
-        PieceActions.fetchOne(this.state.piece.id);
         this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
@@ -155,7 +146,7 @@ let IkonotvRegisterPiece = React.createClass({
     canSubmit() {
         let currentUser = this.state.currentUser;
         let whitelabel = this.state.whitelabel;
-        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel && whitelabel.user;
+        return currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel.user;
     },
 
     getSlideArtistDetails() {
@@ -166,13 +157,14 @@ let IkonotvRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtistDetailsForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     getSlideArtworkDetails() {
@@ -183,21 +175,21 @@ let IkonotvRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtworkDetailsForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     getSlideLoan() {
         if (this.canSubmit()) {
             const { piece, whitelabel } = this.state;
-            let today = new Moment();
-            let endDate = new Moment();
-            endDate.add(2, 'years');
+            const today = new Moment();
+            const endDate = new Moment().add(2, 'years');
 
             return (
                 <div data-slide-title={getLangText('Loan')}>
@@ -220,8 +212,9 @@ let IkonotvRegisterPiece = React.createClass({
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     render() {
@@ -247,7 +240,7 @@ let IkonotvRegisterPiece = React.createClass({
                                 submitMessage={getLangText('Register')}
                                 isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location}/>
+                                location={this.props.location} />
                         </Col>
                     </Row>
                 </div>
