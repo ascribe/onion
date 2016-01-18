@@ -118,21 +118,20 @@ let LoanForm = React.createClass({
 
     render() {
         const { email } = this.state;
-        const {
-            children,
-            createPublicContractAgreement,
-            email: defaultEmail,
-            handleSuccess,
-            gallery,
-            loanHeading,
-            message,
-            showPersonalMessage,
-            endDate,
-            startDate,
-            showEndDate,
-            showStartDate,
-            showPassword,
-            url } = this.props;
+        const { children,
+                createPublicContractAgreement,
+                email: defaultEmail,
+                handleSuccess,
+                gallery,
+                loanHeading,
+                message,
+                showPersonalMessage,
+                endDate,
+                startDate,
+                showEndDate,
+                showStartDate,
+                showPassword,
+                url } = this.props;
 
         return (
             <Form

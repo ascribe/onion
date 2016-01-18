@@ -95,10 +95,9 @@ let EditionActionPanel = React.createClass({
     },
 
     render() {
-        const {
-            actionPanelButtonListType: ActionPanelButtonListType,
-            edition,
-            currentUser } = this.props;
+        const { actionPanelButtonListType: ActionPanelButtonListType,
+                currentUser,
+                edition } = this.props;
 
         if (edition &&
             edition.notifications &&

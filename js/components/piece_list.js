@@ -259,13 +259,12 @@ let PieceList = React.createClass({
     },
 
     render() {
-        const {
-            accordionListItemType: AccordionListItemType,
-            bulkModalButtonListType: BulkModalButtonListType,
-            customSubmitButton,
-            customThumbnailPlaceholder,
-            filterParams,
-            orderParams } = this.props;
+        const { accordionListItemType: AccordionListItemType,
+                bulkModalButtonListType: BulkModalButtonListType,
+                customSubmitButton,
+                customThumbnailPlaceholder,
+                filterParams,
+                orderParams } = this.props;
 
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
 

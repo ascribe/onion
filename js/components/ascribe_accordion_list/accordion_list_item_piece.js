@@ -45,15 +45,14 @@ let AccordionListItemPiece = React.createClass({
     },
 
     render() {
-        const {
-            artistName,
-            badge,
-            buttons,
-            children,
-            className,
-            piece,
-            subsubheading,
-            thumbnailPlaceholder: ThumbnailPlaceholder } = this.props;
+        const { artistName,
+                badge,
+                buttons,
+                children,
+                className,
+                piece,
+                subsubheading,
+                thumbnailPlaceholder: ThumbnailPlaceholder } = this.props;
         const { url: thumbnailUrl, url_safe: thumbnailSafeUrl } = piece.thumbnail;
 
         // Display the 300x300 thumbnail if we have it, otherwise just use the safe url

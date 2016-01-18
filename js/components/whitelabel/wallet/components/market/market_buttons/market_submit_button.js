@@ -53,14 +53,13 @@ let MarketSubmitButton = React.createClass({
 
     canEditionBeSubmitted(edition) {
         if (edition && edition.extra_data && edition.other_data) {
-            const {
-                extra_data: {
-                    artist_bio: artistBio,
-                    display_instructions: displayInstructions,
-                    technology_details: technologyDetails,
-                    work_description: workDescription
-                },
-                other_data: otherData } = edition;
+            const { extra_data: {
+                        artist_bio: artistBio,
+                        display_instructions: displayInstructions,
+                        technology_details: technologyDetails,
+                        work_description: workDescription
+                    },
+                    other_data: otherData } = edition;
 
             return artistBio && displayInstructions && technologyDetails && workDescription && otherData.length;
         }

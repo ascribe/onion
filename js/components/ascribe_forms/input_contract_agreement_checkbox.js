@@ -143,16 +143,14 @@ const InputContractAgreementCheckbox = React.createClass({
     getContractCheckbox() {
         const contractAgreement = this.getContractAgreement();
 
-        if(contractAgreement) {
-            const {
-                datetime_accepted: datetimeAccepted,
-                contract: {
-                    issuer: contractIssuer,
-                    blob: { url_safe: contractUrl }
-                }
-            } = contractAgreement;
+        if (contractAgreement) {
+            const { contract: {
+                        issuer: contractIssuer,
+                        blob: { url_safe: contractUrl }
+                    },
+                    datetime_accepted: datetimeAccepted } = contractAgreement;
 
-            if(datetimeAccepted) {
+            if (datetimeAccepted) {
                 return (
                     <div
                         className="notification-contract-pdf"
@@ -168,10 +166,7 @@ const InputContractAgreementCheckbox = React.createClass({
                     </div>
                 );
             } else {
-                const {
-                    name,
-                    disabled,
-                    style } = this.props;
+                const { disabled, name, style } = this.props;
 
                 return (
                     <InputCheckbox

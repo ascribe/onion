@@ -51,12 +51,11 @@ let MarketPieceList = React.createClass({
 
     render() {
         const { customThumbnailPlaceholder, location } = this.props;
-        const {
-            currentUser: { email: userEmail },
-            whitelabel: {
-                name: whitelabelName = 'Market',
-                user: whitelabelAdminEmail
-            } } = this.state;
+        const { currentUser: { email: userEmail },
+                whitelabel: {
+                    name: whitelabelName = 'Market',
+                    user: whitelabelAdminEmail
+                } } = this.state;
 
         let filterParams = null;
         let canLoadPieceList = false;
