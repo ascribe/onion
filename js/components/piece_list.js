@@ -196,13 +196,14 @@ let PieceList = React.createClass({
                 this.state.pieceList
                     .forEach((piece) => {
                         // but only if they're actually open
-                        if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                        const isEditionListOpenForPiece = this.state.isEditionListOpenForPieceId[piece.id];
+
+                        if (isEditionListOpenForPiece && isEditionListOpenForPiece.show) {
                             EditionListActions.refreshEditionList({
                                 pieceId: piece.id,
                                 filterBy
                             });
                         }
-
                     });
             });
 
@@ -212,15 +213,15 @@ let PieceList = React.createClass({
     },
 
     applyOrderBy(orderBy) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, page, pageSize, search } = this.state;
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     loadPieceList({ page, filterBy = this.state.filterBy, search = this.state.search }) {
+        const { orderAsc, pageSize } = this.state;
         const orderBy = this.state.orderBy || this.props.orderBy;
 
-        return PieceListActions.fetchPieceList(page, this.state.pageSize, search,
-                                               orderBy, this.state.orderAsc, filterBy);
+        return PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     fetchSelectedPieceEditionList() {
@@ -246,8 +247,9 @@ let PieceList = React.createClass({
     },
 
     handleAclSuccess() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderBy, orderAsc, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {

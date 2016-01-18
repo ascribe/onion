@@ -138,14 +138,9 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     refreshPieceList() {
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     canSubmit() {

@@ -144,15 +144,18 @@ let PieceContainer = React.createClass({
     },
 
     handleEditionCreationSuccess() {
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
         PieceActions.updateProperty({ key: 'num_editions', value: 0 });
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
+
         this.toggleCreateEditionsDialog();
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         // since we're deleting a piece, we just need to close
         // all editions dialogs and not reload them
@@ -181,6 +184,8 @@ let PieceContainer = React.createClass({
     },
 
     handlePollingSuccess(pieceId, numEditions) {
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
         // we need to refresh the num_editions property of the actual piece we're looking at
         PieceActions.updateProperty({
             key: 'num_editions',
@@ -191,8 +196,7 @@ let PieceContainer = React.createClass({
         // btw.: It's not sufficient to just set num_editions to numEditions, since a single accordion
         // list item also uses the firstEdition property which we can only get from the server in that case.
         // Therefore we need to at least refetch the changed piece from the server or on our case simply all
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         const notification = new GlobalNotificationModel(getLangText('Editions successfully created'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
