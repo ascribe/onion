@@ -90,7 +90,7 @@ let AccordionListItemWallet = React.createClass({
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
         EditionListActions.toggleEditionList(pieceId);
 
-        const notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Editions successfully created'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 

@@ -191,7 +191,7 @@ let IkonotvRegisterPiece = React.createClass({
             const { whitelabel } = this.props;
             const { piece } = this.state;
             const today = new Moment();
-            const endDate = (new Moment()).add(2, 'years');
+            const endDate = new Moment().add(2, 'years');
 
             return (
                 <div data-slide-title={getLangText('Loan')}>
@@ -219,7 +219,7 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
-        const { currentUser, location } = this.props;
+        const { location } = this.props;
         const { pageExitWarning, step } = this.state;
 
         return (
@@ -236,14 +236,13 @@ let IkonotvRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                currentUser={currentUser}
+                                {...this.props}
                                 disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Register work')}
-                                submitMessage={getLangText('Register')}
-                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={location} />
+                                headerMessage={getLangText('Register work')}
+                                isFineUploaderActive={true}
+                                submitMessage={getLangText('Register')} />
                         </Col>
                     </Row>
                 </div>

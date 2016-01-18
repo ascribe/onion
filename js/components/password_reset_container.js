@@ -29,7 +29,7 @@ let PasswordResetContainer = React.createClass({
     },
 
     handleRequestSuccess(email) {
-        this.setState({ isRequested: email });
+        this.setState({ isRequested: !!email });
     },
 
     render() {
@@ -38,31 +38,20 @@ let PasswordResetContainer = React.createClass({
 
         if (emailQuery && tokenQuery) {
             return (
-                <div>
-                    <PasswordResetForm
-                        email={emailQuery}
-                        token={tokenQuery} />
-                </div>
+                <PasswordResetForm
+                    email={emailQuery}
+                    token={tokenQuery} />
+            );
+        } else if (!isRequested) {
+            return (
+                <PasswordRequestResetForm handleRequestSuccess={this.handleRequestSuccess} />
             );
         } else {
-            if (isRequested === false) {
-                return (
-                    <div>
-                        <PasswordRequestResetForm
-                            handleRequestSuccess={this.handleRequestSuccess} />
-                    </div>
-                );
-            } else if (isRequested) {
-                return (
-                    <div>
-                        <div className="ascribe-login-text ascribe-login-header">
-                            {getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.')}
-                        </div>
-                    </div>
-                );
-            } else {
-                return <span />;
-            }
+            return (
+                <div className="ascribe-login-text ascribe-login-header">
+                    {getLangText('If your email address exists in our database, you will receive a password recovery link in a few minutes.')}
+                </div>
+            );
         }
     }
 });

@@ -24,6 +24,8 @@ export default function ({ action, displayName, title, tooltip }) {
 
         propTypes: {
             availableAcls: React.PropTypes.object.isRequired,
+            handleSuccess: React.PropTypes.func.isRequired,
+
             buttonAcceptName: React.PropTypes.string,
             buttonAcceptClassName: React.PropTypes.string,
             currentUser: React.PropTypes.object,
@@ -32,14 +34,13 @@ export default function ({ action, displayName, title, tooltip }) {
                 React.PropTypes.object,
                 React.PropTypes.array
             ]).isRequired,
-            handleSuccess: React.PropTypes.func.isRequired,
             className: React.PropTypes.string
         },
 
         sanitizeAction() {
             const { buttonAcceptName } = this.props;
 
-            return buttonAcceptName ? buttonAcceptName : AclInformationText.titles[action];
+            return buttonAcceptName || AclInformationText.titles[action];
         },
 
         render() {

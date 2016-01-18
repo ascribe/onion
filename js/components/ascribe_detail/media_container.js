@@ -43,8 +43,9 @@ let MediaContainer = React.createClass({
             const isEncoding = digitalWork.isEncoding;
 
             if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-                const timerId = window.setInterval(refreshObject, ENCODE_UPDATE_TIME);
-                this.setState({ timerId: timerId });
+                this.setState({
+                    timerId: window.setInterval(refreshObject, ENCODE_UPDATE_TIME)
+                });
             }
         }
     },

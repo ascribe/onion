@@ -177,7 +177,7 @@ let IkonotvContractNotifications = React.createClass({
                                 <a href={blob.url_safe} target="_blank">
                                     <Glyphicon glyph='download-alt'/>
                                     <span style={{padding: '0.3em'}}>
-                                        Download PDF version
+                                        {getLangText('Download PDF version')}
                                     </span>
                                 </a>
                             </div>
@@ -194,8 +194,9 @@ let IkonotvContractNotifications = React.createClass({
                     </div>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     }
 });
 

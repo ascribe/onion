@@ -39,7 +39,6 @@ let WalletApp = React.createClass({
         UserStore.listen(this.onChange);
         WhitelabelStore.listen(this.onChange);
 
-        console.log('fetch');
         UserActions.fetchCurrentUser();
         WhitelabelActions.fetchWhitelabel();
     },

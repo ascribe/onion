@@ -29,7 +29,6 @@ let MarketPieceList = React.createClass({
     render() {
         const {
             currentUser: { email: userEmail },
-            customThumbnailPlaceholder,
             whitelabel: {
                 name: whitelabelName = 'Market',
                 user: whitelabelAdminEmail
@@ -58,7 +57,6 @@ let MarketPieceList = React.createClass({
                 canLoadPieceList={canLoadPieceList}
                 redirectTo="/register_piece?slide_num=0"
                 bulkModalButtonListType={MarketAclButtonList}
-                customThumbnailPlaceholder={customThumbnailPlaceholder}
                 filterParams={filterParams} />
         );
     }

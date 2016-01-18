@@ -35,7 +35,7 @@ let LoginForm = React.createClass({
     },
 
     handleSuccess({ success }) {
-        const notification = new GlobalNotificationModel('Login successful', 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Login successful'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         if (success) {

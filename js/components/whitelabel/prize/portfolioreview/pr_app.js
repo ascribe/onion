@@ -59,14 +59,6 @@ let PRApp = React.createClass({
         const { currentUser, whitelabel } = this.state;
         const subdomain = getSubdomain();
 
-        // Add the current user and whitelabel settings to all child routes
-        const childrenWithProps = React.Children.map(children, (child) => {
-            return React.cloneElement(child, {
-                currentUser,
-                whitelabel
-            });
-        });
-
         let style = {};
         let header;
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {

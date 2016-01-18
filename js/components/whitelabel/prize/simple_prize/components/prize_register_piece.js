@@ -42,7 +42,6 @@ let PrizeRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
         const { prize } = this.state;
 
         setDocumentTitle(getLangText('Submit to the prize'));
@@ -53,8 +52,7 @@ let PrizeRegisterPiece = React.createClass({
                     {...this.props}
                     enableLocalHashing={false}
                     headerMessage={''}
-                    submitMessage={getLangText('Submit')}
-                    location={location}>
+                    submitMessage={getLangText('Submit')}>
                     <Property
                         name='artist_statement'
                         label={getLangText('Artist statement')}
