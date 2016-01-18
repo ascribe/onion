@@ -13,12 +13,14 @@ const UserSource = {
         },
 
         local(state) {
-            return state.currentUser && state.currentUser.email ? state : {};
+            return !Object.keys(state.currentUser).length ? state : {};
         },
+
         success: UserActions.successFetchCurrentUser,
         error: UserActions.errorCurrentUser,
-        shouldFetch(state) {
-            return state.userMeta.invalidateCache || state.currentUser && !state.currentUser.email;
+
+        shouldFetch(state, invalidateCache) {
+            return invalidateCache || !Object.keys(state.currentUser).length;
         }
     },
 
@@ -26,6 +28,7 @@ const UserSource = {
         remote() {
             return requests.get(ApiUrls.users_logout);
         },
+
         success: UserActions.successLogoutCurrentUser,
         error: UserActions.errorCurrentUser
     }

@@ -9,15 +9,18 @@ import { getSubdomain } from '../utils/general_utils';
 const WhitelabelSource = {
     lookupWhitelabel: {
         remote() {
-            return requests.get('whitelabel_settings', {'subdomain': getSubdomain()});
+            return requests.get('whitelabel_settings', { 'subdomain': getSubdomain() });
         },
+
         local(state) {
-            return Object.keys(state.whitelabel).length > 0 ? state : {};
+            return Object.keys(state.whitelabel).length ? state : {};
         },
+
         success: WhitelabelActions.successFetchWhitelabel,
         error: WhitelabelActions.errorWhitelabel,
-        shouldFetch(state) {
-            return state.whitelabelMeta.invalidateCache || Object.keys(state.whitelabel).length === 0;
+
+        shouldFetch(state, invalidateCache) {
+            return invalidateCache || !Object.keys(state.whitelabel).length;
         }
     }
 };

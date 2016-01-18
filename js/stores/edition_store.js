@@ -14,8 +14,7 @@ class EditionStore {
     constructor() {
         this.edition = {};
         this.editionMeta = {
-            err: null,
-            idToFetch: null
+            err: null
         };
         this.coaMeta = {
             err: null
@@ -25,26 +24,30 @@ class EditionStore {
         this.registerAsync(mergeOptions(EditionSource, CoaSource));
     }
 
-    onFetchEdition(idToFetch) {
-        this.editionMeta.idToFetch = idToFetch;
+    onFetchEdition(editionId) {
+        this.getInstance().lookupEdition(editionId);
 
-        this.getInstance().lookupEdition();
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchEdition({ edition }) {
         if (edition) {
             this.edition = edition;
             this.editionMeta.err = null;
-            this.editionMeta.idToFetch = null;
 
-            if (this.edition.coa && this.edition.acl.acl_coa &&
-                typeof this.edition.coa.constructor !== Object) {
-                this.getInstance().lookupCoa();
-            } else if (!this.edition.coa && this.edition.acl.acl_coa) {
-                this.getInstance().performCreateCoa();
+            // Also fetch coa if allowed
+            if (edition.acl.acl_coa) {
+                if (edition.coa && typeof edition.coa.constructor !== Object) {
+                    this.getInstance().lookupCoa(edition.coa);
+                } else if (!edition.coa) {
+                    this.getInstance().performCreateCoaForEdition(edition.bitcoin_id);
+                }
             }
         } else {
             this.editionMeta.err = new Error('Problem fetching the edition');
+            console.logGlobal(this.editionMeta.err);
         }
     }
 
@@ -54,6 +57,7 @@ class EditionStore {
             this.coaMeta.err = null;
         } else {
             this.coaMeta.err = new Error('Problem generating/fetching the COA');
+            console.logGlobal(this.coaMeta.err);
         }
     }
 
@@ -69,14 +73,16 @@ class EditionStore {
     }
 
     onErrorEdition(err) {
+        console.logGlobal(err);
         this.editionMeta.err = err;
     }
 
     onErrorCoa(err) {
         // On 404s, create a new COA as the COA has not been made yet
         if (err && err.json && err.json.status === 404) {
-            this.getInstance().performCreateCoa();
+            this.getInstance().performCreateCoaForEdition(this.edition.bitcoin_id);
         } else {
+            console.logGlobal(err);
             this.coaMeta.err = err;
         }
     }
