@@ -196,13 +196,14 @@ let PieceList = React.createClass({
                 this.state.pieceList
                     .forEach((piece) => {
                         // but only if they're actually open
-                        if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                        const isEditionListOpenForPiece = this.state.isEditionListOpenForPieceId[piece.id];
+
+                        if (isEditionListOpenForPiece && isEditionListOpenForPiece.show) {
                             EditionListActions.refreshEditionList({
                                 pieceId: piece.id,
                                 filterBy
                             });
                         }
-
                     });
             });
 
