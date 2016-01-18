@@ -17,14 +17,14 @@ class EditionListActions {
         );
     }
 
-    fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc, filterBy, maxEdition) {
+    fetchEditionList({ pieceId, page, pageSize, orderBy, orderAsc, filterBy, maxEdition }) {
         if ((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
             orderBy = 'edition_number';
             orderAsc = true;
         }
 
         // Taken from: http://stackoverflow.com/a/519157/1263876
-        if((typeof page === 'undefined' || !page) && (typeof pageSize === 'undefined' || !pageSize)) {
+        if ((typeof page === 'undefined' || !page) && (typeof pageSize === 'undefined' || !pageSize)) {
             page = 1;
             pageSize = 10;
         }
@@ -39,7 +39,7 @@ class EditionListActions {
 
         return Q.Promise((resolve, reject) => {
             EditionListFetcher
-                .fetch(pieceId, page, itemsToFetch, orderBy, orderAsc, filterBy)
+                .fetch({ pieceId, page, itemsToFetch, orderBy, orderAsc, filterBy })
                 .then((res) => {
                     if (res && !res.editions) {
                         throw new Error('Piece has no editions to fetch.');
