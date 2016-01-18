@@ -92,7 +92,7 @@ let EditionContainer = React.createClass({
         const { actionPanelButtonListType, furtherDetailsType } = this.props;
 
         if (edition.id) {
-            setDocumentTitle([edition.artist_name, edition.title].join(', '));
+            setDocumentTitle(`${edition.artist_name}, ${edition.title}`);
 
             return (
                 <Edition

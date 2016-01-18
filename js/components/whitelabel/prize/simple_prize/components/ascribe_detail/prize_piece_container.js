@@ -137,7 +137,7 @@ let PrizePieceContainer = React.createClass({
                 setDocumentTitle(piece.title);
             } else {
                 artistName = piece.artist_name;
-                setDocumentTitle([artistName, piece.title].join(', '));
+                setDocumentTitle(`${artistName}, ${piece.title}`);
             }
 
             // Only show the artist email if you are a judge and the piece is shortlisted

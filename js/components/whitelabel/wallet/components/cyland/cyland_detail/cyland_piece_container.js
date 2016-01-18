@@ -95,7 +95,7 @@ let CylandPieceContainer = React.createClass({
         const { piece } = this.state;
 
         if (piece.id) {
-            setDocumentTitle([piece.artist_name, piece.title].join(', '));
+            setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
 
             return (
                 <WalletPieceContainer

@@ -255,7 +255,7 @@ let PieceContainer = React.createClass({
         const { currentUser, piece } = this.state;
 
         if (piece.id) {
-            setDocumentTitle([piece.artist_name, piece.title].join(', '));
+            setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
 
             return (
                 <Piece
