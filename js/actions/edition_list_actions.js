@@ -18,7 +18,7 @@ class EditionListActions {
     }
 
     fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc, filterBy, maxEdition) {
-        if((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
+        if ((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
             orderBy = 'edition_number';
             orderAsc = true;
         }

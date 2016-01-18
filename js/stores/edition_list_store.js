@@ -12,7 +12,7 @@ class EditionListStore {
         this.bindActions(EditionsListActions);
     }
 
-    onUpdateEditionList({pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy, maxEdition}) {
+    onUpdateEditionList({ pieceId, editionListOfPiece, page, pageSize, orderBy, orderAsc, count, filterBy, maxEdition }) {
         // if editionList for a specific piece does not exist yet,
         // just initialize a new array
         const pieceEditionList = this.editionList[pieceId] || [];
@@ -29,8 +29,8 @@ class EditionListStore {
             const storeEditionIndex = (page - 1) * pageSize + index;
 
             // if edition already exists, just merge
-            if(pieceEditionList[storeEditionIndex]) {
-                pieceEditionList[storeEditionIndex] = React.addons.update(pieceEditionList[storeEditionIndex], {$merge: updatedEdition});
+            if (pieceEditionList[storeEditionIndex]) {
+                pieceEditionList[storeEditionIndex] = React.addons.update(pieceEditionList[storeEditionIndex], { $merge: updatedEdition });
             } else {
                 // if does not exist, assign
                 pieceEditionList[storeEditionIndex] = updatedEdition;
@@ -85,7 +85,7 @@ class EditionListStore {
      * We often just have to refresh the edition list for a certain pieceId,
      * this method provides exactly that functionality without any side effects
      */
-    onRefreshEditionList({pieceId, filterBy}) {
+    onRefreshEditionList({ pieceId, filterBy }) {
         const pieceEditionList = this.editionList[pieceId];
 
         // It may happen that the user enters the site logged in already
@@ -93,7 +93,7 @@ class EditionListStore {
         // If he then tries to delete a piece/edition and this method is called,
         // we'll not be able to refresh his edition list since its not yet there.
         // Therefore we can just return, since there is no data to be refreshed
-        if(!this.editionList[pieceId]) {
+        if (!this.editionList[pieceId]) {
             return;
         }
 
@@ -116,7 +116,7 @@ class EditionListStore {
         this.editionList[pieceId].forEach((edition) => {
 
             // Taken from: http://stackoverflow.com/a/519157/1263876
-            if(typeof toValue !== 'undefined' && edition.id === editionId) {
+            if (typeof toValue !== 'undefined' && edition.id === editionId) {
                 edition.selected = toValue;
             } else if(edition.id === editionId) {
                 if(edition.selected) {
@@ -142,7 +142,6 @@ class EditionListStore {
     }
 
     onToggleEditionList(pieceId) {
-
         this.isEditionListOpenForPieceId[pieceId] = {
             show: this.isEditionListOpenForPieceId[pieceId] ? !this.isEditionListOpenForPieceId[pieceId].show : true
         };
@@ -151,7 +150,7 @@ class EditionListStore {
         // the merge fails, as the edition list is not refreshed when closed.
         // Therefore in the case of a filter application when closed, we need to reload the
         // edition list
-        if(!this.isEditionListOpenForPieceId[pieceId].show) {
+        if (!this.isEditionListOpenForPieceId[pieceId].show) {
             // to clear an array, david walsh recommends to just set it's length to zero
             // http://davidwalsh.name/empty-array
 
