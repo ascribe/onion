@@ -141,7 +141,7 @@ let PrizePieceContainer = React.createClass({
             }
 
             // Only show the artist email if you are a judge and the piece is shortlisted
-            const artistEmail = (currentUser.is_judge && piece.selected ) ? (
+            const artistEmail = currentUser.is_judge && piece.selected ? (
                 <DetailProperty
                     label={getLangText('REGISTREE')}
                     value={piece.user_registered} />
@@ -406,7 +406,7 @@ let PrizePieceRatings = React.createClass({
                             ratingAmount={5} />
                         </div>
                     <Note
-                        id={() => { return { 'piece_id': this.props.piece.id }; }}
+                        id={() => ({ 'piece_id': this.props.piece.id })}
                         label={getLangText('Jury note')}
                         defaultValue={this.props.piece.note_from_user || null}
                         placeholder={getLangText('Enter your comments ...')}

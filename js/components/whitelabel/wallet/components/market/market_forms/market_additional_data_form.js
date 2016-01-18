@@ -215,7 +215,7 @@ let MarketAdditionalDataForm = React.createClass({
         } else {
             return (
                 <div className="ascribe-loading-position">
-                    <AscribeSpinner color='dark-blue' size='md' />
+                    <AscribeSpinner color='dark-blue' size='lg' />
                 </div>
             );
         }

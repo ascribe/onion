@@ -52,7 +52,7 @@ let IkonotvArtistDetailsForm = React.createClass({
     },
 
     handleSuccess() {
-        const notification = new GlobalNotificationModel('Artist details successfully updated', 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Artist details successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
@@ -90,13 +90,15 @@ let IkonotvArtistDetailsForm = React.createClass({
             );
         }
 
-        if (piece.id && piece.extra_data) {
+        if (piece.id) {
+            const { extra_data: extraData = {} } = piece;
+
             return (
                 <Form
                     disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: piece.id })}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
@@ -105,37 +107,37 @@ let IkonotvArtistDetailsForm = React.createClass({
                     <Property
                         name='artist_website'
                         label={getLangText('Artist Website')}
-                        expanded={!disabled || !!piece.extra_data.artist_website}>
+                        expanded={!disabled || !!extraData.artist_website}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.artist_website}
+                            defaultValue={extraData.artist_website}
                             placeholder={getLangText('The artist\'s website if present...')} />
                     </Property>
                     <Property
                         name='gallery_website'
                         label={getLangText('Website of related Gallery, Museum, etc.')}
-                        expanded={!disabled || !!piece.extra_data.gallery_website}>
+                        expanded={!disabled || !!extraData.gallery_website}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.gallery_website}
+                            defaultValue={extraData.gallery_website}
                             placeholder={getLangText('The website of any related Gallery or Museum')} />
                     </Property>
                     <Property
                         name='additional_websites'
                         label={getLangText('Additional Websites/Publications/Museums/Galleries')}
-                        expanded={!disabled || !!piece.extra_data.additional_websites}>
+                        expanded={!disabled || !!extraData.additional_websites}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.additional_websites}
+                            defaultValue={extraData.additional_websites}
                             placeholder={getLangText('Enter additional Websites/Publications if any')} />
                     </Property>
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Short text about the Artist')}
-                        expanded={!disabled || !!piece.extra_data.conceptual_overview}>
+                        expanded={!disabled || !!extraData.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.conceptual_overview}
+                            defaultValue={extraData.conceptual_overview}
                             placeholder={getLangText('Enter a short bio about the Artist')} />
                     </Property>
                 </Form>

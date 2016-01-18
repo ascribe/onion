@@ -194,7 +194,7 @@ let PieceContainer = React.createClass({
         PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
                                         this.state.orderBy, this.state.orderAsc, this.state.filterBy);
 
-        const notification = new GlobalNotificationModel('Editions successfully created', 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Editions successfully created'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 

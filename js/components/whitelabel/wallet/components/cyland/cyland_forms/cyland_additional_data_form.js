@@ -105,13 +105,15 @@ let CylandAdditionalDataForm = React.createClass({
             );
         }
 
-        if (piece.id && piece.extra_data) {
+        if (piece.id) {
+            const { extra_data: extraData = {} } = piece;
+
             return (
                 <Form
                     disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: piece.id})}
+                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: piece.id })}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
@@ -120,64 +122,64 @@ let CylandAdditionalDataForm = React.createClass({
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Biography')}
-                        expanded={!disabled || !!piece.extra_data.artist_bio}>
+                        expanded={!disabled || !!extraData.artist_bio}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.artist_bio}
+                            defaultValue={extraData.artist_bio}
                             placeholder={getLangText('Enter the artist\'s biography...')} />
                     </Property>
                     <Property
                         name='artist_contact_information'
                         label={getLangText('Artist Contact Information')}
-                        expanded={!disabled || !!piece.extra_data.artist_contact_information}>
+                        expanded={!disabled || !!extraData.artist_contact_information}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.artist_contact_information}
+                            defaultValue={extraData.artist_contact_information}
                             placeholder={getLangText('Enter the artist\'s contact information...')} />
                     </Property>
                     <Property
                         name='conceptual_overview'
                         label={getLangText('Conceptual Overview')}
-                        expanded={!disabled || !!piece.extra_data.conceptual_overview}>
+                        expanded={!disabled || !!extraData.conceptual_overview}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.conceptual_overview}
+                            defaultValue={extraData.conceptual_overview}
                             placeholder={getLangText('Enter a conceptual overview...')} />
                     </Property>
                     <Property
                         name='medium'
                         label={getLangText('Medium (technical specifications)')}
-                        expanded={!disabled || !!piece.extra_data.medium}>
+                        expanded={!disabled || !!extraData.medium}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.medium}
+                            defaultValue={extraData.medium}
                             placeholder={getLangText('Enter the medium (and other technical specifications)...')} />
                     </Property>
                     <Property
                         name='size_duration'
                         label={getLangText('Size / Duration')}
-                        expanded={!disabled || !!piece.extra_data.size_duration}>
+                        expanded={!disabled || !!extraData.size_duration}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.size_duration}
+                            defaultValue={extraData.size_duration}
                             placeholder={getLangText('Enter the size / duration...')} />
                     </Property>
                     <Property
                         name='display_instructions'
                         label={getLangText('Display instructions')}
-                        expanded={!disabled || !!piece.extra_data.display_instructions}>
+                        expanded={!disabled || !!extraData.display_instructions}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.display_instructions}
+                            defaultValue={extraData.display_instructions}
                             placeholder={getLangText('Enter the display instructions...')} />
                     </Property>
                     <Property
                         name='additional_details'
                         label={getLangText('Additional details')}
-                        expanded={!disabled || !!piece.extra_data.additional_details}>
+                        expanded={!disabled || !!extraData.additional_details}>
                         <InputTextAreaToggable
                             rows={1}
-                            defaultValue={piece.extra_data.additional_details}
+                            defaultValue={extraData.additional_details}
                             placeholder={getLangText('Enter additional details...')} />
                     </Property>
                     <FurtherDetailsFileuploader

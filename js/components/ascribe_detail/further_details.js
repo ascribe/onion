@@ -15,6 +15,8 @@ import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
+import { getLangText } from '../../utils/lang_utils';
+
 
 let FurtherDetails = React.createClass({
     propTypes: {
@@ -33,11 +35,13 @@ let FurtherDetails = React.createClass({
     },
 
     showNotification() {
-        if (typeof this.props.handleSucess === 'function') {
-            this.props.handleSuccess();
+        const { handleSuccess } = this.props;
+
+        if (typeof handleSucess === 'function') {
+            handleSuccess();
         }
 
-        const notification = new GlobalNotificationModel('Details updated', 'success');
+        const notification = new GlobalNotificationModel(getLangText('Details updated'), 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
