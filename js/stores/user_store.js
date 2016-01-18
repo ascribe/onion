@@ -45,25 +45,21 @@ class UserStore {
     }
 
     onLogoutCurrentUser() {
-        this.getInstance()
-            .performLogoutCurrentUser()
-            .then(() => {
-                EventActions.userDidLogout();
-
-                // Reset all stores back to their initial state
-                alt.recycle();
-                altWhitelabel.recycle();
-                altUser.recycle();
-                altThirdParty.recycle();
-
-                // Since we've just logged out, we can set this store's
-                // hasLoaded flag back to true as there is no current user.
-                this.userMeta.hasLoaded = true;
-            });
+        this.getInstance().performLogoutCurrentUser();
     }
 
     onSuccessLogoutCurrentUser() {
-        this.currentUser = {};
+        EventActions.userDidLogout();
+
+        // Reset all stores back to their initial state
+        alt.recycle();
+        altWhitelabel.recycle();
+        altUser.recycle();
+        altThirdParty.recycle();
+
+        // Since we've just logged out, we can set this store's
+        // hasLoaded flag back to true as there is no current user.
+        this.userMeta.hasLoaded = true;
     }
 
     onErrorCurrentUser(err) {
