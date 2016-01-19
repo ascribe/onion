@@ -447,9 +447,9 @@ fieldset[disabled] .btn-secondary.active {
 }
 
 .search-bar > .form-group > .input-group {
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 1px solid $ascribe-blue-border;
     &:hover, &:focus, &:active {
-        border-color: $ascribe-blue-border;
+        border-color: $ascribe-blue-border-active;
     }
     input::-webkit-input-placeholder {
         color: rgba($ascribe-dark-blue, 0.5);

@@ -31,7 +31,7 @@ class PieceListStore {
         this.requestActions = {};
         this.bindActions(PieceListActions);
     }
-    
+
     onUpdatePieceList({ page, pageSize, search, pieceList, orderBy, orderAsc, pieceListCount, unfilteredPieceListCount, filterBy }) {
         this.page = page;
         this.pageSize = pageSize;
@@ -60,13 +60,13 @@ class PieceListStore {
          * point anyway. Then, this problem is automatically resolved.
          */
         pieceList.forEach((piece, i) => {
-            let oldPiece = this.pieceList[i];
-            if(oldPiece) {
+            const oldPiece = this.pieceList[i];
+            if (oldPiece) {
                 piece = React.addons.update(piece, {
                     show: { $set: oldPiece.show }
                 });
             }
-            
+
         });
 
         this.pieceList = pieceList;
@@ -76,12 +76,11 @@ class PieceListStore {
         this.requestActions = res.actions;
     }
 
-    onUpdatePropertyForPiece({pieceId, key, value}) {
-        let filteredPieceList = this.pieceList.filter((piece) => piece.id === pieceId);
+    onUpdatePropertyForPiece({ pieceId, key, value }) {
+        const filteredPieceList = this.pieceList.filter((piece) => piece.id === pieceId);
 
-        if(filteredPieceList.length === 1) {
-
-            let piece = filteredPieceList[0];
+        if (filteredPieceList.length === 1) {
+            const piece = filteredPieceList[0];
             piece[key] = value;
         } else {
             throw new Error('Could not find a matching piece in piece list since its either not there or piecelist contains duplicates.');

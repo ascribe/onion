@@ -7,7 +7,7 @@ import TableHeaderItemCarret from './table_header_item_carret';
 let TableHeaderItem = React.createClass({
 
     propTypes: {
-        displayName: React.PropTypes.oneOfType([
+        displayElement: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.element
         ]).isRequired,
@@ -24,29 +24,31 @@ let TableHeaderItem = React.createClass({
     },
 
     render() {
-        if(this.props.canBeOrdered && this.props.changeOrder && this.props.orderAsc != null && this.props.orderBy) {
-            if(this.props.columnName === this.props.orderBy) {
+        const { canBeOrdered, changeOrder, className, columnName, displayElement, orderAsc, orderBy } = this.props;
+
+        if (canBeOrdered && changeOrder && orderAsc != null && orderBy) {
+            if (columnName === orderBy) {
                 return (
                     <th
-                        className={'ascribe-table-header-column ' + this.props.className}
+                        className={'ascribe-table-header-column ' + className}
                         onClick={this.changeOrder}>
-                        <span>{this.props.displayName} <TableHeaderItemCarret orderAsc={this.props.orderAsc} /></span>
+                        <span>{displayElement} <TableHeaderItemCarret orderAsc={orderAsc} /></span>
                     </th>
                 );
             } else {
                 return (
                     <th
-                        className={'ascribe-table-header-column ' + this.props.className}
+                        className={'ascribe-table-header-column ' + className}
                         onClick={this.changeOrder}>
-                        <span>{this.props.displayName}</span>
+                        <span>{displayElement}</span>
                     </th>
                 );
             }
         } else {
             return (
-                <th className={'ascribe-table-header-column ' + this.props.className}>
+                <th className={'ascribe-table-header-column ' + className}>
                     <span>
-                        {this.props.displayName}
+                        {displayElement}
                     </span>
                 </th>
             );

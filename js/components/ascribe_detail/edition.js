@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link, History } from 'react-router';
+import { Link } from 'react-router';
 import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
@@ -44,8 +44,6 @@ let Edition = React.createClass({
         loadEdition: React.PropTypes.func
     },
 
-    mixins: [History],
-
     getDefaultProps() {
         return {
             furtherDetailsType: FurtherDetails
@@ -53,98 +51,103 @@ let Edition = React.createClass({
     },
 
     render() {
-        let FurtherDetailsType = this.props.furtherDetailsType;
+        const {
+            actionPanelButtonListType,
+            coaError,
+            currentUser,
+            edition,
+            furtherDetailsType: FurtherDetailsType,
+            loadEdition } = this.props;
 
         return (
             <Row>
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
-                        content={this.props.edition}/>
+                        content={edition}
+                        currentUser={currentUser} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
                         <hr className="hidden-print" style={{marginTop: 0}}/>
-                        <h1 className="ascribe-detail-title">{this.props.edition.title}</h1>
-                        <DetailProperty label="BY" value={this.props.edition.artist_name} />
-                        <DetailProperty label="DATE" value={Moment(this.props.edition.date_created, 'YYYY-MM-DD').year()} />
+                        <h1 className="ascribe-detail-title">{edition.title}</h1>
+                        <DetailProperty label="BY" value={edition.artist_name} />
+                        <DetailProperty label="DATE" value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr/>
                     </div>
                     <EditionSummary
-                        actionPanelButtonListType={this.props.actionPanelButtonListType}
-                        edition={this.props.edition}
-                        currentUser={this.props.currentUser}
-                        handleSuccess={this.props.loadEdition}/>
+                        actionPanelButtonListType={actionPanelButtonListType}
+                        edition={edition}
+                        currentUser={currentUser}
+                        handleSuccess={loadEdition}/>
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
-                        show={this.props.edition.acl.acl_coa === true}>
+                        show={edition.acl.acl_coa === true}>
                         <CoaDetails
-                            coa={this.props.edition.coa}
-                            coaError={this.props.coaError}
-                            editionId={this.props.edition.bitcoin_id}/>
+                            coa={edition.coa}
+                            coaError={coaError}
+                            editionId={edition.bitcoin_id}/>
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
-                        show={this.props.edition.ownership_history && this.props.edition.ownership_history.length > 0}>
+                        show={edition.ownership_history && edition.ownership_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.ownership_history} />
+                            history={edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
-                        show={this.props.edition.consign_history && this.props.edition.consign_history.length > 0}>
+                        show={edition.consign_history && edition.consign_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.consign_history} />
+                            history={edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
-                        show={this.props.edition.loan_history && this.props.edition.loan_history.length > 0}>
+                        show={edition.loan_history && edition.loan_history.length > 0}>
                         <HistoryIterator
-                            history={this.props.edition.loan_history} />
+                            history={edition.loan_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title="Notes"
-                        show={!!(this.props.currentUser.username
-                                || this.props.edition.acl.acl_edit
-                                || this.props.edition.public_note)}>
+                        show={!!(currentUser.username || edition.acl.acl_edit || edition.public_note)}>
                         <Note
-                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                            id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}
-                            defaultValue={this.props.edition.private_note ? this.props.edition.private_note : null}
+                            defaultValue={edition.private_note ? edition.private_note : null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
-                            currentUser={this.props.currentUser}/>
+                            currentUser={currentUser}/>
                         <Note
-                            id={() => {return {'bitcoin_id': this.props.edition.bitcoin_id}; }}
+                            id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
-                            defaultValue={this.props.edition.public_note ? this.props.edition.public_note : null}
+                            defaultValue={edition.public_note ? edition.public_note : null}
                             placeholder={getLangText('Enter your comments ...')}
-                            editable={!!this.props.edition.acl.acl_edit}
-                            show={!!this.props.edition.public_note || !!this.props.edition.acl.acl_edit}
+                            editable={!!edition.acl.acl_edit}
+                            show={!!edition.public_note || !!edition.acl.acl_edit}
                             successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
-                            currentUser={this.props.currentUser}/>
+                            currentUser={currentUser}/>
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={this.props.edition.acl.acl_edit
-                            || Object.keys(this.props.edition.extra_data).length > 0
-                            || this.props.edition.other_data.length > 0}>
+                        show={edition.acl.acl_edit ||
+                              Object.keys(edition.extra_data).length > 0 ||
+                              edition.other_data.length > 0}>
                         <FurtherDetailsType
-                            editable={this.props.edition.acl.acl_edit}
-                            pieceId={this.props.edition.parent}
-                            extraData={this.props.edition.extra_data}
-                            otherData={this.props.edition.other_data}
-                            handleSuccess={this.props.loadEdition} />
+                            editable={edition.acl.acl_edit}
+                            pieceId={edition.parent}
+                            extraData={edition.extra_data}
+                            otherData={edition.other_data}
+                            handleSuccess={loadEdition} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('SPOOL Details')}>
                         <SpoolDetails
-                            edition={this.props.edition} />
+                            edition={edition} />
                     </CollapsibleParagraph>
                 </Col>
             </Row>
@@ -221,7 +224,11 @@ let EditionSummary = React.createClass({
 let CoaDetails = React.createClass({
     propTypes: {
         editionId: React.PropTypes.string,
-        coa: React.PropTypes.object,
+        coa: React.PropTypes.oneOfType([
+            React.PropTypes.number,
+            React.PropTypes.string,
+            React.PropTypes.object
+        ]),
         coaError: React.PropTypes.object
     },
 
@@ -233,9 +240,9 @@ let CoaDetails = React.createClass({
     },
 
     render() {
-        const { coa = {}, coaError } = this.props;
-
+        const { coa, coaError } = this.props;
         let coaDetailElement;
+
         if (coaError) {
             coaDetailElement = [
                 <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
@@ -244,7 +251,7 @@ let CoaDetails = React.createClass({
                     <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
                 </p>
             ];
-        } else if (coa.url_safe) {
+        } else if (coa && coa.url_safe) {
             coaDetailElement = [
                 <div
                     className="notification-contract-pdf"
