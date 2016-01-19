@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import FacebookHandler from '../../third_party/facebook';
+import FacebookHandler from '../../third_party/facebook_handler';
 
 import AppConstants from '../../constants/application_constants';
 
