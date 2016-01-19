@@ -28,12 +28,10 @@ class ContractListActions {
     }
 
 
-    changeContract(contract){
+    changeContract(contract) {
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher.changeContract(contract)
-                .then((res) => {
-                    resolve(res);
-                })
+                .then(resolve)
                 .catch((err)=> {
                     console.logGlobal(err);
                     reject(err);
@@ -41,13 +39,11 @@ class ContractListActions {
         });
     }
 
-    removeContract(contractId){
-        return Q.Promise( (resolve, reject) => {
+    removeContract(contractId) {
+        return Q.Promise((resolve, reject) => {
             OwnershipFetcher.deleteContract(contractId)
-                .then((res) => {
-                    resolve(res);
-                })
-                .catch( (err) => {
+                .then(resolve)
+                .catch((err) => {
                     console.logGlobal(err);
                     reject(err);
                 });

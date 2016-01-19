@@ -7,11 +7,11 @@ class EditionActions {
     constructor() {
         this.generateActions(
             'fetchEdition',
-            'successFetchEdition',
             'successFetchCoa',
-            'flushEdition',
+            'successFetchEdition',
             'errorCoa',
-            'errorEdition'
+            'errorEdition',
+            'flushEdition'
         );
     }
 }

@@ -13,13 +13,15 @@ import InputTextAreaToggable from './input_textarea_toggable';
 
 let PieceExtraDataForm = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.number,
+        name: React.PropTypes.string.isRequired,
+        pieceId: React.PropTypes.number.isRequired,
+
+        convertLinks: React.PropTypes.bool,
+        editable: React.PropTypes.bool,
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         name: React.PropTypes.string,
-        title: React.PropTypes.string,
-        convertLinks: React.PropTypes.bool,
-        editable: React.PropTypes.bool
+        title: React.PropTypes.string
     },
 
     getFormData() {
@@ -33,20 +35,19 @@ let PieceExtraDataForm = React.createClass({
 
     render() {
         const { convertLinks, editable, extraData, handleSuccess, name, pieceId, title } = this.props;
-        const defaultValue = this.props.extraData[this.props.name] || '';
+        const defaultValue = (extraData && extraData[name]) || null;
 
-        if (defaultValue.length === 0 && !editable){
+        if (!defaultValue && !editable) {
             return null;
         }
 
-        const url = requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: pieceId});
         return (
             <Form
                 ref='form'
-                url={url}
-                handleSuccess={handleSuccess}
+                disabled={!editable}
                 getFormData={this.getFormData}
-                disabled={!editable}>
+                handleSuccess={handleSuccess}
+                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}>
                 <Property
                     name={name}
                     label={title}>

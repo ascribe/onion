@@ -106,7 +106,7 @@ const PRRegisterPieceForm = React.createClass({
                         GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                     });
             })
-            .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
+            .then(() => this.history.push(`/pieces/${this.state.piece.id}`))
             .catch((err) => {
                 const errMessage = (getErrorNotificationMessage(err) || getLangText("Oops! We weren't able to send your submission.")) +
                                         getLangText(' Please contact support@ascribe.io');
@@ -193,11 +193,12 @@ const PRRegisterPieceForm = React.createClass({
 
     render() {
         const { location } = this.props;
+        const maxThumbnailSize = AppConstants.fineUploader.validation.workThumbnail.sizeLimit / 1000000;
 
         return (
             <div className="register-piece--form">
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="registerPieceForm">
                     <Property
@@ -234,7 +235,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="additionalDataForm">
                     <Property
@@ -286,7 +287,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered"
                     ref="uploadersForm">
                     <Property
@@ -317,7 +318,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                     <Property
                         name="thumbnailKey"
-                        label={getLangText('Featured Cover photo (max 5MB)')}>
+                        label={`${getLangText('Featured Cover photo')} max ${maxThumbnailSize}MB`}>
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             createBlobRoutine={{
@@ -390,7 +391,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                 </Form>
                 <Form
-                    buttons={{}}
+                    buttons={null}
                     className="ascribe-form-bordered">
                     <Property
                         name="terms"
