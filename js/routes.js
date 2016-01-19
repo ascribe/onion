@@ -28,7 +28,7 @@ import RegisterPiece from './components/register_piece';
 import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
 
-let COMMON_ROUTES = (
+const COMMON_ROUTES = (
     <Route path='/' component={App}>
         <Route
             path='login'
@@ -65,17 +65,13 @@ let COMMON_ROUTES = (
 
 
 function getRoutes(type, subdomain) {
-    let routes = null;
-
     if (type === 'prize') {
-        routes = getPrizeRoutes(COMMON_ROUTES, subdomain);
+        return getPrizeRoutes(COMMON_ROUTES, subdomain);
     } else if(type === 'wallet') {
-        routes = getWalletRoutes(COMMON_ROUTES, subdomain);
+        return getWalletRoutes(COMMON_ROUTES, subdomain);
     } else {
-        routes = COMMON_ROUTES;
+        return COMMON_ROUTES;
     }
-
-    return routes;
 }
 
 
