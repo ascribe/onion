@@ -7,23 +7,23 @@
     position: fixed;
     transition: .2s bottom cubic-bezier(.77, 0, .175, 1);
     width: 100%;
-}
 
-.ascribe-global-notification-off {
-    bottom: -3.5em;
-}
+    > div {
+        padding: .5em 1em;
+        text-align: center;
+    }
 
-.ascribe-global-notification-on {
-    bottom: 0;
-}
+    &.ascribe-global-notification-off {
+        bottom: -5em;
+    }
 
-.ascribe-global-notification > div,
-.ascribe-global-notification-bubble > div {
-    display: table-cell;
-    font-size: 1.25em;
-    padding-right: 3em;
-    text-align: left;
-    vertical-align: middle;
+    &.ascribe-global-notification-on {
+        bottom: 0;
+
+        // React can sometimes take some time to load the notification message,
+        // so add a small delay before showing the notification
+        transition-delay: 0.2s;
+    }
 }
 
 .ascribe-global-notification-bubble {
@@ -33,21 +33,33 @@
     color: white;
     display: table;
     height: 3.5em;
+    max-width: 75%;
     position: fixed;
-    right: -50em;
-    transition: 1s right ease;
+    transition: 0.5s right ease;
 
     > div {
         padding: .75em 1.5em;
+        text-align: left;
+    }
+
+    &.ascribe-global-notification-bubble-off {
+        right: -100em;
+    }
+
+    &.ascribe-global-notification-bubble-on {
+        right: 3.5em;
+
+        // React can sometimes take some time to load the notification message,
+        // so add a small delay before showing the notification
+        transition-delay: 0.5s;
     }
 }
 
-.ascribe-global-notification-bubble-off {
-    right: -100em;
-}
-
-.ascribe-global-notification-bubble-on {
-    right: 3.5em;
+.ascribe-global-notification > div,
+.ascribe-global-notification-bubble > div {
+    display: table-cell;
+    font-size: 1.25em;
+    vertical-align: middle;
 }
 
 .ascribe-global-notification-danger {
