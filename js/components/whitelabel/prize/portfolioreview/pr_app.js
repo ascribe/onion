@@ -1,15 +1,16 @@
 'use strict';
 
 import React from 'react';
-import GlobalNotification from '../../../global_notification';
-
-import Hero from './components/pr_hero';
-import Header from '../../../header';
 
 import EventActions from '../../../../actions/event_actions';
 
 import UserStore from '../../../../stores/user_store';
 import UserActions from '../../../../actions/user_actions';
+
+import Hero from './components/pr_hero';
+
+import AppBase from '../../../app_base';
+import Header from '../../../header';
 
 import { getSubdomain } from '../../../../utils/general_utils';
 import { getCookie } from '../../../../utils/fetch_api_utils';
@@ -17,12 +18,13 @@ import { getCookie } from '../../../../utils/fetch_api_utils';
 
 let PRApp = React.createClass({
     propTypes: {
+        history: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ]),
-        history: React.PropTypes.object,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        ])
     },
 
     getInitialState() {
@@ -55,19 +57,19 @@ let PRApp = React.createClass({
         this.setState(state);
     },
 
+
     render() {
-        const { history, children, routes } = this.props;
+        const { children, history, routes } = this.props;
         const { currentUser } = this.state;
+        const subdomain = getSubdomain();
+
         let style = {};
-        let subdomain = getSubdomain();
         let header;
-
-
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
-            header = <Hero currentUser={currentUser} />;
+            header = (<Hero currentUser={currentUser} />);
             style = { paddingTop: '0 !important' };
-        } else if(currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
-            header = <Header routes={routes} />;
+        } else if (currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
+            header = (<Header routes={routes} />);
         } else {
             style = { paddingTop: '0 !important' };
         }
@@ -79,12 +81,10 @@ let PRApp = React.createClass({
                     style={style}
                     className={'container ascribe-prize-app client--' + subdomain}>
                     {children}
-                    <GlobalNotification />
-                    <div id="modal" className="container"></div>
                 </div>
             </div>
         );
     }
 });
 
-export default PRApp;
+export default AppBase(PRApp);
