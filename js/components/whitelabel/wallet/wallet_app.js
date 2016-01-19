@@ -35,7 +35,7 @@ let WalletApp = React.createClass({
             && (['cyland', 'ikonotv', 'lumenus', '23vivi']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
-            header = <Header showAddWork={true} routes={routes} />;
+            header = <Header routes={routes} />;
         }
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,

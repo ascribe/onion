@@ -35,7 +35,7 @@ let EditionContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            EditionStore.getState(),
+            EditionStore.getInitialState(),
             UserStore.getState()
         );
     },
@@ -44,27 +44,23 @@ let EditionContainer = React.createClass({
         EditionStore.listen(this.onChange);
         UserStore.listen(this.onChange);
 
-        // Every time we're entering the edition detail page,
-        // just reset the edition that is saved in the edition store
-        // as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.flushEdition();
-        EditionActions.fetchEdition(this.props.params.editionId);
-
+        this.loadEdition();
         UserActions.fetchCurrentUser();
     },
 
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.editionId !== nextProps.params.editionId) {
-            EditionActions.fetchEdition(this.props.params.editionId);
+        if (this.props.params.editionId !== nextProps.params.editionId) {
+            EditionActions.flushEdition();
+            this.loadEdition(nextProps.params.editionId);
         }
     },
 
     componentDidUpdate() {
-        const { editionMeta } = this.state;
-        if(editionMeta.err && editionMeta.err.json && editionMeta.err.json.status === 404) {
+        const { err: editionErr } = this.state.editionMeta;
+
+        if (editionErr && editionErr.json && editionErr.json.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the edition you're looking for doesn't exist.")));
         }
     },
@@ -81,18 +77,22 @@ let EditionContainer = React.createClass({
         if(state && state.edition && state.edition.digital_work) {
             let isEncoding = state.edition.digital_work.isEncoding;
             if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-                let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
+                let timerId = window.setInterval(() => EditionActions.fetchEdition(this.props.params.editionId), 10000);
                 this.setState({timerId: timerId});
             }
         }
+    },
+
+    loadEdition(editionId = this.props.params.editionId) {
+        EditionActions.fetchEdition(editionId);
     },
 
     render() {
         const { edition, currentUser, coaMeta } = this.state;
         const { actionPanelButtonListType, furtherDetailsType } = this.props;
 
-        if (Object.keys(edition).length && edition.id && currentUser && currentUser.email) {
-            setDocumentTitle([edition.artist_name, edition.title].join(', '));
+        if (edition.id) {
+            setDocumentTitle(`${edition.artist_name}, ${edition.title}`);
 
             return (
                 <Edition
@@ -101,7 +101,7 @@ let EditionContainer = React.createClass({
                     edition={edition}
                     coaError={coaMeta.err}
                     currentUser={currentUser}
-                    loadEdition={() => EditionActions.fetchEdition(this.props.params.editionId)} />
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (
