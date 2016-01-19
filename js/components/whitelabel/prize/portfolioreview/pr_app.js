@@ -75,11 +75,12 @@ let PRApp = React.createClass({
         }
 
         return (
-            <div>
+            <div
+                style={style}
+                className={'ascribe-prize-app'}>
                 {header}
-                <div
-                    style={style}
-                    className={'container ascribe-prize-app client--' + subdomain}>
+                <div className="container ascribe-body">
+                    {/* Routes are injected here */}
                     {children}
                 </div>
             </div>

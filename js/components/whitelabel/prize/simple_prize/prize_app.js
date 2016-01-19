@@ -38,10 +38,12 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className={'container ascribe-prize-app client--' + subdomain}>
+            <div className="ascribe-prize-app">
                 {header}
-                {this.props.children}
+                <div className="container ascribe-body">
+                    {/* Routes are injected here */}
                     {children}
+                </div>
             </div>
         );
     }

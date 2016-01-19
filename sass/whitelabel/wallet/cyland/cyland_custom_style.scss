@@ -178,8 +178,13 @@ $cyland--button-sec-color: #515151;
             vertical-align: middle;
         }
 
+        .hero {
+            display: none;
+        }
+
         .cyland-landing {
             font-weight: normal;
+            padding: 0 15px;
             text-align: center;
         }
     }

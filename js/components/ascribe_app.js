@@ -22,10 +22,10 @@ let AscribeApp = React.createClass({
         const { children, routes } = this.props;
 
         return (
-            <div className="container ascribe-default-app">
+            <div className="ascribe-default-app">
                 <Header routes={routes} />
-                {/* Routes are injected here */}
-                <div className="ascribe-body">
+                <div className="container ascribe-body">
+                    {/* Routes are injected here */}
                     {children}
                 </div>
             </div>
