@@ -13,22 +13,19 @@ import AppConstants from '../constants/application_constants';
  * @param  {boolean} ignoreSentry Defines whether or not the error should be submitted to Sentry
  * @param  {string} comment  Will also be submitted to Sentry, but will not be logged
  */
-function logGlobal(error, comment, ignoreSentry = AppConstants.errorMessagesToIgnore.indexOf(error.message) > -1) {
+function logGlobal(error, comment, ignoreSentry) {
     console.error(error);
 
-    if(!ignoreSentry) {
-        if(comment) {
-            Raven.captureException(error, {extra: { comment }});
-        } else {
-            Raven.captureException(error);
-        }
+    if (!ignoreSentry) {
+        Raven.captureException(error, comment ? { extra: { comment } } : undefined);
     }
 }
 
 export function initLogging() {
     // Initialize Raven for logging on Sentry
     Raven.config(AppConstants.raven.url, {
-        release: AppConstants.version
+        release: AppConstants.version,
+        ignoreErrors: AppConstants.errorMessagesToIgnore
     }).install();
 
     window.onerror = Raven.process;

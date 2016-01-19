@@ -16,10 +16,10 @@ import MediaContainer from './media_container';
 let Piece = React.createClass({
     propTypes: {
         piece: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
         header: React.PropTypes.object,
         subheader: React.PropTypes.object,
         buttons: React.PropTypes.object,
-        loadPiece: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
@@ -28,24 +28,26 @@ let Piece = React.createClass({
 
 
     updateObject() {
-        return PieceActions.fetchOne(this.props.piece.id);
+        return PieceActions.fetchPiece(this.props.piece.id);
     },
 
     render() {
+        const { buttons, children, currentUser, header, piece, subheader } = this.props;
+
         return (
             <Row>
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
-                        refreshObject={this.updateObject}
-                        content={this.props.piece}/>
+                        content={piece}
+                        currentUser={currentUser}
+                        refreshObject={this.updateObject} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
-                    {this.props.header}
-                    {this.props.subheader}
-                    {this.props.buttons}
+                    {header}
+                    {subheader}
+                    {buttons}
 
-                    {this.props.children}
-
+                    {children}
                 </Col>
             </Row>
         );

@@ -22,12 +22,8 @@ refreshApplicationToken
 we cannot repeat this for a sources' methods as patterns like this would emerge in the stores:
 
 ```javascript
-onFetchCurrentUser(invalidateCache) {
-    this.invalidateCache = invalidateCache;
-
-    if(!this.getInstance().isLoading()) {
-        this.getInstance().fetchCurrentUser(); // does not call a flux "action" but a method in user_source.js - which is confusing
-    }
+onFetchCurrentUser() {
+    this.getInstance().fetchCurrentUser(); // does not call a flux "action" but a method in user_source.js - which is confusing
 }
 ```
 

@@ -30,7 +30,7 @@ let MarketAclButtonList = React.createClass({
 
     componentDidMount() {
         UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
+        UserActions.fetchCurrentUser.defer();
     },
 
     componentWillUnmount() {

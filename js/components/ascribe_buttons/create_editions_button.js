@@ -28,6 +28,12 @@ let CreateEditionsButton = React.createClass({
         EditionListStore.listen(this.onChange);
     },
 
+    componentDidUpdate() {
+        if(this.props.piece.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
+            this.startPolling();
+        }
+    },
+
     componentWillUnmount() {
         EditionListStore.unlisten(this.onChange);
         clearInterval(this.state.pollingIntervalIndex);
@@ -37,28 +43,24 @@ let CreateEditionsButton = React.createClass({
         this.setState(state);
     },
 
-    componentDidUpdate() {
-        if(this.props.piece.num_editions === 0 && typeof this.state.pollingIntervalIndex === 'undefined') {
-            this.startPolling();
-        }
-    },
-
     startPolling() {
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
 
             // requests, will try to merge the filterBy parameter with other parameters (mergeOptions).
             // Therefore it can't but null but instead has to be an empty object
-            EditionListActions.fetchEditionList(this.props.piece.id, null, null, null, null, {})
-            .then((res) => {
-
-                clearInterval(this.state.pollingIntervalIndex);
-                this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
-
-            })
-            .catch((err) => {
-                /* Ignore and keep going */
-            });
+            EditionListActions
+                .fetchEditionList({
+                    pieceId: this.props.piece.id,
+                    filterBy: {}
+                })
+                .then((res) => {
+                    clearInterval(this.state.pollingIntervalIndex);
+                    this.props.onPollingSuccess(this.props.piece.id, res.editions[0].num_editions);
+                })
+                .catch((err) => {
+                    /* Ignore and keep going */
+                });
         }, 5000);
 
         this.setState({
