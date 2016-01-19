@@ -5,8 +5,6 @@ import React from 'react';
 import AppBase from './app_base';
 import Header from './header';
 
-import AppConstants from '../constants/application_constants';
-
 
 let AscribeApp = React.createClass({
     propTypes: {
