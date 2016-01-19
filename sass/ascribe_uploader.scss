@@ -28,9 +28,9 @@
 }
 
 .file-drag-and-drop-dialog {
-    margin: 1.5em 0 1.5em 0;
+    margin: 0 0 1.5em 0;
 
-    > p:first-child {
+    .file-drag-and-drop-dialog-title {
         font-size: 1.5em !important;
         margin-bottom: 0;
         margin-top: 0;
@@ -45,14 +45,6 @@
 .file-drag-and-drop-hashing-dialog {
     text-align: center;
     margin: 1.5em 0 0 0;
-}
-
-.file-drag-and-drop .file-drag-and-drop-dialog > p:first-child {
-    font-size: 1.5em !important;
-
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
 }
 
 .file-drag-and-drop-position {
@@ -138,6 +130,7 @@
     text-align: center;
     width: 104px;
 
+    // REFACTOR TO USE TABLE CELL
     .action-file, .spinner-file, .icon-ascribe-ok {
         margin-top: 1em;
         line-height: 1.3;

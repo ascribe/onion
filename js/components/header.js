@@ -219,10 +219,11 @@ let Header = React.createClass({
         return (
             <div>
                 <Navbar
+                    ref="navbar"
                     brand={this.getLogo()}
                     toggleNavKey={0}
                     fixedTop={true}
-                    ref="navbar">
+                    className="hidden-print">
                     <CollapsibleNav
                         eventKey={0}>
                         <Nav navbar left>
@@ -237,6 +238,9 @@ let Header = React.createClass({
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
+                <p className="ascribe-print-header visible-print">
+                    <span className="icon-ascribe-logo" />
+                </p>
             </div>
         );
     }

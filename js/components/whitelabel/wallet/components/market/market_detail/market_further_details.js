@@ -6,8 +6,12 @@ import MarketAdditionalDataForm from '../market_forms/market_additional_data_for
 
 let MarketFurtherDetails = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.number,
+        pieceId: React.PropTypes.number.isRequired,
+
+        editable: React.PropTypes.bool,
+        extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
+        otherData: React.PropTypes.arrayOf(React.PropTypes.object)
     },
 
     render() {
