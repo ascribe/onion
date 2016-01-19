@@ -244,6 +244,7 @@ let PrizePieceRatings = React.createClass({
         PrizeStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
 
+        PrizeActions.fetchPrize();
         this.fetchRatingsIfAuthorized();
     },
 
