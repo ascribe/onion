@@ -21,7 +21,7 @@ let ErrorNotFoundPage = React.createClass({
 
     componentDidMount() {
         // The previous page, if any, is the second item in the locationQueue
-        const { locationQueue: [ _, previousPage ] } = this.history;
+        const { locationQueue: [ , previousPage ] } = this.history;
 
         if (previousPage) {
             console.logGlobal('Page not found', {

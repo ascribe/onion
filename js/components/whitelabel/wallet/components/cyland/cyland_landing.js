@@ -57,40 +57,38 @@ let CylandLanding = React.createClass({
         setDocumentTitle('CYLAND MediaArtLab');
 
         return (
-            <div className="container">
-                <div className="ascribe-form-wrapper cyland-landing">
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
-                                <img src={this.state.whitelabel.logo} width="400px"/>
-                                <div style={{marginTop: '1em'}}>
-                                    {getLangText('Submissions to Cyland Archive are powered by') + ' '}
-                                    <span>
-                                        <span className="icon-ascribe-logo"></span>
-                                    </span>
-                                </div>
+            <div className="ascribe-form-wrapper cyland-landing">
+                <div className="row">
+                    <div className="col-xs-12">
+                        <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
+                            <img src={this.state.whitelabel.logo} width="400px"/>
+                            <div style={{marginTop: '1em'}}>
+                                {getLangText('Submissions to Cyland Archive are powered by') + ' '}
+                                <span>
+                                    <span className="icon-ascribe-logo"></span>
+                                </span>
                             </div>
-                            <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
-                                <div className="col-xs-6">
-                                    <p>
-                                        {getLangText('Existing ascribe user?')}
-                                    </p>
-                                    <LinkContainer to="/login">
-                                        <Button>
-                                            {getLangText('Log in')}
-                                        </Button>
-                                    </LinkContainer>
-                                </div>
-                                <div className="col-xs-6">
-                                    <p>
-                                        {getLangText('Do you need an account?')}
-                                    </p>
-                                    <LinkContainer to="/signup">
-                                        <Button>
-                                            {getLangText('Sign up')}
-                                        </Button>
-                                    </LinkContainer>
-                                </div>
+                        </div>
+                        <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
+                            <div className="col-xs-6">
+                                <p>
+                                    {getLangText('Existing ascribe user?')}
+                                </p>
+                                <LinkContainer to="/login">
+                                    <Button>
+                                        {getLangText('Log in')}
+                                    </Button>
+                                </LinkContainer>
+                            </div>
+                            <div className="col-xs-6">
+                                <p>
+                                    {getLangText('Do you need an account?')}
+                                </p>
+                                <LinkContainer to="/signup">
+                                    <Button>
+                                        {getLangText('Sign up')}
+                                    </Button>
+                                </LinkContainer>
                             </div>
                         </div>
                     </div>
