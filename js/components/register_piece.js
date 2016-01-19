@@ -89,7 +89,8 @@ let RegisterPiece = React.createClass( {
                     <input
                         type="number"
                         placeholder="(e.g. 32)"
-                        min={0}/>
+                        min={1}
+                        max={100} />
                 </Property>
             );
         }
