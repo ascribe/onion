@@ -1,14 +1,13 @@
 'use strict';
 
-require('babel/polyfill');
+import 'babel/polyfill';
+import 'classlist-polyfill';
 
 import React from 'react';
 import { Router, Redirect } from 'react-router';
 import history from './history';
 
-/* eslint-disable */
 import fetch from 'isomorphic-fetch';
-/* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
 
@@ -23,15 +22,13 @@ import { getSubdomain } from './utils/general_utils';
 
 import EventActions from './actions/event_actions';
 
-/* eslint-disable */
 // You can comment out the modules you don't need
-// import DebugHandler from './third_party/debug';
-import GoogleAnalyticsHandler from './third_party/ga';
-import RavenHandler from './third_party/raven';
-import IntercomHandler from './third_party/intercom';
-import NotificationsHandler from './third_party/notifications';
-import FacebookHandler from './third_party/facebook';
-/* eslint-enable */
+// import DebugHandler from './third_party/debug_handler';
+import FacebookHandler from './third_party/facebook_handler';
+import GoogleAnalyticsHandler from './third_party/ga_handler';
+import IntercomHandler from './third_party/intercom_handler';
+import NotificationsHandler from './third_party/notifications_handler';
+import RavenHandler from './third_party/raven_handler';
 
 initLogging();
 
@@ -105,4 +102,3 @@ class AppGateway {
 
 let ag = new AppGateway();
 ag.start();
-

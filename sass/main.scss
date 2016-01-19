@@ -44,6 +44,8 @@ $BASE_URL: '<%= BASE_URL %>';
 
 @import 'whitelabel/index';
 
+@import 'ascribe_print';
+
 
 html,
 body {
@@ -59,6 +61,7 @@ html {
 .ascribe-default-app {
     overflow-x: hidden;
     padding-top: 70px;
+    padding-bottom: 10px;
 }
 
 hr {
@@ -103,6 +106,12 @@ hr {
 
 .ascribe-color {
     color: $ascribe-dark-blue;
+}
+
+.add-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ascribe-subheader {

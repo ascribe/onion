@@ -22,7 +22,11 @@ let HistoryIterator = React.createClass({
             return (
                 <span>
                     {historicalEventDescription}
-                    <a href={historicalEvent[2]} target="_blank">{contractName}</a>
+                    <a  className="anchor-no-expand-print"
+                        target="_blank"
+                        href={historicalEvent[2]}>
+                        {contractName}
+                    </a>
                 </span>
             );
         } else if(historicalEvent.length === 2) {

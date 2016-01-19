@@ -32,7 +32,7 @@ let PrizeApp = React.createClass({
         if (!path || history.isActive('/login') || history.isActive('/signup')) {
             header = <Hero />;
         } else {
-            header = <Header showAddWork={false} routes={routes}/>;
+            header = <Header routes={routes}/>;
         }
 
         return (

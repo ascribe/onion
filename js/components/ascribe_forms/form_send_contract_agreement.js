@@ -58,7 +58,7 @@ let SendContractAgreementForm = React.createClass({
         notification = new GlobalNotificationModel(notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     getFormData() {
