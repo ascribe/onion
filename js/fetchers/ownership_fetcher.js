@@ -15,7 +15,7 @@ let OwnershipFetcher = {
     /**
      * Fetch the contracts of the logged-in user from the API.
      */
-    fetchContractList(isActive, isPublic, issuer){
+    fetchContractList(isActive, isPublic, issuer) {
         let queryParams = {
             isActive,
             isPublic,
@@ -28,7 +28,7 @@ let OwnershipFetcher = {
     /**
      * Create a contractagreement between the logged-in user and the email from the API with contract.
      */
-    createContractAgreement(signee, contractObj){
+    createContractAgreement(signee, contractObj) {
         return requests.post(ApiUrls.ownership_contract_agreements, { body: {signee: signee, contract: contractObj.id }});
     },
 
@@ -44,23 +44,23 @@ let OwnershipFetcher = {
         return requests.get(ApiUrls.ownership_contract_agreements, queryParams);
     },
 
-    confirmContractAgreement(contractAgreement){
+    confirmContractAgreement(contractAgreement) {
         return requests.put(ApiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id});
     },
 
-    denyContractAgreement(contractAgreement){
+    denyContractAgreement(contractAgreement) {
         return requests.put(ApiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id});
     },
 
-    fetchLoanPieceRequestList(){
+    fetchLoanPieceRequestList() {
         return requests.get(ApiUrls.ownership_loans_pieces_request);
     },
 
-    changeContract(contractObj){
+    changeContract(contractObj) {
         return requests.put(ApiUrls.ownership_contract, { body: contractObj, contract_id: contractObj.id });
     },
 
-    deleteContract(contractObjId){
+    deleteContract(contractObjId) {
         return requests.delete(ApiUrls.ownership_contract, {contract_id: contractObjId});
     }
 };
