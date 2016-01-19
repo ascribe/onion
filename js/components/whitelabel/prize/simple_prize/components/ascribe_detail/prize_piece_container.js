@@ -187,8 +187,8 @@ let PrizePieceContainer = React.createClass({
 
 let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object.isRequired,
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
@@ -224,9 +224,10 @@ let NavigationHeader = React.createClass({
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
-        loadPiece: React.PropTypes.func,
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        loadPiece: React.PropTypes.func.isRequired,
+        piece: React.PropTypes.object.isRequired,
+
         selectedPrizeActionButton: React.PropTypes.func
     },
 
@@ -239,12 +240,18 @@ let PrizePieceRatings = React.createClass({
     },
 
     componentDidMount() {
-        PieceListStore.listen(this.onChange);
-        PrizeStore.listen(this.onChange);
         PrizeRatingStore.listen(this.onChange);
+        PrizeStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
 
         PrizeActions.fetchPrize();
-        this.fetchPrizeRatings();
+        this.fetchRatingsIfAuthorized();
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.fetchRatingsIfAuthorized();
+        }
     },
 
     componentWillUnmount() {
@@ -259,7 +266,7 @@ let PrizePieceRatings = React.createClass({
     // with the problem.
     onChange(state) {
         if (state.prize && state.prize.active_round != this.state.prize.active_round) {
-            this.fetchPrizeRatings(state);
+            this.fetchRatingsIfAuthorized(state);
         }
 
         this.setState(state);
@@ -274,9 +281,19 @@ let PrizePieceRatings = React.createClass({
         }
     },
 
-    fetchPrizeRatings(state = this.state) {
-        PrizeRatingActions.fetchOne(this.props.piece.id, state.prize.active_round);
-        PrizeRatingActions.fetchAverage(this.props.piece.id, state.prize.active_round);
+    fetchRatingsIfAuthorized(state = this.state) {
+        const {
+            currentUser: {
+                is_admin: isAdmin,
+                is_judge: isJudge,
+                is_jury: isJury
+            },
+            piece: { id: pieceId } } = this.props;
+
+        if (state.prize && 'active_round' in state.prize && (isAdmin || isJudge || isJury)) {
+            PrizeRatingActions.fetchOne(pieceId, state.prize.active_round);
+            PrizeRatingActions.fetchAverage(pieceId, state.prize.active_round);
+        }
     },
 
     onRatingClick(event, args) {
@@ -425,7 +442,7 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
