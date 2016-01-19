@@ -20,13 +20,16 @@ let FurtherDetailsFileuploader = React.createClass({
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
         setIsUploadReady: React.PropTypes.func,
         submitFile: React.PropTypes.func,
+        onValidationFailed: React.PropTypes.func,
         isReadyForFormSubmission: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        multiple: React.PropTypes.bool
+        multiple: React.PropTypes.bool,
+        areAssetsDownloadable: React.PropTypes.bool
     },
 
     getDefaultProps() {
         return {
+            areAssetsDownloadable: true,
             label: getLangText('Additional files'),
             multiple: false
         };
@@ -60,6 +63,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     }}
                     validation={AppConstants.fineUploader.validation.additionalData}
                     submitFile={this.props.submitFile}
+                    onValidationFailed={this.props.onValidationFailed}
                     setIsUploadReady={this.props.setIsUploadReady}
                     isReadyForFormSubmission={this.props.isReadyForFormSubmission}
                     session={{
@@ -89,7 +93,7 @@ let FurtherDetailsFileuploader = React.createClass({
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }
                     }}
-                    areAssetsDownloadable={true}
+                    areAssetsDownloadable={this.props.areAssetsDownloadable}
                     areAssetsEditable={this.props.editable}
                     multiple={this.props.multiple} />
             </Property>

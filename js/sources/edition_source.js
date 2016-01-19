@@ -7,8 +7,8 @@ import EditionActions from '../actions/edition_actions';
 
 const EditionSource = {
     lookupEdition: {
-        remote(state) {
-            return requests.get('edition', { bitcoin_id: state.editionMeta.idToFetch });
+        remote(state, editionId) {
+            return requests.get('edition', { bitcoin_id: editionId });
         },
 
         success: EditionActions.successFetchEdition,

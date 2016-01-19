@@ -1,7 +1,9 @@
 'use strict';
 
 import { altWhitelabel } from '../alt';
+
 import WhitelabelActions from '../actions/whitelabel_actions';
+
 import WhitelabelSource from '../sources/whitelabel_source';
 
 
@@ -9,7 +11,6 @@ class WhitelabelStore {
     constructor() {
         this.whitelabel = {};
         this.whitelabelMeta = {
-            invalidateCache: false,
             err: null
         };
 
@@ -18,15 +19,16 @@ class WhitelabelStore {
     }
 
     onFetchWhitelabel(invalidateCache) {
-        this.whitelabelMeta.invalidateCache = invalidateCache;
-
-        if(!this.getInstance().isLoading()) {
-            this.getInstance().lookupWhitelabel();
+        if (invalidateCache || !this.getInstance().isLoading()) {
+            this.getInstance().lookupWhitelabel(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
-    onSuccessFetchWhitelabel({ whitelabel }) {
-        this.whitelabelMeta.invalidateCache = false;
+    onSuccessFetchWhitelabel({ whitelabel = {} }) {
         this.whitelabelMeta.err = null;
         this.whitelabel = whitelabel;
     }

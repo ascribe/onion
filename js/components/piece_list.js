@@ -37,6 +37,7 @@ let PieceList = React.createClass({
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
         redirectTo: React.PropTypes.string,
+        shouldRedirect: React.PropTypes.func,
         customSubmitButton: React.PropTypes.element,
         customThumbnailPlaceholder: React.PropTypes.func,
         filterParams: React.PropTypes.array,
@@ -114,9 +115,13 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        if (this.props.redirectTo && this.state.unfilteredPieceListCount === 0) {
+        const { location: { query }, redirectTo, shouldRedirect } = this.props;
+        const { unfilteredPieceListCount } = this.state;
+
+        if (redirectTo && unfilteredPieceListCount === 0 &&
+            (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.pushState(null, this.props.redirectTo, this.props.location.query), 0);
+            window.setTimeout(() => this.history.push({ query, pathname: redirectTo }), 0);
         }
     },
 
@@ -169,15 +174,16 @@ let PieceList = React.createClass({
         }
     },
 
-    searchFor(searchTerm) {
-        this.loadPieceList({
-            page: 1,
-            search: searchTerm
-        });
-        this.history.pushState(null, this.props.location.pathname, {page: 1});
+    searchFor(search) {
+        const { location: { pathname } } = this.props;
+
+        this.loadPieceList({ search, page: 1 });
+        this.history.push({ pathname, query: { page: 1 } });
     },
 
-    applyFilterBy(filterBy){
+    applyFilterBy(filterBy) {
+        const { location: { pathname } } = this.props;
+
         this.setState({
             isFilterDirty: true
         });
@@ -190,31 +196,32 @@ let PieceList = React.createClass({
                 this.state.pieceList
                     .forEach((piece) => {
                         // but only if they're actually open
-                        if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                        const isEditionListOpenForPiece = this.state.isEditionListOpenForPieceId[piece.id];
+
+                        if (isEditionListOpenForPiece && isEditionListOpenForPiece.show) {
                             EditionListActions.refreshEditionList({
                                 pieceId: piece.id,
                                 filterBy
                             });
                         }
-
                     });
             });
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.history.pushState(null, this.props.location.pathname, {page: 1});
+        this.history.push({ pathname, query: { page: 1 } });
     },
 
     applyOrderBy(orderBy) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, page, pageSize, search } = this.state;
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     loadPieceList({ page, filterBy = this.state.filterBy, search = this.state.search }) {
+        const { orderAsc, pageSize } = this.state;
         const orderBy = this.state.orderBy || this.props.orderBy;
 
-        return PieceListActions.fetchPieceList(page, this.state.pageSize, search,
-                                               orderBy, this.state.orderAsc, filterBy);
+        return PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     fetchSelectedPieceEditionList() {
@@ -240,8 +247,9 @@ let PieceList = React.createClass({
     },
 
     handleAclSuccess() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderBy, orderAsc, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {

@@ -109,6 +109,11 @@ let RegisterPieceForm = React.createClass({
         );
     },
 
+    handleThumbnailValidationFailed(thumbnailFile) {
+        // If the validation fails, set the thumbnail as submittable since its optional
+        this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
+    },
+
     isThumbnailDialogExpanded() {
         const { enableSeparateThumbnail } = this.props;
         const { digitalWorkFile } = this.state;
@@ -194,14 +199,15 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_thumbnails
                         }}
                         handleChangedFile={this.handleChangedThumbnail}
+                        onValidationFailed={this.handleThumbnailValidationFailed}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'thumbnail'
                         }}
                         validation={{
-                            itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            itemLimit: AppConstants.fineUploader.validation.workThumbnail.itemLimit,
+                            sizeLimit: AppConstants.fineUploader.validation.workThumbnail.sizeLimit,
                             allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                         }}
                         setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}

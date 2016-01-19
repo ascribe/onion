@@ -41,7 +41,7 @@ let IkonotvPieceContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            PieceStore.getState(),
+            PieceStore.getInitialState(),
             UserStore.getState(),
             PieceListStore.getState()
         );
@@ -52,19 +52,14 @@ let IkonotvPieceContainer = React.createClass({
         UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
         this.loadPiece();
     },
 
-     // We need this for when the user clicks on a notification while being in another piece view
+    // We need this for when the user clicks on a notification while being in another piece view
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
+        if (this.props.params.pieceId !== nextProps.params.pieceId) {
+            PieceActions.flushPiece();
+            this.loadPiece();
         }
     },
 
@@ -79,25 +74,28 @@ let IkonotvPieceContainer = React.createClass({
     },
 
     loadPiece() {
-        PieceActions.fetchOne(this.props.params.pieceId);
+        PieceActions.fetchPiece(this.props.params.pieceId);
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         // since we're deleting a piece, we just need to close
         // all editions dialogs and not reload them
         EditionListActions.closeAllEditionLists();
         EditionListActions.clearAllEditionSelections();
 
-        let notification = new GlobalNotificationModel(response.notification, 'success');
+        const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.history.push('/collection');
     },
 
     render() {
+        const { piece } = this.state;
+
         let furtherDetails = (
             <CollapsibleParagraph
                 title={getLangText('Further Details')}
@@ -106,28 +104,29 @@ let IkonotvPieceContainer = React.createClass({
             </CollapsibleParagraph>
         );
 
-        if(this.state.piece.extra_data && Object.keys(this.state.piece.extra_data).length > 0 && this.state.piece.acl) {
+        if (piece.extra_data && Object.keys(piece.extra_data).length && piece.acl) {
             furtherDetails = (
                 <CollapsibleParagraph
                     title={getLangText('Further Details')}
                     defaultExpanded={true}>
                     <IkonotvArtistDetailsForm
-                        piece={this.state.piece}
+                        piece={piece}
                         isInline={true}
-                        disabled={!this.state.piece.acl.acl_edit} />
+                        disabled={!piece.acl.acl_edit} />
                     <IkonotvArtworkDetailsForm
-                        piece={this.state.piece}
+                        piece={piece}
                         isInline={true}
-                        disabled={!this.state.piece.acl.acl_edit} />
+                        disabled={!piece.acl.acl_edit} />
                 </CollapsibleParagraph>
             );
         }
 
-        if(this.state.piece && this.state.piece.id) {
-            setDocumentTitle([this.state.piece.artist_name, this.state.piece.title].join(', '));
+        if (piece.id) {
+            setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
+
             return (
                 <WalletPieceContainer
-                    piece={this.state.piece}
+                    piece={piece}
                     currentUser={this.state.currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
@@ -135,8 +134,7 @@ let IkonotvPieceContainer = React.createClass({
                     {furtherDetails}
                 </WalletPieceContainer>
             );
-        }
-        else {
+        } else {
             return (
                 <div className="fullpage-spinner">
                     <AscribeSpinner color='dark-blue' size='lg' />

@@ -10,14 +10,15 @@ class PrizeRatingActions {
         this.generateActions(
             'updatePrizeRatings',
             'updatePrizeRatingAverage',
-            'updatePrizeRating'
+            'updatePrizeRating',
+            'resetPrizeRatings'
         );
     }
 
-    fetchAverage(pieceId) {
+    fetchAverage(pieceId, round) {
         return Q.Promise((resolve, reject) => {
             PrizeRatingFetcher
-                .fetchAverage(pieceId)
+                .fetchAverage(pieceId, round)
                 .then((res) => {
                     this.actions.updatePrizeRatingAverage(res.data);
                     resolve(res);
@@ -29,10 +30,10 @@ class PrizeRatingActions {
         });
     }
 
-    fetchOne(pieceId) {
+    fetchOne(pieceId, round) {
         return Q.Promise((resolve, reject) => {
             PrizeRatingFetcher
-                .fetchOne(pieceId)
+                .fetchOne(pieceId, round)
                 .then((res) => {
                     this.actions.updatePrizeRating(res.rating.rating);
                     resolve(res);
@@ -43,10 +44,10 @@ class PrizeRatingActions {
         });
     }
 
-    createRating(pieceId, rating) {
+    createRating(pieceId, rating, round) {
         return Q.Promise((resolve, reject) => {
             PrizeRatingFetcher
-                .rate(pieceId, rating)
+                .rate(pieceId, rating, round)
                 .then((res) => {
                     this.actions.updatePrizeRating(res.rating.rating);
                     resolve(res);
@@ -69,10 +70,6 @@ class PrizeRatingActions {
                     reject(err);
                 });
         });
-    }
-
-    updateRating(rating) {
-        this.actions.updatePrizeRating(rating);
     }
 }
 

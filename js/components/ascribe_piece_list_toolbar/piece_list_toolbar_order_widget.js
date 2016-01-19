@@ -37,7 +37,7 @@ let PieceListToolbarOrderWidget = React.createClass({
     isOrderActive() {
         // We're hiding the star in that complicated matter so that,
         // the surrounding button is not resized up on appearance
-        if(this.props.orderBy.length > 0) {
+        if (this.props.orderBy && this.props.orderBy.length) {
             return { visibility: 'visible'};
         } else {
             return { visibility: 'hidden' };
@@ -51,18 +51,18 @@ let PieceListToolbarOrderWidget = React.createClass({
                 <span style={this.isOrderActive()}>&middot;</span>
             </span>
         );
-        return (
 
-            <DropdownButton
-                pullRight={true}
-                title={filterIcon}
-                className="ascribe-piece-list-toolbar-filter-widget">
-                <li style={{'textAlign': 'center'}}>
-                    <em>{getLangText('Sort by')}:</em>
-                </li>
-                {this.props.orderParams.map((param) => {
-                    return (
-                        <div>
+        if (this.props.orderParams && this.props.orderParams.length) {
+            return (
+                <DropdownButton
+                    pullRight={true}
+                    title={filterIcon}
+                    className="ascribe-piece-list-toolbar-filter-widget">
+                    <li style={{'textAlign': 'center'}}>
+                        <em>{getLangText('Sort by')}:</em>
+                    </li>
+                    {this.props.orderParams.map((param) => {
+                        return (
                             <li
                                 key={param}
                                 onClick={this.orderBy(param)}
@@ -77,11 +77,13 @@ let PieceListToolbarOrderWidget = React.createClass({
                                         checked={param.indexOf(this.props.orderBy) > -1} />
                                 </div>
                             </li>
-                        </div>
-                    );
-                })}
-            </DropdownButton>
-        );
+                        );
+                    })}
+                </DropdownButton>
+            );
+        } else {
+            return null;
+        }
     }
 });
 

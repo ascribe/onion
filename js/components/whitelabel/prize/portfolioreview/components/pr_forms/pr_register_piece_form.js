@@ -19,8 +19,10 @@ import ApiUrls from '../../../../../../constants/api_urls';
 
 import requests from '../../../../../../utils/requests';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getErrorNotificationMessage } from '../../../../../../utils/error_utils';
 import { setCookie } from '../../../../../../utils/fetch_api_utils';
+import { validateForms } from '../../../../../../utils/form_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
@@ -35,7 +37,7 @@ const PRRegisterPieceForm = React.createClass({
 
     mixins: [History],
 
-    getInitialState(){
+    getInitialState() {
         return {
             digitalWorkKeyReady: true,
             thumbnailKeyReady: true,
@@ -54,15 +56,15 @@ const PRRegisterPieceForm = React.createClass({
      * second adding all the additional details
      */
     submit() {
-        if(!this.validateForms()) {
+        if (!this.validateForms()) {
             return;
-        } else {
-            // disable the submission button right after the user
-            // clicks on it to avoid double submission
-            this.setState({
-                submitted: true
-            });
         }
+
+        // disable the submission button right after the user
+        // clicks on it to avoid double submission
+        this.setState({
+            submitted: true
+        });
 
         const { currentUser } = this.props;
         const { registerPieceForm,
@@ -75,7 +77,7 @@ const PRRegisterPieceForm = React.createClass({
         const additionalDataFormData = additionalDataForm.getFormData();
 
         // composing data for piece registration
-        let registerPieceFormData = registerPieceForm.getFormData();
+        const registerPieceFormData = registerPieceForm.getFormData();
         registerPieceFormData.digital_work_key = digitalWorkKey.state.value;
         registerPieceFormData.thumbnail_file = thumbnailKey.state.value;
         registerPieceFormData.terms = true;
@@ -83,33 +85,41 @@ const PRRegisterPieceForm = React.createClass({
         // submitting the piece
         requests
             .post(ApiUrls.pieces_list, { body: registerPieceFormData })
-            .then(({ success, piece, notification }) => {
-                if(success) {
-                    this.setState({
-                        piece
-                    }, () => {
-                        supportingMaterials.refs.input.createBlobRoutine();
-                        proofOfPayment.refs.input.createBlobRoutine();
-                    });
+            .then(({ piece, notification }) => {
+                this.setState({piece}, () => {
+                    supportingMaterials.refs.input.createBlobRoutine();
+                    proofOfPayment.refs.input.createBlobRoutine();
+                });
 
-                    setCookie(currentUser.email, piece.id);
+                setCookie(currentUser.email, piece.id);
 
-                    return requests.post(ApiUrls.piece_extradata, {
+                return requests
+                    .post(ApiUrls.piece_extradata, {
                         body: {
                             extradata: additionalDataFormData,
                             piece_id: piece.id
                         },
                         piece_id: piece.id
+                    })
+                    .then(() => {
+                        const notificationMessage = new GlobalNotificationModel(notification || getLangText('You have successfully submitted "%s" to Portfolio Review 2015', piece.title), 'success', 5000);
+                        GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                     });
-                } else {
-                    const notificationMessage = new GlobalNotificationModel(notification, 'danger', 5000);
-                    GlobalNotificationActions.appendGlobalNotification(notificationMessage);
-                }
             })
-            .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
-            .catch(() => {
-                const notificationMessage = new GlobalNotificationModel(getLangText("Ups! We weren't able to send your submission. Contact: support@ascribe.io"), 'danger', 5000);
+            .then(() => this.history.push(`/pieces/${this.state.piece.id}`))
+            .catch((err) => {
+                const errMessage = (getErrorNotificationMessage(err) || getLangText("Oops! We weren't able to send your submission.")) +
+                                        getLangText(' Please contact support@ascribe.io');
+
+                const notificationMessage = new GlobalNotificationModel(errMessage, 'danger', 10000);
                 GlobalNotificationActions.appendGlobalNotification(notificationMessage);
+
+                console.logGlobal(new Error('Portfolio Review piece registration failed'), err);
+
+                // Reset the submit button
+                this.setState({
+                    submitted: false
+                });
             });
     },
 
@@ -118,11 +128,7 @@ const PRRegisterPieceForm = React.createClass({
                 additionalDataForm,
                 uploadersForm } = this.refs;
 
-        const registerPieceFormValidation = registerPieceForm.validate();
-        const additionalDataFormValidation = additionalDataForm.validate();
-        const uploaderFormValidation = uploadersForm.validate();
-
-        return registerPieceFormValidation && additionalDataFormValidation && uploaderFormValidation;
+        return validateForms([registerPieceForm, additionalDataForm, uploadersForm], true);
     },
 
     getCreateBlobRoutine() {
@@ -139,7 +145,7 @@ const PRRegisterPieceForm = React.createClass({
     },
 
     /**
-     * This method is overloaded so that we can track the ready-state
+     * These two methods are overloaded so that we can track the ready-state
      * of each uploader in the component
      * @param {string} uploaderKey Name of the uploader's key to track
      */
@@ -147,6 +153,14 @@ const PRRegisterPieceForm = React.createClass({
         return (isUploadReady) => {
             this.setState({
                 [uploaderKey]: isUploadReady
+            });
+        };
+    },
+
+    handleOptionalFileValidationFailed(uploaderKey) {
+        return () => {
+            this.setState({
+                [uploaderKey]: true
             });
         };
     },
@@ -167,7 +181,7 @@ const PRRegisterPieceForm = React.createClass({
         } else {
             return (
                 <button
-                    type="submit"
+                    type="button"
                     className="btn btn-default btn-wide"
                     disabled={!(digitalWorkKeyReady && thumbnailKeyReady && proofOfPaymentReady && supportingMaterialsReady)}
                     onClick={this.submit}>
@@ -191,7 +205,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Full name')}>
                         <input
                             type="text"
-                            placeholder="(e.g. Andy Warhol)"
+                            placeholder={getLangText('(e.g. Andy Warhol)')}
                             required/>
                     </Property>
                     <Property
@@ -199,7 +213,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Title of the Work')}>
                         <input
                             type="text"
-                            placeholder="(e.g. 32 Campbell's Soup Cans)"
+                            placeholder={getLangText("(e.g. 32 Campbell's Soup Cans)")}
                             required/>
                     </Property>
                     <Property
@@ -207,7 +221,7 @@ const PRRegisterPieceForm = React.createClass({
                         label={getLangText('Year of creation')}>
                         <input
                             type="number"
-                            placeholder="(e.g. 1962)"
+                            placeholder={getLangText('(e.g. 1962)')}
                             min={1}
                             required/>
                     </Property>
@@ -224,25 +238,51 @@ const PRRegisterPieceForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref="additionalDataForm">
                     <Property
-                        name='artist_bio'
+                        name='1-date_of_birth'
+                        label={getLangText('Date of Birth')}>
+                        <input
+                            type="number"
+                            placeholder={getLangText('(e.g. 1962)')}
+                            min={1900}
+                            required/>
+                    </Property>
+                    <Property
+                        name='2-artist_bio'
                         label={getLangText('Biography')}>
                         <InputTextAreaToggable
                             rows={1}
                             placeholder={getLangText('Enter your biography')}/>
                     </Property>
                     <Property
-                        name='exhibition'
+                        name='3-exhibition'
                         label={getLangText('Exhibition / Publication history (optional)')}>
                         <InputTextAreaToggable
                             rows={1}
                             placeholder={getLangText('Enter exhibitions and publication history')}/>
                     </Property>
                     <Property
-                        name='contact_information'
-                        label={getLangText('Contact information')}>
-                        <InputTextAreaToggable
-                            rows={1}
-                            placeholder={getLangText('Enter your contact information (phone/website)')}/>
+                        name='4-phone_number'
+                        label={getLangText('Phone Number')}>
+                        <input
+                            type="tel"
+                            placeholder={getLangText('Enter your phone number')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='5-email'
+                        label={getLangText('Email Address')}>
+                        <input
+                            type="email"
+                            placeholder={getLangText('Enter your email')}
+                            required/>
+                    </Property>
+                    <Property
+                        name='6-website'
+                        label={getLangText('Website')}>
+                        <input
+                            type="url"
+                            placeholder={getLangText('Enter your website')}
+                            required/>
                     </Property>
                 </Form>
                 <Form
@@ -277,7 +317,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                     <Property
                         name="thumbnailKey"
-                        label={getLangText('Featured Cover photo')}>
+                        label={getLangText('Featured Cover photo (max 5MB)')}>
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             createBlobRoutine={{
@@ -290,8 +330,8 @@ const PRRegisterPieceForm = React.createClass({
                                 fileClass: 'thumbnail'
                             }}
                             validation={{
-                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                itemLimit: AppConstants.fineUploader.validation.workThumbnail.itemLimit,
+                                sizeLimit: AppConstants.fineUploader.validation.workThumbnail.sizeLimit,
                                 allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
                             }}
                             location={location}
@@ -308,10 +348,11 @@ const PRRegisterPieceForm = React.createClass({
                             fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             setIsUploadReady={this.setIsUploadReady('supportingMaterialsReady')}
+                            onValidationFailed={this.handleOptionalFileValidationFailed('supportingMaterialsReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'other_data'
+                                fileClass: 'otherdata'
                             }}
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
@@ -333,7 +374,7 @@ const PRRegisterPieceForm = React.createClass({
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
-                                fileClass: 'other_data'
+                                fileClass: 'otherdata'
                             }}
                             validation={{
                                 itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,

@@ -58,8 +58,9 @@ let AccordionListItemPrize = React.createClass({
     },
 
     handleSubmitPrizeSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -138,8 +139,9 @@ let AccordionListItemPrize = React.createClass({
     },
 
     refreshPieceData() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     onSelectChange(){
@@ -171,23 +173,25 @@ let AccordionListItemPrize = React.createClass({
     },
 
     render() {
+        const { children, className, content } = this.props;
+        const { currentUser } = this.state;
+
         // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
-        let artistName = ((this.state.currentUser.is_jury && !this.state.currentUser.is_judge) ||
-                (this.state.currentUser.is_judge && !this.props.content.selected )) ?
-                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : this.props.content.artist_name;
+        let artistName = ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !content.selected )) ?
+                <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : content.artist_name;
         return (
             <div>
                 <AccordionListItemPiece
-                    className={this.props.className}
-                    piece={this.props.content}
+                    className={className}
+                    piece={content}
                     artistName={artistName}
                     subsubheading={
                         <div>
-                            <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
+                            <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
                         </div>}
                     buttons={this.getPrizeButtons()}
                     badge={this.getPrizeBadge()}>
-                    {this.props.children}
+                    {children}
                 </AccordionListItemPiece>
             </div>
         );

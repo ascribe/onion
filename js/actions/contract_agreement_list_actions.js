@@ -83,9 +83,9 @@ class ContractAgreementListActions {
                     contractAgreementList in the store is already set to null;
                      */
                 }
-            }).then((publicContracAgreement) => {
-                if (publicContracAgreement) {
-                    this.actions.updateContractAgreementList([publicContracAgreement]);
+            }).then((publicContractAgreement) => {
+                if (publicContractAgreement) {
+                    this.actions.updateContractAgreementList([publicContractAgreement]);
                 }
             }).catch(console.logGlobal);
     }
@@ -93,7 +93,10 @@ class ContractAgreementListActions {
     createContractAgreement(issuer, contract){
         return Q.Promise((resolve, reject) => {
             OwnershipFetcher
-                .createContractAgreement(issuer, contract).then(resolve)
+                .createContractAgreement(issuer, contract)
+                .then((res) => {
+                    resolve(res && res.contractagreement)
+                })
                 .catch((err) => {
                     console.logGlobal(err);
                     reject(err);

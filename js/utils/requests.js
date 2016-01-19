@@ -10,71 +10,67 @@ import { argsToQueryParams } from '../utils/url_utils';
 
 
 class Requests {
-    unpackResponse(response) {
-        if (response.status >= 500) {
-            let err = new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
-
-            return response
-                .text()
-                .then((resText) => {
-                    const resJson = JSON.parse(resText);
-                    err = new Error(resJson.errors.pop());
-
-                    // ES6 promises don't have a .finally() clause so
-                    // we fake that here by forcing the .catch() clause
-                    // to run
-                    return Promise.reject();
-                })
-                .catch(() => { throw err; });
-        }
-
-        return Q.Promise((resolve, reject) => {
-            response.text()
-                .then((responseText) => {
-                    // If the responses' body does not contain any data,
-                    // fetch will resolve responseText to the string 'None'.
-                    // If this is the case, we can not try to parse it as JSON.
-                    if(responseText !== 'None') {
-                        let body = JSON.parse(responseText);
-
-                        if(body && body.errors) {
-                            let error = new Error('Form Error');
-                            error.json = body;
-                            reject(error);
-                        } else if(body && body.detail) {
-                            reject(new Error(body.detail));
-                        } else if('success' in body && !body.success) {
-                            let error = new Error('Client Request Error');
-                            error.json = {
-                                status: response.status,
-                                statusText: response.statusText,
-                                type: response.type,
-                                url: response.url
-                            };
-                            reject(error);
-                        } else {
-                            resolve(body);
-                        }
-
-                    } else {
-                        if(response.status >= 400) {
-                            reject(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
-                        } else {
-                            resolve({});
-                        }
-                    }
-                }).catch(reject);
-            });
-    }
-
-    handleError(url) {
-        return (err) => {
-            if (err instanceof TypeError) {
+    unpackResponse(url) {
+        return (response) => {
+            if (response == null) {
                 throw new Error('For: ' + url + ' - Server did not respond to the request. (Not even displayed a 500)');
-            } else {
-                throw err;
             }
-        };
+
+            if (response.status >= 500) {
+                let err = new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+
+                return response
+                    .text()
+                    .then((resText) => {
+                        const resJson = JSON.parse(resText);
+                        err = new Error(resJson.errors.pop());
+
+                        // ES6 promises don't have a .finally() clause so
+                        // we fake that here by forcing the .catch() clause
+                        // to run
+                        return Promise.reject();
+                    })
+                    .catch(() => { throw err; });
+            }
+
+            return Q.Promise((resolve, reject) => {
+                response.text()
+                    .then((responseText) => {
+                        // If the responses' body does not contain any data,
+                        // fetch will resolve responseText to the string 'None'.
+                        // If this is the case, we can not try to parse it as JSON.
+                        if(responseText !== 'None') {
+                            let body = JSON.parse(responseText);
+
+                            if(body && body.errors) {
+                                let error = new Error('Form Error');
+                                error.json = body;
+                                reject(error);
+                            } else if(body && body.detail) {
+                                reject(new Error(body.detail));
+                            } else if('success' in body && !body.success) {
+                                let error = new Error('Client Request Error');
+                                error.json = {
+                                    status: response.status,
+                                    statusText: response.statusText,
+                                    type: response.type,
+                                    url: response.url
+                                };
+                                reject(error);
+                            } else {
+                                resolve(body);
+                            }
+
+                        } else {
+                            if(response.status >= 400) {
+                                reject(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
+                            } else {
+                                resolve({});
+                            }
+                        }
+                    }).catch(reject);
+            });
+        }
     }
 
     getUrl(url) {
@@ -128,8 +124,7 @@ class Requests {
         }
         merged.method = verb;
         return fetch(url, merged)
-                    .then(this.unpackResponse)
-                    .catch(this.handleError(url));
+                    .then(this.unpackResponse(url));
     }
 
     get(url, params) {
