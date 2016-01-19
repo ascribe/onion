@@ -298,13 +298,6 @@ let PrizePieceRatings = React.createClass({
 
     onRatingClick(event, args) {
         event.preventDefault();
-        PrizeRatingActions.createRating(this.props.piece.id, args.rating).then(
-            this.refreshPieceData()
-        );
-    },
-
-    onRatingClick(event, args) {
-        event.preventDefault();
         PrizeRatingActions
             .createRating(this.props.piece.id, args.rating, this.state.prize.active_round)
             .then(this.refreshPieceData);
