@@ -1,0 +1,14 @@
+rootUrl: https://www.ascribe.ninja/app
+
+browsers:
+    PhantomJSDesktop:
+        screenshotsDir: './gemini/screens/desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    PhantomJSMobile:
+        screenshotsDir: './gemini/screens/mobile'
+        windowSize: 767x1364
+        desiredCapabilities:
+            browserName: phantomjs
