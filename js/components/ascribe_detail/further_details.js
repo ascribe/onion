@@ -66,25 +66,25 @@ let FurtherDetails = React.createClass({
                     <PieceExtraDataForm
                         name='artist_contact_info'
                         title='Artist Contact Info'
-                        handleSuccess={this.showNotification}
                         convertLinks
                         editable={editable}
                         extraData={extraData}
+                        handleSuccess={this.showNotification}
                         pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
-                        handleSuccess={this.showNotification}
                         editable={editable}
-                        pieceId={pieceId}
-                        extraData={extraData} />
+                        extraData={extraData}
+                        handleSuccess={this.showNotification}
+                        pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
-                        handleSuccess={this.showNotification}
                         editable={editable}
-                        pieceId={pieceId}
-                        extraData={extraData} />
+                        extraData={extraData}
+                        handleSuccess={this.showNotification}
+                        pieceId={pieceId} />
                     <Form>
                         <FurtherDetailsFileuploader
                             submitFile={this.submitFile}

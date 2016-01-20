@@ -110,6 +110,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                         expanded={!disabled || !!extraData.artist_website}>
                         <InputTextAreaToggable
                             rows={1}
+                            convertLinks
                             defaultValue={extraData.artist_website}
                             placeholder={getLangText('The artist\'s website if present...')} />
                     </Property>
@@ -119,6 +120,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                         expanded={!disabled || !!extraData.gallery_website}>
                         <InputTextAreaToggable
                             rows={1}
+                            convertLinks
                             defaultValue={extraData.gallery_website}
                             placeholder={getLangText('The website of any related Gallery or Museum')} />
                     </Property>
@@ -128,6 +130,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                         expanded={!disabled || !!extraData.additional_websites}>
                         <InputTextAreaToggable
                             rows={1}
+                            convertLinks
                             defaultValue={extraData.additional_websites}
                             placeholder={getLangText('Enter additional Websites/Publications if any')} />
                     </Property>
