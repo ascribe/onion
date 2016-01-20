@@ -134,6 +134,7 @@ let CylandAdditionalDataForm = React.createClass({
                         expanded={!disabled || !!extraData.artist_contact_information}>
                         <InputTextAreaToggable
                             rows={1}
+                            convertLinks
                             defaultValue={extraData.artist_contact_information}
                             placeholder={getLangText('Enter the artist\'s contact information...')} />
                     </Property>
