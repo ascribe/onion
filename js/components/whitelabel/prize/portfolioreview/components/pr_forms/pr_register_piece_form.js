@@ -3,19 +3,21 @@
 import React from 'react';
 import { History } from 'react-router';
 
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_toggable';
 
-import UploadButton from '../../../../../ascribe_uploader/ascribe_upload_button/upload_button';
 import InputFineuploader from '../../../../../ascribe_forms/input_fineuploader';
+import UploadButton from '../../../../../ascribe_uploader/ascribe_upload_button/upload_button';
+
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
-
-import AppConstants from '../../../../../../constants/application_constants';
 import ApiUrls from '../../../../../../constants/api_urls';
+import AppConstants from '../../../../../../constants/application_constants';
+import { validationParts, validationTypes } from '../../../../../../constants/uploader_constants';
 
 import requests from '../../../../../../utils/requests';
 
@@ -193,7 +195,7 @@ const PRRegisterPieceForm = React.createClass({
 
     render() {
         const { location } = this.props;
-        const maxThumbnailSize = AppConstants.fineUploader.validation.workThumbnail.sizeLimit / 1000000;
+        const maxThumbnailSize = validationTypes.workThumbnail.sizeLimit / 1000000;
 
         return (
             <div className="register-piece--form">
@@ -305,8 +307,8 @@ const PRRegisterPieceForm = React.createClass({
                                 fileClass: 'digitalwork'
                             }}
                             validation={{
-                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                                itemLimit: validationTypes.registerWork.itemLimit,
+                                sizeLimit: validationTypes.additionalData.sizeLimit,
                                 allowedExtensions: ['pdf']
                             }}
                             location={location}
@@ -318,7 +320,7 @@ const PRRegisterPieceForm = React.createClass({
                     </Property>
                     <Property
                         name="thumbnailKey"
-                        label={`${getLangText('Featured Cover photo')} max ${maxThumbnailSize}MB`}>
+                        label={`${getLangText('Featured Cover photo')} (max ${maxThumbnailSize}MB)`}>
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             createBlobRoutine={{
@@ -331,9 +333,9 @@ const PRRegisterPieceForm = React.createClass({
                                 fileClass: 'thumbnail'
                             }}
                             validation={{
-                                itemLimit: AppConstants.fineUploader.validation.workThumbnail.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.workThumbnail.sizeLimit,
-                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                                itemLimit: validationTypes.workThumbnail.itemLimit,
+                                sizeLimit: validationTypes.workThumbnail.sizeLimit,
+                                allowedExtensions: validationParts.allowedExtensions.images
                             }}
                             location={location}
                             fileClassToUpload={{
@@ -356,8 +358,8 @@ const PRRegisterPieceForm = React.createClass({
                                 fileClass: 'otherdata'
                             }}
                             validation={{
-                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit
+                                itemLimit: validationParts.itemLimit.single,
+                                sizeLimit: validationTypes.additionalData.sizeLimit
                             }}
                             location={location}
                             fileClassToUpload={{
@@ -378,9 +380,9 @@ const PRRegisterPieceForm = React.createClass({
                                 fileClass: 'otherdata'
                             }}
                             validation={{
-                                itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                                sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
-                                allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                                itemLimit: validationParts.itemLimit.single,
+                                sizeLimit: validationTypes.additionalData.sizeLimit,
+                                allowedExtensions: validationParts.allowedExtensions.images
                             }}
                             location={location}
                             fileClassToUpload={{

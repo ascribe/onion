@@ -2,18 +2,19 @@
 
 import React from 'react';
 
-import Form from '../ascribe_forms/form';
-import Property from '../ascribe_forms/property';
+import ContractListActions from '../../actions/contract_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import ContractListActions from '../../actions/contract_list_actions';
-
-import AppConstants from '../../constants/application_constants';
-import ApiUrls from '../../constants/api_urls';
-
 import InputFineUploader from './input_fineuploader';
+
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+
+import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
+import { validationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
@@ -78,8 +79,8 @@ let CreateContractForm = React.createClass({
                             url: ApiUrls.blob_contracts
                         }}
                         validation={{
-                            itemLimit: AppConstants.fineUploader.validation.additionalData.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                            itemLimit: validationTypes.additionalData.itemLimit,
+                            sizeLimit: validationTypes.additionalData.sizeLimit,
                             allowedExtensions: ['pdf']
                         }}
                         areAssetsDownloadable={true}

@@ -2,16 +2,17 @@
 
 import React from 'react';
 
-import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
-import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
-
-import AppConstants from '../../constants/application_constants';
-import ApiUrls from '../../constants/api_urls';
-
 import ContractListActions from '../../actions/contract_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
+import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
+
+import ApiUrls from '../../constants/api_urls';
+import AppConstants from '../../constants/application_constants';
+import { validationTypes } from '../../constants/uploader_constants';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
@@ -68,8 +69,8 @@ let ContractSettingsUpdateButton = React.createClass({
                    url: ApiUrls.blob_contracts
                }}
                validation={{
-                   itemLimit: AppConstants.fineUploader.validation.registerWork.itemLimit,
-                   sizeLimit: AppConstants.fineUploader.validation.additionalData.sizeLimit,
+                   itemLimit: validationTypes.registerWork.itemLimit,
+                   sizeLimit: validationTypes.additionalData.sizeLimit,
                    allowedExtensions: ['pdf']
                }}
                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}

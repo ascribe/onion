@@ -8,6 +8,7 @@ import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import { validationTypes } from '../../constants/uploader_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -15,23 +16,26 @@ import { getLangText } from '../../utils/lang_utils';
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
+        pieceId: React.PropTypes.number.isRequired,
+
+        areAssetsDownloadable: React.PropTypes.bool,
+        editable: React.PropTypes.bool,
+        isReadyForFormSubmission: React.PropTypes.func,
         label: React.PropTypes.string,
-        pieceId: React.PropTypes.number,
+        multiple: React.PropTypes.bool,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
+        onValidationFailed: React.PropTypes.func,
         setIsUploadReady: React.PropTypes.func,
         submitFile: React.PropTypes.func,
-        onValidationFailed: React.PropTypes.func,
-        isReadyForFormSubmission: React.PropTypes.func,
-        editable: React.PropTypes.bool,
-        multiple: React.PropTypes.bool,
-        areAssetsDownloadable: React.PropTypes.bool
+        validation: ReactS3FineUploader.propTypes.validation
     },
 
     getDefaultProps() {
         return {
             areAssetsDownloadable: true,
             label: getLangText('Additional files'),
-            multiple: false
+            multiple: false,
+            validation: validationTypes.additionalData
         };
     },
 
@@ -61,7 +65,7 @@ let FurtherDetailsFileuploader = React.createClass({
                         url: ApiUrls.blob_otherdatas,
                         pieceId: this.props.pieceId
                     }}
-                    validation={AppConstants.fineUploader.validation.additionalData}
+                    validation={this.props.validation}
                     submitFile={this.props.submitFile}
                     onValidationFailed={this.props.onValidationFailed}
                     setIsUploadReady={this.props.setIsUploadReady}
