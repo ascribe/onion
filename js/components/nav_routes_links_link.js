@@ -23,18 +23,18 @@ let NavRoutesLinksLink = React.createClass({
     },
 
     render() {
-        let { children, headerTitle, depth, routePath } = this.props;
+        const { children, headerTitle, depth, routePath } = this.props;
 
         // if the route has children, we're returning a DropdownButton that will get filled
         // with MenuItems
-        if(children) {
+        if (children) {
             return (
                 <DropdownButton title={headerTitle}>
                     {children}
                 </DropdownButton>
             );
         } else {
-            if(depth === 1) {
+            if (depth === 1) {
                 // if the node's child is actually a node of level one (a child of a node), we're
                 // returning a DropdownButton matching MenuItem
                 return (
@@ -42,7 +42,7 @@ let NavRoutesLinksLink = React.createClass({
                         <MenuItem>{headerTitle}</MenuItem>
                     </LinkContainer>
                 );
-            } else if(depth === 0) {
+            } else if (depth === 0) {
                 return (
                     <LinkContainer to={routePath}>
                         <NavItem>{headerTitle}</NavItem>

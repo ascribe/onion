@@ -93,16 +93,16 @@ let Header = React.createClass({
                     <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
                 </Link>
             );
+        } else {
+            return (
+                <span>
+                    <Link className="icon-ascribe-logo" to="/collection"/>
+                </span>
+            );
         }
-
-        return (
-            <span>
-                <Link className="icon-ascribe-logo" to="/collection"/>
-            </span>
-        );
     },
 
-    getPoweredBy(){
+    getPoweredBy() {
         return (
             <AclProxy
                 aclObject={this.state.whitelabel}
@@ -159,7 +159,8 @@ let Header = React.createClass({
         let account;
         let signup;
         let navRoutesLinks;
-        if (this.state.currentUser.username){
+
+        if (this.state.currentUser.username) {
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
@@ -195,9 +196,15 @@ let Header = React.createClass({
                     </LinkContainer>
                 </DropdownButton>
             );
-            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
-        }
-        else {
+
+            navRoutesLinks = (
+                <NavRoutesLinks
+                    navbar
+                    right
+                    routes={this.props.routes}
+                    userAcl={this.state.currentUser.acl} />
+            );
+        } else {
             account = (
                 <LinkContainer
                     to="/login">

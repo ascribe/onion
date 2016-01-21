@@ -29,28 +29,28 @@ let NavRoutesLinks = React.createClass({
      * @return {Array}         Array of ReactElements that can be displayed to the user
      */
     extractLinksFromRoutes(node, userAcl, i) {
-        if(!node) {
+        if (!node) {
             return;
         }
 
-        let links = node.childRoutes.map((child, j) => {
+        const links = node.childRoutes.map((child, j) => {
+            const { aclName, headerTitle, path, childRoutes } = child;
             let childrenFn = null;
-            let { aclName, headerTitle, path, childRoutes } = child;
 
             // If the node has children that could be rendered, then we want
             // to execute this function again with the child as the root
             //
             // Otherwise we'll just pass childrenFn as false
-            if(child.childRoutes && child.childRoutes.length > 0) {
+            if (child.childRoutes && child.childRoutes.length) {
                 childrenFn = this.extractLinksFromRoutes(child, userAcl, i++);
             }
 
             // We validate if the user has set the title correctly,
             // otherwise we're not going to render his route
-            if(headerTitle && typeof headerTitle === 'string') {
+            if (headerTitle && typeof headerTitle === 'string') {
                 // if there is an aclName present on the route definition,
                 // we evaluate it against the user's acl
-                if(aclName && typeof aclName !== 'undefined') {
+                if (aclName && typeof aclName !== 'undefined') {
                     return (
                         <AclProxy
                             key={j}
@@ -60,7 +60,7 @@ let NavRoutesLinks = React.createClass({
                                 headerTitle={headerTitle}
                                 routePath={'/' + path}
                                 depth={i}
-                                children={childrenFn}/>
+                                children={childrenFn} />
                         </AclProxy>
                     );
                 } else {
@@ -70,7 +70,7 @@ let NavRoutesLinks = React.createClass({
                             headerTitle={headerTitle}
                             routePath={'/' + path}
                             depth={i}
-                            children={childrenFn}/>
+                            children={childrenFn} />
                     );
                 }
             } else {
@@ -84,7 +84,7 @@ let NavRoutesLinks = React.createClass({
     },
 
     render() {
-        let {routes, userAcl} = this.props;
+        const {routes, userAcl} = this.props;
 
         return (
             <Nav {...this.props}>
