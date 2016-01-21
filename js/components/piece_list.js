@@ -62,6 +62,7 @@ let PieceList = React.createClass({
                 ]
             }],
             orderParams: ['artist_name', 'title'],
+            redirectTo: '/register_piece',
             shouldRedirect: () => true
         };
     },
