@@ -216,9 +216,7 @@ let RegisterPieceForm = React.createClass({
                             plural: getLangText('Select representative images')
                         }}
                         isFineUploaderActive={isFineUploaderActive}
-                        disabled={!isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}
-                        uploadMethod={location.query.method} />
+                        disabled={!isFineUploaderEditable} />
                 </Property>
                 <Property
                     name='artist_name'
