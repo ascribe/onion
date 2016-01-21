@@ -11,25 +11,26 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 let NavRoutesLinksLink = React.createClass({
     propTypes: {
-        headerTitle: React.PropTypes.string,
-        routePath: React.PropTypes.string,
-
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
-
-        depth: React.PropTypes.number
+        disabled: React.PropTypes.bool,
+        depth: React.PropTypes.number,
+        headerTitle: React.PropTypes.string,
+        routePath: React.PropTypes.string
     },
 
     render() {
-        const { children, headerTitle, depth, routePath } = this.props;
+        const { children, headerTitle, depth, disabled, routePath } = this.props;
 
         // if the route has children, we're returning a DropdownButton that will get filled
         // with MenuItems
         if (children) {
             return (
-                <DropdownButton title={headerTitle}>
+                <DropdownButton
+                    disabled={disabled}
+                    title={headerTitle}>
                     {children}
                 </DropdownButton>
             );
@@ -38,13 +39,17 @@ let NavRoutesLinksLink = React.createClass({
                 // if the node's child is actually a node of level one (a child of a node), we're
                 // returning a DropdownButton matching MenuItem
                 return (
-                    <LinkContainer to={routePath}>
+                    <LinkContainer
+                        disabled={disabled}
+                        to={routePath}>
                         <MenuItem>{headerTitle}</MenuItem>
                     </LinkContainer>
                 );
             } else if (depth === 0) {
                 return (
-                    <LinkContainer to={routePath}>
+                    <LinkContainer
+                        disabled={disabled}
+                        to={routePath}>
                         <NavItem>{headerTitle}</NavItem>
                     </LinkContainer>
                 );
