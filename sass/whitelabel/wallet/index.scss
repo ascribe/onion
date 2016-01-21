@@ -9,3 +9,9 @@
     padding-top: 70px;
     padding-bottom: 10px;
 }
+
+@media print {
+    .ascribe-wallet-app {
+        padding: 0 !important;
+    }
+}

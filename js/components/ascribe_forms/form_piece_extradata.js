@@ -13,43 +13,49 @@ import InputTextAreaToggable from './input_textarea_toggable';
 
 let PieceExtraDataForm = React.createClass({
     propTypes: {
-        pieceId: React.PropTypes.number,
+        name: React.PropTypes.string.isRequired,
+        pieceId: React.PropTypes.number.isRequired,
+
+        convertLinks: React.PropTypes.bool,
+        editable: React.PropTypes.bool,
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         name: React.PropTypes.string,
-        title: React.PropTypes.string,
-        editable: React.PropTypes.bool
+        title: React.PropTypes.string
     },
 
     getFormData() {
-        let extradata = {};
-        extradata[this.props.name] = this.refs.form.refs[this.props.name].state.value;
         return {
-            extradata: extradata,
+            extradata: {
+                [this.props.name]: this.refs.form.refs[this.props.name].state.value
+            },
             piece_id: this.props.pieceId
         };
     },
-    
+
     render() {
-        let defaultValue = this.props.extraData[this.props.name] || '';
-        if (defaultValue.length === 0 && !this.props.editable){
+        const { convertLinks, editable, extraData, handleSuccess, name, pieceId, title } = this.props;
+        const defaultValue = (extraData && extraData[name]) || null;
+
+        if (!defaultValue && !editable) {
             return null;
         }
-        let url = requests.prepareUrl(ApiUrls.piece_extradata, {piece_id: this.props.pieceId});
+
         return (
             <Form
                 ref='form'
-                url={url}
-                handleSuccess={this.props.handleSuccess}
+                disabled={!editable}
                 getFormData={this.getFormData}
-                disabled={!this.props.editable}>
+                handleSuccess={handleSuccess}
+                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}>
                 <Property
-                    name={this.props.name}
-                    label={this.props.title}>
+                    name={name}
+                    label={title}>
                     <InputTextAreaToggable
                         rows={1}
+                        convertLinks={convertLinks}
                         defaultValue={defaultValue}
-                        placeholder={getLangText('Fill in%s', ' ') + this.props.title}
+                        placeholder={getLangText('Fill in%s', ' ') + title}
                         required />
                 </Property>
                 <hr />

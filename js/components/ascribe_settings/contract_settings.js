@@ -28,11 +28,7 @@ import { mergeOptions, truncateTextAtCharIndex } from '../../utils/general_utils
 
 
 let ContractSettings = React.createClass({
-    propTypes: {
-        location: React.PropTypes.object
-    },
-
-    getInitialState(){
+    getInitialState() {
         return mergeOptions(
             ContractListStore.getState(),
             UserStore.getState()
@@ -64,40 +60,39 @@ let ContractSettings = React.createClass({
             ContractListActions.removeContract(contract.id)
                 .then((response) => {
                     ContractListActions.fetchContractList(true);
-                    let notification = new GlobalNotificationModel(response.notification, 'success', 4000);
+                    const notification = new GlobalNotificationModel(response.notification, 'success', 4000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
                 })
                 .catch((err) => {
-                    let notification = new GlobalNotificationModel(err, 'danger', 10000);
+                    const notification = new GlobalNotificationModel(err, 'danger', 10000);
                     GlobalNotificationActions.appendGlobalNotification(notification);
                 });
         };
     },
 
-    getPublicContracts(){
+    getPublicContracts() {
         return this.state.contractList.filter((contract) => contract.is_public);
     },
 
-    getPrivateContracts(){
+    getPrivateContracts() {
         return this.state.contractList.filter((contract) => !contract.is_public);
     },
 
     render() {
-        let publicContracts = this.getPublicContracts();
-        let privateContracts = this.getPrivateContracts();
+        const publicContracts = this.getPublicContracts();
+        const privateContracts = this.getPrivateContracts();
         let createPublicContractForm = null;
 
         setDocumentTitle(getLangText('Contracts settings'));
 
-        if(publicContracts.length === 0) {
+        if (publicContracts.length === 0) {
             createPublicContractForm = (
                 <CreateContractForm
                     isPublic={true}
                     fileClassToUpload={{
                         singular: 'new contract',
                         plural: 'new contracts'
-                    }}
-                    location={this.props.location}/>
+                    }} />
             );
         }
 
@@ -114,7 +109,7 @@ let ContractSettings = React.createClass({
                             {publicContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel
-                                        key={i}
+                                        key={contract.id}
                                         title={contract.name}
                                         content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
@@ -123,8 +118,7 @@ let ContractSettings = React.createClass({
                                                     aclObject={this.state.whitelabel}
                                                     aclName="acl_update_public_contract">
                                                     <ContractSettingsUpdateButton
-                                                        contract={contract}
-                                                        location={this.props.location}/>
+                                                        contract={contract} />
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"
@@ -154,12 +148,11 @@ let ContractSettings = React.createClass({
                             fileClassToUpload={{
                                 singular: getLangText('new contract'),
                                 plural: getLangText('new contracts')
-                            }}
-                            location={this.props.location}/>
+                            }} />
                             {privateContracts.map((contract, i) => {
                                 return (
                                     <ActionPanel
-                                        key={i}
+                                        key={contract.id}
                                         title={contract.name}
                                         content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
                                         buttons={
@@ -168,8 +161,7 @@ let ContractSettings = React.createClass({
                                                     aclObject={this.state.whitelabel}
                                                     aclName="acl_update_private_contract">
                                                     <ContractSettingsUpdateButton
-                                                        contract={contract}
-                                                        location={this.props.location}/>
+                                                        contract={contract} />
                                                 </AclProxy>
                                                 <a
                                                     className="btn btn-default btn-sm margin-left-2px"

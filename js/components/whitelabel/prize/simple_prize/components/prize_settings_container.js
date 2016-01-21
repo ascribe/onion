@@ -135,14 +135,15 @@ let PrizeJurySettings = React.createClass({
 
     handleCreateSuccess(response) {
         PrizeJuryActions.fetchJury();
-        let notification = new GlobalNotificationModel(response.notification, 'success', 5000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        this.displayNotification(response);
         this.refs.form.refs.email.refs.input.getDOMNode().value = null;
     },
 
     handleActivate(event) {
         let email = event.target.getAttribute('data-id');
-        PrizeJuryActions.activateJury(email).then((response) => {
+        PrizeJuryActions
+            .activateJury(email)
+            .then((response) => {
                 PrizeJuryActions.fetchJury();
                 this.displayNotification(response);
             });

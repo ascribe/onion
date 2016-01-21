@@ -1,9 +1,10 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 
-let DetailProperty = React.createClass({
+const DetailProperty = React.createClass({
     propTypes: {
         label: React.PropTypes.string,
         value: React.PropTypes.oneOfType([
@@ -12,6 +13,7 @@ let DetailProperty = React.createClass({
             React.PropTypes.element
         ]),
         separator: React.PropTypes.string,
+        className: React.PropTypes.string,
         labelClassName: React.PropTypes.string,
         valueClassName: React.PropTypes.string,
         ellipsis: React.PropTypes.bool,
@@ -30,31 +32,23 @@ let DetailProperty = React.createClass({
     },
 
     render() {
-        let styles = {};
-        const { labelClassName,
-                label,
-                separator,
-                valueClassName,
-                children,
-                value } = this.props;
-
-        if(this.props.ellipsis) {
-            styles = {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
-            };
-        }
+        const {
+            children,
+            className,
+            ellipsis,
+            label,
+            labelClassName,
+            separator,
+            valueClassName,
+            value } = this.props;
 
         return (
-            <div className="row ascribe-detail-property">
+            <div className={classNames('row ascribe-detail-property', className)}>
                 <div className="row-same-height">
                     <div className={labelClassName}>
                         {label} {separator}
                     </div>
-                    <div
-                        className={valueClassName}
-                        style={styles}>
+                    <div className={classNames(valueClassName, {'add-overflow-ellipsis': ellipsis})}>
                         {children || value}
                     </div>
                 </div>
