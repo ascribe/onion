@@ -14,7 +14,9 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang_utils';
+import { extractFileExtensionFromString } from '../../utils/file_utils';
+
 
 const EMBED_IFRAME_HEIGHT = {
     video: 315,
@@ -63,6 +65,7 @@ let MediaContainer = React.createClass({
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
         const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+        const fileExtension = extractFileExtensionFromString(content.digital_work.url);
 
         let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
             content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
@@ -120,7 +123,7 @@ let MediaContainer = React.createClass({
                             className="ascribe-margin-1px"
                             href={content.digital_work.url}
                             target="_blank">
-                            {getLangText('Download')} .{mimetype} <Glyphicon glyph="cloud-download"/>
+                            {getLangText('Download')} .{fileExtension} <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
                     {embed}
