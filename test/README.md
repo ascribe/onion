@@ -160,7 +160,8 @@ Create the driver to control the browser.
     });
 ```
 
-This function will be executed before each `it` function. Here we point the browser to a specific URL.
+This function will be executed before each `it` function. Here we point the
+browser to a specific URL.
 
 ```javascript
     beforeEach(function() {
@@ -168,7 +169,8 @@ This function will be executed before each `it` function. Here we point the brow
     });
 ```
 
-While this function will be executed after each `it` function. `quit` will destroy the browser session.
+While this function will be executed after each `it` function. `quit` will
+destroy the browser session.
 
 ```javascript
     after(function() {
@@ -190,4 +192,10 @@ without writing new functions.
 ```
 
 ## How to run the test suite
+To run the tests, type:
+```bash
+$ mocha
+```
 
+By default the test suite runs on `http://www.localhost.com:3000/`, if you
+want to change the URL, change the `APP_URL` env variable.
