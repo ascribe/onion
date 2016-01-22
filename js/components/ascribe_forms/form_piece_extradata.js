@@ -20,7 +20,6 @@ let PieceExtraDataForm = React.createClass({
         editable: React.PropTypes.bool,
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
-        name: React.PropTypes.string,
         title: React.PropTypes.string
     },
 
