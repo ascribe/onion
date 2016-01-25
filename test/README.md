@@ -168,20 +168,19 @@ describe('Login logs users in', function() {
     let browser;
 ```
 
-Create the driver to control the browser.
+Create the driver to control the browser. `before` will be executed once at the
+start of the test before any `it` functions. Use `beforeEach` instead if you'd
+like to run some code before each `it` function.
+
 ```javascript
     before(function() {
         browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
-        return browser.init({ browserName: 'chrome' });
-    });
-```
 
-This function will be executed before each `it` function. Here we point the
-browser to a specific URL.
-
-```javascript
-    beforeEach(function() {
-        return browser.get('http://www.ascribe.ninja/app/login');
+        // Start the browser, go to /login, and wait for the react app to render
+        return browser
+            .init({ browserName, version, platform })
+            .get(config.APP_URL + '/login')
+            .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 10000);
     });
 ```
 
@@ -206,6 +205,38 @@ without writing new functions.
         return browser.title().should.become('Log in');
     });
 });
+```
+
+All together:
+
+```javascript
+function testSuite(browserName, version, platform) {
+    describe(`[${browserName} ${version} ${platform}] Login logs users in`, function() {
+        // Set timeout to zero so Mocha won't time out.
+        this.timeout(0);
+        let browser;
+
+        before(function() {
+            // No need to inject `username` or `access_key`, by default the constructor
+            // looks up the values in `process.env.SAUCE_USERNAME` and `process.env.SAUCE_ACCESS_KEY`
+            browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
+
+            // Start the browser, go to /login, and wait for the react app to render
+            return browser
+                .init({ browserName, version, platform })
+                .get(config.APP_URL + '/login')
+                .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 10000);
+        });
+
+        after(function() {
+            return browser.quit();
+        });
+
+        it('should contain "Log in" in the title', function() {
+            return browser.title().should.become('Log in');
+        });
+    });
+}
 ```
 
 ## How to run the test suite

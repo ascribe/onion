@@ -1,12 +1,14 @@
 'use strict';
 
+const Q = require('q');
 const wd = require('wd');
+const asserters = wd.asserters;   // Commonly used asserters for async waits in the browser
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const config = require('./config.js');
+
 chai.use(chaiAsPromised);
 chai.should();
-
 
 
 function testSuite(browserName, version, platform) {
@@ -19,11 +21,17 @@ function testSuite(browserName, version, platform) {
             // No need to inject `username` or `access_key`, by default the constructor
             // looks up the values in `process.env.SAUCE_USERNAME` and `process.env.SAUCE_ACCESS_KEY`
             browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
-            return browser.init({ browserName, version, platform });
-        });
 
-        beforeEach(function() {
-            return browser.get(config.APP_URL + '/login');
+            // Start the browser, go to /login, and wait for the react app to render
+            return browser
+                .init({ browserName, version, platform })
+                .get(config.APP_URL + '/login')
+                .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 1000)
+                .catch(function (err) {
+                    console.log('Failure -- unable to load app.');
+                    console.log('Skipping tests for this browser...');
+                    return Q.reject(err);
+                });
         });
 
         after(function() {
@@ -33,7 +41,6 @@ function testSuite(browserName, version, platform) {
         it('should contain "Log in" in the title', function() {
             return browser.title().should.become('Log in');
         });
-
     });
 }
 
