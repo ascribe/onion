@@ -3,6 +3,7 @@
 import 'babel/polyfill';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Router, Redirect } from 'react-router';
 import history from './history';
 
@@ -91,7 +92,7 @@ class AppGateway {
         // us in that case.
         history.listen(EventActions.routeDidChange);
 
-        React.render((
+        ReactDOM.render((
             <Router history={history}>
                 {redirectRoute}
                 {getRoutes(type, subdomain)}
