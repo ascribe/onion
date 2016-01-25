@@ -24,8 +24,9 @@ function testSuite(browserName, version, platform) {
 
             // Start the browser, go to /login, and wait for the react app to render
             return browser
+                .configureHttp({ baseUrl: config.APP_URL })
                 .init({ browserName, version, platform })
-                .get(config.APP_URL + '/login')
+                .get('/login')
                 .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 10000)
                 .catch(function (err) {
                     console.log('Failure -- unable to load app.');
