@@ -18,7 +18,7 @@ if (!process.env.SAUCE_ACCESS_KEY) {
 }
 
 
-if (config.TUNNEL_AUTO_CONNECT) {
+if (process.env.SAUCE_AUTO_CONNECT) {
     before(function(done) {
         console.log(colors.yellow('Setting up tunnel from Saucelabs to your lovely computer, will take a while.'));
         // Creating the tunnel takes a bit of time. For this case we can safely disable Mocha timeouts.

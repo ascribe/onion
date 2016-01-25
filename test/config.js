@@ -14,6 +14,5 @@ const BROWSERS = [
 
 module.exports = {
     BROWSERS: BROWSERS.map(x => x.split(',')),
-    APP_URL: process.env.SAUCE_DEFAULT_URL || 'http://www.localhost.com:3000',
-    TUNNEL_AUTO_CONNECT: process.env.SAUCE_AUTO_CONNECT
+    APP_URL: process.env.SAUCE_DEFAULT_URL || 'http://www.localhost.com:3000'
 };
