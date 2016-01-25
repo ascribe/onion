@@ -1,12 +1,12 @@
 'use strict';
 
-import useBasename from 'history/lib/useBasename';
-import useQueries from 'history/lib/useQueries';
+import { useRouterHistory } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
+
 import AppConstants from './constants/application_constants';
 
 
-const history = useBasename(useQueries(createBrowserHistory))({
+const history = useRouterHistory(createBrowserHistory)({
     basename: AppConstants.baseUrl
 });
 
