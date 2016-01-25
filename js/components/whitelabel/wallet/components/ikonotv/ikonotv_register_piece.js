@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Moment from 'moment';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -42,7 +41,9 @@ let IkonotvRegisterPiece = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -92,7 +93,7 @@ let IkonotvRegisterPiece = React.createClass({
         }
 
         if (!this.canSubmit()) {
-            this.history.push('/collection');
+            this.context.router.push('/collection');
         } else {
             this.nextSlide({ piece_id: response.piece.id });
         }
@@ -117,7 +118,7 @@ let IkonotvRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.history.push(`/pieces/${this.state.piece.id}`);
+        this.context.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {

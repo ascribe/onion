@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -37,7 +36,9 @@ let RegisterPiece = React.createClass( {
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState(){
         return PieceListStore.getState();
@@ -65,7 +66,7 @@ let RegisterPiece = React.createClass( {
         // the piece list up to date
         PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
-        this.history.push(`/pieces/${response.piece.id}`);
+        this.context.router.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {

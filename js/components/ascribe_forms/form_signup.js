@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -31,8 +30,6 @@ let SignupForm = React.createClass({
         ]),
         whitelabelName: React.PropTypes.string
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {

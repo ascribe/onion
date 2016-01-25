@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History, Lifecycle } from 'react-router';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
@@ -21,7 +20,10 @@ const SlidesContainer = React.createClass({
         pageExitWarning: string
     },
 
-    mixins: [History, Lifecycle],
+    contextTypes: {
+        route: object.isRequired,
+        router: object.isRequired
+    },
 
     getInitialState() {
         return {
@@ -37,6 +39,11 @@ const SlidesContainer = React.createClass({
 
         // Initially, we need to dispatch 'resize' once to render correctly
         window.dispatchEvent(new Event('resize'));
+
+        // Since react-router 2.0.0, we need to define the `routerWillLeave`
+        // method ourselves.
+        const { router, route } = this.context;
+        router.setRouteLeaveHook(route, this.routerWillLeave);
     },
 
     componentWillUnmount() {
@@ -61,10 +68,10 @@ const SlidesContainer = React.createClass({
     },
 
     setSlideNum(nextSlideNum, additionalQueryParams = {}) {
-        const { location: { pathname } } = this.props;
-        const query = Object.assign({}, this.props.location.query, additionalQueryParams, { slide_num: nextSlideNum });
+        const { location: { pathname, query } } = this.props;
+        const slideQuery = Object.assign({}, query, additionalQueryParams, { slide_num: nextSlideNum });
 
-        this.history.push({ pathname, query });
+        this.context.router.push({ pathname, query: slideQuery });
     },
 
     // breadcrumbs are defined as attributes of the slides.

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
@@ -114,7 +113,9 @@ let PasswordResetForm = React.createClass({
         token: React.PropTypes.string
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getFormData() {
         return {
@@ -124,7 +125,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.history.push('/collection');
+        this.context.router.push('/collection');
 
         const notification = new GlobalNotificationModel(getLangText('Password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);

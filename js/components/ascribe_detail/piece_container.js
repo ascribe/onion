@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 import Moment from 'moment';
 
 import ReactError from '../../mixins/react_error';
@@ -60,7 +59,11 @@ let PieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History, ReactError],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
+
+    mixins: [ReactError],
 
     getDefaultProps() {
         return {
@@ -164,7 +167,7 @@ let PieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     getCreateEditionsDialog() {

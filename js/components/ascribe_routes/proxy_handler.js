@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { RouteContext } from 'react-router';
 import history from '../../history';
 
 import UserStore from '../../stores/user_store';
@@ -46,7 +45,7 @@ export function AuthRedirect({ to, when }) {
             // wants to redirect the user to a specific route when the user is logged out already
         } else if (!exprToValidate && when === 'loggedIn' && redirect) {
             delete query.redirect;
-            window.setTimeout(() => history.replace({ query, pathname: '/' + redirect }));
+            window.setTimeout(() => history.replace({ query, pathname: `/${redirect}` }));
             return true;
 
         } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
@@ -86,12 +85,24 @@ export function ProxyHandler(...redirectFunctions) {
                 whitelabel: React.PropTypes.object,
 
                 // Provided from router
-                location: object
+                location: object,
+                route: object
             },
 
-            // We need insert `RouteContext` here in order to be able
-            // to use the `Lifecycle` widget in further down nested components
-            mixins: [RouteContext],
+            contextTypes: {
+                router: object
+            },
+
+            childContextTypes: {
+                route: object,
+                router: object
+            },
+
+            getChildContext() {
+                return {
+                    route: this.props.route
+                };
+            },
 
             componentDidMount() {
                 this.evaluateRedirectFunctions();

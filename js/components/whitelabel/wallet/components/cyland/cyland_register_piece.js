@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Moment from 'moment';
 
@@ -44,7 +43,9 @@ let CylandRegisterPiece = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState(){
         return mergeOptions(
@@ -110,7 +111,7 @@ let CylandRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.history.push(`/pieces/${this.state.piece.id}`);
+        this.context.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {

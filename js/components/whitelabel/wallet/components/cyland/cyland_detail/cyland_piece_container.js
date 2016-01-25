@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import EditionListActions from '../../../../../../actions/edition_list_actions';
 
@@ -40,7 +39,9 @@ let CylandPieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -90,7 +91,7 @@ let CylandPieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     render() {

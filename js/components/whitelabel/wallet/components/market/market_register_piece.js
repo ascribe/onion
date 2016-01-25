@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -33,7 +32,9 @@ let MarketRegisterPiece = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState(){
         return mergeOptions(
@@ -82,7 +83,7 @@ let MarketRegisterPiece = React.createClass({
     handleAdditionalDataSuccess() {
         this.refreshPieceList();
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     nextSlide(queryParams) {

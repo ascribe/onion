@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -25,7 +24,9 @@ let SendContractAgreementForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -57,7 +58,7 @@ let SendContractAgreementForm = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('Contract agreement sent'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     getFormData() {

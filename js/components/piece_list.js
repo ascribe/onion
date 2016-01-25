@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -55,7 +54,9 @@ let PieceList = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getDefaultProps() {
         return {
@@ -135,12 +136,12 @@ let PieceList = React.createClass({
         if (redirectTo && redirectTo.pathname &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.push({
+            window.setTimeout(() => this.context.router.push({
                 // Occasionally, the back end also sets query parameters for Onion.
                 // We need to consider this by merging all passed query parameters, as we'll
                 // otherwise end up in a 404 screen
-                query: Object.assign({}, query, redirectTo.query),
-                pathname: redirectTo.pathname
+                pathname: redirectTo.pathname,
+                query: Object.assign({}, query, redirectTo.query)
             }), 0);
         }
     },
@@ -198,11 +199,11 @@ let PieceList = React.createClass({
         const { location: { pathname } } = this.props;
 
         this.loadPieceList({ search, page: 1 });
-        this.history.push({ pathname, query: { page: 1 } });
+        this.context.router.push({ pathname, query: { page: 1 } });
     },
 
     applyFilterBy(filterBy) {
-        const { location: { pathname } } = this.props;
+        const { pathname } = this.props.location;
 
         this.setState({
             isFilterDirty: true
@@ -228,7 +229,7 @@ let PieceList = React.createClass({
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.history.push({ pathname, query: { page: 1 } });
+        this.context.router.push({ pathname, query: { page: 1 } });
     },
 
     applyOrderBy(orderBy) {

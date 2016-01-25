@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -33,7 +32,9 @@ let IkonotvContractNotifications = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState() {
         return NotificationStore.getState();
@@ -115,7 +116,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationActions.flushContractAgreementListNotifications();
         NotificationActions.fetchContractAgreementListNotifications();
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     handleDeny() {
@@ -129,7 +130,7 @@ let IkonotvContractNotifications = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.context.router.push('/collection');
     },
 
     getCopyrightAssociationForm(){
