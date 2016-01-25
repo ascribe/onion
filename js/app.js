@@ -4,6 +4,7 @@ import 'classlist-polyfill';
 import 'isomorphic-fetch';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Router } from 'react-router';
 
 import AppResolver from './app_resolver';
@@ -70,7 +71,7 @@ const AppGateway = {
                     }
                 });
 
-                React.render((
+                ReactDOM.render((
                     <Router history={history}>
                         {redirectRoute}
                         {routes}
