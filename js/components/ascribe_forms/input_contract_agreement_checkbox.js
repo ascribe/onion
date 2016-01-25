@@ -1,6 +1,7 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
+import update from 'react-addons-update';
 
 import InputCheckbox from './input_checkbox';
 
@@ -101,7 +102,7 @@ const InputContractAgreementCheckbox = React.createClass({
         // so the parent `Property` is able to get the correct value of this component
         // when the `Form` queries it.
         this.setState({
-            value: React.addons.update(this.state.value, {
+            value: update(this.state.value, {
                 terms: { $set: event.target.value }
             })
         });

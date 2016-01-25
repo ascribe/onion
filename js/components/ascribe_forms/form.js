@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 import Button from 'react-bootstrap/lib/Button';
 import AlertDismissable from './alert';
@@ -246,7 +245,7 @@ let Form = React.createClass({
     },
 
     renderChildren() {
-        return ReactAddons.Children.map(this.props.children, (child, i) => {
+        return React.Children.map(this.props.children, (child, i) => {
             if (child) {
                 // Since refs will be overwritten by this functions return statement,
                 // we still want to be able to define refs for nested `Form` or `Property`

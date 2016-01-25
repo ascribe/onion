@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 import Modal from 'react-bootstrap/lib/Modal';
 
@@ -44,8 +43,8 @@ let ModalWrapper = React.createClass({
     },
 
     renderChildren() {
-        return ReactAddons.Children.map(this.props.children, (child) => {
-            return ReactAddons.addons.cloneWithProps(child, {
+        return React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {
                 handleSuccess: (response) => {
                     if (typeof child.props.handleSuccess === 'function') {
                         child.props.handleSuccess(response);

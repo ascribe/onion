@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
@@ -74,7 +74,7 @@ let AclButtonList = React.createClass({
         const { buttonListSize } = this.state;
 
         return React.Children.map(children, (child) => {
-            return React.addons.cloneWithProps(child, { buttonListSize });
+            return React.cloneElement(child, { buttonListSize });
         });
     },
 

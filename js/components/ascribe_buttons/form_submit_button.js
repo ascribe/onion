@@ -1,6 +1,7 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
+import update from 'react-addons-update';
 
 const { string, object } = React.PropTypes;
 
@@ -30,7 +31,7 @@ const FormSubmitButton = React.createClass({
     },
 
     setReadyStateForKey(key, state) {
-        const readyStates = React.addons.update(this.state.readyStates, { [key]: { $set: state } });
+        const readyStates = update(this.state.readyStates, { [key]: { $set: state } });
         this.setState({ readyStates });
     },
 

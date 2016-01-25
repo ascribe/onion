@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import update from 'react-addons-update';
 
 import { alt } from '../alt';
 import EditionsListActions from '../actions/edition_list_actions';
@@ -35,7 +35,7 @@ class EditionListStore {
             
             // if edition already exists, just merge
             if(editionsForPieces[storeEditionIndex]) {
-                editionsForPieces[storeEditionIndex] = React.addons.update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
+                editionsForPieces[storeEditionIndex] = update(editionsForPieces[storeEditionIndex], {$merge: editionListOfPiece[i]});
             } else {
                 // if does not exist, assign
                 editionsForPieces[storeEditionIndex] = editionListOfPiece[i];
