@@ -11,7 +11,9 @@
     "preinstall": "export SAUCE_CONNECT_DOWNLOAD_ON_INSTALL=true",
     "postinstall": "npm run build",
     "build": "gulp build --production",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha",
+    "tunnel": "node test/tunnel.js"
   },
   "browser": {
     "fineUploader": "./js/components/ascribe_uploader/vendor/s3.fine-uploader.js"
@@ -38,6 +40,7 @@
     "babel-jest": "^5.2.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
+    "colors": "^1.1.2",
     "dotenv": "^1.2.0",
     "gulp-sass": "^2.1.1",
     "jest-cli": "^0.4.0",

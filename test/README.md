@@ -1,3 +1,13 @@
+# TL;DR
+Copy the file `.env-template` in `.env` and fill up the missing keys.
+
+```bash
+$ npm install
+$ npm run tunnel
+$ npm test && git commit
+```
+
+
 # Welcome to our test suite, let me be your guide
 
 Dear reader, first of all thanks for taking your time reading this document.
@@ -199,3 +209,10 @@ $ mocha
 
 By default the test suite runs on `http://www.localhost.com:3000/`, if you
 want to change the URL, change the `APP_URL` env variable.
+
+
+# How to have fun
+Try this!
+```bash
+$ mocha -R nyan
+```

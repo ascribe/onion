@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').load();
+
 
 // https://code.google.com/p/selenium/wiki/DesiredCapabilities
 const BROWSERS = [
@@ -9,8 +11,9 @@ const BROWSERS = [
     'internet explorer,10,VISTA'
 ];
 
-const APP_URL = process.env.APP_URL || 'http://www.localhost.com:3000';
 
-
-module.exports.BROWSERS = BROWSERS.map(x => x.split(','));
-module.exports.APP_URL = APP_URL;
+module.exports = {
+    BROWSERS: BROWSERS.map(x => x.split(',')),
+    APP_URL: process.env.SAUCE_DEFAULT_URL || 'http://www.localhost.com:3000',
+    TUNNEL_AUTO_CONNECT: process.env.SAUCE_AUTO_CONNECT
+};

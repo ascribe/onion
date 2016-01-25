@@ -16,6 +16,8 @@ function testSuite(browserName, version, platform) {
         let browser;
 
         before(function() {
+            // No need to inject `username` or `access_key`, by default the constructor
+            // looks up the values in `process.env.SAUCE_USERNAME` and `process.env.SAUCE_ACCESS_KEY`
             browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
             return browser.init({ browserName, version, platform });
         });
