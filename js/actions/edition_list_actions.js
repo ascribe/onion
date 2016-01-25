@@ -39,7 +39,7 @@ class EditionListActions {
 
         return Q.Promise((resolve, reject) => {
             EditionListFetcher
-                .fetch({ pieceId, page, itemsToFetch, orderBy, orderAsc, filterBy })
+                .fetch({ pieceId, page, orderBy, orderAsc, filterBy, pageSize: itemsToFetch })
                 .then((res) => {
                     if (res && !res.editions) {
                         throw new Error('Piece has no editions to fetch.');
