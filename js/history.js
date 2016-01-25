@@ -1,13 +1,12 @@
 'use strict';
 
-import useBasename from 'history/lib/useBasename';
+import { useRouterHistory } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
+
 import AppConstants from './constants/application_constants';
 
 
 // Remove the trailing slash if present
-let baseUrl = AppConstants.baseUrl.replace(/\/$/, '');
+let basename = AppConstants.baseUrl.replace(/\/$/, '');
 
-export default useBasename(createBrowserHistory)({
-    basename: baseUrl
-});
+export default useRouterHistory(createBrowserHistory)({ basename });
