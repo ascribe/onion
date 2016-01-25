@@ -1,11 +1,17 @@
 # TL;DR
-Copy the file `.env-template` in `.env` and fill up the missing keys.
+Copy the contents of `.env-template` to `.env` and [fill up the missing keys with
+information from your SauceLabs account](#how-to-set-up-your-env-config-file).
 
 ```bash
 $ npm install
 $ npm run tunnel
 $ npm test && git commit
 ```
+
+
+# TODO
+* Use gulp to parallelize mocha invocations with different browsers
+* Figure out good system for changing subdomain through test scripts
 
 
 # Welcome to our test suite, let me be your guide
@@ -154,8 +160,8 @@ chai.should();
 ```
 
 `browser` is the main object to interact with Saucelab "real" browsers. We will
-use this object a lot. It allow us to load pages, click around, check if a
-specific text is present etc.
+use this object a lot. It allows us to load pages, click around, check if a
+specific text is present, etc.
 
 ```javascript
 describe('Login logs users in', function() {
@@ -179,11 +185,13 @@ browser to a specific URL.
     });
 ```
 
-While this function will be executed after each `it` function. `quit` will
-destroy the browser session.
+Close the browser after finishing all tests. `after` will be executed at the end
+of all `it` functions. Use `afterEach` instead if you'd like to run some code
+after each `it` function.
 
 ```javascript
     after(function() {
+        // Destroys the browser session
         return browser.quit();
     });
 ```
@@ -197,7 +205,6 @@ without writing new functions.
     it('should contain "Log in" in the title', function() {
         return browser.title().should.become('Log in');
     });
-
 });
 ```
 
