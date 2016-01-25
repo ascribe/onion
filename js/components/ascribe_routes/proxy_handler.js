@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { RouteContext } from 'react-router';
 import history from '../../history';
 
 import UserStore from '../../stores/user_store';
@@ -40,7 +39,7 @@ export function AuthRedirect({to, when}) {
 
         // and redirect if `true`.
         if(exprToValidate) {
-            window.setTimeout(() => history.replaceState(null, to, query));
+            window.setTimeout(() => history.replace({ path: to, query }));
             return true;
 
             // Otherwise there can also be the case that the backend
@@ -48,7 +47,7 @@ export function AuthRedirect({to, when}) {
         } else if(!exprToValidate && when === 'loggedIn' && redirect) {
 
             delete query.redirect;
-            window.setTimeout(() => history.replaceState(null, '/' + redirect, query));
+            window.setTimeout(() => history.replace({ path: '/' + redirect, query: query }));
             return true;
 
         } else if(!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
@@ -81,15 +80,34 @@ export function ProxyHandler(...redirectFunctions) {
             displayName: 'ProxyHandler',
 
             propTypes: {
-                location: object
+                location: object,
+
+                // Supplied by react-router
+                route: object
             },
 
-            // We need insert `RouteContext` here in order to be able
-            // to use the `Lifecycle` widget in further down nested components
-            mixins: [RouteContext],
+            contextTypes: {
+                router: object
+            },
+
+            childContextTypes: {
+                route: object,
+                router: object
+            },
 
             getInitialState() {
                 return UserStore.getState();
+            },
+
+            getChildContext() {
+                return {
+                    route: this.props.route,
+
+                    // TODO: Find out if it is necessary to
+                    // pass router here as a contextType, since
+                    // react-router apparently does it already
+                    router: this.context.router
+                };
             },
 
             componentDidMount() {

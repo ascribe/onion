@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link, History } from 'react-router';
+import { Link } from 'react-router';
 import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
@@ -43,8 +43,6 @@ let Edition = React.createClass({
         currentUser: React.PropTypes.object,
         loadEdition: React.PropTypes.func
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {

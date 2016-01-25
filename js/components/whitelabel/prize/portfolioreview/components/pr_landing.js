@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import PrizeActions from '../../simple_prize/actions/prize_actions';
 import PrizeStore from '../../simple_prize/stores/prize_store';
@@ -23,7 +22,9 @@ const PRLanding = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -42,7 +43,12 @@ const PRLanding = React.createClass({
         if(location && location.query && location.query.redirect) {
             let queryCopy = JSON.parse(JSON.stringify(location.query));
             delete queryCopy.redirect;
-            window.setTimeout(() => this.history.replaceState(null, `/${location.query.redirect}`, queryCopy));
+            window.setTimeout(() => {
+                this.context.router.replace({
+                    pathname: `/${location.query.redirect}`,
+                    query: queryCopy
+                });
+            });
         }
     },
 

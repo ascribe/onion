@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import AscribeSpinner from './ascribe_spinner';
 
@@ -13,8 +12,6 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let LogoutContainer = React.createClass({
-    mixins: [History],
-
     componentDidMount() {
         UserActions.logoutCurrentUser();
         alt.flush();

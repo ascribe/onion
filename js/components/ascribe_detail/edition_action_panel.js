@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -42,7 +41,9 @@ let EditionActionPanel = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getDefaultProps() {
         return {
@@ -75,7 +76,7 @@ let EditionActionPanel = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.context.router.push({ pathname: '/collection' });
     },
 
     refreshCollection() {

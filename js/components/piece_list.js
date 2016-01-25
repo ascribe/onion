@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -46,7 +45,9 @@ let PieceList = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getDefaultProps() {
         return {
@@ -115,13 +116,17 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        const { redirectTo, shouldRedirect } = this.props;
+        const { redirectTo: pathname,
+                shouldRedirect,
+                location: {
+                    query
+                } } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
-        if (redirectTo && unfilteredPieceListCount === 0 &&
+        if (pathname && unfilteredPieceListCount === 0 &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.pushState(null, this.props.redirectTo, this.props.location.query), 0);
+            window.setTimeout(() => this.context.router.push({ pathname, query }), 0);
         }
     },
 
@@ -175,14 +180,19 @@ let PieceList = React.createClass({
     },
 
     searchFor(searchTerm) {
+        const { pathname } = this.props.location;
+
         this.loadPieceList({
             page: 1,
             search: searchTerm
         });
-        this.history.pushState(null, this.props.location.pathname, {page: 1});
+
+        this.context.router.push({ pathname, query: {page: 1} });
     },
 
-    applyFilterBy(filterBy){
+    applyFilterBy(filterBy) {
+        const { pathname } = this.props.location;
+
         this.setState({
             isFilterDirty: true
         });
@@ -207,7 +217,7 @@ let PieceList = React.createClass({
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.history.pushState(null, this.props.location.pathname, {page: 1});
+        this.context.router.push({ pathname, query: {page: 1} });
     },
 
     applyOrderBy(orderBy) {

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import WhitelabelActions from '../../../../../actions/whitelabel_actions';
 import WhitelabelStore from '../../../../../stores/whitelabel_store';
@@ -13,8 +12,6 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
 
-import AscribeSpinner from '../../../../ascribe_spinner';
-
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
@@ -22,7 +19,9 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let CylandLanding = React.createClass({
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -49,7 +48,7 @@ let CylandLanding = React.createClass({
         // if user is already logged in, redirect him to piece list
         if(this.state.currentUser && this.state.currentUser.email) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.replaceState(null, '/collection'), 0);
+            window.setTimeout(() => this.context.router.replace({ pathname: '/collection' }), 0);
         }
     },
 

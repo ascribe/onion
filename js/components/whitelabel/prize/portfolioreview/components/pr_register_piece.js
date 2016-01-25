@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link, History } from 'react-router';
+import { Link } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -23,7 +23,9 @@ const PRRegisterPiece = React.createClass({
         location: object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: object
+    },
 
     getInitialState() {
         return UserStore.getState();
@@ -39,7 +41,7 @@ const PRRegisterPiece = React.createClass({
         if(currentUser && currentUser.email) {
             const submittedPieceId = getCookie(currentUser.email);
             if(submittedPieceId) {
-                this.history.pushState(null, `/pieces/${submittedPieceId}`);
+                this.context.router.push({ pathname: `/pieces/${submittedPieceId}` });
             }
         }
     },

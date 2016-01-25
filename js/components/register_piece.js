@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -38,7 +37,9 @@ let RegisterPiece = React.createClass( {
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState(){
         return mergeOptions(
@@ -80,7 +81,7 @@ let RegisterPiece = React.createClass( {
             this.state.filterBy
         );
 
-        this.history.pushState(null, `/pieces/${response.piece.id}`);
+        this.context.router.push({ pathname: `/pieces/${response.piece.id}` });
     },
 
     getSpecifyEditions() {

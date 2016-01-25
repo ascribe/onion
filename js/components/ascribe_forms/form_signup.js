@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
@@ -27,8 +26,6 @@ let SignupForm = React.createClass({
         children: React.PropTypes.element,
         location: React.PropTypes.object
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {

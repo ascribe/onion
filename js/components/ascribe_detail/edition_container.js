@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import ReactError from '../../mixins/react_error';
 import { ResourceNotFoundError } from '../../models/errors';
@@ -31,7 +30,7 @@ let EditionContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History, ReactError],
+    mixins: [ReactError],
 
     getInitialState() {
         return mergeOptions(

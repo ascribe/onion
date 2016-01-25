@@ -29,7 +29,7 @@ class NotificationsHandler {
                     if (res.notifications && res.notifications.length > 0) {
                         this.loaded = true;
                         console.log('Contractagreement notifications loaded');
-                        history.pushState(null, '/contract_notifications');
+                        history.push({ pathname: '/contract_notifications' });
                     }
                 }
             );

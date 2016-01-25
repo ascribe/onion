@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -33,7 +32,9 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 
 let IkonotvContractNotifications = React.createClass({
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -119,7 +120,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationActions.flushContractAgreementListNotifications();
         NotificationActions.fetchContractAgreementListNotifications();
 
-        this.history.pushState(null, '/collection');
+        this.context.router.push({ pathname: '/collection' });
     },
 
     handleDeny() {
@@ -132,7 +133,7 @@ let IkonotvContractNotifications = React.createClass({
     handleDenySuccess() {
         let notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
-        this.history.pushState(null, '/collection');
+        this.context.router.push({ pathname: '/collection' });
     },
 
     getCopyrightAssociationForm(){

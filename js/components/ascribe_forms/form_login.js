@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -13,7 +12,6 @@ import Form from './form';
 import Property from './property';
 
 import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
@@ -27,8 +25,6 @@ let LoginForm = React.createClass({
         redirectOnLoginSuccess: React.PropTypes.bool,
         location: React.PropTypes.object
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {

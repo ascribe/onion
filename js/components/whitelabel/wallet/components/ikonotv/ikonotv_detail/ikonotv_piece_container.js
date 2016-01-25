@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import PieceActions from '../../../../../../actions/piece_actions';
 import PieceStore from '../../../../../../stores/piece_store';
@@ -37,7 +36,9 @@ let IkonotvPieceContainer = React.createClass({
         params: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -94,7 +95,7 @@ let IkonotvPieceContainer = React.createClass({
         let notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.pushState(null, '/collection');
+        this.context.router.push({ pathname: '/collection' });
     },
 
     render() {

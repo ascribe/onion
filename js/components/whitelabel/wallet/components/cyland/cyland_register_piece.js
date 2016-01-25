@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Moment from 'moment';
 
@@ -46,7 +45,9 @@ let CylandRegisterPiece = React.createClass({
         location: React.PropTypes.object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
 
     getInitialState(){
         return mergeOptions(
@@ -129,7 +130,7 @@ let CylandRegisterPiece = React.createClass({
 
         PieceActions.fetchOne(this.state.piece.id);
 
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.context.router.push({ pathname: `/pieces/${this.state.piece.id}` });
     },
 
     // We need to increase the step to lock the forms that are already filled out

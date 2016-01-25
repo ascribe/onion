@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
@@ -35,7 +34,9 @@ const PRRegisterPieceForm = React.createClass({
         currentUser: object
     },
 
-    mixins: [History],
+    contextTypes: {
+        router: object
+    },
 
     getInitialState() {
         return {
@@ -106,7 +107,7 @@ const PRRegisterPieceForm = React.createClass({
                         GlobalNotificationActions.appendGlobalNotification(notificationMessage);
                     });
             })
-            .then(() => this.history.pushState(null, `/pieces/${this.state.piece.id}`))
+            .then(() => this.context.router.push({ pathname: `/pieces/${this.state.piece.id}` }))
             .catch((err) => {
                 const errMessage = (getErrorNotificationMessage(err) || getLangText("Oops! We weren't able to send your submission.")) +
                                         getLangText(' Please contact support@ascribe.io');
