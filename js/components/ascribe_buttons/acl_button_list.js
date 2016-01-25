@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 
 import ConsignButton from './acls/consign_button';
 import EmailButton from './acls/email_button';
@@ -61,7 +61,7 @@ let AclButtonList = React.createClass({
         const { buttonListSize } = this.state;
 
         return React.Children.map(children, (child) => {
-            return React.addons.cloneWithProps(child, { buttonListSize });
+            return React.cloneElement(child, { buttonListSize });
         });
     },
 

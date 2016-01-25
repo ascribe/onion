@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 import { History, Lifecycle } from 'react-router';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
@@ -120,7 +120,7 @@ const SlidesContainer = React.createClass({
         }
     },
 
-    // Since we need to give the slides a width, we need to call ReactAddons.addons.cloneWithProps
+    // Since we need to give the slides a width, we need to call React.cloneElement
     // Also, a key is nice to have!
     renderChildren() {
         const startFrom = parseInt(this.props.location.query.start_from, 10) || -1;
@@ -129,7 +129,7 @@ const SlidesContainer = React.createClass({
             // since the default parameter of startFrom is -1, we do not need to check
             // if its actually present in the url bar, as it will just not match
             if(child && i >= startFrom) {
-                return React.addons.cloneWithProps(child, {
+                return React.cloneElement(child, {
                     className: 'ascribe-slide',
                     style: {
                         width: this.state.containerWidth

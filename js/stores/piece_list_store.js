@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import update from 'react-addons-update';
 import { alt } from '../alt';
 
 import PieceListActions from '../actions/piece_list_actions';
@@ -62,7 +62,7 @@ class PieceListStore {
         pieceList.forEach((piece, i) => {
             const oldPiece = this.pieceList[i];
             if (oldPiece) {
-                piece = React.addons.update(piece, {
+                piece = update(piece, {
                     show: { $set: oldPiece.show }
                 });
             }

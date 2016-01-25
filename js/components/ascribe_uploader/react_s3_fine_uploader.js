@@ -1,6 +1,7 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
+import update from 'react-addons-update';
 // FIXME: remove once using react-components
 import fineUploader from 'exports?qq!./vendor/s3.fine-uploader';
 import Q from 'q';
@@ -536,7 +537,7 @@ const ReactS3FineUploader = React.createClass({
 
             changeSet.status = { $set: status };
 
-            let filesToUpload = React.addons.update(this.state.filesToUpload, { [fileId]: changeSet });
+            let filesToUpload = update(this.state.filesToUpload, { [fileId]: changeSet });
 
             this.setState({ filesToUpload }, resolve);
         });
@@ -547,7 +548,7 @@ const ReactS3FineUploader = React.createClass({
 
         if(fileId < filesToUpload.length) {
             const changeSet = { $set: url };
-            const newFilesToUpload = React.addons.update(filesToUpload, {
+            const newFilesToUpload = update(filesToUpload, {
                 [fileId]: { thumbnailUrl: changeSet }
             });
 
@@ -574,7 +575,7 @@ const ReactS3FineUploader = React.createClass({
             completed: false
         };
 
-        let startedChunks = React.addons.update(this.state.startedChunks, { $set: chunks });
+        let startedChunks = update(this.state.startedChunks, { $set: chunks });
 
         this.setState({ startedChunks });
     },
@@ -588,7 +589,7 @@ const ReactS3FineUploader = React.createClass({
             chunks[chunkKey].responseJson = responseJson;
             chunks[chunkKey].xhr = xhr;
 
-            let startedChunks = React.addons.update(this.state.startedChunks, { $set: chunks });
+            let startedChunks = update(this.state.startedChunks, { $set: chunks });
 
             this.setState({ startedChunks });
         }
@@ -619,7 +620,7 @@ const ReactS3FineUploader = React.createClass({
             files[id].status = FileStatus.UPLOAD_SUCCESSFUL;
             files[id].key = this.state.uploader.getKey(id);
 
-            let filesToUpload = React.addons.update(this.state.filesToUpload, { $set: files });
+            let filesToUpload = update(this.state.filesToUpload, { $set: files });
             this.setState({ filesToUpload });
 
             // Only after the blob has been created server-side, we can make the form submittable.
@@ -667,7 +668,7 @@ const ReactS3FineUploader = React.createClass({
             if (!this.state.errorState.errorClass) {
                 notificationMessage = errorNotificationMessage;
 
-                const errorState = React.addons.update(this.state.errorState, {
+                const errorState = update(this.state.errorState, {
                     errorClass: {
                         $set: this.getUploadErrorClass({
                             reason: errorReason,
@@ -720,7 +721,7 @@ const ReactS3FineUploader = React.createClass({
     },
 
     onProgress(id, name, uploadedBytes, totalBytes) {
-        let filesToUpload = React.addons.update(this.state.filesToUpload, {
+        let filesToUpload = update(this.state.filesToUpload, {
             [id]: {
                 progress: { $set: (uploadedBytes / totalBytes) * 100}
             }
@@ -747,7 +748,7 @@ const ReactS3FineUploader = React.createClass({
                 return file;
             });
 
-            let filesToUpload = React.addons.update(this.state.filesToUpload, {$set: updatedFilesToUpload});
+            let filesToUpload = update(this.state.filesToUpload, {$set: updatedFilesToUpload});
 
             this.setState({filesToUpload });
         } else {
@@ -846,7 +847,7 @@ const ReactS3FineUploader = React.createClass({
 
         fileIds.forEach((fileId) => {
             this.state.uploader.retry(fileId);
-            filesToUpload = React.addons.update(filesToUpload, { [fileId]: { status: { $set: FileStatus.UPLOADING } } });
+            filesToUpload = update(filesToUpload, { [fileId]: { status: { $set: FileStatus.UPLOADING } } });
         });
 
         this.setState({
@@ -1041,7 +1042,7 @@ const ReactS3FineUploader = React.createClass({
         }
 
         // set the new file array
-        let filesToUpload = React.addons.update(this.state.filesToUpload, { $set: oldAndNewFiles });
+        let filesToUpload = update(this.state.filesToUpload, { $set: oldAndNewFiles });
 
         this.setState({ filesToUpload }, () => {
             // when files have been dropped or selected by a user, we want to propagate that

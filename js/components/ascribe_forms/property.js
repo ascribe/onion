@@ -1,13 +1,10 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 import Panel from 'react-bootstrap/lib/Panel';
 
 import AppConstants from '../../constants/application_constants';
-
-import { mergeOptions } from '../../utils/general_utils';
 
 
 const { bool, element, string, oneOfType, func, object, arrayOf } = React.PropTypes;
@@ -261,7 +258,7 @@ const Property = React.createClass({
         // Input's props should only be cloned and propagated down the tree,
         // if the component is actually being shown (!== 'expanded === false')
         if((this.state.expanded && this.props.checkboxLabel) || !this.props.checkboxLabel) {
-            return ReactAddons.Children.map(this.props.children, (child) => {
+            return React.Children.map(this.props.children, (child) => {
                 // Since refs will be overriden by this functions return statement,
                 // we still want to be able to define refs for nested `Form` or `Property`
                 // children, which is why we're upfront simply invoking the callback-ref-

@@ -95,6 +95,7 @@
     "query-string": "^3.0.0",
     "raven-js": "^1.1.19",
     "react": "^15.1.0",
+    "react-addons-update": "^15.1.0",
     "react-bootstrap": "^0.29.4",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.1.0",
