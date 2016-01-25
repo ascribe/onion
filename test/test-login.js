@@ -26,7 +26,7 @@ function testSuite(browserName, version, platform) {
             return browser
                 .init({ browserName, version, platform })
                 .get(config.APP_URL + '/login')
-                .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 1000)
+                .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 10000)
                 .catch(function (err) {
                     console.log('Failure -- unable to load app.');
                     console.log('Skipping tests for this browser...');
@@ -39,7 +39,9 @@ function testSuite(browserName, version, platform) {
         });
 
         it('should contain "Log in" in the title', function() {
-            return browser.title().should.become('Log in');
+            return browser.
+                waitForElementByCss('.ascribe-login-wrapper', asserters.isDisplayed, 2000)
+                title().should.become('Log in');
         });
     });
 }
