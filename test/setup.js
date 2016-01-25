@@ -12,7 +12,7 @@ if (!process.env.SAUCE_USERNAME) {
     process.exit(1); //eslint-disable-line no-process-exit
 }
 
-if (!process.env.SAUCE_ACCESS_KEY2) {
+if (!process.env.SAUCE_ACCESS_KEY) {
     console.log(colors.red('SAUCE_ACCESS_KEY is missing. Please check the README.md file.'));
     process.exit(1); //eslint-disable-line no-process-exit
 }
