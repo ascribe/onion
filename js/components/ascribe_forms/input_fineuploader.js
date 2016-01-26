@@ -28,11 +28,7 @@ const InputFineUploader = React.createClass({
         createBlobRoutine: shape({
             url: string
         }),
-        validation: shape({
-            itemLimit: number,
-            sizeLimit: string,
-            allowedExtensions: arrayOf(string)
-        }),
+        validation: ReactS3FineUploader.propTypes.validation,
 
         // isFineUploaderActive is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
