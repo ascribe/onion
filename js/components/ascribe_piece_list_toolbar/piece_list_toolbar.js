@@ -39,30 +39,6 @@ let PieceListToolbar = React.createClass({
         ])
     },
 
-    getFilterWidget(){
-        if (this.props.filterParams){
-            return (
-                <PieceListToolbarFilterWidget
-                    filterParams={this.props.filterParams}
-                    filterBy={this.props.filterBy}
-                    applyFilterBy={this.props.applyFilterBy} />
-            );
-        }
-        return null;
-    },
-
-    getOrderWidget(){
-        if (this.props.orderParams){
-            return (
-                <PieceListToolbarOrderWidget
-                    orderParams={this.props.orderParams}
-                    orderBy={this.props.orderBy}
-                    applyOrderBy={this.props.applyOrderBy}/>
-            );
-        }
-        return null;
-    },
-
     render() {
         const { className, children, searchFor, searchQuery } = this.props;
 
@@ -75,8 +51,14 @@ let PieceListToolbar = React.createClass({
                                 {children}
                             </span>
                             <span className="pull-right">
-                                {this.getOrderWidget()}
-                                {this.getFilterWidget()}
+                                <PieceListToolbarOrderWidget
+                                    orderParams={this.props.orderParams}
+                                    orderBy={this.props.orderBy}
+                                    applyOrderBy={this.props.applyOrderBy}/>
+                                <PieceListToolbarFilterWidget
+                                    filterParams={this.props.filterParams}
+                                    filterBy={this.props.filterBy}
+                                    applyFilterBy={this.props.applyFilterBy} />
                             </span>
                             <SearchBar
                                 className="pull-right search-bar ascribe-input-glyph"

@@ -8,6 +8,8 @@
     transition: .2s bottom cubic-bezier(.77, 0, .175, 1);
     width: 100%;
 
+    z-index: 9999;
+
     > div {
         padding: .5em 1em;
         text-align: center;
@@ -36,6 +38,8 @@
     max-width: 75%;
     position: fixed;
     transition: 0.5s right ease;
+
+    z-index: 9999;
 
     > div {
         padding: .75em 1.5em;

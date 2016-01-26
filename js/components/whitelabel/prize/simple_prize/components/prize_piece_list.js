@@ -48,9 +48,8 @@ let PrizePieceList = React.createClass({
     },
 
     getButtonSubmit() {
-        const { currentUser } = this.state;
-        if (this.state.prize && this.state.prize.active &&
-            !currentUser.is_jury && !currentUser.is_admin && !currentUser.is_judge){
+        const { currentUser, prize } = this.state;
+        if (prize && prize.active && !currentUser.is_jury && !currentUser.is_admin && !currentUser.is_judge) {
             return (
                 <LinkContainer to="/register_piece">
                     <Button>
@@ -76,7 +75,6 @@ let PrizePieceList = React.createClass({
             <div>
                 <PieceList
                     ref="list"
-                    redirectTo="/register_piece"
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}

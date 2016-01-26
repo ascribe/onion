@@ -14,11 +14,9 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
 
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
+import { getLangText } from '../../utils/lang_utils';
+import { extractFileExtensionFromString } from '../../utils/file_utils';
 
-import { mergeOptions } from '../../utils/general_utils.js';
-import { getLangText } from '../../utils/lang_utils.js';
 
 const EMBED_IFRAME_HEIGHT = {
     video: 315,
@@ -28,25 +26,22 @@ const EMBED_IFRAME_HEIGHT = {
 let MediaContainer = React.createClass({
     propTypes: {
         content: React.PropTypes.object,
+        currentUser: React.PropTypes.object,
         refreshObject: React.PropTypes.func
     },
 
     getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            {
-                timerId: null
-            });
+        return {
+            timerId: null
+        };
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-
         if (!this.props.content.digital_work) {
             return;
         }
-        let isEncoding = this.props.content.digital_work.isEncoding;
+
+        const isEncoding = this.props.content.digital_work.isEncoding;
         if (this.props.content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
             let timerId = window.setInterval(this.props.refreshObject, 10000);
             this.setState({timerId: timerId});
@@ -60,22 +55,26 @@ let MediaContainer = React.createClass({
     },
 
     componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-
         window.clearInterval(this.state.timerId);
     },
 
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
-        const { content } = this.props;
+        const { content, currentUser } = this.props;
         // Pieces and editions are joined to the user by a foreign key in the database, so
         // the information in content will be updated if a user updates their username.
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
-        const didUserRegisterContent = this.state.currentUser && (this.state.currentUser.username === content.user_registered);
+        const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+
+        // We want to show the file's extension as a label of the download button.
+        // We can however not only use `extractFileExtensionFromString` on the url for that
+        // as files might be saved on S3 without a file extension which leads
+        // `extractFileExtensionFromString` to extract everything starting from the top level
+        // domain: e.g. '.net/live/<hash>'.
+        // Therefore, we extract the file's name (last part of url, separated with a slash)
+        // and try to extract the file extension from there.
+        const fileName = content.digital_work.url.split('/').pop();
+        const fileExtension = extractFileExtensionFromString(fileName);
 
         let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
             content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
@@ -94,8 +93,11 @@ let MediaContainer = React.createClass({
             embed = (
                 <CollapsibleButton
                     button={
-                        <Button bsSize="xsmall" className="ascribe-margin-1px" disabled={isEmbedDisabled ? '"disabled"' : ''}>
-                            Embed
+                        <Button
+                            bsSize="xsmall"
+                            className="ascribe-margin-1px"
+                            disabled={isEmbedDisabled}>
+                            {getLangText('Embed')}
                         </Button>
                     }
                     panel={
@@ -114,7 +116,7 @@ let MediaContainer = React.createClass({
                     url={content.digital_work.url}
                     extraData={extraData}
                     encodingStatus={content.digital_work.isEncoding} />
-                <p className="text-center">
+                <p className="text-center hidden-print">
                     <span className="ascribe-social-button-list">
                         <FacebookShareButton />
                         <TwitterShareButton
@@ -125,8 +127,16 @@ let MediaContainer = React.createClass({
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
                         aclName="acl_download">
-                        <Button bsSize="xsmall" className="ascribe-margin-1px" href={this.props.content.digital_work.url} target="_blank">
-                            Download .{mimetype} <Glyphicon glyph="cloud-download"/>
+                        <Button
+                            bsSize="xsmall"
+                            className="ascribe-margin-1px"
+                            href={content.digital_work.url}
+                            target="_blank">
+                            {/*
+                                If it turns out that `fileExtension` is an empty string, we're just
+                                using the label 'file'.
+                            */}
+                            {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download"/>
                         </Button>
                     </AclProxy>
                     {embed}

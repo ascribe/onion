@@ -28,11 +28,7 @@ const InputFineUploader = React.createClass({
         createBlobRoutine: shape({
             url: string
         }),
-        validation: shape({
-            itemLimit: number,
-            sizeLimit: string,
-            allowedExtensions: arrayOf(string)
-        }),
+        validation: ReactS3FineUploader.propTypes.validation,
 
         // isFineUploaderActive is used to lock react fine uploader in case
         // a user is actually not logged in already to prevent him from droping files
@@ -52,6 +48,7 @@ const InputFineUploader = React.createClass({
             plural: string
         }),
         handleChangedFile: func,
+        onValidationFailed: func,
 
         // Provided by `Property`
         onChange: React.PropTypes.func
@@ -107,6 +104,7 @@ const InputFineUploader = React.createClass({
             isFineUploaderActive,
             isReadyForFormSubmission,
             keyRoutine,
+            onValidationFailed,
             setIsUploadReady,
             uploadMethod,
             validation,
@@ -127,6 +125,7 @@ const InputFineUploader = React.createClass({
                 createBlobRoutine={createBlobRoutine}
                 validation={validation}
                 submitFile={this.submitFile}
+                onValidationFailed={onValidationFailed}
                 setIsUploadReady={setIsUploadReady}
                 isReadyForFormSubmission={isReadyForFormSubmission}
                 areAssetsDownloadable={areAssetsDownloadable}

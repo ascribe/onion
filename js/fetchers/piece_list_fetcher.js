@@ -10,12 +10,12 @@ let PieceListFetcher = {
      * Fetches a list of pieces from the API.
      * Can be called with all supplied queryparams the API.
      */
-    fetch(page, pageSize, search, orderBy, orderAsc, filterBy) {
-        let ordering = generateOrderingQueryParams(orderBy, orderAsc);
+    fetch({ page, pageSize, search, orderBy, orderAsc, filterBy }) {
+        const ordering = generateOrderingQueryParams(orderBy, orderAsc);
 
         // filterBy is an object of acl key-value pairs.
         // The values are booleans
-        let queryParams = mergeOptions(
+        const queryParams = mergeOptions(
             {
                 page,
                 pageSize,

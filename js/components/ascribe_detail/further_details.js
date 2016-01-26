@@ -5,25 +5,27 @@ import React from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import Form from './../ascribe_forms/form';
-
-import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import FurtherDetailsFileuploader from './further_details_fileuploader';
 
+import Form from './../ascribe_forms/form';
+import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
+
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+
+import { getLangText } from '../../utils/lang_utils';
 
 
 let FurtherDetails = React.createClass({
     propTypes: {
+        pieceId: React.PropTypes.number.isRequired,
+
         editable: React.PropTypes.bool,
-        pieceId: React.PropTypes.number,
         extraData: React.PropTypes.object,
+        handleSuccess: React.PropTypes.func,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object),
-        handleSuccess: React.PropTypes.func
     },
 
     getInitialState() {
@@ -32,13 +34,18 @@ let FurtherDetails = React.createClass({
         };
     },
 
-    showNotification(){
-        this.props.handleSuccess();
-        let notification = new GlobalNotificationModel('Details updated', 'success');
+    showNotification() {
+        const { handleSuccess } = this.props;
+
+        if (typeof handleSucess === 'function') {
+            handleSuccess();
+        }
+
+        const notification = new GlobalNotificationModel(getLangText('Details updated'), 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitFile(file){
+    submitFile(file) {
         this.setState({
             otherDataKey: file.key
         });
@@ -51,40 +58,42 @@ let FurtherDetails = React.createClass({
     },
 
     render() {
+        const { editable, extraData, otherData, pieceId } = this.props;
+
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PieceExtraDataForm
                         name='artist_contact_info'
                         title='Artist Contact Info'
+                        convertLinks
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData}
-                        />
+                        pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        pieceId={pieceId} />
                     <Form>
                         <FurtherDetailsFileuploader
                             submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            editable={this.props.editable}
+                            editable={editable}
                             overrideForm={true}
-                            pieceId={this.props.pieceId}
-                            otherData={this.props.otherData}
+                            pieceId={pieceId}
+                            otherData={otherData}
                             multiple={true} />
                     </Form>
                 </Col>
