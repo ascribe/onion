@@ -54,8 +54,7 @@ const ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
-                headerTitle='COLLECTION'
-                disableOn='noPieces' />
+                headerTitle='COLLECTION'/>
             <Route path='pieces/:pieceId' component={SluicePieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
@@ -71,8 +70,7 @@ const ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
-                headerTitle='SUBMISSIONS'
-                disableOn='noPieces' />
+                headerTitle='SUBMISSIONS'/>
             <Route
                 path='login'
                 component={ProxyHandler(
