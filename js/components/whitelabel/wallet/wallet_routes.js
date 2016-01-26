@@ -75,7 +75,8 @@ let ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CylandPieceList)}
-                headerTitle='COLLECTION' />
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='pieces/:pieceId' component={CylandPieceContainer} />
@@ -109,7 +110,8 @@ let ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
-                headerTitle='COLLECTION' />
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={PieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
@@ -150,7 +152,8 @@ let ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvPieceList)}
-                headerTitle='COLLECTION' />
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
             <Route
                 path='contract_notifications'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvContractNotifications)} />
@@ -189,7 +192,8 @@ let ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
-                headerTitle='COLLECTION' />
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
@@ -225,7 +229,8 @@ let ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(Vivi23PieceList)}
-                headerTitle='COLLECTION' />
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
             <Route path='verify' component={CoaVerifyContainer} />
