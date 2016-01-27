@@ -9,7 +9,7 @@ export const validationParts = {
         multiple: 100
     },
     sizeLimit: {
-        default: 25000000000,
+        default: 50000000000,
         thumbnail: 5000000
     }
 };
