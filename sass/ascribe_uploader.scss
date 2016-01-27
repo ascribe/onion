@@ -9,6 +9,12 @@
     text-align: center;
     vertical-align: middle;
     padding-top: 1.5em;
+
+    @media screen and (max-width: 625px) {
+        .file-name {
+            display: block;
+        }
+    }
 }
 
 .inactive-dropzone {
