@@ -287,12 +287,7 @@ let PieceList = React.createClass({
                     orderBy={this.state.orderBy}
                     applyFilterBy={this.applyFilterBy}
                     applyOrderBy={this.applyOrderBy}>
-                    {customSubmitButton ?
-                        customSubmitButton :
-                        <button className="btn btn-default btn-ascribe-add">
-                            <span className="icon-ascribe icon-ascribe-add" />
-                        </button>
-                    }
+                    {customSubmitButton}
                 </PieceListToolbar>
                 <PieceListBulkModal
                     availableAcls={availableAcls}
