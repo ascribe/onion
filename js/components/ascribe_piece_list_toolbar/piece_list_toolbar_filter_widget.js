@@ -86,7 +86,7 @@ let PieceListToolbarFilterWidget = React.createClass({
                 <DropdownButton
                     pullRight={true}
                     title={filterIcon}
-                    className="ascribe-piece-list-toolbar-filter-widget">
+                    className="ascribe-piece-list-toolbar-widget">
                     {/* We iterate over filterParams, to receive the label and then for each
                         label also iterate over its items, to get all filterable options */}
                     {this.props.filterParams.map(({ label, items }, i) => {
@@ -120,7 +120,7 @@ let PieceListToolbarFilterWidget = React.createClass({
                                         <li
                                             key={itemLabel}
                                             onClick={this.filterBy(param)}
-                                            className="filter-widget-item">
+                                            className="ascribe-piece-list-toolbar-widget-item">
                                             <div className="checkbox-line">
                                                 <span>
                                                     {getLangText(itemLabel)}

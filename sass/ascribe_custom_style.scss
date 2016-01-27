@@ -148,12 +148,8 @@ hr {
     font-weight: $ascribe--font-weight-light;
 }
 
-.icon-ascribe-search{
+.icon-ascribe-search {
     color: $ascribe--button-default-color;
-}
-
-.ascribe-piece-list-toolbar .btn-ascribe-add{
-    display: none;
 }
 
 .ascribe-accordion-list {
@@ -210,7 +206,6 @@ hr {
 
 .route--login,
 .route--signup {
-
     .btn-spinner {
         background-color: $ascribe--button-default-color;
     }
@@ -233,31 +228,6 @@ hr {
     }
 }
 
-.btn-ascribe-add {
-    width: 30px;
-    height: 30px;
-    background-color: transparent !important;
-    border: 1px solid $ascribe-dark-blue;
-    border-radius: 50%;
-
-    &:hover {
-        border-color: white!important;
-        background-color: $ascribe-dark-blue!important;
-    }
-
-    > span {
-        position: absolute;
-        left: 0;
-        top: 2px;
-        width: 30px;
-        height: 30px;
-        color: $ascribe-dark-blue;
-        padding: 0.4em;
-        &:hover {
-            color: white;
-        }
-    }
-}
 // buttons!
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
@@ -371,19 +341,6 @@ fieldset[disabled] .btn-secondary.active {
         background-color: $ascribe-pink;
         border-color: $ascribe-pink;
         color: $ascribe-white;
-    }
-}
-
-.ascribe-piece-list-toolbar-filter-widget button {
-    background-color: transparent;
-    border: 1px solid transparent;
-    color: $ascribe--button-default-color;
-
-    &:hover,
-    &:active {
-        background-color: $ascribe--button-default-color !important;
-        border-color: $ascribe--button-default-color !important;
-        color: white;
     }
 }
 
