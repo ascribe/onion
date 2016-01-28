@@ -9,6 +9,12 @@
     text-align: center;
     vertical-align: middle;
     padding-top: 1.5em;
+
+    @media screen and (max-width: 625px) {
+        .file-name {
+            display: block;
+        }
+    }
 }
 
 .inactive-dropzone {
@@ -78,12 +84,6 @@
     }
 }
 
-.file-drag-and-drop-preview-table-wrapper {
-    display: table;
-    height: 94px;
-    width: 104px;
-}
-
 .file-drag-and-drop-preview {
     background-color: #eeeeee;
     border: 1px solid #616161;
@@ -131,7 +131,7 @@
     width: 104px;
 
     // REFACTOR TO USE TABLE CELL
-    .action-file, .spinner-file, .icon-ascribe-ok {
+    .action-file, .spinner-file {
         margin-top: 1em;
         line-height: 1.3;
     }
@@ -142,23 +142,21 @@
 }
 
 .file-drag-and-drop-preview-other {
-    display: table-cell;
+    height: 94px;
     text-align: center;
-    vertical-align: middle;
+    width: 104px;
 
     p {
         margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .action-file:not(.icon-ascribe-ok), .spinner-file {
         margin-top: 0;
         position: relative;
-        top: .3em;
-
-        span:not(:first-child) {
-            display: block;
-            margin-top: .5em;
-        }
+        top: 0.8em;
     }
 }
 
