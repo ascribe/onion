@@ -108,7 +108,14 @@ Visual Regression Testing
 
 We're using [Gemini](https://github.com/gemini-testing/gemini) for visual regression tests because it supports both PhantomJS2 and SauceLabs.
 
-See the [helper docs](docs/visual-regression-testing.md) for information on installing Gemini, its dependencies, and running and writing tests.
+See the [helper docs](test/gemini/README.md) for information on installing Gemini, its dependencies, and running and writing tests.
+
+Integration Testing
+-------------------
+
+We're using [Sauce Labs](https://saucelabs.com/home) with [WD.js](https://github.com/admc/wd) for integration testing across browser grids with Selenium.
+
+See the [helper docs](test/integration/README.md) for information on each part of the test stack and how to run and write tests.
 
 
 Workflow
