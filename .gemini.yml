@@ -15,3 +15,119 @@ browsers:
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
+
+    CcDesktop:
+        rootUrl: http://cc.localhost.com:3000/
+        screenshotsDir: './gemini-screens/cc-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CcMobile:
+        rootUrl: http://cc.localhost.com:3000/
+        screenshotsDir: './gemini-screens/cc-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CylandDesktop:
+        rootUrl: http://cyland.localhost.com:3000/
+        screenshotsDir: './gemini-screens/cyland-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CylandMobile:
+        rootUrl: http://cyland.localhost.com:3000/
+        screenshotsDir: './gemini-screens/cyland-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    IkonotvDesktop:
+        rootUrl: http://ikonotv.localhost.com:3000/
+        screenshotsDir: './gemini-screens/ikonotv-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    IkonotvMobile:
+        rootUrl: http://ikonotv.localhost.com:3000/
+        screenshotsDir: './gemini-screens/ikonotv-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    LumenusDesktop:
+        rootUrl: http://lumenus.localhost.com:3000/
+        screenshotsDir: './gemini-screens/lumenus-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    LumenusMobile:
+        rootUrl: http://lumenus.localhost.com:3000/
+        screenshotsDir: './gemini-screens/lumenus-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    23viviDesktop:
+        rootUrl: http://23vivi.localhost.com:3000/
+        screenshotsDir: './gemini-screens/23vivi-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    23viviMobile:
+        rootUrl: http://23vivi.localhost.com:3000/
+        screenshotsDir: './gemini-screens/23vivi-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+sets:
+    main:
+        files:
+            - gemini/main
+        browsers:
+            - MainDesktop
+            - MainMobile
+    cc:
+        files:
+            - gemini/whitelabel/shared
+        browsers:
+            - CcDesktop
+            - CcMobile
+
+    cyland:
+        files:
+            - gemini/whitelabel/shared
+            - gemini/whitelabel/cyland
+        browsers:
+            - CylandDesktop
+            - CylandMobile
+
+    ikonotv:
+        files:
+            - gemini/whitelabel/shared
+            - gemini/whitelabel/ikonotv
+        browsers:
+            - IkonotvDesktop
+            - IkonotvMobile
+
+    lumenus:
+        files:
+            - gemini/whitelabel/shared
+            - gemini/whitelabel/lumenus
+        browsers:
+            - LumenusDesktop
+            - LumenusMobile
+
+    23vivi:
+        files:
+            - gemini/whitelabel/shared
+            - gemini/whitelabel/23vivi
+        browsers:
+            - 23viviDesktop
+            - 23viviMobile
