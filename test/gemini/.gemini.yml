@@ -4,84 +4,84 @@ sessionsPerBrowser: 1
 browsers:
     MainDesktop:
         rootUrl: http://localhost.com:3000/
-        screenshotsDir: './gemini-screens/desktop'
+        screenshotsDir: './screenshots/main-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     MainMobile:
         rootUrl: http://localhost.com:3000/
-        screenshotsDir: './gemini-screens/mobile'
+        screenshotsDir: './screenshots/main-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
 
     CcDesktop:
         rootUrl: http://cc.localhost.com:3000/
-        screenshotsDir: './gemini-screens/cc-desktop'
+        screenshotsDir: './screenshots/cc-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     CcMobile:
         rootUrl: http://cc.localhost.com:3000/
-        screenshotsDir: './gemini-screens/cc-mobile'
+        screenshotsDir: './screenshots/cc-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
 
     CylandDesktop:
         rootUrl: http://cyland.localhost.com:3000/
-        screenshotsDir: './gemini-screens/cyland-desktop'
+        screenshotsDir: './screenshots/cyland-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     CylandMobile:
         rootUrl: http://cyland.localhost.com:3000/
-        screenshotsDir: './gemini-screens/cyland-mobile'
+        screenshotsDir: './screenshots/cyland-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
 
     IkonotvDesktop:
         rootUrl: http://ikonotv.localhost.com:3000/
-        screenshotsDir: './gemini-screens/ikonotv-desktop'
+        screenshotsDir: './screenshots/ikonotv-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     IkonotvMobile:
         rootUrl: http://ikonotv.localhost.com:3000/
-        screenshotsDir: './gemini-screens/ikonotv-mobile'
+        screenshotsDir: './screenshots/ikonotv-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
 
     LumenusDesktop:
         rootUrl: http://lumenus.localhost.com:3000/
-        screenshotsDir: './gemini-screens/lumenus-desktop'
+        screenshotsDir: './screenshots/lumenus-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     LumenusMobile:
         rootUrl: http://lumenus.localhost.com:3000/
-        screenshotsDir: './gemini-screens/lumenus-mobile'
+        screenshotsDir: './screenshots/lumenus-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
 
     23viviDesktop:
         rootUrl: http://23vivi.localhost.com:3000/
-        screenshotsDir: './gemini-screens/23vivi-desktop'
+        screenshotsDir: './screenshots/23vivi-desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
     23viviMobile:
         rootUrl: http://23vivi.localhost.com:3000/
-        screenshotsDir: './gemini-screens/23vivi-mobile'
+        screenshotsDir: './screenshots/23vivi-mobile'
         windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
