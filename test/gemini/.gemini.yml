@@ -89,45 +89,45 @@ browsers:
 sets:
     main:
         files:
-            - gemini/main
+            - tests/main
         browsers:
             - MainDesktop
             - MainMobile
     cc:
         files:
-            - gemini/whitelabel/shared
+            - tests/whitelabel/shared
         browsers:
             - CcDesktop
             - CcMobile
 
     cyland:
         files:
-            - gemini/whitelabel/shared
-            - gemini/whitelabel/cyland
+            - tests/whitelabel/shared
+            - tests/whitelabel/cyland
         browsers:
             - CylandDesktop
             - CylandMobile
 
     ikonotv:
         files:
-            - gemini/whitelabel/shared
-            - gemini/whitelabel/ikonotv
+            - tests/whitelabel/shared
+            - tests/whitelabel/ikonotv
         browsers:
             - IkonotvDesktop
             - IkonotvMobile
 
     lumenus:
         files:
-            - gemini/whitelabel/shared
-            - gemini/whitelabel/lumenus
+            - tests/whitelabel/shared
+            - tests/whitelabel/lumenus
         browsers:
             - LumenusDesktop
             - LumenusMobile
 
     23vivi:
         files:
-            - gemini/whitelabel/shared
-            - gemini/whitelabel/23vivi
+            - tests/whitelabel/shared
+            - tests/whitelabel/23vivi
         browsers:
             - 23viviDesktop
             - 23viviMobile
