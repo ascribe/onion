@@ -29,7 +29,9 @@ let NavRoutesLinksLink = React.createClass({
         // with MenuItems
         if(children) {
             return (
-                <DropdownButton title={headerTitle}>
+                <DropdownButton
+                    id={`nav-route-${headerTitle.toLowerCase()}-dropdown`}
+                    title={headerTitle}>
                     {children}
                 </DropdownButton>
             );
