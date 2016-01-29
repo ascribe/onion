@@ -1,14 +1,17 @@
-rootUrl: https://www.ascribe.ninja/app
+rootUrl: http://localhost.com:3000/
+sessionsPerBrowser: 1
 
 browsers:
-    PhantomJSDesktop:
-        screenshotsDir: './gemini/screens/desktop'
+    MainDesktop:
+        rootUrl: http://localhost.com:3000/
+        screenshotsDir: './gemini-screens/desktop'
         windowSize: 1900x1080
         desiredCapabilities:
             browserName: phantomjs
 
-    PhantomJSMobile:
-        screenshotsDir: './gemini/screens/mobile'
-        windowSize: 767x1364
+    MainMobile:
+        rootUrl: http://localhost.com:3000/
+        screenshotsDir: './gemini-screens/mobile'
+        windowSize: 600x1056
         desiredCapabilities:
             browserName: phantomjs
