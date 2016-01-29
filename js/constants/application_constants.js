@@ -68,23 +68,6 @@ const constants = {
     // Source: http://www.w3schools.com/tags/att_input_type.asp
     'possibleInputTypes': ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'],
 
-    'fineUploader': {
-        'validation': {
-            'additionalData': {
-                'itemLimit': 100,
-                'sizeLimit': '25000000000'
-            },
-            'registerWork': {
-                'itemLimit': 1,
-                'sizeLimit': '25000000000'
-            },
-            'workThumbnail': {
-                'itemLimit': 1,
-                'sizeLimit': '5000000'
-            }
-        }
-    },
-
     'copyrightAssociations': ['ARS', 'DACS', 'Bildkunst', 'Pictoright', 'SODRAC', 'Copyright Agency/Viscopy', 'SAVA',
         'Bildrecht GmbH', 'SABAM', 'AUTVIS', 'CREAIMAGEN', 'SONECA', 'Copydan', 'EAU', 'Kuvasto', 'GCA', 'HUNGART',
         'IVARO', 'SIAE', 'JASPAR-SPDA', 'AKKA/LAA', 'LATGA-A', 'SOMAAP', 'ARTEGESTION', 'CARIER', 'BONO', 'APSAV',

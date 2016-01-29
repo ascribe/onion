@@ -40,7 +40,8 @@ const COMMON_ROUTES = (
         <Route
             path='collection'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
-            headerTitle='COLLECTION'/>
+            headerTitle='COLLECTION'
+            disableOn='noPieces' />
         <Route
             path='signup'
             component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />

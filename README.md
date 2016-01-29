@@ -57,6 +57,7 @@ We use [ESLint](https://github.com/eslint/eslint) with our own [custom ruleset](
 
 SCSS Code Conventions
 =====================
+
 Install [lint-scss](https://github.com/brigade/scss-lint), check the [editor integration docs](https://github.com/brigade/scss-lint#editor-integration) to integrate the lint in your editor.
 
 Some interesting links:
@@ -66,15 +67,17 @@ Some interesting links:
 Branch names
 ============
 
-Since we moved to Github, we cannot create branch names automatically with JIRA anymore.
-To not lose context, but still be able to switch branches quickly using a ticket's number, we're recommending the following rules when naming our branches in onion.
+To allow Github and JIRA to track branches while still allowing us to switch branches quickly using a ticket's number (and keep our peace of mind), we have the following rules for naming branches:
 
 ```
+// For issues logged in Github:
+AG-<Github-issue-id>-brief-and-sane-description-of-the-ticket
+
+// For issues logged in JIRA:
 AD-<JIRA-ticket-id>-brief-and-sane-description-of-the-ticket
 ```
 
-where `brief-and-sane-description-of-the-ticket` does not need to equal to the ticket's title.
-This allows JIRA to still track branches and pull-requests while allowing us to keep our peace of mind.
+where `brief-and-sane-description-of-the-ticket` does not need to equal to the issue or ticket's title.
 
 
 Example
