@@ -24,6 +24,7 @@ Then, install [PhantomJS2](https://www.npmjs.com/package/phantomjs2):
 ```bash
 # Until phantomjs2 is updated for the new 2.1 version of PhantomJS, use the following (go to https://bitbucket.org/ariya/phantomjs/downloads to find a build for your OS)
 npm install -g phantomjs2 --phantomjs_downloadurl=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
+npm install --save-dev phantomjs2 --phantomjs_downloadurl=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
 
 # If using OSX, you may have to install upx and decompress the binary downloaded by npm manually:
 brew install upx
@@ -121,7 +122,7 @@ See [the docs](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md
 actions](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md#available-actions) for what scripted actions
 are available.
 
-Our tests are located in `onion/gemini/`.
+Our tests are located in `onion/test/gemini/tests/`.
 
 **It would be nice if we kept the whitelabels up to date.**
 
