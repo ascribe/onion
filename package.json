@@ -12,10 +12,9 @@
     "postinstall": "npm run build",
     "build": "gulp build --production",
     "start": "node server.js",
-
-    "test": "mocha",
-    "tunnel": "node test/tunnel.js"
-
+    "test": "npm run sauce-test",
+    "sauce-test": "mocha",
+    "tunnel": "node test/tunnel.js",
     "vi-clean": "rm -rf gemini-report",
     "vi-phantom": "phantomjs --webdriver=4444",
     "vi-update": "gemini update",
