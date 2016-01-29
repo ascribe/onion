@@ -29,12 +29,17 @@ gemini.suite('Work detail', (suite) => {
         basicPieceSuite
             .setUrl(pieceUrl)
             .capture('basic piece')
-            .capture('shmui', (actions, find) => {
-                actions.click(find('.ascribe-media-player'));
-                actions.waitForElementToShow('.shmui-wrap:not(.loading)', 30000);
-                // Wait for the transition to end
-                actions.wait(1000);
-            });
+
+        gemini.suite('Shmui', (shmuiSuite) => {
+            shmuiSuite.
+                setCaptureElements('.shmui-wrap')
+                .capture('shmui', (actions, find) => {
+                    actions.click(find('.ascribe-media-player'));
+                    actions.waitForElementToShow('.shmui-wrap:not(.loading)', 30000);
+                    // Wait for the transition to end
+                    actions.wait(1000);
+                });
+        });
     });
 
     gemini.suite('Basic edition', (basicEditionSuite) => {
