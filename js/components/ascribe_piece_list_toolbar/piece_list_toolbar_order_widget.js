@@ -45,7 +45,7 @@ let PieceListToolbarOrderWidget = React.createClass({
     },
 
     render() {
-        let filterIcon = (
+        let orderIcon = (
             <span>
                 <span className="ascribe-icon icon-ascribe-sort" aria-hidden="true"></span>
                 <span style={this.isOrderActive()}>&middot;</span>
@@ -55,9 +55,10 @@ let PieceListToolbarOrderWidget = React.createClass({
         if (this.props.orderParams && this.props.orderParams.length) {
             return (
                 <DropdownButton
+                    id="ascribe-piece-list-toolbar-order-widget-dropdown"
                     pullRight={true}
-                    title={filterIcon}
-                    className="ascribe-piece-list-toolbar-filter-widget">
+                    className="ascribe-piece-list-toolbar-filter-widget"
+                    title={orderIcon}>
                     <li style={{'textAlign': 'center'}}>
                         <em>{getLangText('Sort by')}:</em>
                     </li>

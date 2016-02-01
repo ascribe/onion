@@ -78,7 +78,7 @@ let ROUTES = {
                 headerTitle='COLLECTION'
                 disableOn='noPieces' />
             <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='pieces/:pieceId' component={CylandPieceContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
@@ -114,7 +114,7 @@ let ROUTES = {
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={PieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     ),
@@ -159,7 +159,7 @@ let ROUTES = {
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvContractNotifications)} />
             <Route path='pieces/:pieceId' component={IkonotvPieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     ),
@@ -196,7 +196,7 @@ let ROUTES = {
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     ),
@@ -233,7 +233,7 @@ let ROUTES = {
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     )
