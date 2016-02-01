@@ -45,12 +45,10 @@ let CylandPieceList = React.createClass({
     },
 
     shouldRedirect(pieceCount) {
-        const {
-            currentUser: { email: userEmail },
+        const { currentUser: { email: userEmail },
                 whitelabel: {
                     user: whitelabelAdminEmail
-            }
-         } = this.state;
+                } } = this.state;
 
          return userEmail !== whitelabelAdminEmail && !pieceCount;
     },

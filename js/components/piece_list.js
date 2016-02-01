@@ -67,9 +67,9 @@ let PieceList = React.createClass({
             orderParams: ['artist_name', 'title'],
             redirectTo: {
                 pathname: '/register_piece',
-                query: {}
+                query: null
             },
-            shouldRedirect: () => true
+            shouldRedirect: (pieceCount) => !pieceCount
         };
     },
 
@@ -126,14 +126,14 @@ let PieceList = React.createClass({
         const { location: { query }, redirectTo, shouldRedirect } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
-        if (redirectTo && redirectTo.pathname && unfilteredPieceListCount === 0 &&
+        if (redirectTo && redirectTo.pathname &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
             window.setTimeout(() => this.history.push({
                 // Occasionally, the back end also sets query parameters for Onion.
                 // We need to consider this by merging all passed query parameters, as we'll
                 // otherwise end up in a 404 screen
-                query: Object.assign(query, redirectTo.query),
+                query: Object.assign({}, query, redirectTo.query),
                 pathname: redirectTo.pathname
             }), 0);
         }

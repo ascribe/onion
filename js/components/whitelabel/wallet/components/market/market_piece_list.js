@@ -49,10 +49,6 @@ let MarketPieceList = React.createClass({
         this.setState(state);
     },
 
-    shouldRedirect(isUserAdmin) {
-        return (pieceCount) => !isUserAdmin && !pieceCount;
-    },
-
     render() {
         const { customThumbnailPlaceholder, location } = this.props;
         const {
@@ -89,7 +85,7 @@ let MarketPieceList = React.createClass({
                         'slide_num': 0
                     }
                 }}
-                shouldRedirect={this.shouldRedirect(isUserAdmin)}
+                shouldRedirect={(pieceCount) => !isUserAdmin && !pieceCount}
                 bulkModalButtonListType={MarketAclButtonList}
                 customThumbnailPlaceholder={customThumbnailPlaceholder}
                 filterParams={filterParams}

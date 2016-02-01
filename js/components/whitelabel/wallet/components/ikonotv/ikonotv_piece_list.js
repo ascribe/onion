@@ -52,13 +52,11 @@ let IkonotvPieceList = React.createClass({
     },
 
     shouldRedirect(pieceCount) {
-        const {
-            contractAgreementListNotifications,
-            currentUser: { email: userEmail },
+        const { contractAgreementListNotifications,
+                currentUser: { email: userEmail },
                 whitelabel: {
                     user: whitelabelAdminEmail
-            }
-         } = this.state;
+                } } = this.state;
 
         return contractAgreementListNotifications &&
                !contractAgreementListNotifications.length &&
