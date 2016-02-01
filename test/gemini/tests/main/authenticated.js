@@ -101,7 +101,7 @@ gemini.suite('Authenticated', (suite) => {
             .capture('expanded edition in collection', (actions, find) => {
                 actions.click(find('.ascribe-accordion-list-item .ascribe-accordion-list-item-edition-widget'));
                 // Wait for editions to load
-                actions.waitForElementToShow('.ascribe-accordion-list-item-table', 5000);
+                actions.waitForElementToShow('.ascribe-accordion-list-item-table', 10000);
             })
 
         gemini.suite('Collection placeholder', (collectionPlaceholderSuite) => {
@@ -133,6 +133,7 @@ gemini.suite('Authenticated', (suite) => {
             .capture('piece list toolbar')
             .capture('piece list toolbar search filled', (actions, find) => {
                 actions.sendKeys(find('.ascribe-piece-list-toolbar .search-bar input[type="text"]'), 'search text');
+                actions.waitForElementToShow('.ascribe-piece-list-toolbar .search-bar .icon-ascribe-search', 5000);
             })
 
         gemini.suite('Order widget dropdown', (pieceListToolbarOrderWidgetSuite) => {

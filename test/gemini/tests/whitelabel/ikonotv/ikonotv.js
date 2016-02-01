@@ -1,7 +1,7 @@
 'use strict';
 
 const gemini = require('gemini');
-const environment = require('../environment');
+const environment = require('../../environment');
 
 /**
  * Suite of tests against Cyland specific routes

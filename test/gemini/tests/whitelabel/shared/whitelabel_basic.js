@@ -1,7 +1,7 @@
 'use strict';
 
 const gemini = require('gemini');
-const environment = require('../environment');
+const environment = require('../../environment');
 
 /**
  * Basic suite of tests against whitelabel routes that do not require authentication.
