@@ -19,13 +19,10 @@ import { getCookie } from '../../../../utils/fetch_api_utils';
 
 let PRApp = React.createClass({
     propTypes: {
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
         history: React.PropTypes.object.isRequired,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
     },
 
     getInitialState() {
@@ -60,7 +57,7 @@ let PRApp = React.createClass({
 
 
     render() {
-        const { children, history, routes } = this.props;
+        const { activeRoute, children, history, routes } = this.props;
         const { currentUser } = this.state;
         const subdomain = getSubdomain();
 
