@@ -15,14 +15,10 @@ export default function AppBase(App) {
         displayName: 'AppBase',
 
         propTypes: {
+            children: React.PropTypes.element.isRequired,
             history: React.PropTypes.object.isRequired,
             location: React.PropTypes.object.isRequired,
-            routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-            children: React.PropTypes.oneOfType([
-                React.PropTypes.arrayOf(React.PropTypes.element),
-                React.PropTypes.element
-            ])
+            routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
         },
 
         mixins: [History],
@@ -42,10 +38,20 @@ export default function AppBase(App) {
         },
 
         render() {
+            const { children } = this.props;
+
+            // Get the currently active route of the app by using the injected route parameter
+            // on the currently active child route.
+            // Note that despite its name, this.props.children can only ever be a single
+            // React.PropTypes.element.
+            const activeRoute = children.props.route;
+
             return (
                 <div>
-                    <App {...this.props} />
                     <Footer />
+                    <App
+                        {...this.props}
+                        activeRoute={activeRoute} />
                     <GlobalNotification />
                     <div id="modal" className="container" />
                 </div>
