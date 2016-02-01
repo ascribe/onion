@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import Hero from './components/prize_hero';
 
@@ -27,7 +28,7 @@ let PrizeApp = React.createClass({
 
         // The second element of routes is always the active component object, where we can
         // extract the path.
-        let path = routes[1] ? routes[1].path : null;
+        const path = routes[1] ? routes[1].path : null;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
@@ -38,7 +39,7 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className="ascribe-prize-app">
+            <div className={classNames('ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
                 <div className="container ascribe-body">
                     {/* Routes are injected here */}

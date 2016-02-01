@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import EventActions from '../../../../actions/event_actions';
 
@@ -63,6 +64,10 @@ let PRApp = React.createClass({
         const { currentUser } = this.state;
         const subdomain = getSubdomain();
 
+        // The second element of routes is always the active component object, where we can
+        // extract the path.
+        const path = routes[1] ? routes[1].path : null;
+
         let style = {};
         let header;
         if (currentUser && currentUser.email && history.isActive(`/pieces/${getCookie(currentUser.email)}`)) {
@@ -77,7 +82,7 @@ let PRApp = React.createClass({
         return (
             <div
                 style={style}
-                className={'ascribe-prize-app'}>
+                className={classNames('ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
                 <div className="container ascribe-body">
                     {/* Routes are injected here */}
