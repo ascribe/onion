@@ -26,7 +26,7 @@ let WalletApp = React.createClass({
 
         // The second element of routes is always the active component object, where we can
         // extract the path.
-        let path = routes[1] ? routes[1].path : null;
+        const path = routes[1] ? routes[1].path : null;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
