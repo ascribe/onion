@@ -36,7 +36,10 @@ let PieceList = React.createClass({
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
-        redirectTo: React.PropTypes.string,
+        redirectTo: React.PropTypes.shape({
+            pathname: React.PropTypes.string,
+            query: React.PropTypes.object
+        }),
         shouldRedirect: React.PropTypes.func,
         customSubmitButton: React.PropTypes.element,
         customThumbnailPlaceholder: React.PropTypes.func,
@@ -62,7 +65,10 @@ let PieceList = React.createClass({
                 ]
             }],
             orderParams: ['artist_name', 'title'],
-            redirectTo: '/register_piece',
+            redirectTo: {
+                pathname: '/register_piece',
+                query: {}
+            },
             shouldRedirect: () => true
         };
     },
@@ -120,10 +126,16 @@ let PieceList = React.createClass({
         const { location: { query }, redirectTo, shouldRedirect } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
-        if (redirectTo && unfilteredPieceListCount === 0 &&
+        if (redirectTo && redirectTo.pathname && unfilteredPieceListCount === 0 &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.push({ query, pathname: redirectTo }), 0);
+            window.setTimeout(() => this.history.push({
+                // Occasionally, the back end also sets query parameters for Onion.
+                // We need to consider this by merging all passed query parameters, as we'll
+                // otherwise end up in a 404 screen
+                query: Object.assign(query, redirectTo.query),
+                pathname: redirectTo.pathname
+            }), 0);
         }
     },
 

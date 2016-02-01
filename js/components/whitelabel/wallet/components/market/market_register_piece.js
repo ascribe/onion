@@ -117,7 +117,7 @@ let MarketRegisterPiece = React.createClass({
             step,
             whitelabel: {
                 name: whitelabelName = 'Market'
-            } } = this.state;
+        } } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
 
