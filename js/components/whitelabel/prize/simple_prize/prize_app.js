@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Hero from './components/prize_hero';
 
 import AppBase from '../../../app_base';
+import Footer from '../../../footer';
 import Header from '../../../header';
 
 import { getSubdomain } from '../../../../utils/general_utils';
@@ -42,6 +43,7 @@ let PrizeApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
