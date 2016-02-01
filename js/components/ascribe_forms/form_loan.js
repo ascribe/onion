@@ -171,7 +171,7 @@ let LoanForm = React.createClass({
                     editable={!gallery}
                     overrideForm={!!gallery}>
                     <input
-                        value={gallery}
+                        defaultValue={gallery}
                         type="text"
                         placeholder={getLangText('Gallery/exhibition (optional)')}/>
                 </Property>
