@@ -1,6 +1,7 @@
 'use strict';
 
 const gemini = require('gemini');
+const environment = require('../environment');
 
 /**
  * Suite of tests against routes that require the user to be authenticated.
@@ -25,8 +26,8 @@ gemini.suite('Authenticated', (suite) => {
             .capture('logged in', (actions, find) => {
                 actions.waitForElementToShow('.ascribe-form', 5000);
 
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), '0000000000');
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), environment.mainUser.email);
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), environment.mainUser.password);
                 actions.click(find('.ascribe-login-wrapper button[type=submit]'));
 
                 actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', 5000);

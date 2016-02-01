@@ -1,6 +1,7 @@
 'use strict';
 
 const gemini = require('gemini');
+const environment = require('../environment');
 
 /**
  * Basic suite of tests against routes that do not require the user to be authenticated.
@@ -84,8 +85,8 @@ gemini.suite('Basic', (suite) => {
                 // Remove hover from sign up link
                 actions.click(emailInput);
 
-                actions.sendKeys(emailInput, 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
+                actions.sendKeys(emailInput, environment.mainUser.email);
+                actions.sendKeys(find('.ascribe-form input[name=password]'), environment.mainUser.password);
             })
             .capture('login form filled', (actions, find) => {
                 actions.click(find('.ascribe-form-header'));
@@ -99,9 +100,9 @@ gemini.suite('Basic', (suite) => {
                 actions.waitForElementToShow('.ascribe-form', 5000);
             })
             .capture('sign up form filled with focus', (actions, find) => {
-                actions.sendKeys(find('.ascribe-form input[name=email]'), 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
-                actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), '0000000000');
+                actions.sendKeys(find('.ascribe-form input[name=email]'), environment.mainUser.email);
+                actions.sendKeys(find('.ascribe-form input[name=password]'), environment.mainUser.password);
+                actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), environment.mainUser.password);
             })
             .capture('sign up form filled with check', (actions, find) => {
                 actions.click(find('.ascribe-form input[type="checkbox"] ~ .checkbox'));
@@ -115,7 +116,7 @@ gemini.suite('Basic', (suite) => {
                 actions.waitForElementToShow('.ascribe-form', 5000);
             })
             .capture('password reset form filled with focus', (actions, find) => {
-                actions.sendKeys(find('.ascribe-form input[name="email"]'), 'dimi@mailinator.com');
+                actions.sendKeys(find('.ascribe-form input[name="email"]'), environment.mainUser.email);
             })
             .capture('password reset form filled', (actions, find) => {
                 actions.click(find('.ascribe-form-header'));

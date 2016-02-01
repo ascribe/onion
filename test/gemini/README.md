@@ -122,9 +122,12 @@ See [the docs](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md
 actions](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md#available-actions) for what scripted actions
 are available.
 
-Our tests are located in `onion/test/gemini/tests/`.
+Our tests are located in `onion/test/gemini/tests/`. For now, the tests use the environment defined in
+`onion/test/gemini/tests/environment.js` for which user, piece, and edition to run tests against. In the future, it'd be
+nice if we had some db scripts that we could use to populate a test db for these regression tests.
 
-**It would be nice if we kept the whitelabels up to date.**
+**It would also be nice if we kept the whitelabels up to date, so if you add one, please also test (at least) its landing
+page.**
 
 Some useful tips:
   * The `find()` method in the callbacks is equivalent to `document.querySelector`; it will only return the first
@@ -193,7 +196,7 @@ change the environment to run against.
 
 ```bash
 # In root /onion folder
-phantomjs phantomjs/launch_app_and_login.js
+phantomjs test/phantomjs/launch_app_and_login.js
 ```
 
 

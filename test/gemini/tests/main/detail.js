@@ -1,8 +1,9 @@
 'use strict';
 
 const gemini = require('gemini');
-const pieceUrl = '/pieces/12374';
-const editionUrl = '/editions/14gw9x3VA9oJaxp4cHaAuK2bvJzvEj4Xvc';
+const environment = require('../environment');
+const pieceUrl = `/pieces/${environment.mainPieceId}`;
+const editionUrl = `/editions/${environment.mainEditionId}`;
 
 /**
  * Suite of tests against the piece and edition routes.
@@ -57,8 +58,8 @@ gemini.suite('Work detail', (suite) => {
                 actions.waitForElementToShow('.ascribe-default-app', 5000);
             })
             .capture('logged in', (actions, find) => {
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), '0000000000');
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), environment.mainUser.email);
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), environment.mainUser.password);
                 actions.click(find('.ascribe-login-wrapper button[type=submit]'));
 
                 actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', 5000);
