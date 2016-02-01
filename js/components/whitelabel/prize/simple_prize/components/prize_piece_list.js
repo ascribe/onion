@@ -75,7 +75,6 @@ let PrizePieceList = React.createClass({
             <div>
                 <PieceList
                     ref="list"
-                    redirectTo="/register_piece"
                     accordionListItemType={AccordionListItemPrize}
                     orderParams={orderParams}
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}

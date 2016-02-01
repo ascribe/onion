@@ -17,23 +17,31 @@ class EditionListActions {
         );
     }
 
-    fetchEditionList(pieceId, page, pageSize, orderBy, orderAsc, filterBy) {
-        if((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
+    fetchEditionList({ pieceId, page, pageSize, orderBy, orderAsc, filterBy, maxEdition }) {
+        if ((!orderBy && typeof orderAsc === 'undefined') || !orderAsc) {
             orderBy = 'edition_number';
             orderAsc = true;
         }
 
         // Taken from: http://stackoverflow.com/a/519157/1263876
-        if((typeof page === 'undefined' || !page) && (typeof pageSize === 'undefined' || !pageSize)) {
+        if ((typeof page === 'undefined' || !page) && (typeof pageSize === 'undefined' || !pageSize)) {
             page = 1;
             pageSize = 10;
         }
 
+        let itemsToFetch = pageSize;
+        // If we only want to fetch up to a specified edition, fetch all pages up to it
+        // as one page and adjust afterwards
+        if (typeof maxEdition === 'number') {
+            itemsToFetch = Math.ceil(maxEdition / pageSize) * pageSize;
+            page = 1;
+        }
+
         return Q.Promise((resolve, reject) => {
             EditionListFetcher
-                .fetch(pieceId, page, pageSize, orderBy, orderAsc, filterBy)
+                .fetch({ pieceId, page, orderBy, orderAsc, filterBy, pageSize: itemsToFetch })
                 .then((res) => {
-                    if(res && !res.editions) {
+                    if (res && !res.editions) {
                         throw new Error('Piece has no editions to fetch.');
                     }
 
@@ -44,8 +52,9 @@ class EditionListActions {
                         orderBy,
                         orderAsc,
                         filterBy,
-                        'editionListOfPiece': res.editions,
-                        'count': res.count
+                        maxEdition,
+                        count: res.count,
+                        editionListOfPiece: res.editions
                     });
                     resolve(res);
                 })
@@ -54,7 +63,6 @@ class EditionListActions {
                     reject(err);
                 });
         });
-        
     }
 }
 

@@ -24,52 +24,38 @@ const constants = {
         {
             'subdomain': 'cc',
             'name': 'Creative Commons France',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/public/creativecommons/cc.logo.sm.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet',
             'ga': 'UA-60614729-4'
         },
         {
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
-            'logo': 'http://sluice.info/images/logo.gif',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'prize',
             'ga': 'UA-60614729-5'
         },
         {
             'subdomain': 'cyland',
             'name': 'Cyland media art lab',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/cyland/logo.gif',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
         },
         {
             'subdomain': 'ikonotv',
             'name': 'IkonoTV',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/ikonotv/ikono-logo-black.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
         },
         {
             'subdomain': 'lumenus',
             'name': 'Lumenus',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/lumenus/lumenus-logo.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
         },
         {
             'subdomain': '23vivi',
             'name': '23VIVI',
-            'logo': 'https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/23vivi/23vivi-logo.png',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'wallet'
         },
         {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
-            'logo': 'http://notfoundlogo.de',
-            'permissions': ['register', 'edit', 'share', 'del_from_collection'],
             'type': 'prize'
         }
     ],
@@ -81,23 +67,6 @@ const constants = {
     // These are all possible types that are currently supported in HTML5 for the input element
     // Source: http://www.w3schools.com/tags/att_input_type.asp
     'possibleInputTypes': ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'],
-
-    'fineUploader': {
-        'validation': {
-            'additionalData': {
-                'itemLimit': 100,
-                'sizeLimit': '25000000000'
-            },
-            'registerWork': {
-                'itemLimit': 1,
-                'sizeLimit': '25000000000'
-            },
-            'workThumbnail': {
-                'itemLimit': 1,
-                'sizeLimit': '5000000'
-            }
-        }
-    },
 
     'copyrightAssociations': ['ARS', 'DACS', 'Bildkunst', 'Pictoright', 'SODRAC', 'Copyright Agency/Viscopy', 'SAVA',
         'Bildrecht GmbH', 'SABAM', 'AUTVIS', 'CREAIMAGEN', 'SONECA', 'Copydan', 'EAU', 'Kuvasto', 'GCA', 'HUNGART',

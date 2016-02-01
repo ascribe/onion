@@ -1,5 +1,5 @@
-'use strict';
 
+'use strict';
 import React from 'react';
 
 import TableHeaderItem from './table_header_item';
@@ -29,7 +29,7 @@ let TableHeader = React.createClass({
                             <TableHeaderItem
                                 className={column.className}
                                 key={i}
-                                displayName={column.displayName}
+                                displayElement={column.displayElement}
                                 columnName={columnName}
                                 canBeOrdered={canBeOrdered}
                                 orderAsc={this.props.orderAsc}

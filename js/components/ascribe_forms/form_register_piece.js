@@ -8,12 +8,16 @@ import UserActions from '../../actions/user_actions';
 import Form from './form';
 import Property from './property';
 import InputFineUploader from './input_fineuploader';
-import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
+
 import FormSubmitButton from '../ascribe_buttons/form_submit_button';
+
+import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
+
+import AscribeSpinner from '../ascribe_spinner';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
-import AscribeSpinner from '../ascribe_spinner';
+import { validationParts, validationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -180,7 +184,7 @@ let RegisterPieceForm = React.createClass({
                         createBlobRoutine={{
                             url: ApiUrls.blob_digitalworks
                         }}
-                        validation={AppConstants.fineUploader.validation.registerWork}
+                        validation={validationTypes.registerWork}
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={isFineUploaderActive}
@@ -206,9 +210,9 @@ let RegisterPieceForm = React.createClass({
                             fileClass: 'thumbnail'
                         }}
                         validation={{
-                            itemLimit: AppConstants.fineUploader.validation.workThumbnail.itemLimit,
-                            sizeLimit: AppConstants.fineUploader.validation.workThumbnail.sizeLimit,
-                            allowedExtensions: ['png', 'jpg', 'jpeg', 'gif']
+                            itemLimit: validationTypes.workThumbnail.itemLimit,
+                            sizeLimit: validationTypes.workThumbnail.sizeLimit,
+                            allowedExtensions: validationParts.allowedExtensions.images
                         }}
                         setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
                         fileClassToUpload={{
@@ -216,9 +220,7 @@ let RegisterPieceForm = React.createClass({
                             plural: getLangText('Select representative images')
                         }}
                         isFineUploaderActive={isFineUploaderActive}
-                        disabled={!isFineUploaderEditable}
-                        enableLocalHashing={enableLocalHashing}
-                        uploadMethod={location.query.method} />
+                        disabled={!isFineUploaderEditable} />
                 </Property>
                 <Property
                     name='artist_name'
