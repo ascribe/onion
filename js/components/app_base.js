@@ -4,7 +4,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { History } from 'react-router';
 
-import Footer from './footer';
 import GlobalNotification from './global_notification';
 
 import AppConstants from '../constants/application_constants';
@@ -48,7 +47,6 @@ export default function AppBase(App) {
 
             return (
                 <div>
-                    <Footer />
                     <App
                         {...this.props}
                         activeRoute={activeRoute} />

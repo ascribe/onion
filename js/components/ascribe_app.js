@@ -3,6 +3,7 @@
 import React from 'react';
 
 import AppBase from './app_base';
+import Footer from './footer';
 import Header from './header';
 
 
@@ -23,6 +24,7 @@ let AscribeApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
