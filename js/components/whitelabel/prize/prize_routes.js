@@ -57,7 +57,7 @@ const ROUTES = {
                 headerTitle='COLLECTION'/>
             <Route path='pieces/:pieceId' component={SluicePieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     ),
@@ -97,7 +97,7 @@ const ROUTES = {
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPSettingsContainer)}/>
             <Route path='pieces/:pieceId' component={SPPieceContainer} />
             <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='coa_verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
     )
