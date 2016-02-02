@@ -6,7 +6,11 @@ import PieceList from '../../../../piece_list';
 
 import UserActions from '../../../../../actions/user_actions';
 import UserStore from '../../../../../stores/user_store';
+
 import NotificationStore from '../../../../../stores/notification_store';
+
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion_list_item';
 
@@ -23,31 +27,41 @@ let IkonotvPieceList = React.createClass({
     getInitialState() {
         return mergeOptions(
             NotificationStore.getState(),
-            UserStore.getState()
+            UserStore.getState(),
+            WhitelabelStore.getState()
         );
     },
 
     componentDidMount() {
         NotificationStore.listen(this.onChange);
+        WhitelabelStore.listen(this.onChange);
         UserStore.listen(this.onChange);
 
+        WhitelabelActions.fetchWhitelabel();
         UserActions.fetchCurrentUser();
     },
 
     componentWillUnmount() {
         NotificationStore.unlisten(this.onChange);
+        WhitelabelStore.unlisten(this.onChange);
         UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
-
     },
 
-    redirectIfNoContractNotifications() {
-        const { contractAgreementListNotifications } = this.state;
+    shouldRedirect(pieceCount) {
+        const { contractAgreementListNotifications,
+                currentUser: { email: userEmail },
+                whitelabel: {
+                    user: whitelabelAdminEmail
+                } } = this.state;
 
-        return contractAgreementListNotifications && !contractAgreementListNotifications.length;
+        return contractAgreementListNotifications &&
+               !contractAgreementListNotifications.length &&
+               userEmail !== whitelabelAdminEmail &&
+               !pieceCount;
     },
 
     render() {
@@ -56,8 +70,13 @@ let IkonotvPieceList = React.createClass({
         return (
             <div>
                 <PieceList
-                    redirectTo="/register_piece?slide_num=0"
-                    shouldRedirect={this.redirectIfNoContractNotifications}
+                    redirectTo={{
+                        pathname: '/register_piece',
+                        query: {
+                            'slide_num': 0
+                        }
+                    }}
+                    shouldRedirect={this.shouldRedirect}
                     accordionListItemType={IkonotvAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
