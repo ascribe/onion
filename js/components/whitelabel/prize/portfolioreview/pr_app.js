@@ -61,10 +61,7 @@ let PRApp = React.createClass({
         const { activeRoute, children, history, routes } = this.props;
         const { currentUser } = this.state;
         const subdomain = getSubdomain();
-
-        // The second element of routes is always the active component object, where we can
-        // extract the path.
-        const path = routes[1] ? routes[1].path : null;
+        const path = activeRoute && activeRoute.path;
 
         let style = {};
         let header;
