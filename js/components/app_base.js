@@ -37,13 +37,11 @@ export default function AppBase(App) {
         },
 
         render() {
-            const { children } = this.props;
+            const { routes } = this.props;
 
-            // Get the currently active route of the app by using the injected route parameter
-            // on the currently active child route.
-            // Note that despite its name, this.props.children can only ever be a single
-            // React.PropTypes.element.
-            const activeRoute = children.props.route;
+            // The second element of the routes prop given to us by react-router is always the
+            // active second-level component object (ie. after App).
+            const activeRoute = routes[1];
 
             return (
                 <div>
