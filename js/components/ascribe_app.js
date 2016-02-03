@@ -3,21 +3,19 @@
 import React from 'react';
 
 import AppBase from './app_base';
+import Footer from './footer';
 import Header from './header';
 
 
 let AscribeApp = React.createClass({
     propTypes: {
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
     },
 
     render() {
-        const { children, routes } = this.props;
+        const { activeRoute, children, routes } = this.props;
 
         return (
             <div className="ascribe-default-app">
@@ -26,6 +24,7 @@ let AscribeApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }

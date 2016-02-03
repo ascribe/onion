@@ -13,6 +13,7 @@ $vivi23--highlight-color: #de2600;
     /** Landing page **/
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
@@ -249,10 +250,6 @@ $vivi23--highlight-color: #de2600;
 
     /** Other components **/
     .ascribe-piece-list-toolbar .btn-ascribe-add {
-        display: none;
-    }
-
-    .ascribe-footer {
         display: none;
     }
 
