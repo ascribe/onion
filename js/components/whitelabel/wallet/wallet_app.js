@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
+import Footer from '../../footer';
 import Header from '../../header';
 
 import { getSubdomain } from '../../../utils/general_utils';
@@ -11,17 +12,14 @@ import { getSubdomain } from '../../../utils/general_utils';
 
 let WalletApp = React.createClass({
     propTypes: {
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
         history: React.PropTypes.object.isRequired,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
     },
 
     render() {
-        const { children, history, routes } = this.props;
+        const { activeRoute, children, history, routes } = this.props;
         const subdomain = getSubdomain();
 
         // The second element of routes is always the active component object, where we can
@@ -30,8 +28,9 @@ let WalletApp = React.createClass({
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
-        if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
-            && (['cyland', 'ikonotv', 'lumenus', '23vivi']).indexOf(subdomain) > -1) {
+        if ((!path || history.isActive('/login') || history.isActive('/signup') ||
+            history.isActive('/contract_notifications')) &&
+            (['cyland', 'ikonotv', 'lumenus', '23vivi']).includes(subdomain)) {
             header = (<div className="hero" />);
         } else {
             header = (<Header routes={routes} />);
@@ -46,6 +45,7 @@ let WalletApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }

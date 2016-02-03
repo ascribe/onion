@@ -4,7 +4,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { History } from 'react-router';
 
-import Footer from './footer';
 import GlobalNotification from './global_notification';
 
 import AppConstants from '../constants/application_constants';
@@ -15,14 +14,10 @@ export default function AppBase(App) {
         displayName: 'AppBase',
 
         propTypes: {
+            children: React.PropTypes.element.isRequired,
             history: React.PropTypes.object.isRequired,
             location: React.PropTypes.object.isRequired,
-            routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-            children: React.PropTypes.oneOfType([
-                React.PropTypes.arrayOf(React.PropTypes.element),
-                React.PropTypes.element
-            ])
+            routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
         },
 
         mixins: [History],
@@ -42,10 +37,17 @@ export default function AppBase(App) {
         },
 
         render() {
+            const { routes } = this.props;
+
+            // The second element of the routes prop given to us by react-router is always the
+            // active second-level component object (ie. after App).
+            const activeRoute = routes[1];
+
             return (
                 <div>
-                    <App {...this.props} />
-                    <Footer />
+                    <App
+                        {...this.props}
+                        activeRoute={activeRoute} />
                     <GlobalNotification />
                     <div id="modal" className="container" />
                 </div>

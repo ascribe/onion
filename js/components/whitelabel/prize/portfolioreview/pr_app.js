@@ -11,6 +11,7 @@ import UserActions from '../../../../actions/user_actions';
 import Hero from './components/pr_hero';
 
 import AppBase from '../../../app_base';
+import Footer from '../../../footer';
 import Header from '../../../header';
 
 import { getSubdomain } from '../../../../utils/general_utils';
@@ -19,13 +20,10 @@ import { getCookie } from '../../../../utils/fetch_api_utils';
 
 let PRApp = React.createClass({
     propTypes: {
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
         history: React.PropTypes.object.isRequired,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
     },
 
     getInitialState() {
@@ -60,7 +58,7 @@ let PRApp = React.createClass({
 
 
     render() {
-        const { children, history, routes } = this.props;
+        const { activeRoute, children, history, routes } = this.props;
         const { currentUser } = this.state;
         const subdomain = getSubdomain();
 
@@ -88,6 +86,7 @@ let PRApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
