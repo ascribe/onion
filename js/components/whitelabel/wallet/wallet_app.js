@@ -21,10 +21,7 @@ let WalletApp = React.createClass({
     render() {
         const { activeRoute, children, history, routes } = this.props;
         const subdomain = getSubdomain();
-
-        // The second element of routes is always the active component object, where we can
-        // extract the path.
-        const path = routes[1] ? routes[1].path : null;
+        const path = activeRoute && activeRoute.path;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
