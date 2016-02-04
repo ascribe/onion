@@ -171,13 +171,13 @@ $polline--highlight-color: #2882fa;
     fieldset[disabled] .btn-default.focus,
     fieldset[disabled] .btn-default:active,
     fieldset[disabled] .btn-default.active {
-        background-color: lighten($polline--highlight-color, 30%);
-        border-color: lighten($polline--highlight-color, 30%);
+        background-color: lighten($polline--button-default-color, 30%);
+        border-color: lighten($polline--button-default-color, 30%);
     }
 
     .btn-default {
-        background-color: $polline--highlight-color;
-        border-color: $polline--highlight-color;
+        background-color: $polline--button-default-color;
+        border-color: $polline--button-default-color;
 
         &:hover,
         &:active,
@@ -188,8 +188,8 @@ $polline--highlight-color: #2882fa;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: lighten($polline--highlight-color, 30%);
-            border-color: lighten($polline--highlight-color, 30%);
+            background-color: lighten($polline--button-default-color, 30%);
+            border-color: lighten($polline--button-default-color, 30%);
         }
     }
 
