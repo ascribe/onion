@@ -84,6 +84,7 @@ let PieceListToolbarFilterWidget = React.createClass({
         if (this.props.filterParams && this.props.filterParams.length) {
             return (
                 <DropdownButton
+                    id="ascribe-piece-list-toolbar-filter-widget-dropdown"
                     pullRight={true}
                     title={filterIcon}
                     className="ascribe-piece-list-toolbar-filter-widget">

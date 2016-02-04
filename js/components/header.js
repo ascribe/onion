@@ -173,6 +173,7 @@ let Header = React.createClass({
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
+                    id="nav-route-user-dropdown"
                     eventKey="1"
                     title={currentUser.username}>
                     <LinkContainer

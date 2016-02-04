@@ -12,8 +12,22 @@
     "postinstall": "npm run build",
     "build": "gulp build --production",
     "start": "node server.js",
-    "test": "mocha",
-    "tunnel": "node test/tunnel.js"
+    "test": "npm run sauce-test",
+    "sauce-test": "mocha ./test/integration/tests/",
+    "tunnel": "node ./test/integration/tunnel.js",
+    "vi-clean": "rm -rf ./gemini-report",
+    "vi-phantom": "phantomjs --webdriver=4444",
+    "vi-update": "gemini update -c ./test/gemini/.gemini.yml",
+    "vi-test": "npm run vi-test:base || true",
+    "vi-test:base": "npm run vi-clean && gemini test -c ./test/gemini/.gemini.yml --reporter html --reporter vflat",
+    "vi-test:all": "npm run vi-test",
+    "vi-test:main": "npm run vi-test:base -- --browser MainDesktop --browser MainMobile || true",
+    "vi-test:whitelabel": "GEMINI_BROWSERS='CcDesktop, CcMobile, CylandDesktop, CylandMobile, IkonotvDesktop, IkonotvMobile, LumenusDesktop, LumenusMobile, 23viviDesktop, 23viviMobile' npm run vi-test:base || true",
+    "vi-test:cc": "npm run vi-test:base -- --browser CcDesktop --browser CcMobile",
+    "vi-test:cyland": "npm run vi-test:base -- --browser CylandDesktop --browser CylandMobile || true",
+    "vi-test:ikonotv": "npm run vi-test:base -- --browser IkonotvDesktop --browser IkonotvMobile || true",
+    "vi-test:lumenus": "npm run vi-test:base -- --browser LumenusDesktop --browser LumenusMobile || true",
+    "vi-test:23vivi": "npm run vi-test:base -- --browser 23viviDesktop --browser 23viviMobile || true"
   },
   "browser": {
     "fineUploader": "./js/components/ascribe_uploader/vendor/s3.fine-uploader.js"
@@ -42,8 +56,10 @@
     "chai-as-promised": "^5.1.0",
     "colors": "^1.1.2",
     "dotenv": "^1.2.0",
+    "gemini": "^2.1.0",
     "jest-cli": "^0.4.0",
     "mocha": "^2.3.4",
+    "phantomjs2": "^2.0.2",
     "sauce-connect-launcher": "^0.13.0",
     "wd": "^0.4.0"
   },
