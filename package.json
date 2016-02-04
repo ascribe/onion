@@ -42,8 +42,10 @@
     "chai-as-promised": "^5.1.0",
     "colors": "^1.1.2",
     "dotenv": "^1.2.0",
+    "gemini": "^2.0.3",
     "jest-cli": "^0.4.0",
     "mocha": "^2.3.4",
+    "phantomjs2": "^2.0.2",
     "sauce-connect-launcher": "^0.13.0",
     "wd": "^0.4.0"
   },

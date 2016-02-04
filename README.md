@@ -106,7 +106,9 @@ Therefore, to require a module in your test file, you need to use CommonJS's `re
 Visual Regression Testing
 -------------------------
 
-We're using [Gemini](https://github.com/gemini-testing/gemini) for visual regression tests because it supports PhantomJS and SauceLabs.
+We're using [Gemini](https://github.com/gemini-testing/gemini) for visual regression tests because it supports both PhantomJS2 and SauceLabs.
+
+See the [helper docs](docs/visual-regression-testing.md) for information on installing Gemini, its dependencies, and running and writing tests.
 
 
 Workflow
