@@ -126,6 +126,7 @@ let HeaderNotifications = React.createClass({
                 <Nav navbar right>
                     <DropdownButton
                         ref='dropdownbutton'
+                        id="header-notification-dropdown"
                         eventKey="1"
                         title={
                             <span>
