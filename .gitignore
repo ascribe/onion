@@ -21,6 +21,7 @@ build/*
 
 gemini-coverage/*
 gemini-report/*
+test/gemini/screenshots/*
 
 node_modules/*
 
