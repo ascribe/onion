@@ -11,7 +11,7 @@ chai.use(chaiAsPromised);
 chai.should();
 
 
-function testSuite(browserName, version, platform) {
+function testSuite(testName, browserName, version, platform, deviceName, deviceOrientation, deviceType) {
     describe(`[${browserName} ${version} ${platform}] Login logs users in`, function() {
         // Set timeout to zero so Mocha won't time out.
         this.timeout(0);
@@ -25,7 +25,7 @@ function testSuite(browserName, version, platform) {
             // Start the browser, go to /login, and wait for the react app to render
             return browser
                 .configureHttp({ baseUrl: config.APP_URL })
-                .init({ browserName, version, platform })
+                .init({ browserName, version, platform, deviceName, deviceOrientation, deviceType, name: testName })
                 .get('/login')
                 .waitForElementByCss('.ascribe-default-app', asserters.isDisplayed, 10000)
                 .catch(function (err) {
