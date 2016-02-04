@@ -32,7 +32,7 @@ let WalletApp = React.createClass({
 
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
         if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
-            && (['cyland', 'ikonotv', 'lumenus', '23vivi']).indexOf(subdomain) > -1) {
+            && (['cyland', 'ikonotv', 'lumenus', '23vivi', 'polline']).indexOf(subdomain) > -1) {
             header = (<div className="hero"/>);
         } else {
             header = <Header routes={routes} />;

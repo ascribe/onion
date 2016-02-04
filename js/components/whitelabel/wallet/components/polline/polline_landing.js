@@ -12,13 +12,13 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
-let Vivi23Landing = React.createClass({
+let PollineLanding = React.createClass({
     getInitialState() {
         return WhitelabelStore.getState();
     },
 
     componentWillMount() {
-        setDocumentTitle('23VIVI Marketplace');
+        setDocumentTitle('Polline Marketplace');
     },
 
     componentDidMount() {
@@ -36,17 +36,17 @@ let Vivi23Landing = React.createClass({
 
     render() {
         return (
-            <div className="container ascribe-form-wrapper vivi23-landing">
+            <div className="container ascribe-form-wrapper polline-landing">
                 <div className="row">
                     <div className="col-xs-12">
-                        <div className="row vivi23-landing--header">
-                            <img className="vivi23-landing--header-logo" src={this.state.whitelabel.logo} />
+                        <div className="row polline-landing--header">
+                            <img className="polline-landing--header-logo" src={this.state.whitelabel.logo} />
                             <div>
-                                {getLangText('23VIVI Marketplace is powered by') + ' '}
+                                {getLangText('Polline Art Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />
                             </div>
                         </div>
-                        <div className="row vivi23-landing--content">
+                        <div className="row polline-landing--content">
                             <div className="col-xs-6">
                                 <p>
                                     {getLangText('Existing ascribe user?')}
@@ -75,4 +75,4 @@ let Vivi23Landing = React.createClass({
     }
 });
 
-export default Vivi23Landing;
+export default PollineLanding;

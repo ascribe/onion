@@ -46,7 +46,7 @@ let LumenusLanding = React.createClass({
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
                             <img src={this.state.whitelabel.logo} width="150px"/>
                             <div style={{marginTop: '1em'}}>
-                                {getLangText('Artwork from the Lumenus Marketplace is powered by') + ' '}
+                                {getLangText('Lumenus Marketplace is powered by') + ' '}
                                 <span>
                                     <span className="icon-ascribe-logo"></span>
                                 </span>
