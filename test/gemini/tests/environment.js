@@ -22,9 +22,9 @@ console.log(`Main piece: ${MAIN_PIECE_ID}`);
 console.log(`Main edition: ${MAIN_EDITION_ID}\n`);
 console.log('Timeouts:');
 console.log(`    Short: ${TIMEOUTS.SHORT}`);
-console.log(`    Normal: ${TIMEOUTS.NORMAL}\n`);
-console.log(`    Long: ${TIMEOUTS.LONG}\n`);
-console.log(`    Super super extra long: ${TIMEOUTS.SUPER_DUPER_EXTRA_LONG}\n`);
+console.log(`    Normal: ${TIMEOUTS.NORMAL}`);
+console.log(`    Long: ${TIMEOUTS.LONG}`);
+console.log(`    Super duper extra long: ${TIMEOUTS.SUPER_DUPER_EXTRA_LONG}\n`);
 console.log('========================================================\n');
 
 module.exports = {
