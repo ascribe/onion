@@ -7,6 +7,8 @@ $artcity--nav-bg-color: $artcity--bg-color;
 $artcity--nav-highlight-color: #f8f8f8;
 $artcity--button-default-color: $artcity--fg-color;
 $artcity--highlight-color: #38BFC3;
+$artcity--sec-highlight-color: #547A82;
+$artcity--ter-highlight-color: #EDEDF0;
 
 
 .client--artcity {
@@ -217,8 +219,8 @@ $artcity--highlight-color: #38BFC3;
     }
 
     .btn-secondary {
-        border-color: $artcity--button-default-color;
-        color: $artcity--button-default-color;
+        border-color: $artcity--highlight-color;
+        color: $artcity--sec-highlight-color;
 
         &:hover,
         &:active,
@@ -229,8 +231,8 @@ $artcity--highlight-color: #38BFC3;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: $artcity--button-default-color;
-            border-color: $artcity--button-default-color;
+            background-color: $artcity--highlight-color;
+            border-color: $artcity--bg-color;
             color: $artcity--bg-color;
         }
     }
@@ -238,11 +240,19 @@ $artcity--highlight-color: #38BFC3;
     .btn-tertiary {
         &:hover,
         &:active,
-        &ctive:hover,
+        &:active:hover,
         &.active:hover{
             background-color: $artcity--highlight-color;
             border-color: $artcity--highlight-color;
             color: $artcity--bg-color;
+        }
+    }
+
+    .btn-transparent {
+        color: $artcity--highlight-color;
+
+        &:hover {
+            color: lighten($artcity--highlight-color, 20%)
         }
     }
 
@@ -257,6 +267,10 @@ $artcity--highlight-color: #38BFC3;
 
     .ascribe-accordion-list-table-toggle:hover {
         color: $artcity--fg-color;
+    }
+
+    .ascribe-accordion-list-item-table tbody tr:hover {
+        border-left-color: $artcity--highlight-color;
     }
 
     .request-action-badge {
@@ -275,8 +289,8 @@ $artcity--highlight-color: #38BFC3;
 
         &:hover,
         &:active {
-            background-color: $artcity--button-default-color !important;
-            border-color: $artcity--button-default-color !important;
+            background-color: $artcity--highlight-color !important;
+            border-color: $artcity--highlight-color !important;
             color: $artcity--bg-color !important;
         }
     }
@@ -287,7 +301,7 @@ $artcity--highlight-color: #38BFC3;
 
     // forms
     .ascribe-property-wrapper:hover {
-        border-left-color: rgba($artcity--fg-color, 0.5);
+        border-left-color: rgba($artcity--highlight-color, 0.5);
     }
 
     .ascribe-property textarea,
@@ -322,35 +336,42 @@ $artcity--highlight-color: #38BFC3;
 
     // global notification
     .ascribe-global-notification-success {
-        background-color: lighten($artcity--fg-color, 20%);
+        background-color: lighten($artcity--highlight-color, 20%);
     }
 
     // uploader progress
     .ascribe-progress-bar > .progress-bar {
-        background-color: lighten($artcity--fg-color, 20%);
+        background-color: lighten($artcity--highlight-color, 20%);
     }
 
     .ascribe-progress-bar span {
-        text-shadow: -1px 0 lighten($artcity--fg-color, 20%),
-                     0 1px lighten($artcity--fg-color, 20%),
-                     1px 0 lighten($artcity--fg-color, 20%),
-                     0 -1px lighten($artcity--fg-color, 20%);
+        text-shadow: -1px 0 lighten($artcity--highlight-color, 20%),
+                     0 1px lighten($artcity--highlight-color, 20%),
+                     1px 0 lighten($artcity--highlight-color, 20%),
+                     0 -1px lighten($artcity--highlight-color, 20%);
     }
 
     .action-file.icon-ascribe-ok,
     .action-file.icon-ascribe-ok:hover {
-        color: lighten($artcity--fg-color, 20%);
+        color: lighten($artcity--highlight-color, 20%);
+    }
+
+    .action-file {
+        text-shadow: -1px 0 lighten($artcity--highlight-color, 20%),
+                     0 1px lighten($artcity--highlight-color, 20%),
+                     1px 0 lighten($artcity--highlight-color, 20%),
+                     0 -1px lighten($artcity--highlight-color, 20%);
     }
 
     // spinner
     .spinner-circle {
-        border-color: $artcity--fg-color;
+        border-color: $artcity--highlight-color;
     }
     .spinner-inner {
         display: none;
     }
     .btn-secondary .spinner-circle {
-        border-color: $artcity--bg-color;
+        border-color: $artcity--highlight-color;
     }
 
     // video player
@@ -364,13 +385,25 @@ $artcity--highlight-color: #38BFC3;
     // pager
     .pager li > a,
     .pager li > span {
-        background-color: $artcity--fg-color;
-        border-color: $artcity--fg-color;
+        background-color: $artcity--bg-color;
+        border-color: $artcity--highlight-color;
+        color: $artcity--sec-highlight-color;
+
+        &:hover {
+            background-color: $artcity--highlight-color;
+            border-color: $artcity--highlight-color;
+            color: $artcity--bg-color;
+        }
     }
     .pager .disabled > a,
     .pager .disabled > span {
-        background-color: $artcity--fg-color !important;
-        border-color: $artcity--fg-color;
+        background-color: $artcity--ter-highlight-color !important;
+        border-color: $artcity--ter-highlight-color;
+
+        &:hover {
+            color: $artcity--sec-highlight-color;
+            border-color: $artcity--ter-highlight-color;
+        }
     }
 
     // intercom
