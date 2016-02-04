@@ -59,6 +59,11 @@ const constants = {
             'type': 'wallet'
         },
         {
+            'subdomain': 'artcity',
+            'name': 'Artcity',
+            'type': 'wallet'
+        },
+        {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'type': 'prize'

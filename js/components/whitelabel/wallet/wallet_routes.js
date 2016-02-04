@@ -42,6 +42,8 @@ import Vivi23PieceList from './components/23vivi/23vivi_piece_list';
 
 import PollineLanding from './components/polline/polline_landing';
 
+import ArtcityLanding from './components/artcity/artcity_landing';
+
 import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
 
 import WalletApp from './wallet_app';
@@ -242,6 +244,43 @@ let ROUTES = {
     'polline': (
         <Route path='/' component={WalletApp}>
             <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PollineLanding)} />
+            <Route
+                path='login'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+            <Route
+                path='logout'
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+            <Route
+                path='signup'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+            <Route
+                path='contract_settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+            <Route
+                path='register_piece'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
+                headerTitle='+ NEW WORK'
+                aclName='acl_wallet_submit' />
+            <Route
+                path='collection'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
+                headerTitle='COLLECTION'
+                disableOn='noPieces' />
+            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
+            <Route path='editions/:editionId' component={MarketEditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='*' component={ErrorNotFoundPage} />
+        </Route>
+    ),
+    'artcity': (
+        <Route path='/' component={WalletApp}>
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(ArtcityLanding)} />
             <Route
                 path='login'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
