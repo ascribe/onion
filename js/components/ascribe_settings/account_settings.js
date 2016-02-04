@@ -35,7 +35,7 @@ let AccountSettings = React.createClass({
     getFormDataProfile(){
         return {'email': this.props.currentUser.email};
     },
-    
+
     render() {
         let content = <AscribeSpinner color='dark-blue' size='lg'/>;
         let profile = null;
@@ -78,8 +78,7 @@ let AccountSettings = React.createClass({
                         getFormData={this.getFormDataProfile}>
                         <Property
                             name="hash_locally"
-                            className="ascribe-property-collapsible-toggle"
-                            style={{paddingBottom: 0}}>
+                            className="ascribe-property-collapsible-toggle">
                             <InputCheckbox
                                 defaultChecked={this.props.currentUser.profile.hash_locally}>
                                 <span>

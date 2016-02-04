@@ -397,8 +397,7 @@ const PRRegisterPieceForm = React.createClass({
                     className="ascribe-form-bordered">
                     <Property
                         name="terms"
-                        className="ascribe-property-collapsible-toggle"
-                        style={{paddingBottom: 0}}>
+                        className="ascribe-property-collapsible-toggle">
                         <span>
                             {getLangText('By submitting this form, you agree to the') + ' '}
                             <a

@@ -156,7 +156,7 @@ const InputContractAgreementCheckbox = React.createClass({
                 return (
                     <div
                         className="notification-contract-pdf"
-                        style={{paddingBottom: '1em'}}>
+                        style={{paddingBottom: '0.25em'}}>
                         <embed
                             className="embed-form"
                             src={contractUrl}
