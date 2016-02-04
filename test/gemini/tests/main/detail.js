@@ -2,8 +2,11 @@
 
 const gemini = require('gemini');
 const environment = require('../environment');
-const pieceUrl = `/pieces/${environment.mainPieceId}`;
-const editionUrl = `/editions/${environment.mainEditionId}`;
+const MAIN_USER = environment.MAIN_USER;
+const TIMEOUTS = environment.TIMEOUTS;
+
+const pieceUrl = `/pieces/${environment.MAIN_PIECE_ID}`;
+const editionUrl = `/editions/${environment.MAIN_EDITION_ID}`;
 
 /**
  * Suite of tests against the piece and edition routes.
@@ -18,12 +21,12 @@ gemini.suite('Work detail', (suite) => {
             // also defines a `.before()`
             // FIXME: use a more generic class for this, like just '.app',
             // when we can use this file with the whitelabels
-            actions.waitForElementToShow('.ascribe-default-app', 5000);
+            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
 
             // Wait for the social media buttons to appear
-            actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe', 20000);
-            actions.waitForElementToShow('.ascribe-social-button-list .twitter-share-button', 20000);
-            actions.waitForElementToShow('.ascribe-media-player', 10000);
+            actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
+            actions.waitForElementToShow('.ascribe-social-button-list .twitter-share-button', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
+            actions.waitForElementToShow('.ascribe-media-player', TIMEOUTS.LONG);
         });
 
     gemini.suite('Basic piece', (basicPieceSuite) => {
@@ -36,7 +39,7 @@ gemini.suite('Work detail', (suite) => {
                 setCaptureElements('.shmui-wrap')
                 .capture('shmui', (actions, find) => {
                     actions.click(find('.ascribe-media-player'));
-                    actions.waitForElementToShow('.shmui-wrap:not(.loading)', 30000);
+                    actions.waitForElementToShow('.shmui-wrap:not(.loading)', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
                     // Wait for the transition to end
                     actions.wait(1000);
                 });
@@ -55,14 +58,14 @@ gemini.suite('Work detail', (suite) => {
             .setUrl('/login')
             .ignoreElements('.ascribe-body')
             .before((actions, find) => {
-                actions.waitForElementToShow('.ascribe-default-app', 5000);
+                actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
             })
             .capture('logged in', (actions, find) => {
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), environment.mainUser.email);
-                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), environment.mainUser.password);
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), MAIN_USER.email);
+                actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), MAIN_USER.password);
                 actions.click(find('.ascribe-login-wrapper button[type=submit]'));
 
-                actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', 5000);
+                actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
             });
     });
 
@@ -122,10 +125,10 @@ gemini.suite('Work detail', (suite) => {
             .setUrl('/logout')
             .ignoreElements('.ascribe-body')
             .before((actions, find) => {
-                actions.waitForElementToShow('.ascribe-default-app', 5000);
+                actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
             })
             .capture('logout', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-login-wrapper', 10000);
+                actions.waitForElementToShow('.ascribe-login-wrapper', TIMEOUTS.LONG);
             });
     });
 });
