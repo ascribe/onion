@@ -190,9 +190,9 @@ current execution state of that breakpoint on the page you're on.
 
 ---
 
-To simplify triaging simple issues and test if everything is working, I've added a short test script that can be run
-with PhantomJS to check if it can access the web app and log in. You can edit the `lauch_app_and_login.js` file to
-change the environment to run against.
+To simplify triaging simple issues and test if everything is working, The repo had a short test script that can be run
+with PhantomJS to check if it can access the web app and log in. Find `onion/test/phantomjs/launch_app_and_login.js` in
+the repo's history, restore it, and then run:
 
 ```bash
 # In root /onion folder
