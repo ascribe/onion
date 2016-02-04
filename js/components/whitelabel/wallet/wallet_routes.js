@@ -230,7 +230,7 @@ let ROUTES = {
                 aclName='acl_wallet_submit' />
             <Route
                 path='collection'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(Vivi23PieceList)}
                 headerTitle='COLLECTION'
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
