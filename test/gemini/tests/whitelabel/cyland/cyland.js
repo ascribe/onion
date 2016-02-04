@@ -1,6 +1,8 @@
 'use strict';
 
 const gemini = require('gemini');
+const environment = require('../../environment');
+const TIMEOUTS = environment.TIMEOUTS;
 
 /**
  * Suite of tests against Cyland specific routes
@@ -11,7 +13,7 @@ gemini.suite('Cyland', (suite) => {
         .setCaptureElements('.ascribe-wallet-app')
         .before((actions, find) => {
             // This will be called before every nested suite begins
-            actions.waitForElementToShow('.ascribe-wallet-app', 5000);
+            actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Landing', (landingSuite) => {
@@ -20,7 +22,7 @@ gemini.suite('Cyland', (suite) => {
             // Ignore Cyland's logo as it's a gif
             .ignoreElements('.cyland-landing img')
             .capture('landing', (actions, find) => {
-                actions.waitForElementToShow('.cyland-landing img', 10000);
+                actions.waitForElementToShow('.cyland-landing img', TIMEOUTS.LONG);
             });
     });
 

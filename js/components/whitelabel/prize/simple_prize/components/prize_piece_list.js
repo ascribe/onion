@@ -62,13 +62,15 @@ let PrizePieceList = React.createClass({
     },
 
     render() {
+        const { is_judge: isJudge, is_jury: isJury, is_admin: isAdmin } = this.state.currentUser;
+
         setDocumentTitle(getLangText('Collection'));
 
         let orderParams = ['artist_name', 'title'];
-        if (this.state.currentUser.is_jury) {
+        if (isJury) {
             orderParams = ['rating', 'title'];
         }
-        if (this.state.currentUser.is_judge) {
+        if (isJudge) {
             orderParams = ['rating', 'title', 'selected'];
         }
         return (
@@ -80,7 +82,8 @@ let PrizePieceList = React.createClass({
                     orderBy={this.state.currentUser.is_jury ? 'rating' : null}
                     filterParams={[]}
                     customSubmitButton={this.getButtonSubmit()}
-                    location={this.props.location}/>
+                    location={this.props.location}
+                    shouldRedirect={() => !(isJury || isJudge || isAdmin)} />
             </div>
         );
     }

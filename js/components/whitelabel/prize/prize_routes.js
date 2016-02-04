@@ -73,7 +73,7 @@ const ROUTES = {
                 component={EditionContainer}
                 hideFooter />
             <Route
-                path='verify'
+                path='coa_verify'
                 component={CoaVerifyContainer}
                 hideFooter />
             <Route
@@ -134,7 +134,7 @@ const ROUTES = {
                 component={EditionContainer}
                 hideFooter />
             <Route
-                path='verify'
+                path='coa_verify'
                 component={CoaVerifyContainer}
                 hideFooter />
             <Route

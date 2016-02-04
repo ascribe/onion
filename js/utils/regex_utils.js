@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // TODO: Create Unittests that test all functions
 

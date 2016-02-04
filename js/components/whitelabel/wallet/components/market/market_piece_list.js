@@ -59,11 +59,12 @@ let MarketPieceList = React.createClass({
             } } = this.state;
 
         let filterParams = null;
+        let isUserAdmin = null;
         let canLoadPieceList = false;
 
         if (userEmail && whitelabelAdminEmail) {
             canLoadPieceList = true;
-            const isUserAdmin = userEmail === whitelabelAdminEmail;
+            isUserAdmin = userEmail === whitelabelAdminEmail;
 
             filterParams = [{
                 label: getLangText('Show works I can'),
@@ -78,7 +79,13 @@ let MarketPieceList = React.createClass({
         return (
             <PieceList
                 canLoadPieceList={canLoadPieceList}
-                redirectTo="/register_piece?slide_num=0"
+                redirectTo={{
+                    pathname: '/register_piece',
+                    query: {
+                        'slide_num': 0
+                    }
+                }}
+                shouldRedirect={(pieceCount) => !isUserAdmin && !pieceCount}
                 bulkModalButtonListType={MarketAclButtonList}
                 customThumbnailPlaceholder={customThumbnailPlaceholder}
                 filterParams={filterParams}

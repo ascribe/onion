@@ -218,7 +218,7 @@ let ROUTES = {
             <Route
                 path='editions/:editionId'
                 component={EditionContainer}
-                 hideFooter />
+                hideFooter />
             <Route
                 path='coa_verify'
                 component={CoaVerifyContainer}

@@ -1,6 +1,9 @@
 'use strict';
 
 const gemini = require('gemini');
+const environment = require('../../environment');
+const MAIN_USER = environment.MAIN_USER;
+const TIMEOUTS = environment.TIMEOUTS;
 
 /**
  * Suite of tests against Cyland specific routes
@@ -11,7 +14,7 @@ gemini.suite('Ikonotv', (suite) => {
         .setCaptureElements('.ascribe-wallet-app')
         .before((actions, find) => {
             // This will be called before every nested suite begins
-            actions.waitForElementToShow('.ascribe-wallet-app', 5000);
+            actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Landing', (landingSuite) => {
@@ -29,7 +32,7 @@ gemini.suite('Ikonotv', (suite) => {
                 });
 
                 // Wait for logo to appear
-                actions.waitForElementToShow('.ikonotv-landing header img', 10000);
+                actions.waitForElementToShow('.ikonotv-landing header img', TIMEOUTS.LONG);
             });
     });
 
@@ -43,13 +46,13 @@ gemini.suite('Ikonotv', (suite) => {
                 // also defines a `.before()`
                 // FIXME: use a more generic class for this, like just '.app',
                 // when we can use this file with the whitelabels
-                actions.waitForElementToShow('.ascribe-wallet-app', 5000);
+                actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
 
                 // Wait for the forms to appear
-                actions.waitForElementToShow('.ascribe-form', 5000);
+                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
 
                 // Just use a dumb wait because the logo is set as a background image
-                actions.wait(3000);
+                actions.wait(TIMEOUTS.SHORT);
             });
 
         gemini.suite('Login', (loginSuite) => {
@@ -68,8 +71,8 @@ gemini.suite('Ikonotv', (suite) => {
                     // Remove hover from sign up link
                     actions.click(emailInput);
 
-                    actions.sendKeys(emailInput, 'dimi@mailinator.com');
-                    actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
+                    actions.sendKeys(emailInput, MAIN_USER.email);
+                    actions.sendKeys(find('.ascribe-form input[name=password]'), MAIN_USER.password);
                 })
                 .capture('login form filled', (actions, find) => {
                     actions.click(find('.ascribe-form-header'));
@@ -81,9 +84,9 @@ gemini.suite('Ikonotv', (suite) => {
                 .setUrl('/signup')
                 .capture('sign up')
                 .capture('sign up form filled with focus', (actions, find) => {
-                    actions.sendKeys(find('.ascribe-form input[name=email]'), 'dimi@mailinator.com');
-                    actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
-                    actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), '0000000000');
+                    actions.sendKeys(find('.ascribe-form input[name=email]'), MAIN_USER.email);
+                    actions.sendKeys(find('.ascribe-form input[name=password]'), MAIN_USER.password);
+                    actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), MAIN_USER.password);
                 })
                 .capture('sign up form filled with check', (actions, find) => {
                     actions.click(find('.ascribe-form input[type="checkbox"] ~ .checkbox'));

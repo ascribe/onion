@@ -1,6 +1,9 @@
 'use strict';
 
 const gemini = require('gemini');
+const environment = require('../environment');
+const MAIN_USER = environment.MAIN_USER;
+const TIMEOUTS = environment.TIMEOUTS;
 
 /**
  * Basic suite of tests against routes that do not require the user to be authenticated.
@@ -13,7 +16,7 @@ gemini.suite('Basic', (suite) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
             // FIXME: use a more generic class for this, like just '.ascribe-app'
-            actions.waitForElementToShow('.ascribe-default-app', 5000);
+            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Header-desktop', (headerSuite) => {
@@ -21,7 +24,7 @@ gemini.suite('Basic', (suite) => {
             .setCaptureElements('nav.navbar .container')
             .skip(/Mobile/)
             .capture('desktop header', (actions, find) => {
-                actions.waitForElementToShow('nav.navbar .container', 5000);
+                actions.waitForElementToShow('nav.navbar .container', TIMEOUTS.NORMAL);
             })
             .capture('hover on active item', (actions, find) => {
                 const activeItem = find('nav.navbar li.active');
@@ -39,7 +42,7 @@ gemini.suite('Basic', (suite) => {
             .setCaptureElements('nav.navbar .container')
             .skip(/Desktop/)
             .capture('mobile header', (actions, find) => {
-                actions.waitForElementToShow('nav.navbar .container', 5000);
+                actions.waitForElementToShow('nav.navbar .container', TIMEOUTS.NORMAL);
             })
             .capture('expanded mobile header', (actions, find) => {
                 actions.click(find('nav.navbar .navbar-toggle'));
@@ -55,7 +58,7 @@ gemini.suite('Basic', (suite) => {
         footerSuite
             .setCaptureElements('.ascribe-footer')
             .capture('footer', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-footer', 5000);
+                actions.waitForElementToShow('.ascribe-footer', TIMEOUTS.NORMAL);
             })
             .capture('hover on footer item', (actions, find) => {
                 const footerItem = find('.ascribe-footer a:not(.social)');
@@ -70,7 +73,7 @@ gemini.suite('Basic', (suite) => {
     gemini.suite('Login', (loginSuite) => {
         loginSuite
             .capture('login', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-form', 5000);
+                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('hover on login submit', (actions, find) => {
                 actions.mouseMove(find('.ascribe-form button[type=submit]'));
@@ -84,8 +87,8 @@ gemini.suite('Basic', (suite) => {
                 // Remove hover from sign up link
                 actions.click(emailInput);
 
-                actions.sendKeys(emailInput, 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
+                actions.sendKeys(emailInput, MAIN_USER.email);
+                actions.sendKeys(find('.ascribe-form input[name=password]'), MAIN_USER.password);
             })
             .capture('login form filled', (actions, find) => {
                 actions.click(find('.ascribe-form-header'));
@@ -96,12 +99,12 @@ gemini.suite('Basic', (suite) => {
         signUpSuite
             .setUrl('/signup')
             .capture('sign up', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-form', 5000);
+                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('sign up form filled with focus', (actions, find) => {
-                actions.sendKeys(find('.ascribe-form input[name=email]'), 'dimi@mailinator.com');
-                actions.sendKeys(find('.ascribe-form input[name=password]'), '0000000000');
-                actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), '0000000000');
+                actions.sendKeys(find('.ascribe-form input[name=email]'), MAIN_USER.email);
+                actions.sendKeys(find('.ascribe-form input[name=password]'), MAIN_USER.password);
+                actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), MAIN_USER.password);
             })
             .capture('sign up form filled with check', (actions, find) => {
                 actions.click(find('.ascribe-form input[type="checkbox"] ~ .checkbox'));
@@ -112,10 +115,10 @@ gemini.suite('Basic', (suite) => {
         passwordResetSuite
             .setUrl('/password_reset')
             .capture('password reset', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-form', 5000);
+                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('password reset form filled with focus', (actions, find) => {
-                actions.sendKeys(find('.ascribe-form input[name="email"]'), 'dimi@mailinator.com');
+                actions.sendKeys(find('.ascribe-form input[name="email"]'), MAIN_USER.email);
             })
             .capture('password reset form filled', (actions, find) => {
                 actions.click(find('.ascribe-form-header'));
@@ -126,7 +129,7 @@ gemini.suite('Basic', (suite) => {
         coaVerifySuite
             .setUrl('/coa_verify')
             .capture('coa verify', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-form', 5000);
+                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('coa verify form filled with focus', (actions, find) => {
                 actions.sendKeys(find('.ascribe-form input[name="message"]'), 'sample text');

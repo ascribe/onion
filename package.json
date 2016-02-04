@@ -20,15 +20,16 @@
     "vi-clean": "rm -rf ./gemini-report",
     "vi-phantom": "phantomjs --webdriver=4444",
     "vi-update": "gemini update -c ./test/gemini/.gemini.yml",
-    "vi-test": "npm run vi-clean && gemini test -c ./test/gemini/.gemini.yml --reporter html --reporter vflat || true",
+    "vi-test": "npm run vi-test:base || true",
+    "vi-test:base": "npm run vi-clean && gemini test -c ./test/gemini/.gemini.yml --reporter html --reporter vflat",
     "vi-test:all": "npm run vi-test",
-    "vi-test:main": "npm run vi-test -- --browser MainDesktop --browser MainMobile",
-    "vi-test:whitelabel": "GEMINI_BROWSERS='CcDesktop, CcMobile, CylandDesktop, CylandMobile, IkonotvDesktop, IkonotvMobile, LumenusDesktop, LumenusMobile, 23viviDesktop, 23viviMobile' npm run vi-test",
-    "vi-test:cc": "npm run vi-test -- --browser CcDesktop --browser CcMobile",
-    "vi-test:cyland": "npm run vi-test -- --browser CylandDesktop --browser CylandMobile",
-    "vi-test:ikonotv": "npm run vi-test -- --browser IkonotvDesktop --browser IkonotvMobile",
-    "vi-test:lumenus": "npm run vi-test -- --browser LumenusDesktop --browser LumenusMobile",
-    "vi-test:23vivi": "npm run vi-test -- --browser 23viviDesktop --browser 23viviMobile"
+    "vi-test:main": "npm run vi-test:base -- --browser MainDesktop --browser MainMobile || true",
+    "vi-test:whitelabel": "GEMINI_BROWSERS='CcDesktop, CcMobile, CylandDesktop, CylandMobile, IkonotvDesktop, IkonotvMobile, LumenusDesktop, LumenusMobile, 23viviDesktop, 23viviMobile' npm run vi-test:base || true",
+    "vi-test:cc": "npm run vi-test:base -- --browser CcDesktop --browser CcMobile",
+    "vi-test:cyland": "npm run vi-test:base -- --browser CylandDesktop --browser CylandMobile || true",
+    "vi-test:ikonotv": "npm run vi-test:base -- --browser IkonotvDesktop --browser IkonotvMobile || true",
+    "vi-test:lumenus": "npm run vi-test:base -- --browser LumenusDesktop --browser LumenusMobile || true",
+    "vi-test:23vivi": "npm run vi-test:base -- --browser 23viviDesktop --browser 23viviMobile || true"
   },
   "browser": {
     "fineUploader": "./js/components/ascribe_uploader/vendor/s3.fine-uploader.js"

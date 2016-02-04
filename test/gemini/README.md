@@ -122,9 +122,12 @@ See [the docs](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md
 actions](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md#available-actions) for what scripted actions
 are available.
 
-Our tests are located in `onion/test/gemini/tests/`.
+Our tests are located in `onion/test/gemini/tests/`. For now, the tests use the environment defined in
+`onion/test/gemini/tests/environment.js` for which user, piece, and edition to run tests against. In the future, it'd be
+nice if we had some db scripts that we could use to populate a test db for these regression tests.
 
-**It would be nice if we kept the whitelabels up to date.**
+**It would also be nice if we kept the whitelabels up to date, so if you add one, please also test (at least) its landing
+page.**
 
 Some useful tips:
   * The `find()` method in the callbacks is equivalent to `document.querySelector`; it will only return the first
@@ -187,13 +190,13 @@ current execution state of that breakpoint on the page you're on.
 
 ---
 
-To simplify triaging simple issues and test if everything is working, I've added a short test script that can be run
-with PhantomJS to check if it can access the web app and log in. You can edit the `lauch_app_and_login.js` file to
-change the environment to run against.
+To simplify triaging simple issues and test if everything is working, The repo had a short test script that can be run
+with PhantomJS to check if it can access the web app and log in. Find `onion/test/phantomjs/launch_app_and_login.js` in
+the repo's history, restore it, and then run:
 
 ```bash
 # In root /onion folder
-phantomjs phantomjs/launch_app_and_login.js
+phantomjs test/phantomjs/launch_app_and_login.js
 ```
 
 
