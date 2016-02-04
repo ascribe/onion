@@ -42,21 +42,32 @@ Running Tests
 Run PhantomJS:
 
 ```bash
-phantomjs --webdriver=4444
+npm run vi-phantom
 ```
 
 And then run Gemini tests:
 
 ```bash
-# In root onion/
-gemini test gemini/* --report html
+npm run vi-test
+
+# Run only main tests
+npm run vi-test:main
+
+# Run only whitelabel tests
+npm run vi-test:whitelabel
+
+# Run only specific whitelabel tests
+npm run vi-test:cyland
 ```
 
-If you've made changes and want them to be the new baseline (ie. it's a correct change--**make sure** to test there are no regressions first!), use
+If you've made changes and want them to be the new baseline (ie. it's a correct change--**make sure** to test there are
+no regressions first!), use
 
 ```bash
-# In root onion/
-gemini update gemini/*
+npm run vi-update
+
+# Update just the main app for desktop and mobile
+npm run vi-update -- --browser MainDesktop --browser MainMobile
 ```
 
 
@@ -111,6 +122,8 @@ actions](https://github.com/gemini-testing/gemini/blob/master/doc/tests.md#avail
 are available.
 
 Our tests are located in `onion/gemini/`.
+
+**It would be nice if we kept the whitelabels up to date.**
 
 Some useful tips:
   * The `find()` method in the callbacks is equivalent to `document.querySelector`; it will only return the first
@@ -181,3 +194,11 @@ change the environment to run against.
 # In root /onion folder
 phantomjs phantomjs/launch_app_and_login.js
 ```
+
+
+TODO
+====
+
+* Write scripts to automate creation of test users (and modify tests to accomodate)
+* Set scripts with rootUrls pointing to staging / live using environment variables
+* Set up with Sauce Labs
