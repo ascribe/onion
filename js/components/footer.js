@@ -5,8 +5,12 @@ import React from 'react';
 import { getLangText } from '../utils/lang_utils';
 
 let Footer = React.createClass({
+    propTypes: {
+        activeRoute: React.PropTypes.object.isRequired
+    },
+
     render() {
-        return (
+        return !this.props.activeRoute.hideFooter ? (
             <div className="ascribe-footer hidden-print">
                 <p className="ascribe-sub-sub-statement">
                   <br />
@@ -24,7 +28,7 @@ let Footer = React.createClass({
                     <a href="https://www.linkedin.com/company/4816284?trk=vsrp_companies_res_name&trkInfo=VSRPsearchId%3A122827941425632318075%2CVSRPtargetId%3A4816284%2CVSRPcmpt%3Aprimary" className="social social-linked-in" target="_blank"></a>
                 </p>
             </div>
-        );
+        ) : null;
     }
 });
 

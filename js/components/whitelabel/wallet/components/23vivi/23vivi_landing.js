@@ -36,7 +36,7 @@ let Vivi23Landing = React.createClass({
 
     render() {
         return (
-            <div className="container ascribe-form-wrapper vivi23-landing">
+            <div className="ascribe-form-wrapper vivi23-landing">
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row vivi23-landing--header">

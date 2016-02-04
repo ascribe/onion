@@ -13,8 +13,10 @@
     "build": "gulp build --production",
     "start": "node server.js",
     "test": "npm run sauce-test",
+
     "sauce-test": "mocha ./test/integration/tests/",
     "tunnel": "node ./test/integration/tunnel.js",
+
     "vi-clean": "rm -rf ./gemini-report",
     "vi-phantom": "phantomjs --webdriver=4444",
     "vi-update": "gemini update -c ./test/gemini/.gemini.yml",

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { History } from 'react-router';
 
 import { getLangText } from '../utils/lang_utils';
 
@@ -10,10 +11,23 @@ let ErrorNotFoundPage = React.createClass({
         message: React.PropTypes.string
     },
 
+    mixins: [History],
+
     getDefaultProps() {
         return {
             message: getLangText("Oops, the page you are looking for doesn't exist.")
         };
+    },
+
+    componentDidMount() {
+        // The previous page, if any, is the second item in the locationQueue
+        const { locationQueue: [ , previousPage ] } = this.history;
+
+        if (previousPage) {
+            console.logGlobal('Page not found', {
+                previousPath: previousPage.pathname
+            });
+        }
     },
 
     render() {

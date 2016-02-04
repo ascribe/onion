@@ -7,8 +7,12 @@ import AppConstants from './constants/application_constants';
 
 
 // Remove the trailing slash if present
-let baseUrl = AppConstants.baseUrl.replace(/\/$/, '');
+const baseUrl = AppConstants.baseUrl.replace(/\/$/, '');
 
-export default useBasename(useQueries(createBrowserHistory))({
+const history = useBasename(useQueries(createBrowserHistory))({
     basename: baseUrl
 });
+
+history.locationQueue = [];
+
+export default history;
