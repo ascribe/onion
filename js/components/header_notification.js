@@ -55,11 +55,7 @@ let HeaderNotifications = React.createClass({
         NOW, THAT DIDN'T WORK - the onSelect routine isnt triggered in all cases
         Hence, we do this manually
         */
-        const { dropdownButton } = this.refs;
-
-        if (dropdownButton && typeof dropdownButton.setDropdownState === 'function') {
-            dropdownbutton.setDropdownState(false);
-        }
+        this.refs.dropdownbutton.setDropdownState(false);
     },
 
     getPieceNotifications() {
