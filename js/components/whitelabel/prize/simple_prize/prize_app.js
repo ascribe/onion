@@ -44,7 +44,7 @@ let PrizeApp = React.createClass({
         }
 
         return (
-            <div className={classNames('ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+            <div className={classNames('ascribe-app', 'ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
                 <AppRouteWrapper
                     currentUser={currentUser}

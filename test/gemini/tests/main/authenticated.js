@@ -15,9 +15,7 @@ gemini.suite('Authenticated', (suite) => {
         .before((actions, find) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
-            // FIXME: use a more generic class for this, like just '.app',
-            // when we can use this file with the whitelabels
-            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
 
     // Suite just to log us in before any other suites run

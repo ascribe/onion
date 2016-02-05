@@ -46,7 +46,7 @@ let WalletApp = React.createClass({
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
         // we split the path by the first occurring slash and take the first splitter.
         return (
-            <div className={classNames('ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+            <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
                 <AppRouteWrapper
                     currentUser={currentUser}

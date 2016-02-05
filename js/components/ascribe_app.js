@@ -23,7 +23,7 @@ let AscribeApp = React.createClass({
         const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
 
         return (
-            <div className="ascribe-default-app">
+            <div className="ascribe-app ascribe-default-app">
                 <Header
                     currentUser={currentUser}
                     routes={routes}

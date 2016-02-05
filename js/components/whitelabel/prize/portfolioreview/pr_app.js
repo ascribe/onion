@@ -56,7 +56,7 @@ let PRApp = React.createClass({
         return (
             <div
                 style={style}
-                className={classNames('ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+                className={classNames('ascribe-app', 'ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
                 <AppRouteWrapper
                     currentUser={currentUser}

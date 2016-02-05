@@ -10,11 +10,10 @@ const TIMEOUTS = environment.TIMEOUTS;
  */
 gemini.suite('Ikonotv', (suite) => {
     suite
-        //TODO: maybe this should be changed to .ascribe-body once the PR that does this is merged
-        .setCaptureElements('.ascribe-wallet-app')
+        .setCaptureElements('.ascribe-body')
         .before((actions, find) => {
             // This will be called before every nested suite begins
-            actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Landing', (landingSuite) => {
@@ -40,13 +39,11 @@ gemini.suite('Ikonotv', (suite) => {
     // its logo to appear
     gemini.suite('Ikonotv basic', (suite) => {
         suite
-            .setCaptureElements('.ascribe-wallet-app')
+            .setCaptureElements('.ascribe-app')
             .before((actions, find) => {
                 // This will be called before every nested suite begins unless that suite
                 // also defines a `.before()`
-                // FIXME: use a more generic class for this, like just '.app',
-                // when we can use this file with the whitelabels
-                actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
+                actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
 
                 // Wait for the forms to appear
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);

@@ -9,11 +9,10 @@ const TIMEOUTS = environment.TIMEOUTS;
  */
 gemini.suite('Lumenus', (suite) => {
     suite
-        //TODO: maybe this should be changed to .ascribe-body once the PR that does this is merged
-        .setCaptureElements('.ascribe-wallet-app')
+        .setCaptureElements('.ascribe-body')
         .before((actions, find) => {
             // This will be called before every nested suite begins
-            actions.waitForElementToShow('.ascribe-wallet-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Landing', (landingSuite) => {
