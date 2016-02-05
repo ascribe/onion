@@ -58,6 +58,12 @@ let PrizePieceList = React.createClass({
         }
     },
 
+    shouldRedirect(pieceCount) {
+        const { currentUser } = this.props;
+
+        return !currentUser.is_admin && !currentUser.is_jury && !currentUser.is_judge && !pieceCount;
+    },
+
     render() {
         const { currentUser, location } = this.props;
 
@@ -79,7 +85,8 @@ let PrizePieceList = React.createClass({
                 customSubmitButton={this.getButtonSubmit()}
                 filterParams={[]}
                 orderParams={orderParams}
-                orderBy={currentUser.is_jury ? 'rating' : null} />
+                orderBy={currentUser.is_jury ? 'rating' : null}
+                shouldRedirect={this.shouldRedirect} />
         );
     }
 });

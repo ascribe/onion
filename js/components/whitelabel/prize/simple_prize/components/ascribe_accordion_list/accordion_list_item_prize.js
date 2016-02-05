@@ -89,7 +89,8 @@ let AccordionListItemPrize = React.createClass({
                                 rating={rating}
                                 ratingAmount={5} />
                         </Link>
-                    </div>);
+                    </div>
+                );
             } else {
                 if (currentUser.is_judge) {
                     return (
@@ -108,23 +109,21 @@ let AccordionListItemPrize = React.createClass({
                     );
                 }
             }
+        } else {
+            return this.getPrizeButtonsParticipant();
         }
-        return this.getPrizeButtonsParticipant();
-
     },
 
     getPrizeButtonsParticipant() {
         return (
-            <div>
-                <AclProxy
-                    aclObject={this.props.content.acl}
-                    aclName="acl_wallet_submit">
-                    <SubmitToPrizeButton
-                        className="pull-right"
-                        piece={this.props.content}
-                        handleSuccess={this.handleSubmitPrizeSuccess}/>
-                </AclProxy>
-            </div>
+            <AclProxy
+                aclObject={this.props.content.acl}
+                aclName="acl_wallet_submit">
+                <SubmitToPrizeButton
+                    className="pull-right"
+                    piece={this.props.content}
+                    handleSuccess={this.handleSubmitPrizeSuccess} />
+            </AclProxy>
         );
     },
 
@@ -149,12 +148,14 @@ let AccordionListItemPrize = React.createClass({
     },
 
     getPrizeBadge() {
+        const { currentUser } = this.props;
+
         if (currentUser && currentUser.is_judge) {
             return (
                 <span className="pull-right ascribe-checkbox-wrapper ascribe-checkbox-badge">
                     <InputCheckbox
                         defaultChecked={this.props.content.selected}
-                        onChange={this.onSelectChange}/>
+                        onChange={this.onSelectChange} />
                 </span>
             );
         } else {
@@ -170,21 +171,19 @@ let AccordionListItemPrize = React.createClass({
                 <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/> : content.artist_name;
 
         return (
-            <div>
-                <AccordionListItemPiece
-                    className={className}
-                    piece={content}
-                    artistName={artistName}
-                    subsubheading={
-                        <div>
-                            <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
-                        </div>
-                    }
-                    buttons={this.getPrizeButtons()}
-                    badge={this.getPrizeBadge()}>
-                    {children}
-                </AccordionListItemPiece>
-            </div>
+            <AccordionListItemPiece
+                className={className}
+                piece={content}
+                artistName={artistName}
+                subsubheading={
+                    <div>
+                        <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
+                    </div>
+                }
+                buttons={this.getPrizeButtons()}
+                badge={this.getPrizeBadge()}>
+                {children}
+            </AccordionListItemPiece>
         );
     }
 });
