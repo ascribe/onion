@@ -14,6 +14,18 @@ class PrizeRatingStore {
         });
     }
 
+    getInitialState() {
+        this.ratings = [];
+        this.currentRating = null;
+        this.average = null;
+
+        return {
+            ratings: this.ratings,
+            currentRating: this.currentRating,
+            average: this.average
+        };
+    }
+
     onUpdatePrizeRatings(ratings) {
         this.ratings = ratings;
     }
@@ -29,18 +41,6 @@ class PrizeRatingStore {
 
     onResetPrizeRatings() {
         this.getInitialState();
-    }
-
-    getInitialState() {
-        this.ratings = [];
-        this.currentRating = null;
-        this.average = null;
-
-        return {
-            ratings: this.ratings,
-            currentRating: this.currentRating,
-            average: this.average
-        };
     }
 }
 

@@ -19,7 +19,7 @@ let CreateEditionsForm = React.createClass({
         pieceId: React.PropTypes.number
     },
 
-    getFormData(){
+    getFormData() {
         return {
             piece_id: parseInt(this.props.pieceId, 10)
         };
@@ -58,7 +58,8 @@ let CreateEditionsForm = React.createClass({
                     <input
                         type="number"
                         placeholder="(e.g. 32)"
-                        min={1}/>
+                        min={1}
+                        max={100} />
                 </Property>
             </Form>
         );

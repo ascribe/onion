@@ -26,7 +26,7 @@ let CylandLanding = React.createClass({
         setDocumentTitle('CYLAND MediaArtLab');
 
         return (
-            <div className="container ascribe-form-wrapper cyland-landing">
+            <div className="ascribe-form-wrapper cyland-landing">
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>

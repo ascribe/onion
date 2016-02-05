@@ -8,9 +8,10 @@ import { getLangText } from '../../utils/lang_utils';
 
 let AccordionList = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
         children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
-        loadingElement: React.PropTypes.element,
+        loadingElement: React.PropTypes.element.isRequired,
+
+        className: React.PropTypes.string,
         count: React.PropTypes.number,
         itemList: React.PropTypes.arrayOf(React.PropTypes.object),
         search: React.PropTypes.string,
@@ -24,7 +25,7 @@ let AccordionList = React.createClass({
     render() {
         const { search } = this.props;
 
-        if(this.props.itemList && this.props.itemList.length > 0) {
+        if (this.props.itemList && this.props.itemList.length > 0) {
             return (
                 <div className={this.props.className}>
                     {this.props.children}

@@ -38,10 +38,17 @@ let IkonotvPieceList = React.createClass({
         this.setState(state);
     },
 
-    redirectIfNoContractNotifications() {
+    shouldRedirect(pieceCount) {
+        const { currentUser: { email: userEmail },
+                whitelabel: {
+                    user: whitelabelAdminEmail
+                } } = this.props;
         const { contractAgreementListNotifications } = this.state;
 
-        return contractAgreementListNotifications && !contractAgreementListNotifications.length;
+        return contractAgreementListNotifications &&
+               !contractAgreementListNotifications.length &&
+               userEmail !== whitelabelAdminEmail &&
+               !pieceCount;
     },
 
     render() {
@@ -51,8 +58,6 @@ let IkonotvPieceList = React.createClass({
             <div>
                 <PieceList
                     {...this.props}
-                    redirectTo="/register_piece?slide_num=0"
-                    shouldRedirect={this.redirectIfNoContractNotifications}
                     accordionListItemType={IkonotvAccordionListItem}
                     filterParams={[{
                         label: getLangText('Show works I have'),
@@ -66,7 +71,14 @@ let IkonotvPieceList = React.createClass({
                                 label: getLangText('loaned')
                             }
                         ]
-                    }]} />
+                    }]}
+                    redirectTo={{
+                        pathname: '/register_piece',
+                        query: {
+                            'slide_num': 0
+                        }
+                    }}
+                    shouldRedirect={this.shouldRedirect} />
             </div>
         );
     }

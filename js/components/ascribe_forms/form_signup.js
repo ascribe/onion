@@ -121,8 +121,7 @@ let SignupForm = React.createClass({
                 {children}
                 <Property
                     name="terms"
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
+                    className="ascribe-property-collapsible-toggle">
                     <InputCheckbox>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service of ascribe') + ' '}

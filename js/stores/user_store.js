@@ -13,7 +13,6 @@ class UserStore {
         this.currentUser = {};
         this.userMeta = {
             hasLoaded: false,
-            invalidateCache: false,
             err: null
         };
 
@@ -25,16 +24,17 @@ class UserStore {
     }
 
     onFetchCurrentUser(invalidateCache) {
-        this.userMeta.invalidateCache = invalidateCache;
-
-        if (!this.getInstance().isLoading()) {
-            this.getInstance().lookupCurrentUser();
+        if (invalidateCache || !this.getInstance().isLoading()) {
+            this.getInstance().lookupCurrentUser(invalidateCache);
         }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchCurrentUser({ users: [ user = {} ] = [] }) {
         this.userMeta.hasLoaded = true;
-        this.userMeta.invalidateCache = false;
         this.userMeta.err = null;
 
         if (user.email && user.email !== this.currentUser.email) {
@@ -46,6 +46,10 @@ class UserStore {
 
     onLogoutCurrentUser() {
         this.getInstance().performLogoutCurrentUser();
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessLogoutCurrentUser() {

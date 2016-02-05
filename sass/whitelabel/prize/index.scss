@@ -1,9 +1,10 @@
+@import 'simple_prize/simple_prize_variables';
 @import 'simple_prize/simple_prize_custom_style';
+@import 'sluice/sluice_custom_style';
 @import 'portfolioreview/portfolioreview_custom_style';
 
 .ascribe-prize-app {
     border-radius: 0;
-    min-height: 100vh;
     padding-top: 70px;
     padding-bottom: 10px;
 }

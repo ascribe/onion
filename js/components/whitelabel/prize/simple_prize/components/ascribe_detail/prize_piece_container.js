@@ -14,10 +14,10 @@ import PrizeStore from '../../stores/prize_store';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
 import PieceListStore from '../../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../../actions/piece_list_actions';
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../../components/ascribe_detail/note';
@@ -64,16 +64,7 @@ let PrizePieceContainer = React.createClass({
     mixins: [ReactError],
 
     getInitialState() {
-        //FIXME: this component uses the PieceStore, but we avoid using the getState() here since it may contain stale data
-        //       It should instead use something like getInitialState() where that call also resets the state.
-        return {};
-    },
-
-    componentWillMount() {
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
+        return PieceStore.getInitialState();
     },
 
     componentDidMount() {
@@ -83,18 +74,19 @@ let PrizePieceContainer = React.createClass({
     },
 
     // This is done to update the container when the user clicks on the prev or next
-    // button to update the URL parameter (and therefore to switch pieces)
+    // button to update the URL parameter (and therefore to switch pieces) or
+    // when the user clicks on a notification while being in another piece view
     componentWillReceiveProps(nextProps) {
         if (this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
+            PieceActions.flushPiece();
             this.loadPiece(nextProps.params.pieceId);
         }
     },
 
     componentDidUpdate() {
-        const { pieceError } = this.state;
+        const { pieceMeta: { err: pieceErr } } = this.state;
 
-        if (pieceError && pieceError.status === 404) {
+        if (pieceErr && pieceErr.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the piece you're looking for doesn't exist.")));
         }
     },
@@ -111,25 +103,25 @@ let PrizePieceContainer = React.createClass({
         const { currentUser } = this.props;
         const { piece } = this.state;
 
-        if (piece && piece.notifications && piece.notifications.length > 0) {
+        if (piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
                     pieceOrEditions={piece}
                     currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={piece.notifications}/>);
+                    notifications={piece.notifications} />);
         }
     },
 
     loadPiece(pieceId = this.props.params.pieceId) {
-        PieceActions.fetchOne(pieceId);
+        PieceActions.fetchPiece(pieceId);
     },
 
     render() {
         const { currentUser, selectedPrizeActionButton } = this.props;
         const { piece } = this.state;
 
-        if (piece && piece.id) {
+        if (piece.id) {
             /*
 
                 This really needs a refactor!
@@ -140,16 +132,19 @@ let PrizePieceContainer = React.createClass({
             // Only show the artist name if you are the participant or if you are a judge and the piece is shortlisted
             let artistName;
             if ((currentUser.is_jury && !currentUser.is_judge) || (currentUser.is_judge && !piece.selected )) {
-                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true"/>;
+                artistName = <span className="glyphicon glyphicon-eye-close" aria-hidden="true" />;
                 setDocumentTitle(piece.title);
             } else {
                 artistName = piece.artist_name;
-                setDocumentTitle([artistName, piece.title].join(', '));
+                setDocumentTitle(`${artistName}, ${piece.title}`);
             }
 
             // Only show the artist email if you are a judge and the piece is shortlisted
-            const artistEmail = (currentUser.is_judge && piece.selected ) ?
-                <DetailProperty label={getLangText('REGISTREE')} value={ piece.user_registered } /> : null;
+            const artistEmail = currentUser.is_judge && piece.selected ? (
+                <DetailProperty
+                    label={getLangText('REGISTREE')}
+                    value={piece.user_registered} />
+            ) : null;
 
             return (
                 <Piece
@@ -159,16 +154,16 @@ let PrizePieceContainer = React.createClass({
                         <div className="ascribe-detail-header">
                             <NavigationHeader
                                 piece={piece}
-                                currentUser={currentUser}/>
+                                currentUser={currentUser} />
 
                             <h1 className="ascribe-detail-title">{piece.title}</h1>
                             <DetailProperty label={getLangText('BY')} value={artistName} />
                             <DetailProperty label={getLangText('DATE')} value={Moment(piece.date_created, 'YYYY-MM-DD').year()} />
                             {artistEmail}
                             {this.getActions()}
-                            <hr/>
+                            <hr />
                         </div>
-                        }
+                    }
                     subheader={
                         <PrizePieceRatings
                             loadPiece={this.loadPiece}
@@ -191,16 +186,15 @@ let PrizePieceContainer = React.createClass({
 
 let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object.isRequired,
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
         const { currentUser, piece } = this.props;
 
-        if (currentUser && currentUser.email && currentUser.is_judge && currentUser.is_jury &&
-            !currentUser.is_admin && piece && piece.navigation) {
-            let nav = piece.navigation;
+        if (currentUser.email && currentUser.is_judge && currentUser.is_jury && !currentUser.is_admin && piece.navigation) {
+            const nav = piece.navigation;
 
             return (
                 <div style={{marginBottom: '1em'}}>
@@ -220,17 +214,19 @@ let NavigationHeader = React.createClass({
                     <hr/>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     }
 });
 
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
-        loadPiece: React.PropTypes.func,
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        loadPiece: React.PropTypes.func.isRequired,
+        piece: React.PropTypes.object.isRequired,
+
         selectedPrizeActionButton: React.PropTypes.func
     },
 
@@ -243,12 +239,18 @@ let PrizePieceRatings = React.createClass({
     },
 
     componentDidMount() {
-        PieceListStore.listen(this.onChange);
-        PrizeStore.listen(this.onChange);
         PrizeRatingStore.listen(this.onChange);
+        PrizeStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
 
         PrizeActions.fetchPrize();
-        this.fetchPrizeRatings();
+        this.fetchRatingsIfAuthorized();
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.fetchRatingsIfAuthorized();
+        }
     },
 
     componentWillUnmount() {
@@ -263,7 +265,7 @@ let PrizePieceRatings = React.createClass({
     // with the problem.
     onChange(state) {
         if (state.prize && state.prize.active_round != this.state.prize.active_round) {
-            this.fetchPrizeRatings(state);
+            this.fetchRatingsIfAuthorized(state);
         }
 
         this.setState(state);
@@ -278,9 +280,19 @@ let PrizePieceRatings = React.createClass({
         }
     },
 
-    fetchPrizeRatings(state = this.state) {
-        PrizeRatingActions.fetchOne(this.props.piece.id, state.prize.active_round);
-        PrizeRatingActions.fetchAverage(this.props.piece.id, state.prize.active_round);
+    fetchRatingsIfAuthorized(state = this.state) {
+        const {
+            currentUser: {
+                is_admin: isAdmin,
+                is_judge: isJudge,
+                is_jury: isJury
+            },
+            piece: { id: pieceId } } = this.props;
+
+        if (state.prize && 'active_round' in state.prize && (isAdmin || isJudge || isJury)) {
+            PrizeRatingActions.fetchOne(pieceId, state.prize.active_round);
+            PrizeRatingActions.fetchAverage(pieceId, state.prize.active_round);
+        }
     },
 
     onRatingClick(event, args) {
@@ -305,9 +317,10 @@ let PrizePieceRatings = React.createClass({
     },
 
     refreshPieceData() {
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
         this.props.loadPiece();
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     onSelectChange() {
@@ -324,7 +337,7 @@ let PrizePieceRatings = React.createClass({
     },
 
     render() {
-        if (this.props.piece && this.props.currentUser && this.props.currentUser.is_judge && this.state.average) {
+        if (this.props.piece.id && this.props.currentUser.is_judge && this.state.average) {
             // Judge sees shortlisting, average and per-jury notes
             return (
                 <div>
@@ -356,7 +369,7 @@ let PrizePieceRatings = React.createClass({
                                 size='md'
                                 step={0.5}
                                 rating={this.state.average}
-                                ratingAmount={5}/>
+                                ratingAmount={5} />
                         </div>
                         <hr />
                         {this.state.ratings.map((item, i) => {
@@ -381,7 +394,7 @@ let PrizePieceRatings = React.createClass({
                                             size='sm'
                                             step={0.5}
                                             rating={item.rating}
-                                            ratingAmount={5}/>
+                                            ratingAmount={5} />
                                     </span>
                                     <span> {item.user}</span>
                                         {note}
@@ -392,7 +405,7 @@ let PrizePieceRatings = React.createClass({
                         <hr />
                     </CollapsibleParagraph>
                 </div>);
-        } else if (this.props.currentUser && this.props.currentUser.is_jury) {
+        } else if (this.props.currentUser.is_jury) {
             // Jury can set rating and note
             return (
                 <CollapsibleParagraph
@@ -410,14 +423,14 @@ let PrizePieceRatings = React.createClass({
                             ratingAmount={5} />
                         </div>
                     <Note
-                        id={() => {return {'piece_id': this.props.piece.id}; }}
+                        id={() => ({ 'piece_id': this.props.piece.id })}
                         label={getLangText('Jury note')}
-                        defaultValue={this.props.piece && this.props.piece.note_from_user ? this.props.piece.note_from_user.note : null}
+                        defaultValue={this.props.piece.note_from_user || null}
                         placeholder={getLangText('Enter your comments ...')}
                         editable={true}
                         successMessage={getLangText('Jury note saved')}
                         url={ApiUrls.notes}
-                        currentUser={this.props.currentUser}/>
+                        currentUser={this.props.currentUser} />
                 </CollapsibleParagraph>);
         } else {
             return null;
@@ -428,39 +441,40 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
         const { piece } = this.props;
 
-        if (piece &&
-            piece.prize &&
-            piece.prize.name &&
-            Object.keys(piece.extra_data).length !== 0) {
+        if (piece.prize && piece.prize.name && Object.keys(piece.extra_data).length) {
             return (
                 <CollapsibleParagraph
                     title={getLangText('Prize Details')}
                     defaultExpanded={true}>
-                    <Form ref='form'>
-                        {Object.keys(piece.extra_data).sort().map((data) => {
-                            // Remove leading number (for sorting), if any, and underscores with spaces
-                            let label = data.replace(/^\d-/, '').replace(/_/g, ' ');
-                            const value = piece.extra_data[data] || 'N/A';
+                    <Form>
+                        {Object
+                            .keys(piece.extra_data)
+                            .sort()
+                            .map((data) => {
+                                // Remove leading number (for sorting), if any, and underscores with spaces
+                                const label = data.replace(/^\d-/, '').replace(/_/g, ' ');
+                                const value = piece.extra_data[data] || 'N/A';
 
-                            return (
-                                <Property
-                                    key={label}
-                                    name={data}
-                                    label={label}
-                                    editable={false}
-                                    overrideForm={true}>
-                                    <InputTextAreaToggable
-                                        rows={1}
-                                        defaultValue={value}/>
-                                </Property>
-                            );
-                        })}
+                                return (
+                                    <Property
+                                        key={label}
+                                        name={data}
+                                        label={label}
+                                        editable={false}
+                                        overrideForm={true}>
+                                        <InputTextAreaToggable
+                                            rows={1}
+                                            defaultValue={value} />
+                                    </Property>
+                                );
+                            })
+                        }
                         <FurtherDetailsFileuploader
                             submitFile={() => {}}
                             setIsUploadReady={() => {}}
@@ -473,8 +487,9 @@ let PrizePieceDetails = React.createClass({
                     </Form>
                 </CollapsibleParagraph>
             );
+        } else {
+            return null;
         }
-        return null;
     }
 });
 

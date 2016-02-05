@@ -75,12 +75,11 @@ let PrizePieceList = React.createClass({
             <PieceList
                 ref="list"
                 {...this.props}
-                redirectTo="/register_piece"
                 accordionListItemType={AccordionListItemPrize}
-                orderParams={orderParams}
-                orderBy={currentUser.is_jury ? 'rating' : null}
+                customSubmitButton={this.getButtonSubmit()}
                 filterParams={[]}
-                customSubmitButton={this.getButtonSubmit()} />
+                orderParams={orderParams}
+                orderBy={currentUser.is_jury ? 'rating' : null} />
         );
     }
 });

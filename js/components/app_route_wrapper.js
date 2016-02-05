@@ -24,7 +24,7 @@ const AppRouteWrapper = React.createClass({
         }
 
         return (
-            <div className="ascribe-body">
+            <div className="container ascribe-body">
                 {childrenWithProps}
             </div>
         );

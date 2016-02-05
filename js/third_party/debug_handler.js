@@ -4,7 +4,6 @@ import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
 
-
 class DebugHandler {
     constructor() {
         let symbols = [];

@@ -75,7 +75,7 @@ let IkonotvContractNotifications = React.createClass({
                     <a href={blob.url_safe} target="_blank">
                         <Glyphicon glyph='download-alt'/>
                         <span style={{padding: '0.3em'}}>
-                            Download contract
+                            {getLangText('Download contract')}
                         </span>
                     </a>
                 </div>

@@ -49,7 +49,7 @@ let CylandRegisterPiece = React.createClass({
     getInitialState(){
         return mergeOptions(
             PieceListStore.getState(),
-            PieceStore.getState(),
+            PieceStore.getInitialState(),
             {
                 step: 0
             });
@@ -68,8 +68,8 @@ let CylandRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if (queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
         }
     },
 
@@ -82,31 +82,26 @@ let CylandRegisterPiece = React.createClass({
         this.setState(state);
     },
 
-    handleRegisterSuccess(response){
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
+        // Also load the newly registered piece for the next step
         if (response && response.piece) {
-            PieceActions.updatePiece({});
             PieceActions.updatePiece(response.piece);
         }
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide({ piece_id: response.piece.id });
+        this.nextSlide({ piece_id: response.piece.id });
     },
 
     handleAdditionalDataSuccess() {
         // We need to refetch the piece again after submitting the additional data
-        // since we want it's otherData to be displayed when the user choses to click
+        // since we want its otherData to be displayed when the user choses to click
         // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
+        PieceActions.fetchPiece(this.state.piece.id);
 
         this.refreshPieceList();
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
+        this.nextSlide();
     },
 
     handleLoanSuccess(response) {
@@ -115,29 +110,22 @@ let CylandRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        PieceActions.fetchOne(this.state.piece.id);
-
         this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     render() {
@@ -145,8 +133,7 @@ let CylandRegisterPiece = React.createClass({
         const { piece, step } = this.state;
 
         const today = new Moment();
-        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
-        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
+        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment().add(1000, 'years');
 
         const loanHeading = getLangText('Loan to Cyland archive');
         const loanButtons = (

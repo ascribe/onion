@@ -2,60 +2,28 @@
 
 import React from 'react';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-
+import AppBase from './app_base';
 import AppRouteWrapper from './app_route_wrapper';
-import Header from './header';
 import Footer from './footer';
-import GlobalNotification from './global_notification';
-
-import { mergeOptions } from '../utils/general_utils';
+import Header from './header';
 
 
 let AscribeApp = React.createClass({
     propTypes: {
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
-    },
-
-    getInitialState() {
-        return mergeOptions(
-            UserStore.getState(),
-            WhitelabelStore.getState()
-        );
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-        WhitelabelActions.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        // Provided from AppBase
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object
     },
 
     render() {
-        const { children, routes } = this.props;
-        const { currentUser, whitelabel } = this.state;
+        const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
 
         return (
-            <div className="container ascribe-default-app">
+            <div className="ascribe-default-app">
                 <Header
                     currentUser={currentUser}
                     routes={routes}
@@ -66,12 +34,10 @@ let AscribeApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>
-                <Footer />
-                <GlobalNotification />
-                <div id="modal" className="container"></div>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
 });
 
-export default AscribeApp;
+export default AppBase(AscribeApp);

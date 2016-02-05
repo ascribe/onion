@@ -13,6 +13,7 @@ $vivi23--highlight-color: #de2600;
     /** Landing page **/
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
@@ -20,8 +21,13 @@ $vivi23--highlight-color: #de2600;
             vertical-align: middle;
         }
 
+        .hero {
+            display: none;
+        }
+
         .vivi23-landing {
             font-weight: normal;
+            padding: 0 15px;
             text-align: center;
         }
 
@@ -237,16 +243,12 @@ $vivi23--highlight-color: #de2600;
         &.active:hover{
             background-color: $vivi23--highlight-color;
             border-color: $vivi23--highlight-color;
-            color: $vivi23--highlight-color;
+            color: $vivi23--bg-color;
         }
     }
 
     /** Other components **/
     .ascribe-piece-list-toolbar .btn-ascribe-add {
-        display: none;
-    }
-
-    .ascribe-footer {
         display: none;
     }
 

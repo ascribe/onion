@@ -31,12 +31,12 @@ let AccordionListItemWallet = React.createClass({
         content: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
-        className: React.PropTypes.string,
-        thumbnailPlaceholder: React.PropTypes.func,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+        className: React.PropTypes.string,
+        thumbnailPlaceholder: React.PropTypes.func
     },
 
     getInitialState() {
@@ -67,10 +67,12 @@ let AccordionListItemWallet = React.createClass({
                     delay={500}
                     placement="left"
                     overlay={<Tooltip>{getLangText('You have actions pending')}</Tooltip>}>
-                    <Glyphicon glyph='bell' color="green"/>
-                </OverlayTrigger>);
+                    <Glyphicon glyph='bell' color="green" />
+                </OverlayTrigger>
+            );
+        } else {
+            return null;
         }
-        return null;
     },
 
     toggleCreateEditionsDialog() {
@@ -86,8 +88,9 @@ let AccordionListItemWallet = React.createClass({
     },
 
     onPollingSuccess(pieceId) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
         EditionListActions.toggleEditionList(pieceId);
 
         const notification = new GlobalNotificationModel(getLangText('Editions successfully created'), 'success', 10000);

@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import PieceActions from '../../../../../../actions/piece_actions';
+import EditionActions from '../../../../../../actions/edition_actions';
 
 import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
@@ -24,28 +24,26 @@ let MarketSubmitButton = React.createClass({
         availableAcls: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         editions: React.PropTypes.array.isRequired,
-        handleSuccess: React.PropTypes.func.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         className: React.PropTypes.string,
+        handleSuccess: React.PropTypes.func
     },
 
     canEditionBeSubmitted(edition) {
         if (edition && edition.extra_data && edition.other_data) {
-            const { extra_data, other_data } = edition;
+            const {
+                extra_data: {
+                    artist_bio: artistBio,
+                    display_instructions: displayInstructions,
+                    technology_details: technologyDetails,
+                    work_description: workDescription
+                },
+                other_data: otherData } = edition;
 
-            if (extra_data.artist_bio && extra_data.work_description &&
-                extra_data.technology_details && extra_data.display_instructions &&
-                other_data.length > 0) {
-                return true;
-            }
+            return artistBio && displayInstructions && technologyDetails && workDescription && otherData.length;
         }
 
         return false;
-    },
-
-    getFormDataId() {
-        return getAclFormDataId(false, this.props.editions);
     },
 
     getAggregateEditionDetails() {
@@ -64,11 +62,18 @@ let MarketSubmitButton = React.createClass({
         });
     },
 
-    handleAdditionalDataSuccess(pieceId) {
-        // Fetch newly updated piece to update the views
-        PieceActions.fetchOne(pieceId);
+    getFormDataId() {
+        return getAclFormDataId(false, this.props.editions);
+    },
 
+    handleAdditionalDataSuccess() {
         this.refs.consignModal.show();
+    },
+
+    refreshEdition() {
+        if (this.props.editions.length === 1) {
+            EditionActions.fetchEdition(this.props.editions[0].bitcoin_id);
+        }
     },
 
     render() {
@@ -88,6 +93,10 @@ let MarketSubmitButton = React.createClass({
             additionalMessage: getLangText('Suggested price:'),
             senderName: currentUser.username
         });
+
+        // If only a single piece is selected, all the edition's extra_data and other_data will
+        // be the same, so we just take the first edition's
+        const { extra_data: extraData, other_data: otherData } = solePieceId ? editions[0] : {};
 
         const triggerButton = (
             <button className={classNames('btn', 'btn-default', 'btn-sm', className)}>
@@ -115,16 +124,25 @@ let MarketSubmitButton = React.createClass({
                     aclName='acl_consign'>
                     <ModalWrapper
                         trigger={triggerButton}
-                        handleSuccess={this.handleAdditionalDataSuccess.bind(this, solePieceId)}
+                        handleSuccess={this.handleAdditionalDataSuccess}
                         title={getLangText('Add additional information')}>
                         <MarketAdditionalDataForm
+                            extraData={extraData}
+                            otherData={otherData}
                             pieceId={solePieceId}
                             submitLabel={getLangText('Continue to consignment')} />
                     </ModalWrapper>
 
                     <ModalWrapper
                         ref="consignModal"
-                        handleSuccess={handleSuccess}
+                        handleCancel={this.refreshEdition}
+                        handleSuccess={(...params) => {
+                            if (typeof handleSuccess === 'function') {
+                                handleSuccess(...params);
+                            }
+
+                            this.refreshEdition();
+                        }}
                         title={getLangText('Consign artwork')}>
                         {consignForm}
                     </ModalWrapper>

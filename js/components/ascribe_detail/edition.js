@@ -74,7 +74,7 @@ let Edition = React.createClass({
                     <div className="ascribe-detail-header">
                         <hr className="hidden-print" style={{marginTop: 0}} />
                         <h1 className="ascribe-detail-title">{edition.title}</h1>
-                        <DetailProperty label="BY" value={edition.artist_name} />
+                        <DetailProperty label="CREATED BY" value={edition.artist_name} />
                         <DetailProperty label="DATE" value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr />
                     </div>

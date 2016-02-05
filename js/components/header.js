@@ -16,6 +16,8 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import EventActions from '../actions/event_actions';
 
+import PieceListStore from '../stores/piece_list_store';
+
 import AclProxy from './acl_proxy';
 import HeaderNotifications from './header_notification';
 import HeaderNotificationDebug from './header_notification_debug';
@@ -27,12 +29,21 @@ import { constructHead } from '../utils/dom_utils';
 
 let Header = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
         currentUser: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         whitelabel: React.PropTypes.object.isRequired
     },
 
+    getInitialState() {
+        return PieceListStore.getState();
+    },
+
     componentDidMount() {
+        // Listen to the piece list store, but don't fetch immediately to avoid
+        // conflicts with routes that may need to wait to load the piece list
+        PieceListStore.listen(this.onChange);
+
         // react-bootstrap 0.25.1 has a bug in which it doesn't
         // close the mobile expanded navigation after a click by itself.
         // To get rid of this, we set the state of the component ourselves.
@@ -40,7 +51,12 @@ let Header = React.createClass({
     },
 
     componentWillUnmount() {
+        PieceListStore.unlisten(this.onChange);
         //history.unlisten(this.onRouteChange);
+    },
+
+    onChange(state) {
+        this.setState(state);
     },
 
     getLogo() {
@@ -115,7 +131,9 @@ let Header = React.createClass({
     },
 
     render() {
-        const { currentUser, routes } = this.props;
+        const { currentUser, routes  } = this.props;
+        const { unfilteredPieceListCount } = this.state;
+
         let account;
         let signup;
         let navRoutesLinks;
@@ -124,6 +142,7 @@ let Header = React.createClass({
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
+                    id="nav-route-user-dropdown"
                     eventKey="1"
                     title={currentUser.username}>
                     <LinkContainer
@@ -153,12 +172,18 @@ let Header = React.createClass({
                 </DropdownButton>
             );
 
+            // Let's assume that if the piece list hasn't loaded yet (ie. when unfilteredPieceListCount === -1)
+            // then the user has pieces
+            // FIXME: this doesn't work that well as the user may not load their piece list
+            // until much later, so we would show the 'Collection' header as available until
+            // they actually click on it and get redirected to piece registration.
             navRoutesLinks = (
                 <NavRoutesLinks
-                    routes={routes}
-                    userAcl={currentUser.acl}
                     navbar
-                    right />
+                    right
+                    hasPieces={!!unfilteredPieceListCount}
+                    routes={routes}
+                    userAcl={currentUser.acl} />
             );
         } else {
             account = (

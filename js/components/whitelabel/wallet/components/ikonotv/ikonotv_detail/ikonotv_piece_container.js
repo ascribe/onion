@@ -8,11 +8,11 @@ import EditionListActions from '../../../../../../actions/edition_list_actions';
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
-
 import PieceListStore from '../../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../../actions/piece_list_actions';
+
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
 import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 
@@ -45,8 +45,8 @@ let IkonotvPieceContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            PieceStore.getState(),
-            PieceListStore.getState()
+            PieceListStore.getState(),
+            PieceStore.getInitialState()
         );
     },
 
@@ -54,19 +54,14 @@ let IkonotvPieceContainer = React.createClass({
         PieceStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
 
-        // Every time we enter the piece detail page, just reset the piece
-        // store as it will otherwise display wrong/old data once the user loads
-        // the piece detail a second time
-        PieceActions.updatePiece({});
-
         this.loadPiece();
     },
 
-     // We need this for when the user clicks on a notification while being in another piece view
+    // We need this for when the user clicks on a notification while being in another piece view
     componentWillReceiveProps(nextProps) {
         if (this.props.params.pieceId !== nextProps.params.pieceId) {
-            PieceActions.updatePiece({});
-            PieceActions.fetchOne(nextProps.params.pieceId);
+            PieceActions.flushPiece();
+            this.loadPiece();
         }
     },
 
@@ -80,12 +75,13 @@ let IkonotvPieceContainer = React.createClass({
     },
 
     loadPiece() {
-        PieceActions.fetchOne(this.props.params.pieceId);
+        PieceActions.fetchPiece(this.props.params.pieceId);
     },
 
     handleDeleteSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         // since we're deleting a piece, we just need to close
         // all editions dialogs and not reload them
@@ -110,7 +106,7 @@ let IkonotvPieceContainer = React.createClass({
             </CollapsibleParagraph>
         );
 
-        if (piece.extra_data && Object.keys(piece.extra_data).length > 0 && piece.acl) {
+        if (piece.extra_data && Object.keys(piece.extra_data).length && piece.acl) {
             furtherDetails = (
                 <CollapsibleParagraph
                     title={getLangText('Further Details')}
@@ -127,8 +123,8 @@ let IkonotvPieceContainer = React.createClass({
             );
         }
 
-        if (piece && piece.id) {
-            setDocumentTitle([piece.artist_name, piece.title].join(', '));
+        if (piece.id) {
+            setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
 
             return (
                 <WalletPieceContainer

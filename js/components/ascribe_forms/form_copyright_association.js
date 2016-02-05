@@ -48,8 +48,7 @@ let CopyrightAssociationForm = React.createClass({
                     <Property
                         name="copyright_association"
                         className="ascribe-property-collapsible-toggle"
-                        label={getLangText('Copyright Association')}
-                        style={{paddingBottom: 0}}>
+                        label={getLangText('Copyright Association')}>
                         <select defaultValue={selectedState} name="contract">
                             <option
                                 name={0}

@@ -36,7 +36,10 @@ let PieceList = React.createClass({
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
-        redirectTo: React.PropTypes.string,
+        redirectTo: React.PropTypes.shape({
+            pathname: React.PropTypes.string,
+            query: React.PropTypes.object
+        }),
         shouldRedirect: React.PropTypes.func,
         customSubmitButton: React.PropTypes.element,
         customThumbnailPlaceholder: React.PropTypes.func,
@@ -59,7 +62,6 @@ let PieceList = React.createClass({
             accordionListItemType: AccordionListItemWallet,
             bulkModalButtonListType: AclButtonList,
             canLoadPieceList: true,
-            orderParams: ['artist_name', 'title'],
             filterParams: [{
                 label: getLangText('Show works I can'),
                 items: [
@@ -67,7 +69,13 @@ let PieceList = React.createClass({
                     'acl_consign',
                     'acl_create_editions'
                 ]
-            }]
+            }],
+            orderParams: ['artist_name', 'title'],
+            redirectTo: {
+                pathname: '/register_piece',
+                query: null
+            },
+            shouldRedirect: (pieceCount) => !pieceCount
         };
     },
 
@@ -124,10 +132,16 @@ let PieceList = React.createClass({
         const { location: { query }, redirectTo, shouldRedirect } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
-        if (redirectTo && unfilteredPieceListCount === 0 &&
+        if (redirectTo && redirectTo.pathname &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.push({ query, pathname: redirectTo }), 0);
+            window.setTimeout(() => this.history.push({
+                // Occasionally, the back end also sets query parameters for Onion.
+                // We need to consider this by merging all passed query parameters, as we'll
+                // otherwise end up in a 404 screen
+                query: Object.assign({}, query, redirectTo.query),
+                pathname: redirectTo.pathname
+            }), 0);
         }
     },
 
@@ -201,13 +215,14 @@ let PieceList = React.createClass({
                 this.state.pieceList
                     .forEach((piece) => {
                         // but only if they're actually open
-                        if(this.state.isEditionListOpenForPieceId[piece.id].show) {
+                        const isEditionListOpenForPiece = this.state.isEditionListOpenForPieceId[piece.id];
+
+                        if (isEditionListOpenForPiece && isEditionListOpenForPiece.show) {
                             EditionListActions.refreshEditionList({
                                 pieceId: piece.id,
                                 filterBy
                             });
                         }
-
                     });
             });
 
@@ -217,15 +232,15 @@ let PieceList = React.createClass({
     },
 
     applyOrderBy(orderBy) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, page, pageSize, search } = this.state;
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     loadPieceList({ page, filterBy = this.state.filterBy, search = this.state.search }) {
+        const { orderAsc, pageSize } = this.state;
         const orderBy = this.state.orderBy || this.props.orderBy;
 
-        return PieceListActions.fetchPieceList(page, this.state.pageSize, search,
-                                               orderBy, this.state.orderAsc, filterBy);
+        return PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     fetchSelectedPieceEditionList() {
@@ -250,8 +265,9 @@ let PieceList = React.createClass({
     },
 
     handleAclSuccess() {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderBy, orderAsc, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
@@ -310,12 +326,12 @@ let PieceList = React.createClass({
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton
                             handleSuccess={this.handleAclSuccess}
-                            editions={selectedEditions}/>
+                            editions={selectedEditions} />
                     </BulkModalButtonListType>
                 </PieceListBulkModal>
                 <PieceListFilterDisplay
                     filterBy={this.state.filterBy}
-                    filterParams={filterParams}/>
+                    filterParams={filterParams} />
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}

@@ -32,7 +32,7 @@ let CoaVerifyContainer = React.createClass({
 
         return (
             <div className="ascribe-login-wrapper">
-                <br/>
+                <br />
                 <div className="ascribe-login-text ascribe-login-header">
                     {getLangText('Verify your Certificate of Authenticity')}
                 </div>
@@ -42,7 +42,7 @@ let CoaVerifyContainer = React.createClass({
                     signature={signature}/>
                 <br />
                 <br />
-                    {getLangText('ascribe is using the following public key for verification')}:
+                {getLangText('ascribe is using the following public key for verification')}:
                 <br />
                 <pre>
                 -----BEGIN PUBLIC KEY-----
@@ -75,46 +75,44 @@ let CoaVerifyForm = React.createClass({
         const { message, signature } = this.props;
 
         return (
-            <div>
-                <Form
-                    url={ApiUrls.coa_verify}
-                    handleSuccess={this.handleSuccess}
-                    buttons={
-                        <button
-                            type="submit"
-                            className="btn btn-default btn-wide">
-                            {getLangText('Verify your Certificate of Authenticity')}
-                        </button>}
-                    spinner={
-                        <span className="btn btn-default btn-wide btn-spinner">
-                            <AscribeSpinner color="dark-blue" size="md" />
-                        </span>
-                        }>
-                    <Property
-                        name='message'
-                        label={getLangText('Message')}>
-                        <input
-                            type="text"
-                            placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
-                            autoComplete="on"
-                            defaultValue={message}
-                            name="username"
-                            required/>
-                    </Property>
-                    <Property
-                        name='signature'
-                        label="Signature"
-                        editable={true}
-                        overrideForm={true}>
-                        <InputTextAreaToggable
-                            rows={3}
-                            placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
-                            defaultValue={signature}
-                            required/>
-                    </Property>
-                    <hr />
-                </Form>
-            </div>
+            <Form
+                url={ApiUrls.coa_verify}
+                handleSuccess={this.handleSuccess}
+                buttons={
+                    <button
+                        type="submit"
+                        className="btn btn-default btn-wide">
+                        {getLangText('Verify your Certificate of Authenticity')}
+                    </button>
+                }
+                spinner={
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
+                    </span>
+                }>
+                <Property
+                    name='message'
+                    label={getLangText('Message')}>
+                    <input
+                        type="text"
+                        placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
+                        autoComplete="on"
+                        defaultValue={message}
+                        required />
+                </Property>
+                <Property
+                    name='signature'
+                    label="Signature"
+                    editable={true}
+                    overrideForm={true}>
+                    <InputTextAreaToggable
+                        rows={3}
+                        placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
+                        defaultValue={signature}
+                        required />
+                </Property>
+                <hr />
+            </Form>
         );
     }
 });

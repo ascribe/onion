@@ -7,4 +7,8 @@
     width: 56px;
     box-sizing: content-box;   /* We want to ignore padding in these calculations as we use the sdk buttons' height and width */
     padding: 1px 0;
+
+    &:not(:first-child) {
+        margin-left: 1px;
+    }
 }
