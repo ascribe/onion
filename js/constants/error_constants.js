@@ -179,7 +179,7 @@ function getPrettifiedError(error, errorClass) {
  * @return {(object)} Matched error class
  */
 function testErrorAgainstAll(error) {
-    const type = error.type != null ? error.type : 'default';
+    const type = error.type || 'default';
     const errorGroup = ErrorClasses[type];
 
     return Object
@@ -198,7 +198,8 @@ function testErrorAgainstAll(error) {
  * @return {(object)} Returns the given class if the test succeeds.
  */
 function testErrorAgainstClass(error, errorClass) {
-    // Automatically fail classes if no tests present
+    // Automatically fail classes if no tests present, since some of the error classes
+    // may not have an error to test against.
     if (!errorClass.test) {
         return;
     }
