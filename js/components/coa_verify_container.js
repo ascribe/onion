@@ -18,6 +18,11 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let CoaVerifyContainer = React.createClass({
     propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 

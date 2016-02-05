@@ -4,9 +4,17 @@ import React from 'react';
 import classNames from 'classnames';
 import { History } from 'react-router';
 
+import UserActions from '../actions/user_actions';
+import UserStore from '../stores/user_store';
+
+import WhitelabelActions from '../actions/whitelabel_actions';
+import WhitelabelStore from '../stores/whitelabel_store';
+
 import GlobalNotification from './global_notification';
 
 import AppConstants from '../constants/application_constants';
+
+import { mergeOptions } from '../utils/general_utils';
 
 
 export default function AppBase(App) {
@@ -20,9 +28,22 @@ export default function AppBase(App) {
             routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
         },
 
+        getInitialState() {
+            return mergeOptions(
+                UserStore.getState(),
+                WhitelabelStore.getState()
+            );
+        },
+
         mixins: [History],
 
         componentDidMount() {
+            UserStore.listen(this.onChange);
+            WhitelabelStore.listen(this.onChange);
+
+            UserActions.fetchCurrentUser();
+            WhitelabelActions.fetchWhitelabel();
+
             this.history.locationQueue.push(this.props.location);
         },
 
@@ -36,8 +57,18 @@ export default function AppBase(App) {
             }
         },
 
+        componentWillUnmount() {
+            UserStore.unlisten(this.onChange);
+            WhitelabelActions.unlisten(this.onChange);
+        },
+
+        onChange(state) {
+            this.setState(state);
+        },
+
         render() {
             const { routes } = this.props;
+            const { currentUser, whitelabel } = this.state;
 
             // The second element of the routes prop given to us by react-router is always the
             // active second-level component object (ie. after App).
@@ -47,7 +78,9 @@ export default function AppBase(App) {
                 <div>
                     <App
                         {...this.props}
-                        activeRoute={activeRoute} />
+                        activeRoute={activeRoute}
+                        currentUser={currentUser}
+                        whitelabel={whitelabel} />
                     <GlobalNotification />
                     <div id="modal" className="container" />
                 </div>

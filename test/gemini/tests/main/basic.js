@@ -15,8 +15,7 @@ gemini.suite('Basic', (suite) => {
         .before((actions, find) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
-            // FIXME: use a more generic class for this, like just '.ascribe-app'
-            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
 
     gemini.suite('Header-desktop', (headerSuite) => {

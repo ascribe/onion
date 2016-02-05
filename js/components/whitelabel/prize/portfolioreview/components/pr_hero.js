@@ -12,7 +12,7 @@ const PRHero = React.createClass({
     propTypes: {
         currentUser: React.PropTypes.shape({
             email: React.PropTypes.object
-        })
+        }).isRequired
     },
 
     render() {

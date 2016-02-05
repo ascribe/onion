@@ -19,9 +19,7 @@ gemini.suite('Work detail', (suite) => {
         .before((actions, find) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
-            // FIXME: use a more generic class for this, like just '.app',
-            // when we can use this file with the whitelabels
-            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
 
             // Wait for the social media buttons to appear
             actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
@@ -58,7 +56,7 @@ gemini.suite('Work detail', (suite) => {
             .setUrl('/login')
             .ignoreElements('.ascribe-body')
             .before((actions, find) => {
-                actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+                actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
             })
             .capture('logged in', (actions, find) => {
                 actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), MAIN_USER.email);
@@ -125,7 +123,7 @@ gemini.suite('Work detail', (suite) => {
             .setUrl('/logout')
             .ignoreElements('.ascribe-body')
             .before((actions, find) => {
-                actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+                actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
             })
             .capture('logout', (actions, find) => {
                 actions.waitForElementToShow('.ascribe-login-wrapper', TIMEOUTS.LONG);

@@ -8,17 +8,21 @@ import MarketPieceList from '../market/market_piece_list';
 
 let Vivi23PieceList = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
     render() {
         return (
             <MarketPieceList
-                customThumbnailPlaceholder={Vivi23AccordionListItemThumbnailPlaceholder}
-                location={this.props.location} />
+                {...this.props}
+                customThumbnailPlaceholder={Vivi23AccordionListItemThumbnailPlaceholder} />
         );
     }
-
 });
 
 export default Vivi23PieceList;

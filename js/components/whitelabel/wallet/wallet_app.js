@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
+import AppRouteWrapper from '../../app_route_wrapper';
 import Footer from '../../footer';
 import Header from '../../header';
 
@@ -15,11 +16,15 @@ let WalletApp = React.createClass({
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
         history: React.PropTypes.object.isRequired,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        // Provided from AppBase
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object
     },
 
     render() {
-        const { activeRoute, children, history, routes } = this.props;
+        const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
 
@@ -30,18 +35,25 @@ let WalletApp = React.createClass({
             (['cyland', 'ikonotv', 'lumenus', '23vivi']).includes(subdomain)) {
             header = (<div className="hero" />);
         } else {
-            header = (<Header routes={routes} />);
+            header = (
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel} />
+            );
         }
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
         // we split the path by the first occurring slash and take the first splitter.
         return (
-            <div className={classNames('ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+            <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
-                <div className="container ascribe-body">
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
                     {/* Routes are injected here */}
                     {children}
-                </div>
+                </AppRouteWrapper>
                 <Footer activeRoute={activeRoute} />
             </div>
         );

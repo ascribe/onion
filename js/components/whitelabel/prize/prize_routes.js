@@ -32,7 +32,7 @@ const ROUTES = {
     sluice: (
         <Route path='/' component={SPApp}>
             <IndexRoute
-                component={SPLanding}
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SPLanding)}
                 hideFooter />
             <Route
                 path='login'

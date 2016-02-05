@@ -9,63 +9,52 @@ import EmailButton from '../../../../../ascribe_buttons/acls/email_button';
 import TransferButton from '../../../../../ascribe_buttons/acls/transfer_button';
 import UnconsignButton from '../../../../../ascribe_buttons/acls/unconsign_button';
 
-import UserActions from '../../../../../../actions/user_actions';
-import UserStore from '../../../../../../stores/user_store';
+import { selectFromObject } from '../../../../../../utils/general_utils';
 
 let MarketAclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        className: React.PropTypes.string,
-        pieceOrEditions: React.PropTypes.array,
-        handleSuccess: React.PropTypes.func,
+        currentUser: React.PropTypes.object.isRequired,
+        handleSuccess: React.PropTypes.func.isRequired,
+        pieceOrEditions: React.PropTypes.array.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
-    },
-
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser.defer();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        ]),
+        className: React.PropTypes.string
     },
 
     render() {
-        let { availableAcls, className, pieceOrEditions, handleSuccess } = this.props;
+        const {
+            availableAcls,
+            children,
+            className,
+            currentUser,
+            handleSuccess,
+            pieceOrEditions,
+            whitelabel } = this.props;
+
+        const buttonProps = selectFromObject(this.props, [
+            'availableAcls',
+            'currentUser',
+            'handleSuccess',
+            'pieceOrEditions'
+        ]);
+
         return (
             <div className={className}>
                 <MarketSubmitButton
                     availableAcls={availableAcls}
-                    currentUser={this.state.currentUser}
+                    currentUser={currentUser}
                     editions={pieceOrEditions}
-                    handleSuccess={handleSuccess} />
-                <EmailButton
-                    availableAcls={availableAcls}
-                    currentUser={this.state.currentUser}
-                    pieceOrEditions={pieceOrEditions}
-                    handleSuccess={handleSuccess} />
-                <TransferButton
-                    availableAcls={availableAcls}
-                    currentUser={this.state.currentUser}
-                    pieceOrEditions={pieceOrEditions}
-                    handleSuccess={handleSuccess} />
-                <UnconsignButton
-                    availableAcls={availableAcls}
-                    currentUser={this.state.currentUser}
-                    pieceOrEditions={pieceOrEditions}
-                    handleSuccess={handleSuccess} />
-                {this.props.children}
+                    handleSuccess={handleSuccess}
+                    whitelabel={whitelabel} />
+                <EmailButton {...buttonProps} />
+                <TransferButton {...buttonProps} />
+                <UnconsignButton {...buttonProps} />
+                {children}
             </div>
         );
     }

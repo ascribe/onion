@@ -11,16 +11,12 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
 
-import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
 
 let HeaderNotifications = React.createClass({
-
     getInitialState() {
-        return mergeOptions(
-            NotificationStore.getState()
-        );
+        return NotificationStore.getState();
     },
 
     componentDidMount() {
@@ -62,7 +58,7 @@ let HeaderNotifications = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    getPieceNotifications(){
+    getPieceNotifications() {
         if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
             return (
                 <div>
@@ -87,7 +83,7 @@ let HeaderNotifications = React.createClass({
         return null;
     },
 
-    getEditionNotifications(){
+    getEditionNotifications() {
         if (this.state.editionListNotifications && this.state.editionListNotifications.length > 0) {
             return (
                 <div>
@@ -114,7 +110,7 @@ let HeaderNotifications = React.createClass({
 
     render() {
         if ((this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) ||
-            (this.state.editionListNotifications && this.state.editionListNotifications.length > 0)){
+            (this.state.editionListNotifications && this.state.editionListNotifications.length > 0)) {
             let numNotifications = 0;
             if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
                 numNotifications += this.state.pieceListNotifications.length;
@@ -125,7 +121,7 @@ let HeaderNotifications = React.createClass({
             return (
                 <Nav navbar right>
                     <DropdownButton
-                        ref='dropdownbutton'
+                        ref='dropdownButton'
                         id="header-notification-dropdown"
                         eventKey="1"
                         title={

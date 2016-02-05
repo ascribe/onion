@@ -32,9 +32,8 @@ const { object } = React.PropTypes;
 
 const PRRegisterPieceForm = React.createClass({
     propTypes: {
-        location: object,
-        history: object,
-        currentUser: object
+        currentUser: object.isRequired,
+        location: object
     },
 
     mixins: [History],

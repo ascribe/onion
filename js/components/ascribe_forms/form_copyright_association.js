@@ -15,30 +15,30 @@ import { getLangText } from '../../utils/lang_utils';
 
 let CopyrightAssociationForm = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object.isRequired
     },
 
-    handleSubmitSuccess(){
-        let notification = getLangText('Copyright association updated');
-        notification = new GlobalNotificationModel(notification, 'success', 10000);
+    handleSubmitSuccess() {
+        const notification = new GlobalNotificationModel(getLangText('Copyright association updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    getProfileFormData(){
-        return {email: this.props.currentUser.email};
+    getProfileFormData() {
+        return { email: this.props.currentUser.email };
     },
 
     render() {
-        let selectedState;
-        let selectDefaultValue = ' -- ' + getLangText('select an association') + ' -- ';
+        const { currentUser } = this.props;
+        const selectDefaultValue = ' -- ' + getLangText('select an association') + ' -- ';
 
-        if (this.props.currentUser && this.props.currentUser.profile
-            && this.props.currentUser.profile.copyright_association) {
-            selectedState = AppConstants.copyrightAssociations.indexOf(this.props.currentUser.profile.copyright_association);
-            selectedState = selectedState !== -1 ? AppConstants.copyrightAssociations[selectedState] : selectDefaultValue;
+        let selectedState = selectDefaultValue;
+        if (currentUser.profile && currentUser.profile.copyright_association) {
+            if (AppConstants.copyrightAssociations.indexOf(currentUser.profile.copyright_association) !== -1) {
+                selectedState = AppConstants.copyrightAssociations[selectedState];
+            }
         }
 
-        if (this.props.currentUser && this.props.currentUser.email){
+        if (currentUser.email) {
             return (
                 <Form
                     ref='form'
@@ -71,8 +71,9 @@ let CopyrightAssociationForm = React.createClass({
                     <hr />
                 </Form>
             );
+        } else {
+            return null;
         }
-        return null;
     }
 });
 

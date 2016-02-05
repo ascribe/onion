@@ -11,6 +11,7 @@ import UserActions from '../../../../actions/user_actions';
 import Hero from './components/pr_hero';
 
 import AppBase from '../../../app_base';
+import AppRouteWrapper from '../../../app_route_wrapper';
 import Footer from '../../../footer';
 import Header from '../../../header';
 
@@ -23,43 +24,15 @@ let PRApp = React.createClass({
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
         history: React.PropTypes.object.isRequired,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        // Provided from AppBase
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object
     },
-
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
-    },
-
-    componentWillUpdate(nextProps, nextState) {
-        const { currentUser: { email: curEmail } = {} } = this.state;
-        const { currentUser: { email: nextEmail } = {} } = nextState;
-
-        if (nextEmail && curEmail !== nextEmail) {
-            EventActions.profileDidLoad.defer(nextState.currentUser);
-        }
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
 
     render() {
-        const { activeRoute, children, history, routes } = this.props;
-        const { currentUser } = this.state;
+        const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
 
@@ -69,7 +42,13 @@ let PRApp = React.createClass({
             header = (<Hero currentUser={currentUser} />);
             style = { paddingTop: '0 !important' };
         } else if (currentUser && (currentUser.is_admin || currentUser.is_jury || currentUser.is_judge)) {
-            header = (<Header routes={routes} />);
+            header = (
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel}
+                />
+            );
         } else {
             style = { paddingTop: '0 !important' };
         }
@@ -77,12 +56,14 @@ let PRApp = React.createClass({
         return (
             <div
                 style={style}
-                className={classNames('ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+                className={classNames('ascribe-app', 'ascribe-prize-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
-                <div className="container ascribe-body">
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
                     {/* Routes are injected here */}
                     {children}
-                </div>
+                </AppRouteWrapper>
                 <Footer activeRoute={activeRoute} />
             </div>
         );

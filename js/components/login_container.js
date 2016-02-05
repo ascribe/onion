@@ -11,19 +11,12 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let LoginContainer = React.createClass({
     propTypes: {
-        message: React.PropTypes.string,
-        redirectOnLoggedIn: React.PropTypes.bool,
-        redirectOnLoginSuccess: React.PropTypes.bool,
-        onLogin: React.PropTypes.func,
-        location: React.PropTypes.object
-    },
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
 
-    getDefaultProps() {
-        return {
-            message: getLangText('Enter') + ' ascribe',
-            redirectOnLoggedIn: true,
-            redirectOnLoginSuccess: true
-        };
+        // Provided from router
+        location: React.PropTypes.object
     },
 
     render() {
@@ -31,12 +24,7 @@ let LoginContainer = React.createClass({
 
         return (
             <div className="ascribe-login-wrapper">
-                <LoginForm
-                    redirectOnLoggedIn={this.props.redirectOnLoggedIn}
-                    redirectOnLoginSuccess={this.props.redirectOnLoginSuccess}
-                    message={this.props.message}
-                    onLogin={this.props.onLogin}
-                    location={this.props.location}/>
+                <LoginForm location={this.props.location} />
                 <div className="ascribe-login-text">
                     {getLangText('Not an ascribe user')}&#63; <Link to="/signup">{getLangText('Sign up')}...</Link><br/>
                     {getLangText('Forgot my password')}&#63; <Link to="/password_reset">{getLangText('Rescue me')}...</Link>

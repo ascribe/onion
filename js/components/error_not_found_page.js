@@ -8,7 +8,14 @@ import { getLangText } from '../utils/lang_utils';
 
 let ErrorNotFoundPage = React.createClass({
     propTypes: {
-        message: React.PropTypes.string
+        message: React.PropTypes.string,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object
     },
 
     mixins: [History],

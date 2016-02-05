@@ -14,13 +14,10 @@ import PrizeStore from '../../stores/prize_store';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
 import PieceListStore from '../../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../../actions/piece_list_actions';
-
-import UserStore from '../../../../../../stores/user_store';
-import UserActions from '../../../../../../actions/user_actions';
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../../components/ascribe_detail/note';
@@ -53,24 +50,26 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
  */
 let PrizePieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        selectedPrizeActionButton: React.PropTypes.func
+        selectedPrizeActionButton: React.PropTypes.func,
+
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object,
+        params: React.PropTypes.object
     },
 
     mixins: [ReactError],
 
     getInitialState() {
-        return mergeOptions(
-            PieceStore.getInitialState(),
-            UserStore.getState()
-        );
+        return PieceStore.getInitialState();
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
 
-        UserActions.fetchCurrentUser();
         this.loadPiece();
     },
 
@@ -94,7 +93,6 @@ let PrizePieceContainer = React.createClass({
 
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -102,7 +100,8 @@ let PrizePieceContainer = React.createClass({
     },
 
     getActions() {
-        const { currentUser, piece } = this.state;
+        const { currentUser } = this.props;
+        const { piece } = this.state;
 
         if (piece.notifications && piece.notifications.length > 0) {
             return (
@@ -119,8 +118,8 @@ let PrizePieceContainer = React.createClass({
     },
 
     render() {
-        const { selectedPrizeActionButton } = this.props;
-        const { currentUser, piece } = this.state;
+        const { currentUser, selectedPrizeActionButton } = this.props;
+        const { piece } = this.state;
 
         if (piece.id) {
             /*

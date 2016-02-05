@@ -15,9 +15,7 @@ gemini.suite('Authenticated', (suite) => {
         .before((actions, find) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
-            // FIXME: use a more generic class for this, like just '.app',
-            // when we can use this file with the whitelabels
-            actions.waitForElementToShow('.ascribe-default-app', TIMEOUTS.NORMAL);
+            actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
 
     // Suite just to log us in before any other suites run
@@ -166,9 +164,15 @@ gemini.suite('Authenticated', (suite) => {
     gemini.suite('Register work', (registerSuite) => {
         registerSuite
             .setUrl('/register_piece')
+            .before((actions, find) => {
+                // The editions options are only rendered after the whitelabel is fetched, so
+                // we have to wait for it here
+                // We have to check for the sibling checkbox class as the input itself is hidden
+                actions.waitForElementToShow('.ascribe-form input[name="num_editions-checkbox"] ~ .checkbox', TIMEOUTS.NORMAL);
+            })
             .capture('register work', (actions, find) => {
                 // The uploader options are only rendered after the user is fetched, so
-                // we have to wait for it here
+                // we also have to wait for it here
                 actions.waitForElementToShow('.file-drag-and-drop-dialog .present-options', TIMEOUTS.NORMAL);
             })
             .capture('register work filled', (actions, find) => {
@@ -177,7 +181,8 @@ gemini.suite('Authenticated', (suite) => {
                 actions.sendKeys(find('.ascribe-form input[name="date_created"]'), 'date created');
             })
             .capture('register work filled with editions', (actions, find) => {
-                actions.click(find('.ascribe-form input[type="checkbox"] ~ .checkbox'));
+                actions.click(find('.ascribe-form input[name="num_editions-checkbox"] ~ .checkbox'));
+                // Wait for transition
                 actions.wait(500);
                 actions.sendKeys(find('.ascribe-form input[name="num_editions"]'), '50');
             });

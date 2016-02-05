@@ -49,7 +49,7 @@ let ROUTES = {
     'cyland': (
         <Route path='/' component={WalletApp}>
             <IndexRoute
-                component={CylandLanding}
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(CylandLanding)}
                 hideFooter />
             <Route
                 path='login'
@@ -163,7 +163,7 @@ let ROUTES = {
     'ikonotv': (
         <Route path='/' component={WalletApp}>
             <IndexRoute
-                component={IkonotvLanding}
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(IkonotvLanding)}
                 hideFooter />
             <Route
                 path='login'
