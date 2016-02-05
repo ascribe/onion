@@ -24,8 +24,8 @@ let SettingsContainer = React.createClass({
         ]),
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -40,7 +40,7 @@ let SettingsContainer = React.createClass({
 
         setDocumentTitle(getLangText('Account settings'));
 
-        if (currentUser && currentUser.username) {
+        if (currentUser.username) {
             return (
                 <div className="settings-container">
                     <AccountSettings

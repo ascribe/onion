@@ -18,7 +18,7 @@ const { object } = React.PropTypes;
 const PRRegisterPiece = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -29,7 +29,7 @@ const PRRegisterPiece = React.createClass({
 
     componentDidUpdate() {
         const { currentUser } = this.props;
-        if (currentUser && currentUser.email) {
+        if (currentUser.email) {
             const submittedPieceId = getCookie(currentUser.email);
             if (submittedPieceId) {
                 this.history.push(`/pieces/${submittedPieceId}`);

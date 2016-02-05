@@ -26,21 +26,23 @@ let AccountSettings = React.createClass({
         whitelabel: React.PropTypes.object.isRequired
     },
 
-    handleSuccess(){
+    handleSuccess() {
         this.props.loadUser(true);
-        let notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
+
+        const notification = new GlobalNotificationModel(getLangText('Settings succesfully updated'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    getFormDataProfile(){
-        return {'email': this.props.currentUser.email};
+    getFormDataProfile() {
+        return { 'email': this.props.currentUser.email };
     },
 
     render() {
-        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
+        const { currentUser, whitelabel } = this.props;
+        let content = <AscribeSpinner color='dark-blue' size='lg' />;
         let profile = null;
 
-        if (this.props.currentUser.username) {
+        if (currentUser.username) {
             content = (
                 <Form
                     url={ApiUrls.users_username}
@@ -50,7 +52,7 @@ let AccountSettings = React.createClass({
                         label={getLangText('Username')}>
                         <input
                             type="text"
-                            defaultValue={this.props.currentUser.username}
+                            defaultValue={currentUser.username}
                             placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
@@ -61,7 +63,7 @@ let AccountSettings = React.createClass({
                         editable={false}>
                         <input
                             type="text"
-                            defaultValue={this.props.currentUser.email}
+                            defaultValue={currentUser.email}
                             placeholder={getLangText('Enter your username')}
                             required/>
                     </Property>
@@ -70,7 +72,7 @@ let AccountSettings = React.createClass({
             );
             profile = (
                 <AclProxy
-                    aclObject={this.props.whitelabel}
+                    aclObject={whitelabel}
                     aclName="acl_view_settings_account_hash">
                     <Form
                         url={ApiUrls.users_profile}
@@ -80,7 +82,7 @@ let AccountSettings = React.createClass({
                             name="hash_locally"
                             className="ascribe-property-collapsible-toggle">
                             <InputCheckbox
-                                defaultChecked={this.props.currentUser.profile.hash_locally}>
+                                defaultChecked={currentUser.profile.hash_locally}>
                                 <span>
                                     {' ' + getLangText('Enable hash option, e.g. slow connections or to keep piece private')}
                                 </span>
@@ -96,9 +98,9 @@ let AccountSettings = React.createClass({
                 defaultExpanded={true}>
                 {content}
                 <AclProxy
-                    aclObject={this.props.whitelabel}
+                    aclObject={whitelabel}
                     aclName="acl_view_settings_copyright_association">
-                    <CopyrightAssociationForm currentUser={this.props.currentUser}/>
+                    <CopyrightAssociationForm currentUser={currentUser} />
                 </AclProxy>
                 {profile}
             </CollapsibleParagraph>

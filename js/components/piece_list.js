@@ -48,8 +48,8 @@ let PieceList = React.createClass({
         orderBy: React.PropTypes.string,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

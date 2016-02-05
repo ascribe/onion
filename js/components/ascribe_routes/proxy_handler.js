@@ -34,7 +34,7 @@ export function AuthRedirect({to, when}) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        const isLoggedIn = currentUser && Object.keys(currentUser).length && currentUser.email;
+        const isLoggedIn = Object.keys(currentUser).length && currentUser.email;
         const exprToValidate = when === 'loggedIn' ? isLoggedIn : !isLoggedIn;
 
         // and redirect if `true`.
@@ -81,7 +81,7 @@ export function ProxyHandler(...redirectFunctions) {
 
             propTypes: {
                 // Provided from AscribeApp
-                currentUser: React.PropTypes.object,
+                currentUser: React.PropTypes.object.isRequired,
                 whitelabel: React.PropTypes.object,
 
                 // Provided from router

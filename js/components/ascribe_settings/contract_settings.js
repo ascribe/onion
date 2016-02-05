@@ -24,8 +24,8 @@ import { truncateTextAtCharIndex } from '../../utils/general_utils';
 let ContractSettings = React.createClass({
     propTypes: {
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

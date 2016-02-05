@@ -18,7 +18,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let PrizePieceList = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

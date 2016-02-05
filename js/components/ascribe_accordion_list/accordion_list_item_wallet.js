@@ -111,13 +111,15 @@ let AccordionListItemWallet = React.createClass({
     },
 
     getLicences() {
+        const { content, whitelabel } = this.props;
+
         // convert this to acl_view_licences later
-        if (this.props.whitelabel && this.props.whitelabel.name === 'Creative Commons France') {
+        if (whitelabel.name === 'Creative Commons France') {
             return (
                 <span>
                     <span>, </span>
-                    <a href={this.props.content.license_type.url} target="_blank">
-                        {getLangText('%s license', this.props.content.license_type.code)}
+                    <a href={content.license_type.url} target="_blank">
+                        {getLangText('%s license', content.license_type.code)}
                     </a>
                 </span>
             );

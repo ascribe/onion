@@ -24,6 +24,7 @@ let MarketSubmitButton = React.createClass({
         availableAcls: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
         editions: React.PropTypes.array.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         className: React.PropTypes.string,
         handleSuccess: React.PropTypes.func

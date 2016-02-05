@@ -26,8 +26,8 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let IkonotvContractNotifications = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -135,7 +135,7 @@ let IkonotvContractNotifications = React.createClass({
     getCopyrightAssociationForm(){
         const { currentUser } = this.props;
 
-        if (currentUser && currentUser.profile && !currentUser.profile.copyright_association) {
+        if (currentUser.profile && !currentUser.profile.copyright_association) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
@@ -165,7 +165,7 @@ let IkonotvContractNotifications = React.createClass({
                 <div className='container'>
                     <div className='notification-contract-wrapper'>
                         <div className='notification-contract-logo'>
-                            <img src={whitelabel.logo}/>
+                            <img src={whitelabel.logo} />
                             <div className='notification-contract-header'>
                                 {getLangText('Contract')}
                             </div>

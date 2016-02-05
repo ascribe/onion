@@ -16,7 +16,7 @@ let CylandLanding = React.createClass({
     propTypes: {
         // Provided from PrizeApp
         currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -30,7 +30,7 @@ let CylandLanding = React.createClass({
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
-                            <img src={this.props.whitelabel.logo} height="115"/>
+                            <img src={this.props.whitelabel.logo} height="115" />
                             <div style={{marginTop: '1em'}}>
                                 {getLangText('Submissions to Cyland Archive are powered by') + ' '}
                                 <span>

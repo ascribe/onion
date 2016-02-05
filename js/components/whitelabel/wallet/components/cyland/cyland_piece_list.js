@@ -11,8 +11,8 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let CylandPieceList = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

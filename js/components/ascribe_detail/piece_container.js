@@ -52,7 +52,7 @@ let PieceContainer = React.createClass({
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

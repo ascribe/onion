@@ -53,7 +53,7 @@ let PrizePieceContainer = React.createClass({
         selectedPrizeActionButton: React.PropTypes.func,
 
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

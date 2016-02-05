@@ -31,7 +31,7 @@ let RegisterPiece = React.createClass( {
 
         // Provided from AscribeApp
         currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -69,7 +69,9 @@ let RegisterPiece = React.createClass( {
     },
 
     getSpecifyEditions() {
-        if (this.props.whitelabel && (this.props.whitelabel.acl_create_editions || Object.keys(this.props.whitelabel).length)) {
+        const { whitelabel } = this.props;
+
+        if (whitelabel.acl_create_editions || Object.keys(whitelabel).length) {
             return (
                 <Property
                     name="num_editions"

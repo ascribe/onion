@@ -13,7 +13,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let IkonotvLanding = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -24,7 +24,7 @@ let IkonotvLanding = React.createClass({
         const { currentUser, location } = this.props;
         let redirect = '/login';
 
-        if (currentUser && currentUser.email) {
+        if (currentUser.email) {
             redirect = '/collection';
         } else if (location.query.redirect) {
             redirect = '/' + location.query.redirect;

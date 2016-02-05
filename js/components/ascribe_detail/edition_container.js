@@ -26,8 +26,8 @@ let EditionContainer = React.createClass({
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object,

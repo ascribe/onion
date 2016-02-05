@@ -14,7 +14,7 @@ let Vivi23Landing = React.createClass({
 
         // Provided from PrizeApp
         currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

@@ -28,11 +28,11 @@ let AccordionListItemPrize = React.createClass({
         content: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
 
-        className: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+        className: React.PropTypes.string
     },
 
     getInitialState() {

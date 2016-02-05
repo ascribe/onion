@@ -27,7 +27,7 @@ let MarketRegisterPiece = React.createClass({
     propTypes: {
         // Provided from PrizeApp
         currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

@@ -15,11 +15,12 @@ import MediaContainer from './media_container';
  */
 let Piece = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
+        piece: React.PropTypes.object.isRequired,
+
+        buttons: React.PropTypes.object,
         currentUser: React.PropTypes.object,
         header: React.PropTypes.object,
         subheader: React.PropTypes.object,
-        buttons: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element

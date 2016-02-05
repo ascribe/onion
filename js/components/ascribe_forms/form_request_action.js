@@ -21,11 +21,12 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let RequestActionForm = React.createClass({
     propTypes: {
+        notifications: React.PropTypes.object.isRequired,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
-        notifications: React.PropTypes.object,
+
         currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },

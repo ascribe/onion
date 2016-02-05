@@ -15,8 +15,8 @@ let WalletActionPanel = React.createClass({
     propTypes: {
         piece: React.PropTypes.object.isRequired,
         currentUser: React.PropTypes.object.isRequired,
-        loadPiece: React.PropTypes.func.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
+        loadPiece: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired
     },
 

@@ -32,7 +32,7 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 let CylandPieceContainer = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

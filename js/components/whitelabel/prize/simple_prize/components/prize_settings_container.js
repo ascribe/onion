@@ -28,7 +28,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let Settings = React.createClass({
     propTypes: {
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

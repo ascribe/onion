@@ -4,32 +4,35 @@ import React from 'react';
 import RequestActionForm from './form_request_action';
 
 let ListRequestActions = React.createClass({
-
     propTypes: {
+        notifications: React.PropTypes.array.isRequired,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
+
         currentUser: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func.isRequired,
-        notifications: React.PropTypes.array.isRequired
+        handleSuccess: React.PropTypes.func
     },
 
     render () {
-        if (this.props.notifications &&
-            this.props.notifications.length > 0) {
+        const { currentUser, handleSuccess, notifications, pieceOrEditions } = this.props;
+
+        if (notifications.length) {
             return (
                 <div>
-                    {this.props.notifications.map((notification) =>
+                    {notifications.map((notification) =>
                         <RequestActionForm
-                            currentUser={this.props.currentUser}
-                            pieceOrEditions={ this.props.pieceOrEditions }
+                            currentUser={currentUser}
+                            handleSuccess={handleSuccess}
                             notifications={notification}
-                            handleSuccess={this.props.handleSuccess}/>)}
+                            pieceOrEditions={pieceOrEditions} />
+                    )}
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     }
 });
 

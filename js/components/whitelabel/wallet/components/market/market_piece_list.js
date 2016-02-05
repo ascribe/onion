@@ -15,8 +15,8 @@ let MarketPieceList = React.createClass({
         customThumbnailPlaceholder: React.PropTypes.func,
 
         // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

@@ -32,7 +32,7 @@ const { object } = React.PropTypes;
 
 const PRRegisterPieceForm = React.createClass({
     propTypes: {
-        currentUser: object,
+        currentUser: object.isRequired,
         location: object
     },
 

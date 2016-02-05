@@ -24,23 +24,20 @@ export default function AclButton({ action, displayName, title, tooltip }) {
 
         propTypes: {
             availableAcls: React.PropTypes.object.isRequired,
-            handleSuccess: React.PropTypes.func.isRequired,
+            pieceOrEditions: React.PropTypes.oneOfType([
+                React.PropTypes.object,
+                React.PropTypes.array
+            ]).isRequired,
 
             buttonAcceptName: React.PropTypes.string,
             buttonAcceptClassName: React.PropTypes.string,
             currentUser: React.PropTypes.object,
             email: React.PropTypes.string,
-            pieceOrEditions: React.PropTypes.oneOfType([
-                React.PropTypes.object,
-                React.PropTypes.array
-            ]).isRequired,
-            className: React.PropTypes.string
+            handleSuccess: React.PropTypes.func
         },
 
         sanitizeAction() {
-            const { buttonAcceptName } = this.props;
-
-            return buttonAcceptName || AclInformationText.titles[action];
+            return this.props.buttonAcceptName || AclInformationText.titles[action];
         },
 
         render() {

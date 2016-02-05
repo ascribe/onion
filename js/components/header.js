@@ -29,7 +29,6 @@ import { constructHead } from '../utils/dom_utils';
 
 let Header = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
         currentUser: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         whitelabel: React.PropTypes.object.isRequired
