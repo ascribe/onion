@@ -6,7 +6,7 @@ import PrizeActions from '../actions/prize_actions';
 
 class PrizeStore {
     constructor() {
-        this.prize = [];
+        this.prize = {};
         this.bindActions(PrizeActions);
     }
 

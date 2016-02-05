@@ -17,20 +17,32 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
+    propTypes: {
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object
+    },
+
     render() {
+        const { message, signature } = this.props.location.query;
         setDocumentTitle(getLangText('Verify your Certificate of Authenticity'));
 
         return (
             <div className="ascribe-login-wrapper">
-                <br/>
+                <br />
                 <div className="ascribe-login-text ascribe-login-header">
                     {getLangText('Verify your Certificate of Authenticity')}
                 </div>
 
-                <CoaVerifyForm />
+                <CoaVerifyForm
+                    message={message}
+                    signature={signature}/>
                 <br />
                 <br />
-                    {getLangText('ascribe is using the following public key for verification')}:
+                {getLangText('ascribe is using the following public key for verification')}:
                 <br />
                 <pre>
                 -----BEGIN PUBLIC KEY-----
@@ -47,54 +59,60 @@ let CoaVerifyContainer = React.createClass({
 
 
 let CoaVerifyForm = React.createClass({
+    propTypes: {
+        message: React.PropTypes.string,
+        signature: React.PropTypes.string
+    },
+
     handleSuccess(response){
-        let notification = null;
         if (response.verdict) {
-            notification = new GlobalNotificationModel(getLangText('Certificate of Authenticity successfully verified'), 'success');
+            const notification = new GlobalNotificationModel(getLangText('Certificate of Authenticity successfully verified'), 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
     },
 
     render() {
+        const { message, signature } = this.props;
+
         return (
-            <div>
-                <Form
-                    url={ApiUrls.coa_verify}
-                    handleSuccess={this.handleSuccess}
-                    buttons={
-                        <button
-                            type="submit"
-                            className="btn btn-default btn-wide">
-                            {getLangText('Verify your Certificate of Authenticity')}
-                        </button>}
-                    spinner={
-                        <span className="btn btn-default btn-wide btn-spinner">
-                            <AscribeSpinner color="dark-blue" size="md" />
-                        </span>
-                        }>
-                    <Property
-                        name='message'
-                        label={getLangText('Message')}>
-                        <input
-                            type="text"
-                            placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
-                            autoComplete="on"
-                            name="username"
-                            required/>
-                    </Property>
-                    <Property
-                        name='signature'
-                        label="Signature"
-                        editable={true}
-                        overrideForm={true}>
-                        <InputTextAreaToggable
-                            rows={3}
-                            placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
-                            required/>
-                    </Property>
-                    <hr />
-                </Form>
-            </div>
+            <Form
+                url={ApiUrls.coa_verify}
+                handleSuccess={this.handleSuccess}
+                buttons={
+                    <button
+                        type="submit"
+                        className="btn btn-default btn-wide">
+                        {getLangText('Verify your Certificate of Authenticity')}
+                    </button>
+                }
+                spinner={
+                    <span className="btn btn-default btn-wide btn-spinner">
+                        <AscribeSpinner color="dark-blue" size="md" />
+                    </span>
+                }>
+                <Property
+                    name='message'
+                    label={getLangText('Message')}>
+                    <input
+                        type="text"
+                        placeholder={getLangText('Copy paste the message on the bottom of your Certificate of Authenticity')}
+                        autoComplete="on"
+                        defaultValue={message}
+                        required />
+                </Property>
+                <Property
+                    name='signature'
+                    label="Signature"
+                    editable={true}
+                    overrideForm={true}>
+                    <InputTextAreaToggable
+                        rows={3}
+                        placeholder={getLangText('Copy paste the signature on the bottom of your Certificate of Authenticity')}
+                        defaultValue={signature}
+                        required />
+                </Property>
+                <hr />
+            </Form>
         );
     }
 });

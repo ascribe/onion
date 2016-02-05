@@ -1,6 +1,7 @@
 'use strict';
 
 import { alt } from '../alt';
+
 import WebhookActions from '../actions/webhook_actions';
 
 import WebhookSource from '../sources/webhook_source';
@@ -10,12 +11,9 @@ class WebhookStore {
         this.webhooks = [];
         this.webhookEvents = [];
         this.webhookMeta = {
-            invalidateCache: false,
-            err: null,
-            idToDelete: null
+            err: null
         };
         this.webhookEventsMeta = {
-            invalidateCache: false,
             err: null
         };
 
@@ -24,54 +22,57 @@ class WebhookStore {
     }
 
     onFetchWebhooks(invalidateCache) {
-        this.webhookMeta.invalidateCache = invalidateCache;
-        this.getInstance().lookupWebhooks();
+        if (invalidateCache || !this.getInstance().isLoading()) {
+            this.getInstance().lookupWebhooks(invalidateCache);
+        }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
-    onSuccessFetchWebhooks({ webhooks }) {
-        this.webhookMeta.invalidateCache = false;
+    onSuccessFetchWebhooks({ webhooks = [] }) {
         this.webhookMeta.err = null;
         this.webhooks = webhooks;
 
-        this.webhookEventsMeta.invalidateCache = true;
-        this.getInstance().lookupWebhookEvents();
+        this.onFetchWebhookEvents(true);
     }
 
     onFetchWebhookEvents(invalidateCache) {
-        this.webhookEventsMeta.invalidateCache = invalidateCache;
-        this.getInstance().lookupWebhookEvents();
+        if (invalidateCache || !this.getInstance().isLoading()) {
+            this.getInstance().lookupWebhookEvents(invalidateCache);
+        }
+
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessFetchWebhookEvents({ events }) {
-        this.webhookEventsMeta.invalidateCache = false;
         this.webhookEventsMeta.err = null;
 
         // remove all events that have already been used.
         const usedEvents = this.webhooks
-                                .reduce((tempUsedEvents, webhook) => {
-                                    tempUsedEvents.push(webhook.event.split('.')[0]);
-                                    return tempUsedEvents;
-                                }, []);
+                               .reduce((tempUsedEvents, webhook) => {
+                                   tempUsedEvents.push(webhook.event.split('.')[0]);
+                                   return tempUsedEvents;
+                               }, []);
 
         this.webhookEvents = events.filter((event) => {
             return usedEvents.indexOf(event) === -1;
         });
     }
 
-    onRemoveWebhook(id) {
-        this.webhookMeta.invalidateCache = true;
-        this.webhookMeta.idToDelete = id;
+    onRemoveWebhook(webhookId) {
+        this.getInstance().performRemoveWebhook(webhookId);
 
-        if(!this.getInstance().isLoading()) {
-            this.getInstance().performRemoveWebhook();
-        }
+        // Prevent alt from sending an empty change event when a request is sent
+        // off to the source
+        this.preventDefault();
     }
 
     onSuccessRemoveWebhook() {
-        this.webhookMeta.idToDelete = null;
-        if(!this.getInstance().isLoading()) {
-            this.getInstance().lookupWebhooks();
-        }
+        this.getInstance().lookupWebhooks(true);
     }
 
     onErrorWebhooks(err) {

@@ -24,39 +24,41 @@ let EditionContainer = React.createClass({
     propTypes: {
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
     mixins: [History, ReactError],
 
     getInitialState() {
-        return EditionStore.getState();
+        return EditionStore.getInitialState();
     },
 
     componentDidMount() {
         EditionStore.listen(this.onChange);
 
-        // Every time we're entering the edition detail page,
-        // just reset the edition that is saved in the edition store
-        // as it will otherwise display wrong/old data once the user loads
-        // the edition detail a second time
-        EditionActions.updateEdition({});
         this.loadEdition();
     },
 
     // This is done to update the container when the user clicks on the prev or next
     // button to update the URL parameter (and therefore to switch pieces)
     componentWillReceiveProps(nextProps) {
-        if(this.props.params.editionId !== nextProps.params.editionId) {
-            EditionActions.updateEdition({});
-            EditionActions.fetchOne(nextProps.params.editionId);
+        if (this.props.params.editionId !== nextProps.params.editionId) {
+            EditionActions.flushEdition();
+            this.loadEdition(nextProps.params.editionId);
         }
     },
 
     componentDidUpdate() {
-        const { editionError } = this.state;
+        const { err: editionErr } = this.state.editionMeta;
 
-        if(editionError && editionError.status === 404) {
+        if (editionErr && editionErr.json && editionErr.json.status === 404) {
             this.throws(new ResourceNotFoundError(getLangText("Oops, the edition you're looking for doesn't exist.")));
         }
     },
@@ -68,30 +70,28 @@ let EditionContainer = React.createClass({
 
     onChange(state) {
         this.setState(state);
-        if (!state.edition.digital_work) {
-            return;
-        }
-        let isEncoding = state.edition.digital_work.isEncoding;
-        if (state.edition.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(() => EditionActions.fetchOne(this.props.params.editionId), 10000);
-            this.setState({timerId: timerId});
-        }
     },
 
-    loadEdition() {
-        EditionActions.fetchOne(this.props.params.editionId);
+    loadEdition(editionId = this.props.params.editionId) {
+        EditionActions.fetchEdition(editionId);
     },
 
     render() {
-        if(this.state.edition && this.state.edition.id) {
-            setDocumentTitle([this.state.edition.artist_name, this.state.edition.title].join(', '));
+        const { actionPanelButtonListType, currentUser, furtherDetailsType, whitelabel } = this.props;
+        const { edition, coaMeta } = this.state;
+
+        if (edition.id) {
+            setDocumentTitle(`${edition.artist_name}, ${edition.title}`);
 
             return (
                 <Edition
-                    actionPanelButtonListType={this.props.actionPanelButtonListType}
-                    furtherDetailsType={this.props.furtherDetailsType}
-                    edition={this.state.edition}
-                    loadEdition={this.loadEdition} />
+                    actionPanelButtonListType={actionPanelButtonListType}
+                    coaError={coaMeta.err}
+                    currentUser={currentUser}
+                    edition={edition}
+                    furtherDetailsType={furtherDetailsType}
+                    loadEdition={this.loadEdition}
+                    whitelabel={whitelabel} />
             );
         } else {
             return (

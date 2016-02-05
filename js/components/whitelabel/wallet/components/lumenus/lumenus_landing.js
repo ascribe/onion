@@ -5,37 +5,22 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
-import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let LumenusLanding = React.createClass({
+    propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
 
-    getInitialState() {
-        return mergeOptions(
-            WhitelabelStore.getState()
-        );
+        // Provided from router
+        location: React.PropTypes.object
     },
 
     componentWillMount() {
         setDocumentTitle('Lumenus Marketplace');
-    },
-
-    componentDidMount() {
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     render() {
@@ -44,7 +29,7 @@ let LumenusLanding = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 wp-landing-wrapper">
                         <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
-                            <img src={this.state.whitelabel.logo} width="150px"/>
+                            <img src={this.props.whitelabel.logo} height="150" />
                             <div style={{marginTop: '1em'}}>
                                 {getLangText('Artwork from the Lumenus Marketplace is powered by') + ' '}
                                 <span>
@@ -53,7 +38,7 @@ let LumenusLanding = React.createClass({
                             </div>
                         </div>
                         <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
-                            <div className="col-sm-6">
+                            <div className="col-xs-6">
                                 <p>
                                     {getLangText('Existing ascribe user?')}
                                 </p>
@@ -63,7 +48,7 @@ let LumenusLanding = React.createClass({
                                     </Button>
                                 </LinkContainer>
                             </div>
-                            <div className="col-sm-6">
+                            <div className="col-xs-6">
                                 <p>
                                     {getLangText('Do you need an account?')}
                                 </p>

@@ -3,17 +3,15 @@
 import React from 'react';
 import Moment from 'moment';
 
-import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import PieceListActions from '../../../../../../actions/piece_list_actions';
 import PieceListStore from '../../../../../../stores/piece_list_store';
 
-import UserStore from '../../../../../../stores/user_store';
-
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
-
 import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
+
+import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
 import AclProxy from '../../../../../acl_proxy';
 
@@ -23,29 +21,26 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let IkonotvAccordionListItem = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
-        content: React.PropTypes.object,
+        content: React.PropTypes.object.isRequired,
+        currentUser: React.PropTypes.object.isRequired,
+
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+        className: React.PropTypes.string
     },
 
     getInitialState() {
-        return mergeOptions(
-            PieceListStore.getState(),
-            UserStore.getState()
-        );
+        return PieceListStore.getState();
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -53,44 +48,47 @@ let IkonotvAccordionListItem = React.createClass({
     },
 
     handleSubmitSuccess(response) {
-        PieceListActions.fetchPieceList(this.state.page, this.state.pageSize, this.state.search,
-                                        this.state.orderBy, this.state.orderAsc, this.state.filterBy);
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
+
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
     getSubmitButtons() {
+        const { content, currentUser } = this.props;
+
         return (
             <div>
                 <AclProxy
-                    aclObject={this.state.currentUser.acl}
+                    aclObject={currentUser.acl}
                     aclName="acl_wallet_submit">
                     <AclProxy
-                        aclObject={this.props.content.acl}
+                        aclObject={content.acl}
                         aclName="acl_wallet_submit">
                         <IkonotvSubmitButton
                             className="btn-xs pull-right"
                             handleSuccess={this.handleSubmitSuccess}
-                            piece={this.props.content}/>
+                            piece={content}/>
                     </AclProxy>
                 </AclProxy>
                 <AclProxy
-                    aclObject={this.props.content.acl}
+                    aclObject={content.acl}
                     aclName="acl_wallet_submitted">
                     <button
-                    disabled
-                    className="btn btn-default btn-xs pull-right">
+                        disabled
+                        className="btn btn-default btn-xs pull-right">
                         {getLangText('Submitted to IkonoTV') + ' '}
                         <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
                 </AclProxy>
                 <AclProxy
-                    aclObject={this.props.content.acl}
+                    aclObject={content.acl}
                     aclName="acl_wallet_accepted">
                     <button
-                    disabled
-                    className="btn btn-default btn-xs pull-right">
+                        disabled
+                        className="btn btn-default btn-xs pull-right">
                         {getLangText('Loaned to IkonoTV') + ' '}
                         <span className='ascribe-icon icon-ascribe-ok'/>
                     </button>
@@ -100,22 +98,21 @@ let IkonotvAccordionListItem = React.createClass({
     },
 
     render() {
-        if(this.props.content) {
-            return (
-                <AccordionListItemPiece
-                    className={this.props.className}
-                    piece={this.props.content}
-                    subsubheading={
-                        <div className="pull-left">
-                            <span>{Moment(this.props.content.date_created, 'YYYY-MM-DD').year()}</span>
-                        </div>}
-                    buttons={this.getSubmitButtons()}>
-                    {this.props.children}
-                </AccordionListItemPiece>
-            );
-        } else {
-            return null;
-        }
+        const { children, className, content } = this.props;
+
+        return (
+            <AccordionListItemPiece
+                className={className}
+                piece={content}
+                subsubheading={
+                    <div className="pull-left">
+                        <span>{Moment(content.date_created, 'YYYY-MM-DD').year()}</span>
+                    </div>
+                }
+                buttons={this.getSubmitButtons()}>
+                {children}
+            </AccordionListItemPiece>
+        );
     }
 });
 

@@ -8,6 +8,7 @@ import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
+import { validationTypes } from '../../constants/uploader_constants';
 
 import { getCookie } from '../../utils/fetch_api_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -17,24 +18,29 @@ const { func, bool, number, object, string, arrayOf } = React.PropTypes;
 
 let FurtherDetailsFileuploader = React.createClass({
     propTypes: {
-        label: string,
-        pieceId: number,
-        otherData: arrayOf(object),
+        pieceId: number.isRequired,
+
         editable: bool,
+        label: string,
+        otherData: arrayOf(object),
 
         // Props for ReactS3FineUploader
-        multiple: bool,
-        showErrorPrompt: bool,
+        areAssetsDownloadable: bool,
+        isReadyForFormSubmission: func,
         submitFile: func, // TODO: rename to onSubmitFile
-
+        onValidationFailed: func,
+        multiple: bool,
         setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
-        isReadyForFormSubmission: func
+        showErrorPrompt: bool,
+        validation: ReactS3FineUploader.propTypes.validation
     },
 
     getDefaultProps() {
         return {
+            areAssetsDownloadable: true,
             label: getLangText('Additional files'),
-            multiple: false
+            multiple: false,
+            validation: validationTypes.additionalData
         };
     },
 
@@ -43,11 +49,13 @@ let FurtherDetailsFileuploader = React.createClass({
             editable,
             isReadyForFormSubmission,
             multiple,
+            onValidationFailed,
             otherData,
             pieceId,
             setIsUploadReady,
             showErrorPrompt,
-            submitFile } = this.props;
+            submitFile,
+            validation } = this.props;
 
         // Essentially there a three cases important to the fileuploader
         //
@@ -65,19 +73,29 @@ let FurtherDetailsFileuploader = React.createClass({
                 name="other_data_key"
                 label={this.props.label}>
                 <ReactS3FineUploader
+                    areAssetsDownloadable
+                    areAssetsEditable={editable}
+                    createBlobRoutine={{
+                        url: ApiUrls.blob_otherdatas,
+                        pieceId: pieceId
+                    }}
+                    deleteFile={{
+                        enabled: true,
+                        method: 'DELETE',
+                        endpoint: AppConstants.serverUrl + 's3/delete',
+                        customHeaders: {
+                           'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                        }
+                    }}
+                    isReadyForFormSubmission={isReadyForFormSubmission}
                     keyRoutine={{
                         url: AppConstants.serverUrl + 's3/key/',
                         fileClass: 'otherdata',
                         pieceId: pieceId
                     }}
-                    createBlobRoutine={{
-                        url: ApiUrls.blob_otherdatas,
-                        pieceId: pieceId
-                    }}
-                    validation={AppConstants.fineUploader.validation.additionalData}
-                    submitFile={submitFile}
+                    multiple={multiple}
+                    onValidationFailed={onValidationFailed}
                     setIsUploadReady={setIsUploadReady}
-                    isReadyForFormSubmission={isReadyForFormSubmission}
                     session={{
                         endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
                         customHeaders: {
@@ -97,18 +115,9 @@ let FurtherDetailsFileuploader = React.createClass({
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }
                     }}
-                    deleteFile={{
-                        enabled: true,
-                        method: 'DELETE',
-                        endpoint: AppConstants.serverUrl + 's3/delete',
-                        customHeaders: {
-                           'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                        }
-                    }}
-                    areAssetsDownloadable={true}
-                    areAssetsEditable={editable}
-                    multiple={multiple}
-                    showErrorPrompt={showErrorPrompt} />
+                    submitFile={submitFile}
+                    showErrorPrompt={showErrorPrompt}
+                    validation={validation} />
             </Property>
         );
     }

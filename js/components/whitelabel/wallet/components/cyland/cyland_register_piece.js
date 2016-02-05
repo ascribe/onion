@@ -8,16 +8,10 @@ import Moment from 'moment';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
-
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
 
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
@@ -28,6 +22,7 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import CylandAdditionalDataForm from './cyland_forms/cyland_additional_data_form';
 
 import LoanForm from '../../../../ascribe_forms/form_loan';
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -41,6 +36,11 @@ import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 let CylandRegisterPiece = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -48,10 +48,8 @@ let CylandRegisterPiece = React.createClass({
 
     getInitialState(){
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
-            WhitelabelStore.getState(),
+            PieceStore.getInitialState(),
             {
                 step: 0
             });
@@ -59,13 +57,9 @@ let CylandRegisterPiece = React.createClass({
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
-        let queryParams = this.props.location.query;
+        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -74,95 +68,92 @@ let CylandRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if(queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
         }
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
         this.setState(state);
     },
 
-    handleRegisterSuccess(response){
-
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
-        if(response && response.piece) {
-            PieceActions.updatePiece({});
+        // Also load the newly registered piece for the next step
+        if (response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide({ piece_id: response.piece.id });
+        this.nextSlide({ piece_id: response.piece.id });
     },
 
     handleAdditionalDataSuccess() {
-
         // We need to refetch the piece again after submitting the additional data
-        // since we want it's otherData to be displayed when the user choses to click
+        // since we want its otherData to be displayed when the user choses to click
         // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
+        PieceActions.fetchPiece(this.state.piece.id);
 
         this.refreshPieceList();
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
+        this.nextSlide();
     },
 
     handleLoanSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
 
-        PieceActions.fetchOne(this.state.piece.id);
-
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
-    },
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
 
-    changeSlide() {
-        // only transition to the login store, if user is not logged in
-        // ergo the currentUser object is not properly defined
-        if(this.state.currentUser && !this.state.currentUser.email) {
-            this.onLoggedOut();
-        }
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     render() {
+        const { currentUser, location, whitelabel } = this.props;
+        const { piece, step } = this.state;
 
-        let today = new Moment();
-        let datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment();
-        datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain.add(1000, 'years');
+        const today = new Moment();
+        const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment().add(1000, 'years');
+
+        const loanHeading = getLangText('Loan to Cyland archive');
+        const loanButtons = (
+            <div>
+                <div className='col-xs-6 ascribe-form-btn-container-left'>
+                    <button className='btn btn-default btn-wide'>
+                        {getLangText('Loan to archive')}
+                    </button>
+                </div>
+                <div className='col-xs-6 ascribe-form-btn-container-right'>
+                    <LinkContainer to='/collection'>
+                        <button
+                            type='button'
+                            className='btn btn-secondary btn-wide'>
+                            {getLangText('Loan later')}
+                        </button>
+                    </LinkContainer>
+                </div>
+            </div>
+        );
 
         setDocumentTitle(getLangText('Register a new piece'));
 
@@ -174,18 +165,18 @@ let CylandRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}>
+                location={location}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                disabled={this.state.step > 0}
+                                {...this.props}
+                                disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Submit to Cyland Archive')}
-                                submitMessage={getLangText('Submit')}
-                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location}/>
+                                headerMessage={getLangText('Submit to Cyland Archive')}
+                                isFineUploaderActive={true}
+                                submitMessage={getLangText('Submit')} />
                         </Col>
                     </Row>
                 </div>
@@ -193,9 +184,9 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <CylandAdditionalDataForm
-                                disabled={this.state.step > 1}
+                                disabled={step > 1}
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece} />
+                                piece={piece} />
                         </Col>
                     </Row>
                 </div>
@@ -204,15 +195,16 @@ let CylandRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <LoanForm
                                 loanHeading={getLangText('Loan to Cyland archive')}
+                                buttons={loanButtons}
                                 message={getAclFormMessage({
                                     aclName: 'acl_loan',
-                                    entities: this.state.piece,
+                                    entities: piece,
                                     isPiece: true,
-                                    senderName: this.state.currentUser.username
+                                    senderName: currentUser.username
                                 })}
-                                id={{piece_id: this.state.piece.id}}
+                                id={{piece_id: piece.id}}
                                 url={ApiUrls.ownership_loans_pieces}
-                                email={this.state.whitelabel.user}
+                                email={whitelabel.user}
                                 gallery="Cyland Archive"
                                 startDate={today}
                                 endDate={datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain}

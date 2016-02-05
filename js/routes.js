@@ -6,7 +6,7 @@ import { Route } from 'react-router';
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
 
-import App from './components/ascribe_app';
+import AscribeApp from './components/ascribe_app';
 
 import PieceList from './components/piece_list';
 import PieceContainer from './components/ascribe_detail/piece_container';
@@ -25,39 +25,40 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 
 import RegisterPiece from './components/register_piece';
 
-import AuthProxyHandler from './components/ascribe_routes/proxy_routes/auth_proxy_handler';
+import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
 
-let COMMON_ROUTES = (
-    <Route path='/' component={App}>
+const COMMON_ROUTES = (
+    <Route path='/' component={AscribeApp}>
         <Route
             path='login'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(LoginContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
         <Route
             path='register_piece'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(RegisterPiece)}
-            headerTitle='+ NEW WORK'/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(RegisterPiece)}
+            headerTitle='+ NEW WORK' />
         <Route
             path='collection'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(PieceList)}
-            headerTitle='COLLECTION'/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
+            headerTitle='COLLECTION'
+            disableOn='noPieces' />
         <Route
             path='signup'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(SignupContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
         <Route
             path='logout'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(LogoutContainer)}/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}/>
         <Route path='pieces/:pieceId' component={PieceContainer} />
         <Route path='editions/:editionId' component={EditionContainer} />
         <Route
             path='password_reset'
-            component={AuthProxyHandler({to: '/collection', when: 'loggedIn'})(PasswordResetContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
         <Route
             path='settings'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(SettingsContainer)}/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
         <Route
             path='contract_settings'
-            component={AuthProxyHandler({to: '/login', when: 'loggedOut'})(ContractSettings)}/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
         <Route path='coa_verify' component={CoaVerifyContainer} />
         <Route path='*' component={ErrorNotFoundPage} />
     </Route>
@@ -65,17 +66,13 @@ let COMMON_ROUTES = (
 
 
 function getRoutes(type, subdomain) {
-    let routes = null;
-
     if (type === 'prize') {
-        routes = getPrizeRoutes(COMMON_ROUTES, subdomain);
+        return getPrizeRoutes(COMMON_ROUTES, subdomain);
     } else if(type === 'wallet') {
-        routes = getWalletRoutes(COMMON_ROUTES, subdomain);
+        return getWalletRoutes(COMMON_ROUTES, subdomain);
     } else {
-        routes = COMMON_ROUTES;
+        return COMMON_ROUTES;
     }
-
-    return routes;
 }
 
 

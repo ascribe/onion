@@ -1,6 +1,7 @@
 $cyland--nav-bg-color: #fcfcfc;
 $cyland--nav-fg-prim-color: #1E1E1E;
 $cyland--button-color: $cyland--nav-fg-prim-color;
+$cyland--button-sec-color: #515151;
 
 .client--cyland {
     .navbar-default {
@@ -53,10 +54,6 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
     .navbar-toggle:focus {
         background-color: $cyland--nav-bg-color;
     }
-}
-
-.client--cyland .ascribe-footer {
-    display: none;
 }
 
 .client--cyland .icon-ascribe-search {
@@ -117,8 +114,8 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: $cyland--button-color;
-            border-color: $cyland--button-color;
+            background-color: $cyland--button-sec-color;
+            border-color: $cyland--button-sec-color;
             color: white;
         }
     }
@@ -170,6 +167,7 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
 .client--cyland {
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
@@ -177,8 +175,13 @@ $cyland--button-color: $cyland--nav-fg-prim-color;
             vertical-align: middle;
         }
 
+        .hero {
+            display: none;
+        }
+
         .cyland-landing {
             font-weight: normal;
+            padding: 0 15px;
             text-align: center;
         }
     }

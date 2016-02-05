@@ -14,51 +14,34 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import AclProxy from './acl_proxy';
-
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
 import EventActions from '../actions/event_actions';
 
+import PieceListStore from '../stores/piece_list_store';
+
+import AclProxy from './acl_proxy';
 import HeaderNotifications from './header_notification';
-
 import HeaderNotificationDebug from './header_notification_debug';
-
 import NavRoutesLinks from './nav_routes_links';
 
-import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-
 import { constructHead } from '../utils/dom_utils';
 
 
 let Header = React.createClass({
     propTypes: {
-        showAddWork: React.PropTypes.bool,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
-    },
-
-    getDefaultProps() {
-        return {
-            showAddWork: true
-        };
+        currentUser: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        whitelabel: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
-        return mergeOptions(
-            WhitelabelStore.getState(),
-            UserStore.getState()
-        );
+        return PieceListStore.getState();
     },
 
     componentDidMount() {
-        UserActions.fetchCurrentUser();
-        UserStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
-        WhitelabelStore.listen(this.onChange);
+        // Listen to the piece list store, but don't fetch immediately to avoid
+        // conflicts with routes that may need to wait to load the piece list
+        PieceListStore.listen(this.onChange);
 
         // react-bootstrap 0.25.1 has a bug in which it doesn't
         // close the mobile expanded navigation after a click by itself.
@@ -67,13 +50,16 @@ let Header = React.createClass({
     },
 
     componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
+        PieceListStore.unlisten(this.onChange);
         //history.unlisten(this.onRouteChange);
     },
 
+    onChange(state) {
+        this.setState(state);
+    },
+
     getLogo() {
-        let { whitelabel } = this.state;
+        const { whitelabel } = this.props;
 
         if (whitelabel.head) {
             constructHead(whitelabel.head);
@@ -85,19 +71,19 @@ let Header = React.createClass({
                     <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
                 </Link>
             );
+        } else {
+            return (
+                <span>
+                    <Link className="icon-ascribe-logo" to="/collection"/>
+                </span>
+            );
         }
-
-        return (
-            <span>
-                <Link className="icon-ascribe-logo" to="/collection"/>
-            </span>
-        );
     },
 
-    getPoweredBy(){
+    getPoweredBy() {
         return (
             <AclProxy
-                aclObject={this.state.whitelabel}
+                aclObject={this.props.whitelabel}
                 aclName="acl_view_powered_by">
                     <li>
                         <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
@@ -107,14 +93,6 @@ let Header = React.createClass({
                     </li>
             </AclProxy>
         );
-    },
-
-    onChange(state) {
-        this.setState(state);
-
-        if(this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
     },
 
     onMenuItemClick() {
@@ -146,63 +124,76 @@ let Header = React.createClass({
     // the collapsibleNav by itself on click. setState() isn't available on a ref so
     // doing this explicitly is the only way for now.
     onRouteChange() {
-        this.refs.navbar.state.navExpanded = false;
+        if (this.refs.navbar) {
+            this.refs.navbar.state.navExpanded = false;
+        }
     },
 
     render() {
+        const { currentUser, routes  } = this.props;
+        const { unfilteredPieceListCount } = this.state;
+
         let account;
         let signup;
         let navRoutesLinks;
-        if (this.state.currentUser.username){
+
+        if (currentUser.username) {
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
+                    id="nav-route-user-dropdown"
                     eventKey="1"
-                    title={this.state.currentUser.username}>
+                    title={currentUser.username}>
                     <LinkContainer
                         to="/settings"
                         onClick={this.onMenuItemClick}>
-                        <MenuItem
-                            eventKey="2">
+                        <MenuItem eventKey="2">
                             {getLangText('Account Settings')}
                         </MenuItem>
                     </LinkContainer>
                     <AclProxy
-                        aclObject={this.state.currentUser.acl}
+                        aclObject={currentUser.acl}
                         aclName="acl_view_settings_contract">
                         <LinkContainer
                             to="/contract_settings"
                             onClick={this.onMenuItemClick}>
-                            <MenuItem
-                                eventKey="2">
+                            <MenuItem eventKey="2">
                                 {getLangText('Contract Settings')}
                             </MenuItem>
                         </LinkContainer>
                     </AclProxy>
                     <MenuItem divider />
-                    <LinkContainer
-                        to="/logout">
-                        <MenuItem
-                            eventKey="3">
+                    <LinkContainer to="/logout">
+                        <MenuItem eventKey="3">
                             {getLangText('Log out')}
                         </MenuItem>
                     </LinkContainer>
                 </DropdownButton>
             );
-            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
-        }
-        else {
+
+            // Let's assume that if the piece list hasn't loaded yet (ie. when unfilteredPieceListCount === -1)
+            // then the user has pieces
+            // FIXME: this doesn't work that well as the user may not load their piece list
+            // until much later, so we would show the 'Collection' header as available until
+            // they actually click on it and get redirected to piece registration.
+            navRoutesLinks = (
+                <NavRoutesLinks
+                    navbar
+                    right
+                    hasPieces={!!unfilteredPieceListCount}
+                    routes={routes}
+                    userAcl={currentUser.acl} />
+            );
+        } else {
             account = (
-                <LinkContainer
-                    to="/login">
+                <LinkContainer to="/login">
                     <NavItem>
                         {getLangText('LOGIN')}
                     </NavItem>
                 </LinkContainer>
             );
             signup = (
-                <LinkContainer
-                    to="/signup">
+                <LinkContainer to="/signup">
                     <NavItem>
                         {getLangText('SIGNUP')}
                     </NavItem>
@@ -213,17 +204,17 @@ let Header = React.createClass({
         return (
             <div>
                 <Navbar
+                    ref="navbar"
                     brand={this.getLogo()}
                     toggleNavKey={0}
                     fixedTop={true}
-                    ref="navbar">
-                    <CollapsibleNav
-                        eventKey={0}>
+                    className="hidden-print">
+                    <CollapsibleNav eventKey={0}>
                         <Nav navbar left>
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show = {false}/>
+                            <HeaderNotificationDebug show={false} />
                             {account}
                             {signup}
                         </Nav>
@@ -231,6 +222,9 @@ let Header = React.createClass({
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
+                <p className="ascribe-print-header visible-print">
+                    <span className="icon-ascribe-logo" />
+                </p>
             </div>
         );
     }

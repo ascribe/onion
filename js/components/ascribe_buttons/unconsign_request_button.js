@@ -15,10 +15,12 @@ let UnConsignRequestButton = React.createClass({
     propTypes: {
         currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
-        handleSuccess: React.PropTypes.func.isRequired
+
+        handleSuccess: React.PropTypes.func
     },
 
     render: function () {
+        const { currentUser, edition, handleSuccess } = this.props;
         return (
             <ModalWrapper
                 trigger={
@@ -26,17 +28,18 @@ let UnConsignRequestButton = React.createClass({
                         REQUEST UNCONSIGN
                     </Button>
                 }
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 title='Request to Un-Consign'>
                 <UnConsignRequestForm
                     url={ApiUrls.ownership_unconsigns_request}
-                    id={{'bitcoin_id': this.props.edition.bitcoin_id}}
+                    id={{'bitcoin_id': edition.bitcoin_id}}
                     message={`${getLangText('Hi')},
 
-${getLangText('I request you to un-consign')} \" ${this.props.edition.title} \".
+${getLangText('I request you to un-consign')} \" ${edition.title} \".
 
 ${getLangText('Truly yours')},
-${this.props.currentUser.username}`}/>
+${currentUser.username}`
+                    } />
             </ModalWrapper>
         );
     }

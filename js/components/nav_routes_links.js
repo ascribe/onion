@@ -11,14 +11,33 @@ import AclProxy from './acl_proxy';
 import { sanitizeList } from '../utils/general_utils';
 
 
+const DISABLE_ENUM = ['hasPieces', 'noPieces'];
+
 let NavRoutesLinks = React.createClass({
     propTypes: {
+        hasPieces: React.PropTypes.bool,
         routes: React.PropTypes.arrayOf(React.PropTypes.object),
         userAcl: React.PropTypes.object
     },
 
+    isRouteDisabled(disableOn) {
+        const { hasPieces } = this.props;
+
+        if (disableOn) {
+            if (!DISABLE_ENUM.includes(disableOn)) {
+                throw new Error(`"disableOn" must be one of: [${DISABLE_ENUM.join(', ')}] got "${disableOn}" instead`);
+            }
+
+            if (disableOn === 'hasPieces') {
+                return hasPieces;
+            } else if (disableOn === 'noPieces') {
+                return !hasPieces;
+            }
+        }
+    },
+
     /**
-     * This method generales a bunch of react-bootstrap specific links
+     * This method generates a bunch of react-bootstrap specific links
      * from the routes we defined in one of the specific routes.js file
      *
      * We can define a headerTitle as well as a aclName and according to that the
@@ -29,48 +48,50 @@ let NavRoutesLinks = React.createClass({
      * @return {Array}         Array of ReactElements that can be displayed to the user
      */
     extractLinksFromRoutes(node, userAcl, i) {
-        if(!node) {
+        if (!node) {
             return;
         }
 
-        let links = node.childRoutes.map((child, j) => {
-            let childrenFn = null;
-            let { aclName, headerTitle, path, childRoutes } = child;
-
-            // If the node has children that could be rendered, then we want
-            // to execute this function again with the child as the root
-            //
-            // Otherwise we'll just pass childrenFn as false
-            if(child.childRoutes && child.childRoutes.length > 0) {
-                childrenFn = this.extractLinksFromRoutes(child, userAcl, i++);
-            }
+        const links = node.childRoutes.map((child, j) => {
+            const { aclName, disableOn, headerTitle, path, childRoutes } = child;
 
             // We validate if the user has set the title correctly,
             // otherwise we're not going to render his route
-            if(headerTitle && typeof headerTitle === 'string') {
+            if (headerTitle && typeof headerTitle === 'string') {
+                let nestedChildren = null;
+
+                // If the node has children that could be rendered, then we want
+                // to execute this function again with the child as the root
+                //
+                // Otherwise we'll just pass nestedChildren as false
+                if (child.childRoutes && child.childRoutes.length) {
+                    nestedChildren = this.extractLinksFromRoutes(child, userAcl, i++);
+                }
+
+                const navLinkProps = {
+                    headerTitle,
+                    children: nestedChildren,
+                    depth: i,
+                    disabled: this.isRouteDisabled(disableOn),
+                    routePath: `/${path}`
+                };
+
                 // if there is an aclName present on the route definition,
                 // we evaluate it against the user's acl
-                if(aclName && typeof aclName !== 'undefined') {
+                if (aclName && typeof aclName !== 'undefined') {
                     return (
                         <AclProxy
                             key={j}
                             aclName={aclName}
                             aclObject={this.props.userAcl}>
-                            <NavRoutesLinksLink
-                                headerTitle={headerTitle}
-                                routePath={'/' + path}
-                                depth={i}
-                                children={childrenFn}/>
+                            <NavRoutesLinksLink {...navLinkProps} />
                         </AclProxy>
                     );
                 } else {
                     return (
                         <NavRoutesLinksLink
                             key={j}
-                            headerTitle={headerTitle}
-                            routePath={'/' + path}
-                            depth={i}
-                            children={childrenFn}/>
+                            {...navLinkProps} />
                     );
                 }
             } else {
@@ -84,7 +105,7 @@ let NavRoutesLinks = React.createClass({
     },
 
     render() {
-        let {routes, userAcl} = this.props;
+        const {routes, userAcl} = this.props;
 
         return (
             <Nav {...this.props}>

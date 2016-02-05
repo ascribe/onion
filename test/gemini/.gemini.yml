@@ -1,0 +1,133 @@
+rootUrl: http://localhost.com:3000/
+sessionsPerBrowser: 1
+
+browsers:
+    MainDesktop:
+        rootUrl: http://localhost.com:3000/
+        screenshotsDir: './screenshots/main-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    MainMobile:
+        rootUrl: http://localhost.com:3000/
+        screenshotsDir: './screenshots/main-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CcDesktop:
+        rootUrl: http://cc.localhost.com:3000/
+        screenshotsDir: './screenshots/cc-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CcMobile:
+        rootUrl: http://cc.localhost.com:3000/
+        screenshotsDir: './screenshots/cc-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CylandDesktop:
+        rootUrl: http://cyland.localhost.com:3000/
+        screenshotsDir: './screenshots/cyland-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    CylandMobile:
+        rootUrl: http://cyland.localhost.com:3000/
+        screenshotsDir: './screenshots/cyland-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    IkonotvDesktop:
+        rootUrl: http://ikonotv.localhost.com:3000/
+        screenshotsDir: './screenshots/ikonotv-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    IkonotvMobile:
+        rootUrl: http://ikonotv.localhost.com:3000/
+        screenshotsDir: './screenshots/ikonotv-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    LumenusDesktop:
+        rootUrl: http://lumenus.localhost.com:3000/
+        screenshotsDir: './screenshots/lumenus-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    LumenusMobile:
+        rootUrl: http://lumenus.localhost.com:3000/
+        screenshotsDir: './screenshots/lumenus-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+    23viviDesktop:
+        rootUrl: http://23vivi.localhost.com:3000/
+        screenshotsDir: './screenshots/23vivi-desktop'
+        windowSize: 1900x1080
+        desiredCapabilities:
+            browserName: phantomjs
+
+    23viviMobile:
+        rootUrl: http://23vivi.localhost.com:3000/
+        screenshotsDir: './screenshots/23vivi-mobile'
+        windowSize: 600x1056
+        desiredCapabilities:
+            browserName: phantomjs
+
+sets:
+    main:
+        files:
+            - tests/main
+        browsers:
+            - MainDesktop
+            - MainMobile
+    cc:
+        files:
+            - tests/whitelabel/shared
+        browsers:
+            - CcDesktop
+            - CcMobile
+
+    cyland:
+        files:
+            - tests/whitelabel/shared
+            - tests/whitelabel/cyland
+        browsers:
+            - CylandDesktop
+            - CylandMobile
+
+    ikonotv:
+        files:
+            - tests/whitelabel/shared
+            - tests/whitelabel/ikonotv
+        browsers:
+            - IkonotvDesktop
+            - IkonotvMobile
+
+    lumenus:
+        files:
+            - tests/whitelabel/shared
+            - tests/whitelabel/lumenus
+        browsers:
+            - LumenusDesktop
+            - LumenusMobile
+
+    23vivi:
+        files:
+            - tests/whitelabel/shared
+            - tests/whitelabel/23vivi
+        browsers:
+            - 23viviDesktop
+            - 23viviMobile

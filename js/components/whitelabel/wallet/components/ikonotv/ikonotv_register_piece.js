@@ -10,23 +10,17 @@ import Row from 'react-bootstrap/lib/Row';
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
-
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
 
 import GlobalNotificationModel from '../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../actions/global_notification_actions';
 
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-import LoanForm from '../../../../ascribe_forms/form_loan';
-
 import IkonotvArtistDetailsForm from './ikonotv_forms/ikonotv_artist_details_form';
 import IkonotvArtworkDetailsForm from './ikonotv_forms/ikonotv_artwork_details_form';
+
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
+import LoanForm from '../../../../ascribe_forms/form_loan';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -39,37 +33,33 @@ import { getLangText } from '../../../../../utils/lang_utils';
 let IkonotvRegisterPiece = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
-        piece: React.PropTypes.object.isRequired,
+
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
     mixins: [History],
 
-    getInitialState(){
+    getInitialState() {
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
-            PieceStore.getState(),
-            WhitelabelStore.getState(),
+            PieceStore.getInitialState(),
             {
                 step: 0,
                 pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
-            });
+            }
+        );
     },
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
-        // Before we load the new piece, we reset the piece store to delete old data that we do
-        // not want to display to the user.
-        PieceActions.updatePiece({});
-
-        let queryParams = this.props.location.query;
+        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -78,16 +68,14 @@ let IkonotvRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if (queryParams && 'piece_id' in queryParams) {
-            PieceActions.fetchOne(queryParams.piece_id);
+        if ('piece_id' in queryParams) {
+            PieceActions.fetchPiece(queryParams.piece_id);
         }
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.listen(this.onChange);
     },
 
     onChange(state) {
@@ -95,72 +83,61 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
 
-    handleRegisterSuccess(response){
+    handleRegisterSuccess(response) {
         this.refreshPieceList();
 
-        // also start loading the piece for the next step
-        if(response && response.piece) {
+        // Also load the newly registered piece for the next step
+        if (response && response.piece) {
             PieceActions.updatePiece(response.piece);
         }
+
         if (!this.canSubmit()) {
-            this.history.pushState(null, '/collection');
-        }
-        else {
-            this.incrementStep();
-            this.refs.slidesContainer.nextSlide();
+            this.history.push('/collection');
+        } else {
+            this.nextSlide({ piece_id: response.piece.id });
         }
     },
 
     handleAdditionalDataSuccess() {
-
         // We need to refetch the piece again after submitting the additional data
         // since we want it's otherData to be displayed when the user choses to click
         // on the browsers back button.
-        PieceActions.fetchOne(this.state.piece.id);
+        PieceActions.fetchPiece(this.state.piece.id);
 
         this.refreshPieceList();
 
-        this.incrementStep();
-
-        this.refs.slidesContainer.nextSlide();
+        this.nextSlide();
     },
 
     handleLoanSuccess(response) {
         this.setState({ pageExitWarning: null });
 
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.refreshPieceList();
 
-        PieceActions.fetchOne(this.state.piece.id);
-        this.history.pushState(null, `/pieces/${this.state.piece.id}`);
+        this.history.push(`/pieces/${this.state.piece.id}`);
     },
 
-    // We need to increase the step to lock the forms that are already filled out
-    incrementStep() {
-        // also increase step
-        let newStep = this.state.step + 1;
+    nextSlide(queryParams) {
+        // We need to increase the step to lock the forms that are already filled out
         this.setState({
-            step: newStep
+            step: this.state.step + 1
         });
+
+        this.refs.slidesContainer.nextSlide(queryParams);
     },
 
     refreshPieceList() {
-        PieceListActions.fetchPieceList(
-            this.state.page,
-            this.state.pageSize,
-            this.state.searchTerm,
-            this.state.orderBy,
-            this.state.orderAsc,
-            this.state.filterBy
-        );
+        const { filterBy, orderAsc, orderBy, page, pageSize, search } = this.state;
+
+        PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
     },
 
     canSubmit() {
-        let currentUser = this.state.currentUser;
-        let whitelabel = this.state.whitelabel;
-        return currentUser && currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel && whitelabel.user;
+        const { currentUser, whitelabel } = this.props;
+        return currentUser.acl && currentUser.acl.acl_wallet_submit && whitelabel.user;
     },
 
     getSlideArtistDetails() {
@@ -171,13 +148,14 @@ let IkonotvRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtistDetailsForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     getSlideArtworkDetails() {
@@ -188,21 +166,22 @@ let IkonotvRegisterPiece = React.createClass({
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <IkonotvArtworkDetailsForm
                                 handleSuccess={this.handleAdditionalDataSuccess}
-                                piece={this.state.piece}/>
+                                piece={this.state.piece} />
                         </Col>
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     getSlideLoan() {
         if (this.canSubmit()) {
-            const { piece, whitelabel } = this.state;
-            let today = new Moment();
-            let endDate = new Moment();
-            endDate.add(2, 'years');
+            const { whitelabel } = this.props;
+            const { piece } = this.state;
+            const today = new Moment();
+            const endDate = new Moment().add(2, 'years');
 
             return (
                 <div data-slide-title={getLangText('Loan')}>
@@ -225,12 +204,14 @@ let IkonotvRegisterPiece = React.createClass({
                     </Row>
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     render() {
-        const { pageExitWarning } = this.state;
+        const { location } = this.props;
+        const { pageExitWarning, step } = this.state;
 
         return (
             <SlidesContainer
@@ -240,19 +221,19 @@ let IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={this.props.location}
+                location={location}
                 pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
-                                disabled={this.state.step > 0}
+                                {...this.props}
+                                disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Register work')}
-                                submitMessage={getLangText('Register')}
-                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={this.props.location}/>
+                                headerMessage={getLangText('Register work')}
+                                isFineUploaderActive={true}
+                                submitMessage={getLangText('Register')} />
                         </Col>
                     </Row>
                 </div>

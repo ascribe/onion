@@ -14,7 +14,7 @@ import AppConstants from '../../../constants/application_constants';
 import { AclInformationText } from '../../../constants/acl_information_text';
 
 
-export default function ({ action, displayName, title, tooltip }) {
+export default function AclButton({ action, displayName, title, tooltip }) {
     if (AppConstants.aclList.indexOf(action) < 0) {
         console.warn('Your specified aclName did not match a an acl class.');
     }
@@ -24,23 +24,20 @@ export default function ({ action, displayName, title, tooltip }) {
 
         propTypes: {
             availableAcls: React.PropTypes.object.isRequired,
-            buttonAcceptName: React.PropTypes.string,
-            buttonAcceptClassName: React.PropTypes.string,
-            currentUser: React.PropTypes.object,
-            email: React.PropTypes.string,
             pieceOrEditions: React.PropTypes.oneOfType([
                 React.PropTypes.object,
                 React.PropTypes.array
             ]).isRequired,
-            handleSuccess: React.PropTypes.func.isRequired,
-            className: React.PropTypes.string
+
+            buttonAcceptName: React.PropTypes.string,
+            buttonAcceptClassName: React.PropTypes.string,
+            currentUser: React.PropTypes.object,
+            email: React.PropTypes.string,
+            handleSuccess: React.PropTypes.func
         },
 
         sanitizeAction() {
-            if (this.props.buttonAcceptName) {
-                return this.props.buttonAcceptName;
-            }
-            return AclInformationText.titles[action];
+            return this.props.buttonAcceptName || AclInformationText.titles[action];
         },
 
         render() {

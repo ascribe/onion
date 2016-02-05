@@ -1,19 +1,15 @@
 'use strict';
 
 import React from 'react';
-import PieceList from '../../../../piece_list';
 
-import UserActions from '../../../../../actions/user_actions';
-import UserStore from '../../../../../stores/user_store';
+import Button from 'react-bootstrap/lib/Button';
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import PrizeActions from '../actions/prize_actions';
 import PrizeStore from '../stores/prize_store';
 
-import Button from 'react-bootstrap/lib/Button';
-
-import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
-
 import AccordionListItemPrize from './ascribe_accordion_list/accordion_list_item_prize';
+import PieceList from '../../../../piece_list';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -21,25 +17,24 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let PrizePieceList = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
     getInitialState() {
-        return mergeOptions(
-            PrizeStore.getState(),
-            UserStore.getState()
-        );
+        return PrizeStore.getState();
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
         PrizeStore.listen(this.onChange);
         PrizeActions.fetchPrize();
     },
 
     componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
         PrizeStore.unlisten(this.onChange);
     },
 
@@ -48,7 +43,9 @@ let PrizePieceList = React.createClass({
     },
 
     getButtonSubmit() {
-        if (this.state.prize && this.state.prize.active && !this.state.currentUser.is_jury){
+        const { currentUser } = this.props;
+        const { prize } = this.state;
+        if (prize && prize.active && !currentUser.is_jury && !currentUser.is_admin && !currentUser.is_judge) {
             return (
                 <LinkContainer to="/register_piece">
                     <Button>
@@ -56,35 +53,40 @@ let PrizePieceList = React.createClass({
                     </Button>
                 </LinkContainer>
             );
-        }
-        else if (this.state.prize && this.state.currentUser.is_judge){
+        } else {
             return null;
         }
-        return null;
+    },
+
+    shouldRedirect(pieceCount) {
+        const { currentUser } = this.props;
+
+        return !currentUser.is_admin && !currentUser.is_jury && !currentUser.is_judge && !pieceCount;
     },
 
     render() {
+        const { currentUser, location } = this.props;
+
         setDocumentTitle(getLangText('Collection'));
 
         let orderParams = ['artist_name', 'title'];
-        if (this.state.currentUser.is_jury) {
+        if (currentUser.is_jury) {
             orderParams = ['rating', 'title'];
         }
-        if (this.state.currentUser.is_judge) {
+        if (currentUser.is_judge) {
             orderParams = ['rating', 'title', 'selected'];
         }
+
         return (
-            <div>
-                <PieceList
-                    ref="list"
-                    redirectTo="/register_piece"
-                    accordionListItemType={AccordionListItemPrize}
-                    orderParams={orderParams}
-                    orderBy={this.state.currentUser.is_jury ? 'rating' : null}
-                    filterParams={[]}
-                    customSubmitButton={this.getButtonSubmit()}
-                    location={this.props.location}/>
-            </div>
+            <PieceList
+                ref="list"
+                {...this.props}
+                accordionListItemType={AccordionListItemPrize}
+                customSubmitButton={this.getButtonSubmit()}
+                filterParams={[]}
+                orderParams={orderParams}
+                orderBy={currentUser.is_jury ? 'rating' : null}
+                shouldRedirect={this.shouldRedirect} />
         );
     }
 });

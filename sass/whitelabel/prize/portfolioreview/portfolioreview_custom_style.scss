@@ -2,8 +2,6 @@ $pr--nav-fg-prim-color: black;
 $pr--button-color: $pr--nav-fg-prim-color;
 
 .client--portfolioreview {
-    padding-top: 0 !important;
-
     .btn-wide,
     .btn-default {
         background-color: $pr--button-color;
@@ -23,10 +21,59 @@ $pr--button-color: $pr--nav-fg-prim-color;
         }
     }
 
+    .navbar-default {
+        .navbar-nav > .ascribe-powered-by, li > a {
+            color: $pr--button-color !important;
+        }
+
+        .active a {
+            border-bottom-color: $pr--button-color !important;
+            color: $pr--button-color !important;
+        }
+    }
+
+    .search-bar > .form-group > .input-group input {
+        &::-webkit-input-placeholder {
+            color: rgba($pr--button-color, 0.5);
+        }
+        &::-moz-placeholder {
+            color: rgba($pr--button-color, 0.5);
+        }
+        &:-ms-input-placeholder {
+            color: rgba($pr--button-color, 0.5);
+        }
+        &:-moz-placeholder {
+            color: rgba($pr--button-color, 0.5);
+        }
+    }
+
+    .icon-ascribe-search {
+        color: $pr--button-color;
+    }
+
+    // filter widget
+    .ascribe-piece-list-toolbar-filter-widget button {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: $pr--button-color !important;
+
+        &:hover,
+        &:active {
+            background-color: $pr--button-color !important;
+            border-color: $pr--button-color !important;
+            color: white !important;
+        }
+    }
+
     .ascribe-property {
-        > p > span:not(> .span),
-        > textarea,
-        > input {
+        > div,
+        > input,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > p,
+        > p > span,
+        > textarea {
             color: $pr--nav-fg-prim-color;
         }
     }
@@ -42,7 +89,7 @@ $pr--button-color: $pr--nav-fg-prim-color;
 
     .register-piece--info {
         text-align: center;
-        
+
         h1, h2 {
             font-variant: small-caps;
         }
@@ -96,5 +143,11 @@ $pr--button-color: $pr--nav-fg-prim-color;
         > p > span:not(> .span) {
             text-transform: capitalize;
         }
+    }
+
+    // intercom
+    #intercom-container .intercom-launcher-button {
+        background-color: $pr--button-color !important;
+        border-color: $pr--button-color !important;
     }
 }

@@ -2,36 +2,42 @@
 
 import React from 'react';
 
-import Header from '../components/header';
-import Footer from '../components/footer';
-import GlobalNotification from './global_notification';
+import AppBase from './app_base';
+import AppRouteWrapper from './app_route_wrapper';
+import Footer from './footer';
+import Header from './header';
 
 
 let AscribeApp = React.createClass({
     propTypes: {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ]),
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        // Provided from AppBase
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object
     },
 
     render() {
-        let { children, routes } = this.props;
+        const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
 
         return (
-            <div className="container ascribe-default-app">
-                <Header routes={routes} />
-                {/* Routes are injected here */}
-                <div className="ascribe-body">
+            <div className="ascribe-app ascribe-default-app">
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel} />
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
+                    {/* Routes are injected here */}
                     {children}
-                </div>
-                <Footer />
-                <GlobalNotification />
-                <div id="modal" className="container"></div>
+                </AppRouteWrapper>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
 });
 
-export default AscribeApp;
+export default AppBase(AscribeApp);

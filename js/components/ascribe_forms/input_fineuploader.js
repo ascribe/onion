@@ -25,49 +25,20 @@ const InputFineUploader = React.createClass({
 
         // Props for ReactS3FineUploader
         areAssetsDownloadable: bool,
-        setWarning: func,
-        showErrorPrompt: bool,
-
+        createBlobRoutine: ReactS3FineUploader.propTypes.createBlobRoutine,
+        enableLocalHashing: bool,
+        fileClassToUpload: ReactS3FineUploader.propTypes.fileClassToUpload,
+        fileInputElement: ReactS3FineUploader.propTypes.fileInputElement,
+        isReadyForFormSubmission: func,
+        keyRoutine: ReactS3FineUploader.propTypes.keyRoutine,
         handleChangedFile: func, // TODO: rename to onChangedFile
         submitFile: func, // TODO: rename to onSubmitFile
-
+        onValidationFailed: func,
         setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
-        isReadyForFormSubmission: func,
-
-        enableLocalHashing: bool,
+        setWarning: func,
+        showErrorPrompt: bool,
         uploadMethod: oneOf(['hash', 'upload']),
-
-        fileClassToUpload: shape({
-            singular: string,
-            plural: string
-        }),
-
-        fileInputElement: oneOfType([
-            func,
-            element
-        ]),
-
-        keyRoutine: shape({
-            url: string,
-            fileClass: string,
-            pieceId: oneOfType([
-                string,
-                number
-            ])
-        }),
-        createBlobRoutine: shape({
-            url: string,
-            pieceId: oneOfType([
-                string,
-                number
-            ])
-        }),
-
-        validation: shape({
-            itemLimit: number,
-            sizeLimit: string,
-            allowedExtensions: arrayOf(string)
-        })
+        validation: ReactS3FineUploader.propTypes.validation,
     },
 
     getDefaultProps() {
@@ -121,6 +92,7 @@ const InputFineUploader = React.createClass({
             isFineUploaderActive,
             isReadyForFormSubmission,
             keyRoutine,
+            onValidationFailed,
             setIsUploadReady,
             setWarning,
             showErrorPrompt,
@@ -142,6 +114,7 @@ const InputFineUploader = React.createClass({
                 createBlobRoutine={createBlobRoutine}
                 validation={validation}
                 submitFile={this.submitFile}
+                onValidationFailed={onValidationFailed}
                 setIsUploadReady={setIsUploadReady}
                 isReadyForFormSubmission={isReadyForFormSubmission}
                 areAssetsDownloadable={areAssetsDownloadable}
