@@ -8,6 +8,7 @@ import InputFineUploader from './input_fineuploader';
 
 import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
+import { FileStatus } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import AscribeSpinner from '../ascribe_spinner';
@@ -72,7 +73,7 @@ let RegisterPieceForm = React.createClass({
 
     handleChangedDigitalWork(digitalWorkFile) {
         if (digitalWorkFile &&
-            (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
+            (digitalWorkFile.status === FileStatus.DELETED || digitalWorkFile.status === FileStatus.CANCELED)) {
             this.refs.form.refs.thumbnail_file.reset();
 
             // Manually we need to set the ready state for `thumbnailKeyReady` back
@@ -91,8 +92,8 @@ let RegisterPieceForm = React.createClass({
 
         fineuploader.setThumbnailForFileId(
             digitalWorkFile.id,
-            // if thumbnail was delete, we delete it from the display as well
-            thumbnailFile.status !== 'deleted' ? thumbnailFile.url : null
+            // if thumbnail was deleted, we delete it from the display as well
+            thumbnailFile.status !== FileStatus.DELETED ? thumbnailFile.url : null
         );
     },
 
@@ -175,7 +176,8 @@ let RegisterPieceForm = React.createClass({
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
-                        handleChangedFile={this.handleChangedDigitalWork}/>
+                        handleChangedFile={this.handleChangedDigitalWork}
+                        showErrorPrompt />
                 </Property>
                 <Property
                     name="thumbnail_file"

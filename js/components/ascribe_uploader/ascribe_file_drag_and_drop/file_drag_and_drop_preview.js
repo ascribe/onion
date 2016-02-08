@@ -5,6 +5,7 @@ import React from 'react';
 import FileDragAndDropPreviewImage from './file_drag_and_drop_preview_image';
 import FileDragAndDropPreviewOther from './file_drag_and_drop_preview_other';
 
+import { FileStatus } from '../react_s3_fine_uploader_utils';
 import { getLangText } from '../../../utils/lang_utils';
 import { truncateTextAtCharIndex } from '../../../utils/general_utils';
 import { extractFileExtensionFromString } from '../../../utils/file_utils';
@@ -24,27 +25,29 @@ const FileDragAndDropPreview = React.createClass({
             s3UrlSafe: string
         }).isRequired,
 
+        areAssetsDownloadable: bool,
+        areAssetsEditable: bool,
         handleDeleteFile: func,
         handleCancelFile: func,
         handlePauseFile: func,
         handleResumeFile: func,
-        areAssetsDownloadable: bool,
-        areAssetsEditable: bool,
         numberOfDisplayedFiles: number
     },
 
     toggleUploadProcess() {
-        if (this.props.file.status === 'uploading') {
-            this.props.handlePauseFile(this.props.file.id);
-        } else if (this.props.file.status === 'paused') {
-            this.props.handleResumeFile(this.props.file.id);
+        const { file, handlePauseFile, handleResumeFile } = this.props;
+
+        if (file.status === FileStatus.UPLOADING) {
+            handlePauseFile(file.id);
+        } else if (file.status === FileStatus.PAUSED) {
+            handleResumeFile(file.id);
         }
     },
 
     handleDeleteFile() {
-        const { handleDeleteFile,
-                handleCancelFile,
-                file } = this.props;
+        const { file,
+                handleDeleteFile,
+                handleCancelFile } = this.props;
         // `handleDeleteFile` is optional, so if its not submitted, don't run it
         //
         // For delete though, we only want to trigger it, when we're sure that
@@ -52,7 +55,7 @@ const FileDragAndDropPreview = React.createClass({
         // deleted using an HTTP DELETE request.
         if (handleDeleteFile &&
             file.progress === 100 &&
-            (file.status === 'upload successful' || file.status === 'online') &&
+            (file.status === FileStatus.UPLOAD_SUCCESSFUL || file.status === FileStatus.ONLINE) &&
             file.s3UrlSafe) {
             handleDeleteFile(file.id);
         } else if (handleCancelFile) {

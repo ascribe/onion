@@ -17,7 +17,7 @@ const WHEN_ENUM = ['loggedIn', 'loggedOut'];
  *
  * @param {enum/string} options.when ('loggedIn' || 'loggedOut')
  */
-export function AuthRedirect({to, when}) {
+export function AuthRedirect({ to, when }) {
     // validate `when`, must be contained in `WHEN_ENUM`.
     // Throw an error otherwise.
     if (WHEN_ENUM.indexOf(when) === -1) {
@@ -80,8 +80,8 @@ export function ProxyHandler(...redirectFunctions) {
             displayName: 'ProxyHandler',
 
             propTypes: {
-                // Provided from AscribeApp
-                currentUser: React.PropTypes.object.isRequired,
+                // Provided from AscribeApp, after the routes have been initialized
+                currentUser: React.PropTypes.object,
                 whitelabel: React.PropTypes.object,
 
                 // Provided from router

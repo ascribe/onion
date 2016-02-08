@@ -30,3 +30,6 @@ export const validationTypes = {
         sizeLimit: sizeLimit.thumbnail
     }
 };
+
+// Number of manual retries before showing a contact us screen on the uploader.
+export const RETRY_ATTEMPT_TO_SHOW_CONTACT_US = 5;

@@ -3,7 +3,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { displayValidProgressFilesFilter } from '../react_s3_fine_uploader_utils';
+import { displayValidProgressFilesFilter, FileStatus } from '../react_s3_fine_uploader_utils';
 import { getLangText } from '../../../utils/lang_utils';
 import { truncateTextAtCharIndex } from '../../../utils/general_utils';
 
@@ -58,11 +58,11 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
         },
 
         getUploadingFiles(filesToUpload = this.props.filesToUpload) {
-            return filesToUpload.filter((file) => file.status === 'uploading');
+            return filesToUpload.filter((file) => file.status === FileStatus.UPLOADING);
         },
 
         getUploadedFile() {
-            return this.props.filesToUpload.filter((file) => file.status === 'upload successful')[0];
+            return this.props.filesToUpload.filter((file) => file.status === FileStatus.UPLOAD_SUCCESSFUL)[0];
         },
 
         clearSelection() {

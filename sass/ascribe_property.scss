@@ -48,6 +48,10 @@ $ascribe-red-error: rgb(169, 68, 66);
     }
 }
 
+.is-warning {
+    border-left: 3px solid $ascribe-pink
+}
+
 .is-fixed {
     cursor: default;
 

@@ -8,12 +8,16 @@ import S3Fetcher from '../../fetchers/s3_fetcher';
 
 import FileDragAndDrop from './ascribe_file_drag_and_drop/file_drag_and_drop';
 
+import ErrorQueueStore from '../../stores/error_queue_store';
+
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import AppConstants from '../../constants/application_constants';
+import { ErrorClasses, testErrorAgainstAll } from '../../constants/error_constants';
+import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US } from '../../constants/uploader_constants';
 
-import { displayValidFilesFilter, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
+import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
 import { computeHashOfFile, extractFileExtensionFromString } from '../../utils/file_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -33,80 +37,18 @@ const { shape,
 
 const ReactS3FineUploader = React.createClass({
     propTypes: {
-        keyRoutine: shape({
-            url: string,
-            fileClass: string,
-            pieceId: number
-        }),
-        createBlobRoutine: shape({
-            url: string,
-            pieceId: number
-        }),
-        handleChangedFile: func, // is for when a file is dropped or selected
-        submitFile: func, // is for when a file has been successfully uploaded, TODO: rename to handleSubmitFile
-        onValidationFailed: func,
-        autoUpload: bool,
-        debug: bool,
-        objectProperties: shape({
-            acl: string
-        }),
-        request: shape({
-            endpoint: string,
-            accessKey: string,
-            params: shape({
-                csrfmiddlewaretoken: string
-            })
-        }),
-        signature: shape({
-            endpoint: string
-        }).isRequired,
-        uploadSuccess: shape({
-            method: string,
-            endpoint: string,
-            params: shape({
-                isBrowserPreviewCapable: any, // maybe fix this later
-                bitcoin_ID_noPrefix: string
-            })
-        }),
-        cors: shape({
-            expected: bool
-        }),
-        chunking: shape({
-            enabled: bool
-        }),
-        resume: shape({
-            enabled: bool
-        }),
-        deleteFile: shape({
-            enabled: bool,
-            method: string,
-            endpoint: string,
-            customHeaders: object
-        }).isRequired,
-        session: shape({
-            customHeaders: object,
-            endpoint: string,
-            params: object,
-            refreshOnRequests: bool
-        }),
-        validation: shape({
-            itemLimit: number,
-            sizeLimit: number,
-            allowedExtensions: arrayOf(string)
-        }),
-        messages: shape({
-            unsupportedBrowser: string
-        }),
-        formatFileName: func,
-        multiple: bool,
-        retry: shape({
-            enableAuto: bool
-        }),
-        setIsUploadReady: func,
-        isReadyForFormSubmission: func,
         areAssetsDownloadable: bool,
         areAssetsEditable: bool,
-        defaultErrorMessage: string,
+        errorNotificationMessage: string,
+        handleChangedFile: func, // for when a file is dropped or selected, TODO: rename to onChangedFile
+        submitFile: func, // for when a file has been successfully uploaded, TODO: rename to onSubmitFile
+        onValidationFailed: func,
+        setWarning: func, // for when the parent component wants to be notified of uploader warnings (ie. upload failed)
+        showErrorPrompt: bool,
+
+        // Handle form validation
+        setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
+        isReadyForFormSubmission: func,
 
         // We encountered some cases where people had difficulties to upload their
         // works to ascribe due to a slow internet connection.
@@ -135,13 +77,94 @@ const ReactS3FineUploader = React.createClass({
         fileInputElement: oneOfType([
             func,
             element
-        ])
+        ]),
+
+        // S3 helpers
+        createBlobRoutine: shape({
+            url: string,
+            pieceId: number
+        }),
+        keyRoutine: shape({
+            url: string,
+            fileClass: string,
+            pieceId: number
+        }),
+
+        // FineUploader options
+        debug: bool,
+
+        autoUpload: bool,
+        chunking: shape({
+            enabled: bool
+        }),
+        cors: shape({
+            expected: bool
+        }),
+        deleteFile: shape({
+            enabled: bool,
+            method: string,
+            endpoint: string,
+            customHeaders: object
+        }).isRequired,
+        formatFileName: func,
+        messages: shape({
+            unsupportedBrowser: string
+        }),
+        multiple: bool,
+        objectProperties: shape({
+            acl: string
+        }),
+        request: shape({
+            endpoint: string,
+            accessKey: string,
+            params: shape({
+                csrfmiddlewaretoken: string
+            })
+        }),
+        resume: shape({
+            enabled: bool
+        }),
+        retry: shape({
+            enableAuto: bool
+        }),
+        session: shape({
+            customHeaders: object,
+            endpoint: string,
+            params: object,
+            refreshOnRequests: bool
+        }),
+        signature: shape({
+            endpoint: string
+        }).isRequired,
+        uploadSuccess: shape({
+            method: string,
+            endpoint: string,
+            params: shape({
+                isBrowserPreviewCapable: any, // maybe fix this later
+                bitcoin_ID_noPrefix: string
+            })
+        }),
+        validation: shape({
+            itemLimit: number,
+            sizeLimit: number,
+            allowedExtensions: arrayOf(string)
+        })
     },
 
     getDefaultProps() {
         return {
+            errorNotificationMessage: getLangText('Oops, we had a problem uploading your file. Please contact us if this happens repeatedly.'),
+            showErrorPrompt: false,
+            fileClassToUpload: {
+                singular: getLangText('file'),
+                plural: getLangText('files')
+            },
+            fileInputElement: FileDragAndDrop,
+
+            // FineUploader options
             autoUpload: true,
             debug: false,
+            multiple: false,
             objectProperties: {
                 acl: 'public-read',
                 bucket: 'ascribe0'
@@ -178,27 +201,25 @@ const ReactS3FineUploader = React.createClass({
             messages: {
                 unsupportedBrowser: '<h3>' + getLangText('Upload is not functional in IE7 as IE7 has no support for CORS!') + '</h3>'
             },
-            formatFileName: function(name){// fix maybe
+            formatFileName: function(name) { // fix maybe
                 if (name !== undefined && name.length > 26) {
                     name = name.slice(0, 15) + '...' + name.slice(-15);
                 }
                 return name;
-            },
-            multiple: false,
-            defaultErrorMessage: getLangText('Unexpected error. Please contact us if this happens repeatedly.'),
-            fileClassToUpload: {
-                singular: getLangText('file'),
-                plural: getLangText('files')
-            },
-            fileInputElement: FileDragAndDrop
+            }
         };
     },
 
     getInitialState() {
         return {
             filesToUpload: [],
-            uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
+            uploader: this.createNewFineUploader(),
             csrfToken: getCookie(AppConstants.csrftoken),
+            errorState: {
+                manualRetryAttempt: 0,
+                errorClass: null
+            },
+            uploadInProgress: false,
 
             // -1: aborted
             // -2: uninitialized
@@ -216,7 +237,7 @@ const ReactS3FineUploader = React.createClass({
         let potentiallyNewCSRFToken = getCookie(AppConstants.csrftoken);
         if(this.state.csrfToken !== potentiallyNewCSRFToken) {
             this.setState({
-                uploader: new fineUploader.s3.FineUploaderBasic(this.propsToConfig()),
+                uploader: this.createNewFineUploader(),
                 csrfToken: potentiallyNewCSRFToken
             });
         }
@@ -229,8 +250,12 @@ const ReactS3FineUploader = React.createClass({
         this.state.uploader.cancelAll();
     },
 
+    createNewFineUploader() {
+        return new fineUploader.s3.FineUploaderBasic(this.propsToConfig());
+    },
+
     propsToConfig() {
-        let objectProperties = this.props.objectProperties;
+        const objectProperties = Object.assign({}, this.props.objectProperties);
         objectProperties.key = this.requestKey;
 
         return {
@@ -251,6 +276,7 @@ const ReactS3FineUploader = React.createClass({
             multiple: this.props.multiple,
             retry: this.props.retry,
             callbacks: {
+                onAllComplete: this.onAllComplete,
                 onComplete: this.onComplete,
                 onCancel: this.onCancel,
                 onProgress: this.onProgress,
@@ -273,6 +299,9 @@ const ReactS3FineUploader = React.createClass({
 
         // proclaim that upload is not ready
         this.props.setIsUploadReady(false);
+
+        // reset any warnings propagated to parent
+        this.setWarning(false);
 
         // reset internal data structures of component
         this.setState(this.getInitialState());
@@ -319,7 +348,7 @@ const ReactS3FineUploader = React.createClass({
             // if createBlobRoutine is not defined,
             // we're progressing right away without posting to S3
             // so that this can be done manually by the form
-            if(!createBlobRoutine) {
+            if (!createBlobRoutine) {
                 // still we warn the user of this component
                 console.warn('createBlobRoutine was not defined for ReactS3FineUploader. Continuing without creating the blob on the server.');
                 resolve();
@@ -377,6 +406,19 @@ const ReactS3FineUploader = React.createClass({
         this.clearFileSelection();
     },
 
+    checkFormSubmissionReady() {
+        const { isReadyForFormSubmission, setIsUploadReady } = this.props;
+
+        // since the form validation props isReadyForFormSubmission and setIsUploadReady
+        // are optional, we'll only trigger them when they're actually defined
+        if (typeof isReadyForFormSubmission === 'function' && typeof setIsUploadReady === 'function') {
+            // set uploadReady to true if the uploader's ready for submission
+            setIsUploadReady(isReadyForFormSubmission(this.state.filesToUpload));
+        } else {
+            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
+        }
+    },
+
     clearFileSelection() {
         const { fileInput } = this.refs;
         if (fileInput && typeof fileInput.clearSelection === 'function') {
@@ -394,6 +436,30 @@ const ReactS3FineUploader = React.createClass({
         }
     },
 
+    getUploadErrorClass({ type = 'upload', reason, xhr }) {
+        const { manualRetryAttempt } = this.state.errorState;
+        let matchedErrorClass;
+
+        if ('onLine' in window.navigator && !window.navigator.onLine) {
+            // If the user's offline, this is definitely the most important error to show.
+            // TODO: use a better mechanism for checking network state, ie. offline.js
+            matchedErrorClass = ErrorClasses.upload.offline;
+        } else if (manualRetryAttempt === RETRY_ATTEMPT_TO_SHOW_CONTACT_US) {
+            // Use the contact us error class if they've retried a number of times
+            // and are still unsuccessful
+            matchedErrorClass = ErrorClasses.upload.contactUs;
+        } else {
+            matchedErrorClass = testErrorAgainstAll({ type, reason, xhr });
+
+            if (!matchedErrorClass) {
+                // If none found, show the next error message in the queue for upload errors
+                matchedErrorClass = ErrorQueueStore.getNextError('upload');
+            }
+        }
+
+        return matchedErrorClass;
+    },
+
     getXhrErrorComment(xhr) {
         if (xhr) {
             return {
@@ -406,13 +472,20 @@ const ReactS3FineUploader = React.createClass({
     },
 
     isDropzoneInactive() {
-        const filesToDisplay = this.state.filesToUpload.filter((file) => file.status !== 'deleted' && file.status !== 'canceled' && file.size !== -1);
+        const { areAssetsEditable, enableLocalHashing, multiple, showErrorPrompt, uploadMethod } = this.props;
+        const { errorState, filesToUpload } = this.state;
 
-        if ((this.props.enableLocalHashing && !this.props.uploadMethod) || !this.props.areAssetsEditable || !this.props.multiple && filesToDisplay.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        const filesToDisplay = filesToUpload.filter((file) => {
+            return file.status !== FileStatus.DELETED &&
+                   file.status !== FileStatus.CANCELED &&
+                   file.status !== FileStatus.UPLOAD_FAILED &&
+                   file.size !== -1;
+        });
+
+        return (enableLocalHashing && !uploadMethod) ||
+                !areAssetsEditable ||
+                (showErrorPrompt && errorState.errorClass) ||
+                (!multiple && filesToDisplay.length > 0);
     },
 
     isFileValid(file) {
@@ -457,7 +530,7 @@ const ReactS3FineUploader = React.createClass({
         return Q.Promise((resolve) => {
             let changeSet = {};
 
-            if(status === 'deleted' || status === 'canceled') {
+            if (status === FileStatus.DELETED || status === FileStatus.CANCELED || status === FileStatus.UPLOAD_FAILED) {
                 changeSet.progress = { $set: 0 };
             }
 
@@ -484,8 +557,13 @@ const ReactS3FineUploader = React.createClass({
         }
     },
 
-    /* FineUploader specific callback function handlers */
+    setWarning(hasWarning) {
+        if (typeof this.props.setWarning === 'function') {
+            this.props.setWarning(hasWarning);
+        }
+    },
 
+    /* FineUploader specific callback function handlers */
     onUploadChunk(id, name, chunkData) {
         let chunks = this.state.chunks;
 
@@ -514,7 +592,14 @@ const ReactS3FineUploader = React.createClass({
 
             this.setState({ startedChunks });
         }
+    },
 
+    onAllComplete(succeed, failed) {
+        if (this.state.uploadInProgress) {
+            this.setState({
+                uploadInProgress: false
+            });
+        }
     },
 
     onComplete(id, name, res, xhr) {
@@ -526,12 +611,12 @@ const ReactS3FineUploader = React.createClass({
                 xhr: this.getXhrErrorComment(xhr)
             });
         // onError will catch any errors, so we can ignore them here
-        } else if (!res.error || res.success) {
+        } else if (!res.error && res.success) {
             let files = this.state.filesToUpload;
 
             // Set the state of the completed file to 'upload successful' in order to
             // remove it from the GUI
-            files[id].status = 'upload successful';
+            files[id].status = FileStatus.UPLOAD_SUCCESSFUL;
             files[id].key = this.state.uploader.getKey(id);
 
             let filesToUpload = React.addons.update(this.state.filesToUpload, { $set: files });
@@ -540,29 +625,14 @@ const ReactS3FineUploader = React.createClass({
             // Only after the blob has been created server-side, we can make the form submittable.
             this.createBlob(files[id])
                 .then(() => {
-                    // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-                    // are optional, we'll only trigger them when they're actually defined
-                    if(this.props.submitFile) {
+                    if (typeof this.props.submitFile === 'function') {
                         this.props.submitFile(files[id]);
                     } else {
                         console.warn('You didn\'t define submitFile as a prop in react-s3-fine-uploader');
                     }
 
-                    // for explanation, check comment of if statement above
-                    if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-                        // also, lets check if after the completion of this upload,
-                        // the form is ready for submission or not
-                        if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                            // if so, set uploadstatus to true
-                            this.props.setIsUploadReady(true);
-                        } else {
-                            this.props.setIsUploadReady(false);
-                        }
-                    } else {
-                        console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-                    }
-                })
-                .catch(this.onErrorPromiseProxy);
+                    this.checkFormSubmissionReady();
+                });
         }
     },
 
@@ -578,22 +648,51 @@ const ReactS3FineUploader = React.createClass({
     },
 
     onError(id, name, errorReason, xhr) {
+        const { errorNotificationMessage, showErrorPrompt } = this.props;
+        const { chunks, filesToUpload } = this.state;
+
         console.logGlobal(errorReason, {
-            files: this.state.filesToUpload,
-            chunks: this.state.chunks,
+            files: filesToUpload,
+            chunks: chunks,
             xhr: this.getXhrErrorComment(xhr)
         });
 
-        this.props.setIsUploadReady(true);
-        this.cancelUploads();
+        let notificationMessage;
 
-        let notification = new GlobalNotificationModel(errorReason || this.props.defaultErrorMessage, 'danger', 5000);
-        GlobalNotificationActions.appendGlobalNotification(notification);
+        if (showErrorPrompt) {
+            this.setStatusOfFile(id, FileStatus.UPLOAD_FAILED);
+
+            // If we've already found an error on this upload, just ignore other errors
+            // that pop up. They'll likely pop up again when the user retries.
+            if (!this.state.errorState.errorClass) {
+                notificationMessage = errorNotificationMessage;
+
+                const errorState = React.addons.update(this.state.errorState, {
+                    errorClass: {
+                        $set: this.getUploadErrorClass({
+                            reason: errorReason,
+                            xhr
+                        })
+                    }
+                });
+
+                this.setState({ errorState });
+                this.setWarning(true);
+            }
+        } else {
+            notificationMessage = errorReason || errorNotificationMessage;
+            this.cancelUploads();
+        }
+
+        if (notificationMessage) {
+            const notification = new GlobalNotificationModel(notificationMessage, 'danger', 5000);
+            GlobalNotificationActions.appendGlobalNotification(notification);
+        }
     },
 
     onCancel(id) {
         // when a upload is canceled, we need to update this components file array
-        this.setStatusOfFile(id, 'canceled')
+        this.setStatusOfFile(id, FileStatus.CANCELED)
             .then(() => {
                 if(typeof this.props.handleChangedFile === 'function') {
                     this.props.handleChangedFile(this.state.filesToUpload[id]);
@@ -603,17 +702,18 @@ const ReactS3FineUploader = React.createClass({
         let notification = new GlobalNotificationModel(getLangText('File upload canceled'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-        // are optional, we'll only trigger them when they're actually defined
-        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                // if so, set uploadstatus to true
-                this.props.setIsUploadReady(true);
-            } else {
-                this.props.setIsUploadReady(false);
-            }
-        } else {
-            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
+        this.checkFormSubmissionReady();
+
+        // FineUploader's onAllComplete event doesn't fire if all files are cancelled
+        // so we need to double check if this is the last file getting cancelled.
+        //
+        // Because we're calling FineUploader.getInProgress() in a cancel callback,
+        // the current file getting cancelled is still considered to be in progress
+        // so there will be one file left in progress when we're cancelling the last file.
+        if (this.state.uploader.getInProgress() === 1) {
+            this.setState({
+                uploadInProgress: false
+            });
         }
 
         return true;
@@ -633,7 +733,7 @@ const ReactS3FineUploader = React.createClass({
             // fetch blobs for images
             response = response.map((file) => {
                 file.url = file.s3UrlSafe;
-                file.status = 'online';
+                file.status = FileStatus.ONLINE;
                 file.progress = 100;
                 return file;
             });
@@ -661,7 +761,7 @@ const ReactS3FineUploader = React.createClass({
 
     onDeleteComplete(id, xhr, isError) {
         if(isError) {
-            this.setStatusOfFile(id, 'online');
+            this.setStatusOfFile(id, FileStatus.ONLINE);
 
             let notification = new GlobalNotificationModel(getLangText('There was an error deleting your file.'), 'danger', 10000);
             GlobalNotificationActions.appendGlobalNotification(notification);
@@ -670,29 +770,16 @@ const ReactS3FineUploader = React.createClass({
             GlobalNotificationActions.appendGlobalNotification(notification);
         }
 
-        // since the form validation props isReadyForFormSubmission, setIsUploadReady and submitFile
-        // are optional, we'll only trigger them when they're actually defined
-        if(this.props.isReadyForFormSubmission && this.props.setIsUploadReady) {
-            // also, lets check if after the completion of this upload,
-            // the form is ready for submission or not
-            if(this.props.isReadyForFormSubmission(this.state.filesToUpload)) {
-                // if so, set uploadstatus to true
-                this.props.setIsUploadReady(true);
-            } else {
-                this.props.setIsUploadReady(false);
-            }
-        } else {
-            console.warn('You didn\'t define the functions isReadyForFormSubmission and/or setIsUploadReady in as a prop in react-s3-fine-uploader');
-        }
+        this.checkFormSubmissionReady();
     },
 
     handleDeleteFile(fileId) {
         // We set the files state to 'deleted' immediately, so that the user is not confused with
         // the unresponsiveness of the UI
         //
-        // If there is an error during the deletion, we will just change the status back to 'online'
+        // If there is an error during the deletion, we will just change the status back to FileStatus.ONLINE
         // and display an error message
-        this.setStatusOfFile(fileId, 'deleted')
+        this.setStatusOfFile(fileId, FileStatus.DELETED)
             .then(() => {
                 if(typeof this.props.handleChangedFile === 'function') {
                     this.props.handleChangedFile(this.state.filesToUpload[fileId]);
@@ -708,7 +795,7 @@ const ReactS3FineUploader = React.createClass({
         //  To check which files are already uploaded from previous sessions we check their status.
         //  If they are, it is "online"
 
-        if(this.state.filesToUpload[fileId].status !== 'online') {
+        if(this.state.filesToUpload[fileId].status !== FileStatus.ONLINE) {
             // delete file from server
             this.state.uploader.deleteFile(fileId);
             // this is being continued in onDeleteFile, as
@@ -736,7 +823,7 @@ const ReactS3FineUploader = React.createClass({
 
     handlePauseFile(fileId) {
         if(this.state.uploader.pauseUpload(fileId)) {
-            this.setStatusOfFile(fileId, 'paused');
+            this.setStatusOfFile(fileId, FileStatus.PAUSED);
         } else {
             throw new Error(getLangText('File upload could not be paused.'));
         }
@@ -744,10 +831,33 @@ const ReactS3FineUploader = React.createClass({
 
     handleResumeFile(fileId) {
         if(this.state.uploader.continueUpload(fileId)) {
-            this.setStatusOfFile(fileId, 'uploading');
+            this.setStatusOfFile(fileId, FileStatus.UPLOADING);
         } else {
             throw new Error(getLangText('File upload could not be resumed.'));
         }
+    },
+
+    handleRetryFiles(fileIds) {
+        let filesToUpload = this.state.filesToUpload;
+
+        if (fileIds.constructor !== Array) {
+            fileIds = [ fileIds ];
+        }
+
+        fileIds.forEach((fileId) => {
+            this.state.uploader.retry(fileId);
+            filesToUpload = React.addons.update(filesToUpload, { [fileId]: { status: { $set: FileStatus.UPLOADING } } });
+        });
+
+        this.setState({
+            // Reset the error class along with the retry
+            errorState: {
+                manualRetryAttempt: this.state.errorState.manualRetryAttempt + 1
+            },
+            filesToUpload
+        });
+
+        this.setWarning(false);
     },
 
     handleUploadFile(files) {
@@ -870,6 +980,9 @@ const ReactS3FineUploader = React.createClass({
             if(files.length > 0) {
                 this.state.uploader.addFiles(files);
                 this.synchronizeFileLists(files);
+                this.setState({
+                    uploadInProgress: true
+                });
             }
         }
     },
@@ -910,12 +1023,12 @@ const ReactS3FineUploader = React.createClass({
                 //
                 // If the user deletes one of those files, then fineuploader will still keep it in his
                 // files array but with key, progress undefined and size === -1 but
-                // status === 'upload successful'.
+                // status === FileStatus.UPLOAD_SUCCESSFUL.
                 // This poses a problem as we depend on the amount of files that have
-                // status === 'upload successful', therefore once the file is synced,
-                // we need to tag its status as 'deleted' (which basically happens here)
+                // status === FileStatus.UPLOAD_SUCCESSFUL, therefore once the file is synced,
+                // we need to tag its status as FileStatus.DELETED (which basically happens here)
                 if(oldAndNewFiles[i].size === -1 && (!oldAndNewFiles[i].progress || oldAndNewFiles[i].progress === 0)) {
-                    oldAndNewFiles[i].status = 'deleted';
+                    oldAndNewFiles[i].status = FileStatus.DELETED;
                 }
 
                 if(oldAndNewFiles[i].originalName === oldFiles[j].name) {
@@ -944,14 +1057,19 @@ const ReactS3FineUploader = React.createClass({
     },
 
     render() {
+        const { errorState: { errorClass }, filesToUpload, uploadInProgress } = this.state;
         const {
-             multiple,
-             areAssetsDownloadable,
-             areAssetsEditable,
-             enableLocalHashing,
-             fileClassToUpload,
-             fileInputElement: FileInputElement,
-             uploadMethod } = this.props;
+            areAssetsDownloadable,
+            areAssetsEditable,
+            enableLocalHashing,
+            fileClassToUpload,
+            fileInputElement: FileInputElement,
+            multiple,
+            showErrorPrompt,
+            uploadMethod } = this.props;
+
+        // Only show the error state once all files are finished
+        const showError = !uploadInProgress && showErrorPrompt && errorClass != null;
 
         const props = {
             multiple,
@@ -960,12 +1078,16 @@ const ReactS3FineUploader = React.createClass({
             enableLocalHashing,
             uploadMethod,
             fileClassToUpload,
+            filesToUpload,
+            uploadInProgress,
+            errorClass,
+            showError,
             onDrop: this.handleUploadFile,
-            filesToUpload: this.state.filesToUpload,
             handleDeleteFile: this.handleDeleteFile,
             handleCancelFile: this.handleCancelFile,
             handlePauseFile: this.handlePauseFile,
             handleResumeFile: this.handleResumeFile,
+            handleRetryFiles: this.handleRetryFiles,
             handleCancelHashing: this.handleCancelHashing,
             dropzoneInactive: this.isDropzoneInactive(),
             hashingProgress: this.state.hashingProgress,
