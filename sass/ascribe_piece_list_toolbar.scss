@@ -1,4 +1,3 @@
-
 .ascribe-piece-list-toolbar {
     padding-left: 15px;
     padding-right: 15px;
@@ -30,17 +29,17 @@
     }
 }
 
-.ascribe-piece-list-toolbar-filter-widget {
-
+.ascribe-piece-list-toolbar-widget {
     button {
-        background-color: rgba(0, 0, 0, 0);
-        border: 1px solid rgba(0, 0, 0, 0);
-        color: #02b6a3;
+        background-color: transparent;
+        border: 1px solid transparent;
+        color: $ascribe--button-default-color;
         padding: 6px 4px 6px 8px;
 
         &:hover,
         &:active {
-            background-color: #02b6a3 !important;
+            background-color: $ascribe--button-default-color !important;
+            border-color: $ascribe--button-default-color !important;
             color: white;
         }
         .caret {
@@ -48,7 +47,7 @@
         }
     }
 
-    .filter-widget-item {
+    .ascribe-piece-list-toolbar-widget-item {
         a {
             padding-left: 0;
             padding-right: 0;

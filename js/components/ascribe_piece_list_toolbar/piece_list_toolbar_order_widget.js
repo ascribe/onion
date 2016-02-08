@@ -57,7 +57,7 @@ let PieceListToolbarOrderWidget = React.createClass({
                 <DropdownButton
                     id="ascribe-piece-list-toolbar-order-widget-dropdown"
                     pullRight={true}
-                    className="ascribe-piece-list-toolbar-filter-widget"
+                    className="ascribe-piece-list-toolbar-widget"
                     title={orderIcon}>
                     <li style={{'textAlign': 'center'}}>
                         <em>{getLangText('Sort by')}:</em>
@@ -67,7 +67,7 @@ let PieceListToolbarOrderWidget = React.createClass({
                             <li
                                 key={param}
                                 onClick={this.orderBy(param)}
-                                className="filter-widget-item">
+                                className="ascribe-piece-list-toolbar-widget-item">
                                 <div className="checkbox-line">
                                     <span>
                                         {getLangText(param.replace('_', ' '))}
