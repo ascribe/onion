@@ -1,6 +1,6 @@
 'use strict';
 
-import { alt } from '../alt';
+import { altUser } from '../alt';
 
 
 class UserActions {
@@ -15,4 +15,4 @@ class UserActions {
     }
 }
 
-export default alt.createActions(UserActions);
+export default altUser.createActions(UserActions);
