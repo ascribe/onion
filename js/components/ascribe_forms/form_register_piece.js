@@ -2,15 +2,13 @@
 
 import React from 'react';
 
-import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
-
 import Form from './form';
 import Property from './property';
 import InputFineUploader from './input_fineuploader';
 
 import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
+import { FileStatus } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import AscribeSpinner from '../ascribe_spinner';
@@ -20,22 +18,24 @@ import AppConstants from '../../constants/application_constants';
 import { validationParts, validationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 
 let RegisterPieceForm = React.createClass({
     propTypes: {
+        currentUser: React.PropTypes.object.isRequired,
+
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func,
-        isFineUploaderActive: React.PropTypes.bool,
-        isFineUploaderEditable: React.PropTypes.bool,
         enableLocalHashing: React.PropTypes.bool,
         enableSeparateThumbnail: React.PropTypes.bool,
+        isFineUploaderActive: React.PropTypes.bool,
+        isFineUploaderEditable: React.PropTypes.bool,
+        handleSuccess: React.PropTypes.func,
 
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
+
         location: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -52,26 +52,10 @@ let RegisterPieceForm = React.createClass({
         };
     },
 
-    getInitialState(){
-        return mergeOptions(
-            {
-                digitalWorkFile: null
-            },
-            UserStore.getState()
-        );
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+    getInitialState() {
+        return {
+            digitalWorkFile: null
+        }
     },
 
     /**
@@ -89,7 +73,7 @@ let RegisterPieceForm = React.createClass({
 
     handleChangedDigitalWork(digitalWorkFile) {
         if (digitalWorkFile &&
-            (digitalWorkFile.status === 'deleted' || digitalWorkFile.status === 'canceled')) {
+            (digitalWorkFile.status === FileStatus.DELETED || digitalWorkFile.status === FileStatus.CANCELED)) {
             this.refs.form.refs.thumbnail_file.reset();
 
             // Manually we need to set the ready state for `thumbnailKeyReady` back
@@ -108,8 +92,8 @@ let RegisterPieceForm = React.createClass({
 
         fineuploader.setThumbnailForFileId(
             digitalWorkFile.id,
-            // if thumbnail was delete, we delete it from the display as well
-            thumbnailFile.status !== 'deleted' ? thumbnailFile.url : null
+            // if thumbnail was deleted, we delete it from the display as well
+            thumbnailFile.status !== FileStatus.DELETED ? thumbnailFile.url : null
         );
     },
 
@@ -133,16 +117,17 @@ let RegisterPieceForm = React.createClass({
     },
 
     render() {
-        const { disabled,
-                handleSuccess,
-                submitMessage,
-                headerMessage,
-                isFineUploaderActive,
-                isFineUploaderEditable,
-                location,
-                children,
-                enableLocalHashing } = this.props;
-        const { currentUser} = this.state;
+        const {
+            children,
+            currentUser,
+            disabled,
+            enableLocalHashing,
+            handleSuccess,
+            headerMessage,
+            isFineUploaderActive,
+            isFineUploaderEditable,
+            location,
+            submitMessage } = this.props;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;
@@ -191,7 +176,8 @@ let RegisterPieceForm = React.createClass({
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
-                        handleChangedFile={this.handleChangedDigitalWork}/>
+                        handleChangedFile={this.handleChangedDigitalWork}
+                        showErrorPrompt />
                 </Property>
                 <Property
                     name="thumbnail_file"

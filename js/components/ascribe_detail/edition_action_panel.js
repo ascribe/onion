@@ -36,9 +36,11 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let EditionActionPanel = React.createClass({
     propTypes: {
+        currentUser: React.PropTypes.object.isRequired,
+        edition: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
         actionPanelButtonListType: React.PropTypes.func,
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
@@ -87,39 +89,42 @@ let EditionActionPanel = React.createClass({
 
     handleSuccess(response) {
         this.refreshCollection();
-        this.props.handleSuccess();
-        if (response){
-            let notification = new GlobalNotificationModel(response.notification, 'success');
+
+        if (response) {
+            const notification = new GlobalNotificationModel(response.notification, 'success');
             GlobalNotificationActions.appendGlobalNotification(notification);
+        }
+
+        if (typeof this.props.handleSuccess === 'function') {
+            this.props.handleSuccess();
         }
     },
 
     render() {
         const {
             actionPanelButtonListType: ActionPanelButtonListType,
+            currentUser,
             edition,
-            currentUser } = this.props;
+            whitelabel } = this.props;
 
-        if (edition &&
-            edition.notifications &&
-            edition.notifications.length > 0){
+        if (edition.notifications && edition.notifications.length) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={[edition]}
                     currentUser={currentUser}
-                    handleSuccess={this.handleSuccess}
-                    notifications={edition.notifications}/>);
-        }
-
-        else {
+                    notifications={edition.notifications}
+                    pieceOrEditions={[edition]}
+                    handleSuccess={this.handleSuccess} />);
+        } else {
             return (
                 <Row>
                     <Col md={12}>
                         <ActionPanelButtonListType
-                            className="ascribe-button-list"
                             availableAcls={edition.acl}
+                            className="ascribe-button-list"
+                            currentUser={currentUser}
+                            handleSuccess={this.handleSuccess}
                             pieceOrEditions={[edition]}
-                            handleSuccess={this.handleSuccess}>
+                            whitelabel={whitelabel}>
                             <AclProxy
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_transfer">

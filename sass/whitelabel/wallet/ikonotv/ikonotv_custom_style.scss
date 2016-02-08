@@ -108,24 +108,36 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 }
 
 
+.client--ikonotv {
+    .route--landing,
+    .route--login,
+    .route--signup {
+        background-color: $ikono--landing-bg-color;
+        min-height: 100vh;
+    }
+
+    .route--login,
+    .route--signup {
+        .ascribe-form-bordered {
+            border: none;
+        }
+    }
+}
+
 .client--ikonotv .route--landing {
-    background-color: $ikono--landing-bg-color;
     animation: color-loop 20s;
     -o-animation: color-loop 20s infinite;
     -ms-animation: color-loop 20s infinite;
     -moz-animation: color-loop 20s infinite;
     -webkit-animation: color-loop 20s infinite;
-    
+
     margin: 0;
     width: 100%;
     padding: 5em 1em;
 }
 
-
 .client--ikonotv .route--login,
 .client--ikonotv .route--signup {
-    background-color: $ikono--landing-bg-color;
-
     .btn-wide {
         display: block;
         margin: 50px auto 0;
@@ -209,23 +221,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 }
 
 
-.client--ikonotv {
-    .route--login,
-    .route--signup {
-        .ascribe-form-bordered {
-            border: none;
-        }
-    }
-}
-
-.client--ikonotv .ascribe-login-wrapper {
-}
-
-.client--ikonotv .ascribe-footer {
-    display: none;
-}
-
-.client--ikonotv .icon-ascribe-search{
+.client--ikonotv .icon-ascribe-search {
     color: $ikono--button-color;
 }
 

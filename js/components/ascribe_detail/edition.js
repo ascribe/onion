@@ -8,22 +8,22 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import HistoryIterator from './history_iterator';
+import EditionActions from '../../actions/edition_actions';
 
-import MediaContainer from './media_container';
-
-import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
-
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
 import DetailProperty from './detail_property';
-import LicenseDetail from './license_detail';
-import FurtherDetails from './further_details';
-
 import EditionActionPanel from './edition_action_panel';
-import AclProxy from '../acl_proxy';
-
+import FurtherDetails from './further_details';
+import HistoryIterator from './history_iterator';
+import LicenseDetail from './license_detail';
+import MediaContainer from './media_container';
 import Note from './note';
+
+import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
+
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+
+import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
@@ -36,11 +36,13 @@ import { getLangText } from '../../utils/lang_utils';
  */
 let Edition = React.createClass({
     propTypes: {
+        currentUser: React.PropTypes.object.isRequired,
+        edition: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
         actionPanelButtonListType: React.PropTypes.func,
-        furtherDetailsType: React.PropTypes.func,
-        edition: React.PropTypes.object,
         coaError: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
+        furtherDetailsType: React.PropTypes.func,
         loadEdition: React.PropTypes.func
     },
 
@@ -57,56 +59,56 @@ let Edition = React.createClass({
             currentUser,
             edition,
             furtherDetailsType: FurtherDetailsType,
-            loadEdition } = this.props;
+            loadEdition,
+            whitelabel } = this.props;
 
         return (
             <Row>
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={edition}
-                        currentUser={currentUser} />
+                        currentUser={currentUser}
+                        refreshObject={loadEdition} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
                     <div className="ascribe-detail-header">
-                        <hr className="hidden-print" style={{marginTop: 0}}/>
+                        <hr className="hidden-print" style={{marginTop: 0}} />
                         <h1 className="ascribe-detail-title">{edition.title}</h1>
                         <DetailProperty label="CREATED BY" value={edition.artist_name} />
                         <DetailProperty label="DATE" value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
-                        <hr/>
+                        <hr />
                     </div>
                     <EditionSummary
                         actionPanelButtonListType={actionPanelButtonListType}
                         edition={edition}
                         currentUser={currentUser}
-                        handleSuccess={loadEdition}/>
+                        handleSuccess={loadEdition}
+                        whitelabel={whitelabel} />
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={edition.acl.acl_coa === true}>
                         <CoaDetails
                             coa={edition.coa}
                             coaError={coaError}
-                            editionId={edition.bitcoin_id}/>
+                            editionId={edition.bitcoin_id} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
-                        show={edition.ownership_history && edition.ownership_history.length > 0}>
-                        <HistoryIterator
-                            history={edition.ownership_history} />
+                        show={edition.ownership_history && edition.ownership_history.length}>
+                        <HistoryIterator history={edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
                         show={edition.consign_history && edition.consign_history.length > 0}>
-                        <HistoryIterator
-                            history={edition.consign_history} />
+                        <HistoryIterator history={edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
                         show={edition.loan_history && edition.loan_history.length > 0}>
-                        <HistoryIterator
-                            history={edition.loan_history} />
+                        <HistoryIterator history={edition.loan_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
@@ -120,7 +122,7 @@ let Edition = React.createClass({
                             editable={true}
                             successMessage={getLangText('Private note saved')}
                             url={ApiUrls.note_private_edition}
-                            currentUser={currentUser}/>
+                            currentUser={currentUser} />
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
@@ -130,13 +132,11 @@ let Edition = React.createClass({
                             show={!!edition.public_note || !!edition.acl.acl_edit}
                             successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
-                            currentUser={currentUser}/>
+                            currentUser={currentUser} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={edition.acl.acl_edit ||
-                              Object.keys(edition.extra_data).length > 0 ||
-                              edition.other_data.length > 0}>
+                        show={edition.acl.acl_edit || Object.keys(edition.extra_data).length || edition.other_data.length}>
                         <FurtherDetailsType
                             editable={edition.acl.acl_edit}
                             pieceId={edition.parent}
@@ -144,10 +144,8 @@ let Edition = React.createClass({
                             otherData={edition.other_data}
                             handleSuccess={loadEdition} />
                     </CollapsibleParagraph>
-                    <CollapsibleParagraph
-                        title={getLangText('SPOOL Details')}>
-                        <SpoolDetails
-                            edition={edition} />
+                    <CollapsibleParagraph title={getLangText('SPOOL Details')}>
+                        <SpoolDetails edition={edition} />
                     </CollapsibleParagraph>
                 </Col>
             </Row>
@@ -158,60 +156,56 @@ let Edition = React.createClass({
 
 let EditionSummary = React.createClass({
     propTypes: {
+        currentUser: React.PropTypes.object.isRequired,
+        edition: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
         actionPanelButtonListType: React.PropTypes.func,
-        edition: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
-    handleSuccess() {
-        this.props.handleSuccess();
-    },
+    getStatus() {
+        const { status } = this.props.edition;
 
-    getStatus(){
-        let status = null;
-        if (this.props.edition.status.length > 0){
-            let statusStr = this.props.edition.status.join(', ').replace(/_/g, ' ');
-            status = <DetailProperty label="STATUS" value={ statusStr }/>;
-            if (this.props.edition.pending_new_owner && this.props.edition.acl.acl_withdraw_transfer){
-                status = (
-                    <DetailProperty label="STATUS" value={ statusStr } />
-                );
-            }
-        }
-        return status;
+        return status.length ? (
+            <DetailProperty
+                label="STATUS"
+                value={status.join(', ').replace(/_/g, ' ')} />
+        ) : null;
     },
 
     render() {
-        let { actionPanelButtonListType, edition, currentUser } = this.props;
+        const { actionPanelButtonListType, currentUser, edition, handleSuccess, whitelabel } = this.props;
+
         return (
             <div className="ascribe-detail-header">
                 <DetailProperty
                     label={getLangText('EDITION')}
-                    value={ edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
+                    value={edition.edition_number + ' ' + getLangText('of') + ' ' + edition.num_editions} />
                 <DetailProperty
                     label={getLangText('ID')}
-                    value={ edition.bitcoin_id }
+                    value={edition.bitcoin_id}
                     ellipsis={true} />
                 <DetailProperty
                     label={getLangText('OWNER')}
-                    value={ edition.owner } />
-                <LicenseDetail license={edition.license_type}/>
+                    value={edition.owner} />
+                <LicenseDetail license={edition.license_type} />
                 {this.getStatus()}
                 {/*
                     `acl_view` is always available in `edition.acl`, therefore if it has
                     no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
                     `AclInformation` would show up
                 */}
-                <AclProxy show={currentUser && currentUser.email && Object.keys(edition.acl).length > 1}>
+                <AclProxy show={currentUser.email && Object.keys(edition.acl).length > 1}>
                     <DetailProperty
                         label={getLangText('ACTIONS')}
                         className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
-                            edition={edition}
                             currentUser={currentUser}
-                            handleSuccess={this.handleSuccess} />
+                            edition={edition}
+                            handleSuccess={handleSuccess}
+                            whitelabel={whitelabel} />
                     </DetailProperty>
                 </AclProxy>
                 <hr/>
@@ -360,4 +354,5 @@ let SpoolDetails = React.createClass({
 
     }
 });
+
 export default Edition;

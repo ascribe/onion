@@ -5,7 +5,7 @@ const wd = require('wd');
 const asserters = wd.asserters;   // Commonly used asserters for async waits in the browser
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const config = require('./config.js');
+const config = require('../config.js');
 
 chai.use(chaiAsPromised);
 chai.should();

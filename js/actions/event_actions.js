@@ -8,9 +8,8 @@ class EventActions {
         this.generateActions(
             'applicationWillBoot',
             'applicationDidBoot',
-            'profileDidLoad',
-            //'userDidLogin',
-            //'userDidLogout',
+            'userDidAuthenticate',
+            'userDidLogout',
             'routeDidChange'
         );
     }

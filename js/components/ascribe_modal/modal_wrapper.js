@@ -6,6 +6,10 @@ import Modal from 'react-bootstrap/lib/Modal';
 
 let ModalWrapper = React.createClass({
     propTypes: {
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element
+        ]).isRequired,
         title: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
@@ -14,11 +18,7 @@ let ModalWrapper = React.createClass({
 
         handleCancel: React.PropTypes.func,
         handleSuccess: React.PropTypes.func,
-        trigger: React.PropTypes.element,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ])
+        trigger: React.PropTypes.element
     },
 
     getInitialState() {

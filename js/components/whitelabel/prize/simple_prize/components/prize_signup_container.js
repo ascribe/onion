@@ -8,6 +8,11 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let SignupContainer = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -18,7 +23,7 @@ let SignupContainer = React.createClass({
         };
     },
 
-    handleSuccess(message){
+    handleSuccess(message) {
         this.setState({
             submitted: true,
             message: message
@@ -26,13 +31,15 @@ let SignupContainer = React.createClass({
     },
 
     render() {
+        const { location } = this.props;
+        const { message, submitted } = this.state;
         setDocumentTitle(getLangText('Sign up'));
 
-        if (this.state.submitted){
+        if (submitted) {
             return (
                 <div className="ascribe-login-wrapper">
                     <div className="ascribe-login-text ascribe-login-header">
-                        {this.state.message}
+                        {message}
                     </div>
                 </div>
             );
@@ -43,7 +50,7 @@ let SignupContainer = React.createClass({
                         headerMessage={getLangText('Create account for submission')}
                         submitMessage={getLangText('Sign up')}
                         handleSuccess={this.handleSuccess}
-                        location={this.props.location}/>
+                        location={location} />
                 </div>
             );
         }

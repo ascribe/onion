@@ -9,7 +9,7 @@ export const validationParts = {
         multiple: 100
     },
     sizeLimit: {
-        default: 25000000000,
+        default: 50000000000,
         thumbnail: 5000000
     }
 };
@@ -30,3 +30,6 @@ export const validationTypes = {
         sizeLimit: sizeLimit.thumbnail
     }
 };
+
+// Number of manual retries before showing a contact us screen on the uploader.
+export const RETRY_ATTEMPT_TO_SHOW_CONTACT_US = 5;

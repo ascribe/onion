@@ -30,6 +30,7 @@ let NavRoutesLinksLink = React.createClass({
             return (
                 <DropdownButton
                     disabled={disabled}
+                    id={`nav-route-${headerTitle.toLowerCase()}-dropdown`}
                     title={headerTitle}>
                     {children}
                 </DropdownButton>

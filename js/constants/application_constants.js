@@ -54,6 +54,16 @@ const constants = {
             'type': 'wallet'
         },
         {
+            'subdomain': 'polline',
+            'name': 'Polline Art',
+            'type': 'wallet'
+        },
+        {
+            'subdomain': 'artcity',
+            'name': 'Artcity',
+            'type': 'wallet'
+        },
+        {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'type': 'prize'
@@ -72,6 +82,8 @@ const constants = {
         'Bildrecht GmbH', 'SABAM', 'AUTVIS', 'CREAIMAGEN', 'SONECA', 'Copydan', 'EAU', 'Kuvasto', 'GCA', 'HUNGART',
         'IVARO', 'SIAE', 'JASPAR-SPDA', 'AKKA/LAA', 'LATGA-A', 'SOMAAP', 'ARTEGESTION', 'CARIER', 'BONO', 'APSAV',
         'SPA', 'GESTOR', 'VISaRTA', 'RAO', 'LITA', 'DALRO', 'VeGaP', 'BUS', 'ProLitteris', 'AGADU', 'AUTORARTE', 'BUBEDRA', 'BBDA', 'BCDA', 'BURIDA', 'ADAVIS', 'BSDA'],
+
+    'locationThreshold': 10,
 
     'searchThreshold': 500,
 

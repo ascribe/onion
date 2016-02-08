@@ -6,7 +6,7 @@ import { Route } from 'react-router';
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
 
-import App from './components/ascribe_app';
+import AscribeApp from './components/ascribe_app';
 
 import PieceList from './components/piece_list';
 import PieceContainer from './components/ascribe_detail/piece_container';
@@ -29,14 +29,14 @@ import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_ha
 
 
 const COMMON_ROUTES = (
-    <Route path='/' component={App}>
+    <Route path='/' component={AscribeApp}>
         <Route
             path='login'
             component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
         <Route
             path='register_piece'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(RegisterPiece)}
-            headerTitle='+ NEW WORK'/>
+            headerTitle='+ NEW WORK' />
         <Route
             path='collection'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
@@ -55,10 +55,10 @@ const COMMON_ROUTES = (
             component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
         <Route
             path='settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
         <Route
             path='contract_settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}/>
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
         <Route path='coa_verify' component={CoaVerifyContainer} />
         <Route path='*' component={ErrorNotFoundPage} />
     </Route>

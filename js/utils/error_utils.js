@@ -4,7 +4,6 @@ import Raven from 'raven-js';
 
 import AppConstants from '../constants/application_constants';
 
-
 /**
  * Logs an error in to the console but also sends it to
  * Sentry.

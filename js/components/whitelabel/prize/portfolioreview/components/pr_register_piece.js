@@ -6,9 +6,6 @@ import { Link, History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
-
 import PRRegisterPieceForm from './pr_forms/pr_register_piece_form';
 
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -20,43 +17,31 @@ const { object } = React.PropTypes;
 
 const PRRegisterPiece = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: object
     },
 
     mixins: [History],
 
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
     componentDidUpdate() {
-        const { currentUser } = this.state;
-        if(currentUser && currentUser.email) {
+        const { currentUser } = this.props;
+        if (currentUser.email) {
             const submittedPieceId = getCookie(currentUser.email);
-            if(submittedPieceId) {
+            if (submittedPieceId) {
                 this.history.push(`/pieces/${submittedPieceId}`);
             }
         }
     },
 
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
-        const { currentUser } = this.state;
-        const { location } = this.props;
+        const { currentUser, location } = this.props;
 
         setDocumentTitle(getLangText('Submit to Portfolio Review'));
+
         return (
             <Row>
                 <Col xs={6}>
@@ -77,7 +62,7 @@ const PRRegisterPiece = React.createClass({
                 <Col xs={6}>
                     <PRRegisterPieceForm
                         location={location}
-                        currentUser={currentUser}/>
+                        currentUser={currentUser} />
                 </Col>
             </Row>
         );

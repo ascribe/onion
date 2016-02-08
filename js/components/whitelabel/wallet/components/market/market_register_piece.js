@@ -6,17 +6,11 @@ import { History } from 'react-router';
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
 
-import PieceStore from '../../../../../stores/piece_store';
-import PieceActions from '../../../../../actions/piece_actions';
-
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import PieceStore from '../../../../../stores/piece_store';
+import PieceActions from '../../../../../actions/piece_actions';
 
 import MarketAdditionalDataForm from './market_forms/market_additional_data_form';
 
@@ -31,6 +25,11 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -40,8 +39,6 @@ let MarketRegisterPiece = React.createClass({
         return mergeOptions(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
-            UserStore.getState(),
-            WhitelabelStore.getState(),
             {
                 step: 0
             });
@@ -50,11 +47,6 @@ let MarketRegisterPiece = React.createClass({
     componentDidMount() {
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
         const queryParams = this.props.location.query;
 
@@ -70,8 +62,6 @@ let MarketRegisterPiece = React.createClass({
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -111,13 +101,12 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
         const {
-            piece,
-            step,
+            location,
             whitelabel: {
                 name: whitelabelName = 'Market'
-            } } = this.state;
+            } } = this.props
+        const { piece, step } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
 
@@ -134,14 +123,14 @@ let MarketRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                {...this.props}
                                 disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Consign to %s', whitelabelName)}
-                                submitMessage={getLangText('Proceed to additional details')}
-                                isFineUploaderActive={true}
                                 enableSeparateThumbnail={false}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={location}>
+                                headerMessage={getLangText('Consign to %s', whitelabelName)}
+                                isFineUploaderActive={true}
+                                submitMessage={getLangText('Proceed to additional details')}>
                                 <Property
                                     name="num_editions"
                                     label={getLangText('Specify editions')}>

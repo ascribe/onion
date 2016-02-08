@@ -55,6 +55,7 @@ let PieceListToolbarOrderWidget = React.createClass({
         if (this.props.orderParams && this.props.orderParams.length) {
             return (
                 <DropdownButton
+                    id="ascribe-piece-list-toolbar-order-widget-dropdown"
                     pullRight={true}
                     className="ascribe-piece-list-toolbar-widget"
                     title={orderIcon}>
