@@ -5,39 +5,37 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
+import WhitelabelActions from '../../../../../actions/whitelabel_actions';
+import WhitelabelStore from '../../../../../stores/whitelabel_store';
+
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
-let LumenusLanding = React.createClass({
+let PollineLanding = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: React.PropTypes.object.isRequired
     },
 
     componentWillMount() {
-        setDocumentTitle('Lumenus Marketplace');
+        setDocumentTitle('Polline Marketplace');
     },
 
     render() {
         return (
-            <div className="container ascribe-form-wrapper">
+            <div className="container ascribe-form-wrapper polline-landing">
                 <div className="row">
-                    <div className="col-xs-12 wp-landing-wrapper">
-                        <div className="row" style={{border: '1px solid #CCC', padding: '2em'}}>
-                            <img src={this.props.whitelabel.logo} height="150" />
-                            <div style={{marginTop: '1em'}}>
-                                {getLangText('Lumenus Marketplace is powered by') + ' '}
-                                <span>
-                                    <span className="icon-ascribe-logo"></span>
-                                </span>
+                    <div className="col-xs-12">
+                        <div className="row polline-landing--header">
+                            <img className="polline-landing--header-logo" src={this.props.whitelabel.logo} />
+                            <div>
+                                {getLangText('Polline Art Marketplace is powered by') + ' '}
+                                <span className="icon-ascribe-logo" />
                             </div>
                         </div>
-                        <div className="row" style={{border: '1px solid #CCC', borderTop: 'none', padding: '2em'}}>
+                        <div className="row polline-landing--content">
                             <div className="col-xs-6">
                                 <p>
                                     {getLangText('Existing ascribe user?')}
@@ -66,4 +64,4 @@ let LumenusLanding = React.createClass({
     }
 });
 
-export default LumenusLanding;
+export default PollineLanding;

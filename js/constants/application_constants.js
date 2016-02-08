@@ -54,6 +54,11 @@ const constants = {
             'type': 'wallet'
         },
         {
+            'subdomain': 'polline',
+            'name': 'Polline Art',
+            'type': 'wallet'
+        },
+        {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'type': 'prize'

@@ -17,7 +17,8 @@ function getWalletApiUrls(subdomain) {
             'piece': walletConstants.walletApiEndpoint + subdomain + '/pieces/${piece_id}/',
             'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
         };
-    } else if (subdomain === 'lumenus' || subdomain === '23vivi') {
+    } else if (subdomain === 'lumenus' || subdomain === '23vivi' ||
+               subdomain === 'polline' || subdomain === 'artcity') {
         return {
             'editions_list': walletConstants.walletApiEndpoint + 'markets/' + subdomain + '/pieces/${piece_id}/editions/',
             'edition': walletConstants.walletApiEndpoint + 'markets/' + subdomain + '/editions/${bitcoin_id}/',

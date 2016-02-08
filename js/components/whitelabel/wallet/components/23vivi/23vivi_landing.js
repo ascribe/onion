@@ -8,11 +8,12 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
+
 let Vivi23Landing = React.createClass({
     propTypes: {
         customThumbnailPlaceholder: React.PropTypes.func,
 
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
@@ -35,7 +36,7 @@ let Vivi23Landing = React.createClass({
                                 src={this.props.whitelabel.logo}
                                 height="75" />
                             <div>
-                                {getLangText('Artwork from the 23VIVI Marketplace is powered by') + ' '}
+                                {getLangText('23VIVI Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />
                             </div>
                         </div>
