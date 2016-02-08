@@ -140,7 +140,7 @@ let WebhookSettings = React.createClass({
                         a target url.
                     </p>
                 </div>
-                <AclProxy show={this.state.webhookEvents && this.state.webhookEvents.length}>
+                <AclProxy show={this.state.webhookEvents && this.state.webhookEvents.length > 0}>
                     <Form
                         ref="webhookCreateForm"
                         url={ApiUrls.webhooks}
