@@ -5,42 +5,36 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let Vivi23Landing = React.createClass({
-    getInitialState() {
-        return WhitelabelStore.getState();
+    propTypes: {
+        customThumbnailPlaceholder: React.PropTypes.func,
+
+        // Provided from WalletApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
+        location: React.PropTypes.object
     },
 
     componentWillMount() {
         setDocumentTitle('23VIVI Marketplace');
     },
 
-    componentDidMount() {
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     render() {
         return (
-            <div className="container ascribe-form-wrapper vivi23-landing">
+            <div className="ascribe-form-wrapper vivi23-landing">
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row vivi23-landing--header">
-                            <img className="vivi23-landing--header-logo" src={this.state.whitelabel.logo} />
+                            <img
+                                className="vivi23-landing--header-logo"
+                                src={this.props.whitelabel.logo}
+                                height="75" />
                             <div>
                                 {getLangText('23VIVI Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />

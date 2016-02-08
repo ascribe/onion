@@ -46,6 +46,12 @@ let PieceList = React.createClass({
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -93,7 +99,7 @@ let PieceList = React.createClass({
         PieceListStore.listen(this.onChange);
         EditionListStore.listen(this.onChange);
 
-        let page = this.props.location.query.page || 1;
+        const page = this.props.location.query.page || 1;
         if (this.props.canLoadPieceList && (this.state.pieceList.length === 0 || this.state.page !== page)) {
             this.loadPieceList({ page });
         }
@@ -175,8 +181,8 @@ let PieceList = React.createClass({
     },
 
     getPagination() {
-        let currentPage = parseInt(this.props.location.query.page, 10) || 1;
-        let totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
+        const currentPage = parseInt(this.props.location.query.page, 10) || 1;
+        const totalPages = Math.ceil(this.state.pieceListCount / this.state.pageSize);
 
         if (this.state.pieceListCount > 20) {
             return (
@@ -203,8 +209,7 @@ let PieceList = React.createClass({
         });
 
         // first we need to apply the filter on the piece list
-        this
-            .loadPieceList({ page: 1, filterBy })
+        this.loadPieceList({ page: 1, filterBy })
             .then(() => {
                 // but also, we need to filter all the open edition lists
                 this.state.pieceList
@@ -239,23 +244,22 @@ let PieceList = React.createClass({
     },
 
     fetchSelectedPieceEditionList() {
-        let filteredPieceIdList = Object.keys(this.state.editionList)
-                                        .filter((pieceId) => {
-                                            return this.state.editionList[pieceId]
-                                                .filter((edition) => edition.selected).length > 0;
-                                        });
+        const filteredPieceIdList = Object.keys(this.state.editionList)
+                                          .filter((pieceId) => {
+                                              return this.state.editionList[pieceId]
+                                                         .filter((edition) => edition.selected)
+                                                         .length;
+                                          });
         return filteredPieceIdList;
     },
 
     fetchSelectedEditionList() {
-        let selectedEditionList = [];
-
-        Object
-            .keys(this.state.editionList)
-            .forEach((pieceId) => {
-                let filteredEditionsForPiece = this.state.editionList[pieceId].filter((edition) => edition.selected);
-                selectedEditionList = selectedEditionList.concat(filteredEditionsForPiece);
-            });
+        const selectedEditionList = Object.keys(this.state.editionList)
+                                          .reduce((selectedList, pieceId) => {
+                                              const selectedEditionsForPiece = this.state.editionList[pieceId]
+                                                                                   .filter((edition) => edition.selected);
+                                              return selectedList.concat(selectedEditionsForPiece);
+                                          }, []);
 
         return selectedEditionList;
     },
@@ -267,7 +271,7 @@ let PieceList = React.createClass({
 
         this.fetchSelectedPieceEditionList()
             .forEach((pieceId) => {
-                EditionListActions.refreshEditionList({pieceId});
+                EditionListActions.refreshEditionList({ pieceId });
             });
         EditionListActions.clearAllEditionSelections();
     },
@@ -276,10 +280,12 @@ let PieceList = React.createClass({
         const {
             accordionListItemType: AccordionListItemType,
             bulkModalButtonListType: BulkModalButtonListType,
+            currentUser,
             customSubmitButton,
             customThumbnailPlaceholder,
             filterParams,
-            orderParams } = this.props;
+            orderParams,
+            whitelabel } = this.props;
 
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
 
@@ -287,6 +293,7 @@ let PieceList = React.createClass({
         const availableAcls = getAvailableAcls(selectedEditions, (aclName) => aclName !== 'acl_view');
 
         setDocumentTitle(getLangText('Collection'));
+
         return (
             <div>
                 <PieceListToolbar
@@ -312,17 +319,19 @@ let PieceList = React.createClass({
                     className="ascribe-piece-list-bulk-modal">
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
-                        pieceOrEditions={selectedEditions}
+                        currentUser={currentUser}
                         handleSuccess={this.handleAclSuccess}
+                        pieceOrEditions={selectedEditions}
+                        whitelabel={whitelabel}
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton
                             handleSuccess={this.handleAclSuccess}
-                            editions={selectedEditions}/>
+                            editions={selectedEditions} />
                     </BulkModalButtonListType>
                 </PieceListBulkModal>
                 <PieceListFilterDisplay
                     filterBy={this.state.filterBy}
-                    filterParams={filterParams}/>
+                    filterParams={filterParams} />
                 <AccordionList
                     className="ascribe-accordion-list"
                     changeOrder={this.accordionChangeOrder}
@@ -335,13 +344,15 @@ let PieceList = React.createClass({
                     page={this.state.page}
                     pageSize={this.state.pageSize}
                     loadingElement={loadingElement}>
-                    {this.state.pieceList.map((piece, i) => {
+                    {this.state.pieceList.map((piece) => {
                         return (
                             <AccordionListItemType
+                                key={piece.id}
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
+                                currentUser={currentUser}
                                 thumbnailPlaceholder={customThumbnailPlaceholder}
-                                key={i}>
+                                whitelabel={whitelabel}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />

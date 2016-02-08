@@ -50,193 +50,302 @@ import WalletApp from './wallet_app';
 let ROUTES = {
     'cyland': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={CylandLanding} />
+            <IndexRoute
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(CylandLanding)}
+                hideFooter />
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                hideFooter />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                hideFooter />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                hideFooter />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                hideFooter />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                hideFooter />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CylandRegisterPiece)}
                 headerTitle='+ NEW WORK'
-                aclName='acl_wallet_submit' />
+                aclName='acl_wallet_submit'
+                hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CylandPieceList)}
                 headerTitle='COLLECTION'
-                disableOn='noPieces' />
-            <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
-            <Route path='pieces/:pieceId' component={CylandPieceContainer} />
-            <Route path='*' component={ErrorNotFoundPage} />
+                disableOn='noPieces'
+                hideFooter />
+            <Route
+                path='editions/:editionId'
+                component={EditionContainer}
+                hideFooter />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer}
+                hideFooter />
+            <Route
+                path='pieces/:pieceId'
+                component={CylandPieceContainer}
+                hideFooter />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage}
+                hideFooter />
         </Route>
     ),
     'cc': (
         <Route path='/' component={WalletApp}>
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                hideFooter />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                hideFooter />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                hideFooter />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                hideFooter />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                hideFooter />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CCRegisterPiece)}
-                headerTitle='+ NEW WORK' />
+                headerTitle='+ NEW WORK'
+                hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
                 headerTitle='COLLECTION'
-                disableOn='noPieces' />
-            <Route path='pieces/:pieceId' component={PieceContainer} />
-            <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
-            <Route path='*' component={ErrorNotFoundPage} />
+                disableOn='noPieces'
+                hideFooter />
+            <Route
+                path='pieces/:pieceId'
+                component={PieceContainer}
+                hideFooter />
+            <Route
+                path='editions/:editionId'
+                component={EditionContainer}
+                hideFooter />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer}
+                hideFooter />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage}
+                hideFooter />
         </Route>
     ),
     'ikonotv': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={IkonotvLanding} />
+            <IndexRoute
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(IkonotvLanding)}
+                hideFooter />
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                hideFooter />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                hideFooter />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                hideFooter />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                hideFooter />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                hideFooter />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                hideFooter />
             <Route
                 path='request_loan'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SendContractAgreementForm)}
                 headerTitle='SEND NEW CONTRACT'
-                aclName='acl_create_contractagreement' />
+                aclName='acl_create_contractagreement'
+                hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvRegisterPiece)}
                 headerTitle='+ NEW WORK'
-                aclName='acl_wallet_submit' />
+                aclName='acl_wallet_submit'
+                hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvPieceList)}
                 headerTitle='COLLECTION'
-                disableOn='noPieces' />
+                disableOn='noPieces'
+                hideFooter />
             <Route
                 path='contract_notifications'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvContractNotifications)} />
-            <Route path='pieces/:pieceId' component={IkonotvPieceContainer} />
-            <Route path='editions/:editionId' component={EditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
-            <Route path='*' component={ErrorNotFoundPage} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvContractNotifications)}
+                hideFooter />
+            <Route
+                path='pieces/:pieceId'
+                component={IkonotvPieceContainer}
+                hideFooter />
+            <Route
+                path='editions/:editionId'
+                component={EditionContainer}
+                hideFooter />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer}
+                hideFooter />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage}
+                hideFooter />
         </Route>
     ),
     'lumenus': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LumenusLanding)} />
+            <IndexRoute
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LumenusLanding)}
+                hideFooter />
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                hideFooter />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                hideFooter />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                hideFooter />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                hideFooter />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                hideFooter />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
                 headerTitle='+ NEW WORK'
-                aclName='acl_wallet_submit' />
+                aclName='acl_wallet_submit'
+                hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
                 headerTitle='COLLECTION'
-                disableOn='noPieces' />
-            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
-            <Route path='editions/:editionId' component={MarketEditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
-            <Route path='*' component={ErrorNotFoundPage} />
+                disableOn='noPieces'
+                hideFooter />
+            <Route
+                path='pieces/:pieceId'
+                component={MarketPieceContainer}
+                hideFooter />
+            <Route
+                path='editions/:editionId'
+                component={MarketEditionContainer}
+                hideFooter />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer}
+                hideFooter />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage}
+                hideFooter />
         </Route>
     ),
     '23vivi': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(Vivi23Landing)} />
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(Vivi23Landing)}
+                hideFooter />
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                hideFooter />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                hideFooter />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                hideFooter />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                hideFooter />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                hideFooter />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
                 headerTitle='+ NEW WORK'
-                aclName='acl_wallet_submit' />
+                aclName='acl_wallet_submit'
+                hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(Vivi23PieceList)}
                 headerTitle='COLLECTION'
-                disableOn='noPieces' />
-            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
-            <Route path='editions/:editionId' component={MarketEditionContainer} />
-            <Route path='verify' component={CoaVerifyContainer} />
-            <Route path='*' component={ErrorNotFoundPage} />
+                disableOn='noPieces'
+                hideFooter />
+            <Route
+                path='pieces/:pieceId'
+                component={MarketPieceContainer}
+                hideFooter />
+            <Route
+                path='editions/:editionId'
+                component={MarketEditionContainer}
+                hideFooter />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer}
+                hideFooter />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage}
+                hideFooter />
         </Route>
     ),
     'polline': (

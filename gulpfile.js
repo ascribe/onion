@@ -97,7 +97,8 @@ gulp.task('browser-sync', function() {
         proxy: 'http://localhost:4000',
         port: 3000,
         open: false, // does not open the browser-window anymore (handled manually)
-        ghostMode: false
+        ghostMode: false,
+        notify: false // stop showing the browsersync pop up
     });
 });
 

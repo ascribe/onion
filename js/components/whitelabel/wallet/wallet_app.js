@@ -1,57 +1,62 @@
 'use strict';
 
 import React from 'react';
-import Header from '../../header';
-import Footer from '../../footer';
-
-import GlobalNotification from '../../global_notification';
-
 import classNames from 'classnames';
+
+import AppBase from '../../app_base';
+import AppRouteWrapper from '../../app_route_wrapper';
+import Footer from '../../footer';
+import Header from '../../header';
 
 import { getSubdomain } from '../../../utils/general_utils';
 
 
 let WalletApp = React.createClass({
     propTypes: {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ]),
-        history: React.PropTypes.object,
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        activeRoute: React.PropTypes.object.isRequired,
+        children: React.PropTypes.element.isRequired,
+        history: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        // Provided from AppBase
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object
     },
 
     render() {
+        const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
+        const subdomain = getSubdomain();
+        const path = activeRoute && activeRoute.path;
+
         let header = null;
-        let subdomain = getSubdomain();
-        const { history, routes, children } = this.props;
-
-        // The second element of routes is always the active component object, where we can
-        // extract the path.
-        let path = routes[1] ? routes[1].path : null;
-
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
         if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
-            && (['cyland', 'ikonotv', 'lumenus', '23vivi', 'polline']).indexOf(subdomain) > -1) {
+            && (['cyland', 'ikonotv', 'lumenus', '23vivi', 'polline']).includes(subdomain)) {
             header = (<div className="hero"/>);
         } else {
-            header = <Header routes={routes} />;
+            header = (
+                <Header
+                    currentUser={currentUser}
+                    routes={routes}
+                    whitelabel={whitelabel} />
+            );
         }
 
         // In react-router 1.0, Routes have no 'name' property anymore. To keep functionality however,
         // we split the path by the first occurring slash and take the first splitter.
         return (
-            <div className={classNames('ascribe-wallet-app', 'route--' + (path ? path.split('/')[0] : 'landing'))}>
-                <div className='container'>
-                    {header}
+            <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
+                {header}
+                <AppRouteWrapper
+                    currentUser={currentUser}
+                    whitelabel={whitelabel}>
+                    {/* Routes are injected here */}
                     {children}
-                    <GlobalNotification />
-                    <div id="modal" className="container"></div>
-                    <Footer />
-                </div>
+                </AppRouteWrapper>
+                <Footer activeRoute={activeRoute} />
             </div>
         );
     }
 });
 
-export default WalletApp;
+export default AppBase(WalletApp);

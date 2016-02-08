@@ -16,8 +16,9 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 
 const SluiceSelectedPrizeActionButton = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        piece: React.PropTypes.object.isRequired,
+
         startLoanDate: React.PropTypes.object,
         endLoanDate: React.PropTypes.object,
         className: React.PropTypes.string,
@@ -38,7 +39,7 @@ const SluiceSelectedPrizeActionButton = React.createClass({
 
         // Can't use default props since those are only created once
         const startLoanDate = this.props.startLoanDate || new Moment();
-        const endLoanDate = this.props.endLoanDate || (new Moment()).add(6, 'months');
+        const endLoanDate = this.props.endLoanDate || new Moment().add(6, 'months');
 
         return (
             <ModalWrapper

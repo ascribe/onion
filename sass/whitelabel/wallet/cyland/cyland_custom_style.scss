@@ -56,10 +56,6 @@ $cyland--button-sec-color: #515151;
     }
 }
 
-.client--cyland .ascribe-footer {
-    display: none;
-}
-
 .client--cyland .icon-ascribe-search {
     color: $cyland--button-color;
 }
@@ -171,6 +167,7 @@ $cyland--button-sec-color: #515151;
 .client--cyland {
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
@@ -178,8 +175,13 @@ $cyland--button-sec-color: #515151;
             vertical-align: middle;
         }
 
+        .hero {
+            display: none;
+        }
+
         .cyland-landing {
             font-weight: normal;
+            padding: 0 15px;
             text-align: center;
         }
     }

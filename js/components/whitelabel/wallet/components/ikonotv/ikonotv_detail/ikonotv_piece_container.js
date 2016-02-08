@@ -3,29 +3,27 @@
 import React from 'react';
 import { History } from 'react-router';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
+import EditionListActions from '../../../../../../actions/edition_list_actions';
 
-import UserStore from '../../../../../../stores/user_store';
+import GlobalNotificationModel from '../../../../../../models/global_notification_model';
+import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
 import PieceListStore from '../../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../../actions/piece_list_actions';
 
-import EditionListActions from '../../../../../../actions/edition_list_actions';
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
 import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
-
-import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import IkonotvArtistDetailsForm from '../ikonotv_forms/ikonotv_artist_details_form';
 import IkonotvArtworkDetailsForm from '../ikonotv_forms/ikonotv_artwork_details_form';
 
 import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 
-import AscribeSpinner from '../../../../../ascribe_spinner';
+import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
-import GlobalNotificationModel from '../../../../../../models/global_notification_model';
-import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
+import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../../utils/dom_utils';
@@ -34,6 +32,12 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let IkonotvPieceContainer = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -41,15 +45,13 @@ let IkonotvPieceContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            PieceStore.getInitialState(),
-            UserStore.getState(),
-            PieceListStore.getState()
+            PieceListStore.getState(),
+            PieceStore.getInitialState()
         );
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
 
         this.loadPiece();
@@ -65,7 +67,6 @@ let IkonotvPieceContainer = React.createClass({
 
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceListStore.listen(this.onChange);
     },
 
@@ -94,6 +95,7 @@ let IkonotvPieceContainer = React.createClass({
     },
 
     render() {
+        const { currentUser } = this.props;
         const { piece } = this.state;
 
         let furtherDetails = (
@@ -127,7 +129,7 @@ let IkonotvPieceContainer = React.createClass({
             return (
                 <WalletPieceContainer
                     piece={piece}
-                    currentUser={this.state.currentUser}
+                    currentUser={currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={IkonotvSubmitButton}>

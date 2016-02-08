@@ -10,16 +10,8 @@ import Row from 'react-bootstrap/lib/Row';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
-
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
-
 import PieceListStore from '../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../actions/piece_list_actions';
-
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
 
 import PieceStore from '../../../../../stores/piece_store';
 import PieceActions from '../../../../../actions/piece_actions';
@@ -30,6 +22,7 @@ import GlobalNotificationActions from '../../../../../actions/global_notificatio
 import CylandAdditionalDataForm from './cyland_forms/cyland_additional_data_form';
 
 import LoanForm from '../../../../ascribe_forms/form_loan';
+import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
@@ -43,6 +36,11 @@ import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 let CylandRegisterPiece = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
@@ -50,10 +48,8 @@ let CylandRegisterPiece = React.createClass({
 
     getInitialState(){
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getInitialState(),
-            WhitelabelStore.getState(),
             {
                 step: 0
             });
@@ -61,11 +57,7 @@ let CylandRegisterPiece = React.createClass({
 
     componentDidMount() {
         PieceListStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-        WhitelabelStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-        WhitelabelActions.fetchWhitelabel();
 
         const queryParams = this.props.location.query;
 
@@ -83,9 +75,7 @@ let CylandRegisterPiece = React.createClass({
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -139,8 +129,8 @@ let CylandRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
-        const { currentUser, piece, step, whitelabel } = this.state;
+        const { currentUser, location, whitelabel } = this.props;
+        const { piece, step } = this.state;
 
         const today = new Moment();
         const datetimeWhenWeAllWillBeFlyingCoolHoverboardsAndDinosaursWillLiveAgain = new Moment().add(1000, 'years');
@@ -180,13 +170,13 @@ let CylandRegisterPiece = React.createClass({
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
                             <RegisterPieceForm
+                                {...this.props}
                                 disabled={step > 0}
                                 enableLocalHashing={false}
-                                headerMessage={getLangText('Submit to Cyland Archive')}
-                                submitMessage={getLangText('Submit')}
-                                isFineUploaderActive={true}
                                 handleSuccess={this.handleRegisterSuccess}
-                                location={location} />
+                                headerMessage={getLangText('Submit to Cyland Archive')}
+                                isFineUploaderActive={true}
+                                submitMessage={getLangText('Submit')} />
                         </Col>
                     </Row>
                 </div>
