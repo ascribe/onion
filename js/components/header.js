@@ -14,41 +14,28 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import AclProxy from './acl_proxy';
-
 import EventActions from '../actions/event_actions';
 
 import PieceListStore from '../stores/piece_list_store';
 
-import UserActions from '../actions/user_actions';
-import UserStore from '../stores/user_store';
-
-import WhitelabelActions from '../actions/whitelabel_actions';
-import WhitelabelStore from '../stores/whitelabel_store';
-
+import AclProxy from './acl_proxy';
 import HeaderNotifications from './header_notification';
-
 import HeaderNotificationDebug from './header_notification_debug';
-
 import NavRoutesLinks from './nav_routes_links';
 
-import { mergeOptions } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-
 import { constructHead } from '../utils/dom_utils';
 
 
 let Header = React.createClass({
     propTypes: {
-        routes: React.PropTypes.arrayOf(React.PropTypes.object)
+        currentUser: React.PropTypes.object.isRequired,
+        routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        whitelabel: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
-        return mergeOptions(
-            PieceListStore.getState(),
-            WhitelabelStore.getState(),
-            UserStore.getState()
-        );
+        return PieceListStore.getState();
     },
 
     componentDidMount() {
@@ -56,35 +43,14 @@ let Header = React.createClass({
         // conflicts with routes that may need to wait to load the piece list
         PieceListStore.listen(this.onChange);
 
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser.defer();
-
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel.defer();
-
         // react-bootstrap 0.25.1 has a bug in which it doesn't
         // close the mobile expanded navigation after a click by itself.
         // To get rid of this, we set the state of the component ourselves.
         history.listen(this.onRouteChange);
-
-        if (this.state.currentUser && this.state.currentUser.email) {
-            EventActions.profileDidLoad.defer(this.state.currentUser);
-        }
-    },
-
-    componentWillUpdate(nextProps, nextState) {
-        const { currentUser: { email: curEmail } = {} } = this.state;
-        const { currentUser: { email: nextEmail } = {} } = nextState;
-
-        if (nextEmail && curEmail !== nextEmail) {
-            EventActions.profileDidLoad.defer(nextState.currentUser);
-        }
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
-        WhitelabelStore.unlisten(this.onChange);
         //history.unlisten(this.onRouteChange);
     },
 
@@ -93,7 +59,7 @@ let Header = React.createClass({
     },
 
     getLogo() {
-        let { whitelabel } = this.state;
+        const { whitelabel } = this.props;
 
         if (whitelabel.head) {
             constructHead(whitelabel.head);
@@ -117,7 +83,7 @@ let Header = React.createClass({
     getPoweredBy() {
         return (
             <AclProxy
-                aclObject={this.state.whitelabel}
+                aclObject={this.props.whitelabel}
                 aclName="acl_view_powered_by">
                     <li>
                         <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
@@ -164,7 +130,9 @@ let Header = React.createClass({
     },
 
     render() {
-        const { currentUser, unfilteredPieceListCount } = this.state;
+        const { currentUser, routes  } = this.props;
+        const { unfilteredPieceListCount } = this.state;
+
         let account;
         let signup;
         let navRoutesLinks;
@@ -173,13 +141,13 @@ let Header = React.createClass({
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
+                    id="nav-route-user-dropdown"
                     eventKey="1"
                     title={currentUser.username}>
                     <LinkContainer
                         to="/settings"
                         onClick={this.onMenuItemClick}>
-                        <MenuItem
-                            eventKey="2">
+                        <MenuItem eventKey="2">
                             {getLangText('Account Settings')}
                         </MenuItem>
                     </LinkContainer>
@@ -189,17 +157,14 @@ let Header = React.createClass({
                         <LinkContainer
                             to="/contract_settings"
                             onClick={this.onMenuItemClick}>
-                            <MenuItem
-                                eventKey="2">
+                            <MenuItem eventKey="2">
                                 {getLangText('Contract Settings')}
                             </MenuItem>
                         </LinkContainer>
                     </AclProxy>
                     <MenuItem divider />
-                    <LinkContainer
-                        to="/logout">
-                        <MenuItem
-                            eventKey="3">
+                    <LinkContainer to="/logout">
+                        <MenuItem eventKey="3">
                             {getLangText('Log out')}
                         </MenuItem>
                     </LinkContainer>
@@ -216,21 +181,19 @@ let Header = React.createClass({
                     navbar
                     right
                     hasPieces={!!unfilteredPieceListCount}
-                    routes={this.props.routes}
+                    routes={routes}
                     userAcl={currentUser.acl} />
             );
         } else {
             account = (
-                <LinkContainer
-                    to="/login">
+                <LinkContainer to="/login">
                     <NavItem>
                         {getLangText('LOGIN')}
                     </NavItem>
                 </LinkContainer>
             );
             signup = (
-                <LinkContainer
-                    to="/signup">
+                <LinkContainer to="/signup">
                     <NavItem>
                         {getLangText('SIGNUP')}
                     </NavItem>
@@ -246,13 +209,12 @@ let Header = React.createClass({
                     toggleNavKey={0}
                     fixedTop={true}
                     className="hidden-print">
-                    <CollapsibleNav
-                        eventKey={0}>
+                    <CollapsibleNav eventKey={0}>
                         <Nav navbar left>
                             {this.getPoweredBy()}
                         </Nav>
                         <Nav navbar right>
-                            <HeaderNotificationDebug show={false}/>
+                            <HeaderNotificationDebug show={false} />
                             {account}
                             {signup}
                         </Nav>

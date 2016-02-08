@@ -12,16 +12,21 @@ class RavenHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad(profile) {
+    onUserDidAuthenticate(user) {
         if (this.loaded) {
             return;
         }
 
         Raven.setUserContext({
-            email: profile.email
+            email: user.email
         });
         console.log('Raven loaded');
         this.loaded = true;
+    }
+
+    onUserDidLogout() {
+        Raven.setUserContext();
+        this.loaded = false;
     }
 }
 

@@ -20,16 +20,17 @@ import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
 let AclFormFactory = React.createClass({
     propTypes: {
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
-        autoFocusProperty: React.PropTypes.string,
-        currentUser: React.PropTypes.object,
-        email: React.PropTypes.string,
-        message: React.PropTypes.string,
-        labels: React.PropTypes.object,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
         ]).isRequired,
+
+        autoFocusProperty: React.PropTypes.string,
+        currentUser: React.PropTypes.object,
+        email: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
+        message: React.PropTypes.string,
+        labels: React.PropTypes.object,
         showNotification: React.PropTypes.bool
     },
 
@@ -105,7 +106,7 @@ let AclFormFactory = React.createClass({
                     message={formMessage}
                     id={this.getFormDataId()}
                     url={this.isPiece() ? ApiUrls.ownership_loans_pieces
-                        : ApiUrls.ownership_loans_editions}
+                                        : ApiUrls.ownership_loans_editions}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_loan_request') {
@@ -122,7 +123,7 @@ let AclFormFactory = React.createClass({
                     message={formMessage}
                     id={this.getFormDataId()}
                     url={this.isPiece() ? ApiUrls.ownership_shares_pieces
-                        : ApiUrls.ownership_shares_editions}
+                                        : ApiUrls.ownership_shares_editions}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else {

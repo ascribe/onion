@@ -17,7 +17,7 @@ class NotificationsHandler {
         this.loaded = false;
     }
 
-    onProfileDidLoad() {
+    onUserDidAuthenticate() {
         if (this.loaded) {
             return;
         }
@@ -27,14 +27,19 @@ class NotificationsHandler {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
                     if (res.notifications && res.notifications.length > 0) {
-                        this.loaded = true;
                         console.log('Contractagreement notifications loaded');
+                        this.loaded = true;
+
                         history.push('/contract_notifications');
                     }
                 }
             );
         }
         this.loaded = true;
+    }
+
+    onUserDidLogout() {
+        this.loaded = false;
     }
 }
 

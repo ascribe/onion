@@ -210,8 +210,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='contract_agreement'
                     label={getLangText('Loan Contract')}
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
+                    className="ascribe-property-collapsible-toggle">
                     <InputContractAgreementCheckbox
                         createPublicContractAgreement={createPublicContractAgreement}
                         email={email} />

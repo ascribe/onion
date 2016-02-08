@@ -22,12 +22,14 @@ const EMBED_IFRAME_HEIGHT = {
     video: 315,
     audio: 62
 };
+const ENCODE_UPDATE_TIME = 5000;
 
 let MediaContainer = React.createClass({
     propTypes: {
-        content: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        refreshObject: React.PropTypes.func
+        content: React.PropTypes.object.isRequired,
+        refreshObject: React.PropTypes.func.isRequired,
+
+        currentUser: React.PropTypes.object
     },
 
     getInitialState() {
@@ -37,14 +39,16 @@ let MediaContainer = React.createClass({
     },
 
     componentDidMount() {
-        if (!this.props.content.digital_work) {
-            return;
-        }
+        const { content: { digital_work: digitalWork }, refreshObject } = this.props;
 
-        const isEncoding = this.props.content.digital_work.isEncoding;
-        if (this.props.content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(this.props.refreshObject, 10000);
-            this.setState({timerId: timerId});
+        if (digitalWork) {
+            const isEncoding = digitalWork.isEncoding;
+
+            if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+                this.setState({
+                    timerId: window.setInterval(refreshObject, ENCODE_UPDATE_TIME)
+                });
+            }
         }
     },
 
@@ -105,7 +109,7 @@ let MediaContainer = React.createClass({
                             {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
                                 + content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
-                    }/>
+                    } />
             );
         }
         return (
@@ -136,7 +140,7 @@ let MediaContainer = React.createClass({
                                 If it turns out that `fileExtension` is an empty string, we're just
                                 using the label 'file'.
                             */}
-                            {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download"/>
+                            {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download" />
                         </Button>
                     </AclProxy>
                     {embed}

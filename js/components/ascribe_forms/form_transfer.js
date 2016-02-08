@@ -18,26 +18,26 @@ import { getLangText } from '../../utils/lang_utils.js';
 
 let TransferForm = React.createClass({
     propTypes: {
-        url: React.PropTypes.string,
-        id: React.PropTypes.object,
-        message: React.PropTypes.string,
-        editions: React.PropTypes.array,
-        currentUser: React.PropTypes.object,
-        handleSuccess: React.PropTypes.func
+        id: React.PropTypes.object.isRequired,
+        url: React.PropTypes.string.isRequired,
+
+        handleSuccess: React.PropTypes.func,
+        message: React.PropTypes.string
     },
 
-    getFormData(){
+    getFormData() {
         return this.props.id;
     },
 
     render() {
+        const { handleSuccess, message, url } = this.props;
 
         return (
             <Form
                 ref='form'
-                url={this.props.url}
+                url={url}
                 getFormData={this.getFormData}
-                handleSuccess={this.props.handleSuccess}
+                handleSuccess={handleSuccess}
                 buttons={
                     <div className="modal-footer">
                         <p className="pull-right">
@@ -70,7 +70,7 @@ let TransferForm = React.createClass({
                     overrideForm={true}>
                     <InputTextAreaToggable
                         rows={1}
-                        defaultValue={this.props.message}
+                        defaultValue={message}
                         placeholder={getLangText('Enter a message...')}
                         required />
                 </Property>
