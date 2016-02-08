@@ -1,5 +1,7 @@
 'use strict'
 
+import { validationParts } from './uploader_constants';
+
 import { deepMatchObject } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
 
@@ -112,9 +114,10 @@ const ErrorClasses = {
 
         // Fallback error tips
         'largeFileSize': {
-            'prettifiedText': getLangText('We handle files up to 25GB but your Internet connection may not. With ' +
-                                          'large files and limited bandwith, it may take some time to complete. If ' +
-                                          'it doesn’t seem to progress at all, try restarting the process.')
+            'prettifiedText': getLangText(`We handle files up to ${validationParts.sizeLimit.default / 1000000000}GB ` +
+                                          'but your Internet connection may not. With large files and limited ' +
+                                          'bandwith, it may take some time to complete. If it doesn’t seem to ' +
+                                          'progress at all, try restarting the process.')
         },
         'tryDifferentBrowser': {
             'prettifiedText': getLangText("We're still having trouble uploading your file. It might be your " +
