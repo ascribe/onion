@@ -1,0 +1,413 @@
+$artcity--fg-color: black;
+$artcity--bg-color: #FBFBFB;
+$artcity--nav-fg-prim-color: $artcity--fg-color;
+$artcity--nav-fg-sec-color: #3a3a3a;
+$artcity--nav-bg-color: $artcity--bg-color;
+$artcity--nav-highlight-color: #f8f8f8;
+$artcity--button-default-color: $artcity--fg-color;
+$artcity--highlight-color: #38BFC3;
+$artcity--sec-highlight-color: #547A82;
+$artcity--ter-highlight-color: #EDEDF0;
+
+
+.client--artcity {
+    /** Landing page **/
+    .route--landing {
+        display: table;
+
+        > .container {
+            display: table-cell;
+            padding-bottom: 100px;
+            vertical-align: middle;
+        }
+
+        .artcity-landing {
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .artcity-landing--header {
+            background-color: $artcity--bg-color;
+            border: 1px solid darken($artcity--bg-color, 20%);
+            color: $artcity--fg-color;
+            padding: 2em;
+
+            .artcity-landing--header-logo {
+                margin: 1em 0 2em 0;
+                height: 175px;
+            }
+        }
+
+        .artcity-landing--content {
+            background-color: $artcity--bg-color;
+            border: 1px solid darken($artcity--bg-color, 20%);
+            border-top: none;
+            padding: 2em;
+        }
+    }
+
+    /** Navbar **/
+    .navbar-default {
+        background-color: $artcity--bg-color;
+    
+        .navbar-brand .img-brand {
+            height: 115%;
+        }
+
+        .navbar-brand .icon-ascribe-logo {
+            color: $artcity--nav-fg-prim-color;
+            &:hover {
+                color: darken($artcity--nav-fg-prim-color, 20%);
+            }
+        }
+
+    }
+
+    .navbar-nav > li > a,
+    .navbar-nav > li > a:focus,
+    .navbar-nav > li > .active a,
+    .navbar-nav > li > .active a:focus {
+        color: $artcity--nav-fg-prim-color;
+    }
+
+    .navbar-nav > li > a:hover {
+        color: darken($artcity--nav-fg-prim-color, 20%);
+    }
+
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        background-color: $artcity--nav-bg-color;
+        border-bottom-color: $artcity--nav-fg-prim-color;
+        color: $artcity--nav-fg-prim-color;
+    }
+
+    .navbar-nav > .open > a,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > li > a {
+        color: $artcity--nav-fg-prim-color;
+        background-color: $artcity--nav-bg-color;
+    }
+
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus,
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($artcity--nav-fg-prim-color, 20%);
+        background-color: $artcity--nav-highlight-color;
+    }
+
+    .navbar-collapse.collapsing,
+    .navbar-collapse.collapse.in {
+        background-color: $artcity--nav-bg-color;
+
+        .navbar-nav > .open > a,
+        .navbar-nav > .active > a {
+            background-color: $artcity--nav-highlight-color;
+        }
+    }
+
+    .navbar-collapse.collapsing li a,
+    .navbar-collapse.collapse.in li a {
+        color: $artcity--nav-fg-prim-color;
+    }
+    .navbar-collapse.collapse.in li a:not(.ascribe-powered-by):hover {
+        color: lighten($artcity--nav-fg-prim-color, 20%);
+        background-color: $artcity--nav-highlight-color;
+    }
+
+    .navbar-toggle {
+        border-color: $artcity--highlight-color;
+
+        .icon-bar {
+            background-color: $artcity--highlight-color;
+        }
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        border-color: lighten($artcity--highlight-color, 10%);
+        background-color: $artcity--nav-fg-prim-color;
+
+        .icon-bar {
+            background-color: lighten($artcity--highlight-color, 10%);
+        }
+    }
+
+    .notification-menu {
+        .dropdown-menu {
+            background-color: $artcity--nav-bg-color;
+        }
+
+        .notification-header {
+            background-color: $artcity--nav-fg-sec-color;
+            border-top-width: 0;
+            color: $artcity--nav-bg-color;
+        }
+
+        .notification-action {
+            color: $artcity--highlight-color;
+        }
+    }
+
+    /** Buttons **/
+    // reset disabled button styling for btn-default
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: lighten($artcity--highlight-color, 30%);
+        border-color: lighten($artcity--highlight-color, 30%);
+    }
+
+    .btn-default {
+        background-color: $artcity--highlight-color;
+        border-color: $artcity--highlight-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($artcity--highlight-color, 30%);
+            border-color: lighten($artcity--highlight-color, 30%);
+        }
+    }
+
+    // disabled buttons
+    .btn-secondary.disabled,
+    .btn-secondary.disabled:hover,
+    .btn-secondary.disabled:focus,
+    .btn-secondary.disabled.focus,
+    .btn-secondary.disabled:active,
+    .btn-secondary.disabled.active,
+    .btn-secondary[disabled],
+    .btn-secondary[disabled]:hover,
+    .btn-secondary[disabled]:focus,
+    .btn-secondary[disabled].focus,
+    .btn-secondary[disabled]:active,
+    .btn-secondary[disabled].active,
+    fieldset[disabled] .btn-secondary,
+    fieldset[disabled] .btn-secondary:hover,
+    fieldset[disabled] .btn-secondary:focus,
+    fieldset[disabled] .btn-secondary.focus,
+    fieldset[disabled] .btn-secondary:active,
+    fieldset[disabled] .btn-secondary.active {
+        background-color: darken($artcity--bg-color, 20%);
+        border-color: $artcity--button-default-color;
+    }
+
+    .btn-secondary {
+        border-color: $artcity--highlight-color;
+        color: $artcity--sec-highlight-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $artcity--highlight-color;
+            border-color: $artcity--bg-color;
+            color: $artcity--bg-color;
+        }
+    }
+
+    .btn-tertiary {
+        &:hover,
+        &:active,
+        &:active:hover,
+        &.active:hover{
+            background-color: $artcity--highlight-color;
+            border-color: $artcity--highlight-color;
+            color: $artcity--bg-color;
+        }
+    }
+
+    .btn-transparent {
+        color: $artcity--highlight-color;
+
+        &:hover {
+            color: lighten($artcity--highlight-color, 20%)
+        }
+    }
+
+    /** Other components **/
+    .ascribe-piece-list-toolbar .btn-ascribe-add {
+        display: none;
+    }
+
+    .ascribe-footer {
+        display: none;
+    }
+
+    .ascribe-accordion-list-table-toggle:hover {
+        color: $artcity--fg-color;
+    }
+
+    .ascribe-accordion-list-item-table tbody tr:hover {
+        border-left-color: $artcity--highlight-color;
+    }
+
+    .request-action-badge {
+        color: $artcity--fg-color;
+    }
+
+    .acl-information-dropdown-list .title {
+        color: $artcity--fg-color;
+    }
+
+    // filter widget
+    .ascribe-piece-list-toolbar-filter-widget button {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        color: $artcity--button-default-color !important;
+
+        &:hover,
+        &:active {
+            background-color: $artcity--highlight-color !important;
+            border-color: $artcity--highlight-color !important;
+            color: $artcity--bg-color !important;
+        }
+    }
+
+    .icon-ascribe-search {
+        color: $artcity--fg-color;
+    }
+
+    // forms
+    .ascribe-property-wrapper:hover {
+        border-left-color: rgba($artcity--highlight-color, 0.5);
+    }
+
+    .ascribe-property textarea,
+    .ascribe-property input,
+    .search-bar > .form-group > .input-group input {
+        &::-webkit-input-placeholder {
+            color: rgba($artcity--fg-color, 0.5);
+        }
+        &::-moz-placeholder {
+            color: rgba($artcity--fg-color, 0.5);
+        }
+        &:-ms-input-placeholder {
+            color: rgba($artcity--fg-color, 0.5);
+        }
+        &:-moz-placeholder {
+            color: rgba($artcity--fg-color, 0.5);
+        }
+    }
+
+    .ascribe-property {
+        > div,
+        > input,
+        > pre,
+        > select,
+        > span:not(.glyphicon),
+        > p,
+        > p > span,
+        > textarea {
+            color: $artcity--fg-color;
+        }
+    }
+
+    // global notification
+    .ascribe-global-notification-success {
+        background-color: lighten($artcity--highlight-color, 20%);
+    }
+
+    // uploader progress
+    .ascribe-progress-bar > .progress-bar {
+        background-color: lighten($artcity--highlight-color, 20%);
+    }
+
+    .ascribe-progress-bar span {
+        text-shadow: -1px 0 lighten($artcity--highlight-color, 20%),
+                     0 1px lighten($artcity--highlight-color, 20%),
+                     1px 0 lighten($artcity--highlight-color, 20%),
+                     0 -1px lighten($artcity--highlight-color, 20%);
+    }
+
+    .action-file.icon-ascribe-ok,
+    .action-file.icon-ascribe-ok:hover {
+        color: lighten($artcity--highlight-color, 20%);
+    }
+
+    .action-file {
+        text-shadow: -1px 0 lighten($artcity--highlight-color, 20%),
+                     0 1px lighten($artcity--highlight-color, 20%),
+                     1px 0 lighten($artcity--highlight-color, 20%),
+                     0 -1px lighten($artcity--highlight-color, 20%);
+    }
+
+    // spinner
+    .spinner-circle {
+        border-color: $artcity--highlight-color;
+    }
+    .spinner-inner {
+        display: none;
+    }
+    .btn-secondary .spinner-circle {
+        border-color: $artcity--highlight-color;
+    }
+
+    // video player
+    .ascribe-media-player .vjs-default-skin {
+        .vjs-play-progress,
+        .vjs-volume-level {
+            background-color: $artcity--highlight-color;
+        }
+    }
+
+    // pager
+    .pager li > a,
+    .pager li > span {
+        background-color: $artcity--bg-color;
+        border-color: $artcity--highlight-color;
+        color: $artcity--sec-highlight-color;
+
+        &:hover {
+            background-color: $artcity--highlight-color;
+            border-color: $artcity--highlight-color;
+            color: $artcity--bg-color;
+        }
+    }
+    .pager .disabled > a,
+    .pager .disabled > span {
+        background-color: $artcity--ter-highlight-color !important;
+        border-color: $artcity--ter-highlight-color;
+
+        &:hover {
+            color: $artcity--sec-highlight-color;
+            border-color: $artcity--ter-highlight-color;
+        }
+    }
+
+    // intercom
+    #intercom-container .intercom-launcher-button {
+        background-color: $artcity--button-default-color !important;
+        border-color: $artcity--button-default-color !important;
+    }
+}

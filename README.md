@@ -34,6 +34,7 @@ Additionally, to work on the white labeling functionality, you need to edit your
 127.0.0.1   portfolioreview.localhost.com
 127.0.0.1   23vivi.localhost.com
 127.0.0.1   polline.localhost.com
+127.0.0.1   artcity.localhost.com
 ```
 
 
