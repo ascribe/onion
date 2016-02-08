@@ -13,25 +13,14 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let PollineLanding = React.createClass({
-    getInitialState() {
-        return WhitelabelStore.getState();
+    propTypes: {
+        // Provided from WalletApp
+        currentUser: React.PropTypes.object,
+        whitelabel: React.PropTypes.object.isRequired
     },
 
     componentWillMount() {
         setDocumentTitle('Polline Marketplace');
-    },
-
-    componentDidMount() {
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     render() {
@@ -40,7 +29,7 @@ let PollineLanding = React.createClass({
                 <div className="row">
                     <div className="col-xs-12">
                         <div className="row polline-landing--header">
-                            <img className="polline-landing--header-logo" src={this.state.whitelabel.logo} />
+                            <img className="polline-landing--header-logo" src={this.props.whitelabel.logo} />
                             <div>
                                 {getLangText('Polline Art Marketplace is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />

@@ -13,7 +13,7 @@ let Vivi23Landing = React.createClass({
     propTypes: {
         customThumbnailPlaceholder: React.PropTypes.func,
 
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
