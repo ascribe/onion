@@ -3,6 +3,17 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
+import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
+import { AuthPrizeRoleRedirect } from './portfolioreview/components/pr_routes/pr_proxy_handler';
+
+// General components
+import EditionContainer from '../../ascribe_detail/edition_container';
+import LogoutContainer from '../../logout_container';
+import PasswordResetContainer from '../../password_reset_container';
+import CoaVerifyContainer from '../../coa_verify_container';
+import ErrorNotFoundPage from '../../error_not_found_page';
+
+import SPApp from './simple_prize/prize_app';
 import SPLanding from './simple_prize/components/prize_landing';
 import SPLoginContainer from './simple_prize/components/prize_login_container';
 import SPSignupContainer from './simple_prize/components/prize_signup_container';
@@ -10,7 +21,6 @@ import SPRegisterPiece from './simple_prize/components/prize_register_piece';
 import SPPieceList from './simple_prize/components/prize_piece_list';
 import SPPieceContainer from './simple_prize/components/ascribe_detail/prize_piece_container';
 import SPSettingsContainer from './simple_prize/components/prize_settings_container';
-import SPApp from './simple_prize/prize_app';
 
 import SluicePieceContainer from './sluice/components/sluice_detail/sluice_piece_container';
 
@@ -18,14 +28,7 @@ import PRApp from './portfolioreview/pr_app';
 import PRLanding from './portfolioreview/components/pr_landing';
 import PRRegisterPiece from './portfolioreview/components/pr_register_piece';
 
-import EditionContainer from '../../ascribe_detail/edition_container';
-import LogoutContainer from '../../logout_container';
-import PasswordResetContainer from '../../password_reset_container';
-import CoaVerifyContainer from '../../coa_verify_container';
-import ErrorNotFoundPage from '../../error_not_found_page';
-
-import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
-import { AuthPrizeRoleRedirect } from './portfolioreview/components/pr_routes/pr_proxy_handler';
+import { getLangText } from '../../../utils/lang_utils';
 
 
 const ROUTES = {
@@ -57,12 +60,12 @@ const ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 hideFooter />
             <Route
                 path='pieces/:pieceId'
@@ -94,7 +97,7 @@ const ROUTES = {
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SPPieceList)}
-                headerTitle='SUBMISSIONS'
+                headerTitle={getLangText('SUBMISSIONS')}
                 hideFooter />
             <Route
                 path='login'

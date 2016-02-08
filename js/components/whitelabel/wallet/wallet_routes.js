@@ -3,7 +3,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-// general components
+import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
+
+// General components
 import CoaVerifyContainer from '../../../components/coa_verify_container';
 import LoginContainer from '../../../components/login_container';
 import LogoutContainer from '../../../components/logout_container';
@@ -44,9 +46,9 @@ import PollineLanding from './components/polline/polline_landing';
 
 import ArtcityLanding from './components/artcity/artcity_landing';
 
-import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
-
 import WalletApp from './wallet_app';
+
+import { getLangText } from '../../../utils/lang_utils';
 
 
 let ROUTES = {
@@ -82,13 +84,13 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CylandRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit'
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CylandPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces'
                 hideFooter />
             <Route
@@ -138,12 +140,12 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(CCRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces'
                 hideFooter />
             <Route
@@ -196,19 +198,19 @@ let ROUTES = {
             <Route
                 path='request_loan'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SendContractAgreementForm)}
-                headerTitle='SEND NEW CONTRACT'
+                headerTitle={getLangText('SEND NEW CONTRACT')}
                 aclName='acl_create_contractagreement'
                 hideFooter />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit'
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(IkonotvPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces'
                 hideFooter />
             <Route
@@ -265,13 +267,13 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit'
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces'
                 hideFooter />
             <Route
@@ -323,13 +325,13 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit'
                 hideFooter />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(Vivi23PieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces'
                 hideFooter />
             <Route
@@ -374,12 +376,12 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit' />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />
@@ -411,12 +413,12 @@ let ROUTES = {
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
-                headerTitle='+ NEW WORK'
+                headerTitle={getLangText('+ NEW WORK')}
                 aclName='acl_wallet_submit' />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
-                headerTitle='COLLECTION'
+                headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces' />
             <Route path='pieces/:pieceId' component={MarketPieceContainer} />
             <Route path='editions/:editionId' component={MarketEditionContainer} />

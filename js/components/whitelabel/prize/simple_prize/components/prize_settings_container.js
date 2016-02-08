@@ -66,7 +66,7 @@ let PrizeSettings = React.createClass({
     render() {
         return (
             <CollapsibleParagraph
-                title={'Prize Settings for ' + this.state.prize.name}
+                title={getLangText('Prize Settings for ') + this.state.prize.name}
                 defaultExpanded={true}>
                 <Form >
                     <Property

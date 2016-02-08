@@ -27,6 +27,8 @@ import RegisterPiece from './components/register_piece';
 
 import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
+import { getLangText } from './utils/lang_utils';
+
 
 const COMMON_ROUTES = (
     <Route path='/' component={AscribeApp}>
@@ -36,11 +38,11 @@ const COMMON_ROUTES = (
         <Route
             path='register_piece'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(RegisterPiece)}
-            headerTitle='+ NEW WORK' />
+            headerTitle={getLangText('+ NEW WORK')} />
         <Route
             path='collection'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
-            headerTitle='COLLECTION'
+            headerTitle={getLangText('COLLECTION')}
             disableOn='noPieces' />
         <Route
             path='signup'

@@ -25,11 +25,11 @@ let UnConsignRequestButton = React.createClass({
             <ModalWrapper
                 trigger={
                     <Button bsStyle="danger" className="btn-delete pull-center" bsSize="small" type="submit">
-                        REQUEST UNCONSIGN
+                        {getLangText('REQUEST UNCONSIGN')}
                     </Button>
                 }
                 handleSuccess={handleSuccess}
-                title='Request to Un-Consign'>
+                title={getLangText('Request to Un-Consign')}>
                 <UnConsignRequestForm
                     url={ApiUrls.ownership_unconsigns_request}
                     id={{'bitcoin_id': edition.bitcoin_id}}

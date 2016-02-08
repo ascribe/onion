@@ -131,13 +131,13 @@ let WebhookSettings = React.createClass({
                 defaultExpanded={this.props.defaultExpanded}>
                 <div>
                     <p>
-                        Webhooks allow external services to receive notifications from ascribe.
-                        Currently we support webhook notifications when someone transfers, consigns, loans or shares
-                        (by email) a work to you.
+                        {getLangText('Webhooks allow external services to receive notifications from ascribe. ' +
+                                     'Currently we support webhook notifications when someone transfers, consigns, ' +
+                                     'loans or shares (by email) a work to you.')}
                     </p>
                     <p>
-                        To get started, simply choose the prefered action that you want to be notified upon and supply
-                        a target url.
+                        {getLangText('To get started, simply choose the prefered action that you want to be ' +
+                                     'notified upon and supply a target url.')}
                     </p>
                 </div>
                 <AclProxy show={this.state.webhookEvents && this.state.webhookEvents.length}>

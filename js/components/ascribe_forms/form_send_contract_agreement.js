@@ -54,8 +54,7 @@ let SendContractAgreementForm = React.createClass({
     },
 
     handleSubmitSuccess() {
-        let notification = 'Contract agreement sent';
-        notification = new GlobalNotificationModel(notification, 'success', 10000);
+        const notification = new GlobalNotificationModel(getLangText('Contract agreement sent'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
         this.history.push('/collection');
@@ -89,13 +88,14 @@ let SendContractAgreementForm = React.createClass({
                             );
                         })}
                     </select>
-                </Property>);
+                </Property>
+            );
         }
         return null;
     },
 
     render() {
-        if (this.state.contractList && this.state.contractList.length > 0) {
+        if (this.state.contractList && this.state.contractList.length) {
             return (
                 <Form
                     className="ascribe-form-bordered ascribe-form-wrapper"
@@ -139,16 +139,15 @@ let SendContractAgreementForm = React.createClass({
                     </Property>
                 </Form>
             );
-        }
-        return (
-            <div>
+        } else {
+            return (
                 <p className="text-center">
                     {getLangText('No contracts uploaded yet, please go to the ')}
                     <a href="contract_settings">{getLangText('contract settings page')}</a>
                     {getLangText(' and create them.')}
                 </p>
-            </div>
-        );
+            );
+        }
     }
 });
 
