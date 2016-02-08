@@ -3,11 +3,10 @@
 import React from 'react';
 import { History } from 'react-router';
 
-import UserStore from '../../stores/user_store';
-import UserActions from '../../actions/user_actions';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
+
+import UserActions from '../../actions/user_actions';
 
 import Form from './form';
 import Property from './property';
@@ -24,8 +23,12 @@ let SignupForm = React.createClass({
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        children: React.PropTypes.element,
-        location: React.PropTypes.object
+        location: React.PropTypes.object,
+        children: React.PropTypes.oneOfType([
+            React.PropTypes.arrayOf(React.PropTypes.element),
+            React.PropTypes.element,
+            React.PropTypes.string
+        ])
     },
 
     mixins: [History],
@@ -37,27 +40,11 @@ let SignupForm = React.createClass({
         };
     },
 
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     handleSuccess(response) {
         if (response.user) {
-            let notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
+            const notification = new GlobalNotificationModel(getLangText('Sign up successful'), 'success', 50000);
             GlobalNotificationActions.appendGlobalNotification(notification);
-            
+
             // Refactor this to its own component
             this.props.handleSuccess(getLangText('We sent an email to your address') + ' ' + response.user.email + ', ' + getLangText('please confirm') + '.');
         } else {
@@ -66,18 +53,19 @@ let SignupForm = React.createClass({
     },
 
     getFormData() {
-        if (this.props.location.query.token){
-            return {token: this.props.location.query.token};
-        }
-        return null;
+        const { token } = this.props.location.query;
+        return token ? { token } : null;
     },
 
     render() {
-        let tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
-            getLangText('This password is securing your digital property like a bank account') + '.\n ' +
-            getLangText('Store it in a safe place') + '!';
+        const { children,
+                headerMessage,
+                location: { query: { email: emailQuery } },
+                submitMessage } = this.props;
 
-        let email = this.props.location.query.email || null;
+        const tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
+                                getLangText('This password is securing your digital property like a bank account') + '.\n ' +
+                                getLangText('Store it in a safe place') + '!';
 
         return (
             <Form
@@ -88,15 +76,16 @@ let SignupForm = React.createClass({
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button type="submit" className="btn btn-default btn-wide">
-                        {this.props.submitMessage}
-                    </button>}
+                        {submitMessage}
+                    </button>
+                }
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
                         <AscribeSpinner color="dark-blue" size="md" />
                     </span>
-                    }>
+                }>
                 <div className="ascribe-form-header">
-                    <h3>{this.props.headerMessage}</h3>
+                    <h3>{headerMessage}</h3>
                 </div>
                 <Property
                     name='email'
@@ -105,7 +94,7 @@ let SignupForm = React.createClass({
                         type="email"
                         placeholder={getLangText('(e.g. andy@warhol.co.uk)')}
                         autoComplete="on"
-                        defaultValue={email}
+                        defaultValue={emailQuery}
                         required/>
                 </Property>
                 <Property
@@ -128,11 +117,10 @@ let SignupForm = React.createClass({
                         autoComplete="on"
                         required/>
                 </Property>
-                {this.props.children}
+                {children}
                 <Property
                     name="terms"
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
+                    className="ascribe-property-collapsible-toggle">
                     <InputCheckbox>
                         <span>
                             {' ' + getLangText('I agree to the Terms of Service of ascribe') + ' '}

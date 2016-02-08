@@ -5,9 +5,6 @@ import classNames from 'classnames';
 
 import EditionActions from '../../../../../../actions/edition_actions';
 
-import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../../stores/whitelabel_store';
-
 import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
@@ -16,7 +13,6 @@ import ConsignForm from '../../../../../ascribe_forms/form_consign';
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import AclProxy from '../../../../../acl_proxy';
-import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import ApiUrls from '../../../../../../constants/api_urls';
 
@@ -26,29 +22,12 @@ import { getLangText } from '../../../../../../utils/lang_utils';
 let MarketSubmitButton = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
         editions: React.PropTypes.array.isRequired,
+        whitelabel: React.PropTypes.object.isRequired,
 
         className: React.PropTypes.string,
         handleSuccess: React.PropTypes.func
-    },
-
-    getInitialState() {
-        return WhitelabelStore.getState();
-    },
-
-    componentDidMount() {
-        WhitelabelStore.listen(this.onChange);
-
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
     },
 
     canEditionBeSubmitted(edition) {
@@ -98,8 +77,13 @@ let MarketSubmitButton = React.createClass({
     },
 
     render() {
-        const { availableAcls, currentUser, className, editions, handleSuccess } = this.props;
-        const { whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.state;
+        const { availableAcls,
+                currentUser,
+                className,
+                editions,
+                handleSuccess,
+                whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.props;
+
         const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
         const message = getAclFormMessage({
             aclName: 'acl_consign',
@@ -118,6 +102,7 @@ let MarketSubmitButton = React.createClass({
                 {getLangText('CONSIGN TO %s', whitelabelName.toUpperCase())}
             </button>
         );
+
         const consignForm = (
             <AclFormFactory
                 action='acl_consign'

@@ -14,18 +14,22 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang_utils';
+import { extractFileExtensionFromString } from '../../utils/file_utils';
+
 
 const EMBED_IFRAME_HEIGHT = {
     video: 315,
     audio: 62
 };
+const ENCODE_UPDATE_TIME = 5000;
 
 let MediaContainer = React.createClass({
     propTypes: {
-        content: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
-        refreshObject: React.PropTypes.func
+        content: React.PropTypes.object.isRequired,
+        refreshObject: React.PropTypes.func.isRequired,
+
+        currentUser: React.PropTypes.object
     },
 
     getInitialState() {
@@ -35,14 +39,16 @@ let MediaContainer = React.createClass({
     },
 
     componentDidMount() {
-        if (!this.props.content.digital_work) {
-            return;
-        }
+        const { content: { digital_work: digitalWork }, refreshObject } = this.props;
 
-        const isEncoding = this.props.content.digital_work.isEncoding;
-        if (this.props.content.digital_work.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-            let timerId = window.setInterval(this.props.refreshObject, 10000);
-            this.setState({timerId: timerId});
+        if (digitalWork) {
+            const isEncoding = digitalWork.isEncoding;
+
+            if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
+                this.setState({
+                    timerId: window.setInterval(refreshObject, ENCODE_UPDATE_TIME)
+                });
+            }
         }
     },
 
@@ -63,6 +69,16 @@ let MediaContainer = React.createClass({
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
         const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+
+        // We want to show the file's extension as a label of the download button.
+        // We can however not only use `extractFileExtensionFromString` on the url for that
+        // as files might be saved on S3 without a file extension which leads
+        // `extractFileExtensionFromString` to extract everything starting from the top level
+        // domain: e.g. '.net/live/<hash>'.
+        // Therefore, we extract the file's name (last part of url, separated with a slash)
+        // and try to extract the file extension from there.
+        const fileName = content.digital_work.url.split('/').pop();
+        const fileExtension = extractFileExtensionFromString(fileName);
 
         let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
             content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
@@ -93,7 +109,7 @@ let MediaContainer = React.createClass({
                             {'<iframe width="560" height="' + height + '" src="https://embed.ascribe.io/content/'
                                 + content.bitcoin_id + '" frameborder="0" allowfullscreen></iframe>'}
                         </pre>
-                    }/>
+                    } />
             );
         }
         return (
@@ -120,7 +136,11 @@ let MediaContainer = React.createClass({
                             className="ascribe-margin-1px"
                             href={content.digital_work.url}
                             target="_blank">
-                            {getLangText('Download')} .{mimetype} <Glyphicon glyph="cloud-download"/>
+                            {/*
+                                If it turns out that `fileExtension` is an empty string, we're just
+                                using the label 'file'.
+                            */}
+                            {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download" />
                         </Button>
                     </AclProxy>
                     {embed}

@@ -58,39 +58,42 @@ let FurtherDetails = React.createClass({
     },
 
     render() {
+        const { editable, extraData, otherData, pieceId } = this.props;
+
         return (
             <Row>
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PieceExtraDataForm
                         name='artist_contact_info'
                         title='Artist Contact Info'
+                        convertLinks
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='display_instructions'
                         title='Display Instructions'
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='technology_details'
                         title='Technology Details'
+                        editable={editable}
+                        extraData={extraData}
                         handleSuccess={this.showNotification}
-                        editable={this.props.editable}
-                        pieceId={this.props.pieceId}
-                        extraData={this.props.extraData} />
+                        pieceId={pieceId} />
                     <Form>
                         <FurtherDetailsFileuploader
                             submitFile={this.submitFile}
                             setIsUploadReady={this.setIsUploadReady}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            editable={this.props.editable}
+                            editable={editable}
                             overrideForm={true}
-                            pieceId={this.props.pieceId}
-                            otherData={this.props.otherData}
+                            pieceId={pieceId}
+                            otherData={otherData}
                             multiple={true} />
                     </Form>
                 </Col>

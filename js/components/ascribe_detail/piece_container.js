@@ -7,39 +7,35 @@ import Moment from 'moment';
 import ReactError from '../../mixins/react_error';
 import { ResourceNotFoundError } from '../../models/errors';
 
+import EditionListActions from '../../actions/edition_list_actions';
+
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import PieceActions from '../../actions/piece_actions';
 import PieceStore from '../../stores/piece_store';
 
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
-import UserActions from '../../actions/user_actions';
-import UserStore from '../../stores/user_store';
-
-import EditionListActions from '../../actions/edition_list_actions';
-
-import Piece from './piece';
-import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 import FurtherDetails from './further_details';
-
 import DetailProperty from './detail_property';
-import LicenseDetail from './license_detail';
 import HistoryIterator from './history_iterator';
+import LicenseDetail from './license_detail';
+import Note from './note';
+import Piece from './piece';
 
 import AclButtonList from './../ascribe_buttons/acl_button_list';
-import CreateEditionsForm from '../ascribe_forms/create_editions_form';
+import AclInformation from '../ascribe_buttons/acl_information';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
 
-import AclInformation from '../ascribe_buttons/acl_information';
-import AclProxy from '../acl_proxy';
+import CollapsibleParagraph from './../ascribe_collapsible/collapsible_paragraph';
 
+import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
-
-import Note from './note';
+import AclProxy from '../acl_proxy';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
@@ -54,6 +50,13 @@ import { setDocumentTitle } from '../../utils/dom_utils';
 let PieceContainer = React.createClass({
     propTypes: {
         furtherDetailsType: React.PropTypes.func,
+
+        // Provided from AscribeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
@@ -67,7 +70,6 @@ let PieceContainer = React.createClass({
 
     getInitialState() {
         return mergeOptions(
-            UserStore.getState(),
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {
@@ -77,12 +79,10 @@ let PieceContainer = React.createClass({
     },
 
     componentDidMount() {
-        UserStore.listen(this.onChange);
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
 
         this.loadPiece();
-        UserActions.fetchCurrentUser();
     },
 
     // This is done to update the container when the user clicks on the prev or next
@@ -105,7 +105,6 @@ let PieceContainer = React.createClass({
 
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
         PieceListStore.unlisten(this.onChange);
     },
 
@@ -207,15 +206,17 @@ let PieceContainer = React.createClass({
     },
 
     getActions() {
-        const { piece, currentUser } = this.state;
+        const { piece } = this.state;
+        const { currentUser } = this.props;
 
         if (piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    pieceOrEditions={piece}
                     currentUser={currentUser}
                     handleSuccess={this.loadPiece}
-                    notifications={piece.notifications} />);
+                    notifications={piece.notifications}
+                    pieceOrEditions={piece} />
+            );
         } else {
             return (
                 <AclProxy
@@ -229,8 +230,9 @@ let PieceContainer = React.createClass({
                         label={getLangText('ACTIONS')}
                         className="hidden-print">
                         <AclButtonList
-                            className="ascribe-button-list"
                             availableAcls={piece.acl}
+                            className="ascribe-button-list"
+                            currentUser={currentUser}
                             pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
@@ -255,8 +257,8 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        const { furtherDetailsType: FurtherDetailsType } = this.props;
-        const { currentUser, piece } = this.state;
+        const { currentUser, furtherDetailsType: FurtherDetailsType } = this.props;
+        const { piece } = this.state;
 
         if (piece.id) {
             setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
@@ -269,7 +271,7 @@ let PieceContainer = React.createClass({
                         <div className="ascribe-detail-header">
                             <hr className="hidden-print" style={{marginTop: 0}} />
                             <h1 className="ascribe-detail-title">{piece.title}</h1>
-                            <DetailProperty label="BY" value={piece.artist_name} />
+                            <DetailProperty label="CREATED BY" value={piece.artist_name} />
                             <DetailProperty label="DATE" value={Moment(piece.date_created, 'YYYY-MM-DD').year() } />
                             {piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ piece.num_editions } /> : null}
                             <hr/>
@@ -277,7 +279,7 @@ let PieceContainer = React.createClass({
                         }
                     subheader={
                         <div className="ascribe-detail-header">
-                            <DetailProperty label={getLangText('REGISTREE')} value={ piece.user_registered } />
+                            <DetailProperty label={getLangText('ASCRIBED BY')} value={ piece.user_registered } />
                             <DetailProperty label={getLangText('ID')} value={ piece.bitcoin_id } ellipsis={true} />
                             <LicenseDetail license={piece.license_type} />
                         </div>

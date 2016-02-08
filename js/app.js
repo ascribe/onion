@@ -7,9 +7,7 @@ import React from 'react';
 import { Router, Redirect } from 'react-router';
 import history from './history';
 
-/* eslint-disable */
 import fetch from 'isomorphic-fetch';
-/* eslint-enable */
 
 import ApiUrls from './constants/api_urls';
 
@@ -18,44 +16,27 @@ import getRoutes from './routes';
 import requests from './utils/requests';
 
 import { updateApiUrls } from './constants/api_urls';
-import { getSubdomainSettings } from './utils/constants_utils';
+import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 import { getSubdomain } from './utils/general_utils';
 
 import EventActions from './actions/event_actions';
 
-/* eslint-disable */
 // You can comment out the modules you don't need
-// import DebugHandler from './third_party/debug';
-import GoogleAnalyticsHandler from './third_party/ga';
-import RavenHandler from './third_party/raven';
-import IntercomHandler from './third_party/intercom';
-import NotificationsHandler from './third_party/notifications';
-import FacebookHandler from './third_party/facebook';
-/* eslint-enable */
+// import DebugHandler from './third_party/debug_handler';
+import FacebookHandler from './third_party/facebook_handler';
+import GoogleAnalyticsHandler from './third_party/ga_handler';
+import IntercomHandler from './third_party/intercom_handler';
+import NotificationsHandler from './third_party/notifications_handler';
+import RavenHandler from './third_party/raven_handler';
 
-initLogging();
 
-let headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-};
-
-requests.defaults({
-    urlMap: ApiUrls,
-    http: {
-        headers: headers,
-        credentials: 'include'
-    }
-});
-
-class AppGateway {
+const AppGateway = {
     start() {
-        let settings;
-        let subdomain = getSubdomain();
-
         try {
-            settings = getSubdomainSettings(subdomain);
+            const subdomain = getSubdomain();
+            const settings = getSubdomainSettings(subdomain);
+
             AppConstants.whitelabel = settings;
             updateApiUrls(settings.type, subdomain);
             this.load(settings);
@@ -63,27 +44,24 @@ class AppGateway {
             // if there are no matching subdomains, we're routing
             // to the default frontend
             console.logGlobal(err);
-            this.load();
+            this.load(getDefaultSubdomainSettings());
         }
-    }
+    },
 
     load(settings) {
-        let type = 'default';
-        let subdomain = 'www';
+        const { subdomain, type } = settings;
         let redirectRoute = (<Redirect from="/" to="/collection" />);
 
-        if (settings) {
-            type = settings.type;
-            subdomain = settings.subdomain;
-        }
+        if (subdomain) {
+            // Some whitelabels have landing pages so we should not automatically redirect from / to /collection.
+            // Only www and cc do not have a landing page.
+            if (subdomain !== 'cc') {
+                redirectRoute = null;
+            }
 
-        // www and cc do not have a landing page
-        if(subdomain && subdomain !== 'cc') {
-            redirectRoute = null;
+            // Adds a client specific class to the body for whitelabel styling
+            window.document.body.classList.add('client--' + subdomain);
         }
-
-        // Adds a client specific class to the body for whitelabel styling
-        window.document.body.classList.add('client--' + subdomain);
 
         // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
@@ -102,8 +80,21 @@ class AppGateway {
         // Send the applicationDidBoot event to the third-party stores
         EventActions.applicationDidBoot(settings);
     }
-}
+};
 
-let ag = new AppGateway();
-ag.start();
+// Initialize pre-start components
+initLogging();
 
+requests.defaults({
+    urlMap: ApiUrls,
+    http: {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    }
+});
+
+// And bootstrap app
+AppGateway.start();

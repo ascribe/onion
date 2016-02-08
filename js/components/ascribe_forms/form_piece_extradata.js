@@ -16,6 +16,7 @@ let PieceExtraDataForm = React.createClass({
         name: React.PropTypes.string.isRequired,
         pieceId: React.PropTypes.number.isRequired,
 
+        convertLinks: React.PropTypes.bool,
         editable: React.PropTypes.bool,
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
@@ -32,7 +33,7 @@ let PieceExtraDataForm = React.createClass({
     },
 
     render() {
-        const { editable, extraData, handleSuccess, name, pieceId, title } = this.props;
+        const { convertLinks, editable, extraData, handleSuccess, name, pieceId, title } = this.props;
         const defaultValue = (extraData && extraData[name]) || null;
 
         if (!defaultValue && !editable) {
@@ -42,15 +43,16 @@ let PieceExtraDataForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}
-                handleSuccess={handleSuccess}
+                disabled={!editable}
                 getFormData={this.getFormData}
-                disabled={!editable}>
+                handleSuccess={handleSuccess}
+                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}>
                 <Property
                     name={name}
                     label={title}>
                     <InputTextAreaToggable
                         rows={1}
+                        convertLinks={convertLinks}
                         defaultValue={defaultValue}
                         placeholder={getLangText('Fill in%s', ' ') + title}
                         required />

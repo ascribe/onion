@@ -170,7 +170,7 @@ let LoanForm = React.createClass({
                     editable={!gallery}
                     overrideForm={!!gallery}>
                     <input
-                        value={gallery}
+                        defaultValue={gallery}
                         type="text"
                         placeholder={getLangText('Gallery/exhibition (optional)')}/>
                 </Property>
@@ -209,8 +209,7 @@ let LoanForm = React.createClass({
                 <Property
                     name='contract_agreement'
                     label={getLangText('Loan Contract')}
-                    className="ascribe-property-collapsible-toggle"
-                    style={{paddingBottom: 0}}>
+                    className="ascribe-property-collapsible-toggle">
                     <InputContractAgreementCheckbox
                         createPublicContractAgreement={createPublicContractAgreement}
                         email={email} />

@@ -16,9 +16,14 @@ webapp-dependencies.txt
 pids
 logs
 results
- 
+
+build/*
+
+gemini-coverage/*
+gemini-report/*
+test/gemini/screenshots/*
+
 node_modules/*
 
-build
-
 .DS_Store
+.env

@@ -7,39 +7,19 @@ import Button from 'react-bootstrap/lib/Button';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import WhitelabelActions from '../../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../../stores/whitelabel_store';
-
 import { getLangText } from '../../../../../../utils/lang_utils';
 
 
 let CylandSubmitButton = React.createClass({
     propTypes: {
-        className: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func,
         piece: React.PropTypes.object.isRequired,
-        username: React.PropTypes.string
-    },
 
-    getInitialState() {
-        return WhitelabelStore.getState();
-    },
-
-    componentDidMount() {
-        WhitelabelStore.listen(this.onChange);
-        WhitelabelActions.fetchWhitelabel();
-    },
-
-    componentWillUnmount() {
-        WhitelabelStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
+        className: React.PropTypes.string,
+        handleSuccess: React.PropTypes.func
     },
 
     render() {
-        const { piece, className } = this.props;
+        const { className, piece } = this.props;
 
         return (
             <LinkContainer

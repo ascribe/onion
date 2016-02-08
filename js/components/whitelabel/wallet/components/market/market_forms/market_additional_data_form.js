@@ -11,14 +11,14 @@ import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_t
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 
-import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
-
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import ApiUrls from '../../../../../../constants/api_urls';
-import AppConstants from '../../../../../../constants/application_constants';
+import { validationParts, validationTypes } from '../../../../../../constants/uploader_constants';
 
 import requests from '../../../../../../utils/requests';
+
+import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
 
@@ -162,13 +162,19 @@ let MarketAdditionalDataForm = React.createClass({
                     disabled={!this.props.editable}>
                     {heading}
                     <FurtherDetailsFileuploader
-                        label={getLangText('Marketplace Thumbnail Image')}
-                        submitFile={function () {}}
-                        setIsUploadReady={this.setIsUploadReady}
+                        areAssetsDownloadable={!!isInline}
+                        editable={editable}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                        pieceId={pieceId}
+                        label={getLangText('Marketplace Thumbnail Image')}
                         otherData={otherData}
-                        editable={editable} />
+                        pieceId={pieceId}
+                        setIsUploadReady={this.setIsUploadReady}
+                        submitFile={function () {}}
+                        validation={{
+                            itemLimit: validationTypes.workThumbnail.itemLimit,
+                            sizeLimit: validationTypes.workThumbnail.sizeLimit,
+                            allowedExtensions: validationParts.allowedExtensions.images
+                        }} />
                     <Property
                         name='artist_bio'
                         label={getLangText('Artist Bio')}

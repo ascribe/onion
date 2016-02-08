@@ -9,6 +9,12 @@
     text-align: center;
     vertical-align: middle;
     padding-top: 1.5em;
+
+    @media screen and (max-width: 625px) {
+        .file-name {
+            display: block;
+        }
+    }
 }
 
 .inactive-dropzone {
@@ -78,12 +84,6 @@
     }
 }
 
-.file-drag-and-drop-preview-table-wrapper {
-    display: table;
-    height: 94px;
-    width: 104px;
-}
-
 .file-drag-and-drop-preview {
     background-color: #eeeeee;
     border: 1px solid #616161;
@@ -131,7 +131,7 @@
     width: 104px;
 
     // REFACTOR TO USE TABLE CELL
-    .action-file, .spinner-file, .icon-ascribe-ok {
+    .action-file, .spinner-file {
         margin-top: 1em;
         line-height: 1.3;
     }
@@ -142,23 +142,180 @@
 }
 
 .file-drag-and-drop-preview-other {
-    display: table-cell;
+    height: 94px;
     text-align: center;
-    vertical-align: middle;
+    width: 104px;
 
     p {
         margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .action-file:not(.icon-ascribe-ok), .spinner-file {
         margin-top: 0;
         position: relative;
-        top: .3em;
+        top: 0.8em;
+    }
+}
 
-        span:not(:first-child) {
-            display: block;
-            margin-top: .5em;
+.file-drag-and-drop-error {
+    color: #333333;
+    margin-bottom: 25px;
+    overflow: hidden;
+    text-align: center;
+
+    h4 {
+        margin-top: 0;
+        color: $ascribe-pink;
+    }
+
+    .btn {
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+
+    /* Make button larger on mobile */
+    @media screen and (max-width: 625px) {
+        .btn {
+            padding: 10px 100px 10px 100px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
+    }
+}
+
+.file-drag-and-drop-error-detail {
+    float: left;
+    padding-right: 25px;
+    text-align: left;
+    width: 40%;
+
+    &.file-drag-and-drop-error-detail-multiple-files {
+        width: 45%;
+    }
+
+    /* Have detail fill up entire width on mobile */
+    @media screen and (max-width: 625px) {
+        text-align: center;
+        width: 100%;
+
+        &.file-drag-and-drop-error-detail-multiple-files {
+            width: 100%;
+        }
+    }
+}
+
+.file-drag-and-drop-error-file-names {
+    float: left;
+    height: 104px;
+    max-width: 35%;
+    padding-left: 25px;
+    position: relative;
+    text-align: left;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+
+        li {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    /* Drop down file names under the retry button on mobile */
+    @media screen and (max-width: 625px) {
+        height: auto;
+        max-width: none;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+
+        ul {
+            margin-bottom: 0;
+            margin-top: 10px;
+            top: 0;
+            -webkit-transform: none;
+            -ms-transform: none;
+            transform: none;
+
+            li {
+                display: inline-block;
+                max-width: 25%;
+                padding-right: 10px;
+
+                &:not(:last-child)::after {
+                    content: ',';
+                }
+            }
+        }
+    }
+}
+
+.file-drag-and-drop-error-icon-container {
+    background-color: #eeeeee;
+    display: table;
+    float: left;
+    height: 104px;
+    position: relative;
+    width: 104px;
+    vertical-align: top;
+
+    .icon-ascribe-thin-cross {
+        display: table-cell;
+        font-size: 5.5em;
+        vertical-align: middle;
+    }
+
+    &.file-drag-and-drop-error-icon-container-multiple-files {
+        background-color: #d7d7d7;
+        left: -15px;
+        margin-bottom: 24px;
+        z-index: 1;
+
+        &::before {
+            content: '';
+            background-color: #e9e9e9;
+            display: block;
+            height: 104px;
+            left: 15px;
+            position: absolute;
+            top: 12px;
+            width: 104px;
+            z-index: 2;
+        }
+
+        &::after {
+            content: '';
+            background-color: #f5f5f5;
+            display: block;
+            height: 104px;
+            left: 30px;
+            position: absolute;
+            top: 24px;
+            width: 104px;
+            z-index: 3;
+        }
+
+        .icon-ascribe-thin-cross {
+            left: 44px;
+            position: absolute;
+            top: 38px;
+            z-index: 4;
+        }
+    }
+
+    /* Hide the icon when the screen is too small */
+    @media screen and (max-width: 625px) {
+        display: none;
     }
 }
 
@@ -182,15 +339,20 @@
     height: 12px;
 }
 
-.upload-button-wrapper {
+.ascribe-upload-button {
+    display: inline-block;
     text-align: left;
 
-    .btn {
-        font-size: 1em;
-        margin-right: 1em;
-    }
+    &.ascribe-upload-button-has-label {
+        display: block;
 
-    span + .btn {
-        margin-left: 1em;
+        .btn {
+            font-size: 1em;
+            margin-right: 1em;
+        }
+
+        span + .btn {
+            margin-left: 1em;
+        }
     }
 }

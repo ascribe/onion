@@ -14,13 +14,10 @@ import PrizeStore from '../../stores/prize_store';
 import PrizeRatingActions from '../../actions/prize_rating_actions';
 import PrizeRatingStore from '../../stores/prize_rating_store';
 
-import PieceActions from '../../../../../../actions/piece_actions';
-import PieceStore from '../../../../../../stores/piece_store';
 import PieceListStore from '../../../../../../stores/piece_list_store';
 import PieceListActions from '../../../../../../actions/piece_list_actions';
-
-import UserStore from '../../../../../../stores/user_store';
-import UserActions from '../../../../../../actions/user_actions';
+import PieceActions from '../../../../../../actions/piece_actions';
+import PieceStore from '../../../../../../stores/piece_store';
 
 import Piece from '../../../../../../components/ascribe_detail/piece';
 import Note from '../../../../../../components/ascribe_detail/note';
@@ -53,24 +50,26 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
  */
 let PrizePieceContainer = React.createClass({
     propTypes: {
-        params: React.PropTypes.object,
-        selectedPrizeActionButton: React.PropTypes.func
+        selectedPrizeActionButton: React.PropTypes.func,
+
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
+        location: React.PropTypes.object,
+        params: React.PropTypes.object
     },
 
     mixins: [ReactError],
 
     getInitialState() {
-        return mergeOptions(
-            PieceStore.getInitialState(),
-            UserStore.getState()
-        );
+        return PieceStore.getInitialState();
     },
 
     componentDidMount() {
         PieceStore.listen(this.onChange);
-        UserStore.listen(this.onChange);
 
-        UserActions.fetchCurrentUser();
         this.loadPiece();
     },
 
@@ -94,7 +93,6 @@ let PrizePieceContainer = React.createClass({
 
     componentWillUnmount() {
         PieceStore.unlisten(this.onChange);
-        UserStore.unlisten(this.onChange);
     },
 
     onChange(state) {
@@ -102,7 +100,8 @@ let PrizePieceContainer = React.createClass({
     },
 
     getActions() {
-        const { currentUser, piece } = this.state;
+        const { currentUser } = this.props;
+        const { piece } = this.state;
 
         if (piece.notifications && piece.notifications.length > 0) {
             return (
@@ -119,8 +118,8 @@ let PrizePieceContainer = React.createClass({
     },
 
     render() {
-        const { selectedPrizeActionButton } = this.props;
-        const { currentUser, piece } = this.state;
+        const { currentUser, selectedPrizeActionButton } = this.props;
+        const { piece } = this.state;
 
         if (piece.id) {
             /*
@@ -187,8 +186,8 @@ let PrizePieceContainer = React.createClass({
 
 let NavigationHeader = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object
+        currentUser: React.PropTypes.object.isRequired,
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {
@@ -224,9 +223,10 @@ let NavigationHeader = React.createClass({
 
 let PrizePieceRatings = React.createClass({
     propTypes: {
-        loadPiece: React.PropTypes.func,
-        piece: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
+        currentUser: React.PropTypes.object.isRequired,
+        loadPiece: React.PropTypes.func.isRequired,
+        piece: React.PropTypes.object.isRequired,
+
         selectedPrizeActionButton: React.PropTypes.func
     },
 
@@ -239,12 +239,18 @@ let PrizePieceRatings = React.createClass({
     },
 
     componentDidMount() {
-        PieceListStore.listen(this.onChange);
-        PrizeStore.listen(this.onChange);
         PrizeRatingStore.listen(this.onChange);
+        PrizeStore.listen(this.onChange);
+        PieceListStore.listen(this.onChange);
 
         PrizeActions.fetchPrize();
-        this.fetchPrizeRatings();
+        this.fetchRatingsIfAuthorized();
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.fetchRatingsIfAuthorized();
+        }
     },
 
     componentWillUnmount() {
@@ -259,7 +265,7 @@ let PrizePieceRatings = React.createClass({
     // with the problem.
     onChange(state) {
         if (state.prize && state.prize.active_round != this.state.prize.active_round) {
-            this.fetchPrizeRatings(state);
+            this.fetchRatingsIfAuthorized(state);
         }
 
         this.setState(state);
@@ -274,9 +280,18 @@ let PrizePieceRatings = React.createClass({
         }
     },
 
-    fetchPrizeRatings(state = this.state) {
-        PrizeRatingActions.fetchOne(this.props.piece.id, state.prize.active_round);
-        PrizeRatingActions.fetchAverage(this.props.piece.id, state.prize.active_round);
+    fetchRatingsIfAuthorized(state = this.state) {
+        const { currentUser: {
+                    is_admin: isAdmin,
+                    is_judge: isJudge,
+                    is_jury: isJury
+                },
+                piece: { id: pieceId } } = this.props;
+
+        if (state.prize && 'active_round' in state.prize && (isAdmin || isJudge || isJury)) {
+            PrizeRatingActions.fetchOne(pieceId, state.prize.active_round);
+            PrizeRatingActions.fetchAverage(pieceId, state.prize.active_round);
+        }
     },
 
     onRatingClick(event, args) {
@@ -425,7 +440,7 @@ let PrizePieceRatings = React.createClass({
 
 let PrizePieceDetails = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object
+        piece: React.PropTypes.object.isRequired
     },
 
     render() {

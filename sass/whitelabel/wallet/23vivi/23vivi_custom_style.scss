@@ -2,17 +2,18 @@
 $vivi23--fg-color: black;
 $vivi23--bg-color: white;
 $vivi23--nav-fg-prim-color: $vivi23--fg-color;
-$vivi23--nav-fg-sec-color: #3a3a3a;
+$vivi23--nav-fg-sec-color: #2882fa;
 $vivi23--nav-bg-color: $vivi23--bg-color;
 $vivi23--nav-highlight-color: #f8f8f8;
 $vivi23--button-default-color: $vivi23--fg-color;
-$vivi23--highlight-color: #de2600;
+$vivi23--highlight-color: #2882fa;
 
 
 .client--23vivi {
     /** Landing page **/
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
@@ -20,8 +21,13 @@ $vivi23--highlight-color: #de2600;
             vertical-align: middle;
         }
 
+        .hero {
+            display: none;
+        }
+
         .vivi23-landing {
             font-weight: normal;
+            padding: 0 15px;
             text-align: center;
         }
 
@@ -34,7 +40,6 @@ $vivi23--highlight-color: #de2600;
             .vivi23-landing--header-logo {
                 margin-top: 1em;
                 margin-bottom: 2em;
-                height: 75px;
             }
         }
 
@@ -243,14 +248,6 @@ $vivi23--highlight-color: #de2600;
     }
 
     /** Other components **/
-    .ascribe-piece-list-toolbar .btn-ascribe-add {
-        display: none;
-    }
-
-    .ascribe-footer {
-        display: none;
-    }
-
     .ascribe-accordion-list-table-toggle:hover {
         color: $vivi23--fg-color;
     }

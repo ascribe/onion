@@ -6,7 +6,6 @@ import { History } from 'react-router';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import UserStore from '../../stores/user_store';
 import UserActions from '../../actions/user_actions';
 
 import Form from './form';
@@ -23,8 +22,6 @@ let LoginForm = React.createClass({
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        redirectOnLoggedIn: React.PropTypes.bool,
-        redirectOnLoginSuccess: React.PropTypes.bool,
         location: React.PropTypes.object
     },
 
@@ -32,40 +29,25 @@ let LoginForm = React.createClass({
 
     getDefaultProps() {
         return {
-            headerMessage: getLangText('Enter ascribe'),
-            submitMessage: getLangText('Log in'),
-            redirectOnLoggedIn: true,
-            redirectOnLoginSuccess: true
+            headerMessage: getLangText('Enter') + ' ascribe',
+            submitMessage: getLangText('Log in')
         };
     },
 
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
-    handleSuccess({ success }){
-        let notification = new GlobalNotificationModel('Login successful', 'success', 10000);
+    handleSuccess({ success }) {
+        const notification = new GlobalNotificationModel(getLangText('Login successful'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        if(success) {
+        if (success) {
             UserActions.fetchCurrentUser(true);
         }
     },
 
     render() {
-        let email = this.props.location.query.email || null;
+        const { headerMessage,
+                location: { query: { email: emailQuery } },
+                submitMessage } = this.props;
+
         return (
             <Form
                 className="ascribe-form-bordered"
@@ -77,7 +59,7 @@ let LoginForm = React.createClass({
                     <button
                         type="submit"
                         className="btn btn-default btn-wide">
-                        {this.props.submitMessage}
+                        {submitMessage}
                     </button>}
                 spinner={
                     <span className="btn btn-default btn-wide btn-spinner">
@@ -85,7 +67,7 @@ let LoginForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>{this.props.headerMessage}</h3>
+                    <h3>{headerMessage}</h3>
                 </div>
                 <Property
                     name='email'
@@ -93,7 +75,7 @@ let LoginForm = React.createClass({
                     <input
                         type="email"
                         placeholder={getLangText('Enter your email')}
-                        defaultValue={email}
+                        defaultValue={emailQuery}
                         required/>
                 </Property>
                 <Property

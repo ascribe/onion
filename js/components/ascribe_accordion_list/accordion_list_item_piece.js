@@ -34,11 +34,10 @@ let AccordionListItemPiece = React.createClass({
     },
 
     getLinkData() {
-        let { piece } = this.props;
+        const { piece } = this.props;
 
-        if(piece && piece.first_edition) {
+        if (piece && piece.first_edition) {
             return `/editions/${piece.first_edition.bitcoin_id}`;
-
         } else {
             return `/pieces/${piece.id}`;
         }

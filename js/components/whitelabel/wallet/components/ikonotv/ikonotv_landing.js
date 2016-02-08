@@ -6,47 +6,32 @@ import Button from 'react-bootstrap/lib/Button';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import UserStore from '../../../../../stores/user_store';
-import UserActions from '../../../../../actions/user_actions';
-
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
 let IkonotvLanding = React.createClass({
     propTypes: {
+        // Provided from PrizeApp
+        currentUser: React.PropTypes.object.isRequired,
+        whitelabel: React.PropTypes.object,
+
+        // Provided from router
         location: React.PropTypes.object
     },
 
-    getInitialState() {
-        return UserStore.getState();
-    },
-
-    componentDidMount() {
-        UserStore.listen(this.onChange);
-        UserActions.fetchCurrentUser();
-    },
-
-    componentWillUnmount() {
-        UserStore.unlisten(this.onChange);
-    },
-
-    onChange(state) {
-        this.setState(state);
-    },
-
     getEnterButton() {
+        const { currentUser, location } = this.props;
         let redirect = '/login';
 
-        if(this.state.currentUser && this.state.currentUser.email) {
+        if (currentUser.email) {
             redirect = '/collection';
-        }
-        else if (this.props.location.query && this.props.location.query.redirect) {
-            redirect = '/' + this.props.location.query.redirect;
+        } else if (location.query.redirect) {
+            redirect = '/' + location.query.redirect;
         }
 
         return (
-            <LinkContainer to={redirect} query={this.props.location.query}>
+            <LinkContainer to={redirect} query={location.query}>
                 <Button>
                     {getLangText('ENTER TO START')}
                 </Button>
