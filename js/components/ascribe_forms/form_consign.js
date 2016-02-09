@@ -62,15 +62,14 @@ let ConsignForm = React.createClass({
 
     render() {
         const { email } = this.state;
-        const {
-            autoFocusProperty,
-            createPublicContractAgreement,
-            email: defaultEmail,
-            handleSuccess,
-            id,
-            message,
-            labels,
-            url } = this.props;
+        const { autoFocusProperty,
+                createPublicContractAgreement,
+                email: defaultEmail,
+                handleSuccess,
+                id,
+                message,
+                labels,
+                url } = this.props;
 
         return (
             <Form

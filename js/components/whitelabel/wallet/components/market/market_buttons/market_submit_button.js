@@ -32,14 +32,13 @@ let MarketSubmitButton = React.createClass({
 
     canEditionBeSubmitted(edition) {
         if (edition && edition.extra_data && edition.other_data) {
-            const {
-                extra_data: {
-                    artist_bio: artistBio,
-                    display_instructions: displayInstructions,
-                    technology_details: technologyDetails,
-                    work_description: workDescription
-                },
-                other_data: otherData } = edition;
+            const { extra_data: {
+                        artist_bio: artistBio,
+                        display_instructions: displayInstructions,
+                        technology_details: technologyDetails,
+                        work_description: workDescription
+                    },
+                    other_data: otherData } = edition;
 
             return artistBio && displayInstructions && technologyDetails && workDescription && otherData.length;
         }
@@ -78,13 +77,12 @@ let MarketSubmitButton = React.createClass({
     },
 
     render() {
-        const {
-            availableAcls,
-            currentUser,
-            className,
-            editions,
-            handleSuccess,
-            whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.props;
+        const { availableAcls,
+                currentUser,
+                className,
+                editions,
+                handleSuccess,
+                whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.props;
 
         const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
         const message = getAclFormMessage({

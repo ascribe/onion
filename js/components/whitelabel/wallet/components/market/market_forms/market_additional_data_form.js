@@ -107,16 +107,15 @@ let MarketAdditionalDataForm = React.createClass({
     },
 
     render() {
-        const {
-            editable,
-            extraData = {},
-            isInline,
-            handleSuccess,
-            otherData,
-            pieceId,
-            showHeading,
-            showNotification,
-            submitLabel } = this.props;
+        const { editable,
+                extraData = {},
+                isInline,
+                handleSuccess,
+                otherData,
+                pieceId,
+                showHeading,
+                showNotification,
+                submitLabel } = this.props;
 
         let buttons;
         let heading;

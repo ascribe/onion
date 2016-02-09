@@ -101,11 +101,10 @@ let EditionActionPanel = React.createClass({
     },
 
     render() {
-        const {
-            actionPanelButtonListType: ActionPanelButtonListType,
-            currentUser,
-            edition,
-            whitelabel } = this.props;
+        const { actionPanelButtonListType: ActionPanelButtonListType,
+                currentUser,
+                edition,
+                whitelabel } = this.props;
 
         if (edition.notifications && edition.notifications.length) {
             return (

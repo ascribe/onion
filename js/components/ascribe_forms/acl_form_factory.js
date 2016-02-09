@@ -54,16 +54,15 @@ let AclFormFactory = React.createClass({
     },
 
     render() {
-        const {
-            action,
-            autoFocusProperty,
-            pieceOrEditions,
-            currentUser,
-            email,
-            message,
-            labels,
-            handleSuccess,
-            showNotification } = this.props;
+        const { action,
+                autoFocusProperty,
+                pieceOrEditions,
+                currentUser,
+                email,
+                message,
+                labels,
+                handleSuccess,
+                showNotification } = this.props;
 
         const formMessage = message || getAclFormMessage({
             aclName: action,

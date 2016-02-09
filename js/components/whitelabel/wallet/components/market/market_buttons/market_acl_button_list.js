@@ -27,14 +27,13 @@ let MarketAclButtonList = React.createClass({
     },
 
     render() {
-        const {
-            availableAcls,
-            children,
-            className,
-            currentUser,
-            handleSuccess,
-            pieceOrEditions,
-            whitelabel } = this.props;
+        const { availableAcls,
+                children,
+                className,
+                currentUser,
+                handleSuccess,
+                pieceOrEditions,
+                whitelabel } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',

@@ -66,13 +66,12 @@ let AclButtonList = React.createClass({
     },
 
     render() {
-        const {
-            availableAcls,
-            buttonsStyle,
-            className,
-            currentUser,
-            handleSuccess,
-            pieceOrEditions } = this.props;
+        const { availableAcls,
+                buttonsStyle,
+                className,
+                currentUser,
+                handleSuccess,
+                pieceOrEditions } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',

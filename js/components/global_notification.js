@@ -53,11 +53,10 @@ let GlobalNotification = React.createClass({
     },
 
     renderNotification() {
-        const {
-            notificationQueue: [notification],
-            notificationStatus,
-            notificationsPaused,
-            containerWidth } = this.state;
+        const { containerWidth,
+                notificationsPaused,
+                notificationQueue: [notification],
+                notificationStatus } = this.state;
 
         const notificationClasses = [];
 

@@ -34,13 +34,12 @@ let WalletPieceContainer = React.createClass({
     },
 
     render() {
-        const {
-            children,
-            currentUser,
-            handleDeleteSuccess,
-            loadPiece,
-            piece,
-            submitButtonType } = this.props;
+        const { children,
+                currentUser,
+                handleDeleteSuccess,
+                loadPiece,
+                piece,
+                submitButtonType } = this.props;
 
         if (piece && piece.id) {
             return (

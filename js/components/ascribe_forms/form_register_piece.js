@@ -117,17 +117,16 @@ let RegisterPieceForm = React.createClass({
     },
 
     render() {
-        const {
-            children,
-            currentUser,
-            disabled,
-            enableLocalHashing,
-            handleSuccess,
-            headerMessage,
-            isFineUploaderActive,
-            isFineUploaderEditable,
-            location,
-            submitMessage } = this.props;
+        const { children,
+                currentUser,
+                disabled,
+                enableLocalHashing,
+                handleSuccess,
+                headerMessage,
+                isFineUploaderActive,
+                isFineUploaderEditable,
+                location,
+                submitMessage } = this.props;
 
         const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;

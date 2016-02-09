@@ -60,11 +60,11 @@ const InputFineUploader = React.createClass({
             value: file.key
         });
 
-        if(this.state.value && typeof this.props.onChange === 'function') {
+        if (this.state.value && typeof this.props.onChange === 'function') {
             this.props.onChange({ target: { value: this.state.value } });
         }
 
-        if(typeof this.props.submitFile === 'function') {
+        if (typeof this.props.submitFile === 'function') {
             this.props.submitFile(file);
         }
     },
@@ -81,28 +81,27 @@ const InputFineUploader = React.createClass({
     },
 
     render() {
-        const {
-            areAssetsDownloadable,
-            createBlobRoutine,
-            enableLocalHashing,
-            disabled,
-            fileClassToUpload,
-            fileInputElement,
-            handleChangedFile,
-            isFineUploaderActive,
-            isReadyForFormSubmission,
-            keyRoutine,
-            onValidationFailed,
-            setIsUploadReady,
-            setWarning,
-            showErrorPrompt,
-            uploadMethod,
-            validation } = this.props;
+        const { areAssetsDownloadable,
+                createBlobRoutine,
+                enableLocalHashing,
+                disabled,
+                fileClassToUpload,
+                fileInputElement,
+                handleChangedFile,
+                isFineUploaderActive,
+                isReadyForFormSubmission,
+                keyRoutine,
+                onValidationFailed,
+                setIsUploadReady,
+                setWarning,
+                showErrorPrompt,
+                uploadMethod,
+                validation } = this.props;
         let editable = isFineUploaderActive;
 
         // if disabled is actually set by property, we want to override
         // isFineUploaderActive
-        if(typeof disabled !== 'undefined') {
+        if (typeof disabled !== 'undefined') {
             editable = !disabled;
         }
 

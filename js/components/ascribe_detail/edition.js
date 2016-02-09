@@ -53,14 +53,13 @@ let Edition = React.createClass({
     },
 
     render() {
-        const {
-            actionPanelButtonListType,
-            coaError,
-            currentUser,
-            edition,
-            furtherDetailsType: FurtherDetailsType,
-            loadEdition,
-            whitelabel } = this.props;
+        const { actionPanelButtonListType,
+                coaError,
+                currentUser,
+                edition,
+                furtherDetailsType: FurtherDetailsType,
+                loadEdition,
+                whitelabel } = this.props;
 
         return (
             <Row>

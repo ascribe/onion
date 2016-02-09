@@ -32,15 +32,14 @@ const DetailProperty = React.createClass({
     },
 
     render() {
-        const {
-            children,
-            className,
-            ellipsis,
-            label,
-            labelClassName,
-            separator,
-            valueClassName,
-            value } = this.props;
+        const { children,
+                className,
+                ellipsis,
+                label,
+                labelClassName,
+                separator,
+                valueClassName,
+                value } = this.props;
 
         return (
             <div className={classNames('row ascribe-detail-property', className)}>

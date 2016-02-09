@@ -34,12 +34,11 @@ let FileDragAndDropDialog = React.createClass({
     },
 
     render() {
-        const {
-            multipleFiles,
-            enableLocalHashing,
-            uploadMethod,
-            fileClassToUpload,
-            onClick } = this.props;
+        const { enableLocalHashing,
+                fileClassToUpload,
+                multipleFiles,
+                onClick,
+                uploadMethod } = this.props;
         let dialogElement;
 
         if (enableLocalHashing && !uploadMethod) {

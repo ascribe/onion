@@ -45,17 +45,16 @@ let FurtherDetailsFileuploader = React.createClass({
     },
 
     render() {
-        const {
-            editable,
-            isReadyForFormSubmission,
-            multiple,
-            onValidationFailed,
-            otherData,
-            pieceId,
-            setIsUploadReady,
-            showErrorPrompt,
-            submitFile,
-            validation } = this.props;
+        const { editable,
+                isReadyForFormSubmission,
+                multiple,
+                onValidationFailed,
+                otherData,
+                pieceId,
+                setIsUploadReady,
+                showErrorPrompt,
+                submitFile,
+                validation } = this.props;
 
         // Essentially there a three cases important to the fileuploader
         //

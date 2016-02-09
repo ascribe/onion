@@ -1058,15 +1058,14 @@ const ReactS3FineUploader = React.createClass({
 
     render() {
         const { errorState: { errorClass }, filesToUpload, uploadInProgress } = this.state;
-        const {
-            areAssetsDownloadable,
-            areAssetsEditable,
-            enableLocalHashing,
-            fileClassToUpload,
-            fileInputElement: FileInputElement,
-            multiple,
-            showErrorPrompt,
-            uploadMethod } = this.props;
+        const { areAssetsDownloadable,
+                areAssetsEditable,
+                enableLocalHashing,
+                fileClassToUpload,
+                fileInputElement: FileInputElement,
+                multiple,
+                showErrorPrompt,
+                uploadMethod } = this.props;
 
         // Only show the error state once all files are finished
         const showError = !uploadInProgress && showErrorPrompt && errorClass != null;

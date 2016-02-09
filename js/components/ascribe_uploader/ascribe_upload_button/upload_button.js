@@ -146,9 +146,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
         },
 
         render() {
-            const {
-                multiple,
-                allowedExtensions } = this.props;
+            const { allowedExtensions, multiple } = this.props;
             const { disabled } = this.state;
 
 

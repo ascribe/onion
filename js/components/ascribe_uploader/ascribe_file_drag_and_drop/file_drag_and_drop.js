@@ -158,7 +158,7 @@ let FileDragAndDrop = React.createClass({
                 handlePauseFile={this.handlePauseFile}
                 handleResumeFile={this.handleResumeFile}
                 areAssetsDownloadable={areAssetsDownloadable}
-                areAssetsEditable={areAssetsEditable}/>
+                areAssetsEditable={areAssetsEditable} />
         );
     },
 
@@ -176,16 +176,14 @@ let FileDragAndDrop = React.createClass({
     },
 
     render: function () {
-        const {
-            filesToUpload,
-            dropzoneInactive,
-            hashingProgress,
-            handleCancelHashing,
-            multiple,
-            showError,
-            errorClass,
-            fileClassToUpload,
-            allowedExtensions } = this.props;
+        const { allowedExtensions,
+                dropzoneInactive,
+                errorClass,
+                filesToUpload,
+                handleCancelHashing,
+                hashingProgress,
+                multiple,
+                showError } = this.props;
 
         // has files only is true if there are files that do not have the status deleted, canceled, or failed
         const hasFiles = filesToUpload

@@ -41,13 +41,12 @@ export default function AclButton({ action, displayName, title, tooltip }) {
         },
 
         render() {
-            const {
-                availableAcls,
-                buttonAcceptClassName,
-                currentUser,
-                email,
-                pieceOrEditions,
-                handleSuccess } = this.props;
+            const { availableAcls,
+                    buttonAcceptClassName,
+                    currentUser,
+                    email,
+                    pieceOrEditions,
+                    handleSuccess } = this.props;
 
             return (
                 <AclProxy

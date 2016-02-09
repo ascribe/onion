@@ -27,12 +27,11 @@ let MarketPieceList = React.createClass({
     },
 
     render() {
-        const {
-            currentUser: { email: userEmail },
-            whitelabel: {
-                name: whitelabelName = 'Market',
-                user: whitelabelAdminEmail
-            } } = this.props;
+        const { currentUser: { email: userEmail },
+                whitelabel: {
+                    name: whitelabelName = 'Market',
+                    user: whitelabelAdminEmail
+                } } = this.props;
 
         let filterParams = null;
         let isUserAdmin = null;

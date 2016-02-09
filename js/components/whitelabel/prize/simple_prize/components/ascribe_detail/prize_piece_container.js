@@ -281,13 +281,12 @@ let PrizePieceRatings = React.createClass({
     },
 
     fetchRatingsIfAuthorized(state = this.state) {
-        const {
-            currentUser: {
-                is_admin: isAdmin,
-                is_judge: isJudge,
-                is_jury: isJury
-            },
-            piece: { id: pieceId } } = this.props;
+        const { currentUser: {
+                    is_admin: isAdmin,
+                    is_judge: isJudge,
+                    is_jury: isJury
+                },
+                piece: { id: pieceId } } = this.props;
 
         if (state.prize && 'active_round' in state.prize && (isAdmin || isJudge || isJury)) {
             PrizeRatingActions.fetchOne(pieceId, state.prize.active_round);

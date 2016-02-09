@@ -58,11 +58,10 @@ let SignupForm = React.createClass({
     },
 
     render() {
-        const {
-            children,
-            headerMessage,
-            location: { query: { email: emailQuery } },
-            submitMessage } = this.props;
+        const { children,
+                headerMessage,
+                location: { query: { email: emailQuery } },
+                submitMessage } = this.props;
 
         const tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
                                 getLangText('This password is securing your digital property like a bank account') + '.\n ' +
