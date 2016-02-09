@@ -14,11 +14,16 @@ $artcity--ter-highlight-color: #EDEDF0;
     /** Landing page **/
     .route--landing {
         display: table;
+        min-height: 100vh;
 
         > .container {
             display: table-cell;
             padding-bottom: 100px;
             vertical-align: middle;
+        }
+
+        .hero {
+            display: none;
         }
 
         .artcity-landing {
