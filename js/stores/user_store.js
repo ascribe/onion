@@ -1,6 +1,6 @@
 'use strict';
 
-import { alt, altWhitelabel, altUser, altThirdParty } from '../alt';
+import { alt, altUser, altThirdParty } from '../alt';
 
 import EventActions from '../actions/event_actions';
 
@@ -56,8 +56,8 @@ class UserStore {
         EventActions.userDidLogout();
 
         // Reset all stores back to their initial state
+        // Don't recycle the whitelabel stores since they're not dependent on login
         alt.recycle();
-        altWhitelabel.recycle();
         altUser.recycle();
         altThirdParty.recycle();
 
