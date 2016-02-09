@@ -49,7 +49,7 @@ $artcity--ter-highlight-color: #EDEDF0;
     /** Navbar **/
     .navbar-default {
         background-color: $artcity--bg-color;
-    
+
         .navbar-brand .img-brand {
             height: 115%;
         }
@@ -281,7 +281,7 @@ $artcity--ter-highlight-color: #EDEDF0;
     }
 
     // filter widget
-    .ascribe-piece-list-toolbar-filter-widget button {
+    .ascribe-piece-list-toolbar-widget button {
         background-color: transparent !important;
         border-color: transparent !important;
         color: $artcity--button-default-color !important;
