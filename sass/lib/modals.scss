@@ -1,5 +1,9 @@
 .modal-body {
-    padding-top:0;
+    padding-top: 0;
+
+    &.modal-body-text {
+        padding-top: 10px;
+    }
 }
 
 .modal-header {

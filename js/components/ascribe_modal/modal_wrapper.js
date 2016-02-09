@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import Modal from 'react-bootstrap/lib/Modal';
 
@@ -16,6 +17,7 @@ let ModalWrapper = React.createClass({
             React.PropTypes.string
         ]).isRequired,
 
+        bodyClassNames: React.PropTypes.string,
         handleCancel: React.PropTypes.func,
         handleSuccess: React.PropTypes.func,
         trigger: React.PropTypes.element
@@ -70,7 +72,7 @@ let ModalWrapper = React.createClass({
     },
 
     render() {
-        const { trigger, title } = this.props;
+        const { bodyClassNames, trigger, title } = this.props;
 
         // If the trigger component exists, we add the ModalWrapper's show() to its onClick method.
         // The trigger component should, in most cases, be a button.
@@ -88,13 +90,15 @@ let ModalWrapper = React.createClass({
         return (
             <span>
                 {clonedTrigger}
-                <Modal show={this.state.showModal} onHide={this.handleCancel}>
+                <Modal
+                    onHide={this.handleCancel}
+                    show={this.state.showModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>
                             {title}
                         </Modal.Title>
                     </Modal.Header>
-                    <div className="modal-body" >
+                    <div className={classNames('modal-body', bodyClassNames)}>
                         {this.renderChildren()}
                     </div>
                 </Modal>
