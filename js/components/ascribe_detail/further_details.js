@@ -65,7 +65,7 @@ let FurtherDetails = React.createClass({
                 <Col md={12} className="ascribe-edition-personal-note">
                     <PieceExtraDataForm
                         name='artist_contact_info'
-                        title='Artist Contact Info'
+                        title={getLangText('Artist Contact Info')}
                         convertLinks
                         editable={editable}
                         extraData={extraData}
@@ -73,14 +73,14 @@ let FurtherDetails = React.createClass({
                         pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='display_instructions'
-                        title='Display Instructions'
+                        title={getLangText('Display Instructions')}
                         editable={editable}
                         extraData={extraData}
                         handleSuccess={this.showNotification}
                         pieceId={pieceId} />
                     <PieceExtraDataForm
                         name='technology_details'
-                        title='Technology Details'
+                        title={getLangText('Technology Details')}
                         editable={editable}
                         extraData={extraData}
                         handleSuccess={this.showNotification}

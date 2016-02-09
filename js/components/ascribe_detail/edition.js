@@ -112,7 +112,7 @@ let Edition = React.createClass({
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
-                        title="Notes"
+                        title={getLangText('Notes')}
                         show={!!(currentUser.username || edition.acl.acl_edit || edition.public_note)}>
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}

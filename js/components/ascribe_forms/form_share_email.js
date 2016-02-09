@@ -43,7 +43,7 @@ let ShareForm = React.createClass({
                             <Button
                                 className="btn btn-default btn-sm ascribe-margin-1px"
                                 type="submit">
-                                SHARE
+                                {getLangText('SHARE')}
                             </Button>
                         </p>
                     </div>}

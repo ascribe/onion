@@ -57,7 +57,7 @@ let APISettings = React.createClass({
     },
 
     getApplications(){
-        let content = <AscribeSpinner color='dark-blue' size='lg'/>;
+        let content = <AscribeSpinner color='dark-blue' size='lg' />;
 
         if (this.state.applications.length > -1) {
             content = this.state.applications.map(function(app, i) {
@@ -92,7 +92,7 @@ let APISettings = React.createClass({
         }
         return content;
     },
-    
+
     render() {
         return (
             <CollapsibleParagraph
@@ -107,12 +107,12 @@ let APISettings = React.createClass({
                         <input
                             type="text"
                             placeholder={getLangText('Enter the name of your app')}
-                            required/>
+                            required />
                     </Property>
                     <hr />
                 </Form>
                 <pre>
-                    Usage: curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
+                    {getLangText('Usage:')} curl &lt;url&gt; -H 'Authorization: Bearer &lt;token&gt;'
                 </pre>
                 {this.getApplications()}
             </CollapsibleParagraph>
