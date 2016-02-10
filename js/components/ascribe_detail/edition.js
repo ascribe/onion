@@ -94,19 +94,19 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title={getLangText('Provenance/Ownership History')}
-                        show={edition.ownership_history && edition.ownership_history.length}>
+                        show={!!(edition.ownership_history && edition.ownership_history.length)}>
                         <HistoryIterator history={edition.ownership_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Consignment History')}
-                        show={edition.consign_history && edition.consign_history.length > 0}>
+                        show={!!(edition.consign_history && edition.consign_history.length)}>
                         <HistoryIterator history={edition.consign_history} />
                     </CollapsibleParagraph>
 
                     <CollapsibleParagraph
                         title={getLangText('Loan History')}
-                        show={edition.loan_history && edition.loan_history.length > 0}>
+                        show={!!(edition.loan_history && edition.loan_history.length)}>
                         <HistoryIterator history={edition.loan_history} />
                     </CollapsibleParagraph>
 
@@ -128,14 +128,14 @@ let Edition = React.createClass({
                             defaultValue={edition.public_note ? edition.public_note : null}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={!!edition.acl.acl_edit}
-                            show={!!edition.public_note || !!edition.acl.acl_edit}
+                            show={!!(edition.public_note && edition.acl.acl_edit)}
                             successMessage={getLangText('Public edition note saved')}
                             url={ApiUrls.note_public_edition}
                             currentUser={currentUser} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
-                        show={edition.acl.acl_edit || Object.keys(edition.extra_data).length || edition.other_data.length}>
+                        show={!!(edition.acl.acl_edit || Object.keys(edition.extra_data).length || edition.other_data.length)}>
                         <FurtherDetailsType
                             editable={edition.acl.acl_edit}
                             pieceId={edition.parent}

@@ -7,6 +7,8 @@ import EditionActions from '../../../../../../actions/edition_actions';
 
 import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
+import MarketErrorConsignUnavailable from '../market_error_consign_unavailable';
+
 import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
 import ConsignForm from '../../../../../ascribe_forms/form_consign';
 
@@ -40,7 +42,7 @@ let MarketSubmitButton = React.createClass({
                     },
                     other_data: otherData } = edition;
 
-            return artistBio && displayInstructions && technologyDetails && workDescription && otherData.length;
+            return !!(artistBio && displayInstructions && technologyDetails && workDescription && otherData.length);
         }
 
         return false;
@@ -54,11 +56,13 @@ let MarketSubmitButton = React.createClass({
         return editions.reduce((details, curEdition) => {
             return {
                 solePieceId: details.solePieceId === curEdition.parent ? details.solePieceId : null,
+                canEdit: details.canEdit && curEdition.acl.acl_edit,
                 canSubmit: details.canSubmit && this.canEditionBeSubmitted(curEdition)
             };
         }, {
-            solePieceId: editions.length > 0 ? editions[0].parent : null,
-            canSubmit: this.canEditionBeSubmitted(editions[0])
+            solePieceId: editions.length ? editions[0].parent : null,
+            canEdit: true,
+            canSubmit: true
         });
     },
 
@@ -84,7 +88,7 @@ let MarketSubmitButton = React.createClass({
                 handleSuccess,
                 whitelabel: { name: whitelabelName = 'Market', user: whitelabelAdminEmail } } = this.props;
 
-        const { solePieceId, canSubmit } = this.getAggregateEditionDetails();
+        const { solePieceId, canEdit, canSubmit } = this.getAggregateEditionDetails();
         const message = getAclFormMessage({
             aclName: 'acl_consign',
             entities: editions,
@@ -117,44 +121,61 @@ let MarketSubmitButton = React.createClass({
         );
 
         if (solePieceId && !canSubmit) {
-            return (
-                <AclProxy
-                    aclObject={availableAcls}
-                    aclName='acl_consign'>
-                    <ModalWrapper
-                        trigger={triggerButton}
-                        handleSuccess={this.handleAdditionalDataSuccess}
-                        title={getLangText('Add additional information')}>
-                        <MarketAdditionalDataForm
-                            extraData={extraData}
-                            otherData={otherData}
-                            pieceId={solePieceId}
-                            submitLabel={getLangText('Continue to consignment')} />
-                    </ModalWrapper>
+            if (canEdit) {
+                return (
+                    <AclProxy
+                        aclObject={availableAcls}
+                        aclName='acl_consign'>
+                        <ModalWrapper
+                            handleSuccess={this.handleAdditionalDataSuccess}
+                            title={getLangText('Add additional information')}
+                            trigger={triggerButton}>
+                            <MarketAdditionalDataForm
+                                extraData={extraData}
+                                otherData={otherData}
+                                pieceId={solePieceId}
+                                submitLabel={getLangText('Continue to consignment')} />
+                        </ModalWrapper>
 
-                    <ModalWrapper
-                        ref="consignModal"
-                        handleCancel={this.refreshEdition}
-                        handleSuccess={(...params) => {
-                            if (typeof handleSuccess === 'function') {
-                                handleSuccess(...params);
-                            }
+                        <ModalWrapper
+                            ref="consignModal"
+                            handleCancel={this.refreshEdition}
+                            handleSuccess={(...params) => {
+                                if (typeof handleSuccess === 'function') {
+                                    handleSuccess(...params);
+                                }
 
-                            this.refreshEdition();
-                        }}
-                        title={getLangText('Consign artwork')}>
-                        {consignForm}
-                    </ModalWrapper>
-                </AclProxy>
-            );
+                                this.refreshEdition();
+                            }}
+                            title={getLangText('Consign artwork')}>
+                            {consignForm}
+                        </ModalWrapper>
+                    </AclProxy>
+                );
+            } else {
+                return (
+                    <AclProxy
+                        aclObject={availableAcls}
+                        aclName='acl_consign'>
+                        <ModalWrapper
+                            bodyClassNames='modal-body-text'
+                            trigger={triggerButton}
+                            title={getLangText("Oops, we can't let you consign %s", editions.length > 1 ? 'these Editions' : 'this Edition')}>
+                            <MarketErrorConsignUnavailable
+                                editions={editions}
+                                whitelabelName={whitelabelName} />
+                        </ModalWrapper>
+                    </AclProxy>
+                )
+            }
         } else {
             return (
                 <AclProxy
                     show={availableAcls.acl_consign && canSubmit}>
                     <ModalWrapper
-                        trigger={triggerButton}
                         handleSuccess={handleSuccess}
-                        title={getLangText('Consign artwork to %s', whitelabelName)}>
+                        title={getLangText('Consign artwork to %s', whitelabelName)}
+                        trigger={triggerButton}>
                         {consignForm}
                     </ModalWrapper>
                 </AclProxy>
