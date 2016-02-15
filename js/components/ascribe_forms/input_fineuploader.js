@@ -31,10 +31,10 @@ const InputFineUploader = React.createClass({
         fileInputElement: ReactS3FineUploader.propTypes.fileInputElement,
         isReadyForFormSubmission: func,
         keyRoutine: ReactS3FineUploader.propTypes.keyRoutine,
-        handleChangedFile: func, // TODO: rename to onChangedFile
-        submitFile: func, // TODO: rename to onSubmitFile
+        onStatusChange: func,
+        onSubmitFile: func,
         onValidationFailed: func,
-        setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
+        setIsUploaderValidated: func,
         setWarning: func,
         showErrorPrompt: bool,
         uploadMethod: oneOf(['hash', 'upload']),
@@ -54,7 +54,7 @@ const InputFineUploader = React.createClass({
         };
     },
 
-    submitFile(file) {
+    onSubmitFile(file) {
         this.setState({
             file,
             value: file.key
@@ -64,8 +64,8 @@ const InputFineUploader = React.createClass({
             this.props.onChange({ target: { value: this.state.value } });
         }
 
-        if (typeof this.props.submitFile === 'function') {
-            this.props.submitFile(file);
+        if (typeof this.props.onSubmitFile === 'function') {
+            this.props.onSubmitFile(file);
         }
     },
 
@@ -87,12 +87,12 @@ const InputFineUploader = React.createClass({
                 disabled,
                 fileClassToUpload,
                 fileInputElement,
-                handleChangedFile,
+                onStatusChange,
                 isFineUploaderActive,
                 isReadyForFormSubmission,
                 keyRoutine,
                 onValidationFailed,
-                setIsUploadReady,
+                setIsUploaderValidated,
                 setWarning,
                 showErrorPrompt,
                 uploadMethod,
@@ -112,9 +112,9 @@ const InputFineUploader = React.createClass({
                 keyRoutine={keyRoutine}
                 createBlobRoutine={createBlobRoutine}
                 validation={validation}
-                submitFile={this.submitFile}
+                onSubmitFile={this.onSubmitFile}
                 onValidationFailed={onValidationFailed}
-                setIsUploadReady={setIsUploadReady}
+                setIsUploaderValidated={setIsUploaderValidated}
                 isReadyForFormSubmission={isReadyForFormSubmission}
                 areAssetsDownloadable={areAssetsDownloadable}
                 areAssetsEditable={editable}
@@ -137,7 +137,7 @@ const InputFineUploader = React.createClass({
                 enableLocalHashing={enableLocalHashing}
                 uploadMethod={uploadMethod}
                 fileClassToUpload={fileClassToUpload}
-                handleChangedFile={handleChangedFile} />
+                onStatusChange={onStatusChange} />
         );
     }
 });

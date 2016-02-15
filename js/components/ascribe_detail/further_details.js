@@ -45,13 +45,13 @@ let FurtherDetails = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitFile(file) {
+    onSubmitFile(file) {
         this.setState({
             otherDataKey: file.key
         });
     },
 
-    setIsUploadReady(isReady) {
+    setIsUploaderValidated(isReady) {
         this.setState({
             isUploadReady: isReady
         });
@@ -87,8 +87,8 @@ let FurtherDetails = React.createClass({
                         pieceId={pieceId} />
                     <Form>
                         <FurtherDetailsFileuploader
-                            submitFile={this.submitFile}
-                            setIsUploadReady={this.setIsUploadReady}
+                            onSubmitFile={this.onSubmitFile}
+                            setIsUploaderValidated={this.setIsUploaderValidated}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             editable={editable}
                             overrideForm={true}

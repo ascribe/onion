@@ -100,7 +100,7 @@ let MarketAdditionalDataForm = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    setIsUploadReady(isReady) {
+    setIsUploaderValidated(isReady) {
         this.setState({
             isUploadReady: isReady
         });
@@ -168,8 +168,8 @@ let MarketAdditionalDataForm = React.createClass({
                         label={getLangText('Marketplace Thumbnail Image')}
                         otherData={otherData}
                         pieceId={pieceId}
-                        setIsUploadReady={this.setIsUploadReady}
-                        submitFile={function () {}}
+                        setIsUploaderValidated={this.setIsUploaderValidated}
+                        onSubmitFile={function () {}}
                         validation={{
                             itemLimit: validationTypes.workThumbnail.itemLimit,
                             sizeLimit: validationTypes.workThumbnail.sizeLimit,

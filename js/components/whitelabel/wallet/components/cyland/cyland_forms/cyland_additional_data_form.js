@@ -65,7 +65,7 @@ let CylandAdditionalDataForm = React.createClass({
 
     },
 
-    setIsUploadReady(isReady) {
+    setIsUploaderValidated(isReady) {
         this.setState({
             isUploadReady: isReady
         });
@@ -185,8 +185,8 @@ let CylandAdditionalDataForm = React.createClass({
                     </Property>
                     <FurtherDetailsFileuploader
                         label={getLangText('Additional files (e.g. still images, pdf)')}
-                        submitFile={function () {}}
-                        setIsUploadReady={this.setIsUploadReady}
+                        onSubmitFile={function () {}}
+                        setIsUploaderValidated={this.setIsUploaderValidated}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         pieceId={piece.id}
                         otherData={piece.other_data}

@@ -475,8 +475,8 @@ let PrizePieceDetails = React.createClass({
                             })
                         }
                         <FurtherDetailsFileuploader
-                            submitFile={() => {}}
-                            setIsUploadReady={() => {}}
+                            onSubmitFile={() => {}}
+                            setIsUploaderValidated={() => {}}
                             isReadyForFormSubmission={() => {}}
                             editable={false}
                             overrideForm={true}

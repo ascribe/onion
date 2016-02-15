@@ -39,7 +39,7 @@ let CreateContractForm = React.createClass({
         };
     },
 
-    setIsUploadReady(isReady) {
+    setIsUploaderValidated(isReady) {
         this.setState({
             isUploadReady: isReady
         });
@@ -52,7 +52,7 @@ let CreateContractForm = React.createClass({
         this.refs.form.reset();
     },
 
-    submitFile({ originalName }) {
+    onSubmitFile({ originalName }) {
         this.setState({
             contractName: originalName
         });
@@ -70,7 +70,7 @@ let CreateContractForm = React.createClass({
                     name="blob"
                     label={getLangText('Contract file (*.pdf only, max. 50MB per contract)')}>
                     <InputFineUploader
-                        submitFile={this.submitFile}
+                        onSubmitFile={this.onSubmitFile}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'contract'
@@ -85,7 +85,7 @@ let CreateContractForm = React.createClass({
                         }}
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
-                        setIsUploadReady={this.setIsUploadReady}
+                        setIsUploaderValidated={this.setIsUploaderValidated}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         fileClassToUpload={this.props.fileClassToUpload} />
                 </Property>

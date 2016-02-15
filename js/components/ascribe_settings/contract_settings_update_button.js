@@ -24,7 +24,7 @@ let ContractSettingsUpdateButton = React.createClass({
         contract: React.PropTypes.object
     },
 
-    submitFile(file) {
+    onSubmitFile(file) {
         // override the blob with the key's value
         const contract = Object.assign(this.props.contract, { blob: file.key });
 
@@ -45,13 +45,13 @@ let ContractSettingsUpdateButton = React.createClass({
                                 const notification = new GlobalNotificationModel(getLangText('Latest contract failed to load'), 'danger', 5000);
                                 GlobalNotificationActions.appendGlobalNotification(notification);
 
-                                return Promise.reject(err);
+                                throw err;
                             });
             }, (err) => {
                 const notification = new GlobalNotificationModel(getLangText('Contract could not be updated'), 'danger', 5000);
                 GlobalNotificationActions.appendGlobalNotification(notification);
 
-                return Promise.reject(err);
+                throw err;
             })
             .catch(console.logGlobal);
     },
@@ -73,7 +73,7 @@ let ContractSettingsUpdateButton = React.createClass({
                    sizeLimit: validationTypes.additionalData.sizeLimit,
                    allowedExtensions: ['pdf']
                }}
-               setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
+               setIsUploaderValidated={() =>{/* So that ReactS3FineUploader is not complaining */}}
                signature={{
                    endpoint: AppConstants.serverUrl + 's3/signature/',
                    customHeaders: {
@@ -93,7 +93,7 @@ let ContractSettingsUpdateButton = React.createClass({
                    plural: getLangText('UPDATE')
                }}
                isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-               submitFile={this.submitFile} />
+               onSubmitFile={this.onSubmitFile} />
         );
     }
 });

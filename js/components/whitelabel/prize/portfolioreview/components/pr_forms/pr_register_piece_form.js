@@ -150,7 +150,7 @@ const PRRegisterPieceForm = React.createClass({
      * of each uploader in the component
      * @param {string} uploaderKey Name of the uploader's key to track
      */
-    setIsUploadReady(uploaderKey) {
+    setIsUploaderValidated(uploaderKey) {
         return (isUploadReady) => {
             this.setState({
                 [uploaderKey]: isUploadReady
@@ -297,7 +297,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
+                            setIsUploaderValidated={this.setIsUploaderValidated('digitalWorkKeyReady')}
                             createBlobRoutine={{
                                 url: ApiUrls.blob_digitalworks
                             }}
@@ -326,7 +326,7 @@ const PRRegisterPieceForm = React.createClass({
                                 url: ApiUrls.blob_thumbnails
                             }}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
+                            setIsUploaderValidated={this.setIsUploaderValidated('thumbnailKeyReady')}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',
                                 fileClass: 'thumbnail'
@@ -349,7 +349,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady('supportingMaterialsReady')}
+                            setIsUploaderValidated={this.setIsUploaderValidated('supportingMaterialsReady')}
                             onValidationFailed={this.handleOptionalFileValidationFailed('supportingMaterialsReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
@@ -372,7 +372,7 @@ const PRRegisterPieceForm = React.createClass({
                         <InputFineuploader
                             fileInputElement={UploadButton()}
                             isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
-                            setIsUploadReady={this.setIsUploadReady('proofOfPaymentReady')}
+                            setIsUploaderValidated={this.setIsUploaderValidated('proofOfPaymentReady')}
                             createBlobRoutine={this.getCreateBlobRoutine()}
                             keyRoutine={{
                                 url: AppConstants.serverUrl + 's3/key/',

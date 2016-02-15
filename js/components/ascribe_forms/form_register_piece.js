@@ -63,7 +63,7 @@ let RegisterPieceForm = React.createClass({
      * of each uploader in the component
      * @param {string} uploaderKey Name of the uploader's key to track
      */
-    setIsUploadReady(uploaderKey) {
+    setIsUploaderValidated(uploaderKey) {
         return (isUploadReady) => {
             // See documentation of `FormSubmitButton` for more detailed information
             // on this.
@@ -78,7 +78,7 @@ let RegisterPieceForm = React.createClass({
 
             // Manually we need to set the ready state for `thumbnailKeyReady` back
             // to `true` as `ReactS3Fineuploader`'s `reset` method triggers
-            // `setIsUploadReady` with `false`
+            // `setIsUploaderValidated` with `false`
             this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
             this.setState({ digitalWorkFile: null });
         } else {
@@ -97,9 +97,11 @@ let RegisterPieceForm = React.createClass({
         );
     },
 
-    handleThumbnailValidationFailed(thumbnailFile) {
-        // If the validation fails, set the thumbnail as submittable since its optional
-        this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
+    handleThumbnailValidationFailed(thumbnailFile, error) {
+        if (error.type !== ValidationErrors.EXTRA_FILES) {
+            // If the validation fails, set the thumbnail as submittable since its optional
+            this.refs.submitButton.setReadyStateForKey('thumbnailKeyReady', true);
+        }
     },
 
     isThumbnailDialogExpanded() {
@@ -169,13 +171,13 @@ let RegisterPieceForm = React.createClass({
                             url: ApiUrls.blob_digitalworks
                         }}
                         validation={validationTypes.registerWork}
-                        setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
+                        setIsUploaderValidated={this.setIsUploaderValidated('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={isFineUploaderActive}
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
                         uploadMethod={location.query.method}
-                        handleChangedFile={this.handleChangedDigitalWork}
+                        onStatusChange={this.handleChangedDigitalWork}
                         showErrorPrompt />
                 </Property>
                 <Property
@@ -187,7 +189,7 @@ let RegisterPieceForm = React.createClass({
                         createBlobRoutine={{
                             url: ApiUrls.blob_thumbnails
                         }}
-                        handleChangedFile={this.handleChangedThumbnail}
+                        onStatusChange={this.handleChangedThumbnail}
                         onValidationFailed={this.handleThumbnailValidationFailed}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         keyRoutine={{
@@ -199,7 +201,7 @@ let RegisterPieceForm = React.createClass({
                             sizeLimit: validationTypes.workThumbnail.sizeLimit,
                             allowedExtensions: validationParts.allowedExtensions.images
                         }}
-                        setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
+                        setIsUploaderValidated={this.setIsUploaderValidated('thumbnailKeyReady')}
                         fileClassToUpload={{
                             singular: getLangText('Select representative image'),
                             plural: getLangText('Select representative images')

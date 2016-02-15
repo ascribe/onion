@@ -27,10 +27,10 @@ let FurtherDetailsFileuploader = React.createClass({
         // Props for ReactS3FineUploader
         areAssetsDownloadable: bool,
         isReadyForFormSubmission: func,
-        submitFile: func, // TODO: rename to onSubmitFile
+        onSubmitFile: func,
         onValidationFailed: func,
         multiple: bool,
-        setIsUploadReady: func,     //TODO: rename to setIsUploaderValidated
+        setIsUploaderValidated: func,
         showErrorPrompt: bool,
         validation: ReactS3FineUploader.propTypes.validation
     },
@@ -51,9 +51,9 @@ let FurtherDetailsFileuploader = React.createClass({
                 onValidationFailed,
                 otherData,
                 pieceId,
-                setIsUploadReady,
+                setIsUploaderValidated,
                 showErrorPrompt,
-                submitFile,
+                onSubmitFile,
                 validation } = this.props;
 
         // Essentially there a three cases important to the fileuploader
@@ -94,7 +94,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     }}
                     multiple={multiple}
                     onValidationFailed={onValidationFailed}
-                    setIsUploadReady={setIsUploadReady}
+                    setIsUploaderValidated={setIsUploaderValidated}
                     session={{
                         endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
                         customHeaders: {
@@ -114,7 +114,7 @@ let FurtherDetailsFileuploader = React.createClass({
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }
                     }}
-                    submitFile={submitFile}
+                    onSubmitFile={onSubmitFile}
                     showErrorPrompt={showErrorPrompt}
                     validation={validation} />
             </Property>
