@@ -15,8 +15,8 @@ import AppRouteWrapper from '../../../app_route_wrapper';
 import Footer from '../../../footer';
 import Header from '../../../header';
 
-import { getSubdomain } from '../../../../utils/general_utils';
 import { getCookie } from '../../../../utils/fetch_api_utils';
+import { getSubdomain } from '../../../../utils/url_utils';
 
 
 let PRApp = React.createClass({

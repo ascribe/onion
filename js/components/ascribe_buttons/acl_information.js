@@ -4,7 +4,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { AclInformationText } from '../../constants/acl_information_text';
-import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general_utils';
+import { sanitize, intersectLists } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
 
 
@@ -37,33 +37,34 @@ let AclInformation = React.createClass({
         }
     },
 
-    getInfoText(title, info, example){
-        const aim = this.props.aim;
+    getInfoText(title, info, example) {
+        const { aim } = this.props;
 
-        if(aim) {
-            if(aim === 'form') {
+        if (aim) {
+            const exampleText = ` (e.g. ${example})`;
+
+            if (aim === 'form') {
                 return (
                     <p>
                         <span className="info">
-                            {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
+                            {`${info.replace('s ', ' ')}`}
                         </span>
                         <span className="example">
-                            {' ' + example}
+                            {exampleText}
                         </span>
                     </p>
                 );
-            }
-            else if(aim === 'button') {
+            } else if (aim === 'button') {
                 return (
                     <p>
                         <span className="title">
                             {title}
                         </span>
                         <span className="info">
-                            {info + ' '}
+                            {` - ${info}`}
                         </span>
                         <span className="example">
-                            {example}
+                            {exampleText}
                         </span>
                     </p>
                 );

@@ -8,7 +8,7 @@ import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import AppConstants from '../../constants/application_constants';
 
-import { escapeHTML } from '../../utils/general_utils';
+import { escapeHTML } from '../../utils/dom_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**

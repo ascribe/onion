@@ -3,12 +3,11 @@
 import history from '../history';
 import { altThirdParty } from '../alt';
 
-
 import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
 
-import { getSubdomain } from '../utils/general_utils';
+import { getSubdomain } from '../utils/url_utils';
 
 
 class NotificationsHandler {

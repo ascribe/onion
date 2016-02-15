@@ -5,8 +5,6 @@ import AppConstants from './application_constants';
 import getPrizeApiUrls from '../components/whitelabel/prize/constants/prize_api_urls';
 import getWalletApiUrls from '../components/whitelabel/wallet/constants/wallet_api_urls';
 
-import { update } from '../utils/general_utils';
-
 
 let ApiUrls = {
     'applications': AppConstants.apiEndpoint + 'applications/',
@@ -85,10 +83,11 @@ export function updateApiUrls(type, subdomain) {
 
     if (type === 'prize') {
         newUrls = getPrizeApiUrls(subdomain);
-    } else if(type === 'wallet') {
+    } else if (type === 'wallet') {
         newUrls = getWalletApiUrls(subdomain);
     }
-    update(ApiUrls, newUrls);
+
+    Object.assign(ApiUrls, newUrls);
 }
 
 export default ApiUrls;

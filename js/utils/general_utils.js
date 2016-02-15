@@ -123,31 +123,6 @@ export function mergeOptions(...l) {
 }
 
 /**
- * In place update of a dictionary
- */
-export function update(a, ...l) {
-    for(let i = 0; i < l.length; i++) {
-        for (let attrname in l[i]) {
-            a[attrname] = l[i][attrname];
-        }
-    }
-
-    return a;
-}
-
-/**
- * Escape HTML in a string so it can be injected safely using
- * React's `dangerouslySetInnerHTML`
- *
- * @param s the string to be sanitized
- *
- * Taken from: http://stackoverflow.com/a/17546215/597097
- */
-export function escapeHTML(s) {
-    return document.createElement('div').appendChild(document.createTextNode(s)).parentNode.innerHTML;
-}
-
-/**
  * Returns a copy of the given object's own and inherited enumerable
  * properties, omitting any keys that pass the given filter function.
  */

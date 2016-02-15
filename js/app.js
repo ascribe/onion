@@ -18,7 +18,7 @@ import requests from './utils/requests';
 import { updateApiUrls } from './constants/api_urls';
 import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
-import { getSubdomain } from './utils/general_utils';
+import { getSubdomain } from './utils/url_utils';
 
 import EventActions from './actions/event_actions';
 

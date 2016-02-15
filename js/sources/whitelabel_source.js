@@ -3,7 +3,7 @@
 import requests from '../utils/requests';
 import WhitelabelActions from '../actions/whitelabel_actions';
 
-import { getSubdomain } from '../utils/general_utils';
+import { getSubdomain } from '../utils/url_utils';
 
 
 const WhitelabelSource = {
