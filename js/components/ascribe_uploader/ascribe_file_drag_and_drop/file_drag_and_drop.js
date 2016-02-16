@@ -132,6 +132,7 @@ let FileDragAndDrop = React.createClass({
                 evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
             }
 
+            evt.stopPropagation();
             this.refs.fileSelector.dispatchEvent(evt);
         }
     },
