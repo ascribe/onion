@@ -119,7 +119,7 @@ const constants = {
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
     },
-
+    'cloudfrontDomain': 'd1qjsxua1o9x03.cloudfront.net',
     'errorMessagesToIgnore': [
         'Authentication credentials were not provided.',
         'Informations d\'authentification non fournies.'

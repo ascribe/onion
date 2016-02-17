@@ -70,7 +70,7 @@ class Requests {
                         }
                     }).catch(reject);
             });
-        }
+        };
     }
 
     getUrl(url) {
