@@ -24,7 +24,8 @@ const S3DownloadButton = React.createClass({
 
     getInitialState() {
         return {
-            downloadUrl: null
+            downloadUrl: null,
+            signatureExpiryTimerId: null
         };
     },
 
@@ -34,6 +35,36 @@ const S3DownloadButton = React.createClass({
          * the backend
          */
         this.signUrl();
+    },
+
+    componentWillUnmount() {
+        window.clearInterval(this.state.signatureExpiryTime);
+    },
+
+    componentDidUpdate() {
+        const { signatureExpiryTimerId, downloadUrl } = this.state;
+
+        if(!signatureExpiryTimerId && downloadUrl) {
+            /**
+             * The signed url, however can expire, which is why
+             * we need to renew it when it expires.
+             */
+            const { downloadUrl } = this.state;
+            const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
+            const now = new Date().getTime() / 1000;
+
+            /**
+              * Amazon uses seconds as their signature unix timestamp
+              * while `setInterval` uses milliseconds. Therefore we need to
+              * multiply with 1000.
+              */
+            const interval = (expires - now) * 1000;
+
+            this.setState({
+                // Substract 5s to make sure there is a big enough window to sign again before expiration
+                signatureExpiryTimerId: window.setInterval(this.signUrl, interval - 5000)
+            });
+        }
     },
 
     transformS3UrlToS3Key(url) {
@@ -49,21 +80,6 @@ const S3DownloadButton = React.createClass({
             .catch(console.logGlobal);
     },
 
-    reSignUrl(event) {
-        /**
-         * The signed url, however can expire, which is why
-         * we need to renew it when it expires.
-         */
-        const { downloadUrl } = this.state;
-        const { expires } = queryParamsToArgs(downloadUrl.split('?')[1]);
-        const nowInSeconds = new Date().getTime() / 1000;
-
-        if(nowInSeconds > expires) {
-            event.preventDefault();
-            this.signUrl(() => this.refs.downloadButton.getDOMNode().click());
-        }
-    },
-
     render() {
         const { fileExtension, url } = this.props;
         const { downloadUrl } = this.state;
@@ -74,7 +90,6 @@ const S3DownloadButton = React.createClass({
                 download
                 className="btn btn-xs btn-default ascribe-margin-1px"
                 target="_blank"
-                onClick={this.reSignUrl}
                 href={downloadUrl || url}>
                 {/*
                     If it turns out that `fileExtension` is an empty string, we're just
