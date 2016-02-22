@@ -69,21 +69,19 @@ const S3DownloadButton = React.createClass({
         const { downloadUrl } = this.state;
 
         return (
-            <span>
-                <a
-                    ref="downloadButton"
-                    download
-                    className="btn btn-xs btn-default ascribe-margin-1px"
-                    target="_blank"
-                    onClick={this.reSignUrl}
-                    href={downloadUrl || url}>
-                    {/*
-                        If it turns out that `fileExtension` is an empty string, we're just
-                        using the label 'file'.
-                    */}
-                    {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download" />
-                </a>
-            </span>
+            <a
+                ref="downloadButton"
+                download
+                className="btn btn-xs btn-default ascribe-margin-1px"
+                target="_blank"
+                onClick={this.reSignUrl}
+                href={downloadUrl || url}>
+                {/*
+                    If it turns out that `fileExtension` is an empty string, we're just
+                    using the label 'file'.
+                */}
+                {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download" />
+            </a>
         );
     }
 });
