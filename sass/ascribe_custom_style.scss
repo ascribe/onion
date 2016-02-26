@@ -221,13 +221,6 @@ hr {
     span {font-weight: 300;}
 }
 
-.route--login,
-.route--signup {
-    .ascribe-form-bordered {
-        border: none;
-    }
-}
-
 // buttons!
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
@@ -436,10 +429,6 @@ fieldset[disabled] .btn-secondary.active {
 
 .ascribe-form-header {
     background-color: transparent;
-    border-color: transparent;
-}
-
-.ascribe-form-bordered {
     border-color: transparent;
 }
 
