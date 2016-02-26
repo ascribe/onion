@@ -1,5 +1,11 @@
-.ascribe-form-bordered {
-    border: 1px solid #f5f5f5;
+.ascribe-form {
+    hr {
+        background-color: rgba(0, 0, 0, .05);
+        border: 0;
+        color: rgba(0, 0, 0, .05);
+        height: 1px;
+        margin-top: 0;
+    }
 }
 
 .ascribe-form-header {

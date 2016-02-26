@@ -101,13 +101,6 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
         background-color: $ikono--landing-bg-color;
         min-height: 100vh;
     }
-
-    .route--login,
-    .route--signup {
-        .ascribe-form-bordered {
-            border: none;
-        }
-    }
 }
 
 .client--ikonotv .route--landing {
