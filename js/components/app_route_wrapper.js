@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import { omitFromObject } from '../utils/general_utils';
-
 const AppRouteWrapper = React.createClass({
     propTypes: {
         children: React.PropTypes.oneOfType([
@@ -13,19 +11,18 @@ const AppRouteWrapper = React.createClass({
     },
 
     render() {
-        const propsToPropagate = omitFromObject(this.props, ['children']);
+        let { children, ...propsToPropagate } = this.props;
 
-        let childrenWithProps = this.props.children;
         // If there are more props given, propagate them into the child routes by cloning the routes
         if (Object.keys(propsToPropagate).length) {
-            childrenWithProps = React.Children.map(this.props.children, (child) => {
+            children = React.Children.map(children, (child) => {
                 return React.cloneElement(child, propsToPropagate);
             });
         }
 
         return (
             <div className="container ascribe-body">
-                {childrenWithProps}
+                {children}
             </div>
         );
     }
