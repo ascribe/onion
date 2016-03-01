@@ -18,7 +18,8 @@ function getWalletApiUrls(subdomain) {
             'user': walletConstants.walletApiEndpoint + subdomain + '/users/'
         };
     } else if (subdomain === 'lumenus' || subdomain === '23vivi' ||
-               subdomain === 'polline' || subdomain === 'artcity') {
+               subdomain === 'polline' || subdomain === 'artcity' ||
+               subdomain === 'demo') {
         return {
             'editions_list': walletConstants.walletApiEndpoint + 'markets/' + subdomain + '/pieces/${piece_id}/editions/',
             'edition': walletConstants.walletApiEndpoint + 'markets/' + subdomain + '/editions/${bitcoin_id}/',
