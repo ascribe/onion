@@ -41,42 +41,41 @@ const S3DownloadButton = React.createClass({
         window.clearInterval(this.state.signatureExpiryTime);
     },
 
-    componentDidUpdate() {
-        const { signatureExpiryTimerId, downloadUrl } = this.state;
-
-        if(!signatureExpiryTimerId && downloadUrl) {
-            /**
-             * The signed url, however can expire, which is why
-             * we need to renew it when it expires.
-             */
-            const { downloadUrl } = this.state;
-            const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
-            const now = new Date().getTime() / 1000;
-
-            /**
-              * Amazon uses seconds as their signature unix timestamp
-              * while `setInterval` uses milliseconds. Therefore we need to
-              * multiply with 1000.
-              */
-            const interval = (expires - now) * 1000;
-
-            this.setState({
-                // Substract 5s to make sure there is a big enough window to sign again before expiration
-                signatureExpiryTimerId: window.setInterval(this.signUrl, interval - 5000)
-            });
-        }
-    },
-
     transformS3UrlToS3Key(url) {
         return url.replace(`https://${AppConstants.cloudfrontDomain}/`, '');
     },
 
-    signUrl(next) {
+    signUrl() {
         const { url, title, artistName } = this.props;
 
         S3Fetcher
             .signUrl(this.transformS3UrlToS3Key(url), title, artistName)
-            .then(({ signed_url: downloadUrl }) => this.setState({ downloadUrl }, next))
+            .then(({ signed_url: downloadUrl }) => {
+                const { signatureExpiryTimerId } = this.state;
+                let newState = { downloadUrl };
+
+                if(!signatureExpiryTimerId) {
+                    /**
+                     * The signed url, however can expire, which is why
+                     * we need to renew it when it expires.
+                     */
+                    const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
+                    const now = new Date().getTime() / 1000;
+
+                    /**
+                      * Amazon uses seconds as their signature unix timestamp
+                      * while `setInterval` uses milliseconds. Therefore we need to
+                      * multiply with 1000.
+                      */
+                    const interval = (expires - now) * 1000;
+
+                    Object.assign(newState, {
+                        // Substract 5s to make sure there is a big enough window to sign again before expiration
+                        signatureExpiryTimerId: window.setInterval(this.signUrl, interval - 5000)
+                    });
+                }
+                this.setState(newState);
+            })
             .catch(console.logGlobal);
     },
 
