@@ -38,7 +38,7 @@ const S3DownloadButton = React.createClass({
     },
 
     componentWillUnmount() {
-        window.clearInterval(this.state.signatureExpiryTime);
+        window.clearInterval(this.state.signatureExpiryTimerId);
     },
 
     transformS3UrlToS3Key(url) {
