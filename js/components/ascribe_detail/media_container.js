@@ -3,12 +3,13 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
 import FacebookShareButton from '../ascribe_social_share/facebook_share_button';
 import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
+
+import S3DownloadButton from '../ascribe_buttons/s3_download_button';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
@@ -131,17 +132,11 @@ let MediaContainer = React.createClass({
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
                         aclName="acl_download">
-                        <Button
-                            bsSize="xsmall"
-                            className="ascribe-margin-1px"
-                            href={content.digital_work.url}
-                            target="_blank">
-                            {/*
-                                If it turns out that `fileExtension` is an empty string, we're just
-                                using the label 'file'.
-                            */}
-                            {getLangText('Download')} .{fileExtension || 'file'} <Glyphicon glyph="cloud-download" />
-                        </Button>
+                        <S3DownloadButton
+                            url={content.digital_work.url}
+                            title={content.title}
+                            artistName={content.artist_name}
+                            fileExtension={fileExtension} />
                     </AclProxy>
                     {embed}
                 </p>

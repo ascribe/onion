@@ -34,10 +34,6 @@ class NotificationStore {
         this.editionListNotifications = res.notifications;
     }
 
-    onFlushPieceListNotifications() {
-        this.editionListNotifications = [];
-    }
-
     onUpdateEditionNotifications(res) {
         this.editionNotifications = res.notification;
     }

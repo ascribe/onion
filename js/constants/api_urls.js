@@ -76,7 +76,8 @@ let ApiUrls = {
     'webhooks': AppConstants.apiEndpoint + 'webhooks/',
     'webhooks_events': AppConstants.apiEndpoint + 'webhooks/events/',
     'whitelabel_settings': AppConstants.apiEndpoint + 'whitelabel/settings/${subdomain}/',
-    'delete_s3_file': AppConstants.serverUrl + 's3/delete/'
+    'delete_s3_file': AppConstants.serverUrl + 's3/delete/',
+    'sign_url_s3': AppConstants.serverUrl + 's3/sign_url/'
 };
 
 

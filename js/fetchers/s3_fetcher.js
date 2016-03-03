@@ -11,6 +11,13 @@ let S3Fetcher = {
             key,
             bucket
         });
+    },
+    signUrl(key, title, artistName) {
+        return requests.get('sign_url_s3', {
+            key,
+            title,
+            'artist_name': artistName
+        });
     }
 };
 
