@@ -180,6 +180,7 @@ let Form = React.createClass({
             // sentry shouldn't post the user's password
             if (formData.password) {
                 delete formData.password;
+                delete formData.password_confirm;
             }
 
             console.logGlobal(err, formData);
