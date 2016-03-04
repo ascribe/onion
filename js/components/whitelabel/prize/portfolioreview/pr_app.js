@@ -35,6 +35,7 @@ let PRApp = React.createClass({
         const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
+        const Footer = activeRoute && activeRoute.footer;
 
         let style = {};
         let header;
@@ -64,7 +65,7 @@ let PRApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>
-                <Footer activeRoute={activeRoute} />
+                {Footer ? <Footer /> : null}
             </div>
         );
     }
