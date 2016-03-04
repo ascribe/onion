@@ -272,7 +272,7 @@ let PieceContainer = React.createClass({
                             <hr className="hidden-print" style={{marginTop: 0}} />
                             <h1 className="ascribe-detail-title">{piece.title}</h1>
                             <DetailProperty label="CREATED BY" value={piece.artist_name} />
-                            <DetailProperty label="DATE" value={Moment(piece.date_created, 'YYYY-MM-DD').year() } />
+                            <DetailProperty label="YEAR OF CREATION" value={Moment(piece.date_created, 'YYYY-MM-DD').year() } />
                             {piece.num_editions > 0 ? <DetailProperty label="EDITIONS" value={ piece.num_editions } /> : null}
                             <hr/>
                         </div>
@@ -281,6 +281,9 @@ let PieceContainer = React.createClass({
                         <div className="ascribe-detail-header">
                             <DetailProperty label={getLangText('ASCRIBED BY')} value={ piece.user_registered } />
                             <DetailProperty label={getLangText('ID')} value={ piece.bitcoin_id } ellipsis={true} />
+                            <DetailProperty
+                                label="DATE OF TIMESTAMPING"
+                                value={Moment(piece.datetime_registered).format('MMM. DD, YYYY, h:mm:ss')} />
                             <LicenseDetail license={piece.license_type} />
                         </div>
                     }

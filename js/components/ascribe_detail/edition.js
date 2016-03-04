@@ -74,7 +74,9 @@ let Edition = React.createClass({
                         <hr className="hidden-print" style={{marginTop: 0}} />
                         <h1 className="ascribe-detail-title">{edition.title}</h1>
                         <DetailProperty label="CREATED BY" value={edition.artist_name} />
-                        <DetailProperty label="DATE" value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
+                        <DetailProperty
+                            label="YEAR OF CREATION"
+                            value={Moment(edition.date_created, 'YYYY-MM-DD').year()} />
                         <hr />
                     </div>
                     <EditionSummary
@@ -185,6 +187,9 @@ let EditionSummary = React.createClass({
                     label={getLangText('ID')}
                     value={edition.bitcoin_id}
                     ellipsis={true} />
+                <DetailProperty
+                    label="DATE OF TIMESTAMPING"
+                    value={Moment(edition.datetime_registered).format('MMM. DD, YYYY, h:mm:ss')} />
                 <DetailProperty
                     label={getLangText('OWNER')}
                     value={edition.owner} />
