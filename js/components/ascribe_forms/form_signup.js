@@ -28,7 +28,8 @@ let SignupForm = React.createClass({
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
             React.PropTypes.string
-        ])
+        ]),
+        whitelabel: React.PropTypes.object
     },
 
     mixins: [History],
@@ -61,7 +62,8 @@ let SignupForm = React.createClass({
         const { children,
                 headerMessage,
                 location: { query: { email: emailQuery } },
-                submitMessage } = this.props;
+                submitMessage,
+                whitelabel: { name: whitelabelName} } = this.props;
 
         const tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
                                 getLangText('This password is securing your digital property like a bank account') + '.\n ' +
@@ -85,7 +87,7 @@ let SignupForm = React.createClass({
                     </span>
                 }>
                 <div className="ascribe-form-header">
-                    <h3>{headerMessage}</h3>
+                    <h3>{whitelabelName ? `Welcome to ${whitelabelName}` : headerMessage}</h3>
                 </div>
                 <Property
                     name='email'
