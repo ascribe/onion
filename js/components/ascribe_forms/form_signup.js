@@ -29,7 +29,7 @@ let SignupForm = React.createClass({
             React.PropTypes.element,
             React.PropTypes.string
         ]),
-        whitelabel: React.PropTypes.object
+        whitelabelName: React.PropTypes.string
     },
 
     mixins: [History],
@@ -63,11 +63,7 @@ let SignupForm = React.createClass({
                 headerMessage,
                 location: { query: { email: emailQuery } },
                 submitMessage,
-                whitelabel: { name: whitelabelName} } = this.props;
-
-        const tooltipPassword = getLangText('Your password must be at least 10 characters') + '.\n ' +
-                                getLangText('This password is securing your digital property like a bank account') + '.\n ' +
-                                getLangText('Store it in a safe place') + '!';
+                whitelabelName } = this.props;
 
         return (
             <Form
@@ -101,18 +97,16 @@ let SignupForm = React.createClass({
                 </Property>
                 <Property
                     name='password'
-                    label={getLangText('Password')}
-                    tooltip={tooltipPassword}>
+                    label={getLangText('Password')}>
                     <input
                         type="password"
-                        placeholder={getLangText('Use a combination of minimum 10 chars and numbers')}
+                        placeholder={getLangText('Use a combination of minimum 10 characters and numbers')}
                         autoComplete="on"
                         required/>
                 </Property>
                 <Property
                     name='password_confirm'
-                    label={getLangText('Confirm Password')}
-                    tooltip={tooltipPassword}>
+                    label={getLangText('Confirm Password')}>
                     <input
                         type="password"
                         placeholder={getLangText('Enter your password once again')}

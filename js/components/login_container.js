@@ -20,13 +20,18 @@ let LoginContainer = React.createClass({
     },
 
     render() {
+        const { whitelabel: { name: whitelabelName },
+                location } = this.props;
+
         setDocumentTitle(getLangText('Log in'));
 
         return (
             <div className="ascribe-login-wrapper">
-                <LoginForm location={this.props.location} />
+                <LoginForm
+                    location={location}
+                    whitelabelName={whitelabelName} />
                 <div className="ascribe-login-text">
-                    {getLangText('Not an ascribe user')}&#63; <Link to="/signup">{getLangText('Sign up')}...</Link><br/>
+                    {getLangText(`Not a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/signup">{getLangText('Sign up')}...</Link><br/>
                     {getLangText('Forgot my password')}&#63; <Link to="/password_reset">{getLangText('Rescue me')}...</Link>
                 </div>
             </div>

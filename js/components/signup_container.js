@@ -34,7 +34,8 @@ let SignupContainer = React.createClass({
     },
 
     render() {
-        const { location, whitelabel } = this.props;
+        const { location,
+                whitelabel: { name: whitelabelName } } = this.props;
         const { message, submitted } = this.state;
 
         setDocumentTitle(getLangText('Sign up'));
@@ -53,10 +54,10 @@ let SignupContainer = React.createClass({
             <div className="ascribe-login-wrapper">
                 <SignupForm
                     handleSuccess={this.handleSuccess}
-                    whitelabel={whitelabel}
+                    whitelabelName={whitelabelName}
                     location={location}/>
                 <div className="ascribe-login-text">
-                    {getLangText(`Already a ${whitelabel.name || 'ascribe'} user`)}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
+                    {getLangText(`Already a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
                 </div>
             </div>
 

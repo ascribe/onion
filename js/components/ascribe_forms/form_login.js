@@ -22,7 +22,8 @@ let LoginForm = React.createClass({
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        location: React.PropTypes.object
+        location: React.PropTypes.object,
+        whitelabelName: React.PropTypes.string
     },
 
     mixins: [History],
@@ -46,7 +47,8 @@ let LoginForm = React.createClass({
     render() {
         const { headerMessage,
                 location: { query: { email: emailQuery } },
-                submitMessage } = this.props;
+                submitMessage,
+                whitelabelName } = this.props;
 
         return (
             <Form
@@ -67,7 +69,7 @@ let LoginForm = React.createClass({
                     </span>
                     }>
                 <div className="ascribe-form-header">
-                    <h3>{headerMessage}</h3>
+                    <h3>{whitelabelName ? `Welcome to ${whitelabelName}` : headerMessage}</h3>
                 </div>
                 <Property
                     name='email'
