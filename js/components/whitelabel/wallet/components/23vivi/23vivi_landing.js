@@ -36,7 +36,7 @@ let Vivi23Landing = React.createClass({
                                 src={this.props.whitelabel.logo}
                                 height="75" />
                             <div>
-                                {getLangText('23VIVI Marketplace is powered by') + ' '}
+                                {getLangText('23VIVI digital wallet is powered by') + ' '}
                                 <span className="icon-ascribe-logo" />
                             </div>
                         </div>

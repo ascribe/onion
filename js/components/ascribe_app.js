@@ -21,6 +21,7 @@ let AscribeApp = React.createClass({
 
     render() {
         const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
+        const Footer = activeRoute && activeRoute.footer;
 
         return (
             <div className="ascribe-app ascribe-default-app">
@@ -34,7 +35,7 @@ let AscribeApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>
-                <Footer activeRoute={activeRoute} />
+                {Footer ? <Footer /> : null}
             </div>
         );
     }

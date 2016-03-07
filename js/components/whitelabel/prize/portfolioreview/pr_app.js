@@ -12,7 +12,6 @@ import Hero from './components/pr_hero';
 
 import AppBase from '../../../app_base';
 import AppRouteWrapper from '../../../app_route_wrapper';
-import Footer from '../../../footer';
 import Header from '../../../header';
 
 import { getSubdomain } from '../../../../utils/general_utils';
@@ -35,6 +34,7 @@ let PRApp = React.createClass({
         const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
+        const Footer = activeRoute && activeRoute.footer;
 
         let style = {};
         let header;
@@ -64,7 +64,7 @@ let PRApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>
-                <Footer activeRoute={activeRoute} />
+                {Footer ? <Footer /> : null}
             </div>
         );
     }

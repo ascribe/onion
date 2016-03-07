@@ -25,6 +25,8 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 
 import RegisterPiece from './components/register_piece';
 
+import Footer from './components/footer';
+
 import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
 import { getLangText } from './utils/lang_utils';
@@ -34,35 +36,47 @@ const COMMON_ROUTES = (
     <Route path='/' component={AscribeApp}>
         <Route
             path='login'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+            footer={Footer} />
         <Route
             path='register_piece'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(RegisterPiece)}
-            headerTitle={getLangText('+ NEW WORK')} />
+            headerTitle={getLangText('+ NEW WORK')}
+            footer={Footer} />
         <Route
             path='collection'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
             headerTitle={getLangText('COLLECTION')}
-            disableOn='noPieces' />
+            disableOn='noPieces'
+            footer={Footer} />
         <Route
             path='signup'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+            footer={Footer} />
         <Route
             path='logout'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}/>
-        <Route path='pieces/:pieceId' component={PieceContainer} />
-        <Route path='editions/:editionId' component={EditionContainer} />
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}
+            footer={Footer} />
+        <Route path='pieces/:pieceId' component={PieceContainer}
+            footer={Footer} />
+        <Route path='editions/:editionId' component={EditionContainer}
+            footer={Footer} />
         <Route
             path='password_reset'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+            footer={Footer} />
         <Route
             path='settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+            footer={Footer} />
         <Route
             path='contract_settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
-        <Route path='coa_verify' component={CoaVerifyContainer} />
-        <Route path='*' component={ErrorNotFoundPage} />
+            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+            footer={Footer} />
+        <Route path='coa_verify' component={CoaVerifyContainer}
+            footer={Footer} />
+        <Route path='*' component={ErrorNotFoundPage}
+            footer={Footer} />
     </Route>
 );
 

@@ -82,16 +82,12 @@ let Header = React.createClass({
 
     getPoweredBy() {
         return (
-            <AclProxy
-                aclObject={this.props.whitelabel}
-                aclName="acl_view_powered_by">
-                    <li>
-                        <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
-                            <span id="powered">{getLangText('powered by')} </span>
-                            <span className="icon-ascribe-logo"></span>
-                        </a>
-                    </li>
-            </AclProxy>
+            <li>
+                <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
+                    <span id="powered">{getLangText('powered by')} </span>
+                    <span className="icon-ascribe-logo"></span>
+                </a>
+            </li>
         );
     },
 
@@ -130,7 +126,7 @@ let Header = React.createClass({
     },
 
     render() {
-        const { currentUser, routes  } = this.props;
+        const { currentUser, routes, whitelabel } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
         let account;
@@ -211,7 +207,11 @@ let Header = React.createClass({
                     className="hidden-print">
                     <CollapsibleNav eventKey={0}>
                         <Nav navbar left>
-                            {this.getPoweredBy()}
+                            <AclProxy
+                                aclObject={whitelabel}
+                                aclName="acl_view_powered_by">
+                                {this.getPoweredBy()}
+                            </AclProxy>
                         </Nav>
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false} />
