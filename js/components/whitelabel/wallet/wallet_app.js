@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 import AppBase from '../../app_base';
 import AppRouteWrapper from '../../app_route_wrapper';
-import Footer from '../../footer';
 import Header from '../../header';
 
 import { getSubdomain } from '../../../utils/general_utils';

@@ -37,6 +37,7 @@ import MarketPieceList from './components/market/market_piece_list';
 import MarketRegisterPiece from './components/market/market_register_piece';
 import MarketPieceContainer from './components/market/market_detail/market_piece_container';
 import MarketEditionContainer from './components/market/market_detail/market_edition_container';
+import MarketFooter from './components/market/market_footer';
 
 import LumenusLanding from './components/lumenus/lumenus_landing';
 
@@ -249,44 +250,56 @@ let ROUTES = {
             <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(Vivi23Landing)} />
             <Route
                 path='login'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+                footer={MarketFooter} />
             <Route
                 path='logout'
-                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
+                footer={MarketFooter} />
             <Route
                 path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+                footer={MarketFooter} />
             <Route
                 path='password_reset'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+                footer={MarketFooter} />
             <Route
                 path='settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+                footer={MarketFooter} />
             <Route
                 path='contract_settings'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+                footer={MarketFooter} />
             <Route
                 path='register_piece'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
                 headerTitle={getLangText('+ NEW WORK')}
-                aclName='acl_wallet_submit' />
+                aclName='acl_wallet_submit'
+                footer={MarketFooter} />
             <Route
                 path='collection'
                 component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(Vivi23PieceList)}
                 headerTitle={getLangText('COLLECTION')}
-                disableOn='noPieces' />
+                disableOn='noPieces'
+                footer={MarketFooter} />
             <Route
                 path='pieces/:pieceId'
-                component={MarketPieceContainer} />
+                component={MarketPieceContainer}
+                footer={MarketFooter} />
             <Route
                 path='editions/:editionId'
-                component={MarketEditionContainer} />
+                component={MarketEditionContainer}
+                footer={MarketFooter} />
             <Route
                 path='coa_verify'
-                component={CoaVerifyContainer} />
+                component={CoaVerifyContainer}
+                footer={MarketFooter} />
             <Route
                 path='*'
-                component={ErrorNotFoundPage} />
+                component={ErrorNotFoundPage}
+                footer={MarketFooter} />
         </Route>
     ),
     'polline': (

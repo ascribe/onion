@@ -7,7 +7,6 @@ import Hero from './components/prize_hero';
 
 import AppBase from '../../../app_base';
 import AppRouteWrapper from '../../../app_route_wrapper';
-import Footer from '../../../footer';
 import Header from '../../../header';
 
 import { getSubdomain } from '../../../../utils/general_utils';
