@@ -11,7 +11,7 @@ const MarketFooter = React.createClass({
             <div className="container hidden-print">
                 <div className="row">
                     <div className="whitelabel-footer">
-                    <hr/>
+                        <hr/>
                         <span id="powered">{getLangText('Digital wallet powered by')} </span>
                         <a className="ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
                             <span className="icon-ascribe-logo"></span>
