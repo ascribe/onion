@@ -54,7 +54,11 @@ $polline--highlight-color: #2882fa;
         background-color: $polline--bg-color;
 
         .navbar-brand .img-brand {
-            height: 115%;
+            height: 100%;
+        }
+
+        .navbar-brand {
+            padding: 0 5px 0 15px;
         }
 
         .navbar-brand .icon-ascribe-logo {
