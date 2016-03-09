@@ -6,9 +6,12 @@ import Q from 'q';
 import Panel from 'react-bootstrap/lib/Panel';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
+import AscribeSpinner from '../ascribe_spinner';
+
 import AppConstants from '../../constants/application_constants';
 
 import { escapeHTML } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
@@ -31,18 +34,18 @@ let Other = React.createClass({
     render() {
         let filename = this.props.url.split('/').pop();
         let tokens = filename.split('.');
-        let preview;
+        let thumbnail;
 
         if (tokens.length > 1) {
-            preview = '.' + tokens.pop();
+            thumbnail = '.' + tokens.pop();
         } else {
-            preview = 'file';
+            thumbnail = 'file';
         }
 
         return (
             <Panel className="media-other">
                 <p className="text-center">
-                    {preview}
+                    {thumbnail}
                 </p>
             </Panel>
         );
@@ -52,11 +55,11 @@ let Other = React.createClass({
 let Image = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
-        preview: React.PropTypes.string.isRequired
+        thumbnail: React.PropTypes.string.isRequired
     },
 
     componentDidMount() {
-        if(this.props.url) {
+        if (this.props.url) {
             InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
                 .then(() =>
                     Q.all([
@@ -67,15 +70,15 @@ let Image = React.createClass({
     },
 
     render() {
-        const { url, preview } = this.props;
+        const { url, thumbnail } = this.props;
 
-        if(url) {
+        if (url) {
             return (
-                <img className="shmui-ascribe" src={preview} data-large-src={url}/>
+                <img className="shmui-ascribe" src={thumbnail} data-large-src={url} />
             );
         } else {
             return (
-                <img src={preview}/>
+                <img src={thumbnail} />
             );
         }
     }
@@ -130,7 +133,7 @@ let Video = React.createClass({
      */
 
     propTypes: {
-        preview: React.PropTypes.string.isRequired,
+        thumbnail: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
         extraData: React.PropTypes.array.isRequired,
         encodingStatus: React.PropTypes.number
@@ -170,7 +173,7 @@ let Video = React.createClass({
     prepareVideoHTML() {
         let sources = this.props.extraData.map((data) => '<source type="video/' + data.type + '" src="' + escapeHTML(data.url) + '" />');
         let html = [
-            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.preview) + '"',
+            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.thumbnail) + '"',
                    'controls preload="none" width="auto" height="auto">',
                    sources.join('\n'),
             '</video>'];
@@ -184,7 +187,7 @@ let Video = React.createClass({
             );
         } else {
             return (
-                <Image preview={this.props.preview} />
+                <Image thumbnail={this.props.thumbnail} />
             );
         }
     }
@@ -200,20 +203,31 @@ let resourceMap = {
 let MediaPlayer = React.createClass({
     propTypes: {
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
-        preview: React.PropTypes.string.isRequired,
+        thumbnail: React.PropTypes.string.isRequired,
+        thumbnailFileExtension: React.PropTypes.string,
         url: React.PropTypes.string.isRequired,
         extraData: React.PropTypes.array,
-        encodingStatus: React.PropTypes.number
+        encodingStatus: React.PropTypes.number,
+    },
+
+    isVideoEncoding() {
+        const { mimetype, encodingStatus } = this.props;
+        return mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100;
+    },
+
+    isImageEncoding() {
+        const { mimetype, thumbnailFileExtension } = this.props;
+        return mimetype === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
     },
 
     render() {
         const { mimetype,
-                preview,
+                thumbnail,
                 url,
                 extraData,
                 encodingStatus } = this.props;
 
-        if (mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100) {
+        if (this.isVideoEncoding()) {
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
                     <p>
@@ -225,10 +239,23 @@ let MediaPlayer = React.createClass({
                         className="ascribe-progress-bar" />
                 </div>
             );
+        } else if (this.isImageEncoding()) {
+            return (
+                <div className="ascribe-media-player encoding-image">
+                    <AscribeSpinner color='dark-blue' size='lg' />
+                    <em className="text-center">
+                        {getLangText('We successfully received your image and it is now being encoded.')}
+                        <br />
+                        {getLangText('We will be refreshing this page as soon as encoding has finished.')}
+                        <br />
+                        {getLangText('(You may close this page)')}
+                    </em>
+                </div>
+            );
         } else {
             let Component = resourceMap[mimetype] || Other;
             let componentProps = {
-                preview,
+                thumbnail,
                 url,
                 extraData,
                 encodingStatus
@@ -242,7 +269,7 @@ let MediaPlayer = React.createClass({
             //
             // If this is the case, we disable shmui by deleting the original `url` prop and replace
             // the assigned component to `Image`.
-            if(!decodeURIComponent(preview).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
+            if (!decodeURIComponent(thumbnail).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
                Component === Other) {
                 Component = resourceMap.image;
                 delete componentProps.url;

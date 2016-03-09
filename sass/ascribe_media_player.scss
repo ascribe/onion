@@ -115,5 +115,15 @@
     .vjs-default-skin .vjs-control-bar {
         background-color: rgba(0,0,0,.7);
     }
+
+    &.encoding-image {
+        text-align: center;
+        margin: 2em 0 2em 0;
+
+        em {
+            display: block;
+            margin-top: 1em;
+        }
+    }
 }
 

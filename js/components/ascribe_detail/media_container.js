@@ -15,6 +15,8 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
 import AclProxy from '../acl_proxy';
 
+import AppConstants from '../../constants/application_constants';
+
 import { getLangText } from '../../utils/lang_utils';
 import { extractFileExtensionFromString } from '../../utils/file_utils';
 
@@ -23,7 +25,7 @@ const EMBED_IFRAME_HEIGHT = {
     video: 315,
     audio: 62
 };
-const ENCODE_UPDATE_TIME = 5000;
+
 
 let MediaContainer = React.createClass({
     propTypes: {
@@ -41,21 +43,18 @@ let MediaContainer = React.createClass({
 
     componentDidMount() {
         const { content: { digital_work: digitalWork }, refreshObject } = this.props;
+        const { timerId } = this.state;
 
-        if (digitalWork) {
-            const isEncoding = digitalWork.isEncoding;
-
-            if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-                this.setState({
-                    timerId: window.setInterval(refreshObject, ENCODE_UPDATE_TIME)
-                });
-            }
+        if (digitalWork && this.isDigitalWorkEncoding() && !timerId) {
+            this.setState({ timerId: window.setInterval(refreshObject, AppConstants.encodeUpdateThreshold) });
         }
     },
 
     componentWillUpdate() {
-        if (this.props.content.digital_work.isEncoding === 100) {
-            window.clearInterval(this.state.timerId);
+        const { timerId } = this.state;
+
+        if (!this.isDigitalWorkEncoding() && timerId) {
+            window.clearInterval(timerId);
         }
     },
 
@@ -63,13 +62,35 @@ let MediaContainer = React.createClass({
         window.clearInterval(this.state.timerId);
     },
 
-    render() {
-        const { content, currentUser } = this.props;
-        // Pieces and editions are joined to the user by a foreign key in the database, so
-        // the information in content will be updated if a user updates their username.
-        // We also force uniqueness of usernames, so this check is safe to dtermine if the
-        // content was registered by the current user.
-        const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+    /*
+     * A digital work is encoding if:
+     *
+     * - it's either a video that has `isEncoding` < 100
+     * - of a .tif|.tiff file that has not yet been converted
+     *   to a .jpeg thumbnail
+     */
+    isDigitalWorkEncoding() {
+        const {
+            content: {
+                digital_work: digitalWork,
+                thumbnail
+            } } = this.props;
+
+        return (
+            (
+                digitalWork.mime === 'video' &&
+                typeof digitalWork.isEncoding === 'number' &&
+                digitalWork.isEncoding !== 100
+            )
+            ||
+            (
+                digitalWork.mime === 'image' &&
+                (this.getFileExtensionFromUrl(thumbnail.url) === 'tif' || this.getFileExtensionFromUrl(thumbnail.url) === 'tiff')
+            )
+        );
+    },
+
+    getFileExtensionFromUrl(url) {
 
         // We want to show the file's extension as a label of the download button.
         // We can however not only use `extractFileExtensionFromString` on the url for that
@@ -78,8 +99,18 @@ let MediaContainer = React.createClass({
         // domain: e.g. '.net/live/<hash>'.
         // Therefore, we extract the file's name (last part of url, separated with a slash)
         // and try to extract the file extension from there.
-        const fileName = content.digital_work.url.split('/').pop();
-        const fileExtension = extractFileExtensionFromString(fileName);
+        const fileName = url.split('/').pop();
+        return extractFileExtensionFromString(fileName);
+    },
+
+    render() {
+        const { content, currentUser } = this.props;
+
+        // Pieces and editions are joined to the user by a foreign key in the database, so
+        // the information in content will be updated if a user updates their username.
+        // We also force uniqueness of usernames, so this check is safe to dtermine if the
+        // content was registered by the current user.
+        const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
 
         let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
             content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
@@ -117,7 +148,8 @@ let MediaContainer = React.createClass({
             <div>
                 <MediaPlayer
                     mimetype={mimetype}
-                    preview={thumbnail}
+                    thumbnail={thumbnail}
+                    thumbnailFileExtension={this.getFileExtensionFromUrl(thumbnail)}
                     url={content.digital_work.url}
                     extraData={extraData}
                     encodingStatus={content.digital_work.isEncoding} />
@@ -127,7 +159,6 @@ let MediaContainer = React.createClass({
                         <TwitterShareButton
                             text={getLangText('Check out %s ascribed piece', didUserRegisterContent ? 'my latest' : 'this' )} />
                     </span>
-
                     <AclProxy
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
@@ -136,7 +167,7 @@ let MediaContainer = React.createClass({
                             url={content.digital_work.url}
                             title={content.title}
                             artistName={content.artist_name}
-                            fileExtension={fileExtension} />
+                            fileExtension={this.getFileExtensionFromUrl(content.digital_work.url)} />
                     </AclProxy>
                     {embed}
                 </p>
