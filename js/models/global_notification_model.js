@@ -2,16 +2,19 @@
 
 export default class GlobalNotificationModel {
     constructor(message, type = 'info', dismissAfter = 5000) {
-        if(message) {
+        if (message) {
             this.message = message;
         } else {
-            throw new Error('A notifications message must be defined.');
+            console.logGlobal(new Error('Global notification did not contain a message and was ignored'), {
+                dismissAfter,
+                type
+            });
         }
 
-        if(type === 'info' || type === 'success' || type === 'warning' || type === 'danger') {
+        if (type === 'info' || type === 'success' || type === 'warning' || type === 'danger') {
             this.type = type;
         } else {
-            throw new Error('A notification\'s type either has to be info, success, warning, danger. Not: ' + type);
+            throw new Error(`A notification's type either has to be info, success, warning, danger. Not: ${type}`);
         }
 
         this.dismissAfter = dismissAfter;

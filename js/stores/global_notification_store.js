@@ -16,10 +16,12 @@ class GlobalNotificationStore {
     }
 
     onAppendGlobalNotification(newNotification) {
-        this.notificationQueue.push(newNotification);
+        if (newNotification && newNotification.message) {
+            this.notificationQueue.push(newNotification);
 
-        if (!this.notificationsPaused && this.notificationStatus === 'ready') {
-            this.showNextNotification();
+            if (!this.notificationsPaused && this.notificationStatus === 'ready') {
+                this.showNextNotification();
+            }
         }
     }
 
