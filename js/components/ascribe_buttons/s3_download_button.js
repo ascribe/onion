@@ -30,15 +30,12 @@ const S3DownloadButton = React.createClass({
     },
 
     componentDidMount() {
-        /**
-         * Initially, we request a signed url from
-         * the backend
-         */
+        // Initially, we request a signed url from the backend
         this.signUrl();
     },
 
     componentWillUnmount() {
-        window.clearInterval(this.state.signatureExpiryTimerId);
+        window.clearTimeout(this.state.signatureExpiryTimerId);
     },
 
     transformS3UrlToS3Key(url) {
@@ -52,29 +49,28 @@ const S3DownloadButton = React.createClass({
             .signUrl(this.transformS3UrlToS3Key(url), title, artistName)
             .then(({ signed_url: downloadUrl }) => {
                 const { signatureExpiryTimerId } = this.state;
-                let newState = { downloadUrl };
 
-                if(!signatureExpiryTimerId) {
-                    /**
-                     * The signed url, however can expire, which is why
-                     * we need to renew it when it expires.
-                     */
-                    const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
-                    const now = new Date().getTime() / 1000;
+                // The signed url, however can expire, which is why we need to set up a timer to
+                // renew it when it expires.
+                const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
+                const now = new Date().getTime() / 1000;
 
-                    /**
-                      * Amazon uses seconds as their signature unix timestamp
-                      * while `setInterval` uses milliseconds. Therefore we need to
-                      * multiply with 1000.
-                      */
-                    const interval = (expires - now) * 1000;
+                // Amazon uses seconds as their signature unix timestamp while `setTimeout` uses
+                // milliseconds. Therefore we need to multiply with 1000.
+                const interval = (expires - now) * 1000;
 
-                    Object.assign(newState, {
-                        // Substract 5s to make sure there is a big enough window to sign again before expiration
-                        signatureExpiryTimerId: window.setInterval(this.signUrl, interval - 5000)
-                    });
+                // Make sure to clear the previous timeout just in case it was not the one that
+                // invoked the refetching
+                if (signatureExpiryTimerId) {
+                    window.clearTimeout(signatureExpiryTimerId);
                 }
-                this.setState(newState);
+
+                this.setState({
+                    downloadUrl,
+                    // Substract 5s to make sure there is a big enough window to sign again before
+                    // expiration
+                    signatureExpiryTimerId: window.setTimeout(this.signUrl, interval - 5000)
+                });
             })
             .catch(console.logGlobal);
     },
