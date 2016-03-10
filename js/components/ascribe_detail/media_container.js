@@ -21,7 +21,8 @@ import AclProxy from '../acl_proxy';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
-import { extractFileExtensionFromString } from '../../utils/file_utils';
+
+import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 
 
 const EMBED_IFRAME_HEIGHT = {
@@ -72,7 +73,7 @@ let MediaContainer = React.createClass({
 
     isImageEncoding() {
         const { content: { thumbnail, digital_work: digitalWork } } = this.props;
-        const thumbnailFileExtension = this.getFileExtensionFromUrl(thumbnail.thumbnail_sizes['600x600']);
+        const thumbnailFileExtension = extractFileExtensionFromUrl(thumbnail.thumbnail_sizes['600x600']);
 
         return digitalWork.mime === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
     },
@@ -106,18 +107,6 @@ let MediaContainer = React.createClass({
                 </div>
             );
         }
-    },
-
-    getFileExtensionFromUrl(url) {
-        // We want to show the file's extension as a label of the download button.
-        // We can however not only use `extractFileExtensionFromString` on the url for that
-        // as files might be saved on S3 without a file extension which leads
-        // `extractFileExtensionFromString` to extract everything starting from the top level
-        // domain: e.g. '.net/live/<hash>'.
-        // Therefore, we extract the file's name (last part of url, separated with a slash)
-        // and try to extract the file extension from there.
-        const fileName = url.split('/').pop();
-        return extractFileExtensionFromString(fileName);
     },
 
     render() {
@@ -181,7 +170,7 @@ let MediaContainer = React.createClass({
                             url={content.digital_work.url}
                             title={content.title}
                             artistName={content.artist_name}
-                            fileExtension={this.getFileExtensionFromUrl(content.digital_work.url)} />
+                            fileExtension={extractFileExtensionFromUrl(content.digital_work.url)} />
                     </AclProxy>
                     {embed}
                 </p>

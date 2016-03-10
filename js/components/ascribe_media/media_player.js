@@ -8,6 +8,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import AppConstants from '../../constants/application_constants';
 
 import { escapeHTML } from '../../utils/general_utils';
+import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
@@ -67,8 +68,10 @@ let Image = React.createClass({
 
     render() {
         const { url, thumbnail } = this.props;
+        const urlFileExtension = extractFileExtensionFromUrl(url);
 
-        if (url) {
+        // TIFFs can not be displayed by the browser, so we just display their thumbnail
+        if (url && urlFileExtension !== 'tif' && urlFileExtension !== 'tiff') {
             return (
                 <img className="shmui-ascribe" src={thumbnail} data-large-src={url} />
             );
