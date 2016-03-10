@@ -15,14 +15,26 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let HeaderNotifications = React.createClass({
+    propTypes: {
+        currentUser: React.PropTypes.object.isRequired
+    },
+
     getInitialState() {
         return NotificationStore.getState();
     },
 
     componentDidMount() {
         NotificationStore.listen(this.onChange);
-        NotificationActions.fetchPieceListNotifications();
-        NotificationActions.fetchEditionListNotifications();
+
+        if (this.props.currentUser.email) {
+            this.refreshNotifications();
+        }
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser && nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.refreshNotifications();
+        }
     },
 
     componentWillUnmount() {
@@ -58,7 +70,12 @@ let HeaderNotifications = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    getNotifications({ notifications, isPiece }) {
+    refreshNotifications() {
+        NotificationActions.fetchPieceListNotifications();
+        NotificationActions.fetchEditionListNotifications();
+    },
+
+    renderNotifications({ notifications, isPiece }) {
         if (notifications.length) {
             return (
                 <div>
@@ -107,8 +124,8 @@ let HeaderNotifications = React.createClass({
                             </span>
                         }
                         className="notification-menu">
-                        {this.getNotifications({ notifications: pieceListNotifications, isPiece: true })}
-                        {this.getNotifications({ notifications: editionListNotifications, isPiece: false })}
+                        {this.renderNotifications({ notifications: pieceListNotifications, isPiece: true })}
+                        {this.renderNotifications({ notifications: editionListNotifications, isPiece: false })}
                     </DropdownButton>
                 </Nav>
             );

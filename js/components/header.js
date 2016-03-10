@@ -218,7 +218,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
-                        <HeaderNotifications />
+                        <HeaderNotifications currentUser={currentUser} />
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
