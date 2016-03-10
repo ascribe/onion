@@ -68,19 +68,21 @@ let MediaContainer = React.createClass({
 
     isVideoEncoding() {
         const { content: { digital_work: digitalWork } } = this.props;
-        return digitalWork.mime === 'video' && digitalWork.isEncoding === 'number' && digitalWork.isEncoding !== 100;
+        return digitalWork.mime === 'video' && typeof digitalWork.isEncoding === 'number' && digitalWork.isEncoding !== 100;
     },
 
     isImageEncoding() {
         const { content: { thumbnail, digital_work: digitalWork } } = this.props;
-        const thumbnailFileExtension = extractFileExtensionFromUrl(thumbnail.thumbnail_sizes['600x600']);
+        const thumbnailToCheck = thumbnail.thumbnail_sizes && thumbnail.thumbnail_sizes['600x600'] ? thumbnail.thumbnail_sizes['600x600']
+                                                                                                   : thumbnail.url;
+        const thumbnailFileExtension = extractFileExtensionFromUrl(thumbnailToCheck);
 
         return digitalWork.mime === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
     },
 
     getEncodingMessage() {
         if (this.isVideoEncoding()) {
-            const { digital_work: digitalWork } = this.props;
+            const { content: { digital_work: digitalWork } } = this.props;
 
             return (
                 <div className="ascribe-detail-header ascribe-media-player">
