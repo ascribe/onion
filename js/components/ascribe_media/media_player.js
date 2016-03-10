@@ -68,10 +68,10 @@ let Image = React.createClass({
 
     render() {
         const { url, thumbnail } = this.props;
-        const urlFileExtension = extractFileExtensionFromUrl(url);
 
         // TIFFs can not be displayed by the browser, so we just display their thumbnail
-        if (url && urlFileExtension !== 'tif' && urlFileExtension !== 'tiff') {
+        // url is not necessarily defined, which would cause this function to fail
+        if (url && extractFileExtensionFromUrl(url) !== 'tif' && extractFileExtensionFromUrl(url) !== 'tiff') {
             return (
                 <img className="shmui-ascribe" src={thumbnail} data-large-src={url} />
             );
