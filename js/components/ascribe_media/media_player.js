@@ -4,11 +4,11 @@ import React from 'react';
 import Q from 'q';
 
 import Panel from 'react-bootstrap/lib/Panel';
-import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import AppConstants from '../../constants/application_constants';
 
 import { escapeHTML } from '../../utils/general_utils';
+import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
@@ -31,18 +31,18 @@ let Other = React.createClass({
     render() {
         let filename = this.props.url.split('/').pop();
         let tokens = filename.split('.');
-        let preview;
+        let thumbnail;
 
         if (tokens.length > 1) {
-            preview = '.' + tokens.pop();
+            thumbnail = '.' + tokens.pop();
         } else {
-            preview = 'file';
+            thumbnail = 'file';
         }
 
         return (
             <Panel className="media-other">
                 <p className="text-center">
-                    {preview}
+                    {thumbnail}
                 </p>
             </Panel>
         );
@@ -52,11 +52,11 @@ let Other = React.createClass({
 let Image = React.createClass({
     propTypes: {
         url: React.PropTypes.string,
-        preview: React.PropTypes.string.isRequired
+        thumbnail: React.PropTypes.string.isRequired
     },
 
     componentDidMount() {
-        if(this.props.url) {
+        if (this.props.url) {
             InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
                 .then(() =>
                     Q.all([
@@ -67,15 +67,17 @@ let Image = React.createClass({
     },
 
     render() {
-        const { url, preview } = this.props;
+        const { url, thumbnail } = this.props;
+        const urlFileExtension = extractFileExtensionFromUrl(url);
 
-        if(url) {
+        // TIFFs can not be displayed by the browser, so we just display their thumbnail
+        if (url && urlFileExtension !== 'tif' && urlFileExtension !== 'tiff') {
             return (
-                <img className="shmui-ascribe" src={preview} data-large-src={url}/>
+                <img className="shmui-ascribe" src={thumbnail} data-large-src={url} />
             );
         } else {
             return (
-                <img src={preview}/>
+                <img src={thumbnail} />
             );
         }
     }
@@ -130,10 +132,9 @@ let Video = React.createClass({
      */
 
     propTypes: {
-        preview: React.PropTypes.string.isRequired,
+        thumbnail: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
-        extraData: React.PropTypes.array.isRequired,
-        encodingStatus: React.PropTypes.number
+        extraData: React.PropTypes.array.isRequired
     },
 
     getInitialState() {
@@ -170,7 +171,7 @@ let Video = React.createClass({
     prepareVideoHTML() {
         let sources = this.props.extraData.map((data) => '<source type="video/' + data.type + '" src="' + escapeHTML(data.url) + '" />');
         let html = [
-            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.preview) + '"',
+            '<video id="mainvideo" class="video-js vjs-default-skin" poster="' + escapeHTML(this.props.thumbnail) + '"',
                    'controls preload="none" width="auto" height="auto">',
                    sources.join('\n'),
             '</video>'];
@@ -184,7 +185,7 @@ let Video = React.createClass({
             );
         } else {
             return (
-                <Image preview={this.props.preview} />
+                <Image thumbnail={this.props.thumbnail} />
             );
         }
     }
@@ -200,38 +201,29 @@ let resourceMap = {
 let MediaPlayer = React.createClass({
     propTypes: {
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
-        preview: React.PropTypes.string.isRequired,
+        thumbnail: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
         extraData: React.PropTypes.array,
-        encodingStatus: React.PropTypes.number
+        encodingMessage: React.PropTypes.node
     },
 
     render() {
-        const { mimetype,
-                preview,
-                url,
-                extraData,
-                encodingStatus } = this.props;
+        const {
+            mimetype,
+            thumbnail,
+            url,
+            extraData,
+            encodingMessage
+        } = this.props;
 
-        if (mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100) {
-            return (
-                <div className="ascribe-detail-header ascribe-media-player">
-                    <p>
-                        <em>We successfully received your video and it is now being encoded.
-                        <br />You can leave this page and check back on the status later.</em>
-                    </p>
-                    <ProgressBar now={encodingStatus}
-                        label="%(percent)s%"
-                        className="ascribe-progress-bar" />
-                </div>
-            );
+        if (encodingMessage) {
+            return encodingMessage;
         } else {
             let Component = resourceMap[mimetype] || Other;
             let componentProps = {
-                preview,
+                thumbnail,
                 url,
                 extraData,
-                encodingStatus
             };
 
             // Since the launch of the portfolio whitelabel submission,
@@ -242,7 +234,7 @@ let MediaPlayer = React.createClass({
             //
             // If this is the case, we disable shmui by deleting the original `url` prop and replace
             // the assigned component to `Image`.
-            if(!decodeURIComponent(preview).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
+            if (!decodeURIComponent(thumbnail).match(/https:\/\/.*\/media\/thumbnails\/ascribe_spiral.png/) &&
                Component === Other) {
                 Component = resourceMap.image;
                 delete componentProps.url;

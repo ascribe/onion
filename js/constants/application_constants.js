@@ -92,13 +92,15 @@ const constants = {
 
     'searchThreshold': 500,
 
+    'encodeUpdateThreshold': 5000,
+
     'supportedThumbnailFileFormats': [
         'x-sgi-movie', 'x-msvideo', 'quicktime', 'mpeg', 'png', 'jpeg', 'gif',
         'ogg', 'oga', 'ogv', 'ogx', 'wmv', 'wma', 'flv', '3gpp2', '3p2', '3pg',
         'png', 'jpg', 'jpeg', 'gif', '264', '3g', '3g2', '3gp', '3gp2', '3gpp',
         'mp4', 'm4a', 'm4v', 'f4v', 'f4a', 'm4b', 'm4r', 'f4b', 'mov', 'quicktime',
         'webm', 'x264', 'mpeg', 'mpeg4', 'mpg4', 'bmp', 'eps', 'jp2', 'j2k', 'jpm',
-        'mj2'
+        'mj2', 'tif', 'tiff'
     ],
 
     // in case of whitelabel customization, we store stuff here

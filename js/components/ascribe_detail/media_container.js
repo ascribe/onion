@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
@@ -13,17 +14,22 @@ import S3DownloadButton from '../ascribe_buttons/s3_download_button';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 
+import AscribeSpinner from '../ascribe_spinner';
+
 import AclProxy from '../acl_proxy';
 
+import AppConstants from '../../constants/application_constants';
+
 import { getLangText } from '../../utils/lang_utils';
-import { extractFileExtensionFromString } from '../../utils/file_utils';
+
+import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 
 
 const EMBED_IFRAME_HEIGHT = {
     video: 315,
     audio: 62
 };
-const ENCODE_UPDATE_TIME = 5000;
+
 
 let MediaContainer = React.createClass({
     propTypes: {
@@ -41,21 +47,18 @@ let MediaContainer = React.createClass({
 
     componentDidMount() {
         const { content: { digital_work: digitalWork }, refreshObject } = this.props;
+        const { timerId } = this.state;
 
-        if (digitalWork) {
-            const isEncoding = digitalWork.isEncoding;
-
-            if (digitalWork.mime === 'video' && typeof isEncoding === 'number' && isEncoding !== 100 && !this.state.timerId) {
-                this.setState({
-                    timerId: window.setInterval(refreshObject, ENCODE_UPDATE_TIME)
-                });
-            }
+        if (digitalWork && (this.isVideoEncoding() || this.isImageEncoding()) && !timerId) {
+            this.setState({ timerId: window.setInterval(refreshObject, AppConstants.encodeUpdateThreshold) });
         }
     },
 
     componentWillUpdate() {
-        if (this.props.content.digital_work.isEncoding === 100) {
-            window.clearInterval(this.state.timerId);
+        const { timerId } = this.state;
+
+        if (!(this.isVideoEncoding() || this.isImageEncoding()) && timerId) {
+            window.clearInterval(timerId);
         }
     },
 
@@ -63,30 +66,62 @@ let MediaContainer = React.createClass({
         window.clearInterval(this.state.timerId);
     },
 
+    isVideoEncoding() {
+        const { content: { digital_work: digitalWork } } = this.props;
+        return digitalWork.mime === 'video' && digitalWork.isEncoding === 'number' && digitalWork.isEncoding !== 100;
+    },
+
+    isImageEncoding() {
+        const { content: { thumbnail, digital_work: digitalWork } } = this.props;
+        const thumbnailFileExtension = extractFileExtensionFromUrl(thumbnail.thumbnail_sizes['600x600']);
+
+        return digitalWork.mime === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
+    },
+
+    getEncodingMessage() {
+        if (this.isVideoEncoding()) {
+            const { digital_work: digitalWork } = this.props;
+
+            return (
+                <div className="ascribe-detail-header ascribe-media-player">
+                    <p>
+                        <em>We successfully received your video and it is now being encoded.
+                        <br />You can leave this page and check back on the status later.</em>
+                    </p>
+                    <ProgressBar now={digitalWork.isEncoding}
+                        label="%(percent)s%"
+                        className="ascribe-progress-bar" />
+                </div>
+            );
+        } else if (this.isImageEncoding()) {
+            return (
+                <div className="ascribe-media-player encoding-image">
+                    <AscribeSpinner color='dark-blue' size='lg' />
+                    <em className="text-center">
+                        {getLangText('We successfully received your image and it is now being encoded.')}
+                        <br />
+                        {getLangText('We will be refreshing this page as soon as encoding has finished.')}
+                        <br />
+                        {getLangText('(You may close this page)')}
+                    </em>
+                </div>
+            );
+        }
+    },
+
     render() {
         const { content, currentUser } = this.props;
+        const mimetype = content.digital_work.mime;
         // Pieces and editions are joined to the user by a foreign key in the database, so
         // the information in content will be updated if a user updates their username.
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
         const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+        const thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ? content.thumbnail.thumbnail_sizes['600x600']
+                                                                                                            : content.thumbnail.url_safe;
 
-        // We want to show the file's extension as a label of the download button.
-        // We can however not only use `extractFileExtensionFromString` on the url for that
-        // as files might be saved on S3 without a file extension which leads
-        // `extractFileExtensionFromString` to extract everything starting from the top level
-        // domain: e.g. '.net/live/<hash>'.
-        // Therefore, we extract the file's name (last part of url, separated with a slash)
-        // and try to extract the file extension from there.
-        const fileName = content.digital_work.url.split('/').pop();
-        const fileExtension = extractFileExtensionFromString(fileName);
-
-        let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
-            content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
-        let mimetype = content.digital_work.mime;
         let embed = null;
         let extraData = null;
-        let isEmbedDisabled = mimetype === 'video' && content.digital_work.isEncoding !== undefined && content.digital_work.isEncoding !== 100;
 
         if (content.digital_work.encoding_urls) {
             extraData = content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
@@ -101,7 +136,7 @@ let MediaContainer = React.createClass({
                         <Button
                             bsSize="xsmall"
                             className="ascribe-margin-1px"
-                            disabled={isEmbedDisabled}>
+                            disabled={this.isVideoEncoding()}>
                             {getLangText('Embed')}
                         </Button>
                     }
@@ -117,17 +152,16 @@ let MediaContainer = React.createClass({
             <div>
                 <MediaPlayer
                     mimetype={mimetype}
-                    preview={thumbnail}
+                    thumbnail={thumbnail}
                     url={content.digital_work.url}
                     extraData={extraData}
-                    encodingStatus={content.digital_work.isEncoding} />
+                    encodingMessage={this.getEncodingMessage()} />
                 <p className="text-center hidden-print">
                     <span className="ascribe-social-button-list">
                         <FacebookShareButton />
                         <TwitterShareButton
                             text={getLangText('Check out %s ascribed piece', didUserRegisterContent ? 'my latest' : 'this' )} />
                     </span>
-
                     <AclProxy
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
@@ -136,7 +170,7 @@ let MediaContainer = React.createClass({
                             url={content.digital_work.url}
                             title={content.title}
                             artistName={content.artist_name}
-                            fileExtension={fileExtension} />
+                            fileExtension={extractFileExtensionFromUrl(content.digital_work.url)} />
                     </AclProxy>
                     {embed}
                 </p>
