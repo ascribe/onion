@@ -39,8 +39,8 @@ class Requests {
                         // If the responses' body does not contain any data,
                         // fetch will resolve responseText to the string 'None'.
                         // If this is the case, we can not try to parse it as JSON.
-                        if(responseText !== 'None') {
-                            let body = JSON.parse(responseText);
+                        if (responseText && responseText !== 'None') {
+                            const body = JSON.parse(responseText);
 
                             if(body && body.errors) {
                                 let error = new Error('Form Error');
