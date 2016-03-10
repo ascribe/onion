@@ -4,14 +4,10 @@ import React from 'react';
 import Q from 'q';
 
 import Panel from 'react-bootstrap/lib/Panel';
-import ProgressBar from 'react-bootstrap/lib/ProgressBar';
-
-import AscribeSpinner from '../ascribe_spinner';
 
 import AppConstants from '../../constants/application_constants';
 
 import { escapeHTML } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
 
 /**
@@ -135,8 +131,7 @@ let Video = React.createClass({
     propTypes: {
         thumbnail: React.PropTypes.string.isRequired,
         url: React.PropTypes.string.isRequired,
-        extraData: React.PropTypes.array.isRequired,
-        encodingStatus: React.PropTypes.number
+        extraData: React.PropTypes.array.isRequired
     },
 
     getInitialState() {
@@ -204,61 +199,28 @@ let MediaPlayer = React.createClass({
     propTypes: {
         mimetype: React.PropTypes.oneOf(['image', 'video', 'audio', 'pdf', 'other']).isRequired,
         thumbnail: React.PropTypes.string.isRequired,
-        thumbnailFileExtension: React.PropTypes.string,
         url: React.PropTypes.string.isRequired,
         extraData: React.PropTypes.array,
-        encodingStatus: React.PropTypes.number,
-    },
-
-    isVideoEncoding() {
-        const { mimetype, encodingStatus } = this.props;
-        return mimetype === 'video' && encodingStatus !== undefined && encodingStatus !== 100;
-    },
-
-    isImageEncoding() {
-        const { mimetype, thumbnailFileExtension } = this.props;
-        return mimetype === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
+        encodingMessage: React.PropTypes.node
     },
 
     render() {
-        const { mimetype,
-                thumbnail,
-                url,
-                extraData,
-                encodingStatus } = this.props;
+        const {
+            mimetype,
+            thumbnail,
+            url,
+            extraData,
+            encodingMessage
+        } = this.props;
 
-        if (this.isVideoEncoding()) {
-            return (
-                <div className="ascribe-detail-header ascribe-media-player">
-                    <p>
-                        <em>We successfully received your video and it is now being encoded.
-                        <br />You can leave this page and check back on the status later.</em>
-                    </p>
-                    <ProgressBar now={encodingStatus}
-                        label="%(percent)s%"
-                        className="ascribe-progress-bar" />
-                </div>
-            );
-        } else if (this.isImageEncoding()) {
-            return (
-                <div className="ascribe-media-player encoding-image">
-                    <AscribeSpinner color='dark-blue' size='lg' />
-                    <em className="text-center">
-                        {getLangText('We successfully received your image and it is now being encoded.')}
-                        <br />
-                        {getLangText('We will be refreshing this page as soon as encoding has finished.')}
-                        <br />
-                        {getLangText('(You may close this page)')}
-                    </em>
-                </div>
-            );
+        if (encodingMessage) {
+            return encodingMessage;
         } else {
             let Component = resourceMap[mimetype] || Other;
             let componentProps = {
                 thumbnail,
                 url,
                 extraData,
-                encodingStatus
             };
 
             // Since the launch of the portfolio whitelabel submission,

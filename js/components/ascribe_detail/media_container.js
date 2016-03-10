@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Button from 'react-bootstrap/lib/Button';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
@@ -12,6 +13,8 @@ import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
 import S3DownloadButton from '../ascribe_buttons/s3_download_button';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
+
+import AscribeSpinner from '../ascribe_spinner';
 
 import AclProxy from '../acl_proxy';
 
@@ -45,7 +48,7 @@ let MediaContainer = React.createClass({
         const { content: { digital_work: digitalWork }, refreshObject } = this.props;
         const { timerId } = this.state;
 
-        if (digitalWork && this.isDigitalWorkEncoding() && !timerId) {
+        if (digitalWork && (this.isVideoEncoding() || this.isImageEncoding()) && !timerId) {
             this.setState({ timerId: window.setInterval(refreshObject, AppConstants.encodeUpdateThreshold) });
         }
     },
@@ -53,7 +56,7 @@ let MediaContainer = React.createClass({
     componentWillUpdate() {
         const { timerId } = this.state;
 
-        if (!this.isDigitalWorkEncoding() && timerId) {
+        if (!(this.isVideoEncoding() || this.isImageEncoding()) && timerId) {
             window.clearInterval(timerId);
         }
     },
@@ -62,36 +65,50 @@ let MediaContainer = React.createClass({
         window.clearInterval(this.state.timerId);
     },
 
-    /*
-     * A digital work is encoding if:
-     *
-     * - it's either a video that has `isEncoding` < 100
-     * - of a .tif|.tiff file that has not yet been converted
-     *   to a .jpeg thumbnail
-     */
-    isDigitalWorkEncoding() {
-        const {
-            content: {
-                digital_work: digitalWork,
-                thumbnail
-            } } = this.props;
+    isVideoEncoding() {
+        const { content: { digital_work: digitalWork } } = this.props;
+        return digitalWork.mime === 'video' && digitalWork.isEncoding === 'number' && digitalWork.isEncoding !== 100;
+    },
 
-        return (
-            (
-                digitalWork.mime === 'video' &&
-                typeof digitalWork.isEncoding === 'number' &&
-                digitalWork.isEncoding !== 100
-            )
-            ||
-            (
-                digitalWork.mime === 'image' &&
-                (this.getFileExtensionFromUrl(thumbnail.url) === 'tif' || this.getFileExtensionFromUrl(thumbnail.url) === 'tiff')
-            )
-        );
+    isImageEncoding() {
+        const { content: { thumbnail, digital_work: digitalWork } } = this.props;
+        const thumbnailFileExtension = this.getFileExtensionFromUrl(thumbnail.thumbnail_sizes['600x600']);
+
+        return digitalWork.mime === 'image' && (thumbnailFileExtension === 'tif' || thumbnailFileExtension === 'tiff');
+    },
+
+    getEncodingMessage() {
+        if (this.isVideoEncoding()) {
+            const { digital_work: digitalWork } = this.props;
+
+            return (
+                <div className="ascribe-detail-header ascribe-media-player">
+                    <p>
+                        <em>We successfully received your video and it is now being encoded.
+                        <br />You can leave this page and check back on the status later.</em>
+                    </p>
+                    <ProgressBar now={digitalWork.isEncoding}
+                        label="%(percent)s%"
+                        className="ascribe-progress-bar" />
+                </div>
+            );
+        } else if (this.isImageEncoding()) {
+            return (
+                <div className="ascribe-media-player encoding-image">
+                    <AscribeSpinner color='dark-blue' size='lg' />
+                    <em className="text-center">
+                        {getLangText('We successfully received your image and it is now being encoded.')}
+                        <br />
+                        {getLangText('We will be refreshing this page as soon as encoding has finished.')}
+                        <br />
+                        {getLangText('(You may close this page)')}
+                    </em>
+                </div>
+            );
+        }
     },
 
     getFileExtensionFromUrl(url) {
-
         // We want to show the file's extension as a label of the download button.
         // We can however not only use `extractFileExtensionFromString` on the url for that
         // as files might be saved on S3 without a file extension which leads
@@ -105,19 +122,17 @@ let MediaContainer = React.createClass({
 
     render() {
         const { content, currentUser } = this.props;
-
+        const mimetype = content.digital_work.mime;
         // Pieces and editions are joined to the user by a foreign key in the database, so
         // the information in content will be updated if a user updates their username.
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
         const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+        const thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ? content.thumbnail.thumbnail_sizes['600x600']
+                                                                                                            : content.thumbnail.url_safe;
 
-        let thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ?
-            content.thumbnail.thumbnail_sizes['600x600'] : content.thumbnail.url_safe;
-        let mimetype = content.digital_work.mime;
         let embed = null;
         let extraData = null;
-        let isEmbedDisabled = mimetype === 'video' && content.digital_work.isEncoding !== undefined && content.digital_work.isEncoding !== 100;
 
         if (content.digital_work.encoding_urls) {
             extraData = content.digital_work.encoding_urls.map(e => { return { url: e.url, type: e.label }; });
@@ -132,7 +147,7 @@ let MediaContainer = React.createClass({
                         <Button
                             bsSize="xsmall"
                             className="ascribe-margin-1px"
-                            disabled={isEmbedDisabled}>
+                            disabled={this.isVideoEncoding()}>
                             {getLangText('Embed')}
                         </Button>
                     }
@@ -149,10 +164,9 @@ let MediaContainer = React.createClass({
                 <MediaPlayer
                     mimetype={mimetype}
                     thumbnail={thumbnail}
-                    thumbnailFileExtension={this.getFileExtensionFromUrl(thumbnail)}
                     url={content.digital_work.url}
                     extraData={extraData}
-                    encodingStatus={content.digital_work.isEncoding} />
+                    encodingMessage={this.getEncodingMessage()} />
                 <p className="text-center hidden-print">
                     <span className="ascribe-social-button-list">
                         <FacebookShareButton />
