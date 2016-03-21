@@ -64,7 +64,7 @@ let InputCheckbox = React.createClass({
         }
     },
 
-    onChange() {
+    onChange(event) {
         // if this.props.disabled is true, we're just going to ignore every click,
         // as the value should then not be changable by the user
         if(this.props.disabled) {
@@ -102,7 +102,7 @@ let InputCheckbox = React.createClass({
         }
 
         return (
-            <span
+            <label
                 style={this.props.style}
                 onClick={this.onChange}
                 name={this.props.name}>
@@ -118,7 +118,7 @@ let InputCheckbox = React.createClass({
                     style={style}>
                     {this.props.children}
                 </span>
-            </span>
+            </label>
         );
     }
 });

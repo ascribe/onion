@@ -286,7 +286,7 @@ const Property = React.createClass({
     getLabelAndErrors() {
         if(this.props.label || this.state.errors) {
             return (
-                <p>
+                <p className="clearfix">
                     <span className="pull-left">{this.props.label}</span>
                     <span className="pull-right">{this.state.errors}</span>
                 </p>

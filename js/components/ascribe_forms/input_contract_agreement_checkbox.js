@@ -13,6 +13,13 @@ import { getLangText } from '../../utils/lang';
 import { isEmail } from '../../utils/regex';
 
 
+//FIXME!!!!!!
+// Create an HOC that wraps around a form that injects it with the contract agreements.
+// Then, instead of having state here, we should be able to just get the contract agreements from the form
+// and the form can also use the `hidden` prop of the parent Property to hide this component when there
+// are no contract agreements.
+
+
 const InputContractAgreementCheckbox = React.createClass({
     propTypes: {
         createPublicContractAgreement: React.PropTypes.bool,
