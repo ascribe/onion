@@ -30,10 +30,6 @@ let PieceListFetcher = {
 
     fetchRequestActions() {
         return requests.get('pieces_list_request_actions');
-    },
-
-    fetchFirstEditionForPiece(pieceId) {
-        return requests.get('piece_first_edition_id', {'piece_id': pieceId});
     }
 };
 

@@ -60,7 +60,6 @@ let ApiUrls = {
     'ownership_contract_list': AppConstants.apiEndpoint + 'ownership/contracts/',
     'piece': AppConstants.apiEndpoint + 'pieces/${piece_id}/',
     'piece_extradata': AppConstants.apiEndpoint + 'pieces/${piece_id}/extradata/',
-    'piece_first_edition_id': AppConstants.apiEndpoint + 'pieces/${piece_id}/edition_index/',
     'pieces_list': AppConstants.apiEndpoint + 'pieces/',
     'piece_remove_from_collection': AppConstants.apiEndpoint + 'ownership/shares/pieces/${piece_id}/',
     'user': AppConstants.apiEndpoint + 'users/',
