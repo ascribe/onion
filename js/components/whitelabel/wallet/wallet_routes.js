@@ -33,6 +33,7 @@ import IkonotvRegisterPiece from './components/ikonotv/ikonotv_register_piece';
 import IkonotvPieceContainer from './components/ikonotv/ikonotv_detail/ikonotv_piece_container';
 import IkonotvContractNotifications from './components/ikonotv/ikonotv_contract_notifications';
 
+import MarketLanding from './components/market/market_landing';
 import MarketPieceList from './components/market/market_piece_list';
 import MarketRegisterPiece from './components/market/market_register_piece';
 import MarketPieceContainer from './components/market/market_detail/market_piece_container';
@@ -45,8 +46,6 @@ import Vivi23Landing from './components/23vivi/23vivi_landing';
 import Vivi23PieceList from './components/23vivi/23vivi_piece_list';
 
 import PollineLanding from './components/polline/polline_landing';
-
-import DemoLanding from './components/demo/demo_landing';
 
 import ArtcityLanding from './components/artcity/artcity_landing';
 
@@ -378,7 +377,44 @@ let ROUTES = {
     ),
     'demo': (
         <Route path='/' component={WalletApp}>
-            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(DemoLanding)} />
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(MarketLanding)} />
+            <Route
+                path='login'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+            <Route
+                path='logout'
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+            <Route
+                path='signup'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+            <Route
+                path='contract_settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+            <Route
+                path='register_piece'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketRegisterPiece)}
+                headerTitle={getLangText('+ NEW WORK')}
+                aclName='acl_wallet_submit' />
+            <Route
+                path='collection'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(MarketPieceList)}
+                headerTitle={getLangText('COLLECTION')}
+                disableOn='noPieces' />
+            <Route path='pieces/:pieceId' component={MarketPieceContainer} />
+            <Route path='editions/:editionId' component={MarketEditionContainer} />
+            <Route path='verify' component={CoaVerifyContainer} />
+            <Route path='*' component={ErrorNotFoundPage} />
+        </Route>
+    ),
+    'liquidgallery': (
+        <Route path='/' component={WalletApp}>
+            <IndexRoute component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(MarketLanding)} />
             <Route
                 path='login'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />

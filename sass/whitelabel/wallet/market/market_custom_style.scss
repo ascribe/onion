@@ -1,14 +1,14 @@
-$demo--fg-color: black;
-$demo--bg-color: white;
-$demo--nav-fg-prim-color: $demo--fg-color;
-$demo--nav-fg-sec-color: #3a3a3a;
-$demo--nav-bg-color: $demo--bg-color;
-$demo--nav-highlight-color: #f8f8f8;
-$demo--button-default-color: $demo--fg-color;
-$demo--highlight-color: #2882fa;
+$market--fg-color: black;
+$market--bg-color: white;
+$market--nav-fg-prim-color: $market--fg-color;
+$market--nav-fg-sec-color: #3a3a3a;
+$market--nav-bg-color: $market--bg-color;
+$market--nav-highlight-color: #f8f8f8;
+$market--button-default-color: $market--fg-color;
+$market--highlight-color: #2882fa;
 
 
-.client--demo {
+.client--demo, .client--liquidgallery {
     /** Landing page **/
     .route--landing {
         display: table;
@@ -24,26 +24,25 @@ $demo--highlight-color: #2882fa;
             display: none;
         }
 
-        .demo-landing {
+        .landing {
             font-weight: normal;
             text-align: center;
         }
 
-        .demo-landing--header {
-            background-color: $demo--bg-color;
-            border: 1px solid darken($demo--bg-color, 20%);
-            color: $demo--fg-color;
+        .landing--header {
+            background-color: $market--bg-color;
+            border: 1px solid darken($market--bg-color, 20%);
+            color: $market--fg-color;
             padding: 2em;
 
-            .demo-landing--header-logo {
+            .landing--header-logo {
                 margin: 1em 0 2em 0;
-                height: 175px;
             }
         }
 
-        .demo-landing--content {
-            background-color: $demo--bg-color;
-            border: 1px solid darken($demo--bg-color, 20%);
+        .landing--content {
+            background-color: $market--bg-color;
+            border: 1px solid darken($market--bg-color, 20%);
             border-top: none;
             padding: 2em;
         }
@@ -51,16 +50,16 @@ $demo--highlight-color: #2882fa;
 
     /** Navbar **/
     .navbar-default {
-        background-color: $demo--bg-color;
+        background-color: $market--bg-color;
 
         .navbar-brand .img-brand {
             height: 115%;
         }
 
         .navbar-brand .icon-ascribe-logo {
-            color: $demo--nav-fg-prim-color;
+            color: $market--nav-fg-prim-color;
             &:hover {
-                color: darken($demo--nav-fg-prim-color, 20%);
+                color: darken($market--nav-fg-prim-color, 20%);
             }
         }
 
@@ -70,26 +69,26 @@ $demo--highlight-color: #2882fa;
     .navbar-nav > li > a:focus,
     .navbar-nav > li > .active a,
     .navbar-nav > li > .active a:focus {
-        color: $demo--nav-fg-prim-color;
+        color: $market--nav-fg-prim-color;
     }
 
     .navbar-nav > li > a:hover {
-        color: darken($demo--nav-fg-prim-color, 20%);
+        color: darken($market--nav-fg-prim-color, 20%);
     }
 
     .navbar-nav > .active a,
     .navbar-nav > .active a:hover,
     .navbar-nav > .active a:focus {
-        background-color: $demo--nav-bg-color;
-        border-bottom-color: $demo--nav-fg-prim-color;
-        color: $demo--nav-fg-prim-color;
+        background-color: $market--nav-bg-color;
+        border-bottom-color: $market--nav-fg-prim-color;
+        color: $market--nav-fg-prim-color;
     }
 
     .navbar-nav > .open > a,
     .dropdown-menu > .active > a,
     .dropdown-menu > li > a {
-        color: $demo--nav-fg-prim-color;
-        background-color: $demo--nav-bg-color;
+        color: $market--nav-fg-prim-color;
+        background-color: $market--nav-bg-color;
     }
 
     .navbar-nav > .open > a:hover,
@@ -98,60 +97,60 @@ $demo--highlight-color: #2882fa;
     .dropdown-menu > .active > a:focus,
     .dropdown-menu > li > a:hover,
     .dropdown-menu > li > a:focus {
-        color: lighten($demo--nav-fg-prim-color, 20%);
-        background-color: $demo--nav-highlight-color;
+        color: lighten($market--nav-fg-prim-color, 20%);
+        background-color: $market--nav-highlight-color;
     }
 
     .navbar-collapse.collapsing,
     .navbar-collapse.collapse.in {
-        background-color: $demo--nav-bg-color;
+        background-color: $market--nav-bg-color;
 
         .navbar-nav > .open > a,
         .navbar-nav > .active > a {
-            background-color: $demo--nav-highlight-color;
+            background-color: $market--nav-highlight-color;
         }
     }
 
     .navbar-collapse.collapsing li a,
     .navbar-collapse.collapse.in li a {
-        color: $demo--nav-fg-prim-color;
+        color: $market--nav-fg-prim-color;
     }
     .navbar-collapse.collapse.in li a:not(.ascribe-powered-by):hover {
-        color: lighten($demo--nav-fg-prim-color, 20%);
-        background-color: $demo--nav-highlight-color;
+        color: lighten($market--nav-fg-prim-color, 20%);
+        background-color: $market--nav-highlight-color;
     }
 
     .navbar-toggle {
-        border-color: $demo--highlight-color;
+        border-color: $market--highlight-color;
 
         .icon-bar {
-            background-color: $demo--highlight-color;
+            background-color: $market--highlight-color;
         }
     }
 
     .navbar-toggle:hover,
     .navbar-toggle:focus {
-        border-color: lighten($demo--highlight-color, 10%);
-        background-color: $demo--nav-fg-prim-color;
+        border-color: lighten($market--highlight-color, 10%);
+        background-color: $market--nav-fg-prim-color;
 
         .icon-bar {
-            background-color: lighten($demo--highlight-color, 10%);
+            background-color: lighten($market--highlight-color, 10%);
         }
     }
 
     .notification-menu {
         .dropdown-menu {
-            background-color: $demo--nav-bg-color;
+            background-color: $market--nav-bg-color;
         }
 
         .notification-header {
-            background-color: $demo--nav-fg-sec-color;
+            background-color: $market--nav-fg-sec-color;
             border-top-width: 0;
-            color: $demo--nav-bg-color;
+            color: $market--nav-bg-color;
         }
 
         .notification-action {
-            color: $demo--highlight-color;
+            color: $market--highlight-color;
         }
     }
 
@@ -175,13 +174,13 @@ $demo--highlight-color: #2882fa;
     fieldset[disabled] .btn-default.focus,
     fieldset[disabled] .btn-default:active,
     fieldset[disabled] .btn-default.active {
-        background-color: lighten($demo--button-default-color, 30%);
-        border-color: lighten($demo--button-default-color, 30%);
+        background-color: lighten($market--button-default-color, 30%);
+        border-color: lighten($market--button-default-color, 30%);
     }
 
     .btn-default {
-        background-color: $demo--button-default-color;
-        border-color: $demo--button-default-color;
+        background-color: $market--button-default-color;
+        border-color: $market--button-default-color;
 
         &:hover,
         &:active,
@@ -192,8 +191,8 @@ $demo--highlight-color: #2882fa;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: lighten($demo--button-default-color, 30%);
-            border-color: lighten($demo--button-default-color, 30%);
+            background-color: lighten($market--button-default-color, 30%);
+            border-color: lighten($market--button-default-color, 30%);
         }
     }
 
@@ -216,13 +215,13 @@ $demo--highlight-color: #2882fa;
     fieldset[disabled] .btn-secondary.focus,
     fieldset[disabled] .btn-secondary:active,
     fieldset[disabled] .btn-secondary.active {
-        background-color: darken($demo--bg-color, 20%);
-        border-color: $demo--button-default-color;
+        background-color: darken($market--bg-color, 20%);
+        border-color: $market--button-default-color;
     }
 
     .btn-secondary {
-        border-color: $demo--button-default-color;
-        color: $demo--button-default-color;
+        border-color: $market--button-default-color;
+        color: $market--button-default-color;
 
         &:hover,
         &:active,
@@ -233,9 +232,9 @@ $demo--highlight-color: #2882fa;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: $demo--button-default-color;
-            border-color: $demo--button-default-color;
-            color: $demo--bg-color;
+            background-color: $market--button-default-color;
+            border-color: $market--button-default-color;
+            color: $market--bg-color;
         }
     }
 
@@ -244,9 +243,9 @@ $demo--highlight-color: #2882fa;
         &:active,
         &ctive:hover,
         &.active:hover{
-            background-color: $demo--highlight-color;
-            border-color: $demo--highlight-color;
-            color: $demo--bg-color;
+            background-color: $market--highlight-color;
+            border-color: $market--highlight-color;
+            color: $market--bg-color;
         }
     }
 
@@ -260,54 +259,54 @@ $demo--highlight-color: #2882fa;
     }
 
     .ascribe-accordion-list-table-toggle:hover {
-        color: $demo--fg-color;
+        color: $market--fg-color;
     }
 
     .request-action-badge {
-        color: $demo--fg-color;
+        color: $market--fg-color;
     }
 
     .acl-information-dropdown-list .title {
-        color: $demo--fg-color;
+        color: $market--fg-color;
     }
 
     // filter widget
     .ascribe-piece-list-toolbar-widget button {
         background-color: transparent !important;
         border-color: transparent !important;
-        color: $demo--button-default-color !important;
+        color: $market--button-default-color !important;
 
         &:hover,
         &:active {
-            background-color: $demo--button-default-color !important;
-            border-color: $demo--button-default-color !important;
-            color: $demo--bg-color !important;
+            background-color: $market--button-default-color !important;
+            border-color: $market--button-default-color !important;
+            color: $market--bg-color !important;
         }
     }
 
     .icon-ascribe-search {
-        color: $demo--fg-color;
+        color: $market--fg-color;
     }
 
     // forms
     .ascribe-property-wrapper:hover {
-        border-left-color: rgba($demo--fg-color, 0.5);
+        border-left-color: rgba($market--fg-color, 0.5);
     }
 
     .ascribe-property textarea,
     .ascribe-property input,
     .search-bar > .form-group > .input-group input {
         &::-webkit-input-placeholder {
-            color: rgba($demo--fg-color, 0.5);
+            color: rgba($market--fg-color, 0.5);
         }
         &::-moz-placeholder {
-            color: rgba($demo--fg-color, 0.5);
+            color: rgba($market--fg-color, 0.5);
         }
         &:-ms-input-placeholder {
-            color: rgba($demo--fg-color, 0.5);
+            color: rgba($market--fg-color, 0.5);
         }
         &:-moz-placeholder {
-            color: rgba($demo--fg-color, 0.5);
+            color: rgba($market--fg-color, 0.5);
         }
     }
 
@@ -320,66 +319,66 @@ $demo--highlight-color: #2882fa;
         > p,
         > p > span,
         > textarea {
-            color: $demo--fg-color;
+            color: $market--fg-color;
         }
     }
 
     // global notification
     .ascribe-global-notification-success {
-        background-color: lighten($demo--fg-color, 20%);
+        background-color: lighten($market--fg-color, 20%);
     }
 
     // uploader progress
     .ascribe-progress-bar > .progress-bar {
-        background-color: lighten($demo--fg-color, 20%);
+        background-color: lighten($market--fg-color, 20%);
     }
 
     .ascribe-progress-bar span {
-        text-shadow: -1px 0 lighten($demo--fg-color, 20%),
-                     0 1px lighten($demo--fg-color, 20%),
-                     1px 0 lighten($demo--fg-color, 20%),
-                     0 -1px lighten($demo--fg-color, 20%);
+        text-shadow: -1px 0 lighten($market--fg-color, 20%),
+                     0 1px lighten($market--fg-color, 20%),
+                     1px 0 lighten($market--fg-color, 20%),
+                     0 -1px lighten($market--fg-color, 20%);
     }
 
     .action-file.icon-ascribe-ok,
     .action-file.icon-ascribe-ok:hover {
-        color: lighten($demo--fg-color, 20%);
+        color: lighten($market--fg-color, 20%);
     }
 
     // spinner
     .spinner-circle {
-        border-color: $demo--fg-color;
+        border-color: $market--fg-color;
     }
     .spinner-inner {
         display: none;
     }
     .btn-secondary .spinner-circle {
-        border-color: $demo--bg-color;
+        border-color: $market--bg-color;
     }
 
     // video player
     .ascribe-media-player .vjs-default-skin {
         .vjs-play-progress,
         .vjs-volume-level {
-            background-color: $demo--highlight-color;
+            background-color: $market--highlight-color;
         }
     }
 
     // pager
     .pager li > a,
     .pager li > span {
-        background-color: $demo--fg-color;
-        border-color: $demo--fg-color;
+        background-color: $market--fg-color;
+        border-color: $market--fg-color;
     }
     .pager .disabled > a,
     .pager .disabled > span {
-        background-color: $demo--fg-color !important;
-        border-color: $demo--fg-color;
+        background-color: $market--fg-color !important;
+        border-color: $market--fg-color;
     }
 
     // intercom
     #intercom-container .intercom-launcher-button {
-        background-color: $demo--button-default-color !important;
-        border-color: $demo--button-default-color !important;
+        background-color: $market--button-default-color !important;
+        border-color: $market--button-default-color !important;
     }
 }

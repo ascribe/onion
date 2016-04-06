@@ -69,6 +69,11 @@ const constants = {
             'type': 'wallet'
         },
         {
+            'subdomain': 'liquidgallery',
+            'name': 'Liquid Gallery',
+            'type': 'wallet'
+        },
+        {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'type': 'prize'
