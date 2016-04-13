@@ -15,6 +15,13 @@ import AppConstants from '../constants/application_constants';
 function logGlobal(error, comment, ignoreSentry) {
     console.error(error);
 
+    if (error.hasOwnProperty('json')) {
+        comment = {
+            ...comment,
+            json: error.json
+        };
+    }
+
     if (!ignoreSentry) {
         Raven.captureException(error, comment ? { extra: { comment } } : undefined);
     }
