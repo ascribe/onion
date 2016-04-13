@@ -77,6 +77,11 @@ const Property = React.createClass({
         };
     },
 
+    componentWillMount() {
+        // Set up internal storage for callback refs
+        this._refs = {};
+    },
+
     componentDidMount() {
         if(this.props.autoFocus) {
             this.handleFocus();
@@ -84,7 +89,7 @@ const Property = React.createClass({
     },
 
     componentWillReceiveProps(nextProps) {
-        let childInput = this.refs.input;
+        let childInput = this._refs.input;
 
         // For expanded there are actually three use cases:
         //
@@ -124,7 +129,7 @@ const Property = React.createClass({
     },
 
     reset() {
-        let input = this.refs.input;
+        let input = this._refs.input;
 
         // maybe do reset by reload instead of front end state?
         this.setState({value: this.state.initialValue});
@@ -179,11 +184,11 @@ const Property = React.createClass({
         }
         // skip the focus of non-input elements
         let nonInputHTMLElements = ['pre', 'div'];
-        if (this.refs.input &&
-            nonInputHTMLElements.indexOf(this.refs.input.getDOMNode().nodeName.toLowerCase()) > -1 ) {
+        if (this._refs.input &&
+            nonInputHTMLElements.indexOf(this._refs.input.getDOMNode().nodeName.toLowerCase()) > -1 ) {
             return;
         }
-        this.refs.input.getDOMNode().focus();
+        this._refs.input.getDOMNode().focus();
         this.setState({
             isFocused: true
         });
@@ -205,7 +210,7 @@ const Property = React.createClass({
             errors: null,
 
             // also update initialValue in case of the user updating and canceling its actions again
-            initialValue: this.refs.input.getDOMNode().value
+            initialValue: this._refs.input.getDOMNode().value
         });
     },
 
@@ -258,29 +263,35 @@ const Property = React.createClass({
     },
 
     renderChildren(style) {
+        const { checkboxLabel, children, editable, name } = this.props;
+
         // Input's props should only be cloned and propagated down the tree,
         // if the component is actually being shown (!== 'expanded === false')
-        if((this.state.expanded && this.props.checkboxLabel) || !this.props.checkboxLabel) {
-            return ReactAddons.Children.map(this.props.children, (child) => {
-                // Since refs will be overriden by this functions return statement,
-                // we still want to be able to define refs for nested `Form` or `Property`
-                // children, which is why we're upfront simply invoking the callback-ref-
-                // function before overriding it.
-                if(typeof child.ref === 'function' && this.refs.input) {
-                    child.ref(this.refs.input);
-                }
+        if ((this.state.expanded && checkboxLabel) || !checkboxLabel) {
+            return ReactAddons.Children.map(children, (child) => {
+                const childWithProps = React.cloneElement(child, {
+                    ref: (ref) => {
+                        this._refs.input = ref;
 
-                return React.cloneElement(child, {
+                        // Since refs will be overriden by this functions return statement,
+                        // we still want to be able to define refs for nested `Form` or `Property`
+                        // children, which is why we're upfront simply invoking the callback-ref-
+                        // function before overriding it.
+                        if (typeof child.ref === 'function') {
+                            child.ref(ref);
+                        }
+                    },
+                    name,
                     style,
+                    disabled: !editable,
+                    onBlur: this.handleBlur,
                     onChange: this.handleChange,
                     onFocus: this.handleFocus,
-                    onBlur: this.handleBlur,
-                    setWarning: this.setWarning,
-                    disabled: !this.props.editable,
-                    ref: 'input',
-                    name: this.props.name,
-                    setExpanded: this.setExpanded
+                    setExpanded: this.setExpanded,
+                    setWarning: this.setWarning
                 });
+
+                return childWithProps;
             });
         }
     },

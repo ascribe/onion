@@ -58,6 +58,11 @@ let RegisterPieceForm = React.createClass({
         }
     },
 
+    componentWillMount() {
+        // Set up internal storage for callback refs
+        this._refs = {};
+    },
+
     /**
      * This method is overloaded so that we can track the ready-state
      * of each uploader in the component
@@ -88,7 +93,7 @@ let RegisterPieceForm = React.createClass({
 
     handleChangedThumbnail(thumbnailFile) {
         const { digitalWorkFile } = this.state;
-        const { fineuploader } = this.refs.digitalWorkFineUploader.refs;
+        const { fineuploader } = this._refs.digitalWorkFineUploader.refs;
 
         fineuploader.setThumbnailForFileId(
             digitalWorkFile.id,
@@ -160,7 +165,7 @@ let RegisterPieceForm = React.createClass({
                     ignoreFocus={true}
                     label={getLangText('Your Work')}>
                     <InputFineUploader
-                        ref={ref => this.refs.digitalWorkFineUploader = ref}
+                        ref={ref => this._refs.digitalWorkFineUploader = ref}
                         keyRoutine={{
                             url: AppConstants.serverUrl + 's3/key/',
                             fileClass: 'digitalwork'
@@ -182,7 +187,7 @@ let RegisterPieceForm = React.createClass({
                     name="thumbnail_file"
                     expanded={this.isThumbnailDialogExpanded()}>
                     <InputFineUploader
-                        ref={ref => this.refs.thumbnailFineUploader = ref}
+                        ref={ref => this._refs.thumbnailFineUploader = ref}
                         fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
                         createBlobRoutine={{
                             url: ApiUrls.blob_thumbnails
