@@ -13,11 +13,11 @@ class Requests {
     unpackResponse(url) {
         return (response) => {
             if (response == null) {
-                throw new Error('For: ' + url + ' - Server did not respond to the request. (Not even displayed a 500)');
+                throw new Error(`For: ${url} - Server did not respond to the request. (Not even displayed a 500)`);
             }
 
             if (response.status >= 500) {
-                let err = new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url);
+                let err = new Error(`${response.status} - ${response.statusText} - on URL: ${response.url}`);
 
                 return response
                     .text()
@@ -25,11 +25,11 @@ class Requests {
                         const resJson = JSON.parse(resText);
                         err = new Error(resJson.errors.pop());
 
-                        // ES6 promises don't have a .finally() clause so
-                        // we fake that here by forcing the .catch() clause
-                        // to run
+                        // ES6 promises don't have a .finally() clause so we fake that here by
+                        // forcing the .catch() clause to run
                         return Promise.reject();
                     })
+                    // If parsing the resText throws, just rethrow the original error we created
                     .catch(() => { throw err; });
             }
 
@@ -39,18 +39,19 @@ class Requests {
                         // If the responses' body does not contain any data,
                         // fetch will resolve responseText to the string 'None'.
                         // If this is the case, we can not try to parse it as JSON.
-                        if(responseText !== 'None') {
-                            let body = JSON.parse(responseText);
+                        if (responseText && responseText !== 'None') {
+                            const body = JSON.parse(responseText);
 
-                            if(body && body.errors) {
-                                let error = new Error('Form Error');
+                            if (body && body.errors) {
+                                const error = new Error('Form Error');
                                 error.json = body;
                                 reject(error);
-                            } else if(body && body.detail) {
+                            } else if (body && body.detail) {
                                 reject(new Error(body.detail));
-                            } else if('success' in body && !body.success) {
-                                let error = new Error('Client Request Error');
+                            } else if (body && 'success' in body && !body.success) {
+                                const error = new Error('Client Request Error');
                                 error.json = {
+                                    body: body,
                                     status: response.status,
                                     statusText: response.statusText,
                                     type: response.type,
@@ -60,13 +61,10 @@ class Requests {
                             } else {
                                 resolve(body);
                             }
-
+                        } else if (response.status >= 400) {
+                            reject(new Error(`${response.status} - ${response.statusText} - on URL: ${response.url}`));
                         } else {
-                            if(response.status >= 400) {
-                                reject(new Error(response.status + ' - ' + response.statusText + ' - on URL:' + response.url));
-                            } else {
-                                resolve({});
-                            }
+                            resolve({});
                         }
                     }).catch(reject);
             });
