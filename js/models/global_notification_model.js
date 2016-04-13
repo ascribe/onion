@@ -1,7 +1,11 @@
 'use strict';
 
 export default class GlobalNotificationModel {
-    constructor(message, type = 'info', dismissAfter = 5000) {
+    constructor(message, type = 'success', dismissAfter = 5000) {
+        if (type !== 'success' && type !== 'danger') {
+            throw new Error(`A notification's type either has to be success, or danger. Not: ${type}`);
+        }
+
         if (message) {
             this.message = message;
         } else {
@@ -11,12 +15,7 @@ export default class GlobalNotificationModel {
             });
         }
 
-        if (type === 'info' || type === 'success' || type === 'warning' || type === 'danger') {
-            this.type = type;
-        } else {
-            throw new Error(`A notification's type either has to be info, success, warning, danger. Not: ${type}`);
-        }
-
         this.dismissAfter = dismissAfter;
+        this.type = type;
     }
 }
