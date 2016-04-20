@@ -33,3 +33,8 @@ export const validationTypes = {
 
 // Number of manual retries before showing a contact us screen on the uploader.
 export const RETRY_ATTEMPT_TO_SHOW_CONTACT_US = 5;
+
+export const ENDPOINTS = {
+    s3: 'https://ascribe0.s3.amazonaws.com',
+    accelerate: 'https://ascribe0.s3-accelerate.amazonaws.com'
+};
