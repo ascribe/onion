@@ -15,7 +15,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import AppConstants from '../../constants/application_constants';
 import { ErrorClasses, testErrorAgainstAll } from '../../constants/error_constants';
-import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US } from '../../constants/uploader_constants';
+import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, ENDPOINTS } from '../../constants/uploader_constants';
 
 import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api_utils';
@@ -170,8 +170,7 @@ const ReactS3FineUploader = React.createClass({
                 bucket: 'ascribe0'
             },
             request: {
-                //endpoint: 'https://www.ascribe.io.global.prod.fastly.net',
-                endpoint: 'https://ascribe0.s3.amazonaws.com',
+                endpoint: ENDPOINTS.accelerate,
                 accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
             },
             uploadSuccess: {
