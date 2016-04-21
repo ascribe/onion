@@ -102,7 +102,7 @@ let IkonotvPieceContainer = React.createClass({
             <CollapsibleParagraph
                 title={getLangText('Further Details')}
                 defaultExpanded={true}>
-                <span>{getLangText('This piece has been loaned before we started to collect further details.')}</span>
+                <span>{getLangText('This piece was loanded before any further details were collected.')}</span>
             </CollapsibleParagraph>
         );
 
