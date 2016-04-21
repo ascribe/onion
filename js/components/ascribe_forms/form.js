@@ -3,6 +3,8 @@
 import React from 'react';
 import ReactAddons from 'react/addons';
 
+import classNames from 'classnames';
+
 import Button from 'react-bootstrap/lib/Button';
 import AlertDismissable from './alert';
 
@@ -206,21 +208,30 @@ let Form = React.createClass({
     },
 
     getButtons() {
-        if (this.state.submitted) {
-            return this.props.spinner;
-        }
-        if (this.props.buttons !== undefined) {
-            return this.props.buttons;
+        const { buttons, disabled, buttonSubmitText, spinner } = this.props;
+        const { submitted, edited } = this.state;
+
+        if (submitted || buttons !== undefined) {
+            return (
+                <div>
+                    <div className={classNames({ 'hide': !submitted })}>
+                        {spinner}
+                    </div>
+                    <div className={classNames({ 'hide': submitted })}>
+                        {buttons}
+                    </div>
+                </div>
+            );
         }
 
-        if (this.state.edited && !this.props.disabled) {
+        if (edited && !disabled) {
             return (
                 <div className="row" style={{margin: 0}}>
                     <p className="pull-right">
                         <Button
                             className="btn btn-default btn-sm ascribe-margin-1px"
                             type="submit">
-                            {this.props.buttonSubmitText}
+                            {buttonSubmitText}
                         </Button>
                         <Button
                             className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
