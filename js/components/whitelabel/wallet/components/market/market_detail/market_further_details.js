@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import MarketAdditionalDataForm from '../market_forms/market_additional_data_form'
+import MarketAdditionalDataForm from '../market_forms/market_additional_data_form';
 
 let MarketFurtherDetails = React.createClass({
     propTypes: {
@@ -12,6 +12,13 @@ let MarketFurtherDetails = React.createClass({
         extraData: React.PropTypes.object,
         handleSuccess: React.PropTypes.func,
         otherData: React.PropTypes.arrayOf(React.PropTypes.object)
+    },
+
+    getDefaultProps() {
+        // Override MarketAdditionalDataForm's default `editable` setting of true
+        return {
+            editable: false
+        };
     },
 
     render() {
