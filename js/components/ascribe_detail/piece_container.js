@@ -302,7 +302,6 @@ let PieceContainer = React.createClass({
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
                             defaultValue={piece.private_note || null}
-                            show = {!!currentUser.username}
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}

@@ -42,7 +42,7 @@ let Note = React.createClass({
     render() {
         const { currentUser, defaultValue, editable, id, label, placeholder, show, url } = this.props;
 
-        if ((!!currentUser.username && editable || !editable ) && show) {
+        if ((currentUser.username && editable || !editable) && show) {
             return (
                 <Form
                     url={url}
