@@ -37,13 +37,13 @@ let AclInformation = React.createClass({
         }
     },
 
-    getInfoText(title, info, example){
+    getInfoText(title, info, example) {
         const aim = this.props.aim;
 
         if(aim) {
             if(aim === 'form') {
                 return (
-                    <p>
+                    <p key={title}>
                         <span className="info">
                             {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
                         </span>
@@ -55,7 +55,7 @@ let AclInformation = React.createClass({
             }
             else if(aim === 'button') {
                 return (
-                    <p>
+                    <p key={title}>
                         <span className="title">
                             {title}
                         </span>

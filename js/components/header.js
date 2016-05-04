@@ -3,11 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import history from '../history';
-
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import NavItem from 'react-bootstrap/lib/NavItem';
@@ -43,15 +40,10 @@ let Header = React.createClass({
         // conflicts with routes that may need to wait to load the piece list
         PieceListStore.listen(this.onChange);
 
-        // react-bootstrap 0.25.1 has a bug in which it doesn't
-        // close the mobile expanded navigation after a click by itself.
-        // To get rid of this, we set the state of the component ourselves.
-        history.listen(this.onRouteChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        //history.unlisten(this.onRouteChange);
     },
 
     onChange(state) {
@@ -116,15 +108,6 @@ let Header = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    // On route change, close expanded navbar again since react-bootstrap doesn't close
-    // the collapsibleNav by itself on click. setState() isn't available on a ref so
-    // doing this explicitly is the only way for now.
-    onRouteChange() {
-        if (this.refs.navbar) {
-            this.refs.navbar.state.navExpanded = false;
-        }
-    },
-
     render() {
         const { currentUser, routes, whitelabel } = this.props;
         const { unfilteredPieceListCount } = this.state;
@@ -175,7 +158,7 @@ let Header = React.createClass({
             navRoutesLinks = (
                 <NavRoutesLinks
                     navbar
-                    right
+                    pullRight
                     hasPieces={!!unfilteredPieceListCount}
                     routes={routes}
                     userAcl={currentUser.acl} />
@@ -201,26 +184,30 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     ref="navbar"
-                    brand={this.getLogo()}
-                    toggleNavKey={0}
                     fixedTop={true}
                     className="hidden-print">
-                    <CollapsibleNav eventKey={0}>
-                        <Nav navbar left>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            {this.getLogo()}
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Navbar.Collapse
+                        eventKey={0}>
+                        <Nav navbar pullLeft>
                             <AclProxy
                                 aclObject={whitelabel}
                                 aclName="acl_view_powered_by">
                                 {this.getPoweredBy()}
                             </AclProxy>
                         </Nav>
-                        <Nav navbar right>
-                            <HeaderNotificationDebug show={false} />
+                        <Nav navbar pullRight>
+                            <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>
                         <HeaderNotifications currentUser={currentUser} />
                         {navRoutesLinks}
-                    </CollapsibleNav>
+                    </Navbar.Collapse>
                 </Navbar>
                 <p className="ascribe-print-header visible-print">
                     <span className="icon-ascribe-logo" />

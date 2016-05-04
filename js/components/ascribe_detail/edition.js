@@ -277,7 +277,7 @@ let CoaDetails = React.createClass({
             coaDetailElement = coa;
         } else {
             coaDetailElement = [
-                <AscribeSpinner color='dark-blue' size='md'/>,
+                <AscribeSpinner color='dark-blue' size='md' />,
                 <p>{getLangText("Just a sec, we're generating your COA")}</p>,
                 <p>{getLangText('(you may leave the page)')}</p>
             ];
