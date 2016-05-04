@@ -91,10 +91,10 @@ let PieceListToolbarFilterWidget = React.createClass({
                         label also iterate over its items, to get all filterable options */}
                     {this.props.filterParams.map(({ label, items }, i) => {
                         return (
-                            <div>
+                            <div
+                                key={i}>
                                 <li
-                                    style={{'textAlign': 'center'}}
-                                    key={i}>
+                                    style={{'textAlign': 'center'}}>
                                     <em>{label}:</em>
                                 </li>
                                 {items.map((param, j) => {

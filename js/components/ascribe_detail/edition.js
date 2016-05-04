@@ -269,6 +269,7 @@ let CoaDetails = React.createClass({
         } else if (typeof coa === 'string') {
             coaDetailElement = coa;
         } else {
+            // TODO: Define Keys
             coaDetailElement = [
                 <AscribeSpinner color='dark-blue' size='md'/>,
                 <p>{getLangText("Just a sec, we're generating your COA")}</p>,

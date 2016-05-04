@@ -37,13 +37,13 @@ let AclInformation = React.createClass({
         }
     },
 
-    getInfoText(title, info, example){
+    getInfoText(title, info, example, key){
         const aim = this.props.aim;
 
         if(aim) {
             if(aim === 'form') {
                 return (
-                    <p>
+                    <p key={key}>
                         <span className="info">
                             {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
                         </span>
@@ -55,7 +55,7 @@ let AclInformation = React.createClass({
             }
             else if(aim === 'button') {
                 return (
-                    <p>
+                    <p key={key}>
                         <span className="title">
                             {title}
                         </span>
@@ -94,13 +94,13 @@ let AclInformation = React.createClass({
             verbsToDisplay = verbsToDisplay.concat(intersectLists(verbs, Object.keys(sanitizedAclObject)));
         }
 
-        return verbsToDisplay.map((verb) => {
+        return verbsToDisplay.map((verb, i) => {
             const title = titles[verb];
             const informationSentence = informationSentences[verb];
             const exampleSentence = exampleSentences[verb];
 
             if (title && informationSentence && exampleSentence) {
-                return this.getInfoText(getLangText(title), getLangText(informationSentence), getLangText(exampleSentence));
+                return this.getInfoText(getLangText(title), getLangText(informationSentence), getLangText(exampleSentence), i);
             }
         });
     },

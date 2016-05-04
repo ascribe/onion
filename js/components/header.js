@@ -55,11 +55,6 @@ let Header = React.createClass({
         WhitelabelStore.listen(this.onChange);
         WhitelabelActions.fetchWhitelabel.defer();
 
-        // react-bootstrap 0.25.1 has a bug in which it doesn't
-        // close the mobile expanded navigation after a click by itself.
-        // To get rid of this, we set the state of the component ourselves.
-        history.listen(this.onRouteChange);
-
         if (this.state.currentUser && this.state.currentUser.email) {
             EventActions.profileDidLoad.defer(this.state.currentUser);
         }
@@ -146,15 +141,6 @@ let Header = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    // On route change, close expanded navbar again since react-bootstrap doesn't close
-    // the collapsibleNav by itself on click. setState() isn't available on a ref so
-    // doing this explicitly is the only way for now.
-    onRouteChange() {
-        if (this.refs.navbar) {
-            this.refs.navbar.state.navExpanded = false;
-        }
-    },
-
     render() {
         let account;
         let signup;
@@ -195,7 +181,7 @@ let Header = React.createClass({
                     </LinkContainer>
                 </DropdownButton>
             );
-            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar right/>;
+            navRoutesLinks = <NavRoutesLinks routes={this.props.routes} userAcl={this.state.currentUser.acl} navbar pullRight/>;
         }
         else {
             account = (
@@ -220,23 +206,26 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     ref="navbar"
-                    brand={this.getLogo()}
-                    toggleNavKey={0}
                     fixedTop={true}
                     className="hidden-print">
-                    <CollapsibleNav
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            {this.getLogo()}
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Navbar.Collapse
                         eventKey={0}>
-                        <Nav navbar left>
+                        <Nav navbar pullLeft>
                             {this.getPoweredBy()}
                         </Nav>
-                        <Nav navbar right>
+                        <Nav navbar pullRight>
                             <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>
                         <HeaderNotifications />
                         {navRoutesLinks}
-                    </CollapsibleNav>
+                    </Navbar.Collapse>
                 </Navbar>
                 <p className="ascribe-print-header visible-print">
                     <span className="icon-ascribe-logo" />

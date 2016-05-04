@@ -87,6 +87,7 @@ let FileDragAndDropDialog = React.createClass({
                 );
             } else {
                 if (multipleFiles) {
+                    // TODO: Use key property
                     dialogElement = [
                         this.getDragDialog(fileClassToUpload.plural),
                         <span
@@ -99,6 +100,7 @@ let FileDragAndDropDialog = React.createClass({
                     const dialog = uploadMethod === 'hash' ? getLangText('choose a %s to hash', fileClassToUpload.singular)
                                                            : getLangText('choose a %s to upload', fileClassToUpload.singular);
 
+                    // TODO: Use key property
                     dialogElement = [
                         this.getDragDialog(fileClassToUpload.singular),
                         <span
