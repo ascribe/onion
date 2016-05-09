@@ -17,7 +17,7 @@ export function AuthPrizeRoleRedirect({ to, when }) {
             .reduce((a, b) => a || b);
 
         if (exprToValidate) {
-            window.setTimeout(() => history.replace({ path: to, query: query }));
+            window.setTimeout(() => history.replace({ pathname: to, query: query }));
             return true;
         } else {
             return false;
