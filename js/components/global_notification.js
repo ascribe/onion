@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import GlobalNotificationActions from '../actions/global_notification_actions';
@@ -48,7 +49,7 @@ let GlobalNotification = React.createClass({
 
     handleContainerResize() {
         this.setState({
-            containerWidth: this.refs.notificationWrapper.getDOMNode().offsetWidth
+            containerWidth: ReactDOM.findDOMNode(this.refs.notificationWrapper).offsetWidth
         });
     },
 

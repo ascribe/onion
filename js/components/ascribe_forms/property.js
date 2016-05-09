@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Panel from 'react-bootstrap/lib/Panel';
 
@@ -97,9 +98,9 @@ const Property = React.createClass({
         // In order to set this.state.value from another component
         // the state of value should only be set if its not undefined and
         // actually references something
-        if(childInput && typeof childInput.getDOMNode().value !== 'undefined') {
+        if(childInput && typeof ReactDOM.findDOMNode(childInput).value !== 'undefined') {
             this.setState({
-                value: childInput.getDOMNode().value
+                value: ReactDOM.findDOMNode(childInput).value
             });
 
         // When implementing custom input components, their value isn't exposed like the one
@@ -136,7 +137,7 @@ const Property = React.createClass({
         // Therefore we have to make sure only to reset the initial value
         // of HTML inputs (which we determine by checking if there 'type' attribute matches
         // the ones included in AppConstants.possibleInputTypes).
-        let inputDOMNode = input.getDOMNode();
+        let inputDOMNode = ReactDOM.findDOMNode(input);
         if(inputDOMNode.type && typeof inputDOMNode.type === 'string' &&
            AppConstants.possibleInputTypes.indexOf(inputDOMNode.type.toLowerCase()) > -1) {
             inputDOMNode.value = this.state.initialValue;
@@ -176,10 +177,10 @@ const Property = React.createClass({
         // skip the focus of non-input elements
         let nonInputHTMLElements = ['pre', 'div'];
         if (this.refs.input &&
-            nonInputHTMLElements.indexOf(this.refs.input.getDOMNode().nodeName.toLowerCase()) > -1 ) {
+            nonInputHTMLElements.indexOf(ReactDOM.findDOMNode(this.refs.input).nodeName.toLowerCase()) > -1 ) {
             return;
         }
-        this.refs.input.getDOMNode().focus();
+        ReactDOM.findDOMNode(this.refs.input).focus();
         this.setState({
             isFocused: true
         });
@@ -201,7 +202,7 @@ const Property = React.createClass({
             errors: null,
 
             // also update initialValue in case of the user updating and canceling its actions again
-            initialValue: this.refs.input.getDOMNode().value
+            initialValue: ReactDOM.findDOMNode(this.refs.input).value
         });
     },
 

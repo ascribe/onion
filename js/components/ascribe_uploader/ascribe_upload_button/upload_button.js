@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { displayValidProgressFilesFilter } from '../react_s3_fine_uploader_utils';
 import { getLangText } from '../../../utils/lang_utils';
@@ -65,7 +66,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm' } = 
         },
 
         clearSelection() {
-            this.refs.fileSelector.getDOMNode().value = '';
+            ReactDOM.findDOMNode(this.refs.fileSelector).value = '';
         },
 
         handleOnClick() {
@@ -87,7 +88,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm' } = 
                     evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
                 }
                 evt.stopPropagation();
-                this.refs.fileSelector.getDOMNode().dispatchEvent(evt);
+                ReactDOM.findDOMNode(this.refs.fileSelector).dispatchEvent(evt);
             }
         },
 

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
@@ -57,7 +58,7 @@ const SlidesContainer = React.createClass({
     handleContainerResize() {
         this.setState({
             // +30 to get rid of the padding of the container which is 15px + 15px left and right
-            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth + 30
+            containerWidth: ReactDOM.findDOMNode(this.refs.containerWrapper).offsetWidth + 30
         });
     },
 

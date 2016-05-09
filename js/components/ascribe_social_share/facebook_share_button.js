@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -30,7 +31,7 @@ let FacebookShareButton = React.createClass({
 
         InjectInHeadUtils
             .inject(AppConstants.facebook.sdkUrl)
-            .then(() => { FB.XFBML.parse(this.refs.fbShareButton.getDOMNode().parentElement) });
+            .then(() => { FB.XFBML.parse(ReactDOM.findDOMNode(this.refs.fbShareButton).parentElement) });
     },
 
     shouldComponentUpdate(nextProps) {

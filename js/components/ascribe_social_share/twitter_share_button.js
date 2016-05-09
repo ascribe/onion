@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -31,7 +32,7 @@ let TwitterShareButton = React.createClass({
     loadTwitterButton() {
         const { count, counturl, hashtags, size, text, url, via } = this.props;
 
-        twttr.widgets.createShareButton(url, this.refs.twitterShareButton.getDOMNode(), {
+        twttr.widgets.createShareButton(url, ReactDOM.findDOMNode(this.refs.twitterShareButton), {
             count,
             counturl,
             hashtags,

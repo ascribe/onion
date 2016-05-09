@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classnames from 'classnames';
+
 
 let ActionPanel = React.createClass({
     propTypes: {
@@ -37,7 +39,7 @@ let ActionPanel = React.createClass({
             this.props.onClick();
         }
 
-        this.refs.input.getDOMNode().focus();
+        ReactDOM.findDOMNode(this.refs.input).focus();
         this.setState({
             isFocused: true
         });

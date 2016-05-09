@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import UserActions from '../../actions/user_actions';
 import UserStore from '../../stores/user_store';
@@ -61,7 +62,7 @@ let AclButtonList = React.createClass({
 
     handleResize() {
         this.setState({
-            buttonListSize: this.refs.buttonList.getDOMNode().offsetWidth
+            buttonListSize: ReactDOM.findDOMNode(this.refs.buttonList).offsetWidth
         });
     },
 

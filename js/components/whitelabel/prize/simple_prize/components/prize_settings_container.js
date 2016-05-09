@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import UserStore from '../../../../../stores/user_store';
 import UserActions from '../../../../../actions/user_actions';
@@ -136,7 +137,7 @@ let PrizeJurySettings = React.createClass({
     handleCreateSuccess(response) {
         PrizeJuryActions.fetchJury();
         this.displayNotification(response);
-        this.refs.form.refs.email.refs.input.getDOMNode().value = null;
+        ReactDOM.findDOMNode(this.refs.form.refs.email.refs.input).value = null;
     },
 
     handleActivate(event) {
