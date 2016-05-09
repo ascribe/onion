@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import classNames from 'classnames';
 
@@ -354,7 +355,7 @@ let Form = React.createClass({
                 let refToValidate = {};
                 const property = this.refs[refName];
                 const input = property.refs.input;
-                const value = input.getDOMNode().value || input.state.value;
+                const value = ReactDOM.findDOMNode(input).value || input.state.value;
                 const { max,
                         min,
                         pattern,

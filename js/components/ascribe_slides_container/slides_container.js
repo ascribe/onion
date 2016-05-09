@@ -57,7 +57,7 @@ const SlidesContainer = React.createClass({
     handleContainerResize() {
         this.setState({
             // +30 to get rid of the padding of the container which is 15px + 15px left and right
-            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth + 30
+            containerWidth: this.refs.containerWrapper.offsetWidth + 30
         });
     },
 

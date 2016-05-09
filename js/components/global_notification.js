@@ -48,7 +48,7 @@ let GlobalNotification = React.createClass({
 
     handleContainerResize() {
         this.setState({
-            containerWidth: this.refs.notificationWrapper.getDOMNode().offsetWidth
+            containerWidth: this.refs.notificationWrapper.offsetWidth
         });
     },
 

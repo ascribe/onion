@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 /**
  * This component can be used as a custom input element for form properties.
@@ -71,7 +72,7 @@ let InputCheckbox = React.createClass({
         }
 
         // On every change, we're inversing the input's value
-        let inverseValue = !this.refs.checkbox.getDOMNode().checked;
+        let inverseValue = !ReactDOM.findDOMNode(this.refs.checkbox).checked;
 
         // pass it to the state
         this.setState({value: inverseValue});

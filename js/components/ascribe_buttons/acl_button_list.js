@@ -52,7 +52,7 @@ let AclButtonList = React.createClass({
 
     handleResize() {
         this.setState({
-            buttonListSize: this.refs.buttonList.getDOMNode().offsetWidth
+            buttonListSize: this.refs.buttonList.offsetWidth
         });
     },
 

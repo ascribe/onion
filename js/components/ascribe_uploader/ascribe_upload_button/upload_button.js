@@ -66,7 +66,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
         },
 
         clearSelection() {
-            this.refs.fileSelector.getDOMNode().value = '';
+            this.refs.fileSelector.value = '';
         },
 
         handleOnClick() {
@@ -88,7 +88,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
                     evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
                 }
                 evt.stopPropagation();
-                this.refs.fileSelector.getDOMNode().dispatchEvent(evt);
+                this.refs.fileSelector.dispatchEvent(evt);
             }
         },
 

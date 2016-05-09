@@ -31,7 +31,7 @@ let TwitterShareButton = React.createClass({
     loadTwitterButton() {
         const { count, counturl, hashtags, size, text, url, via } = this.props;
 
-        twttr.widgets.createShareButton(url, this.refs.twitterShareButton.getDOMNode(), {
+        window.twttr.widgets.createShareButton(url, this.refs.twitterShareButton, {
             count,
             counturl,
             hashtags,
