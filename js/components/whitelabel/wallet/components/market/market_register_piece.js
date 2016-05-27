@@ -25,7 +25,7 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 

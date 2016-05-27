@@ -3,7 +3,6 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
 
 import AscribeApp from './components/ascribe_app';
@@ -82,9 +81,7 @@ const COMMON_ROUTES = (
 
 
 function getRoutes(type, subdomain) {
-    if (type === 'prize') {
-        return getPrizeRoutes(COMMON_ROUTES, subdomain);
-    } else if(type === 'wallet') {
+    if (type === 'wallet') {
         return getWalletRoutes(COMMON_ROUTES, subdomain);
     } else {
         return COMMON_ROUTES;

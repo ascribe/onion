@@ -14,7 +14,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let CylandLanding = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 

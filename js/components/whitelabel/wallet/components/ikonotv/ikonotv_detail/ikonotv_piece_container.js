@@ -32,7 +32,7 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let IkonotvPieceContainer = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 

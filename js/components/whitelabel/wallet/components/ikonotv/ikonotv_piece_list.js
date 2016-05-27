@@ -14,7 +14,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 let IkonotvPieceList = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
