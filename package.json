@@ -1,6 +1,6 @@
 {
   "name": "Onion",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Das neue web client for Ascribe. Onions make you cry",
   "main": "js/app.js",
   "engines": {
