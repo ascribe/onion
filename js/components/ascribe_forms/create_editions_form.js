@@ -26,11 +26,13 @@ let CreateEditionsForm = React.createClass({
     },
 
     handleSuccess(response) {
-        let notification = new GlobalNotificationModel(response.notification, 'success', 10000);
+        const { handleSuccess } = this.props;
+
+        const notification = new GlobalNotificationModel(response.notification, 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        if(this.props.handleSuccess) {
-            this.props.handleSuccess(response);
+        if (typeof handleSuccess === 'function') {
+            handleSuccess(response);
         }
     },
 
