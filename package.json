@@ -2,7 +2,11 @@
   "name": "Onion",
   "version": "0.0.2",
   "description": "Das neue web client for Ascribe. Onions make you cry",
+  "homepapge": "https://www.ascribe.io",
+  "license": "Copyright",
+  "author": "Ascribe",
   "main": "js/app.js",
+  "private": true,
   "engines": {
     "node": "0.10.x"
   },
@@ -48,9 +52,6 @@
       "browserify-shim"
     ]
   },
-  "author": "Ascribe",
-  "license": "Copyright",
-  "private": true,
   "devDependencies": {
     "babel-eslint": "^3.1.11",
     "babel-jest": "^5.2.0",
