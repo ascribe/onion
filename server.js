@@ -1,4 +1,3 @@
-var argv = require('yargs').argv;
 var express = require('express');
 var compression = require('compression');
 
