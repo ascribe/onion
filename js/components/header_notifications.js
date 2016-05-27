@@ -15,14 +15,26 @@ import { getLangText } from '../utils/lang_utils';
 
 
 let HeaderNotifications = React.createClass({
+    propTypes: {
+        currentUser: React.PropTypes.object.isRequired
+    },
+
     getInitialState() {
         return NotificationStore.getState();
     },
 
     componentDidMount() {
         NotificationStore.listen(this.onChange);
-        NotificationActions.fetchPieceListNotifications();
-        NotificationActions.fetchEditionListNotifications();
+
+        if (this.props.currentUser.email) {
+            this.refreshNotifications();
+        }
+    },
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.currentUser && nextProps.currentUser.email !== this.props.currentUser.email) {
+            this.refreshNotifications();
+        }
     },
 
     componentWillUnmount() {
@@ -58,66 +70,47 @@ let HeaderNotifications = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    getPieceNotifications() {
-        if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
-            return (
-                <div>
-                    <div className="notification-header">
-                        Artworks ({this.state.pieceListNotifications.length})
-                    </div>
-                    {this.state.pieceListNotifications.map((pieceNotification, i) => {
-                        return (
-                            <MenuItem eventKey={i + 2}>
-                                <NotificationListItem
-                                    ref={i}
-                                    notification={pieceNotification.notification}
-                                    pieceOrEdition={pieceNotification.piece}
-                                    onClick={this.onMenuItemClick}/>
-                            </MenuItem>
-                            );
-                        }
-                    )}
-                </div>
-            );
-        }
-        return null;
+    refreshNotifications() {
+        NotificationActions.fetchPieceListNotifications();
+        NotificationActions.fetchEditionListNotifications();
     },
 
-    getEditionNotifications() {
-        if (this.state.editionListNotifications && this.state.editionListNotifications.length > 0) {
+    renderNotifications({ notifications, isPiece }) {
+        if (notifications.length) {
             return (
                 <div>
                     <div className="notification-header">
-                        Editions ({this.state.editionListNotifications.length})
+                        {`${(isPiece ? 'Artworks' : 'Editions')} (${notifications.length})`}
                     </div>
-                    {this.state.editionListNotifications.map((editionNotification, i) => {
+                    {notifications.map((notification, i) => {
                         return (
                             <MenuItem eventKey={i + 2}>
                                 <NotificationListItem
-                                    ref={'edition' + i}
-                                    notification={editionNotification.notification}
-                                    pieceOrEdition={editionNotification.edition}
+                                    notification={notification.notification}
+                                    pieceOrEdition={isPiece ? notification.piece : notification.edition}
                                     onClick={this.onMenuItemClick}/>
                             </MenuItem>
-                            );
-                        }
-                    )}
+                        );
+                    })}
                 </div>
             );
+        } else {
+            return null;
         }
-        return null;
     },
 
     render() {
-        if ((this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) ||
-            (this.state.editionListNotifications && this.state.editionListNotifications.length > 0)) {
+        const { editionListNotifications, pieceListNotifications } = this.state;
+        if (pieceListNotifications.length || editionListNotifications.length) {
             let numNotifications = 0;
-            if (this.state.pieceListNotifications && this.state.pieceListNotifications.length > 0) {
-                numNotifications += this.state.pieceListNotifications.length;
+
+            if (pieceListNotifications.length) {
+                numNotifications += pieceListNotifications.length;
             }
-            if (this.state.editionListNotifications && this.state.editionListNotifications.length > 0) {
-                numNotifications += this.state.editionListNotifications.length;
+            if (editionListNotifications.length) {
+                numNotifications += editionListNotifications.length;
             }
+
             return (
                 <Nav navbar right>
                     <DropdownButton
@@ -131,8 +124,8 @@ let HeaderNotifications = React.createClass({
                             </span>
                         }
                         className="notification-menu">
-                        {this.getPieceNotifications()}
-                        {this.getEditionNotifications()}
+                        {this.renderNotifications({ notifications: pieceListNotifications, isPiece: true })}
+                        {this.renderNotifications({ notifications: editionListNotifications, isPiece: false })}
                     </DropdownButton>
                 </Nav>
             );

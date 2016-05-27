@@ -19,7 +19,7 @@ import EventActions from '../actions/event_actions';
 import PieceListStore from '../stores/piece_list_store';
 
 import AclProxy from './acl_proxy';
-import HeaderNotifications from './header_notification';
+import HeaderNotifications from './header_notifications';
 import HeaderNotificationDebug from './header_notification_debug';
 import NavRoutesLinks from './nav_routes_links';
 
@@ -218,7 +218,7 @@ let Header = React.createClass({
                             {account}
                             {signup}
                         </Nav>
-                        <HeaderNotifications />
+                        <HeaderNotifications currentUser={currentUser} />
                         {navRoutesLinks}
                     </CollapsibleNav>
                 </Navbar>
