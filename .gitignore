@@ -1,3 +1,4 @@
+.DS_Store
 lib-cov
 *.seed
 *.log
@@ -8,14 +9,13 @@ lib-cov
 *.gz
 *.sublime-project
 .idea
-spool-project.sublime-project
 *.sublime-workspace
-*.sublime-workspace
-webapp-dependencies.txt
 
 pids
 logs
 results
+
+.env
 
 build/*
 
@@ -24,6 +24,3 @@ gemini-report/*
 test/gemini/screenshots/*
 
 node_modules/*
-
-.DS_Store
-.env
