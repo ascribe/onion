@@ -4,7 +4,7 @@ information from your SauceLabs account](#how-to-set-up-your-env-config-file).
 
 ```bash
 $ npm install
-$ npm run tunnel
+$ npm run sauce-tunnel
 $ npm test && git commit
 ```
 
