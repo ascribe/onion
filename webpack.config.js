@@ -8,6 +8,7 @@ const removeTrailingSlash = require('remove-trailing-slash');
 const webpack = require('webpack');
 const autoPrefixer = require('autoprefixer');
 const combineLoaders = require('webpack-combine-loaders');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -51,6 +52,15 @@ const DEFINITIONS = {
 const PLUGINS = [
     new webpack.DefinePlugin(DEFINITIONS),
     new webpack.NoErrorsPlugin(),
+
+    // Handle any dependencies that don't play nicely with System.import resolution
+    new CopyWebpackPlugin([
+        {
+            from: path.resolve(PATHS.NODE_MODULES, 'audiojs/audiojs'),
+            to: 'third_party/audiojs'
+        },
+    ]),
+
     // Extract stylesheets out of bundle
     new ExtractTextPlugin(
         PRODUCTION ? 'css/styles.min.css' : 'css/styles.css', {
@@ -151,6 +161,14 @@ const LOADERS = [
         test: /\.s[ac]ss$/,
         exclude: [PATHS.NODE_MODULES],
         loader: ExtractTextPlugin.extract('style', SASS_LOADER),
+    },
+
+    // Dependencies
+    // Shmui
+    {
+        test: /\.css$/,
+        include: [path.resolve(PATHS.NODE_MODULES, 'shmui')],
+        loader: `style!${CSS_LOADER}`,
     },
 
     // Fonts

@@ -98,12 +98,8 @@ const constants = {
     'jquery': {
         'sdkUrl': 'https://code.jquery.com/jquery-2.1.4.min.js'
     },
-    'shmui': {
-        'sdkUrl': baseUrl + 'static/thirdparty/shmui/jquery.shmui.js',
-        'cssUrl': baseUrl + 'static/thirdparty/shmui/shmui.css'
-    },
     'audiojs': {
-        'sdkUrl': baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js'
+        'sdkUrl': baseUrl + '/static/third_party/audiojs/audio.min.js'
     },
     'videojs': {
         'sdkUrl': '//vjs.zencdn.net/4.12/video.js',
