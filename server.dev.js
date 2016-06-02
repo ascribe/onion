@@ -2,7 +2,6 @@
 /* eslint-disable import/no-extraneous-dependencies, import/newline-after-import */
 'use strict';
 
-const path = require('path');
 const removeTrailingSlash = require('remove-trailing-slash');
 
 const WebpackDevServer = require('webpack-dev-server');

@@ -1,4 +1,4 @@
-/* eslint-disable strict, no-console, object-shorthand */
+/* eslint-disable strict, no-console, object-shorthand, prefer-template */
 /* eslint-disable import/no-extraneous-dependencies, import/newline-after-import */
 'use strict';
 
