@@ -20,15 +20,11 @@ config.entry.unshift(`webpack-dev-server/client?http://${HOST}:${PORT}/`,
                      'webpack/hot/dev-server');
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-// Specify output location for bundled files
-config.output.publicPath = '/static/';
-
 // Configure server
 const compiler = webpack(config);
 
 const server = new WebpackDevServer(compiler, {
     publicPath: config.output.publicPath,
-    contentBase: './build',
     historyApiFallback: {
         index: config.output.publicPath
     },

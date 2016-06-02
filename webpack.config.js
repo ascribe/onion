@@ -191,6 +191,7 @@ const config = {
     output: {
         filename: PRODUCTION ? 'js/bundle.min.js' : 'js/bundle.js',
         path: PRODUCTION ? PATHS.DIST : PATHS.BUILD,
+        publicPath: '/static/',
     },
 
     debug: !PRODUCTION,
