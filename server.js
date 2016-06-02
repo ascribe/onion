@@ -12,12 +12,7 @@ const PORT = process.env.ONION_PORT || 4000;
 const app = express();
 
 app.use(compression());
-
-app.use(path.join(BASE_PATH, '/static/js'), express.static(path.resolve(__dirname, 'dist/js')));
-app.use(path.join(BASE_PATH, '/static/css'), express.static(path.resolve(__dirname, 'dist/css')));
-app.use(path.join(BASE_PATH, '/static/fonts'), express.static(path.resolve(__dirname, 'dist/fonts')));
-app.use(path.join(BASE_PATH, '/static/third_party'),
-        express.static(path.resolve(__dirname, 'dist/third_party')));
+app.use(path.resolve(BASE_PATH, '/static'), express.static(path.resolve(__dirname, 'dist')));
 
 app.get(/.*/, (req, res) => {
     console.log('%s %s', req.method, req.path);
