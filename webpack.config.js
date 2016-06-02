@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const autoPrefixer = require('autoprefixer');
 const combineLoaders = require('webpack-combine-loaders');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 require('dotenv').load({ silent: true });
 
@@ -38,6 +39,20 @@ const PLUGINS = [
             allChunks: true
         }
     ),
+
+    // Generate index.html for app with link and style tags addded
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        minify: PRODUCTION ? {
+            collapseWhitespace: true,
+            minifyJS: true,
+            removeComments: true,
+            removeRedundantAttributes: true
+        } : false,
+        template: path.resolve(__dirname, 'index_template.html'),
+    }),
+];
+
 const PROD_PLUGINS = [
     new webpack.optimize.UglifyJsPlugin({
         compress: {
