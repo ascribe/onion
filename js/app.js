@@ -1,13 +1,13 @@
 'use strict';
 
-import 'babel/polyfill';
+import 'core-js/es6';
+import 'core-js/stage/4';
 import 'classlist-polyfill';
+import 'isomorphic-fetch';
 
 import React from 'react';
 import { Router, Redirect } from 'react-router';
 import history from './history';
-
-import fetch from 'isomorphic-fetch';
 
 import ApiUrls from './constants/api_urls';
 
@@ -20,15 +20,20 @@ import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/const
 import { initLogging } from './utils/error_utils';
 import { getSubdomain } from './utils/general_utils';
 
+// FIXME: redo these event actions
 import EventActions from './actions/event_actions';
 
+// FIXME: use a ./third_party/index.js instead, remove DebugHandler
 // You can comment out the modules you don't need
 // import DebugHandler from './third_party/debug_handler';
-import FacebookHandler from './third_party/facebook_handler';
-import GoogleAnalyticsHandler from './third_party/ga_handler';
-import IntercomHandler from './third_party/intercom_handler';
-import NotificationsHandler from './third_party/notifications_handler';
-import RavenHandler from './third_party/raven_handler';
+import './third_party/facebook_handler';
+import './third_party/ga_handler';
+import './third_party/intercom_handler';
+import './third_party/notifications_handler';
+import './third_party/raven_handler';
+
+// Import global stylesheet
+import '../sass/main.scss';
 
 
 const AppGateway = {

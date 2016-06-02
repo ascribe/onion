@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react/addons';
-import fineUploader from 'fineUploader';
+// FIXME: remove once using react-components
+import fineUploader from 'exports?qq!./vendor/s3.fine-uploader';
 import Q from 'q';
 
 import S3Fetcher from '../../fetchers/s3_fetcher';

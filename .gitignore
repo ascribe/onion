@@ -18,6 +18,7 @@ results
 .env
 
 build/*
+dist/*
 
 gemini-coverage/*
 gemini-report/*
