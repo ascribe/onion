@@ -14,7 +14,7 @@ let MarketPieceList = React.createClass({
     propTypes: {
         customThumbnailPlaceholder: React.PropTypes.func,
 
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 

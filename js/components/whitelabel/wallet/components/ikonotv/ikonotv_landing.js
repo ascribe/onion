@@ -12,7 +12,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 let IkonotvLanding = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 

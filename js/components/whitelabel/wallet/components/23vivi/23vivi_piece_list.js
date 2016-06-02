@@ -8,7 +8,7 @@ import MarketPieceList from '../market/market_piece_list';
 
 let Vivi23PieceList = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 

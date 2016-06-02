@@ -31,7 +31,7 @@ import { mergeOptions } from '../../../../../../utils/general_utils';
 
 let CylandPieceContainer = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
+        // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 

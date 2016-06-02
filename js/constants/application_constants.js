@@ -28,12 +28,6 @@ const constants = {
             'ga': 'UA-60614729-4'
         },
         {
-            'subdomain': 'sluice',
-            'name': 'Sluice Art Fair',
-            'type': 'prize',
-            'ga': 'UA-60614729-5'
-        },
-        {
             'subdomain': 'cyland',
             'name': 'Cyland media art lab',
             'type': 'wallet'
@@ -72,11 +66,6 @@ const constants = {
             'subdomain': 'liquidgallery',
             'name': 'Liquid Gallery',
             'type': 'wallet'
-        },
-        {
-            'subdomain': 'portfolioreview',
-            'name': 'Portfolio Review',
-            'type': 'prize'
         }
     ],
     'defaultDomain': {
