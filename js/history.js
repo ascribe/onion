@@ -6,11 +6,8 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import AppConstants from './constants/application_constants';
 
 
-// Remove the trailing slash if present
-const baseUrl = AppConstants.baseUrl.replace(/\/$/, '');
-
 const history = useBasename(useQueries(createBrowserHistory))({
-    basename: baseUrl
+    basename: AppConstants.baseUrl
 });
 
 history.locationQueue = [];

@@ -1,29 +1,29 @@
-var express = require('express');
-var compression = require('compression');
+const express = require('express');
+const compression = require('compression');
+const path = require('path');
+const removeTrailingSlash = require('remove-trailing-slash');
 
-var baseUrl = (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })();
+const BASE_PATH = removeTrailingSlash(process.env.ONION_BASE_PATH || '/');
+const PORT = process.env.ONION_PORT || 4000;
 
-var app = express();
+const app = express();
 
 app.use(compression());
 
-app.use(baseUrl + 'static/js', express.static(__dirname + '/build/js'));
-app.use(baseUrl + 'static/img', express.static(__dirname + '/build/img'));
-app.use(baseUrl + 'static/css', express.static(__dirname + '/build/css'));
-app.use(baseUrl + 'static/fonts', express.static(__dirname + '/build/fonts'));
-app.use(baseUrl + 'static/thirdparty', express.static(__dirname + '/node_modules'));
+app.use(path.join(BASE_PATH, '/static/js'), express.static(path.resolve(__dirname, 'dist/js')));
+app.use(path.join(BASE_PATH, '/static/css'), express.static(path.resolve(__dirname, 'dist/css')));
+app.use(path.join(BASE_PATH, '/static/fonts'), express.static(path.resolve(__dirname, 'dist/fonts')));
+app.use(path.join(BASE_PATH, '/static/third_party'), express.static(path.resolve(__dirname, 'dist/third_party')));
 
 app.get(/.*/, function(req, res) {
     console.log('%s %s', req.method, req.path);
-    res.sendFile(__dirname + '/build/index.html');
+    res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
 
 
 if (require.main === module) {
-    var port = process.env.PORT || 4000;
-    console.log('Starting Onion server on port', port,
-                'baseUrl is set to', baseUrl);
-    app.listen(port);
+    console.log(`Starting Onion server on port ${PORT} with basePath set to ${BASE_PATH || '/'}`);
+    app.listen(PORT);
 }
 
 module.exports.app = app;

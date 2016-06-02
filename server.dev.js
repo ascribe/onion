@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const removeTrailingSlash = require('remove-trailing-slash');
 
 const WebpackDevServer = require('webpack-dev-server');
 const webpack = require('webpack');
@@ -12,6 +13,7 @@ require('dotenv').load({ silent: true });
 
 const HOST = process.env.ONION_DEV_HOST || 'localhost';
 const PORT = process.env.ONION_DEV_PORT || 3000;
+const BASE_PATH = removeTrailingSlash(process.env.ONION_BASE_PATH || '/');
 
 // Enable server hot reloading
 // React hot reloading is enabled through .babelrc and babel-react-transform

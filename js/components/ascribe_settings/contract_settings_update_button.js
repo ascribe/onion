@@ -62,7 +62,7 @@ let ContractSettingsUpdateButton = React.createClass({
                ref='fineuploader'
                fileInputElement={UploadButton({ showLabel: false })}
                keyRoutine={{
-                   url: AppConstants.serverUrl + 's3/key/',
+                   url: `${AppConstants.serverUrl}/s3/key/`,
                    fileClass: 'contract'
                }}
                createBlobRoutine={{
@@ -75,7 +75,7 @@ let ContractSettingsUpdateButton = React.createClass({
                }}
                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
                signature={{
-                   endpoint: AppConstants.serverUrl + 's3/signature/',
+                   endpoint: `${AppConstants.serverUrl}/s3/signature/`,
                    customHeaders: {
                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
                    }
@@ -83,7 +83,7 @@ let ContractSettingsUpdateButton = React.createClass({
                deleteFile={{
                    enabled: true,
                    method: 'DELETE',
-                   endpoint: AppConstants.serverUrl + 's3/delete',
+                   endpoint: `${AppConstants.serverUrl}/s3/delete`,
                    customHeaders: {
                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
                    }
