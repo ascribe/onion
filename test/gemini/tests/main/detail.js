@@ -16,21 +16,23 @@ const editionUrl = `/editions/${environment.MAIN_EDITION_ID}`;
 gemini.suite('Work detail', (suite) => {
     suite
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
 
             // Wait for the social media buttons to appear
-            actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
-            actions.waitForElementToShow('.ascribe-social-button-list .twitter-share-button', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
+            actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe',
+                                         TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
+            actions.waitForElementToShow('.ascribe-social-button-list .twitter-share-button',
+                                         TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
             actions.waitForElementToShow('.ascribe-media-player', TIMEOUTS.LONG);
         });
 
     gemini.suite('Basic piece', (basicPieceSuite) => {
         basicPieceSuite
             .setUrl(pieceUrl)
-            .capture('basic piece')
+            .capture('basic piece');
 
         gemini.suite('Shmui', (shmuiSuite) => {
             shmuiSuite.
@@ -55,7 +57,7 @@ gemini.suite('Work detail', (suite) => {
         loginSuite
             .setUrl('/login')
             .ignoreElements('.ascribe-body')
-            .before((actions, find) => {
+            .before((actions) => {
                 actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
             })
             .capture('logged in', (actions, find) => {
@@ -76,7 +78,7 @@ gemini.suite('Work detail', (suite) => {
     gemini.suite('Authorized edition', (authorizedEditionSuite) => {
         authorizedEditionSuite
             .setUrl(editionUrl)
-            .capture('authorized edition')
+            .capture('authorized edition');
     });
 
     gemini.suite('Detail action buttons', (detailActionButtonSuite) => {
@@ -102,13 +104,19 @@ gemini.suite('Work detail', (suite) => {
             .setCaptureElements('.modal-dialog')
             .capture('open email form', (actions, find) => {
                 // Add class names to make the action buttons easier to select
-                actions.executeJS(function (window) {
-                    var actionButtons = window.document.querySelectorAll('.ascribe-detail-property .ascribe-button-list button.btn-default');
-                    for (var ii = 0; ii < actionButtons.length; ++ii) {
+                // eslint-disable-next-line prefer-arrow-callback
+                actions.executeJS(function addButtonTypeAsClass(window) {
+                    /* eslint-disable no-var, prefer-template */
+                    var actionButtonsSelector = '.ascribe-detail-property .ascribe-button-list button.btn-default';
+                    var actionButtons = window.document.querySelectorAll(actionButtonsSelector);
+                    var ii = 0;
+                    for (; ii < actionButtons.length; ++ii) {
                         if (actionButtons[ii].textContent) {
-                            actionButtons[ii].className += ' ascribe-action-button-' + actionButtons[ii].textContent.toLowerCase();
+                            actionButtons[ii].className += ' ascribe-action-button-' +
+                                                           actionButtons[ii].textContent.toLowerCase();
                         }
                     }
+                    /* eslint-enable no-var */
                 });
                 actions.click(find('.ascribe-detail-property .ascribe-button-list button.ascribe-action-button-email'));
 
@@ -122,10 +130,10 @@ gemini.suite('Work detail', (suite) => {
         logoutSuite
             .setUrl('/logout')
             .ignoreElements('.ascribe-body')
-            .before((actions, find) => {
+            .before((actions) => {
                 actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
             })
-            .capture('logout', (actions, find) => {
+            .capture('logout', (actions) => {
                 actions.waitForElementToShow('.ascribe-login-wrapper', TIMEOUTS.LONG);
             });
     });

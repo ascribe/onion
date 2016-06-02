@@ -10,7 +10,7 @@ const TIMEOUTS = environment.TIMEOUTS;
 gemini.suite('23vivi', (suite) => {
     suite
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
@@ -18,7 +18,7 @@ gemini.suite('23vivi', (suite) => {
     gemini.suite('Landing', (landingSuite) => {
         landingSuite
             .setUrl('/')
-            .capture('landing', (actions, find) => {
+            .capture('landing', (actions) => {
                 // Wait for the logo to appear
                 actions.waitForElementToShow('.vivi23-landing--header-logo', TIMEOUTS.LONG);
             });

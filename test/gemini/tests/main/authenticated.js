@@ -12,7 +12,7 @@ gemini.suite('Authenticated', (suite) => {
     suite
         .setUrl('/collection')
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
@@ -40,7 +40,7 @@ gemini.suite('Authenticated', (suite) => {
             // Ignore Cyland's logo as it's a gif
             .ignoreElements('.client--cyland img.img-brand')
             .skip(/Mobile/)
-            .before((actions, find) => {
+            .before((actions) => {
                 actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
             })
             .capture('desktop header');
@@ -69,7 +69,7 @@ gemini.suite('Authenticated', (suite) => {
             // Ignore Cyland's logo as it's a gif
             .ignoreElements('.client--cyland img.img-brand')
             .skip(/Desktop/)
-            .before((actions, find) => {
+            .before((actions) => {
                 actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
             })
             .capture('mobile header')
@@ -89,7 +89,7 @@ gemini.suite('Authenticated', (suite) => {
     gemini.suite('Collection', (collectionSuite) => {
         collectionSuite
             .setCaptureElements('.ascribe-accordion-list')
-            .before((actions, find) => {
+            .before((actions) => {
                 actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
                 // Wait for the images to load
                 // FIXME: unfortuntately gemini doesn't support ignoring multiple elements from a single selector
@@ -102,7 +102,7 @@ gemini.suite('Authenticated', (suite) => {
                 actions.click(find('.ascribe-accordion-list-item .ascribe-accordion-list-item-edition-widget'));
                 // Wait for editions to load
                 actions.waitForElementToShow('.ascribe-accordion-list-item-table', TIMEOUTS.LONG);
-            })
+            });
 
         gemini.suite('Collection placeholder', (collectionPlaceholderSuite) => {
             collectionPlaceholderSuite
@@ -133,8 +133,9 @@ gemini.suite('Authenticated', (suite) => {
             .capture('piece list toolbar')
             .capture('piece list toolbar search filled', (actions, find) => {
                 actions.sendKeys(find('.ascribe-piece-list-toolbar .search-bar input[type="text"]'), 'search text');
-                actions.waitForElementToShow('.ascribe-piece-list-toolbar .search-bar .icon-ascribe-search', TIMEOUTS.NORMAL);
-            })
+                actions.waitForElementToShow('.ascribe-piece-list-toolbar .search-bar .icon-ascribe-search',
+                                             TIMEOUTS.NORMAL);
+            });
 
         gemini.suite('Order widget dropdown', (pieceListToolbarOrderWidgetSuite) => {
             pieceListToolbarOrderWidgetSuite
@@ -164,13 +165,14 @@ gemini.suite('Authenticated', (suite) => {
     gemini.suite('Register work', (registerSuite) => {
         registerSuite
             .setUrl('/register_piece')
-            .before((actions, find) => {
+            .before((actions) => {
                 // The editions options are only rendered after the whitelabel is fetched, so
                 // we have to wait for it here
                 // We have to check for the sibling checkbox class as the input itself is hidden
-                actions.waitForElementToShow('.ascribe-form input[name="num_editions-checkbox"] ~ .checkbox', TIMEOUTS.NORMAL);
+                actions.waitForElementToShow('.ascribe-form input[name="num_editions-checkbox"] ~ .checkbox',
+                                             TIMEOUTS.NORMAL);
             })
-            .capture('register work', (actions, find) => {
+            .capture('register work', (actions) => {
                 // The uploader options are only rendered after the user is fetched, so
                 // we also have to wait for it here
                 actions.waitForElementToShow('.file-drag-and-drop-dialog .present-options', TIMEOUTS.NORMAL);
@@ -203,7 +205,7 @@ gemini.suite('Authenticated', (suite) => {
     gemini.suite('User settings', (userSettingsSuite) => {
         userSettingsSuite
             .setUrl('/settings')
-            .before((actions, find) => {
+            .before((actions) => {
                 // This will be called before every nested suite begins unless that suite
                 // also defines a `.before()`
                 actions.waitForElementToShow('.settings-container', TIMEOUTS.NORMAL);
@@ -216,7 +218,7 @@ gemini.suite('Authenticated', (suite) => {
         logoutSuite
             .setUrl('/logout')
             .ignoreElements('.ascribe-body')
-            .capture('logout', (actions, find) => {
+            .capture('logout', (actions) => {
                 actions.waitForElementToShow('.ascribe-login-wrapper', TIMEOUTS.LONG);
             });
     });

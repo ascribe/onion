@@ -12,7 +12,7 @@ gemini.suite('Basic', (suite) => {
     suite
         .setUrl('/login')
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
@@ -22,7 +22,7 @@ gemini.suite('Basic', (suite) => {
         headerSuite
             .setCaptureElements('nav.navbar .container')
             .skip(/Mobile/)
-            .capture('desktop header', (actions, find) => {
+            .capture('desktop header', (actions) => {
                 actions.waitForElementToShow('nav.navbar .container', TIMEOUTS.NORMAL);
             })
             .capture('hover on active item', (actions, find) => {
@@ -40,7 +40,7 @@ gemini.suite('Basic', (suite) => {
         headerMobileSuite
             .setCaptureElements('nav.navbar .container')
             .skip(/Desktop/)
-            .capture('mobile header', (actions, find) => {
+            .capture('mobile header', (actions) => {
                 actions.waitForElementToShow('nav.navbar .container', TIMEOUTS.NORMAL);
             })
             .capture('expanded mobile header', (actions, find) => {
@@ -56,7 +56,7 @@ gemini.suite('Basic', (suite) => {
     gemini.suite('Footer', (footerSuite) => {
         footerSuite
             .setCaptureElements('.ascribe-footer')
-            .capture('footer', (actions, find) => {
+            .capture('footer', (actions) => {
                 actions.waitForElementToShow('.ascribe-footer', TIMEOUTS.NORMAL);
             })
             .capture('hover on footer item', (actions, find) => {
@@ -64,14 +64,14 @@ gemini.suite('Basic', (suite) => {
                 actions.mouseMove(footerItem);
             })
             .capture('hover on footer social item', (actions, find) => {
-                const footerSocialItem = find('.ascribe-footer a.social')
+                const footerSocialItem = find('.ascribe-footer a.social');
                 actions.mouseMove(footerSocialItem);
             });
     });
 
     gemini.suite('Login', (loginSuite) => {
         loginSuite
-            .capture('login', (actions, find) => {
+            .capture('login', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('hover on login submit', (actions, find) => {
@@ -97,7 +97,7 @@ gemini.suite('Basic', (suite) => {
     gemini.suite('Sign up', (signUpSuite) => {
         signUpSuite
             .setUrl('/signup')
-            .capture('sign up', (actions, find) => {
+            .capture('sign up', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('sign up form filled with focus', (actions, find) => {
@@ -113,7 +113,7 @@ gemini.suite('Basic', (suite) => {
     gemini.suite('Password reset', (passwordResetSuite) => {
         passwordResetSuite
             .setUrl('/password_reset')
-            .capture('password reset', (actions, find) => {
+            .capture('password reset', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('password reset form filled with focus', (actions, find) => {
@@ -127,12 +127,13 @@ gemini.suite('Basic', (suite) => {
     gemini.suite('Coa verify', (coaVerifySuite) => {
         coaVerifySuite
             .setUrl('/coa_verify')
-            .capture('coa verify', (actions, find) => {
+            .capture('coa verify', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
             })
             .capture('coa verify form filled with focus', (actions, find) => {
                 actions.sendKeys(find('.ascribe-form input[name="message"]'), 'sample text');
-                actions.sendKeys(find('.ascribe-form .ascribe-property-wrapper:nth-of-type(2) textarea'), 'sample signature');
+                actions.sendKeys(find('.ascribe-form .ascribe-property-wrapper:nth-of-type(2) textarea'),
+                                 'sample signature');
             })
             .capture('coa verify form filled', (actions, find) => {
                 actions.click(find('.ascribe-login-header'));

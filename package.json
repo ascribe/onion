@@ -43,6 +43,7 @@
     "babel-jest": "^5.2.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
+    "colors": "^1.1.2",
     "dotenv": "^1.2.0",
     "gemini": "^2.1.0",
     "jest-cli": "^0.4.0",

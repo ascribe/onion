@@ -11,7 +11,7 @@ const TIMEOUTS = environment.TIMEOUTS;
 gemini.suite('Whitelabel basic', (suite) => {
     suite
         .setCaptureElements('.ascribe-wallet-app > .container')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins unless that suite
             // also defines a `.before()`
             // FIXME: use a more generic class for this, like just '.ascribe-app'
@@ -26,7 +26,7 @@ gemini.suite('Whitelabel basic', (suite) => {
             .setUrl('/login')
             // See Ikono
             .skip(/Ikono/)
-            .capture('login', (actions, find) => {
+            .capture('login', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
                 // For some reason, the screenshots seem to keep catching the whitelabel login form
                 // on a refresh and without fonts loaded (maybe because they're the first tests run
@@ -59,7 +59,7 @@ gemini.suite('Whitelabel basic', (suite) => {
             .setUrl('/signup')
             // See Ikono
             .skip(/Ikono/)
-            .capture('sign up', (actions, find) => {
+            .capture('sign up', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
                 // Wait in case the form reloads due to other assets loading
                 actions.wait(500);
@@ -77,7 +77,7 @@ gemini.suite('Whitelabel basic', (suite) => {
     gemini.suite('Password reset', (passwordResetSuite) => {
         passwordResetSuite
             .setUrl('/password_reset')
-            .capture('password reset', (actions, find) => {
+            .capture('password reset', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
                 // Wait in case the form reloads due to other assets loading
                 actions.wait(500);
@@ -93,14 +93,15 @@ gemini.suite('Whitelabel basic', (suite) => {
     gemini.suite('Coa verify', (coaVerifySuite) => {
         coaVerifySuite
             .setUrl('/coa_verify')
-            .capture('coa verify', (actions, find) => {
+            .capture('coa verify', (actions) => {
                 actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
                 // Wait in case the form reloads due to other assets loading
                 actions.wait(500);
             })
             .capture('coa verify form filled with focus', (actions, find) => {
                 actions.sendKeys(find('.ascribe-form input[name="message"]'), 'sample text');
-                actions.sendKeys(find('.ascribe-form .ascribe-property-wrapper:nth-of-type(2) textarea'), 'sample signature');
+                actions.sendKeys(find('.ascribe-form .ascribe-property-wrapper:nth-of-type(2) textarea'),
+                                 'sample signature');
             })
             .capture('coa verify form filled', (actions, find) => {
                 actions.click(find('.ascribe-login-header'));
