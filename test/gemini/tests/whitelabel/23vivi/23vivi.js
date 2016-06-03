@@ -1,6 +1,5 @@
 'use strict';
 
-const gemini = require('gemini');
 const environment = require('../../environment');
 const TIMEOUTS = environment.TIMEOUTS;
 
