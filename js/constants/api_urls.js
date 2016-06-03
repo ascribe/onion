@@ -1,13 +1,7 @@
-'use strict';
-
 import AppConstants from './application_constants';
 
-import getWalletApiUrls from '../components/whitelabel/wallet/constants/wallet_api_urls';
 
-import { update } from '../utils/general_utils';
-
-
-let ApiUrls = {
+const ApiUrls = {
     'applications': AppConstants.apiEndpoint + '/applications/',
     'application_token_refresh': AppConstants.apiEndpoint + '/applications/refresh_token/',
     'blob_digitalworks': AppConstants.apiEndpoint + '/blob/digitalworks/',
@@ -79,10 +73,8 @@ let ApiUrls = {
 };
 
 
-export function updateApiUrls(type, subdomain) {
-    if (type === 'wallet') {
-        update(getWalletApiUrls(subdomain));
-    }
+export function updateApiUrls(updatedApiUrls) {
+    return Object.assign(ApiUrls, updatedApiUrls);
 }
 
 export default ApiUrls;
