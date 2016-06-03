@@ -82,6 +82,7 @@ const PLUGINS = [
 ];
 
 const PROD_PLUGINS = [
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false
