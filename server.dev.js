@@ -29,6 +29,7 @@ const server = new WebpackDevServer(compiler, {
         index: config.output.publicPath
     },
     hot: true,
+    noInfo: true,
     stats: { colors: true }
 });
 
