@@ -17,6 +17,7 @@
     "start": "NODE_ENV=production node server.js",
 
     "build:dev": "rimraf ./build && NODE_ENV=development webpack",
+    "build:extract": "rimraf ./build && NODE_ENV=extract webpack",
     "clean": "rimraf ./build ./dist",
     "start:dev": "NODE_ENV=development node server.dev.js",
     "lint": "eslint ./",

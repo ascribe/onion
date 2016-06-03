@@ -14,6 +14,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 require('dotenv').load({ silent: true });
 
+const EXTRACT = process.env.NODE_ENV === 'extract';
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
 const PATHS = {
@@ -61,13 +62,6 @@ const PLUGINS = [
         },
     ]),
 
-    // Extract stylesheets out of bundle
-    new ExtractTextPlugin(
-        PRODUCTION ? 'css/styles.min.css' : 'css/styles.css', {
-            allChunks: true
-        }
-    ),
-
     // Generate index.html for app with link and style tags addded
     new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -96,6 +90,15 @@ const PROD_PLUGINS = [
         minimize: true
     }),
 ];
+
+if (PRODUCTION || EXTRACT) {
+    // Extract stylesheets out of bundle
+    PLUGINS.push(
+        new ExtractTextPlugin(PRODUCTION ? 'css/styles.min.css' : 'css/styles.css', {
+            allChunks: true
+        })
+    );
+}
 
 if (PRODUCTION) {
     PLUGINS.push(...PROD_PLUGINS);
@@ -161,7 +164,8 @@ const LOADERS = [
     {
         test: /\.s[ac]ss$/,
         exclude: [PATHS.NODE_MODULES],
-        loader: ExtractTextPlugin.extract('style', SASS_LOADER),
+        loader: PRODUCTION || EXTRACT ? ExtractTextPlugin.extract('style', SASS_LOADER)
+                                      : `style!${SASS_LOADER}`,
     },
 
     // Dependencies
@@ -187,7 +191,10 @@ const LOADERS = [
 
 /** EXPORTED WEBPACK CONFIG **/
 const config = {
-    entry: ['bootstrap-loader/extractStyles', PATHS.APP],
+    entry: [
+        PRODUCTION || EXTRACT ? 'bootstrap-loader/extractStyles' : 'bootstrap-loader',
+        PATHS.APP
+    ],
 
     output: {
         filename: PRODUCTION ? 'js/bundle.min.js' : 'js/bundle.js',
