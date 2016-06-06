@@ -69,7 +69,7 @@ const AppGateway = {
         });
 
         // Adds a client specific class to the body for whitelabel styling
-        window.document.body.classList.add(`client--${settings.subdomain}`);
+        window.document.body.classList.add(`client--${settings.subdomain || 'ascribe'}`);
 
         AppResolver
             .resolve(settings)
