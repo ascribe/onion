@@ -13,16 +13,18 @@ import Note from '../../../../ascribe_detail/note';
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import AscribeSpinner from '../../../../ascribe_spinner';
+import { currentUserShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 let WalletPieceContainer = React.createClass({
     propTypes: {
         piece: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired,
@@ -45,7 +47,6 @@ let WalletPieceContainer = React.createClass({
             return (
                 <Piece
                     piece={piece}
-                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <hr style={{marginTop: 0}}/>
@@ -64,7 +65,6 @@ let WalletPieceContainer = React.createClass({
                     }>
                     <WalletActionPanel
                         piece={piece}
-                        currentUser={currentUser}
                         loadPiece={loadPiece}
                         handleDeleteSuccess={handleDeleteSuccess}
                         submitButtonType={submitButtonType}/>
@@ -84,8 +84,7 @@ let WalletPieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece}
-                            currentUser={currentUser}/>
+                            url={ApiUrls.note_private_piece} />
                     </CollapsibleParagraph>
                     {children}
                 </Piece>
@@ -101,4 +100,4 @@ let WalletPieceContainer = React.createClass({
     }
 });
 
-export default WalletPieceContainer;
+export default withCurrentUser(WalletPieceContainer);

@@ -24,20 +24,25 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import { currentUserShape } from '../../../../prop_types';
+
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 const CylandRegisterPiece = React.createClass({
     propTypes: {
         router: React.PropTypes.object.isRequired,
 
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -218,4 +223,4 @@ const CylandRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(CylandRegisterPiece);
+export default withRouter(withCurrentUser(CylandRegisterPiece));

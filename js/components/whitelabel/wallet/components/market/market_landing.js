@@ -15,13 +15,12 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let MarketLanding = React.createClass({
     propTypes: {
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired
     },
 
     componentDidUpdate() {
         const { name } = this.props.whitelabel;
- 
+
         if (name) {
             setDocumentTitle(`${name} Marketplace`);
         }

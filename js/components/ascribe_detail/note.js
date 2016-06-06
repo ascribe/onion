@@ -5,15 +5,18 @@ import React from 'react';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
-import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
+
+import { currentUserShape } from '../prop_types';
 
 import { getLangText } from '../../utils/lang_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 let Note = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
         id: React.PropTypes.func.isRequired,
         url: React.PropTypes.string.isRequired,
 
@@ -66,4 +69,4 @@ let Note = React.createClass({
     }
 });
 
-export default Note;
+export default withCurrentUser(Note);

@@ -14,7 +14,6 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 let CCRegisterPiece = React.createClass({
     propTypes: {
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

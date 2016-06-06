@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+import GlobalNotificationModel from '../../models/global_notification_model';
+import GlobalNotificationActions from '../../actions/global_notification_actions';
+
 import ConsignForm from '../ascribe_forms/form_consign';
 import UnConsignForm from '../ascribe_forms/form_unconsign';
 import TransferForm from '../ascribe_forms/form_transfer';
@@ -9,13 +12,13 @@ import LoanForm from '../ascribe_forms/form_loan';
 import LoanRequestAnswerForm from '../ascribe_forms/form_loan_request_answer';
 import ShareForm from '../ascribe_forms/form_share_email';
 
+import { currentUserShape } from '../prop_types';
+
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
-import GlobalNotificationModel from '../../models/global_notification_model';
-import GlobalNotificationActions from '../../actions/global_notification_actions';
-
 import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 let AclFormFactory = React.createClass({
     propTypes: {
@@ -26,12 +29,14 @@ let AclFormFactory = React.createClass({
         ]).isRequired,
 
         autoFocusProperty: React.PropTypes.string,
-        currentUser: React.PropTypes.object,
         email: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        message: React.PropTypes.string,
         labels: React.PropTypes.object,
-        showNotification: React.PropTypes.bool
+        message: React.PropTypes.string,
+        showNotification: React.PropTypes.bool,
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     isPiece() {
@@ -54,21 +59,23 @@ let AclFormFactory = React.createClass({
     },
 
     render() {
-        const { action,
-                autoFocusProperty,
-                pieceOrEditions,
-                currentUser,
-                email,
-                message,
-                labels,
-                handleSuccess,
-                showNotification } = this.props;
+        const {
+            action,
+            autoFocusProperty,
+            pieceOrEditions,
+            email,
+            message,
+            labels,
+            handleSuccess,
+            showNotification,
+            currentUser: { username: senderName }
+        } = this.props;
 
         const formMessage = message || getAclFormMessage({
+            senderName,
             aclName: action,
             entities: pieceOrEditions,
-            isPiece: this.isPiece(),
-            senderName: currentUser && currentUser.username
+            isPiece: this.isPiece()
         });
 
         if (action === 'acl_consign') {
@@ -131,4 +138,4 @@ let AclFormFactory = React.createClass({
     }
 });
 
-export default AclFormFactory;
+export default withCurrentUser(AclFormFactory);

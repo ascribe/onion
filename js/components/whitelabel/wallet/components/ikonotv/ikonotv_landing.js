@@ -6,14 +6,17 @@ import Button from 'react-bootstrap/lib/Button';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import { currentUserShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 let IkonotvLanding = React.createClass({
     propTypes: {
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -101,4 +104,4 @@ let IkonotvLanding = React.createClass({
     }
 });
 
-export default IkonotvLanding;
+export default withCurrentUser(IkonotvLanding);

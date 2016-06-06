@@ -14,7 +14,6 @@ let Vivi23Landing = React.createClass({
         customThumbnailPlaceholder: React.PropTypes.func,
 
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router

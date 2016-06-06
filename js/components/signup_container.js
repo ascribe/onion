@@ -10,7 +10,6 @@ import { setDocumentTitle } from '../utils/dom_utils';
 let SignupContainer = React.createClass({
     propTypes: {
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 
         // Provided from router

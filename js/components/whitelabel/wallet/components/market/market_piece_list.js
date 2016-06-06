@@ -5,17 +5,20 @@ import React from 'react';
 import MarketAclButtonList from './market_buttons/market_acl_button_list';
 
 import PieceList from '../../../../piece_list';
+import { currentUserShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
         customThumbnailPlaceholder: React.PropTypes.func,
 
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -27,11 +30,13 @@ let MarketPieceList = React.createClass({
     },
 
     render() {
-        const { currentUser: { email: userEmail },
-                whitelabel: {
-                    name: whitelabelName = 'Market',
-                    user: whitelabelAdminEmail
-                } } = this.props;
+        const {
+            currentUser: { email: userEmail },
+            whitelabel: {
+                name: whitelabelName = 'Market',
+                user: whitelabelAdminEmail
+            }
+        } = this.props;
 
         let filterParams = null;
         let isUserAdmin = null;
@@ -68,4 +73,4 @@ let MarketPieceList = React.createClass({
     }
 });
 
-export default MarketPieceList;
+export default withCurrentUser(MarketPieceList);

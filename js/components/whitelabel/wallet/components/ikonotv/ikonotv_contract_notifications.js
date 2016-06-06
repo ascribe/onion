@@ -15,18 +15,23 @@ import OwnershipFetcher from '../../../../../fetchers/ownership_fetcher';
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 import Property from '../../../../ascribe_forms/property';
 
+import { currentUserShape } from '../../../../../prop_types';
+
 import AppConstants from '../../../../../constants/application_constants';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../../utils/react_utils';
 
 
 const IkonotvContractNotifications = React.createClass({
     propTypes: {
         router: React.PropTypes.object.isRequired,
 
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -130,10 +135,10 @@ const IkonotvContractNotifications = React.createClass({
         this.props.router.push('/collection');
     },
 
-    getCopyrightAssociationForm(){
-        const { currentUser } = this.props;
+    getCopyrightAssociationForm() {
+        const { profile } = this.props.currentUser;
 
-        if (currentUser.profile && !currentUser.profile.copyright_association) {
+        if (profile && !profile.copyright_association) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
@@ -141,7 +146,7 @@ const IkonotvContractNotifications = React.createClass({
                     <p>
                         {AppConstants.copyrightAssociations.join(', ')}
                     </p>
-                    <CopyrightAssociationForm currentUser={currentUser}/>
+                    <CopyrightAssociationForm />
                 </div>
             );
         } else {
@@ -198,4 +203,4 @@ const IkonotvContractNotifications = React.createClass({
     }
 });
 
-export default withRouter(IkonotvContractNotifications);
+export default withRouter(withCurrentUser(IkonotvContractNotifications));

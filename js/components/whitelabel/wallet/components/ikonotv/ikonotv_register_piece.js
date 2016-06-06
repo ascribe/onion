@@ -22,10 +22,13 @@ import LoanForm from '../../../../ascribe_forms/form_loan';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import { currentUserShape } from '../../../../prop_types';
+
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 const IkonotvRegisterPiece = React.createClass({
@@ -34,8 +37,10 @@ const IkonotvRegisterPiece = React.createClass({
 
         handleSuccess: React.PropTypes.func,
 
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -243,4 +248,4 @@ const IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(IkonotvRegisterPiece);
+export default withRouter(withCurrentUser(IkonotvRegisterPiece));

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import AppBase from './app_base';
@@ -8,34 +6,31 @@ import Footer from './footer';
 import Header from './header';
 
 
-let AscribeApp = React.createClass({
+const AscribeApp = React.createClass({
     propTypes: {
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
         // Provided from AppBase
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object
     },
 
     render() {
-        const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
-        const Footer = activeRoute && activeRoute.footer;
+        const { activeRoute, children, routes, whitelabel } = this.props;
+        const showFooter = activeRoute && activeRoute.footer;
 
         return (
             <div className="ascribe-app ascribe-default-app">
                 <Header
-                    currentUser={currentUser}
                     routes={routes}
                     whitelabel={whitelabel} />
                 <AppRouteWrapper
-                    currentUser={currentUser}
                     whitelabel={whitelabel}>
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>
-                {Footer ? <Footer /> : null}
+                {showFooter ? <Footer /> : null}
             </div>
         );
     }

@@ -33,7 +33,6 @@ const IkonotvPieceContainer = React.createClass({
         router: React.PropTypes.object.isRequired,
 
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -93,7 +92,6 @@ const IkonotvPieceContainer = React.createClass({
     },
 
     render() {
-        const { currentUser } = this.props;
         const { piece } = this.state;
 
         let furtherDetails = (
@@ -127,7 +125,6 @@ const IkonotvPieceContainer = React.createClass({
             return (
                 <WalletPieceContainer
                     piece={piece}
-                    currentUser={currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={IkonotvSubmitButton}>

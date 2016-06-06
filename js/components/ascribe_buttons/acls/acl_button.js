@@ -31,7 +31,6 @@ export default function AclButton({ action, displayName, title, tooltip }) {
 
             buttonAcceptName: React.PropTypes.string,
             buttonAcceptClassName: React.PropTypes.string,
-            currentUser: React.PropTypes.object,
             email: React.PropTypes.string,
             handleSuccess: React.PropTypes.func
         },
@@ -43,7 +42,6 @@ export default function AclButton({ action, displayName, title, tooltip }) {
         render() {
             const { availableAcls,
                     buttonAcceptClassName,
-                    currentUser,
                     email,
                     pieceOrEditions,
                     handleSuccess } = this.props;
@@ -63,7 +61,6 @@ export default function AclButton({ action, displayName, title, tooltip }) {
                         title={title}>
                         <AclFormFactory
                             action={action}
-                            currentUser={currentUser}
                             email={email}
                             pieceOrEditions={pieceOrEditions}
                             showNotification />

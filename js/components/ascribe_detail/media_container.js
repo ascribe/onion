@@ -18,11 +18,13 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import AclProxy from '../acl_proxy';
 
+import { currentUserShape } from '../prop_types';
+
 import AppConstants from '../../constants/application_constants';
 
-import { getLangText } from '../../utils/lang_utils';
-
 import { extractFileExtensionFromUrl } from '../../utils/file_utils';
+import { getLangText } from '../../utils/lang_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 
 const EMBED_IFRAME_HEIGHT = {
@@ -36,7 +38,8 @@ let MediaContainer = React.createClass({
         content: React.PropTypes.object.isRequired,
         refreshObject: React.PropTypes.func.isRequired,
 
-        currentUser: React.PropTypes.object
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -118,7 +121,7 @@ let MediaContainer = React.createClass({
         // the information in content will be updated if a user updates their username.
         // We also force uniqueness of usernames, so this check is safe to dtermine if the
         // content was registered by the current user.
-        const didUserRegisterContent = currentUser && (currentUser.username === content.user_registered);
+        const didUserRegisterContent = currentUser.username === content.user_registered;
         const thumbnail = content.thumbnail.thumbnail_sizes && content.thumbnail.thumbnail_sizes['600x600'] ? content.thumbnail.thumbnail_sizes['600x600']
                                                                                                             : content.thumbnail.url_safe;
 
@@ -181,4 +184,4 @@ let MediaContainer = React.createClass({
     }
 });
 
-export default MediaContainer;
+export default withCurrentUser(MediaContainer);

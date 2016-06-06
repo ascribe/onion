@@ -10,12 +10,16 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
 
+import { currentUserShape } from './prop_types';
+
 import { getLangText } from '../utils/lang_utils';
+import { withCurrentUser } from '../utils/react_utils';
 
 
 let HeaderNotifications = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -153,4 +157,4 @@ let NotificationListItem = React.createClass({
     }
 });
 
-export default HeaderNotifications;
+export default withCurrentUser(HeaderNotifications);

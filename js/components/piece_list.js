@@ -48,7 +48,6 @@ const PieceList = React.createClass({
         orderBy: React.PropTypes.string,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -277,7 +276,6 @@ const PieceList = React.createClass({
     render() {
         const { accordionListItemType: AccordionListItemType,
                 bulkModalButtonListType: BulkModalButtonListType,
-                currentUser,
                 customSubmitButton,
                 customThumbnailPlaceholder,
                 filterParams,
@@ -311,7 +309,6 @@ const PieceList = React.createClass({
                     className="ascribe-piece-list-bulk-modal">
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
-                        currentUser={currentUser}
                         handleSuccess={this.handleAclSuccess}
                         pieceOrEditions={selectedEditions}
                         whitelabel={whitelabel}
@@ -342,7 +339,6 @@ const PieceList = React.createClass({
                                 key={piece.id}
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
-                                currentUser={currentUser}
                                 thumbnailPlaceholder={customThumbnailPlaceholder}
                                 whitelabel={whitelabel}>
                                     <AccordionListItemTableEditions

@@ -8,8 +8,6 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
-import EditionActions from '../../actions/edition_actions';
-
 import DetailProperty from './detail_property';
 import EditionActionPanel from './edition_action_panel';
 import FurtherDetails from './further_details';
@@ -25,18 +23,21 @@ import Property from '../ascribe_forms/property';
 
 import AclProxy from '../acl_proxy';
 
+import { currentUserShape } from '../prop_types';
+
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 
 /**
  * This is the component that implements display-specific functionality
  */
-let Edition = React.createClass({
+const Edition = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
         edition: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
@@ -66,7 +67,6 @@ let Edition = React.createClass({
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={edition}
-                        currentUser={currentUser}
                         refreshObject={loadEdition} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
@@ -82,7 +82,6 @@ let Edition = React.createClass({
                     <EditionSummary
                         actionPanelButtonListType={actionPanelButtonListType}
                         edition={edition}
-                        currentUser={currentUser}
                         handleSuccess={loadEdition}
                         whitelabel={whitelabel} />
                     <CollapsibleParagraph
@@ -122,8 +121,7 @@ let Edition = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_edition}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_private_edition} />
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
@@ -132,8 +130,7 @@ let Edition = React.createClass({
                             editable={!!edition.acl.acl_edit}
                             show={!!(edition.public_note || edition.acl.acl_edit)}
                             successMessage={getLangText('Public edition note saved')}
-                            url={ApiUrls.note_public_edition}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_public_edition} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -155,9 +152,9 @@ let Edition = React.createClass({
 });
 
 
-let EditionSummary = React.createClass({
+let EditionSummary = withCurrentUser(React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
         edition: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
@@ -206,7 +203,6 @@ let EditionSummary = React.createClass({
                         className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
-                            currentUser={currentUser}
                             edition={edition}
                             handleSuccess={handleSuccess}
                             whitelabel={whitelabel} />
@@ -216,7 +212,7 @@ let EditionSummary = React.createClass({
             </div>
         );
     }
-});
+}));
 
 
 let CoaDetails = React.createClass({
@@ -354,9 +350,9 @@ let SpoolDetails = React.createClass({
                     <pre className="ascribe-pre">{ownerAddress}</pre>
                 </Property>
                 <hr />
-            </Form>);
-
+            </Form>
+        );
     }
 });
 
-export default Edition;
+export default withCurrentUser(Edition);

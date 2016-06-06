@@ -36,7 +36,6 @@ import { getLangText } from '../../utils/lang_utils';
  */
 const EditionActionPanel = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
         router: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
@@ -101,14 +100,12 @@ const EditionActionPanel = React.createClass({
 
     render() {
         const { actionPanelButtonListType: ActionPanelButtonListType,
-                currentUser,
                 edition,
                 whitelabel } = this.props;
 
         if (edition.notifications && edition.notifications.length) {
             return (
                 <ListRequestActions
-                    currentUser={currentUser}
                     notifications={edition.notifications}
                     pieceOrEditions={[edition]}
                     handleSuccess={this.handleSuccess} />);
@@ -119,7 +116,6 @@ const EditionActionPanel = React.createClass({
                         <ActionPanelButtonListType
                             availableAcls={edition.acl}
                             className="ascribe-button-list"
-                            currentUser={currentUser}
                             handleSuccess={this.handleSuccess}
                             pieceOrEditions={[edition]}
                             whitelabel={whitelabel}>
@@ -169,7 +165,6 @@ const EditionActionPanel = React.createClass({
                                 aclObject={edition.acl}
                                 aclName="acl_request_unconsign">
                                 <UnConsignRequestButton
-                                    currentUser={currentUser}
                                     edition={edition}
                                     handleSuccess={this.handleSuccess} />
                             </AclProxy>

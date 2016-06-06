@@ -27,7 +27,6 @@ let RequestActionForm = React.createClass({
             React.PropTypes.array
         ]).isRequired,
 
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
@@ -99,7 +98,6 @@ let RequestActionForm = React.createClass({
                     availableAcls={{'acl_unconsign': true}}
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
-                    currentUser={this.props.currentUser}
                     handleSuccess={this.handleSuccess} />
                 );
         } else if (this.props.notifications.action === 'loan_request') {
@@ -109,7 +107,6 @@ let RequestActionForm = React.createClass({
                     buttonAcceptName="LOAN"
                     buttonAcceptClassName='inline pull-right btn-sm ascribe-margin-1px'
                     pieceOrEditions={this.props.pieceOrEditions}
-                    currentUser={this.props.currentUser}
                     handleSuccess={this.handleSuccess} />
                 );
         } else {

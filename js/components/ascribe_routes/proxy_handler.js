@@ -5,7 +5,11 @@ import withRouter from 'react-router/es6/withRouter';
 
 import UserStore from '../../stores/user_store';
 
+import { currentUserShape } from '../prop_types';
+
 import AppConstants from '../../constants/application_constants';
+
+import { withCurrentUser } from '../../utils/react_utils';
 
 
 const { object } = React.PropTypes;
@@ -33,7 +37,7 @@ export function AuthRedirect({ to, when }) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        const isLoggedIn = Object.keys(currentUser).length && currentUser.email;
+        const isLoggedIn = !!currentUser.email;
         const exprToValidate = when === 'loggedIn' ? isLoggedIn : !isLoggedIn;
 
         // and redirect if `true`.
@@ -75,15 +79,17 @@ export function AuthRedirect({ to, when }) {
  * @param {[function]} redirectFn A function that conditionally redirects
  */
 export function ProxyHandler(...redirectFunctions) {
-    return (Component) => (
-        withRouter(React.createClass({
+    return (Component) => {
+        const ProxyHandlerComponent = React.createClass({
             displayName: 'ProxyHandler',
 
             propTypes: {
                 router: React.PropTypes.object.isRequired,
 
+                // Injected through HOCs
+                currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
                 // Provided from AscribeApp, after the routes have been initialized
-                currentUser: React.PropTypes.object,
                 whitelabel: React.PropTypes.object,
 
                 // Provided from router
@@ -130,6 +136,8 @@ export function ProxyHandler(...redirectFunctions) {
                     <Component {...this.props} />
                 );
             }
-        })
-    ));
+        });
+
+        return withRouter(withCurrentUser(ProxyHandlerComponent));
+    };
 }

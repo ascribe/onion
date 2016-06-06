@@ -14,7 +14,6 @@ import { selectFromObject } from '../../utils/general_utils';
 let AclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
@@ -69,13 +68,11 @@ let AclButtonList = React.createClass({
         const { availableAcls,
                 buttonsStyle,
                 className,
-                currentUser,
                 handleSuccess,
                 pieceOrEditions } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',
-            'currentUser',
             'handleSuccess',
             'pieceOrEditions'
         ]);

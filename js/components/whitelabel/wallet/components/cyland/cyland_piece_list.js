@@ -5,13 +5,18 @@ import PieceList from '../../../../piece_list';
 
 import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_list_item';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import { currentUserShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 let CylandPieceList = React.createClass({
     propTypes: {
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -19,12 +24,14 @@ let CylandPieceList = React.createClass({
     },
 
     shouldRedirect(pieceCount) {
-        const { currentUser: { email: userEmail },
-                whitelabel: {
-                    user: whitelabelAdminEmail
-                } } = this.props;
+        const {
+            currentUser: { email: userEmail },
+            whitelabel: {
+                user: whitelabelAdminEmail
+            }
+        } = this.props;
 
-         return userEmail !== whitelabelAdminEmail && !pieceCount;
+        return userEmail !== whitelabelAdminEmail && !pieceCount;
     },
 
     render() {
@@ -52,4 +59,4 @@ let CylandPieceList = React.createClass({
     }
 });
 
-export default CylandPieceList;
+export default withCurrentUser(CylandPieceList);

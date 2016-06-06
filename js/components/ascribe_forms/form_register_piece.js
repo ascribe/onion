@@ -8,23 +8,22 @@ import InputFineUploader from './input_fineuploader';
 
 import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 
-import { FileStatus } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import AscribeSpinner from '../ascribe_spinner';
+import { currentUserShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationParts, validationTypes } from '../../constants/uploader_constants';
 
+import { FileStatus, formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 
 let RegisterPieceForm = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
-
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         enableLocalHashing: React.PropTypes.bool,
@@ -40,7 +39,10 @@ let RegisterPieceForm = React.createClass({
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
-        ])
+        ]),
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -128,7 +130,7 @@ let RegisterPieceForm = React.createClass({
                 location,
                 submitMessage } = this.props;
 
-        const profileHashLocally = currentUser && currentUser.profile ? currentUser.profile.hash_locally : false;
+        const profileHashLocally = currentUser.profile ? currentUser.profile.hash_locally : false;
         const hashLocally = profileHashLocally && enableLocalHashing;
 
         return (
@@ -238,4 +240,4 @@ let RegisterPieceForm = React.createClass({
     }
 });
 
-export default RegisterPieceForm;
+export default withCurrentUser(RegisterPieceForm);

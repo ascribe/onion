@@ -30,7 +30,6 @@ const RegisterPiece = React.createClass( {
         ]),
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router

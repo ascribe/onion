@@ -8,14 +8,21 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Form from './form';
 import Property from './property';
 
+import { currentUserShape } from '../prop_types';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
-let CopyrightAssociationForm = React.createClass({
+
+const { bool } = React.PropTypes;
+
+const CopyrightAssociationForm = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
     },
 
     handleSubmitSuccess() {
@@ -77,4 +84,4 @@ let CopyrightAssociationForm = React.createClass({
     }
 });
 
-export default CopyrightAssociationForm;
+export default withCurrentUser(CopyrightAssociationForm);

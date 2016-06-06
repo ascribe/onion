@@ -15,7 +15,6 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let DemoLanding = React.createClass({
     propTypes: {
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired
     },
 

@@ -7,17 +7,21 @@ import AclButtonList from '../../../../ascribe_buttons/acl_button_list';
 import DeleteButton from '../../../../ascribe_buttons/delete_button';
 
 import AclProxy from '../../../../acl_proxy';
+import { currentUserShape } from '../../../../prop_types';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
+import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 let WalletActionPanel = React.createClass({
     propTypes: {
-        piece: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
-        submitButtonType: React.PropTypes.func.isRequired
+        piece: React.PropTypes.object.isRequired,
+        submitButtonType: React.PropTypes.func.isRequired,
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     render() {
@@ -27,7 +31,6 @@ let WalletActionPanel = React.createClass({
             return (
                 <ListRequestActions
                     pieceOrEditions={piece}
-                    currentUser={currentUser}
                     handleSuccess={loadPiece}
                     notifications={piece.notifications}/>);
         } else {
@@ -46,7 +49,6 @@ let WalletActionPanel = React.createClass({
                 <AclButtonList
                     availableAcls={availableAcls}
                     className="text-center ascribe-button-list"
-                    currentUser={currentUser}
                     pieceOrEditions={piece}
                     handleSuccess={loadPiece}>
                     <AclProxy
@@ -69,4 +71,4 @@ let WalletActionPanel = React.createClass({
     }
 });
 
-export default WalletActionPanel;
+export default withCurrentUser(WalletActionPanel);

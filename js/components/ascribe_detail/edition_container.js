@@ -25,7 +25,6 @@ let EditionContainer = React.createClass({
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
@@ -76,7 +75,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType, currentUser, furtherDetailsType, whitelabel } = this.props;
+        const { actionPanelButtonListType, furtherDetailsType, whitelabel } = this.props;
         const { edition, coaMeta } = this.state;
 
         if (edition.id) {
@@ -86,7 +85,6 @@ let EditionContainer = React.createClass({
                 <Edition
                     actionPanelButtonListType={actionPanelButtonListType}
                     coaError={coaMeta.err}
-                    currentUser={currentUser}
                     edition={edition}
                     furtherDetailsType={furtherDetailsType}
                     loadEdition={this.loadEdition}

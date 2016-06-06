@@ -18,7 +18,6 @@ let Piece = React.createClass({
         piece: React.PropTypes.object.isRequired,
 
         buttons: React.PropTypes.object,
-        currentUser: React.PropTypes.object,
         header: React.PropTypes.object,
         subheader: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
@@ -32,14 +31,13 @@ let Piece = React.createClass({
     },
 
     render() {
-        const { buttons, children, currentUser, header, piece, subheader } = this.props;
+        const { buttons, children, header, piece, subheader } = this.props;
 
         return (
             <Row>
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={piece}
-                        currentUser={currentUser}
                         refreshObject={this.updatePiece} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">

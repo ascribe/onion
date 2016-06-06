@@ -5,21 +5,26 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 
 import ModalWrapper from '../ascribe_modal/modal_wrapper';
-import UnConsignRequestForm from './../ascribe_forms/form_unconsign_request';
+import UnConsignRequestForm from '../ascribe_forms/form_unconsign_request';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { currentUserShape } from '../prop_types';
+
+import { getLangText } from '../../utils/lang_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 import ApiUrls from '../../constants/api_urls';
 
 
-let UnConsignRequestButton = React.createClass({
+const UnConsignRequestButton = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
 
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
-    render: function () {
+    render() {
         const { currentUser, edition, handleSuccess } = this.props;
         return (
             <ModalWrapper
@@ -45,5 +50,4 @@ ${currentUser.username}`
     }
 });
 
-export default UnConsignRequestButton;
-
+export default withCurrentUser(UnConsignRequestButton);

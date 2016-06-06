@@ -14,7 +14,6 @@ import { selectFromObject } from '../../../../../../utils/general_utils';
 let MarketAclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
         pieceOrEditions: React.PropTypes.array.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
@@ -30,14 +29,12 @@ let MarketAclButtonList = React.createClass({
         const { availableAcls,
                 children,
                 className,
-                currentUser,
                 handleSuccess,
                 pieceOrEditions,
                 whitelabel } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',
-            'currentUser',
             'handleSuccess',
             'pieceOrEditions'
         ]);
@@ -46,7 +43,6 @@ let MarketAclButtonList = React.createClass({
             <div className={className}>
                 <MarketSubmitButton
                     availableAcls={availableAcls}
-                    currentUser={currentUser}
                     editions={pieceOrEditions}
                     handleSuccess={handleSuccess}
                     whitelabel={whitelabel} />

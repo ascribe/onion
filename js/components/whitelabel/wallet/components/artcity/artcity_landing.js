@@ -12,7 +12,6 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 let ArtcityLanding = React.createClass({
     propTypes: {
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired
     },
 

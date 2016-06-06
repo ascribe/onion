@@ -26,7 +26,6 @@ let MarketRegisterPiece = React.createClass({
         router: React.PropTypes.object.isRequired,
 
         // Provided from WalletApp
-        currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router

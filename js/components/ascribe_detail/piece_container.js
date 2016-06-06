@@ -25,7 +25,7 @@ import LicenseDetail from './license_detail';
 import Note from './note';
 import Piece from './piece';
 
-import AclButtonList from './../ascribe_buttons/acl_button_list';
+import AclButtonList from '../ascribe_buttons/acl_button_list';
 import AclInformation from '../ascribe_buttons/acl_information';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
@@ -36,25 +36,28 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import AclProxy from '../acl_proxy';
-
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
+import { currentUserShape } from '../prop_types';
+
+import ApiUrls from '../../constants/api_urls';
+
+import { setDocumentTitle } from '../../utils/dom_utils';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { setDocumentTitle } from '../../utils/dom_utils';
+import { withCurrentUser } from '../../utils/react_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
 const PieceContainer = React.createClass({
     propTypes: {
+        currentUser: currentUserShape.isRequired,
         router: React.PropTypes.object.isRequired,
 
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -214,7 +217,6 @@ const PieceContainer = React.createClass({
         if (piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
                     notifications={piece.notifications}
                     pieceOrEditions={piece} />
@@ -222,7 +224,7 @@ const PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser && currentUser.email && Object.keys(piece.acl).length > 1}>
+                    show={currentUser.email && Object.keys(piece.acl).length > 1}>
                     {/*
                         `acl_view` is always available in `edition.acl`, therefore if it has
                         no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
@@ -234,7 +236,6 @@ const PieceContainer = React.createClass({
                         <AclButtonList
                             availableAcls={piece.acl}
                             className="ascribe-button-list"
-                            currentUser={currentUser}
                             pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
@@ -259,7 +260,7 @@ const PieceContainer = React.createClass({
     },
 
     render() {
-        const { currentUser, furtherDetailsType: FurtherDetailsType } = this.props;
+        const { furtherDetailsType: FurtherDetailsType } = this.props;
         const { piece } = this.state;
 
         if (piece.id) {
@@ -268,7 +269,6 @@ const PieceContainer = React.createClass({
             return (
                 <Piece
                     piece={piece}
-                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <hr className="hidden-print" style={{marginTop: 0}} />
@@ -307,8 +307,7 @@ const PieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_private_piece} />
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (public)')}
@@ -317,8 +316,7 @@ const PieceContainer = React.createClass({
                             editable={!!piece.acl.acl_edit}
                             show={!!(piece.public_note || piece.acl.acl_edit)}
                             successMessage={getLangText('Public note saved')}
-                            url={ApiUrls.note_public_piece}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_public_piece} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -346,4 +344,4 @@ const PieceContainer = React.createClass({
     }
 });
 
-export default withRouter(PieceContainer);
+export default withRouter(withCurrentUser(PieceContainer));

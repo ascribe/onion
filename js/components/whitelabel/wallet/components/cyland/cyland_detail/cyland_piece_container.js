@@ -32,7 +32,6 @@ const CylandPieceContainer = React.createClass({
         router: React.PropTypes.object.isRequired,
 
         // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -95,15 +94,12 @@ const CylandPieceContainer = React.createClass({
         const { piece } = this.state;
 
         if (piece.id) {
-            const { currentUser } = this.props;
-
             setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
 
             return (
                 <WalletPieceContainer
                     {...this.props}
                     piece={this.state.piece}
-                    currentUser={currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={CylandSubmitButton}>
