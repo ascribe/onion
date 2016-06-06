@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
@@ -9,9 +10,10 @@ const { arrayOf, element, bool, shape, string, object } = React.PropTypes;
 
 const SlidesContainer = React.createClass({
     propTypes: {
-        children: arrayOf(element),
         forwardProcess: bool.isRequired,
+        router: object.isRequired,
 
+        children: arrayOf(element),
         glyphiconClassNames: shape({
             pending: string,
             complete: string
@@ -21,8 +23,7 @@ const SlidesContainer = React.createClass({
     },
 
     contextTypes: {
-        route: object.isRequired,
-        router: object.isRequired
+        route: object.isRequired
     },
 
     getInitialState() {
@@ -42,8 +43,7 @@ const SlidesContainer = React.createClass({
 
         // Since react-router 2.0.0, we need to define the `routerWillLeave`
         // method ourselves.
-        const { router, route } = this.context;
-        router.setRouteLeaveHook(route, this.routerWillLeave);
+        this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave);
     },
 
     componentWillUnmount() {
@@ -68,10 +68,10 @@ const SlidesContainer = React.createClass({
     },
 
     setSlideNum(nextSlideNum, additionalQueryParams = {}) {
-        const { location: { pathname, query } } = this.props;
+        const { location: { pathname, query }, router } = this.props;
         const slideQuery = Object.assign({}, query, additionalQueryParams, { slide_num: nextSlideNum });
 
-        this.context.router.push({ pathname, query: slideQuery });
+        router.push({ pathname, query: slideQuery });
     },
 
     // breadcrumbs are defined as attributes of the slides.
@@ -186,4 +186,4 @@ const SlidesContainer = React.createClass({
     }
 });
 
-export default SlidesContainer;
+export default withRouter(SlidesContainer);

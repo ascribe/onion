@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -18,8 +17,10 @@ import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
 
-let RegisterPiece = React.createClass( {
+const RegisterPiece = React.createClass( {
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
@@ -34,10 +35,6 @@ let RegisterPiece = React.createClass( {
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState(){
@@ -66,7 +63,7 @@ let RegisterPiece = React.createClass( {
         // the piece list up to date
         PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
-        this.context.router.push(`/pieces/${response.piece.id}`);
+        this.props.router.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {
@@ -109,4 +106,4 @@ let RegisterPiece = React.createClass( {
 });
 
 
-export default RegisterPiece;
+export default withRouter(RegisterPiece);

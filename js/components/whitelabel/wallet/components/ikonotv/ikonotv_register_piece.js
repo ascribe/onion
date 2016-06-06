@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 import Moment from 'moment';
 
 import Col from 'react-bootstrap/lib/Col';
@@ -29,8 +28,10 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
-let IkonotvRegisterPiece = React.createClass({
+const IkonotvRegisterPiece = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         handleSuccess: React.PropTypes.func,
 
         // Provided from WalletApp
@@ -39,10 +40,6 @@ let IkonotvRegisterPiece = React.createClass({
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
@@ -93,7 +90,7 @@ let IkonotvRegisterPiece = React.createClass({
         }
 
         if (!this.canSubmit()) {
-            this.context.router.push('/collection');
+            this.props.router.push('/collection');
         } else {
             this.nextSlide({ piece_id: response.piece.id });
         }
@@ -118,7 +115,7 @@ let IkonotvRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.context.router.push(`/pieces/${this.state.piece.id}`);
+        this.props.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {
@@ -246,4 +243,4 @@ let IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default IkonotvRegisterPiece;
+export default withRouter(IkonotvRegisterPiece);

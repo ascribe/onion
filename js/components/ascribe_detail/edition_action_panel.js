@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -33,18 +34,15 @@ import { getLangText } from '../../utils/lang_utils';
     A component that handles all the actions inside of the edition detail
     handleSuccess requires a loadEdition action (could be refactored)
  */
-let EditionActionPanel = React.createClass({
+const EditionActionPanel = React.createClass({
     propTypes: {
         currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
+        router: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getDefaultProps() {
@@ -78,7 +76,7 @@ let EditionActionPanel = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     refreshCollection() {
@@ -190,4 +188,4 @@ let EditionActionPanel = React.createClass({
     }
 });
 
-export default EditionActionPanel;
+export default withRouter(EditionActionPanel);

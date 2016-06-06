@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 import Moment from 'moment';
 
 import ReactError from '../../mixins/react_error';
@@ -46,8 +47,10 @@ import { setDocumentTitle } from '../../utils/dom_utils';
 /**
  * This is the component that implements resource/data specific functionality
  */
-let PieceContainer = React.createClass({
+const PieceContainer = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from AscribeApp
@@ -57,10 +60,6 @@ let PieceContainer = React.createClass({
         // Provided from router
         location: React.PropTypes.object,
         params: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     mixins: [ReactError],
@@ -167,7 +166,7 @@ let PieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     getCreateEditionsDialog() {
@@ -347,4 +346,4 @@ let PieceContainer = React.createClass({
     }
 });
 
-export default PieceContainer;
+export default withRouter(PieceContainer);

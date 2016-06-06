@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -22,18 +21,16 @@ import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 
 
-let IkonotvContractNotifications = React.createClass({
+const IkonotvContractNotifications = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
@@ -116,7 +113,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationActions.flushContractAgreementListNotifications();
         NotificationActions.fetchContractAgreementListNotifications();
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     handleDeny() {
@@ -130,7 +127,7 @@ let IkonotvContractNotifications = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     getCopyrightAssociationForm(){
@@ -201,4 +198,4 @@ let IkonotvContractNotifications = React.createClass({
     }
 });
 
-export default IkonotvContractNotifications;
+export default withRouter(IkonotvContractNotifications);

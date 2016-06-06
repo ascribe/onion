@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Form from './ascribe_forms/form';
 import Property from './ascribe_forms/property';
@@ -107,14 +108,12 @@ let PasswordRequestResetForm = React.createClass({
     }
 });
 
-let PasswordResetForm = React.createClass({
+let PasswordResetForm = withRouter(React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         email: React.PropTypes.string,
         token: React.PropTypes.string
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getFormData() {
@@ -125,7 +124,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
 
         const notification = new GlobalNotificationModel(getLangText('Password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -176,6 +175,6 @@ let PasswordResetForm = React.createClass({
             </Form>
         );
     }
-});
+}));
 
 export default PasswordResetContainer;

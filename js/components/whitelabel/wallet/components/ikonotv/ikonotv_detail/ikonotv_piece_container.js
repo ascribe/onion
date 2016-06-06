@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import EditionListActions from '../../../../../../actions/edition_list_actions';
 
@@ -29,8 +28,10 @@ import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
-let IkonotvPieceContainer = React.createClass({
+const IkonotvPieceContainer = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object,
@@ -38,10 +39,6 @@ let IkonotvPieceContainer = React.createClass({
         // Provided from router
         location: React.PropTypes.object,
         params: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState() {
@@ -92,7 +89,7 @@ let IkonotvPieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     render() {
@@ -147,4 +144,4 @@ let IkonotvPieceContainer = React.createClass({
     }
 });
 
-export default IkonotvPieceContainer;
+export default withRouter(IkonotvPieceContainer);

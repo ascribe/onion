@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -30,8 +29,10 @@ import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
 
-let PieceList = React.createClass({
+const PieceList = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
@@ -52,10 +53,6 @@ let PieceList = React.createClass({
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getDefaultProps() {
@@ -130,13 +127,13 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        const { location: { query }, redirectTo, shouldRedirect } = this.props;
+        const { location: { query }, redirectTo, router, shouldRedirect } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
         if (redirectTo && redirectTo.pathname &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.context.router.push({
+            window.setTimeout(() => router.push({
                 // Occasionally, the back end also sets query parameters for Onion.
                 // We need to consider this by merging all passed query parameters, as we'll
                 // otherwise end up in a 404 screen
@@ -196,14 +193,14 @@ let PieceList = React.createClass({
     },
 
     searchFor(search) {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname }, router } = this.props;
 
         this.loadPieceList({ search, page: 1 });
-        this.context.router.push({ pathname, query: { page: 1 } });
+        router.push({ pathname, query: { page: 1 } });
     },
 
     applyFilterBy(filterBy) {
-        const { pathname } = this.props.location;
+        const { location: { pathname }, router } = this.props;
 
         this.setState({
             isFilterDirty: true
@@ -229,7 +226,7 @@ let PieceList = React.createClass({
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.context.router.push({ pathname, query: { page: 1 } });
+        router.push({ pathname, query: { page: 1 } });
     },
 
     applyOrderBy(orderBy) {
@@ -361,4 +358,4 @@ let PieceList = React.createClass({
     }
 });
 
-export default PieceList;
+export default withRouter(PieceList);

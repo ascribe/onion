@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Moment from 'moment';
 
@@ -33,18 +32,16 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 
 
-let CylandRegisterPiece = React.createClass({
+const CylandRegisterPiece = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         // Provided from WalletApp
         currentUser: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState(){
@@ -111,7 +108,7 @@ let CylandRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.context.router.push(`/pieces/${this.state.piece.id}`);
+        this.props.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {
@@ -221,4 +218,4 @@ let CylandRegisterPiece = React.createClass({
     }
 });
 
-export default CylandRegisterPiece;
+export default withRouter(CylandRegisterPiece);

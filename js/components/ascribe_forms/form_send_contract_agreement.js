@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -19,13 +20,9 @@ import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
 
-let SendContractAgreementForm = React.createClass({
+const SendContractAgreementForm = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object
     },
 
     getInitialState() {
@@ -58,7 +55,7 @@ let SendContractAgreementForm = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('Contract agreement sent'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     getFormData() {
@@ -152,4 +149,4 @@ let SendContractAgreementForm = React.createClass({
     }
 });
 
-export default SendContractAgreementForm;
+export default withRouter(SendContractAgreementForm);

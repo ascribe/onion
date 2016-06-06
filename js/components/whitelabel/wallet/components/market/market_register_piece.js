@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -24,16 +23,14 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
+        router: React.PropTypes.object.isRequired,
+
         // Provided from WalletApp
         currentUser: React.PropTypes.object,
         whitelabel: React.PropTypes.object.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
-    },
-
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
     },
 
     getInitialState(){
@@ -83,7 +80,7 @@ let MarketRegisterPiece = React.createClass({
     handleAdditionalDataSuccess() {
         this.refreshPieceList();
 
-        this.context.router.push('/collection');
+        this.props.router.push('/collection');
     },
 
     nextSlide(queryParams) {
@@ -161,4 +158,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default MarketRegisterPiece;
+export default withRouter(MarketRegisterPiece);

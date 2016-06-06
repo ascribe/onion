@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 
 import UserStore from '../../stores/user_store';
 
@@ -75,10 +76,12 @@ export function AuthRedirect({ to, when }) {
  */
 export function ProxyHandler(...redirectFunctions) {
     return (Component) => (
-        React.createClass({
+        withRouter(React.createClass({
             displayName: 'ProxyHandler',
 
             propTypes: {
+                router: React.PropTypes.object.isRequired,
+
                 // Provided from AscribeApp, after the routes have been initialized
                 currentUser: React.PropTypes.object,
                 whitelabel: React.PropTypes.object,
@@ -86,10 +89,6 @@ export function ProxyHandler(...redirectFunctions) {
                 // Provided from router
                 location: object,
                 route: object
-            },
-
-            contextTypes: {
-                router: object
             },
 
             childContextTypes: {
@@ -111,7 +110,7 @@ export function ProxyHandler(...redirectFunctions) {
             },
 
             evaluateRedirectFunctions(props = this.props) {
-                const { currentUser, location: { query } } = props;
+                const { currentUser, location: { query }, router } = props;
 
                 if (UserStore.hasLoaded() && !UserStore.isLoading()) {
                     for (let i = 0; i < redirectFunctions.length; i++) {
@@ -119,7 +118,7 @@ export function ProxyHandler(...redirectFunctions) {
                         // it should return `true` and therefore
                         // stop/avoid the execution of all functions
                         // that follow
-                        if (redirectFunctions[i](this.context.router, currentUser, query)) {
+                        if (redirectFunctions[i](router, currentUser, query)) {
                             break;
                         }
                     }
@@ -132,5 +131,5 @@ export function ProxyHandler(...redirectFunctions) {
                 );
             }
         })
-    );
+    ));
 }

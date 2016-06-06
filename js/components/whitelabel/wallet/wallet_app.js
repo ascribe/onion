@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import withRouter from 'react-router/es6/withRouter';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
@@ -14,6 +13,7 @@ let WalletApp = React.createClass({
     propTypes: {
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
+        router: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
         // Provided from AppBase
@@ -21,13 +21,8 @@ let WalletApp = React.createClass({
         whitelabel: React.PropTypes.object
     },
 
-    contextTypes: {
-        router: React.PropTypes.object
-    },
-
     render() {
-        const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
-        const { router } = this.context;
+        const { activeRoute, children, currentUser, router, routes, whitelabel } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
         const Footer = activeRoute && activeRoute.footer;
@@ -63,4 +58,4 @@ let WalletApp = React.createClass({
     }
 });
 
-export default AppBase(WalletApp);
+export default AppBase(withRouter(WalletApp));
