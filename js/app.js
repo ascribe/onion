@@ -10,10 +10,13 @@ import Router from 'react-router/es6/Router';
 import AppResolver from './app_resolver';
 import history from './history';
 
+import AppConstants from './constants/application_constants';
+
 import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 import { getSubdomain } from './utils/general_utils';
 import requests from './utils/requests';
+
 
 // FIXME: rename these event actions
 import EventActions from './actions/event_actions';
@@ -51,7 +54,19 @@ const AppGateway = {
 
         // `history.listen` is called on every route change, which is perfect for routeDidChange
         // events.
-        history.listen(EventActions.routeDidChange);
+        // For history <= 3.0, history.listen will synchronously invoke the callback once
+        // immediately after registration.
+        history.listen((location) => {
+            const { locationQueue } = history;
+            locationQueue.unshift(location);
+
+            // Limit the number of locations to keep in memory to avoid too much memory usage
+            if (locationQueue.length > AppConstants.locationThreshold) {
+                locationQueue.length = AppConstants.locationThreshold;
+            }
+
+            EventActions.routeDidChange(location);
+        });
 
         // Adds a client specific class to the body for whitelabel styling
         window.document.body.classList.add(`client--${settings.subdomain}`);

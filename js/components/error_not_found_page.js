@@ -1,24 +1,14 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
+
+import history from '../history';
 
 import { getLangText } from '../utils/lang_utils';
 
 
-let ErrorNotFoundPage = React.createClass({
+const ErrorNotFoundPage = React.createClass({
     propTypes: {
         message: React.PropTypes.string,
-
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
-
-        // Provided from router
-        location: React.PropTypes.object
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -28,7 +18,7 @@ let ErrorNotFoundPage = React.createClass({
 
     componentDidMount() {
         // The previous page, if any, is the second item in the locationQueue
-        const { locationQueue: [ , previousPage ] } = this.history;
+        const { locationQueue: [, previousPage] } = history;
 
         if (previousPage) {
             console.logGlobal('Page not found', {

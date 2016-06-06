@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import classNames from 'classnames';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -10,8 +9,6 @@ import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
 import GlobalNotification from './global_notification';
-
-import AppConstants from '../constants/application_constants';
 
 import { mergeOptions } from '../utils/general_utils';
 
@@ -22,8 +19,6 @@ export default function AppBase(App) {
 
         propTypes: {
             children: React.PropTypes.element.isRequired,
-            //FIXME: test if this is actually passed down now
-            history: React.PropTypes.object.isRequired,
             location: React.PropTypes.object.isRequired,
             routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
         },
@@ -41,18 +36,6 @@ export default function AppBase(App) {
 
             UserActions.fetchCurrentUser();
             WhitelabelActions.fetchWhitelabel();
-
-            this.history.locationQueue.push(this.props.location);
-        },
-
-        componentWillReceiveProps(nextProps) {
-            const { locationQueue } = this.history;
-            locationQueue.unshift(nextProps.location);
-
-            // Limit the number of locations to keep in memory to avoid too much memory usage
-            if (locationQueue.length > AppConstants.locationThreshold) {
-                locationQueue.length = AppConstants.locationThreshold;
-            }
         },
 
         componentWillUnmount() {
@@ -85,4 +68,4 @@ export default function AppBase(App) {
             );
         }
     });
-};
+}

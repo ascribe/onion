@@ -14,7 +14,6 @@ let WalletApp = React.createClass({
     propTypes: {
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
-        history: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
         // Provided from AppBase
@@ -22,15 +21,20 @@ let WalletApp = React.createClass({
         whitelabel: React.PropTypes.object
     },
 
+    contextTypes: {
+        router: React.PropTypes.object
+    },
+
     render() {
-        const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
+        const { activeRoute, children, currentUser, routes, whitelabel } = this.props;
+        const { router } = this.context;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
         const Footer = activeRoute && activeRoute.footer;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
-        if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
+        if ((!path || router.isActive('/login') || router.isActive('/signup') || router.isActive('/contract_notifications'))
             && (['cyland', 'ikonotv', 'lumenus', '23vivi', 'polline', 'artcity', 'demo', 'liquidgallery']).includes(subdomain)) {
             header = (<div className="hero"/>);
         } else {

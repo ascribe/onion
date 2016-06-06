@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import history from '../../history';
 
 import UserStore from '../../stores/user_store';
 
@@ -24,7 +23,7 @@ export function AuthRedirect({ to, when }) {
         throw new Error(`"when" must be one of: [${whenValues}] got "${when}" instead`);
     }
 
-    return function(currentUser, query) {
+    return function redirectRoute(router, currentUser, query) {
         const { redirectAuthenticated, redirect } = query;
 
         // The user of this handler specifies with `when`, what kind of status
@@ -38,14 +37,14 @@ export function AuthRedirect({ to, when }) {
 
         // and redirect if `true`.
         if (exprToValidate) {
-            window.setTimeout(() => history.replace({ query, pathname: to }));
+            window.setTimeout(() => router.replace({ query, pathname: to }));
             return true;
 
             // Otherwise there can also be the case that the backend
             // wants to redirect the user to a specific route when the user is logged out already
         } else if (!exprToValidate && when === 'loggedIn' && redirect) {
             delete query.redirect;
-            window.setTimeout(() => history.replace({ query, pathname: `/${redirect}` }));
+            window.setTimeout(() => router.replace({ query, pathname: `/${redirect}` }));
             return true;
 
         } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
@@ -75,8 +74,8 @@ export function AuthRedirect({ to, when }) {
  * @param {[function]} redirectFn A function that conditionally redirects
  */
 export function ProxyHandler(...redirectFunctions) {
-    return (Component) => {
-        return React.createClass({
+    return (Component) => (
+        React.createClass({
             displayName: 'ProxyHandler',
 
             propTypes: {
@@ -94,8 +93,7 @@ export function ProxyHandler(...redirectFunctions) {
             },
 
             childContextTypes: {
-                route: object,
-                router: object
+                route: object
             },
 
             getChildContext() {
@@ -121,7 +119,7 @@ export function ProxyHandler(...redirectFunctions) {
                         // it should return `true` and therefore
                         // stop/avoid the execution of all functions
                         // that follow
-                        if (redirectFunctions[i](currentUser, query)) {
+                        if (redirectFunctions[i](this.context.router, currentUser, query)) {
                             break;
                         }
                     }
@@ -133,6 +131,6 @@ export function ProxyHandler(...redirectFunctions) {
                     <Component {...this.props} />
                 );
             }
-        });
-    };
+        })
+    );
 }
