@@ -5,7 +5,7 @@ import 'isomorphic-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
+import Router from 'react-router/es6/Router';
 
 import AppResolver from './app_resolver';
 import history from './history';

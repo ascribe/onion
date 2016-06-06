@@ -2,7 +2,6 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { History } from 'react-router';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -23,6 +22,7 @@ export default function AppBase(App) {
 
         propTypes: {
             children: React.PropTypes.element.isRequired,
+            //FIXME: test if this is actually passed down now
             history: React.PropTypes.object.isRequired,
             location: React.PropTypes.object.isRequired,
             routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
@@ -34,8 +34,6 @@ export default function AppBase(App) {
                 WhitelabelStore.getState()
             );
         },
-
-        mixins: [History],
 
         componentDidMount() {
             UserStore.listen(this.onChange);

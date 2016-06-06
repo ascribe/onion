@@ -1,6 +1,6 @@
 'use strict';
 
-import { useRouterHistory } from 'react-router';
+import useRouterHistory from 'react-router/es6/useRouterHistory';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 import AppConstants from './constants/application_constants';

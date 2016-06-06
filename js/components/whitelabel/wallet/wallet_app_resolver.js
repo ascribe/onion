@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import Redirect from 'react-router/es6/Redirect';
 
 import getWalletApiUrls from './constants/wallet_api_urls';
 import getWalletRoutes from './wallet_routes';

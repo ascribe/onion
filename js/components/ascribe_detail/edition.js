@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/es6/Link';
 import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';

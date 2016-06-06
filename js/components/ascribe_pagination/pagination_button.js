@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/es6/Link';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import { getLangText } from '../../utils/lang_utils';
