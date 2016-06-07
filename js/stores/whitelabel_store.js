@@ -33,7 +33,7 @@ class WhitelabelStore {
         this.whitelabel = whitelabel;
     }
 
-    onErrorCurrentUser(err) {
+    onErrorWhitelabel(err) {
         console.logGlobal(err);
         this.whitelabelMeta.err = err;
     }
