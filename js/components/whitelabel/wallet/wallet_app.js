@@ -3,7 +3,6 @@ import withRouter from 'react-router/es6/withRouter';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
-import AppRouteWrapper from '../../app_route_wrapper';
 import Header from '../../header';
 
 import { getSubdomain } from '../../../utils/general_utils';
@@ -39,10 +38,10 @@ let WalletApp = React.createClass({
         return (
             <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
-                <AppRouteWrapper>
+                <div className="container ascribe-body">
                     {/* Routes are injected here */}
                     {children}
-                </AppRouteWrapper>
+                </div>
                 {Footer ? <Footer /> : null}
             </div>
         );

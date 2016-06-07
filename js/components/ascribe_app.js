@@ -1,7 +1,6 @@
 import React from 'react';
 
 import AppBase from './app_base';
-import AppRouteWrapper from './app_route_wrapper';
 import Footer from './footer';
 import Header from './header';
 
@@ -20,10 +19,10 @@ const AscribeApp = React.createClass({
         return (
             <div className="ascribe-app ascribe-default-app">
                 <Header routes={routes} />
-                <AppRouteWrapper>
+                <div className="container ascribe-body">
                     {/* Routes are injected here */}
                     {children}
-                </AppRouteWrapper>
+                </div>
                 {showFooter ? <Footer /> : null}
             </div>
         );
