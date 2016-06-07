@@ -5,14 +5,14 @@ import withRouter from 'react-router/es6/withRouter';
 
 import UserStore from '../../stores/user_store';
 
-import { currentUserShape } from '../prop_types';
+import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
-import { withCurrentUser } from '../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
-const { object } = React.PropTypes;
+const { bool, object } = React.PropTypes;
 const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 
 /**
@@ -28,7 +28,7 @@ export function AuthRedirect({ to, when }) {
         throw new Error(`"when" must be one of: [${whenValues}] got "${when}" instead`);
     }
 
-    return function redirectRoute(router, currentUser, query) {
+    return function redirectRoute(router, { query }, { isLoggedIn }) {
         const { redirectAuthenticated, redirect } = query;
 
         // The user of this handler specifies with `when`, what kind of status
@@ -37,7 +37,6 @@ export function AuthRedirect({ to, when }) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        const isLoggedIn = !!currentUser.email;
         const exprToValidate = when === 'loggedIn' ? isLoggedIn : !isLoggedIn;
 
         // and redirect if `true`.
@@ -84,13 +83,11 @@ export function ProxyHandler(...redirectFunctions) {
             displayName: 'ProxyHandler',
 
             propTypes: {
-                router: React.PropTypes.object.isRequired,
-
                 // Injected through HOCs
-                currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-                // Provided from AscribeApp, after the routes have been initialized
-                whitelabel: React.PropTypes.object,
+                currentUser: currentUserShape.isRequired,
+                isLoggedIn: bool.isRequired,
+                router: React.PropTypes.object.isRequired,
+                whitelabel: whitelabelShape.isRequired,
 
                 // Provided from router
                 location: object,
@@ -116,15 +113,15 @@ export function ProxyHandler(...redirectFunctions) {
             },
 
             evaluateRedirectFunctions(props = this.props) {
-                const { currentUser, location: { query }, router } = props;
+                const { currentUser, isLoggedIn, location, router, whitelabel } = props;
 
                 if (UserStore.hasLoaded() && !UserStore.isLoading()) {
+                    const context = { currentUser, isLoggedIn, whitelabel };
+
                     for (let i = 0; i < redirectFunctions.length; i++) {
-                        // if a redirectFunction redirects the user,
-                        // it should return `true` and therefore
-                        // stop/avoid the execution of all functions
-                        // that follow
-                        if (redirectFunctions[i](router, currentUser, query)) {
+                        // if a redirectFunction redirects the user, it should return `true` and
+                        // therefore stop/avoid the execution of all functions that follow
+                        if (redirectFunctions[i](router, location, context)) {
                             break;
                         }
                     }
@@ -138,6 +135,6 @@ export function ProxyHandler(...redirectFunctions) {
             }
         });
 
-        return withRouter(withCurrentUser(ProxyHandlerComponent));
+        return withRouter(withCurrentUser(withWhitelabel(ProxyHandlerComponent)));
     };
 }

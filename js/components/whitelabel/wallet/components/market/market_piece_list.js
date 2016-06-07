@@ -9,7 +9,7 @@ import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhiteLabel } from '../../../../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
