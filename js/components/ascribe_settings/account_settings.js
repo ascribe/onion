@@ -14,20 +14,20 @@ import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
 import AclProxy from '../acl_proxy';
 import AscribeSpinner from '../ascribe_spinner';
-import { currentUserShape } from '../prop_types';
+import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 let AccountSettings = React.createClass({
     propTypes: {
         loadUser: React.PropTypes.func.isRequired,
-        whitelabel: React.PropTypes.object.isRequired
 
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     handleSuccess() {
@@ -112,4 +112,4 @@ let AccountSettings = React.createClass({
     }
 });
 
-export default withCurrentUser(AccountSettings);
+export default withCurrentUser(withWhitelabel(AccountSettings));

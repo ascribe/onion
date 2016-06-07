@@ -36,7 +36,6 @@ import { withCurrentUser } from '../../utils/react_utils';
 const Edition = React.createClass({
     propTypes: {
         edition: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         coaError: React.PropTypes.object,
@@ -60,7 +59,6 @@ const Edition = React.createClass({
             edition,
             isLoggedIn,
             loadEdition,
-            whitelabel,
             furtherDetailsType: FurtherDetailsType
         } = this.props;
 
@@ -84,8 +82,7 @@ const Edition = React.createClass({
                     <EditionSummary
                         actionPanelButtonListType={actionPanelButtonListType}
                         edition={edition}
-                        handleSuccess={loadEdition}
-                        whitelabel={whitelabel} />
+                        handleSuccess={loadEdition} />
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={edition.acl.acl_coa === true}>
@@ -157,7 +154,6 @@ const Edition = React.createClass({
 let EditionSummary = withCurrentUser(React.createClass({
     propTypes: {
         edition: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         handleSuccess: React.PropTypes.func,
@@ -182,7 +178,6 @@ let EditionSummary = withCurrentUser(React.createClass({
             edition,
             handleSuccess,
             isLoggedIn,
-            whitelabel
         } = this.props;
 
         return (
@@ -214,8 +209,7 @@ let EditionSummary = withCurrentUser(React.createClass({
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
                             edition={edition}
-                            handleSuccess={handleSuccess}
-                            whitelabel={whitelabel} />
+                            handleSuccess={handleSuccess} />
                     </DetailProperty>
                 </AclProxy>
                 <hr/>

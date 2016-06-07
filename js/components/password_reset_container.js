@@ -16,9 +16,6 @@ import { setDocumentTitle } from '../utils/dom_utils';
 
 let PasswordResetContainer = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object,
-
         // Provided from router
         location: React.PropTypes.object
     },

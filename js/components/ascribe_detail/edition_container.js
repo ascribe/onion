@@ -24,9 +24,6 @@ let EditionContainer = React.createClass({
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
 
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object.isRequired,
-
         // Provided from router
         location: React.PropTypes.object,
         params: React.PropTypes.object
@@ -75,7 +72,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType, furtherDetailsType, whitelabel } = this.props;
+        const { actionPanelButtonListType, furtherDetailsType } = this.props;
         const { edition, coaMeta } = this.state;
 
         if (edition.id) {
@@ -87,8 +84,7 @@ let EditionContainer = React.createClass({
                     coaError={coaMeta.err}
                     edition={edition}
                     furtherDetailsType={furtherDetailsType}
-                    loadEdition={this.loadEdition}
-                    whitelabel={whitelabel} />
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (

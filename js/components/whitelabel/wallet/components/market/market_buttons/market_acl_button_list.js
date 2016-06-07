@@ -16,7 +16,6 @@ let MarketAclButtonList = React.createClass({
         availableAcls: React.PropTypes.object.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
         pieceOrEditions: React.PropTypes.array.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
@@ -26,12 +25,13 @@ let MarketAclButtonList = React.createClass({
     },
 
     render() {
-        const { availableAcls,
-                children,
-                className,
-                handleSuccess,
-                pieceOrEditions,
-                whitelabel } = this.props;
+        const {
+            availableAcls,
+            children,
+            className,
+            handleSuccess,
+            pieceOrEditions
+        } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',
@@ -44,8 +44,7 @@ let MarketAclButtonList = React.createClass({
                 <MarketSubmitButton
                     availableAcls={availableAcls}
                     editions={pieceOrEditions}
-                    handleSuccess={handleSuccess}
-                    whitelabel={whitelabel} />
+                    handleSuccess={handleSuccess} />
                 <EmailButton {...buttonProps} />
                 <TransferButton {...buttonProps} />
                 <UnconsignButton {...buttonProps} />

@@ -5,17 +5,17 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import { whitelabelShape } from '../../../../prop_types';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { withWhitelabel } from '../../../../../utils/react_utils';
 
 
 let PollineLanding = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
     },
 
     componentWillMount() {
@@ -63,4 +63,4 @@ let PollineLanding = React.createClass({
     }
 });
 
-export default PollineLanding;
+export default withWhitelabel(PollineLanding);

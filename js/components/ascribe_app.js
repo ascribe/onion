@@ -11,22 +11,16 @@ const AscribeApp = React.createClass({
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        // Provided from AppBase
-        whitelabel: React.PropTypes.object
     },
 
     render() {
-        const { activeRoute, children, routes, whitelabel } = this.props;
+        const { activeRoute, children, routes } = this.props;
         const showFooter = activeRoute && activeRoute.footer;
 
         return (
             <div className="ascribe-app ascribe-default-app">
-                <Header
-                    routes={routes}
-                    whitelabel={whitelabel} />
-                <AppRouteWrapper
-                    whitelabel={whitelabel}>
+                <Header routes={routes} />
+                <AppRouteWrapper>
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>

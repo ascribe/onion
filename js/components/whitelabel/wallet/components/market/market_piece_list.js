@@ -5,11 +5,11 @@ import React from 'react';
 import MarketAclButtonList from './market_buttons/market_acl_button_list';
 
 import PieceList from '../../../../piece_list';
-import { currentUserShape } from '../../../../prop_types';
+import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser } from '../../../../../utils/react_utils';
+import { withCurrentUser, withWhiteLabel } from '../../../../../utils/react_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
@@ -17,9 +17,7 @@ let MarketPieceList = React.createClass({
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired,
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
@@ -73,4 +71,4 @@ let MarketPieceList = React.createClass({
     }
 });
 
-export default withCurrentUser(MarketPieceList);
+export default withCurrentUser(withWhitelabel(MarketPieceList));

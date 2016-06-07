@@ -15,13 +15,10 @@ let WalletApp = React.createClass({
         children: React.PropTypes.element.isRequired,
         router: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        // Provided from AppBase
-        whitelabel: React.PropTypes.object
     },
 
     render() {
-        const { activeRoute, children, router, routes, whitelabel } = this.props;
+        const { activeRoute, children, router, routes } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
         const Footer = activeRoute && activeRoute.footer;
@@ -33,9 +30,7 @@ let WalletApp = React.createClass({
             header = (<div className="hero"/>);
         } else {
             header = (
-                <Header
-                    routes={routes}
-                    whitelabel={whitelabel} />
+                <Header routes={routes} />
             );
         }
 
@@ -44,8 +39,7 @@ let WalletApp = React.createClass({
         return (
             <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
-                <AppRouteWrapper
-                    whitelabel={whitelabel}>
+                <AppRouteWrapper>
                     {/* Routes are injected here */}
                     {children}
                 </AppRouteWrapper>

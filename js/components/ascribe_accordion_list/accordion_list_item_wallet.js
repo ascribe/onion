@@ -19,24 +19,27 @@ import AccordionListItemPiece from './accordion_list_item_piece';
 import AccordionListItemEditionWidget from './accordion_list_item_edition_widget';
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 
-
 import AclProxy from '../acl_proxy';
+import { whitelabelShape } from '../prop_types';
 
-import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
+import { withWhitelabel } from '../../utils/react_utils';
 
 
 let AccordionListItemWallet = React.createClass({
     propTypes: {
         content: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
         className: React.PropTypes.string,
-        thumbnailPlaceholder: React.PropTypes.func
+        thumbnailPlaceholder: React.PropTypes.func,
+
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -162,4 +165,4 @@ let AccordionListItemWallet = React.createClass({
     }
 });
 
-export default AccordionListItemWallet;
+export default withWhitelabel(AccordionListItemWallet);

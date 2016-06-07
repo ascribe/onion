@@ -17,21 +17,21 @@ import AclProxy from './acl_proxy';
 import HeaderNotifications from './header_notifications';
 import HeaderNotificationDebug from './header_notification_debug';
 import NavRoutesLinks from './nav_routes_links';
-import { currentUserShape } from './prop_types';
+import { currentUserShape, whitelabelShape } from './prop_types';
 
 import { constructHead } from '../utils/dom_utils';
 import { getLangText } from '../utils/lang_utils';
-import { withCurrentUser } from '../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../utils/react_utils';
 
 
 let Header = React.createClass({
     propTypes: {
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
         isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -219,4 +219,4 @@ let Header = React.createClass({
     }
 });
 
-export default withCurrentUser(Header);
+export default withCurrentUser(withWhitelabel(Header));

@@ -13,6 +13,7 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
+import { whitelabelShape } from './prop_types';
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
@@ -29,8 +30,8 @@ const RegisterPiece = React.createClass( {
             React.PropTypes.string
         ]),
 
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object.isRequired,
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object

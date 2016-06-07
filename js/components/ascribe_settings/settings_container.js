@@ -10,10 +10,11 @@ import BitcoinWalletSettings from './bitcoin_wallet_settings';
 import WebhookSettings from './webhook_settings';
 
 import AclProxy from '../acl_proxy';
+import { whitelabelShape } from '../prop_types';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
 let SettingsContainer = React.createClass({
@@ -25,9 +26,7 @@ let SettingsContainer = React.createClass({
 
         // Injected through HOCs
         isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object.isRequired,
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
@@ -45,9 +44,7 @@ let SettingsContainer = React.createClass({
         if (isLoggedIn) {
             return (
                 <div className="settings-container">
-                    <AccountSettings
-                        loadUser={this.loadUser}
-                        whitelabel={whitelabel} />
+                    <AccountSettings loadUser={this.loadUser} />
                     {children}
                     <AclProxy
                         aclObject={whitelabel}
@@ -67,4 +64,4 @@ let SettingsContainer = React.createClass({
     }
 });
 
-export default withCurrentUser(SettingsContainer);
+export default withCurrentUser(withWhitelabel(SettingsContainer));

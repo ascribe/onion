@@ -16,9 +16,6 @@ let IkonotvLanding = React.createClass({
         // Injected through HOCs
         isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
 
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object,
-
         // Provided from router
         location: React.PropTypes.object
     },

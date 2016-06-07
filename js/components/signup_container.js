@@ -3,14 +3,17 @@ import Link from 'react-router/es6/Link';
 
 import SignupForm from './ascribe_forms/form_signup';
 
-import { getLangText } from '../utils/lang_utils';
+import { whitelabelShape } from './prop_types';
+
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
+import { withWhitelabel } from '../utils/react_utils';
 
 
 let SignupContainer = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object,
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
@@ -31,8 +34,10 @@ let SignupContainer = React.createClass({
     },
 
     render() {
-        const { location,
-                whitelabel: { name: whitelabelName } } = this.props;
+        const {
+            location,
+            whitelabel: { name: whitelabelName }
+        } = this.props;
         const { message, submitted } = this.state;
 
         setDocumentTitle(getLangText('Sign up'));
@@ -63,4 +68,4 @@ let SignupContainer = React.createClass({
 });
 
 
-export default SignupContainer;
+export default withWhitelabel(SignupContainer);

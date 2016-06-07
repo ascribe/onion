@@ -5,22 +5,27 @@ import Link from 'react-router/es6/Link';
 
 import LoginForm from './ascribe_forms/form_login';
 
-import { getLangText } from '../utils/lang_utils';
+import { whitelabelShape } from './prop_types';
+
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
+import { withWhitelabel } from '../utils/react_utils';
 
 
 let LoginContainer = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object,
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
     },
 
     render() {
-        const { whitelabel: { name: whitelabelName },
-                location } = this.props;
+        const {
+            whitelabel: { name: whitelabelName },
+            location
+        } = this.props;
 
         setDocumentTitle(getLangText('Log in'));
 
@@ -38,6 +43,4 @@ let LoginContainer = React.createClass({
     }
 });
 
-
-
-export default LoginContainer;
+export default withWhitelabel(LoginContainer);

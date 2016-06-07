@@ -17,16 +17,19 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import { whitelabelShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { withWhitelabel } from '../../../../../utils/react_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
         router: React.PropTypes.object.isRequired,
 
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired,
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -98,10 +101,12 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location,
-                whitelabel: {
-                    name: whitelabelName = 'Market'
-                } } = this.props
+        const {
+            location,
+            whitelabel: {
+                name: whitelabelName = 'Market'
+            }
+        } = this.props
         const { piece, step } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
@@ -157,4 +162,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(MarketRegisterPiece);
+export default withRouter(withWhitelabel(MarketRegisterPiece));

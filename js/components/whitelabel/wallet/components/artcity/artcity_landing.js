@@ -5,14 +5,17 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
+import { whitelabelShape } from '../../../../prop_types';
+
 import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { withWhitelabel } from '../../../../../utils/react_utils';
 
 
 let ArtcityLanding = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired
     },
 
     componentWillMount() {
@@ -60,4 +63,4 @@ let ArtcityLanding = React.createClass({
     }
 });
 
-export default ArtcityLanding;
+export default withWhitelabel(ArtcityLanding);

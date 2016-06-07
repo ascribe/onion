@@ -38,7 +38,6 @@ const EditionActionPanel = React.createClass({
     propTypes: {
         edition: React.PropTypes.object.isRequired,
         router: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         handleSuccess: React.PropTypes.func
@@ -99,9 +98,7 @@ const EditionActionPanel = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType: ActionPanelButtonListType,
-                edition,
-                whitelabel } = this.props;
+        const { edition, actionPanelButtonListType: ActionPanelButtonListType } = this.props;
 
         if (edition.notifications && edition.notifications.length) {
             return (
@@ -117,8 +114,7 @@ const EditionActionPanel = React.createClass({
                             availableAcls={edition.acl}
                             className="ascribe-button-list"
                             handleSuccess={this.handleSuccess}
-                            pieceOrEditions={[edition]}
-                            whitelabel={whitelabel}>
+                            pieceOrEditions={[edition]} >
                             <AclProxy
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_transfer">

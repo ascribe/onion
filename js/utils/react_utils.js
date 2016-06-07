@@ -1,5 +1,5 @@
 import React from 'react';
-import { currentUserShape } from '../components/prop_types';
+import { currentUserShape, whitelabelShape } from '../components/prop_types';
 
 
 /**
@@ -31,4 +31,26 @@ export function withCurrentUser(Component) {
     WithCurrentUser.contextTypes = contextTypes;
 
     return WithCurrentUser;
+}
+
+/**
+ * Similar to react-router's `withRouter`, this injects the `whitelabel` from the Component's
+ * context into the Component as a prop.
+ *
+ * @param  {Component} Component Component to inject `context.whitelabel` into
+ * @return {Component}           Wrapped component
+ */
+export function withWhitelabel(Component) {
+    const contextTypes = {
+        whitelabel: whitelabelShape.isRequired
+    };
+
+    const WithWhitelabel = (props, { whitelabel }) => (
+        <Component {...props} whitelabel={whitelabel} />
+    );
+
+    WithWhitelabel.displayName = `WithWhitelabel(${getDisplayName(Component)})`;
+    WithWhitelabel.contextTypes = contextTypes;
+
+    return WithWhitelabel;
 }

@@ -7,7 +7,7 @@ import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
 import GlobalNotification from './global_notification';
-import { currentUserShape } from './prop_types';
+import { currentUserShape, whitelabelShape } from './prop_types';
 
 import { mergeOptions } from '../utils/general_utils';
 
@@ -23,7 +23,8 @@ export default function AppBase(App) {
         },
 
         childContextTypes: {
-            currentUser: currentUserShape
+            currentUser: currentUserShape,
+            whitelabel: whitelabelShape
         },
 
         getInitialState() {
@@ -34,9 +35,9 @@ export default function AppBase(App) {
         },
 
         getChildContext() {
-            const { currentUser } = this.state;
+            const { currentUser, whitelabel } = this.state;
 
-            return { currentUser };
+            return { currentUser, whitelabel };
         },
 
         componentDidMount() {
@@ -58,7 +59,6 @@ export default function AppBase(App) {
 
         render() {
             const { routes } = this.props;
-            const { whitelabel } = this.state;
 
             // The second element of the routes prop given to us by react-router is always the
             // active second-level component object (ie. after App).
@@ -68,8 +68,7 @@ export default function AppBase(App) {
                 <div>
                     <App
                         {...this.props}
-                        activeRoute={activeRoute}
-                        whitelabel={whitelabel} />
+                        activeRoute={activeRoute} />
                     <GlobalNotification />
                     <div id="modal" className="container" />
                 </div>

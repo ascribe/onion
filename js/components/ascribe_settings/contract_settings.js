@@ -16,21 +16,19 @@ import CreateContractForm from '../ascribe_forms/form_create_contract';
 import ActionPanel from '../ascribe_panel/action_panel';
 
 import AclProxy from '../acl_proxy';
-import { currentUserShape } from '../prop_types';
+import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { truncateTextAtCharIndex } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
 let ContractSettings = React.createClass({
     propTypes: {
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -185,4 +183,4 @@ let ContractSettings = React.createClass({
     }
 });
 
-export default ContractSettings;
+export default withCurrentUser(withWhitelabel(ContractSettings));

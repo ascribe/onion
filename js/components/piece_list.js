@@ -47,9 +47,6 @@ const PieceList = React.createClass({
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
 
-        // Provided from AscribeApp
-        whitelabel: React.PropTypes.object.isRequired,
-
         // Provided from router
         location: React.PropTypes.object
     },
@@ -274,13 +271,14 @@ const PieceList = React.createClass({
     },
 
     render() {
-        const { accordionListItemType: AccordionListItemType,
-                bulkModalButtonListType: BulkModalButtonListType,
-                customSubmitButton,
-                customThumbnailPlaceholder,
-                filterParams,
-                orderParams,
-                whitelabel } = this.props;
+        const {
+            customSubmitButton,
+            customThumbnailPlaceholder,
+            filterParams,
+            orderParams,
+            accordionListItemType: AccordionListItemType,
+            bulkModalButtonListType: BulkModalButtonListType
+        } = this.props;
 
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
 
@@ -311,7 +309,6 @@ const PieceList = React.createClass({
                         availableAcls={availableAcls}
                         handleSuccess={this.handleAclSuccess}
                         pieceOrEditions={selectedEditions}
-                        whitelabel={whitelabel}
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton
                             handleSuccess={this.handleAclSuccess}
@@ -339,8 +336,7 @@ const PieceList = React.createClass({
                                 key={piece.id}
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
-                                thumbnailPlaceholder={customThumbnailPlaceholder}
-                                whitelabel={whitelabel}>
+                                thumbnailPlaceholder={customThumbnailPlaceholder}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />

@@ -5,19 +5,17 @@ import PieceList from '../../../../piece_list';
 
 import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_list_item';
 
-import { currentUserShape } from '../../../../prop_types';
+import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser } from '../../../../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 let CylandPieceList = React.createClass({
     propTypes: {
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired,
+        currentUser: currentUserShape.isRequired,
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -59,4 +57,4 @@ let CylandPieceList = React.createClass({
     }
 });
 
-export default withCurrentUser(CylandPieceList);
+export default withCurrentUser(withWhitelabel(CylandPieceList));

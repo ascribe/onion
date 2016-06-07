@@ -24,7 +24,7 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
-import { currentUserShape } from '../../../../prop_types';
+import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -32,7 +32,7 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
-import { withCurrentUser } from '../../../../../utils/react_utils';
+import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 
 const CylandRegisterPiece = React.createClass({
@@ -41,9 +41,7 @@ const CylandRegisterPiece = React.createClass({
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from WalletApp
-        whitelabel: React.PropTypes.object.isRequired,
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -223,4 +221,4 @@ const CylandRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withCurrentUser(CylandRegisterPiece));
+export default withRouter(withCurrentUser(withWhitelabel(CylandRegisterPiece)));
