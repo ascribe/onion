@@ -23,8 +23,6 @@ import Property from '../ascribe_forms/property';
 
 import AclProxy from '../acl_proxy';
 
-import { currentUserShape } from '../prop_types';
-
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
@@ -37,14 +35,16 @@ import { withCurrentUser } from '../../utils/react_utils';
  */
 const Edition = React.createClass({
     propTypes: {
-        currentUser: currentUserShape.isRequired,
         edition: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         coaError: React.PropTypes.object,
         furtherDetailsType: React.PropTypes.func,
-        loadEdition: React.PropTypes.func
+        loadEdition: React.PropTypes.func,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -54,13 +54,15 @@ const Edition = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType,
-                coaError,
-                currentUser,
-                edition,
-                furtherDetailsType: FurtherDetailsType,
-                loadEdition,
-                whitelabel } = this.props;
+        const {
+            actionPanelButtonListType,
+            coaError,
+            edition,
+            isLoggedIn,
+            loadEdition,
+            whitelabel,
+            furtherDetailsType: FurtherDetailsType
+        } = this.props;
 
         return (
             <Row>
@@ -113,7 +115,7 @@ const Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || edition.acl.acl_edit || edition.public_note)}>
+                        show={!!(isLoggedIn || edition.acl.acl_edit || edition.public_note)}>
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}
@@ -154,12 +156,14 @@ const Edition = React.createClass({
 
 let EditionSummary = withCurrentUser(React.createClass({
     propTypes: {
-        currentUser: currentUserShape.isRequired,
         edition: React.PropTypes.object.isRequired,
         whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
     },
 
     getStatus() {
@@ -173,7 +177,13 @@ let EditionSummary = withCurrentUser(React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType, currentUser, edition, handleSuccess, whitelabel } = this.props;
+        const {
+            actionPanelButtonListType,
+            edition,
+            handleSuccess,
+            isLoggedIn,
+            whitelabel
+        } = this.props;
 
         return (
             <div className="ascribe-detail-header">
@@ -197,7 +207,7 @@ let EditionSummary = withCurrentUser(React.createClass({
                     no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
                     `AclInformation` would show up
                 */}
-                <AclProxy show={currentUser.email && Object.keys(edition.acl).length > 1}>
+                <AclProxy show={isLoggedIn && Object.keys(edition.acl).length > 1}>
                     <DetailProperty
                         label={getLangText('ACTIONS')}
                         className="hidden-print">

@@ -12,9 +12,10 @@ export function getDisplayName(WrappedComponent) {
 
 /**
  * Similar to react-router's `withRouter`, this injects the `currentUser` from the Component's
- * context into the Component as a prop.
+ * context into the Component as a prop. It also injects whether the user's logged in or not as
+ * `isLoggedIn`.
  *
- * @param  {Component} Component Component to inject `context.currentUser` into
+ * @param  {Component} Component Component to inject `context.currentUser` and `isLoggedIn` into
  * @return {Component}           Wrapped component
  */
 export function withCurrentUser(Component) {
@@ -23,7 +24,7 @@ export function withCurrentUser(Component) {
     };
 
     const WithCurrentUser = (props, { currentUser }) => (
-        <Component {...props} currentUser={currentUser} />
+        <Component {...props} currentUser={currentUser} isLoggedIn={!!currentUser.email} />
     );
 
     WithCurrentUser.displayName = `WithCurrentUser(${getDisplayName(Component)})`;

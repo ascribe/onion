@@ -31,6 +31,7 @@ let Header = React.createClass({
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -110,14 +111,14 @@ let Header = React.createClass({
     },
 
     render() {
-        const { currentUser, routes, whitelabel } = this.props;
+        const { currentUser, isLoggedIn, routes, whitelabel } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
         let account;
         let signup;
         let navRoutesLinks;
 
-        if (currentUser.username) {
+        if (isLoggedIn) {
             account = (
                 <DropdownButton
                     ref='dropdownbutton'

@@ -6,8 +6,6 @@ import Button from 'react-bootstrap/lib/Button';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import { currentUserShape } from '../../../../prop_types';
-
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 import { withCurrentUser } from '../../../../../utils/react_utils';
@@ -15,8 +13,10 @@ import { withCurrentUser } from '../../../../../utils/react_utils';
 
 let IkonotvLanding = React.createClass({
     propTypes: {
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from WalletApp
-        currentUser: currentUserShape.isRequired,
         whitelabel: React.PropTypes.object,
 
         // Provided from router
@@ -24,10 +24,10 @@ let IkonotvLanding = React.createClass({
     },
 
     getEnterButton() {
-        const { currentUser, location } = this.props;
+        const { isLoggedIn, location } = this.props;
         let redirect = '/login';
 
-        if (currentUser.email) {
+        if (isLoggedIn) {
             redirect = '/collection';
         } else if (location.query.redirect) {
             redirect = '/' + location.query.redirect;

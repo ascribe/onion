@@ -38,8 +38,6 @@ import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 import AclProxy from '../acl_proxy';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { currentUserShape } from '../prop_types';
-
 import ApiUrls from '../../constants/api_urls';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
@@ -52,10 +50,12 @@ import { withCurrentUser } from '../../utils/react_utils';
  */
 const PieceContainer = React.createClass({
     propTypes: {
-        currentUser: currentUserShape.isRequired,
         router: React.PropTypes.object.isRequired,
 
         furtherDetailsType: React.PropTypes.func,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from AscribeApp
         whitelabel: React.PropTypes.object,
@@ -212,7 +212,7 @@ const PieceContainer = React.createClass({
 
     getActions() {
         const { piece } = this.state;
-        const { currentUser } = this.props;
+        const { isLoggedIn } = this.props;
 
         if (piece.notifications && piece.notifications.length > 0) {
             return (
@@ -224,7 +224,7 @@ const PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser.email && Object.keys(piece.acl).length > 1}>
+                    show={isLoggedIn && Object.keys(piece.acl).length > 1}>
                     {/*
                         `acl_view` is always available in `edition.acl`, therefore if it has
                         no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
@@ -260,7 +260,7 @@ const PieceContainer = React.createClass({
     },
 
     render() {
-        const { furtherDetailsType: FurtherDetailsType } = this.props;
+        const { isLoggedIn, furtherDetailsType: FurtherDetailsType } = this.props;
         const { piece } = this.state;
 
         if (piece.id) {
@@ -299,7 +299,7 @@ const PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || piece.acl.acl_edit || piece.public_note)}>
+                        show={!!(isLoggedIn || piece.acl.acl_edit || piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}

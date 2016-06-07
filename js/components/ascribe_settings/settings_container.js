@@ -10,7 +10,6 @@ import BitcoinWalletSettings from './bitcoin_wallet_settings';
 import WebhookSettings from './webhook_settings';
 
 import AclProxy from '../acl_proxy';
-import { currentUserShape } from '../prop_types';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { getLangText } from '../../utils/lang_utils';
@@ -19,12 +18,13 @@ import { withCurrentUser } from '../../utils/react_utils';
 
 let SettingsContainer = React.createClass({
     propTypes: {
-        currentUser: currentUserShape.isRequired,
-
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from AscribeApp
         whitelabel: React.PropTypes.object.isRequired,
@@ -38,11 +38,11 @@ let SettingsContainer = React.createClass({
     },
 
     render() {
-        const { children, currentUser, whitelabel } = this.props;
+        const { children, isLoggedIn, whitelabel } = this.props;
 
         setDocumentTitle(getLangText('Account settings'));
 
-        if (currentUser.username) {
+        if (isLoggedIn) {
             return (
                 <div className="settings-container">
                     <AccountSettings

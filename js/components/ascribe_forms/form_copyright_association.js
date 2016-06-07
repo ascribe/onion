@@ -23,6 +23,7 @@ const CopyrightAssociationForm = React.createClass({
     propTypes: {
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
+        isLoggedIn: bool.isRequired
     },
 
     handleSubmitSuccess() {
@@ -35,7 +36,7 @@ const CopyrightAssociationForm = React.createClass({
     },
 
     render() {
-        const { currentUser } = this.props;
+        const { currentUser, isLoggedIn } = this.props;
         const selectDefaultValue = ' -- ' + getLangText('select an association') + ' -- ';
 
         let selectedState = selectDefaultValue;
@@ -45,7 +46,7 @@ const CopyrightAssociationForm = React.createClass({
             }
         }
 
-        if (currentUser.email) {
+        if (isLoggedIn) {
             return (
                 <Form
                     ref='form'

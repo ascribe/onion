@@ -20,6 +20,7 @@ let HeaderNotifications = React.createClass({
     propTypes: {
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -29,7 +30,7 @@ let HeaderNotifications = React.createClass({
     componentDidMount() {
         NotificationStore.listen(this.onChange);
 
-        if (this.props.currentUser.email) {
+        if (this.props.isLoggedIn) {
             this.refreshNotifications();
         }
     },

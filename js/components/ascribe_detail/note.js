@@ -9,14 +9,11 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
 
-import { currentUserShape } from '../prop_types';
-
 import { getLangText } from '../../utils/lang_utils';
 import { withCurrentUser } from '../../utils/react_utils';
 
 let Note = React.createClass({
     propTypes: {
-        currentUser: currentUserShape.isRequired,
         id: React.PropTypes.func.isRequired,
         url: React.PropTypes.string.isRequired,
 
@@ -25,7 +22,10 @@ let Note = React.createClass({
         label: React.PropTypes.string,
         placeholder: React.PropTypes.string,
         show: React.PropTypes.bool,
-        successMessage: React.PropTypes.string
+        successMessage: React.PropTypes.string,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -43,9 +43,18 @@ let Note = React.createClass({
     },
 
     render() {
-        const { currentUser, defaultValue, editable, id, label, placeholder, show, url } = this.props;
+        const {
+            defaultValue,
+            editable,
+            id,
+            isLoggedIn,
+            label,
+            placeholder,
+            show,
+            url
+        } = this.props;
 
-        if ((currentUser.username && editable || !editable) && show) {
+        if ((isLoggedIn && editable || !editable) && show) {
             return (
                 <Form
                     url={url}

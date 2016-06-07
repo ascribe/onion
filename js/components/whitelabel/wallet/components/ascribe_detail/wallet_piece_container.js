@@ -13,7 +13,6 @@ import Note from '../../../../ascribe_detail/note';
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import AscribeSpinner from '../../../../ascribe_spinner';
-import { currentUserShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -24,7 +23,6 @@ import { withCurrentUser } from '../../../../../utils/react_utils';
 let WalletPieceContainer = React.createClass({
     propTypes: {
         piece: React.PropTypes.object.isRequired,
-        currentUser: currentUserShape.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired,
@@ -32,13 +30,16 @@ let WalletPieceContainer = React.createClass({
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
-        ])
+        ]),
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     render() {
         const { children,
-                currentUser,
                 handleDeleteSuccess,
+                isLoggedIn,
                 loadPiece,
                 piece,
                 submitButtonType } = this.props;
@@ -76,7 +77,7 @@ let WalletPieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || piece.public_note)}>
+                        show={!!(isLoggedIn || piece.public_note)}>
                         <Note
                             id={() => {return {'id': piece.id}; }}
                             label={getLangText('Personal note (private)')}
