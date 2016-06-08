@@ -15,14 +15,17 @@
     "postinstall": "npm run build",
     "build": "rimraf ./dist && NODE_ENV=production webpack -p",
     "start": "NODE_ENV=production node server.js",
+
     "build:dev": "rimraf ./build && NODE_ENV=development webpack",
     "build:extract": "rimraf ./build && NODE_ENV=extract webpack",
     "clean": "rimraf ./build ./dist",
     "start:dev": "NODE_ENV=development node server.dev.js",
     "lint": "eslint ./",
     "test": "npm run sauce-test",
+
     "sauce-test": "mocha ./test/integration/tests/",
     "sauce-tunnel": "node ./test/integration/tunnel.js",
+
     "vi-clean": "rm -rf ./gemini-report",
     "vi-phantom": "phantomjs --webdriver=4444",
     "vi-update": "gemini update -c ./test/gemini/.gemini.yml",
