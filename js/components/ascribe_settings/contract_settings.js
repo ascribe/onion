@@ -16,12 +16,12 @@ import CreateContractForm from '../ascribe_forms/form_create_contract';
 import ActionPanel from '../ascribe_panel/action_panel';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { truncateTextAtCharIndex } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
 let ContractSettings = React.createClass({
@@ -183,4 +183,4 @@ let ContractSettings = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(ContractSettings));
+export default withContext(ContractSettings, 'currentUser', 'whitelabel');

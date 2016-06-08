@@ -15,13 +15,13 @@ import OwnershipFetcher from '../../../../../fetchers/ownership_fetcher';
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 import Property from '../../../../ascribe_forms/property';
 
+import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import AppConstants from '../../../../../constants/application_constants';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 
 const IkonotvContractNotifications = React.createClass({
@@ -201,4 +201,4 @@ const IkonotvContractNotifications = React.createClass({
     }
 });
 
-export default withRouter(withCurrentUser(withWhitelabel(IkonotvContractNotifications)));
+export default withRouter(withContext(IkonotvContractNotifications, 'currentUser', 'whitelabel'));

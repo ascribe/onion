@@ -5,11 +5,11 @@ import Link from 'react-router/es6/Link';
 
 import LoginForm from './ascribe_forms/form_login';
 
+import withContext from './context/with_context';
 import { whitelabelShape } from './prop_types';
 
 import { setDocumentTitle } from '../utils/dom_utils';
 import { getLangText } from '../utils/lang_utils';
-import { withWhitelabel } from '../utils/react_utils';
 
 
 let LoginContainer = React.createClass({
@@ -43,4 +43,4 @@ let LoginContainer = React.createClass({
     }
 });
 
-export default withWhitelabel(LoginContainer);
+export default withContext(LoginContainer, 'whitelabel');

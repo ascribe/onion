@@ -20,11 +20,11 @@ import AccordionListItemEditionWidget from './accordion_list_item_edition_widget
 import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
 import { whitelabelShape } from '../prop_types';
 
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withWhitelabel } from '../../utils/react_utils';
 
 
 let AccordionListItemWallet = React.createClass({
@@ -165,4 +165,4 @@ let AccordionListItemWallet = React.createClass({
     }
 });
 
-export default withWhitelabel(AccordionListItemWallet);
+export default withContext(AccordionListItemWallet, 'whitelabel');

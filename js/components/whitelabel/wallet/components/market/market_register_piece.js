@@ -17,12 +17,12 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import withContext from '../../../../context/with_context';
 import { whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withWhitelabel } from '../../../../../utils/react_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
@@ -162,4 +162,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withWhitelabel(MarketRegisterPiece));
+export default withRouter(withContext(MarketRegisterPiece, 'whitelabel'));

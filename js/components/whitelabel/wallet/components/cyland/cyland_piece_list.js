@@ -5,11 +5,11 @@ import PieceList from '../../../../piece_list';
 
 import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_list_item';
 
+import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 let CylandPieceList = React.createClass({
     propTypes: {
@@ -57,4 +57,4 @@ let CylandPieceList = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(CylandPieceList));
+export default withContext(CylandPieceList, 'currentUser', 'whitelabel');

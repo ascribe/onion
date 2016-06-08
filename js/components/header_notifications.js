@@ -10,10 +10,10 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
 
+import withContext from './context/with_context';
 import { currentUserShape } from './prop_types';
 
 import { getLangText } from '../utils/lang_utils';
-import { withCurrentUser } from '../utils/react_utils';
 
 
 let HeaderNotifications = React.createClass({
@@ -158,4 +158,4 @@ let NotificationListItem = React.createClass({
     }
 });
 
-export default withCurrentUser(HeaderNotifications);
+export default withContext(HeaderNotifications, 'currentUser', 'isLoggedIn');

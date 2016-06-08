@@ -14,11 +14,11 @@ import AclFormFactory from '../../../../../ascribe_forms/acl_form_factory';
 import ModalWrapper from '../../../../../ascribe_modal/modal_wrapper';
 
 import AclProxy from '../../../../../acl_proxy';
+import withContext from '../../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../../prop_types';
 
 import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form_utils';
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../../utils/react_utils';
 
 let MarketSubmitButton = React.createClass({
     propTypes: {
@@ -187,4 +187,4 @@ let MarketSubmitButton = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(MarketSubmitButton));
+export default withContext(MarketSubmitButton, 'currentUser', 'whitelabel');

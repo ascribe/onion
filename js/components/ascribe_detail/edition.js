@@ -22,12 +22,12 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 
 /**
@@ -151,7 +151,7 @@ const Edition = React.createClass({
 });
 
 
-let EditionSummary = withCurrentUser(React.createClass({
+let EditionSummary = withContext(React.createClass({
     propTypes: {
         edition: React.PropTypes.object.isRequired,
 
@@ -216,7 +216,7 @@ let EditionSummary = withCurrentUser(React.createClass({
             </div>
         );
     }
-}));
+}), 'isLoggedIn');
 
 
 let CoaDetails = React.createClass({
@@ -359,4 +359,4 @@ let SpoolDetails = React.createClass({
     }
 });
 
-export default withCurrentUser(Edition);
+export default withContext(Edition, 'isLoggedIn');

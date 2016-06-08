@@ -22,13 +22,13 @@ import LoanForm from '../../../../ascribe_forms/form_loan';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 
 const IkonotvRegisterPiece = React.createClass({
@@ -246,4 +246,4 @@ const IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withCurrentUser(withWhitelabel(IkonotvRegisterPiece)));
+export default withRouter(withContext(IkonotvRegisterPiece, 'currentUser', 'whitelabel'));

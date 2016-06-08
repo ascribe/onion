@@ -5,11 +5,10 @@ import withRouter from 'react-router/es6/withRouter';
 
 import UserStore from '../../stores/user_store';
 
+import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
-
-import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
 const { bool, object } = React.PropTypes;
@@ -135,6 +134,6 @@ export function ProxyHandler(...redirectFunctions) {
             }
         });
 
-        return withRouter(withCurrentUser(withWhitelabel(ProxyHandlerComponent)));
+        return withRouter(withContext(ProxyHandlerComponent, 'currentUser', 'isLoggedIn', 'whitelabel'));
     };
 }

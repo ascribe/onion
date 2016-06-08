@@ -5,11 +5,11 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
+import withContext from '../../../../context/with_context';
 import { whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withWhitelabel } from '../../../../../utils/react_utils';
 
 
 let LumenusLanding = React.createClass({
@@ -65,4 +65,4 @@ let LumenusLanding = React.createClass({
     }
 });
 
-export default withWhitelabel(LumenusLanding);
+export default withContext(LumenusLanding, 'whitelabel');

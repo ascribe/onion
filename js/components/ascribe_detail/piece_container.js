@@ -37,13 +37,13 @@ import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import AclProxy from '../acl_proxy';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
 
 import ApiUrls from '../../constants/api_urls';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -341,4 +341,4 @@ const PieceContainer = React.createClass({
     }
 });
 
-export default withRouter(withCurrentUser(PieceContainer));
+export default withRouter(withContext(PieceContainer, 'isLoggedIn'));

@@ -11,6 +11,7 @@ import FormSubmitButton from '../ascribe_buttons/form_submit_button';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
@@ -19,7 +20,6 @@ import { validationParts, validationTypes } from '../../constants/uploader_const
 
 import { FileStatus, formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 
 let RegisterPieceForm = React.createClass({
@@ -240,4 +240,4 @@ let RegisterPieceForm = React.createClass({
     }
 });
 
-export default withCurrentUser(RegisterPieceForm);
+export default withContext(RegisterPieceForm, 'currentUser');

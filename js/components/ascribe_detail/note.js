@@ -9,8 +9,9 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
 
+import withContext from '../context/with_context';
+
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 let Note = React.createClass({
     propTypes: {
@@ -78,4 +79,4 @@ let Note = React.createClass({
     }
 });
 
-export default withCurrentUser(Note);
+export default withContext(Note, 'isLoggedIn');

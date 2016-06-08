@@ -10,11 +10,11 @@ import BitcoinWalletSettings from './bitcoin_wallet_settings';
 import WebhookSettings from './webhook_settings';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
 import { whitelabelShape } from '../prop_types';
 
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 
 let SettingsContainer = React.createClass({
@@ -64,4 +64,4 @@ let SettingsContainer = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(SettingsContainer));
+export default withContext(SettingsContainer, 'isLoggedIn', 'whitelabel');

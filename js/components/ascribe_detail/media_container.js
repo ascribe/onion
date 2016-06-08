@@ -17,14 +17,13 @@ import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
 import AscribeSpinner from '../ascribe_spinner';
 
 import AclProxy from '../acl_proxy';
-
+import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
 import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 
 const EMBED_IFRAME_HEIGHT = {
@@ -184,4 +183,4 @@ let MediaContainer = React.createClass({
     }
 });
 
-export default withCurrentUser(MediaContainer);
+export default withContext(MediaContainer, 'currentUser');

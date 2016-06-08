@@ -14,6 +14,7 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import PieceListStore from '../stores/piece_list_store';
 
 import AclProxy from './acl_proxy';
+import withContext from './context/with_context';
 import HeaderNotifications from './header_notifications';
 import HeaderNotificationDebug from './header_notification_debug';
 import NavRoutesLinks from './nav_routes_links';
@@ -21,7 +22,6 @@ import { currentUserShape, whitelabelShape } from './prop_types';
 
 import { constructHead } from '../utils/dom_utils';
 import { getLangText } from '../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../utils/react_utils';
 
 
 let Header = React.createClass({
@@ -219,4 +219,4 @@ let Header = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(Header));
+export default withContext(Header, 'currentUser', 'isLoggedIn', 'whitelabel');

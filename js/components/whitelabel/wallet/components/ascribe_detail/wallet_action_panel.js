@@ -7,10 +7,10 @@ import AclButtonList from '../../../../ascribe_buttons/acl_button_list';
 import DeleteButton from '../../../../ascribe_buttons/delete_button';
 
 import AclProxy from '../../../../acl_proxy';
+import withContext from '../../../../context/with_context';
 import { currentUserShape } from '../../../../prop_types';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
-import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 let WalletActionPanel = React.createClass({
@@ -71,4 +71,4 @@ let WalletActionPanel = React.createClass({
     }
 });
 
-export default withCurrentUser(WalletActionPanel);
+export default withContext(WalletActionPanel, 'currentUser');

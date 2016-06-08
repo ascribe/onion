@@ -8,11 +8,11 @@ import NotificationStore from '../../../../../stores/notification_store';
 
 import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion_list_item';
 
+import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 
 let IkonotvPieceList = React.createClass({
@@ -91,4 +91,4 @@ let IkonotvPieceList = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(IkonotvPieceList));
+export default withContext(IkonotvPieceList, 'currentUser', 'whitelabel');

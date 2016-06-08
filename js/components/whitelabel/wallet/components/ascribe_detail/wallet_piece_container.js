@@ -13,11 +13,11 @@ import Note from '../../../../ascribe_detail/note';
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import AscribeSpinner from '../../../../ascribe_spinner';
+import withContext from '../../../../context/with_context';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser } from '../../../../../utils/react_utils';
 
 
 let WalletPieceContainer = React.createClass({
@@ -101,4 +101,4 @@ let WalletPieceContainer = React.createClass({
     }
 });
 
-export default withCurrentUser(WalletPieceContainer);
+export default withContext(WalletPieceContainer, 'isLoggedIn');

@@ -12,13 +12,13 @@ import LoanForm from '../ascribe_forms/form_loan';
 import LoanRequestAnswerForm from '../ascribe_forms/form_loan_request_answer';
 import ShareForm from '../ascribe_forms/form_share_email';
 
+import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
 import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 let AclFormFactory = React.createClass({
     propTypes: {
@@ -138,4 +138,4 @@ let AclFormFactory = React.createClass({
     }
 });
 
-export default withCurrentUser(AclFormFactory);
+export default withContext(AclFormFactory, 'currentUser');

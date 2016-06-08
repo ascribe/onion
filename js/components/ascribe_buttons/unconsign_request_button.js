@@ -7,10 +7,10 @@ import Button from 'react-bootstrap/lib/Button';
 import ModalWrapper from '../ascribe_modal/modal_wrapper';
 import UnConsignRequestForm from '../ascribe_forms/form_unconsign_request';
 
+import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 import ApiUrls from '../../constants/api_urls';
 
 
@@ -50,4 +50,4 @@ ${currentUser.username}`
     }
 });
 
-export default withCurrentUser(UnConsignRequestButton);
+export default withContext(UnConsignRequestButton, 'currentUser');

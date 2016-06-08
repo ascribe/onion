@@ -3,11 +3,11 @@ import Link from 'react-router/es6/Link';
 
 import SignupForm from './ascribe_forms/form_signup';
 
+import withContext from './context/with_context';
 import { whitelabelShape } from './prop_types';
 
 import { setDocumentTitle } from '../utils/dom_utils';
 import { getLangText } from '../utils/lang_utils';
-import { withWhitelabel } from '../utils/react_utils';
 
 
 let SignupContainer = React.createClass({
@@ -68,4 +68,4 @@ let SignupContainer = React.createClass({
 });
 
 
-export default withWhitelabel(SignupContainer);
+export default withContext(SignupContainer, 'whitelabel');

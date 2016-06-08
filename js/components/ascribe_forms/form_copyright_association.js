@@ -8,13 +8,13 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Form from './form';
 import Property from './property';
 
+import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser } from '../../utils/react_utils';
 
 
 const { bool } = React.PropTypes;
@@ -85,4 +85,4 @@ const CopyrightAssociationForm = React.createClass({
     }
 });
 
-export default withCurrentUser(CopyrightAssociationForm);
+export default withContext(CopyrightAssociationForm, 'currentUser', 'isLoggedIn');

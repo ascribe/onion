@@ -14,12 +14,12 @@ import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
 import AclProxy from '../acl_proxy';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../utils/react_utils';
 
 let AccountSettings = React.createClass({
     propTypes: {
@@ -112,4 +112,4 @@ let AccountSettings = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(AccountSettings));
+export default withContext(AccountSettings, 'currentUser', 'whitelabel');

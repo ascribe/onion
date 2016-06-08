@@ -4,12 +4,12 @@ import React from 'react';
 
 import MarketAclButtonList from './market_buttons/market_acl_button_list';
 
+import withContext from '../../../../context/with_context';
 import PieceList from '../../../../piece_list';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
-import { withCurrentUser, withWhitelabel } from '../../../../../utils/react_utils';
 
 let MarketPieceList = React.createClass({
     propTypes: {
@@ -71,4 +71,4 @@ let MarketPieceList = React.createClass({
     }
 });
 
-export default withCurrentUser(withWhitelabel(MarketPieceList));
+export default withContext(MarketPieceList, 'currentUser', 'whitelabel');

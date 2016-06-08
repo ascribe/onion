@@ -13,7 +13,9 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
+import withContext from './context/with_context';
 import { whitelabelShape } from './prop_types';
+
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
@@ -105,5 +107,4 @@ const RegisterPiece = React.createClass( {
     }
 });
 
-
-export default withRouter(RegisterPiece);
+export default withRouter(withContext(RegisterPiece, 'whitelabel'));
