@@ -19,21 +19,15 @@ const SlidesContainer = React.createClass({
             pending: string,
             complete: string
         }),
-        pageExitWarning: string,
 
         // Injected through HOCs
         location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
         router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
-    contextTypes: {
-        route: object.isRequired
-    },
-
     getInitialState() {
         return {
-            containerWidth: 0,
-            pageExitWarning: null
+            containerWidth: 0
         };
     },
 
@@ -45,17 +39,10 @@ const SlidesContainer = React.createClass({
         // Initially, we need to dispatch 'resize' once to render correctly
         window.dispatchEvent(new Event('resize'));
 
-        // Since react-router 2.0.0, we need to define the `routerWillLeave`
-        // method ourselves.
-        this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave);
     },
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleContainerResize);
-    },
-
-    routerWillLeave() {
-        return this.props.pageExitWarning;
     },
 
     handleContainerResize() {

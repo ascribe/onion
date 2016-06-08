@@ -39,6 +39,9 @@ const IkonotvRegisterPiece = React.createClass({
         location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
         router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
         whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
+
+        // Provided from router
+        route: React.PropTypes.object.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -47,16 +50,16 @@ const IkonotvRegisterPiece = React.createClass({
             PieceStore.getInitialState(),
             {
                 step: 0,
-                pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
+                pageExitWarning: getLangText('If you leave this form now, your work will not be loaned to Ikono TV.')
             }
         );
     },
 
     componentDidMount() {
+        const { location: { query }, route, router } = this.props;
+
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-
-        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -65,9 +68,12 @@ const IkonotvRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if ('piece_id' in queryParams) {
-            PieceActions.fetchPiece(queryParams.piece_id);
+        if ('piece_id' in query) {
+            PieceActions.fetchPiece(query.piece_id);
         }
+
+        // Warn the user if they try to leave before completing registration
+        router.setRouteLeaveHook(route, () => this.state.pageExitWarning);
     },
 
     componentWillUnmount() {

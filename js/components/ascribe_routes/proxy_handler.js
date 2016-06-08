@@ -86,20 +86,7 @@ export function ProxyHandler(...redirectFunctions) {
                 isLoggedIn: bool.isRequired,
                 location: locationShape.isRequired,
                 router: routerShape.isRequired,
-                whitelabel: whitelabelShape.isRequired,
-
-                // Provided from router
-                route: object
-            },
-
-            childContextTypes: {
-                route: object
-            },
-
-            getChildContext() {
-                return {
-                    route: this.props.route
-                };
+                whitelabel: whitelabelShape.isRequired
             },
 
             componentDidMount() {
