@@ -192,6 +192,7 @@ let Header = React.createClass({
                         <Navbar.Brand>
                             {this.getLogo()}
                         </Navbar.Brand>
+                        <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse
                         eventKey={0}>
