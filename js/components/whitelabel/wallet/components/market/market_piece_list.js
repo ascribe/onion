@@ -17,10 +17,7 @@ let MarketPieceList = React.createClass({
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     componentWillMount() {

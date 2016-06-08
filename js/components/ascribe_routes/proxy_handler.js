@@ -5,7 +5,7 @@ import React from 'react';
 import UserStore from '../../stores/user_store';
 
 import withContext from '../context/with_context';
-import { currentUserShape, routerShape, whitelabelShape } from '../prop_types';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -84,11 +84,11 @@ export function ProxyHandler(...redirectFunctions) {
                 // Injected through HOCs
                 currentUser: currentUserShape.isRequired,
                 isLoggedIn: bool.isRequired,
+                location: locationShape.isRequired,
                 router: routerShape.isRequired,
                 whitelabel: whitelabelShape.isRequired,
 
                 // Provided from router
-                location: object,
                 route: object
             },
 
@@ -133,6 +133,11 @@ export function ProxyHandler(...redirectFunctions) {
             }
         });
 
-        return withContext(ProxyHandlerComponent, 'currentUser', 'isLoggedIn', 'router', 'whitelabel');
+        return withContext(ProxyHandlerComponent,
+                           'currentUser',
+                           'isLoggedIn',
+                           'location',
+                           'router',
+                           'whitelabel');
     };
 }

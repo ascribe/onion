@@ -7,7 +7,7 @@ import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
 import GlobalNotification from './global_notification';
-import { currentUserShape, whitelabelShape } from './prop_types';
+import { currentUserShape, locationShape, whitelabelShape } from './prop_types';
 
 import { mergeOptions } from '../utils/general_utils';
 
@@ -18,12 +18,13 @@ export default function AppBase(App) {
 
         propTypes: {
             children: React.PropTypes.element.isRequired,
-            location: React.PropTypes.object.isRequired,
+            location: locationShape.isRequired,
             routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
         },
 
         childContextTypes: {
             currentUser: currentUserShape,
+            location: locationShape,
             whitelabel: whitelabelShape
         },
 
@@ -37,7 +38,11 @@ export default function AppBase(App) {
         getChildContext() {
             const { currentUser, whitelabel } = this.state;
 
-            return { currentUser, whitelabel };
+            return {
+                currentUser,
+                whitelabel,
+                location: this.props.location
+            };
         },
 
         componentDidMount() {

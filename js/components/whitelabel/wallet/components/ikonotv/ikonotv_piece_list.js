@@ -19,12 +19,7 @@ let IkonotvPieceList = React.createClass({
     propTypes: {
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
-        whitelabel: whitelabelShape.isRequired,
-
-        // Provided from WalletApp
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {

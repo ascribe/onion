@@ -12,11 +12,6 @@ import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
 
 let CCRegisterPiece = React.createClass({
-    propTypes: {
-        // Provided from router
-        location: React.PropTypes.object
-    },
-
     getInitialState() {
         return mergeOptions(
             LicenseStore.getState(),
@@ -89,8 +84,7 @@ let CCRegisterPiece = React.createClass({
                 {...this.props}
                 enableLocalHashing={false}
                 headerMessage={getLangText('Register under a Creative Commons license')}
-                submitMessage={getLangText('Submit')}
-                location={this.props.location}>
+                submitMessage={getLangText('Submit')}>
                 {this.getLicenses()}
             </RegisterPiece>
         );

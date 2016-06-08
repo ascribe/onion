@@ -10,7 +10,7 @@ import Property from './ascribe_forms/property';
 
 import AscribeSpinner from './ascribe_spinner';
 import withContext from './context/with_context';
-import { routerShape } from './prop_types';
+import { locationShape, routerShape } from './prop_types';
 
 import ApiUrls from '../constants/api_urls';
 
@@ -21,10 +21,7 @@ import { getLangText } from '../utils/lang_utils';
 let PasswordResetContainer = React.createClass({
     propTypes: {
         // Injected through HOCs
-        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        location: locationShape.isRequired,
     },
 
     getInitialState() {
@@ -113,10 +110,11 @@ let PasswordRequestResetForm = React.createClass({
 
 let PasswordResetForm = withContext(React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         email: React.PropTypes.string,
-        token: React.PropTypes.string
+        token: React.PropTypes.string,
+
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getFormData() {
@@ -180,4 +178,4 @@ let PasswordResetForm = withContext(React.createClass({
     }
 }), 'router');
 
-export default PasswordResetContainer;
+export default withContext(PasswordResetContainer, 'location');

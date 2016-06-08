@@ -24,7 +24,7 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -38,11 +38,9 @@ const CylandRegisterPiece = React.createClass({
     propTypes: {
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
+        location: locationShape.isRequired,
         router: routerShape.isRequired,
         whitelabel: whitelabelShape.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
     },
 
     getInitialState(){
@@ -128,7 +126,7 @@ const CylandRegisterPiece = React.createClass({
     },
 
     render() {
-        const { currentUser, location, whitelabel } = this.props;
+        const { currentUser, whitelabel } = this.props;
         const { piece, step } = this.state;
 
         const today = new Moment();
@@ -163,8 +161,7 @@ const CylandRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                }}
-                location={location}>
+                }}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -219,4 +216,4 @@ const CylandRegisterPiece = React.createClass({
     }
 });
 
-export default withContext(CylandRegisterPiece, 'currentUser', 'router', 'whitelabel');
+export default withContext(CylandRegisterPiece, 'currentUser', 'location', 'router', 'whitelabel');

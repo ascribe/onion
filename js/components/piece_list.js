@@ -22,7 +22,7 @@ import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AscribeSpinner from './ascribe_spinner';
 import withContext from './context/with_context';
-import { routerShape } from './prop_types';
+import { locationShape, routerShape } from './prop_types';
 
 import { getAvailableAcls } from '../utils/acl_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
@@ -47,10 +47,8 @@ const PieceList = React.createClass({
         orderBy: React.PropTypes.string,
 
         // Injected through HOCs
-        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -352,4 +350,4 @@ const PieceList = React.createClass({
     }
 });
 
-export default withContext(PieceList, 'router');
+export default withContext(PieceList, 'location', 'router');

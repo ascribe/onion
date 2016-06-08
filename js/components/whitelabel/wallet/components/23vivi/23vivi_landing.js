@@ -15,10 +15,7 @@ import { getLangText } from '../../../../../utils/lang_utils';
 let Vivi23Landing = React.createClass({
     propTypes: {
         // Injected through HOCs
-        whitelabel: whitelabelShape.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired
     },
 
     componentWillMount() {

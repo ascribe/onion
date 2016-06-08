@@ -13,10 +13,7 @@ import { getLangText } from '../utils/lang_utils';
 let SignupContainer = React.createClass({
     propTypes: {
         // Injected through HOCs
-        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {
@@ -34,10 +31,7 @@ let SignupContainer = React.createClass({
     },
 
     render() {
-        const {
-            location,
-            whitelabel: { name: whitelabelName }
-        } = this.props;
+        const { whitelabel: { name: whitelabelName } } = this.props;
         const { message, submitted } = this.state;
 
         setDocumentTitle(getLangText('Sign up'));
@@ -56,8 +50,7 @@ let SignupContainer = React.createClass({
             <div className="ascribe-login-wrapper">
                 <SignupForm
                     handleSuccess={this.handleSuccess}
-                    whitelabelName={whitelabelName}
-                    location={location}/>
+                    whitelabelName={whitelabelName} />
                 <div className="ascribe-login-text">
                     {getLangText(`Already a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
                 </div>
@@ -66,6 +59,5 @@ let SignupContainer = React.createClass({
         );
     }
 });
-
 
 export default withContext(SignupContainer, 'whitelabel');

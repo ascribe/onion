@@ -28,10 +28,7 @@ const IkonotvContractNotifications = React.createClass({
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
         router: routerShape.isRequired,
-        whitelabel: whitelabelShape.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {

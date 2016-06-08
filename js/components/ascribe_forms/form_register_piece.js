@@ -12,7 +12,7 @@ import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_butto
 
 import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
-import { currentUserShape } from '../prop_types';
+import { currentUserShape, locationShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
@@ -35,14 +35,14 @@ let RegisterPieceForm = React.createClass({
         // For this form to work with SlideContainer, we sometimes have to disable it
         disabled: React.PropTypes.bool,
 
-        location: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
 
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        location: locationShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -240,4 +240,4 @@ let RegisterPieceForm = React.createClass({
     }
 });
 
-export default withContext(RegisterPieceForm, 'currentUser');
+export default withContext(RegisterPieceForm, 'currentUser', 'location');

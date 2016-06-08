@@ -25,7 +25,6 @@ let EditionContainer = React.createClass({
         furtherDetailsType: React.PropTypes.func,
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 

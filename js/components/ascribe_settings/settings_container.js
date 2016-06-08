@@ -26,10 +26,7 @@ let SettingsContainer = React.createClass({
 
         // Injected through HOCs
         isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
-        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     loadUser(invalidateCache) {

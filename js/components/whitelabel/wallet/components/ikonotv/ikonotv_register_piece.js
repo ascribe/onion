@@ -22,7 +22,7 @@ import LoanForm from '../../../../ascribe_forms/form_loan';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -36,11 +36,9 @@ const IkonotvRegisterPiece = React.createClass({
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
         router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
         whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
     },
 
     getInitialState() {
@@ -209,7 +207,6 @@ const IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
         const { pageExitWarning, step } = this.state;
 
         return (
@@ -220,7 +217,6 @@ const IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={location}
                 pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
@@ -244,4 +240,4 @@ const IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default withContext(IkonotvRegisterPiece, 'currentUser', 'router', 'whitelabel');
+export default withContext(IkonotvRegisterPiece, 'currentUser', 'location', 'router', 'whitelabel');

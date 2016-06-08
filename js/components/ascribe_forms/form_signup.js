@@ -11,8 +11,11 @@ import Form from './form';
 import Property from './property';
 import InputCheckbox from './input_checkbox';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { locationShape } from '../prop_types';
+
+import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -22,13 +25,15 @@ let SignupForm = React.createClass({
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         handleSuccess: React.PropTypes.func,
-        location: React.PropTypes.object,
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element,
             React.PropTypes.string
         ]),
-        whitelabelName: React.PropTypes.string
+        whitelabelName: React.PropTypes.string,
+
+        // Injected through HOCs
+        isLoggedIn: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -129,4 +134,4 @@ let SignupForm = React.createClass({
 });
 
 
-export default SignupForm;
+export default withContext(SignupForm, 'location');

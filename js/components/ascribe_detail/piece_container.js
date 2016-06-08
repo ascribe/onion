@@ -57,7 +57,6 @@ const PieceContainer = React.createClass({
         router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 

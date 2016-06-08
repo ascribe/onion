@@ -34,7 +34,6 @@ const CylandPieceContainer = React.createClass({
         router: routerShape.isRequired,
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 

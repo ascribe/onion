@@ -17,7 +17,7 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { routerShape, whitelabelShape } from '../../../../prop_types';
+import { locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
@@ -27,10 +27,8 @@ let MarketRegisterPiece = React.createClass({
     propTypes: {
         // Injected through HOCs
         router: routerShape.isRequired,
-        whitelabel: whitelabelShape.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        location: locationShape.isRequired,
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState(){
@@ -99,12 +97,7 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
-        const {
-            location,
-            whitelabel: {
-                name: whitelabelName = 'Market'
-            }
-        } = this.props
+        const { whitelabel: { name: whitelabelName = 'Market' } } = this.props;
         const { piece, step } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
@@ -116,8 +109,7 @@ let MarketRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                }}
-                location={location}>
+                }}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -160,4 +152,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default withContext(MarketRegisterPiece, 'router', 'whitelabel');
+export default withContext(MarketRegisterPiece, 'location', 'router', 'whitelabel');

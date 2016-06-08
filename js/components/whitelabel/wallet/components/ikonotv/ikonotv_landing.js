@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import withContext from '../../../../context/with_context';
+import { locationShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
@@ -15,24 +16,22 @@ import { getLangText } from '../../../../../utils/lang_utils';
 let IkonotvLanding = React.createClass({
     propTypes: {
         // Injected through HOCs
-        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
-
-        // Provided from router
-        location: React.PropTypes.object
+        isLoggedIn: React.PropTypes.bool.isRequired,
+        location: locationShape.isRequired
     },
 
     getEnterButton() {
-        const { isLoggedIn, location } = this.props;
+        const { isLoggedIn, location: { query } } = this.props;
         let redirect = '/login';
 
         if (isLoggedIn) {
             redirect = '/collection';
-        } else if (location.query.redirect) {
-            redirect = '/' + location.query.redirect;
+        } else if (query.redirect) {
+            redirect = `/${query.redirect}`;
         }
 
         return (
-            <LinkContainer to={redirect} query={location.query}>
+            <LinkContainer to={redirect} query={query}>
                 <Button>
                     {getLangText('ENTER TO START')}
                 </Button>
@@ -102,4 +101,4 @@ let IkonotvLanding = React.createClass({
     }
 });
 
-export default withContext(IkonotvLanding, 'isLoggedIn');
+export default withContext(IkonotvLanding, 'isLoggedIn', 'location');

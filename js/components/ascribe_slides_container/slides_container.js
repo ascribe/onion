@@ -5,7 +5,7 @@ import React from 'react';
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
 
 import withContext from '../context/with_context';
-import { routerShape } from '../prop_types';
+import { locationShape, routerShape } from '../prop_types';
 
 
 const { arrayOf, element, bool, shape, string, object } = React.PropTypes;
@@ -19,10 +19,10 @@ const SlidesContainer = React.createClass({
             pending: string,
             complete: string
         }),
-        location: object,
         pageExitWarning: string,
 
         // Injected through HOCs
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
         router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
@@ -190,4 +190,4 @@ const SlidesContainer = React.createClass({
     }
 });
 
-export default withContext(SlidesContainer, 'router');
+export default withContext(SlidesContainer, 'location', 'router');

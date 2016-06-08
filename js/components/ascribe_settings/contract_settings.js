@@ -28,10 +28,7 @@ let ContractSettings = React.createClass({
     propTypes: {
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
-        whitelabel: whitelabelShape.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {
