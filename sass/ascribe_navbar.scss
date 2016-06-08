@@ -1,4 +1,7 @@
 .navbar-default {
+    background-color: $ascribe--nav-bg-color;
+    box-shadow: 0 0 1px rgba(0,0,0,.1),
+                0 1px 2px rgba(0,0,0,.2);
     border: 0;
     border-color: #ccc;
     border-left: 0;
@@ -6,6 +9,140 @@
     border-top: 0;
     font-size: .8em;
     margin-bottom: 1.5em;
+
+    // All Navbar buttons
+    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav > li > a {
+        background-color: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        box-shadow: none;
+        color: $ascribe--nav-fg-prim-color;
+        font-size: 12px;
+        font-weight: $ascribe--font-weight-light;
+        line-height: 20px;
+        padding: 15px;
+        text-transform: uppercase;
+
+        &:focus,
+        &:hover {
+            background-color: transparent;
+            color: $ascribe--nav-fg-sec-color;
+        }
+    }
+
+    // Currently active route
+    .navbar-nav > li.active > a {
+        background-color: transparent;
+        border-bottom-color: $ascribe--nav-fg-prim-color;
+
+        &:focus,
+        &:hover {
+            background-color: transparent;
+            color: $ascribe--nav-fg-prim-color;
+        }
+    }
+
+    // Open dropdowns
+    .navbar-nav .open {
+        .dropdown-toggle.btn {
+            &:focus,
+            &:hover {
+                background-color: rgba($ascribe--button-default-color, .05);
+                color: $ascribe--nav-fg-prim-color;
+            }
+        }
+
+        .dropdown-menu {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dropdown-menu a {
+            color:  $ascribe--nav-fg-prim-color;
+            font-weight: $ascribe--font-weight-light;
+            padding-bottom: 9px;
+            padding-top: 9px;
+        }
+    }
+
+    .dropdown-menu > .divider {
+        margin: 0;
+    }
+
+    .notification-menu {
+        .dropdown-toggle.btn:focus,
+        .dropdown-toggle.btn:hover {
+            box-shadow: none;
+        }
+    }
+
+    .navbar-brand {
+        font-size: 23px;
+        padding: 12px 15px;
+
+        .icon-ascribe-logo {
+            color: $ascribe--nav-fg-prim-color;
+
+            &:focus,
+            &:hover {
+                color: $ascribe--nav-fg-sec-color;
+                text-decoration: none;
+            }
+            &:focus {
+                text-decoration: none;
+            }
+        }
+
+        .img-brand {
+            height: 100%;
+        }
+    }
+
+    .navbar-toggle {
+        .icon-bar {
+            background-color: $ascribe--nav-fg-prim-color;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: $ascribe--nav-bg-color;
+        }
+    }
+
+    /* For mobile toggled menu */
+    @media (max-width: 767px) {
+        .navbar-collapse {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .navbar-nav {
+            margin-left: 0;
+        }
+
+        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav > li > a {
+            display: block;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            text-align: left;
+        }
+
+        .navbar-nav .open .dropdown-menu > li > a {
+            padding: 5px 15px 5px 25px;
+        }
+
+        .navbar-nav .dropdown {
+            display: block;
+        }
+    }
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: transparent;
 }
 
 .navbar-right {

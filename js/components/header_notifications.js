@@ -97,7 +97,7 @@ let HeaderNotifications = React.createClass({
             }
 
             return (
-                <Nav navbar pullRight>
+                <Nav navbar pullRight className="notification-menu">
                     <DropdownButton
                         ref='dropdownButton'
                         id="header-notification-dropdown"
@@ -107,8 +107,7 @@ let HeaderNotifications = React.createClass({
                                 <Glyphicon glyph='envelope' color="green"/>
                                 <span className="notification-amount">({numNotifications})</span>
                             </span>
-                        }
-                        className="notification-menu">
+                        }>
                         {this.renderNotifications({ notifications: pieceListNotifications, isPiece: true })}
                         {this.renderNotifications({ notifications: editionListNotifications, isPiece: false })}
                     </DropdownButton>
