@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import Moment from 'moment';
 
@@ -25,7 +24,7 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { currentUserShape, whitelabelShape } from '../../../../prop_types';
+import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -37,10 +36,9 @@ import { mergeOptions } from '../../../../../utils/general_utils';
 
 const CylandRegisterPiece = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        currentUser: currentUserShape.isRequired,
+        router: routerShape.isRequired,
         whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
@@ -221,4 +219,4 @@ const CylandRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withContext(CylandRegisterPiece, 'currentUser', 'isLoggedIn'));
+export default withContext(CylandRegisterPiece, 'currentUser', 'router', 'whitelabel');

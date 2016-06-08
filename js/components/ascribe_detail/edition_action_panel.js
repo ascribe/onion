@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -11,20 +10,21 @@ import EditionListActions from '../../actions/edition_list_actions';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
-
-import ListRequestActions from './../ascribe_forms/list_form_request_actions';
-import AclButtonList from './../ascribe_buttons/acl_button_list';
-import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
-import DeleteButton from '../ascribe_buttons/delete_button';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import Form from './../ascribe_forms/form';
+import ListRequestActions from './../ascribe_forms/list_form_request_actions';
+import Property from './../ascribe_forms/property';
+
+import AclButtonList from './../ascribe_buttons/acl_button_list';
 import AclInformation from '../ascribe_buttons/acl_information';
+import DeleteButton from '../ascribe_buttons/delete_button';
+import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
@@ -37,10 +37,12 @@ import { getLangText } from '../../utils/lang_utils';
 const EditionActionPanel = React.createClass({
     propTypes: {
         edition: React.PropTypes.object.isRequired,
-        router: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -179,4 +181,4 @@ const EditionActionPanel = React.createClass({
     }
 });
 
-export default withRouter(EditionActionPanel);
+export default withContext(EditionActionPanel, 'router');

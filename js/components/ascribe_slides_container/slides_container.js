@@ -1,9 +1,11 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
+
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
 
 
 const { arrayOf, element, bool, shape, string, object } = React.PropTypes;
@@ -11,7 +13,6 @@ const { arrayOf, element, bool, shape, string, object } = React.PropTypes;
 const SlidesContainer = React.createClass({
     propTypes: {
         forwardProcess: bool.isRequired,
-        router: object.isRequired,
 
         children: arrayOf(element),
         glyphiconClassNames: shape({
@@ -19,7 +20,10 @@ const SlidesContainer = React.createClass({
             complete: string
         }),
         location: object,
-        pageExitWarning: string
+        pageExitWarning: string,
+
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     contextTypes: {
@@ -186,4 +190,4 @@ const SlidesContainer = React.createClass({
     }
 });
 
-export default withRouter(SlidesContainer);
+export default withContext(SlidesContainer, 'router');

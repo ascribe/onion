@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import EditionListActions from '../../../../../../actions/edition_list_actions';
 
@@ -21,15 +20,18 @@ import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
+import withContext from '../../../../../context/with_context';
+import { routerShape } from '../../../../../prop_types';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 
 
 const CylandPieceContainer = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
+        // Injected through HOCs
+        router: routerShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object,
@@ -120,4 +122,4 @@ const CylandPieceContainer = React.createClass({
     }
 });
 
-export default withRouter(CylandPieceContainer);
+export default withContext(CylandPieceContainer, 'router');

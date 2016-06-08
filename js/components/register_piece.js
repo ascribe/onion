@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -14,16 +13,14 @@ import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
 import withContext from './context/with_context';
-import { whitelabelShape } from './prop_types';
+import { routerShape, whitelabelShape } from './prop_types';
 
-import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
 
 
 const RegisterPiece = React.createClass( {
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
         children: React.PropTypes.oneOfType([
@@ -33,7 +30,8 @@ const RegisterPiece = React.createClass( {
         ]),
 
         // Injected through HOCs
-        whitelabel: whitelabelShape.isRequired,
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
@@ -107,4 +105,4 @@ const RegisterPiece = React.createClass( {
     }
 });
 
-export default withRouter(withContext(RegisterPiece, 'whitelabel'));
+export default withContext(RegisterPiece, 'router', 'whitelabel');

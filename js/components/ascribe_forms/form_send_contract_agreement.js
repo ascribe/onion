@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -13,8 +12,11 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
+
+import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
@@ -22,7 +24,10 @@ import { mergeOptions } from '../../utils/general_utils';
 
 const SendContractAgreementForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -149,4 +154,4 @@ const SendContractAgreementForm = React.createClass({
     }
 });
 
-export default withRouter(SendContractAgreementForm);
+export default withContext(SendContractAgreementForm, 'router');

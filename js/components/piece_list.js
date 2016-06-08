@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -22,17 +21,17 @@ import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AscribeSpinner from './ascribe_spinner';
+import withContext from './context/with_context';
+import { routerShape } from './prop_types';
 
 import { getAvailableAcls } from '../utils/acl_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 import { mergeOptions, isShallowEqual } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
 
 
 const PieceList = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
         canLoadPieceList: React.PropTypes.bool,
@@ -46,6 +45,9 @@ const PieceList = React.createClass({
         filterParams: React.PropTypes.array,
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
+
+        // Injected through HOCs
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object
@@ -350,4 +352,4 @@ const PieceList = React.createClass({
     }
 });
 
-export default withRouter(PieceList);
+export default withContext(PieceList, 'router');

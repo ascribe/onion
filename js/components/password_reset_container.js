@@ -1,21 +1,28 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
-
-import Form from './ascribe_forms/form';
-import Property from './ascribe_forms/property';
-import ApiUrls from '../constants/api_urls';
-import AscribeSpinner from './ascribe_spinner';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
-import { getLangText } from '../utils/lang_utils';
+
+import Form from './ascribe_forms/form';
+import Property from './ascribe_forms/property';
+
+import AscribeSpinner from './ascribe_spinner';
+import withContext from './context/with_context';
+import { routerShape } from './prop_types';
+
+import ApiUrls from '../constants/api_urls';
+
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
 
 
 let PasswordResetContainer = React.createClass({
     propTypes: {
+        // Injected through HOCs
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
+
         // Provided from router
         location: React.PropTypes.object
     },
@@ -104,7 +111,7 @@ let PasswordRequestResetForm = React.createClass({
     }
 });
 
-let PasswordResetForm = withRouter(React.createClass({
+let PasswordResetForm = withContext(React.createClass({
     propTypes: {
         router: React.PropTypes.object.isRequired,
 
@@ -171,6 +178,6 @@ let PasswordResetForm = withRouter(React.createClass({
             </Form>
         );
     }
-}));
+}), 'router');
 
 export default PasswordResetContainer;

@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -18,7 +17,7 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { whitelabelShape } from '../../../../prop_types';
+import { routerShape, whitelabelShape } from '../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
@@ -26,9 +25,8 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         // Injected through HOCs
+        router: routerShape.isRequired,
         whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
@@ -162,4 +160,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withContext(MarketRegisterPiece, 'whitelabel'));
+export default withContext(MarketRegisterPiece, 'router', 'whitelabel');

@@ -1,9 +1,8 @@
 import React from 'react';
-import { currentUserShape, whitelabelShape } from '../prop_types';
+import { currentUserShape, routerShape, whitelabelShape } from '../prop_types';
 
 import { selectFromObject } from '../../utils/general_utils';
 import { getDisplayName } from '../../utils/react_utils';
-
 
 /**
  * ContextPropDefinitions
@@ -43,6 +42,7 @@ const ContextPropDefinitions = {
         },
         transformToProps: ({ currentUser }) => ({ isLoggedIn: !!currentUser.email })
     },
+    router: routerShape.isRequired,
     whitelabel: whitelabelShape.isRequired
 };
 

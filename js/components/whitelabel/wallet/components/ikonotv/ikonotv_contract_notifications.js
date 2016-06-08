@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -16,7 +15,7 @@ import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_a
 import Property from '../../../../ascribe_forms/property';
 
 import withContext from '../../../../context/with_context';
-import { currentUserShape, whitelabelShape } from '../../../../prop_types';
+import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import AppConstants from '../../../../../constants/application_constants';
 
@@ -26,11 +25,10 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 const IkonotvContractNotifications = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
+        currentUser: currentUserShape.isRequired,
+        router: routerShape.isRequired,
+        whitelabel: whitelabelShape.isRequired,
 
         // Provided from router
         location: React.PropTypes.object
@@ -201,4 +199,4 @@ const IkonotvContractNotifications = React.createClass({
     }
 });
 
-export default withRouter(withContext(IkonotvContractNotifications, 'currentUser', 'whitelabel'));
+export default withContext(IkonotvContractNotifications, 'currentUser', 'router', 'whitelabel');

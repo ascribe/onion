@@ -1,12 +1,11 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 
 import UserStore from '../../stores/user_store';
 
 import withContext from '../context/with_context';
-import { currentUserShape, whitelabelShape } from '../prop_types';
+import { currentUserShape, routerShape, whitelabelShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
@@ -85,7 +84,7 @@ export function ProxyHandler(...redirectFunctions) {
                 // Injected through HOCs
                 currentUser: currentUserShape.isRequired,
                 isLoggedIn: bool.isRequired,
-                router: React.PropTypes.object.isRequired,
+                router: routerShape.isRequired,
                 whitelabel: whitelabelShape.isRequired,
 
                 // Provided from router
@@ -134,6 +133,6 @@ export function ProxyHandler(...redirectFunctions) {
             }
         });
 
-        return withRouter(withContext(ProxyHandlerComponent, 'currentUser', 'isLoggedIn', 'whitelabel'));
+        return withContext(ProxyHandlerComponent, 'currentUser', 'isLoggedIn', 'router', 'whitelabel');
     };
 }

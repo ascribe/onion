@@ -1,9 +1,10 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
+import withContext from '../../context/with_context';
 import Header from '../../header';
+import { routerShape } from '../../prop_types';
 
 import { getSubdomain } from '../../../utils/general_utils';
 
@@ -12,8 +13,10 @@ let WalletApp = React.createClass({
     propTypes: {
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
-        router: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        // Injected through HOCs
+        router: routerShape.isRequired,
     },
 
     render() {
@@ -48,4 +51,4 @@ let WalletApp = React.createClass({
     }
 });
 
-export default AppBase(withRouter(WalletApp));
+export default AppBase(withContext(WalletApp, 'router'));

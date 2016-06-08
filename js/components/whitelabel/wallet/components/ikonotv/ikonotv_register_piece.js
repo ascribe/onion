@@ -1,5 +1,4 @@
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 import Moment from 'moment';
 
 import Col from 'react-bootstrap/lib/Col';
@@ -23,7 +22,7 @@ import LoanForm from '../../../../ascribe_forms/form_loan';
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
 import withContext from '../../../../context/with_context';
-import { currentUserShape, whitelabelShape } from '../../../../prop_types';
+import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -33,12 +32,11 @@ import { getLangText } from '../../../../../utils/lang_utils';
 
 const IkonotvRegisterPiece = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         handleSuccess: React.PropTypes.func,
 
         // Injected through HOCs
         currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
         whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
@@ -246,4 +244,4 @@ const IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default withRouter(withContext(IkonotvRegisterPiece, 'currentUser', 'whitelabel'));
+export default withContext(IkonotvRegisterPiece, 'currentUser', 'router', 'whitelabel');

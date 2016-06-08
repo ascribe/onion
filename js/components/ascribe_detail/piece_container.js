@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import withRouter from 'react-router/es6/withRouter';
 import Moment from 'moment';
 
 import ReactError from '../../mixins/react_error';
@@ -38,6 +37,7 @@ import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 import AclProxy from '../acl_proxy';
 import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
@@ -50,12 +50,11 @@ import { getLangText } from '../../utils/lang_utils';
  */
 const PieceContainer = React.createClass({
     propTypes: {
-        router: React.PropTypes.object.isRequired,
-
         furtherDetailsType: React.PropTypes.func,
 
         // Injected through HOCs
         isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
         location: React.PropTypes.object,
@@ -341,4 +340,4 @@ const PieceContainer = React.createClass({
     }
 });
 
-export default withRouter(withContext(PieceContainer, 'isLoggedIn'));
+export default withContext(PieceContainer, 'isLoggedIn', 'router');
