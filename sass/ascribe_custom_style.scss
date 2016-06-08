@@ -241,14 +241,6 @@ fieldset[disabled] .btn-secondary.active {
     }
 }
 
-.open > .btn-default.dropdown-toggle:hover,
-.open > .btn-default.dropdown-toggle:focus,
-.open > .btn-default.dropdown-toggle.focus,
-.open > .btn-default.dropdown-toggle.dropdown-toggle {
-    background-color: darken($ascribe--button-secondary-fg-color, 20%);
-    border-color: darken($ascribe--button-secondary-fg-color, 20%);
-}
-
 .pager li > a,
 .pager li > span {
     background-color: $ascribe--button-default-color;
