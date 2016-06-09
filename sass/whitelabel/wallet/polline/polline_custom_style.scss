@@ -53,76 +53,56 @@ $polline--highlight-color: #2882fa;
     .navbar-default {
         background-color: $polline--bg-color;
 
-        .navbar-brand .img-brand {
-            height: 100%;
-        }
-
         .navbar-brand {
             padding: 0 5px 0 15px;
-        }
 
-        .navbar-brand .icon-ascribe-logo {
-            color: $polline--nav-fg-prim-color;
-            &:hover {
-                color: darken($polline--nav-fg-prim-color, 20%);
+            .img-brand {
+                height: 100%;
+            }
+
+            .icon-ascribe-logo {
+                color: $polline--nav-fg-prim-color;
+
+                &:focus,
+                &:hover {
+                    color: darken($polline--nav-fg-prim-color, 20%);
+                }
             }
         }
-
     }
 
-    .navbar-nav > li > a,
-    .navbar-nav > li > a:focus,
-    .navbar-nav > li > .active a,
-    .navbar-nav > li > .active a:focus {
+    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav > li > a {
         color: $polline--nav-fg-prim-color;
+
+        &:focus,
+        &:hover {
+            color: darken($polline--nav-fg-prim-color, 20%);
+        }
     }
 
-    .navbar-nav > li > a:hover {
-        color: darken($polline--nav-fg-prim-color, 20%);
-    }
-
-    .navbar-nav > .active a,
-    .navbar-nav > .active a:hover,
-    .navbar-nav > .active a:focus {
+    .navbar-nav > li.active > a {
         background-color: $polline--nav-bg-color;
         border-bottom-color: $polline--nav-fg-prim-color;
         color: $polline--nav-fg-prim-color;
-    }
 
-    .navbar-nav > .open > a,
-    .dropdown-menu > .active > a,
-    .dropdown-menu > li > a {
-        color: $polline--nav-fg-prim-color;
-        background-color: $polline--nav-bg-color;
-    }
-
-    .navbar-nav > .open > a:hover,
-    .navbar-nav > .open > a:focus,
-    .dropdown-menu > .active > a:hover,
-    .dropdown-menu > .active > a:focus,
-    .dropdown-menu > li > a:hover,
-    .dropdown-menu > li > a:focus {
-        color: lighten($polline--nav-fg-prim-color, 20%);
-        background-color: $polline--nav-highlight-color;
-    }
-
-    .navbar-collapse.collapsing,
-    .navbar-collapse.collapse.in {
-        background-color: $polline--nav-bg-color;
-
-        .navbar-nav > .open > a,
-        .navbar-nav > .active > a {
-            background-color: $polline--nav-highlight-color;
+        &:focus,
+        &:hover {
+            color: $polline--nav-fg-prim-color;
         }
     }
 
-    .navbar-collapse.collapsing li a,
-    .navbar-collapse.collapse.in li a {
-        color: $polline--nav-fg-prim-color;
-    }
-    .navbar-collapse.collapse.in li a:not(.ascribe-powered-by):hover {
-        color: lighten($polline--nav-fg-prim-color, 20%);
-        background-color: $polline--nav-highlight-color;
+    .navbar-nav .open {
+        .dropdown-toggle.btn,
+        .dropdown-menu a {
+            color: $polline--nav-fg-prim-color;
+
+            &:focus,
+            &:hover {
+                background-color: $polline--nav-highlight-color;
+                color: lighten($polline--nav-fg-prim-color, 20%);
+            }
+        }
     }
 
     .navbar-toggle {
@@ -156,6 +136,41 @@ $polline--highlight-color: #2882fa;
 
         .notification-action {
             color: $polline--highlight-color;
+        }
+    }
+
+    /* For mobile toggled menu */
+    @media (max-width: 767px) {
+        .navbar-collapse {
+            background-color: $polline--nav-bg-color;
+        }
+
+        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav > li > a {
+            color: $polline--nav-fg-prim-color;
+
+            &:focus,
+            &:hover {
+                background-color: $polline--nav-highlight-color;
+                color: lighten($polline--nav-fg-prim-color, 20%);
+            }
+        }
+
+        .navbar-nav .open .dropdown-menu > li > a {
+            color: $polline--nav-fg-prim-color;
+
+            &:focus,
+            &:hover {
+                background-color: $polline--nav-highlight-color;
+                color: $polline--nav-fg-prim-color;
+            }
+        }
+
+        .navbar-nav > li.active > a,
+        .navbar-nav > li.active > a:hover,
+        .navbar-nav > li.active > a:focus, {
+            background-color: $polline--nav-highlight-color;
+            color: lighten($polline--nav-fg-prim-color, 20%);
         }
     }
 
@@ -276,7 +291,7 @@ $polline--highlight-color: #2882fa;
     }
 
     // filter widget
-    .ascribe-piece-list-toolbar-widget button {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
         background-color: transparent !important;
         border-color: transparent !important;
         color: $polline--button-default-color !important;

@@ -23,75 +23,76 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
     background-color: $ikono--bg-color;
     box-shadow: none;
 
-    .navbar-nav > li > a,
-    .navbar-nav > li > .active a {
-        text-transform: uppercase;
+    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav > li > a {
         border-bottom-color: transparent;
+        color: white;
         font-size: 14px;
         font-weight: bold;
     }
 
-    .navbar-nav > li > a {
-        color: white;
-    }
-
-    .navbar-nav > .active a,
-    .navbar-nav > .active a:hover,
-    .navbar-nav > .active a:focus {
-        color: black;
-        border-bottom-color: transparent;
-        background-color: transparent;
-        font-weight: bold;
-    }
-
-    .navbar-nav > .active {
+    .navbar-nav > li.active {
         background-color: white;
+
+        & > a {
+            color: black;
+            background-color: transparent;
+            border-bottom-color: transparent;
+            font-weight: bold;
+        }
     }
 
-    .navbar-toggle .icon-bar {
-        background-color: white;
-    }
+    .navbar-nav .open {
+        .dropdown-toggle.btn {
+            background-color: $ikono--bg-color;
+            color: white;
 
-    .navbar-nav > .open > a,
-    .navbar-nav > .open > a:hover,
-    .navbar-nav > .open > a:focus,
-    .dropdown-menu > .active > a,
-    .dropdown-menu > .active > a:hover,
-    .dropdown-menu > .active > a:focus {
-        color: white;
-        background-color: $ikono--bg-color;
+            &:focus,
+            &:hover {
+                background-color: $ikono--bg-color;
+                color: white;
+            }
+        }
+
+        .dropdown-menu a {
+            color: white;
+
+            &:focus,
+            &:hover {
+                background-color: white;
+                color:  $ikono--bg-color;
+            }
+        }
     }
 
     .dropdown-menu {
         background-color: $ikono--bg-color;
     }
 
-    .dropdown-menu > li > a {
-        color:  white;
-        font-weight: bold;
-    }
-
-    .dropdown-menu > li > a:hover,
-    .dropdown-menu > li > a:focus {
-        color:  $ikono--bg-color;
-        background-color: white;
-    }
-
-    .notification-menu {
-        .dropdown-menu {
+    .navbar-toggle {
+        .icon-bar {
             background-color: white;
-            li:hover {
-                background-color: rgba($ikono--button-color, 0.1);
-            }
+        }
+
+        &:focus,
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
     }
 
-    .navbar-toggle:hover,
-    .navbar-toggle:focus {
-        background-color: rgba(255, 255, 255, 0.1);
+    .notification-menu .dropdown-menu {
+        background-color: white;
+
+        li:hover {
+            background-color: rgba($ikono--button-color, 0.1);
+        }
+    }
+
+    /* For mobile toggled menu */
+    @media (max-width: 767px) {
+        padding-bottom: 5px;
     }
 }
-
 
 .client--ikonotv {
     .route--landing,
@@ -356,7 +357,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 .client--ikonotv {
-    .ascribe-piece-list-toolbar-widget button {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
         color: $ikono--button-color !important;
         background-color: transparent !important;
         border-color: transparent !important;
