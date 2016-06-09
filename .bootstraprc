@@ -10,7 +10,55 @@ styleLoaders:
     - postcss
     - sass?sourceMap&output=expanded&precision=8
 
-# For now, just include everything from Bootstrap
-styles: true
+styles:
+    # Always needs to be included
+    mixins: true
+
+    # Reset and utilities
+    normalize: true
+    print: true
+    responsive-utilities: true
+    scaffolding: true
+    utilities: true
+
+    # Core CSS
+    buttons: true
+    code: true
+    forms: true
+    grid: true
+    tables: true
+    type: true
+
+    # Icons
+    glyphicons: true
+
+    # Components
+    alerts: true
+    button-groups: true
+    close: true
+    component-animations: true
+    dropdowns: true
+    input-groups: true
+    labels: true
+    modals: true
+    navbar: true
+    navs: true
+    pager: true
+    pagination: true
+    panels: true
+    progress-bars: true
+    tooltip: true
+
+    # Currently not used:
+    # badges: true
+    # breadcrumbs: true
+    # carousel: true
+    # jumbotron: true
+    # list-group: true
+    # media: true
+    # popovers: true
+    # responsive-embed: true
+    # thumbnails: true
+    # wells: true
 
 scripts: false
