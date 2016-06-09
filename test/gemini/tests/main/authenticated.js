@@ -33,7 +33,7 @@ gemini.suite('Authenticated', (suite) => {
             });
     });
 
-    gemini.suite('Authenticated', (authenticatedSuite) => {
+    gemini.suite('Authenticated', () => {
         gemini.suite('Header-desktop', (headerSuite) => {
             headerSuite
                 .setCaptureElements('nav.navbar .container')
@@ -48,17 +48,38 @@ gemini.suite('Authenticated', (suite) => {
 
             gemini.suite('User dropdown', (headerUserSuite) => {
                 headerUserSuite
-                    .setCaptureElements('#nav-route-user-dropdown ~ .dropdown-menu')
+                    .setCaptureElements('#nav-route-user-dropdown-container .dropdown-menu')
                     .capture('expanded user dropdown', (actions, find) => {
                         actions.click(find('#nav-route-user-dropdown'));
+
+                        // React-bootstrap's dropdown buttons are wrapped around list items when they're in a navigation
+                        // context, so we can't use a simple sibling selector here to capture the dropdown menu. Instead,
+                        // we'll manually add an id to the dropdown container to allow us to select it.
+                        // eslint-disable-next-line prefer-arrow-callback
+                        actions.executeJS(function addIdToUserDropdownContainer(window) {
+                            /* eslint-disable no-var, prefer-template */
+                            var userDropdownButtonSelector = '#nav-route-user-dropdown';
+                            var userDropdownButton = window.document.querySelector(userDropdownButtonSelector);
+
+                            var parentEl = userDropdownButton.parentElement;
+                            while (parentEl && parentEl.className.split(' ').indexOf('dropdown') === -1) {
+                                parentEl = parentEl.parentElement;
+                            }
+
+                            if (parentEl) {
+                                parentEl.id = 'nav-route-user-dropdown-container';
+                            }
+                            /* eslint-enable no-var */
+                        });
                     });
             });
 
             gemini.suite('Notification dropdown', (headerNotificationSuite) => {
                 headerNotificationSuite
-                    .setCaptureElements('#header-notification-dropdown ~ .dropdown-menu')
+                    .setCaptureElements('.notification-menu .dropdown-menu')
                     .capture('expanded notifications dropdown', (actions, find) => {
                         actions.click(find('#header-notification-dropdown'));
+                        actions.waitForElementToShow('.notification-menu .dropdown-menu', TIMEOUTS.SHORT);
                     });
             });
         });
@@ -110,7 +131,8 @@ gemini.suite('Authenticated', (suite) => {
                 collectionPlaceholderSuite
                     .setCaptureElements('.ascribe-accordion-list-placeholder')
                     .capture('collection empty search', (actions, find) => {
-                        actions.sendKeys(find('.ascribe-piece-list-toolbar .search-bar input[type="text"]'), 'no search result');
+                        actions.sendKeys(find('.ascribe-piece-list-toolbar .search-bar input[type="text"]'),
+                                         'no search result');
                         actions.waitForElementToShow('.ascribe-accordion-list-placeholder', TIMEOUTS.NORMAL);
                     });
             });
@@ -136,7 +158,7 @@ gemini.suite('Authenticated', (suite) => {
                 .capture('piece list toolbar search filled', (actions, find) => {
                     actions.sendKeys(find('.ascribe-piece-list-toolbar .search-bar input[type="text"]'), 'search text');
                     actions.waitForElementToShow('.ascribe-piece-list-toolbar .search-bar .icon-ascribe-search',
-                                                 TIMEOUTS.NORMAL);
+                                                 TIMEOUTS.LONG);
                 });
 
             gemini.suite('Order widget dropdown', (pieceListToolbarOrderWidgetSuite) => {
@@ -147,7 +169,8 @@ gemini.suite('Authenticated', (suite) => {
                         actions.click(find('#ascribe-piece-list-toolbar-order-widget-dropdown'));
 
                         // Wait as the dropdown screenshot still includes the collection in the background
-                        actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
+                        actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)',
+                                                     TIMEOUTS.NORMAL);
                     });
             });
 
@@ -159,7 +182,8 @@ gemini.suite('Authenticated', (suite) => {
                         actions.click(find('#ascribe-piece-list-toolbar-filter-widget-dropdown'));
 
                         // Wait as the dropdown screenshot still includes the collection in the background
-                        actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)', TIMEOUTS.NORMAL);
+                        actions.waitForElementToShow('.ascribe-accordion-list:not(.ascribe-loading-position)',
+                                                     TIMEOUTS.NORMAL);
                     });
             });
         });

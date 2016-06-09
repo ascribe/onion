@@ -62,7 +62,6 @@ gemini.suite('Authenticated work detail', (suite) => {
             .setUrl('/login')
             .ignoreElements('.ascribe-body')
             .capture('logged in', (actions, find) => {
-                console.log('logging in');
                 actions.sendKeys(find('.ascribe-login-wrapper input[name=email]'), MAIN_USER.email);
                 actions.sendKeys(find('.ascribe-login-wrapper input[name=password]'), MAIN_USER.password);
                 actions.click(find('.ascribe-login-wrapper button[type=submit]'));
@@ -83,7 +82,6 @@ gemini.suite('Authenticated work detail', (suite) => {
             });
 
         gemini.suite('Authorized piece', (authorizedPieceSuite) => {
-            console.log('authorized piece');
             authorizedPieceSuite
                 .setUrl(pieceUrl)
                 .capture('authorized piece');
@@ -99,7 +97,6 @@ gemini.suite('Authenticated work detail', (suite) => {
             detailActionButtonSuite
                 .setUrl(editionUrl)
                 .capture('hover on action button', (actions, find) => {
-                    console.log('hover on action button');
                     actions.mouseMove(find('.ascribe-detail-property .ascribe-button-list button.btn-default'));
                 })
                 .capture('hover on delete button', (actions, find) => {
@@ -147,7 +144,6 @@ gemini.suite('Authenticated work detail', (suite) => {
             .setUrl('/logout')
             .ignoreElements('.ascribe-body')
             .before((actions) => {
-                console.log('before log out');
                 actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
             })
             .capture('logout', (actions) => {
