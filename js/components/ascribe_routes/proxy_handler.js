@@ -77,9 +77,10 @@ export function AuthRedirect({ to, when }) {
  */
 export function ProxyHandler(...redirectFunctions) {
     return (Component) => {
-        const ProxyHandlerComponent = React.createClass({
-            displayName: 'ProxyHandler',
-
+        // Don't worry about shadowing the HOC here; using a declaration like this allows
+        // babel-plugin-react-display-name to automatically generate the displayName.
+        // eslint-disable-next-line no-shadow
+        const ProxyHandler = React.createClass({
             propTypes: {
                 // Injected through HOCs
                 currentUser: currentUserShape.isRequired,
@@ -120,7 +121,7 @@ export function ProxyHandler(...redirectFunctions) {
             }
         });
 
-        return withContext(ProxyHandlerComponent,
+        return withContext(ProxyHandler,
                            'currentUser',
                            'isLoggedIn',
                            'location',
