@@ -121,7 +121,7 @@ const InputFineUploader = React.createClass({
                 setWarning={setWarning}
                 showErrorPrompt={showErrorPrompt}
                 signature={{
-                    endpoint: AppConstants.serverUrl + 's3/signature/',
+                    endpoint: `${AppConstants.serverUrl}/s3/signature/`,
                     customHeaders: {
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }
@@ -129,7 +129,7 @@ const InputFineUploader = React.createClass({
                 deleteFile={{
                     enabled: true,
                     method: 'DELETE',
-                    endpoint: AppConstants.serverUrl + 's3/delete',
+                    endpoint: `${AppConstants.serverUrl}/s3/delete`,
                     customHeaders: {
                        'X-CSRFToken': getCookie(AppConstants.csrftoken)
                     }

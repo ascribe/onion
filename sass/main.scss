@@ -1,12 +1,9 @@
 // If you import a new .scss file, make sure to restart gulp
 // otherwise it will not be included
 
-$BASE_URL: '<%= BASE_URL %>';
-
 @import 'mixins';
 @import 'ascribe_variables';
 @import 'variables';
-@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/react-star-rating/dist/css/react-star-rating.min';
 @import '../node_modules/react-datepicker/dist/react-datepicker';
 @import 'glyphicons-social';

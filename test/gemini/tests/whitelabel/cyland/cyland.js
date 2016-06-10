@@ -1,6 +1,5 @@
 'use strict';
 
-const gemini = require('gemini');
 const environment = require('../../environment');
 const TIMEOUTS = environment.TIMEOUTS;
 
@@ -10,7 +9,7 @@ const TIMEOUTS = environment.TIMEOUTS;
 gemini.suite('Cyland', (suite) => {
     suite
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
@@ -20,7 +19,7 @@ gemini.suite('Cyland', (suite) => {
             .setUrl('/')
             // Ignore Cyland's logo as it's a gif
             .ignoreElements('.cyland-landing img')
-            .capture('landing', (actions, find) => {
+            .capture('landing', (actions) => {
                 actions.waitForElementToShow('.cyland-landing img', TIMEOUTS.LONG);
             });
     });

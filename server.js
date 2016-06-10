@@ -1,30 +1,28 @@
-var argv = require('yargs').argv;
-var express = require('express');
-var compression = require('compression');
+/* eslint-disable strict, no-console */
+'use strict';
 
-var baseUrl = (function () { var baseUrl = process.env.ONION_BASE_URL || '/'; return baseUrl + (baseUrl.match(/\/$/) ? '' : '/'); })();
+const path = require('path');
+const express = require('express');
+const compression = require('compression');
+const removeTrailingSlash = require('remove-trailing-slash');
 
-var app = express();
+const BASE_PATH = removeTrailingSlash(process.env.ONION_BASE_PATH || '/');
+const PORT = process.env.ONION_PORT || 4000;
+
+const app = express();
 
 app.use(compression());
+app.use(path.resolve(BASE_PATH, '/static'), express.static(path.resolve(__dirname, 'dist')));
 
-app.use(baseUrl + 'static/js', express.static(__dirname + '/build/js'));
-app.use(baseUrl + 'static/img', express.static(__dirname + '/build/img'));
-app.use(baseUrl + 'static/css', express.static(__dirname + '/build/css'));
-app.use(baseUrl + 'static/fonts', express.static(__dirname + '/build/fonts'));
-app.use(baseUrl + 'static/thirdparty', express.static(__dirname + '/node_modules'));
-
-app.get(/.*/, function(req, res) {
+app.get(/.*/, (req, res) => {
     console.log('%s %s', req.method, req.path);
-    res.sendFile(__dirname + '/build/index.html');
+    res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
 
 
 if (require.main === module) {
-    var port = process.env.PORT || 4000;
-    console.log('Starting Onion server on port', port,
-                'baseUrl is set to', baseUrl);
-    app.listen(port);
+    console.log(`Starting Onion server on port ${PORT} with basePath set to ${BASE_PATH || '/'}`);
+    app.listen(PORT);
 }
 
 module.exports.app = app;

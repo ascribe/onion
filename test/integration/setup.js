@@ -1,25 +1,25 @@
 'use strict';
 
-const config = require('./config');
 const colors = require('colors');
 const sauceConnectLauncher = require('sauce-connect-launcher');
+const config = require('./config');
 
 
 let globalSauceProcess;
 
 if (!process.env.SAUCE_USERNAME) {
     console.log(colors.red('SAUCE_USERNAME is missing. Please check the README.md file.'));
-    process.exit(1); //eslint-disable-line no-process-exit
+    process.exit(1);
 }
 
 if (!process.env.SAUCE_ACCESS_KEY) {
     console.log(colors.red('SAUCE_ACCESS_KEY is missing. Please check the README.md file.'));
-    process.exit(1); //eslint-disable-line no-process-exit
+    process.exit(1);
 }
 
 
 if (process.env.SAUCE_AUTO_CONNECT) {
-    before(function(done) {
+    before(function (done) {
         console.log(colors.yellow('Setting up tunnel from Saucelabs to your lovely computer, will take a while.'));
         // Creating the tunnel takes a bit of time. For this case we can safely disable Mocha timeouts.
         this.timeout(0);

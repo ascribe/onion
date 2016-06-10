@@ -1,8 +1,5 @@
-.
-gulpfile.js
-node_modules
+build/*
+dist/*
+node_modules/*
 
-js/**/__tests__
-
-server.js
-js/components/ascribe_uploader/vendor
+js/components/ascribe_uploader/vendor/*

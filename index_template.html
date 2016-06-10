@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
     <head>
@@ -10,16 +10,7 @@
 
         <title>ascribe</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="<%= BASE_URL %>static/css/main.css">
-        <% DEBUG && print('<link rel="stylesheet" href="' + BASE_URL + 'static/css/maps/main.css.map">') %>
 
-        <script>
-            window.BASE_URL = '<%= BASE_URL %>';
-            window.SERVER_URL = '<%= SERVER_URL %>';
-            window.API_ENDPOINT = '<%= API_ENDPOINT %>';
-            <% DEBUG && print('window.DEBUG = true'); %>
-            <% DEBUG && print('window.CREDENTIALS = \'' + CREDENTIALS + '\''); %>
-        </script>
         <!-- Typekit gibson font -->
         <script src="https://use.typekit.net/gma2yhj.js"></script>
         <script>
@@ -44,8 +35,5 @@
             s.src='https://widget.intercom.io/widget/{app_id}';
             var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
         </script>
-        
-        <!-- actual app -->
-        <script src="<%= BASE_URL %>static/js/app.js"></script>
     </body>
 </html>

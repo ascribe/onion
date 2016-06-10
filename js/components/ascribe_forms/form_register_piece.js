@@ -162,7 +162,7 @@ let RegisterPieceForm = React.createClass({
                     <InputFineUploader
                         ref={ref => this.refs.digitalWorkFineUploader = ref}
                         keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
+                            url: `${AppConstants.serverUrl}/s3/key/`,
                             fileClass: 'digitalwork'
                         }}
                         createBlobRoutine={{
@@ -191,7 +191,7 @@ let RegisterPieceForm = React.createClass({
                         onValidationFailed={this.handleThumbnailValidationFailed}
                         isReadyForFormSubmission={formSubmissionValidation.fileOptional}
                         keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
+                            url: `${AppConstants.serverUrl}/s3/key/`,
                             fileClass: 'thumbnail'
                         }}
                         validation={{

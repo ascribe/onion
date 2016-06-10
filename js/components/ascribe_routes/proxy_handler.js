@@ -56,10 +56,11 @@ export function AuthRedirect({ to, when }) {
              * hence transitionTo cannot be used directly.
              *
              * While we're getting rid of `query.redirect` explicitly in the
-             * above `else if` statement, here it's sufficient to just call
-             * `baseUrl` + `redirectAuthenticated`, as it gets rid of queries as well.
+             * above `else if` statement, here it's sufficient to just set the
+             * location to `${baseUrl}/${redirectAuthenticated}`, as this will
+             * get rid of queries as well.
              */
-            window.location = AppConstants.baseUrl + redirectAuthenticated;
+            window.location = `${AppConstants.baseUrl}/${redirectAuthenticated}`;
             return true;
         }
 

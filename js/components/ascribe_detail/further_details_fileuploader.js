@@ -81,14 +81,14 @@ let FurtherDetailsFileuploader = React.createClass({
                     deleteFile={{
                         enabled: true,
                         method: 'DELETE',
-                        endpoint: AppConstants.serverUrl + 's3/delete',
+                        endpoint: `${AppConstants.serverUrl}/s3/delete`,
                         customHeaders: {
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }
                     }}
                     isReadyForFormSubmission={isReadyForFormSubmission}
                     keyRoutine={{
-                        url: AppConstants.serverUrl + 's3/key/',
+                        url: `${AppConstants.serverUrl}/s3/key/`,
                         fileClass: 'otherdata',
                         pieceId: pieceId
                     }}
@@ -96,7 +96,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     onValidationFailed={onValidationFailed}
                     setIsUploadReady={setIsUploadReady}
                     session={{
-                        endpoint: AppConstants.serverUrl + 'api/blob/otherdatas/fineuploader_session/',
+                        endpoint: `${AppConstants.serverUrl}/api/blob/otherdatas/fineuploader_session/`,
                         customHeaders: {
                             'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         },
@@ -109,7 +109,7 @@ let FurtherDetailsFileuploader = React.createClass({
                         }
                     }}
                     signature={{
-                        endpoint: AppConstants.serverUrl + 's3/signature/',
+                        endpoint: `${AppConstants.serverUrl}/s3/signature/`,
                         customHeaders: {
                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
                         }

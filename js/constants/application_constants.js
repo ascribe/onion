@@ -1,19 +1,13 @@
 'use strict';
 
-//const baseUrl = 'http://localhost:8000/api/';
-
-//FIXME: referring to a global variable in `window` is not
-// super pro. What if we render stuff on the server?
-//      - super-bro - Senor Developer, 14th July 2015
-//const baseUrl = window.BASE_URL;
-const apiEndpoint = window.API_ENDPOINT;
-const serverUrl = window.SERVER_URL;
-const baseUrl = window.BASE_URL;
+const apiEndpoint = process.env.API_URL;
+const serverUrl = process.env.SERVER_URL;
+const baseUrl = process.env.APP_BASE_PATH;
 
 const constants = {
     apiEndpoint,
-    serverUrl,
     baseUrl,
+    serverUrl,
     'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
                 'acl_loan', 'acl_loan_request', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
                 'acl_withdraw_transfer', 'acl_wallet_submit'],
@@ -104,12 +98,8 @@ const constants = {
     'jquery': {
         'sdkUrl': 'https://code.jquery.com/jquery-2.1.4.min.js'
     },
-    'shmui': {
-        'sdkUrl': baseUrl + 'static/thirdparty/shmui/jquery.shmui.js',
-        'cssUrl': baseUrl + 'static/thirdparty/shmui/shmui.css'
-    },
     'audiojs': {
-        'sdkUrl': baseUrl + 'static/thirdparty/audiojs/audiojs/audio.min.js'
+        'sdkUrl': baseUrl + '/static/third_party/audiojs/audio.min.js'
     },
     'videojs': {
         'sdkUrl': '//vjs.zencdn.net/4.12/video.js',

@@ -1,3 +1,4 @@
+/* eslint-disable strict, no-console */
 'use strict';
 
 const MAIN_USER = {

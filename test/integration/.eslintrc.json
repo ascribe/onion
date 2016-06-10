@@ -1,0 +1,9 @@
+{
+    "env": {
+        "mocha": true
+    },
+    "rules": {
+        "max-len": [2, { "code": 125 }],
+        "prefer-arrow-callback": [0]
+    }
+}

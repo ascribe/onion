@@ -1,0 +1,16 @@
+---
+bootstrapVersion: 3
+
+# Phase this out, first with react-component's bootstrap overrides, and then nothing at all
+preBootstrapCustomizations: ./sass/bootstrap/overrides
+
+styleLoaders:
+    - style
+    - css?sourceMap
+    - postcss
+    - sass?sourceMap&output=expanded&precision=8
+
+# For now, just include everything from Bootstrap
+styles: true
+
+scripts: false
