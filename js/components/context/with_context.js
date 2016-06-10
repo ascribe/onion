@@ -131,7 +131,7 @@ export default function withContext(WrappedComponent, ...contextProps) {
         );
     };
 
-    WithContext.displayName = `WithContext(${wrappedComponentName}): ${contextProps.join(', ')}`;
+    WithContext.displayName = `WithContext(${wrappedComponentName}): [${contextProps.join(', ')}]`;
     WithContext.contextTypes = contextTypes;
 
     return WithContext;
