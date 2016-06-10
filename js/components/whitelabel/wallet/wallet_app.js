@@ -16,14 +16,14 @@ let WalletApp = React.createClass({
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
         // Injected through HOCs
-        router: routerShape.isRequired,
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     render() {
         const { activeRoute, children, router, routes } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
-        const Footer = activeRoute && activeRoute.footer;
+        const RouteFooterType = activeRoute && activeRoute.footer;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
@@ -45,7 +45,7 @@ let WalletApp = React.createClass({
                     {/* Routes are injected here */}
                     {children}
                 </div>
-                {Footer ? <Footer /> : null}
+                {RouteFooterType ? <RouteFooterType /> : null}
             </div>
         );
     }
