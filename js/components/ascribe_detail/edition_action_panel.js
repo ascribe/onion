@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -11,20 +10,21 @@ import EditionListActions from '../../actions/edition_list_actions';
 import PieceListActions from '../../actions/piece_list_actions';
 import PieceListStore from '../../stores/piece_list_store';
 
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
-
-import ListRequestActions from './../ascribe_forms/list_form_request_actions';
-import AclButtonList from './../ascribe_buttons/acl_button_list';
-import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
-import DeleteButton from '../ascribe_buttons/delete_button';
-
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import Form from './../ascribe_forms/form';
+import ListRequestActions from './../ascribe_forms/list_form_request_actions';
+import Property from './../ascribe_forms/property';
+
+import AclButtonList from './../ascribe_buttons/acl_button_list';
 import AclInformation from '../ascribe_buttons/acl_information';
+import DeleteButton from '../ascribe_buttons/delete_button';
+import UnConsignRequestButton from './../ascribe_buttons/unconsign_request_button';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
@@ -34,17 +34,16 @@ import { getLangText } from '../../utils/lang_utils';
     A component that handles all the actions inside of the edition detail
     handleSuccess requires a loadEdition action (could be refactored)
  */
-let EditionActionPanel = React.createClass({
+const EditionActionPanel = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
-        handleSuccess: React.PropTypes.func
-    },
+        handleSuccess: React.PropTypes.func,
 
-    mixins: [History],
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
+    },
 
     getDefaultProps() {
         return {
@@ -77,7 +76,7 @@ let EditionActionPanel = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     refreshCollection() {
@@ -101,15 +100,11 @@ let EditionActionPanel = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType: ActionPanelButtonListType,
-                currentUser,
-                edition,
-                whitelabel } = this.props;
+        const { edition, actionPanelButtonListType: ActionPanelButtonListType } = this.props;
 
         if (edition.notifications && edition.notifications.length) {
             return (
                 <ListRequestActions
-                    currentUser={currentUser}
                     notifications={edition.notifications}
                     pieceOrEditions={[edition]}
                     handleSuccess={this.handleSuccess} />);
@@ -120,10 +115,8 @@ let EditionActionPanel = React.createClass({
                         <ActionPanelButtonListType
                             availableAcls={edition.acl}
                             className="ascribe-button-list"
-                            currentUser={currentUser}
                             handleSuccess={this.handleSuccess}
-                            pieceOrEditions={[edition]}
-                            whitelabel={whitelabel}>
+                            pieceOrEditions={[edition]} >
                             <AclProxy
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_transfer">
@@ -170,7 +163,6 @@ let EditionActionPanel = React.createClass({
                                 aclObject={edition.acl}
                                 aclName="acl_request_unconsign">
                                 <UnConsignRequestButton
-                                    currentUser={currentUser}
                                     edition={edition}
                                     handleSuccess={this.handleSuccess} />
                             </AclProxy>
@@ -189,4 +181,4 @@ let EditionActionPanel = React.createClass({
     }
 });
 
-export default EditionActionPanel;
+export default withContext(EditionActionPanel, 'router');

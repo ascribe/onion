@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -19,21 +16,20 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import withContext from '../../../../context/with_context';
+import { locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../utils/general_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        router: routerShape.isRequired,
+        location: locationShape.isRequired,
+        whitelabel: whitelabelShape.isRequired
     },
-
-    mixins: [History],
 
     getInitialState(){
         return mergeOptions(
@@ -82,7 +78,7 @@ let MarketRegisterPiece = React.createClass({
     handleAdditionalDataSuccess() {
         this.refreshPieceList();
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     nextSlide(queryParams) {
@@ -101,10 +97,7 @@ let MarketRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location,
-                whitelabel: {
-                    name: whitelabelName = 'Market'
-                } } = this.props
+        const { whitelabel: { name: whitelabelName = 'Market' } } = this.props;
         const { piece, step } = this.state;
 
         setDocumentTitle(getLangText('Register a new piece'));
@@ -116,8 +109,7 @@ let MarketRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                }}
-                location={location}>
+                }}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -160,4 +152,4 @@ let MarketRegisterPiece = React.createClass({
     }
 });
 
-export default MarketRegisterPiece;
+export default withContext(MarketRegisterPiece, 'location', 'router', 'whitelabel');

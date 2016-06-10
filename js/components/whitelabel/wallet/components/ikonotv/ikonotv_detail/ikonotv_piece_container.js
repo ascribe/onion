@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import EditionListActions from '../../../../../../actions/edition_list_actions';
 
@@ -24,24 +21,22 @@ import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
+import withContext from '../../../../../context/with_context';
+import { routerShape } from '../../../../../prop_types';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 
 
-let IkonotvPieceContainer = React.createClass({
+const IkonotvPieceContainer = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
+        // Injected through HOCs
+        router: routerShape.isRequired,
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
-
-    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -91,11 +86,10 @@ let IkonotvPieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     render() {
-        const { currentUser } = this.props;
         const { piece } = this.state;
 
         let furtherDetails = (
@@ -129,7 +123,6 @@ let IkonotvPieceContainer = React.createClass({
             return (
                 <WalletPieceContainer
                     piece={piece}
-                    currentUser={currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={IkonotvSubmitButton}>
@@ -146,4 +139,4 @@ let IkonotvPieceContainer = React.createClass({
     }
 });
 
-export default IkonotvPieceContainer;
+export default withContext(IkonotvPieceContainer, 'router');

@@ -14,21 +14,24 @@ import IkonotvSubmitButton from '../ikonotv_buttons/ikonotv_submit_button';
 import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accordion_list_item_piece';
 
 import AclProxy from '../../../../../acl_proxy';
+import withContext from '../../../../../context/with_context';
+import { currentUserShape } from '../../../../../prop_types';
 
 import { getLangText } from '../../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
 
 
 let IkonotvAccordionListItem = React.createClass({
     propTypes: {
         content: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
 
         children: React.PropTypes.oneOfType([
             React.PropTypes.arrayOf(React.PropTypes.element),
             React.PropTypes.element
         ]),
-        className: React.PropTypes.string
+        className: React.PropTypes.string,
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -116,4 +119,4 @@ let IkonotvAccordionListItem = React.createClass({
     }
 });
 
-export default IkonotvAccordionListItem;
+export default withContext(IkonotvAccordionListItem, 'currentUser');

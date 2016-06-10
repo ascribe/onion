@@ -2,33 +2,33 @@
 
 import React from 'react';
 
-import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
-import CreateContractForm from '../ascribe_forms/form_create_contract';
-
 import ContractListStore from '../../stores/contract_list_store';
 import ContractListActions from '../../actions/contract_list_actions';
-
-import ActionPanel from '../ascribe_panel/action_panel';
-import ContractSettingsUpdateButton from './contract_settings_update_button';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import AclProxy from '../acl_proxy';
+import ContractSettingsUpdateButton from './contract_settings_update_button';
 
-import { getLangText } from '../../utils/lang_utils';
+import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
+import CreateContractForm from '../ascribe_forms/form_create_contract';
+
+import ActionPanel from '../ascribe_panel/action_panel';
+
+import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
+import { currentUserShape, whitelabelShape } from '../prop_types';
+
 import { setDocumentTitle } from '../../utils/dom_utils';
 import { truncateTextAtCharIndex } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang_utils';
 
 
 let ContractSettings = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {
@@ -72,7 +72,7 @@ let ContractSettings = React.createClass({
     },
 
     render() {
-        const { currentUser, location, whitelabel } = this.props;
+        const { currentUser, whitelabel } = this.props;
         const publicContracts = this.getPublicContracts();
         const privateContracts = this.getPrivateContracts();
         let createPublicContractForm = null;
@@ -180,4 +180,4 @@ let ContractSettings = React.createClass({
     }
 });
 
-export default ContractSettings;
+export default withContext(ContractSettings, 'currentUser', 'whitelabel');

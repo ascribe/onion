@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/es6/Link';
 
 
 let AccordionListItem = React.createClass({

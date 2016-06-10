@@ -1,8 +1,4 @@
-'use strict';
-
 import React from 'react';
-import classNames from 'classnames';
-import { History } from 'react-router';
 
 import UserActions from '../actions/user_actions';
 import UserStore from '../stores/user_store';
@@ -11,8 +7,7 @@ import WhitelabelActions from '../actions/whitelabel_actions';
 import WhitelabelStore from '../stores/whitelabel_store';
 
 import GlobalNotification from './global_notification';
-
-import AppConstants from '../constants/application_constants';
+import { currentUserShape, locationShape, whitelabelShape } from './prop_types';
 
 import { mergeOptions } from '../utils/general_utils';
 
@@ -23,9 +18,14 @@ export default function AppBase(App) {
 
         propTypes: {
             children: React.PropTypes.element.isRequired,
-            history: React.PropTypes.object.isRequired,
-            location: React.PropTypes.object.isRequired,
+            location: locationShape.isRequired,
             routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+        },
+
+        childContextTypes: {
+            currentUser: currentUserShape,
+            location: locationShape,
+            whitelabel: whitelabelShape
         },
 
         getInitialState() {
@@ -35,7 +35,15 @@ export default function AppBase(App) {
             );
         },
 
-        mixins: [History],
+        getChildContext() {
+            const { currentUser, whitelabel } = this.state;
+
+            return {
+                currentUser,
+                whitelabel,
+                location: this.props.location
+            };
+        },
 
         componentDidMount() {
             UserStore.listen(this.onChange);
@@ -43,18 +51,6 @@ export default function AppBase(App) {
 
             UserActions.fetchCurrentUser();
             WhitelabelActions.fetchWhitelabel();
-
-            this.history.locationQueue.push(this.props.location);
-        },
-
-        componentWillReceiveProps(nextProps) {
-            const { locationQueue } = this.history;
-            locationQueue.unshift(nextProps.location);
-
-            // Limit the number of locations to keep in memory to avoid too much memory usage
-            if (locationQueue.length > AppConstants.locationThreshold) {
-                locationQueue.length = AppConstants.locationThreshold;
-            }
         },
 
         componentWillUnmount() {
@@ -68,7 +64,6 @@ export default function AppBase(App) {
 
         render() {
             const { routes } = this.props;
-            const { currentUser, whitelabel } = this.state;
 
             // The second element of the routes prop given to us by react-router is always the
             // active second-level component object (ie. after App).
@@ -78,13 +73,11 @@ export default function AppBase(App) {
                 <div>
                     <App
                         {...this.props}
-                        activeRoute={activeRoute}
-                        currentUser={currentUser}
-                        whitelabel={whitelabel} />
+                        activeRoute={activeRoute} />
                     <GlobalNotification />
                     <div id="modal" className="container" />
                 </div>
             );
         }
     });
-};
+}

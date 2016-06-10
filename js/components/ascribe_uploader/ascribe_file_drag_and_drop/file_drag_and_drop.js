@@ -55,7 +55,7 @@ let FileDragAndDrop = React.createClass({
     },
 
     clearSelection() {
-        this.refs.fileSelector.getDOMNode().value = '';
+        this.refs.fileSelector.value = '';
     },
 
     handleDragOver(event) {
@@ -132,7 +132,7 @@ let FileDragAndDrop = React.createClass({
                 evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
             }
 
-            this.refs.fileSelector.getDOMNode().dispatchEvent(evt);
+            this.refs.fileSelector.dispatchEvent(evt);
         }
     },
 

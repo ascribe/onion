@@ -8,18 +8,18 @@ import NotificationStore from '../../../../../stores/notification_store';
 
 import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion_list_item';
 
+import withContext from '../../../../context/with_context';
+import { currentUserShape, whitelabelShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let IkonotvPieceList = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
+        whitelabel: whitelabelShape.isRequired
     },
 
     getInitialState() {
@@ -39,10 +39,12 @@ let IkonotvPieceList = React.createClass({
     },
 
     shouldRedirect(pieceCount) {
-        const { currentUser: { email: userEmail },
-                whitelabel: {
-                    user: whitelabelAdminEmail
-                } } = this.props;
+        const {
+            currentUser: { email: userEmail },
+            whitelabel: {
+                user: whitelabelAdminEmail
+            }
+        } = this.props;
         const { contractAgreementListNotifications } = this.state;
 
         return contractAgreementListNotifications &&
@@ -84,4 +86,4 @@ let IkonotvPieceList = React.createClass({
     }
 });
 
-export default IkonotvPieceList;
+export default withContext(IkonotvPieceList, 'currentUser', 'whitelabel');

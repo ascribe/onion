@@ -1,14 +1,12 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/es6/Link';
 import Moment from 'moment';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
-import EditionActions from '../../actions/edition_actions';
 
 import DetailProperty from './detail_property';
 import EditionActionPanel from './edition_action_panel';
@@ -24,6 +22,7 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
 import AclProxy from '../acl_proxy';
+import withContext from '../context/with_context';
 
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
@@ -34,16 +33,17 @@ import { getLangText } from '../../utils/lang_utils';
 /**
  * This is the component that implements display-specific functionality
  */
-let Edition = React.createClass({
+const Edition = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
         coaError: React.PropTypes.object,
         furtherDetailsType: React.PropTypes.func,
-        loadEdition: React.PropTypes.func
+        loadEdition: React.PropTypes.func,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -53,20 +53,20 @@ let Edition = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType,
-                coaError,
-                currentUser,
-                edition,
-                furtherDetailsType: FurtherDetailsType,
-                loadEdition,
-                whitelabel } = this.props;
+        const {
+            actionPanelButtonListType,
+            coaError,
+            edition,
+            isLoggedIn,
+            loadEdition,
+            furtherDetailsType: FurtherDetailsType
+        } = this.props;
 
         return (
             <Row>
                 <Col md={6} className="ascribe-print-col-left">
                     <MediaContainer
                         content={edition}
-                        currentUser={currentUser}
                         refreshObject={loadEdition} />
                 </Col>
                 <Col md={6} className="ascribe-edition-details ascribe-print-col-right">
@@ -82,9 +82,7 @@ let Edition = React.createClass({
                     <EditionSummary
                         actionPanelButtonListType={actionPanelButtonListType}
                         edition={edition}
-                        currentUser={currentUser}
-                        handleSuccess={loadEdition}
-                        whitelabel={whitelabel} />
+                        handleSuccess={loadEdition} />
                     <CollapsibleParagraph
                         title={getLangText('Certificate of Authenticity')}
                         show={edition.acl.acl_coa === true}>
@@ -114,7 +112,7 @@ let Edition = React.createClass({
 
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || edition.acl.acl_edit || edition.public_note)}>
+                        show={!!(isLoggedIn || edition.acl.acl_edit || edition.public_note)}>
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (private)')}
@@ -122,8 +120,7 @@ let Edition = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_edition}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_private_edition} />
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
@@ -132,8 +129,7 @@ let Edition = React.createClass({
                             editable={!!edition.acl.acl_edit}
                             show={!!(edition.public_note || edition.acl.acl_edit)}
                             successMessage={getLangText('Public edition note saved')}
-                            url={ApiUrls.note_public_edition}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_public_edition} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -155,14 +151,15 @@ let Edition = React.createClass({
 });
 
 
-let EditionSummary = React.createClass({
+let EditionSummary = withContext(React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         edition: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
 
         actionPanelButtonListType: React.PropTypes.func,
-        handleSuccess: React.PropTypes.func
+        handleSuccess: React.PropTypes.func,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
     },
 
     getStatus() {
@@ -176,7 +173,12 @@ let EditionSummary = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType, currentUser, edition, handleSuccess, whitelabel } = this.props;
+        const {
+            actionPanelButtonListType,
+            edition,
+            handleSuccess,
+            isLoggedIn,
+        } = this.props;
 
         return (
             <div className="ascribe-detail-header">
@@ -200,23 +202,21 @@ let EditionSummary = React.createClass({
                     no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
                     `AclInformation` would show up
                 */}
-                <AclProxy show={currentUser.email && Object.keys(edition.acl).length > 1}>
+                <AclProxy show={isLoggedIn && Object.keys(edition.acl).length > 1}>
                     <DetailProperty
                         label={getLangText('ACTIONS')}
                         className="hidden-print">
                         <EditionActionPanel
                             actionPanelButtonListType={actionPanelButtonListType}
-                            currentUser={currentUser}
                             edition={edition}
-                            handleSuccess={handleSuccess}
-                            whitelabel={whitelabel} />
+                            handleSuccess={handleSuccess} />
                     </DetailProperty>
                 </AclProxy>
                 <hr/>
             </div>
         );
     }
-});
+}), 'isLoggedIn');
 
 
 let CoaDetails = React.createClass({
@@ -277,7 +277,7 @@ let CoaDetails = React.createClass({
             coaDetailElement = coa;
         } else {
             coaDetailElement = [
-                <AscribeSpinner color='dark-blue' size='md'/>,
+                <AscribeSpinner color='dark-blue' size='md' />,
                 <p>{getLangText("Just a sec, we're generating your COA")}</p>,
                 <p>{getLangText('(you may leave the page)')}</p>
             ];
@@ -354,9 +354,9 @@ let SpoolDetails = React.createClass({
                     <pre className="ascribe-pre">{ownerAddress}</pre>
                 </Property>
                 <hr />
-            </Form>);
-
+            </Form>
+        );
     }
 });
 
-export default Edition;
+export default withContext(Edition, 'isLoggedIn');

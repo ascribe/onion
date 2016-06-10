@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import Route from 'react-router/es6/Route';
 
 import AscribeApp from './components/ascribe_app';
 

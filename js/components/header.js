@@ -3,35 +3,35 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import history from '../history';
-
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import CollapsibleNav from 'react-bootstrap/lib/CollapsibleNav';
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import NavItem from 'react-bootstrap/lib/NavItem';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import EventActions from '../actions/event_actions';
-
 import PieceListStore from '../stores/piece_list_store';
 
 import AclProxy from './acl_proxy';
+import withContext from './context/with_context';
 import HeaderNotifications from './header_notifications';
 import HeaderNotificationDebug from './header_notification_debug';
 import NavRoutesLinks from './nav_routes_links';
+import { currentUserShape, whitelabelShape } from './prop_types';
 
-import { getLangText } from '../utils/lang_utils';
 import { constructHead } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
 
 
 let Header = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-        whitelabel: React.PropTypes.object.isRequired
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getInitialState() {
@@ -42,16 +42,10 @@ let Header = React.createClass({
         // Listen to the piece list store, but don't fetch immediately to avoid
         // conflicts with routes that may need to wait to load the piece list
         PieceListStore.listen(this.onChange);
-
-        // react-bootstrap 0.25.1 has a bug in which it doesn't
-        // close the mobile expanded navigation after a click by itself.
-        // To get rid of this, we set the state of the component ourselves.
-        history.listen(this.onRouteChange);
     },
 
     componentWillUnmount() {
         PieceListStore.unlisten(this.onChange);
-        //history.unlisten(this.onRouteChange);
     },
 
     onChange(state) {
@@ -116,24 +110,15 @@ let Header = React.createClass({
         this.refs.dropdownbutton.setDropdownState(false);
     },
 
-    // On route change, close expanded navbar again since react-bootstrap doesn't close
-    // the collapsibleNav by itself on click. setState() isn't available on a ref so
-    // doing this explicitly is the only way for now.
-    onRouteChange() {
-        if (this.refs.navbar) {
-            this.refs.navbar.state.navExpanded = false;
-        }
-    },
-
     render() {
-        const { currentUser, routes, whitelabel } = this.props;
+        const { currentUser, isLoggedIn, routes, whitelabel } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
         let account;
         let signup;
         let navRoutesLinks;
 
-        if (currentUser.username) {
+        if (isLoggedIn) {
             account = (
                 <DropdownButton
                     ref='dropdownbutton'
@@ -175,7 +160,7 @@ let Header = React.createClass({
             navRoutesLinks = (
                 <NavRoutesLinks
                     navbar
-                    right
+                    pullRight
                     hasPieces={!!unfilteredPieceListCount}
                     routes={routes}
                     userAcl={currentUser.acl} />
@@ -201,26 +186,30 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     ref="navbar"
-                    brand={this.getLogo()}
-                    toggleNavKey={0}
                     fixedTop={true}
                     className="hidden-print">
-                    <CollapsibleNav eventKey={0}>
-                        <Nav navbar left>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            {this.getLogo()}
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Navbar.Collapse
+                        eventKey={0}>
+                        <Nav navbar pullLeft>
                             <AclProxy
                                 aclObject={whitelabel}
                                 aclName="acl_view_powered_by">
                                 {this.getPoweredBy()}
                             </AclProxy>
                         </Nav>
-                        <Nav navbar right>
-                            <HeaderNotificationDebug show={false} />
+                        <Nav navbar pullRight>
+                            <HeaderNotificationDebug show={false}/>
                             {account}
                             {signup}
                         </Nav>
-                        <HeaderNotifications currentUser={currentUser} />
+                        <HeaderNotifications />
                         {navRoutesLinks}
-                    </CollapsibleNav>
+                    </Navbar.Collapse>
                 </Navbar>
                 <p className="ascribe-print-header visible-print">
                     <span className="icon-ascribe-logo" />
@@ -230,4 +219,4 @@ let Header = React.createClass({
     }
 });
 
-export default Header;
+export default withContext(Header, 'currentUser', 'isLoggedIn', 'whitelabel');

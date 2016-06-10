@@ -20,6 +20,10 @@ config.entry.unshift(`webpack-dev-server/client?http://${HOST}:${PORT}/`,
                      'webpack/hot/dev-server');
 config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
+// Set absolute url for public path to avoid OTS parsing errors in Chrome
+// See http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts
+config.output.publicPath = `http://${HOST}:${PORT}${config.output.publicPath}`;
+
 // Configure server
 const compiler = webpack(config);
 

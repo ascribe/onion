@@ -7,15 +7,6 @@ import Vivi23AccordionListItemThumbnailPlaceholder from './23vivi_accordion_list
 import MarketPieceList from '../market/market_piece_list';
 
 let Vivi23PieceList = React.createClass({
-    propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
-
-        // Provided from router
-        location: React.PropTypes.object
-    },
-
     render() {
         return (
             <MarketPieceList

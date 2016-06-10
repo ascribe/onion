@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import Moment from 'moment';
 
@@ -26,25 +23,25 @@ import RegisterPieceForm from '../../../../ascribe_forms/form_register_piece';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import withContext from '../../../../context/with_context';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
+
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
 import { getAclFormMessage } from '../../../../../utils/form_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../utils/general_utils';
 
 
-let CylandRegisterPiece = React.createClass({
+const CylandRegisterPiece = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
+        location: locationShape.isRequired,
+        router: routerShape.isRequired,
+        whitelabel: whitelabelShape.isRequired,
     },
-
-    mixins: [History],
 
     getInitialState(){
         return mergeOptions(
@@ -110,7 +107,7 @@ let CylandRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.history.push(`/pieces/${this.state.piece.id}`);
+        this.props.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {
@@ -129,7 +126,7 @@ let CylandRegisterPiece = React.createClass({
     },
 
     render() {
-        const { currentUser, location, whitelabel } = this.props;
+        const { currentUser, whitelabel } = this.props;
         const { piece, step } = this.state;
 
         const today = new Moment();
@@ -164,8 +161,7 @@ let CylandRegisterPiece = React.createClass({
                 glyphiconClassNames={{
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
-                }}
-                location={location}>
+                }}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
                         <Col xs={12} sm={10} md={8} smOffset={1} mdOffset={2}>
@@ -220,4 +216,4 @@ let CylandRegisterPiece = React.createClass({
     }
 });
 
-export default CylandRegisterPiece;
+export default withContext(CylandRegisterPiece, 'currentUser', 'location', 'router', 'whitelabel');

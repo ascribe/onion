@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import IndexRoute from 'react-router/es6/IndexRoute';
+import Route from 'react-router/es6/Route';
 
 import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
 

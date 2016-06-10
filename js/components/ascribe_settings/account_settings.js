@@ -5,25 +5,29 @@ import React from 'react';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
+import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
 import Form from '../ascribe_forms/form';
-import Property from '../ascribe_forms/property';
 import InputCheckbox from '../ascribe_forms/input_checkbox';
+import Property from '../ascribe_forms/property';
+
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
 import AclProxy from '../acl_proxy';
-
-import CopyrightAssociationForm from '../ascribe_forms/form_copyright_association';
+import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
-import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang_utils';
 
 let AccountSettings = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         loadUser: React.PropTypes.func.isRequired,
-        whitelabel: React.PropTypes.object.isRequired
+
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     handleSuccess() {
@@ -100,7 +104,7 @@ let AccountSettings = React.createClass({
                 <AclProxy
                     aclObject={whitelabel}
                     aclName="acl_view_settings_copyright_association">
-                    <CopyrightAssociationForm currentUser={currentUser} />
+                    <CopyrightAssociationForm />
                 </AclProxy>
                 {profile}
             </CollapsibleParagraph>
@@ -108,4 +112,4 @@ let AccountSettings = React.createClass({
     }
 });
 
-export default AccountSettings;
+export default withContext(AccountSettings, 'currentUser', 'whitelabel');

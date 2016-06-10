@@ -5,23 +5,22 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import WhitelabelActions from '../../../../../actions/whitelabel_actions';
-import WhitelabelStore from '../../../../../stores/whitelabel_store';
+import withContext from '../../../../context/with_context';
+import { whitelabelShape } from '../../../../prop_types';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let MarketLanding = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
     },
 
     componentDidUpdate() {
         const { name } = this.props.whitelabel;
- 
+
         if (name) {
             setDocumentTitle(`${name} Marketplace`);
         }
@@ -70,4 +69,4 @@ let MarketLanding = React.createClass({
     }
 });
 
-export default MarketLanding;
+export default withContext(MarketLanding, 'whitelabel');

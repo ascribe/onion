@@ -1,15 +1,16 @@
 'use strict';
 
 import React from 'react';
-import { RouteContext } from 'react-router';
-import history from '../../history';
 
 import UserStore from '../../stores/user_store';
+
+import withContext from '../context/with_context';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
 
-const { object } = React.PropTypes;
+const { bool, object } = React.PropTypes;
 const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 
 /**
@@ -25,7 +26,7 @@ export function AuthRedirect({ to, when }) {
         throw new Error(`"when" must be one of: [${whenValues}] got "${when}" instead`);
     }
 
-    return function(currentUser, query) {
+    return function redirectRoute(router, { query }, { isLoggedIn }) {
         const { redirectAuthenticated, redirect } = query;
 
         // The user of this handler specifies with `when`, what kind of status
@@ -34,19 +35,18 @@ export function AuthRedirect({ to, when }) {
         //
         // So if when === 'loggedIn', we're checking if the user is logged in (and
         // vice versa)
-        const isLoggedIn = Object.keys(currentUser).length && currentUser.email;
         const exprToValidate = when === 'loggedIn' ? isLoggedIn : !isLoggedIn;
 
         // and redirect if `true`.
         if (exprToValidate) {
-            window.setTimeout(() => history.replace({ query, pathname: to }));
+            window.setTimeout(() => router.replace({ query, pathname: to }));
             return true;
 
             // Otherwise there can also be the case that the backend
             // wants to redirect the user to a specific route when the user is logged out already
         } else if (!exprToValidate && when === 'loggedIn' && redirect) {
             delete query.redirect;
-            window.setTimeout(() => history.replace({ query, pathname: '/' + redirect }));
+            window.setTimeout(() => router.replace({ query, pathname: `/${redirect}` }));
             return true;
 
         } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
@@ -77,21 +77,18 @@ export function AuthRedirect({ to, when }) {
  */
 export function ProxyHandler(...redirectFunctions) {
     return (Component) => {
-        return React.createClass({
-            displayName: 'ProxyHandler',
-
+        // Don't worry about shadowing the HOC here; using a declaration like this allows
+        // babel-plugin-react-display-name to automatically generate the displayName.
+        // eslint-disable-next-line no-shadow
+        const ProxyHandler = React.createClass({
             propTypes: {
-                // Provided from AscribeApp, after the routes have been initialized
-                currentUser: React.PropTypes.object,
-                whitelabel: React.PropTypes.object,
-
-                // Provided from router
-                location: object
+                // Injected through HOCs
+                currentUser: currentUserShape.isRequired,
+                isLoggedIn: bool.isRequired,
+                location: locationShape.isRequired,
+                router: routerShape.isRequired,
+                whitelabel: whitelabelShape.isRequired
             },
-
-            // We need insert `RouteContext` here in order to be able
-            // to use the `Lifecycle` widget in further down nested components
-            mixins: [RouteContext],
 
             componentDidMount() {
                 this.evaluateRedirectFunctions();
@@ -102,15 +99,15 @@ export function ProxyHandler(...redirectFunctions) {
             },
 
             evaluateRedirectFunctions(props = this.props) {
-                const { currentUser, location: { query } } = props;
+                const { currentUser, isLoggedIn, location, router, whitelabel } = props;
 
                 if (UserStore.hasLoaded() && !UserStore.isLoading()) {
+                    const context = { currentUser, isLoggedIn, whitelabel };
+
                     for (let i = 0; i < redirectFunctions.length; i++) {
-                        // if a redirectFunction redirects the user,
-                        // it should return `true` and therefore
-                        // stop/avoid the execution of all functions
-                        // that follow
-                        if (redirectFunctions[i](currentUser, query)) {
+                        // if a redirectFunction redirects the user, it should return `true` and
+                        // therefore stop/avoid the execution of all functions that follow
+                        if (redirectFunctions[i](router, location, context)) {
                             break;
                         }
                     }
@@ -123,5 +120,12 @@ export function ProxyHandler(...redirectFunctions) {
                 );
             }
         });
+
+        return withContext(ProxyHandler,
+                           'currentUser',
+                           'isLoggedIn',
+                           'location',
+                           'router',
+                           'whitelabel');
     };
 }

@@ -1,32 +1,33 @@
 'use strict';
 
-import React from 'react/addons';
-import { History, Lifecycle } from 'react-router';
+import React from 'react';
 
 import SlidesContainerBreadcrumbs from './slides_container_breadcrumbs';
+
+import withContext from '../context/with_context';
+import { locationShape, routerShape } from '../prop_types';
 
 
 const { arrayOf, element, bool, shape, string, object } = React.PropTypes;
 
 const SlidesContainer = React.createClass({
     propTypes: {
-        children: arrayOf(element),
         forwardProcess: bool.isRequired,
 
+        children: arrayOf(element),
         glyphiconClassNames: shape({
             pending: string,
             complete: string
         }),
-        location: object,
-        pageExitWarning: string
-    },
 
-    mixins: [History, Lifecycle],
+        // Injected through HOCs
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
+    },
 
     getInitialState() {
         return {
-            containerWidth: 0,
-            pageExitWarning: null
+            containerWidth: 0
         };
     },
 
@@ -37,20 +38,17 @@ const SlidesContainer = React.createClass({
 
         // Initially, we need to dispatch 'resize' once to render correctly
         window.dispatchEvent(new Event('resize'));
+
     },
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleContainerResize);
     },
 
-    routerWillLeave() {
-        return this.props.pageExitWarning;
-    },
-
     handleContainerResize() {
         this.setState({
             // +30 to get rid of the padding of the container which is 15px + 15px left and right
-            containerWidth: this.refs.containerWrapper.getDOMNode().offsetWidth + 30
+            containerWidth: this.refs.containerWrapper.offsetWidth + 30
         });
     },
 
@@ -61,10 +59,10 @@ const SlidesContainer = React.createClass({
     },
 
     setSlideNum(nextSlideNum, additionalQueryParams = {}) {
-        const { location: { pathname } } = this.props;
-        const query = Object.assign({}, this.props.location.query, additionalQueryParams, { slide_num: nextSlideNum });
+        const { location: { pathname, query }, router } = this.props;
+        const slideQuery = Object.assign({}, query, additionalQueryParams, { slide_num: nextSlideNum });
 
-        this.history.push({ pathname, query });
+        router.push({ pathname, query: slideQuery });
     },
 
     // breadcrumbs are defined as attributes of the slides.
@@ -120,7 +118,7 @@ const SlidesContainer = React.createClass({
         }
     },
 
-    // Since we need to give the slides a width, we need to call ReactAddons.addons.cloneWithProps
+    // Since we need to give the slides a width, we need to call React.cloneElement
     // Also, a key is nice to have!
     renderChildren() {
         const startFrom = parseInt(this.props.location.query.start_from, 10) || -1;
@@ -129,7 +127,7 @@ const SlidesContainer = React.createClass({
             // since the default parameter of startFrom is -1, we do not need to check
             // if its actually present in the url bar, as it will just not match
             if(child && i >= startFrom) {
-                return React.addons.cloneWithProps(child, {
+                return React.cloneElement(child, {
                     className: 'ascribe-slide',
                     style: {
                         width: this.state.containerWidth
@@ -179,4 +177,4 @@ const SlidesContainer = React.createClass({
     }
 });
 
-export default SlidesContainer;
+export default withContext(SlidesContainer, 'location', 'router');

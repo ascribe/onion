@@ -13,6 +13,7 @@ import Note from '../../../../ascribe_detail/note';
 import Piece from '../../../../../components/ascribe_detail/piece';
 
 import AscribeSpinner from '../../../../ascribe_spinner';
+import withContext from '../../../../context/with_context';
 
 import ApiUrls from '../../../../../constants/api_urls';
 
@@ -22,7 +23,6 @@ import { getLangText } from '../../../../../utils/lang_utils';
 let WalletPieceContainer = React.createClass({
     propTypes: {
         piece: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
         handleDeleteSuccess: React.PropTypes.func.isRequired,
         loadPiece: React.PropTypes.func.isRequired,
         submitButtonType: React.PropTypes.func.isRequired,
@@ -30,13 +30,16 @@ let WalletPieceContainer = React.createClass({
         children: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
-        ])
+        ]),
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     render() {
         const { children,
-                currentUser,
                 handleDeleteSuccess,
+                isLoggedIn,
                 loadPiece,
                 piece,
                 submitButtonType } = this.props;
@@ -45,7 +48,6 @@ let WalletPieceContainer = React.createClass({
             return (
                 <Piece
                     piece={piece}
-                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <hr style={{marginTop: 0}}/>
@@ -64,7 +66,6 @@ let WalletPieceContainer = React.createClass({
                     }>
                     <WalletActionPanel
                         piece={piece}
-                        currentUser={currentUser}
                         loadPiece={loadPiece}
                         handleDeleteSuccess={handleDeleteSuccess}
                         submitButtonType={submitButtonType}/>
@@ -76,7 +77,7 @@ let WalletPieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || piece.public_note)}>
+                        show={!!(isLoggedIn || piece.public_note)}>
                         <Note
                             id={() => {return {'id': piece.id}; }}
                             label={getLangText('Personal note (private)')}
@@ -84,8 +85,7 @@ let WalletPieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece}
-                            currentUser={currentUser}/>
+                            url={ApiUrls.note_private_piece} />
                     </CollapsibleParagraph>
                     {children}
                 </Piece>
@@ -101,4 +101,4 @@ let WalletPieceContainer = React.createClass({
     }
 });
 
-export default WalletPieceContainer;
+export default withContext(WalletPieceContainer, 'isLoggedIn');

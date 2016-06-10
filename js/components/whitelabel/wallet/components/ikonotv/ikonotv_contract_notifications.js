@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Button from 'react-bootstrap/lib/Button';
@@ -17,23 +14,22 @@ import OwnershipFetcher from '../../../../../fetchers/ownership_fetcher';
 import CopyrightAssociationForm from '../../../../ascribe_forms/form_copyright_association';
 import Property from '../../../../ascribe_forms/property';
 
+import withContext from '../../../../context/with_context';
+import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop_types';
+
 import AppConstants from '../../../../../constants/application_constants';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
-let IkonotvContractNotifications = React.createClass({
+const IkonotvContractNotifications = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
+        router: routerShape.isRequired,
+        whitelabel: whitelabelShape.isRequired
     },
-
-    mixins: [History],
 
     getInitialState() {
         return NotificationStore.getState();
@@ -115,7 +111,7 @@ let IkonotvContractNotifications = React.createClass({
         NotificationActions.flushContractAgreementListNotifications();
         NotificationActions.fetchContractAgreementListNotifications();
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     handleDeny() {
@@ -129,13 +125,13 @@ let IkonotvContractNotifications = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('You have denied the conditions'), 'success', 5000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
-    getCopyrightAssociationForm(){
-        const { currentUser } = this.props;
+    getCopyrightAssociationForm() {
+        const { profile } = this.props.currentUser;
 
-        if (currentUser.profile && !currentUser.profile.copyright_association) {
+        if (profile && !profile.copyright_association) {
             return (
                 <div className='notification-contract-footer'>
                     <h1>{getLangText('Are you a member of any copyright societies?')}</h1>
@@ -143,7 +139,7 @@ let IkonotvContractNotifications = React.createClass({
                     <p>
                         {AppConstants.copyrightAssociations.join(', ')}
                     </p>
-                    <CopyrightAssociationForm currentUser={currentUser}/>
+                    <CopyrightAssociationForm />
                 </div>
             );
         } else {
@@ -200,4 +196,4 @@ let IkonotvContractNotifications = React.createClass({
     }
 });
 
-export default IkonotvContractNotifications;
+export default withContext(IkonotvContractNotifications, 'currentUser', 'router', 'whitelabel');

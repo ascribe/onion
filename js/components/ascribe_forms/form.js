@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
+import ReactDOM from 'react-dom';
 
 import classNames from 'classnames';
 
@@ -257,7 +257,7 @@ let Form = React.createClass({
     },
 
     renderChildren() {
-        return ReactAddons.Children.map(this.props.children, (child, i) => {
+        return React.Children.map(this.props.children, (child, i) => {
             if (child) {
                 // Since refs will be overwritten by this functions return statement,
                 // we still want to be able to define refs for nested `Form` or `Property`
@@ -355,7 +355,7 @@ let Form = React.createClass({
                 let refToValidate = {};
                 const property = this.refs[refName];
                 const input = property.refs.input;
-                const value = input.getDOMNode().value || input.state.value;
+                const value = ReactDOM.findDOMNode(input).value || input.state.value;
                 const { max,
                         min,
                         pattern,

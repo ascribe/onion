@@ -6,20 +6,17 @@ import Button from 'react-bootstrap/lib/Button';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import AscribeSpinner from '../../../../ascribe_spinner';
+import withContext from '../../../../context/with_context';
+import { whitelabelShape } from '../../../../prop_types';
 
-import { getLangText } from '../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let CylandLanding = React.createClass({
     propTypes: {
-        // Provided from WalletApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
     },
 
     render() {
@@ -67,4 +64,4 @@ let CylandLanding = React.createClass({
     }
 });
 
-export default CylandLanding;
+export default withContext(CylandLanding, 'whitelabel');
