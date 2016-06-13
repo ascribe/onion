@@ -290,7 +290,6 @@ const PieceList = React.createClass({
         return (
             <div>
                 <PieceListToolbar
-                    className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
                     searchQuery={this.state.search}
                     filterParams={filterParams}
