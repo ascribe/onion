@@ -6,22 +6,8 @@ import Moment from 'moment';
 
 import { getLangText } from './lang';
 
-/**
- * Takes a string, creates a text file and returns the URL
- *
- * @param  {string} text regular javascript string
- * @return {string}      regular javascript string
- */
-function makeTextFile(text, file) {
-    let textFileBlob = new Blob([text], {type: 'text/plain'});
-    let textFile = new File([textFileBlob], 'hash-of-' + file.name + '.txt', {
-        lastModifiedDate: file.lastModifiedDate,
-        lastModified: file.lastModified,
-        type: 'text/plain'
-    });
-
-    return textFile;
-}
+// Re-export related utilities from js-utility-belt for easier access
+export { extractFileExtensionFromString, extractFileExtensionFromUrl } from 'js-utility-belt/es6/file';
 
 /**
  * Takes a file Object, computes the MD5 hash and returns the URL of the textfile with the hash
@@ -87,32 +73,18 @@ export function computeHashOfFile(file) {
 }
 
 /**
- * Extracts a file extension from a string, by splitting by dot and taking
- * the last substring
+ * Takes a string, creates a text file and returns the URL
  *
- * If a file without an extension is submitted (file), then
- * this method just returns an empty string.
- * @param  {string} s file's name + extension
- * @return {string}   file extension
- *
- * Via: http://stackoverflow.com/a/190878/1263876
+ * @param  {string} text regular javascript string
+ * @return {string}      regular javascript string
  */
-export function extractFileExtensionFromString(s) {
-    const explodedFileName = s.split('.');
-    return explodedFileName.length > 1 ? explodedFileName.pop()
-                                       : '';
-}
+function makeTextFile(text, file) {
+    const textFileBlob = new Blob([text], { type: 'text/plain' });
+    const textFile = new File([textFileBlob], `hash-of-${file.name}.txt`, {
+        lastModifiedDate: file.lastModifiedDate,
+        lastModified: file.lastModified,
+        type: 'text/plain'
+    });
 
-
-/**
- * Extracts a file extension from a url.
- *
- * If a file without an extension is submitted (file), then
- * this method just returns an empty string.
- * @param  {string}     url A url ending in a file
- * @return {string}     a file extension
- */
-export function extractFileExtensionFromUrl(url) {
-    const fileName = url.split('/').pop();
-    return extractFileExtensionFromString(fileName);
+    return textFile;
 }
