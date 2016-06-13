@@ -2,7 +2,7 @@ import { getBrowserLang } from 'js-utility-belt/es6/lang';
 
 import languages from '../constants/languages';
 
-import { formatText } from './general';
+import { formatText } from './text';
 
 
 /**
