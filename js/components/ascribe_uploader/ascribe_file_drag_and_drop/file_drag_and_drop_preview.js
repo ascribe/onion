@@ -6,9 +6,9 @@ import FileDragAndDropPreviewImage from './file_drag_and_drop_preview_image';
 import FileDragAndDropPreviewOther from './file_drag_and_drop_preview_other';
 
 import { FileStatus } from '../react_s3_fine_uploader_utils';
-import { getLangText } from '../../../utils/lang';
-import { truncateTextAtCharIndex } from '../../../utils/general';
 import { extractFileExtensionFromString } from '../../../utils/file';
+import { getLangText } from '../../../utils/lang';
+import { truncateText } from '../../../utils/text';
 
 
 const { shape, string, number, func, bool } = React.PropTypes;
@@ -76,7 +76,7 @@ const FileDragAndDropPreview = React.createClass({
         if (numberOfDisplayedFiles === 1) {
             return (
                 <span className="file-name">
-                    {truncateTextAtCharIndex(file.name, 30, '(...).' + extractFileExtensionFromString(file.name))}
+                    {truncateText(file.name, 30, '(...).' + extractFileExtensionFromString(file.name))}
                 </span>
             );
         } else {

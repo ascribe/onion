@@ -28,23 +28,6 @@ export function escapeHTML(s) {
 }
 
 /**
- * Takes a string and breaks it at the supplied index and replaces it
- * with a (potentially) short string that also has been provided
- * @param  {string} text        The string to truncate
- * @param  {number} charIndex   The char number at which the text should be truncated
- * @param  {String} replacement All text after charIndex will be replaced with this string
- * @return {string}             The truncated text
- */
-export function truncateTextAtCharIndex(text, charIndex, replacement = '...') {
-    let truncatedText = '';
-
-    truncatedText = text.slice(0, charIndex);
-    truncatedText += text.length > charIndex ? replacement : '';
-
-    return truncatedText;
-}
-
-/**
  * @param index, int, the starting index of the substring to be replaced
  * @param character, substring to be replaced
  * @returns {string}

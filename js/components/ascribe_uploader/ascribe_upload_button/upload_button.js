@@ -4,8 +4,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { displayValidProgressFilesFilter, FileStatus } from '../react_s3_fine_uploader_utils';
-import { truncateTextAtCharIndex } from '../../../utils/general';
 import { getLangText } from '../../../utils/lang';
+import { truncateText } from '../../../utils/text';
 
 const { func, array, bool, shape, string } = React.PropTypes;
 
@@ -127,7 +127,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
                 if (uploadingFiles.length) {
                     return (
                         <span>
-                            {' ' + truncateTextAtCharIndex(uploadingFiles[0].name, 40) + ' '}
+                            {' ' + truncateText(uploadingFiles[0].name, 40) + ' '}
                             [<a onClick={this.onClickRemove}>{getLangText('cancel upload')}</a>]
                         </span>
                     );
@@ -135,7 +135,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
                     return (
                         <span>
                             <span className='ascribe-icon icon-ascribe-ok'/>
-                            {' ' + truncateTextAtCharIndex(uploadedFile.name, 40) + ' '}
+                            {' ' + truncateText(uploadedFile.name, 40) + ' '}
                             [<a onClick={this.onClickRemove}>{getLangText('remove')}</a>]
                         </span>
                     );
