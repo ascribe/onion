@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 import Moment from 'moment';
 
 import ReactError from '../../mixins/react_error';
@@ -25,7 +24,7 @@ import LicenseDetail from './license_detail';
 import Note from './note';
 import Piece from './piece';
 
-import AclButtonList from './../ascribe_buttons/acl_button_list';
+import AclButtonList from '../ascribe_buttons/acl_button_list';
 import AclInformation from '../ascribe_buttons/acl_information';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import DeleteButton from '../ascribe_buttons/delete_button';
@@ -36,31 +35,32 @@ import CreateEditionsForm from '../ascribe_forms/create_editions_form';
 import ListRequestActions from '../ascribe_forms/list_form_request_actions';
 
 import AclProxy from '../acl_proxy';
+import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
-import AscribeSpinner from '../ascribe_spinner';
 
+import { setDocumentTitle } from '../../utils/dom_utils';
 import { mergeOptions } from '../../utils/general_utils';
 import { getLangText } from '../../utils/lang_utils';
-import { setDocumentTitle } from '../../utils/dom_utils';
 
 /**
  * This is the component that implements resource/data specific functionality
  */
-let PieceContainer = React.createClass({
+const PieceContainer = React.createClass({
     propTypes: {
         furtherDetailsType: React.PropTypes.func,
 
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object,
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
-    mixins: [History, ReactError],
+    mixins: [ReactError],
 
     getDefaultProps() {
         return {
@@ -164,7 +164,7 @@ let PieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     getCreateEditionsDialog() {
@@ -207,12 +207,11 @@ let PieceContainer = React.createClass({
 
     getActions() {
         const { piece } = this.state;
-        const { currentUser } = this.props;
+        const { isLoggedIn } = this.props;
 
         if (piece.notifications && piece.notifications.length > 0) {
             return (
                 <ListRequestActions
-                    currentUser={currentUser}
                     handleSuccess={this.loadPiece}
                     notifications={piece.notifications}
                     pieceOrEditions={piece} />
@@ -220,7 +219,7 @@ let PieceContainer = React.createClass({
         } else {
             return (
                 <AclProxy
-                    show={currentUser && currentUser.email && Object.keys(piece.acl).length > 1}>
+                    show={isLoggedIn && Object.keys(piece.acl).length > 1}>
                     {/*
                         `acl_view` is always available in `edition.acl`, therefore if it has
                         no more than 1 key, we're hiding the `DetailProperty` actions as otherwise
@@ -232,7 +231,6 @@ let PieceContainer = React.createClass({
                         <AclButtonList
                             availableAcls={piece.acl}
                             className="ascribe-button-list"
-                            currentUser={currentUser}
                             pieceOrEditions={piece}
                             handleSuccess={this.loadPiece}>
                                 <CreateEditionsButton
@@ -257,7 +255,7 @@ let PieceContainer = React.createClass({
     },
 
     render() {
-        const { currentUser, furtherDetailsType: FurtherDetailsType } = this.props;
+        const { isLoggedIn, furtherDetailsType: FurtherDetailsType } = this.props;
         const { piece } = this.state;
 
         if (piece.id) {
@@ -266,7 +264,6 @@ let PieceContainer = React.createClass({
             return (
                 <Piece
                     piece={piece}
-                    currentUser={currentUser}
                     header={
                         <div className="ascribe-detail-header">
                             <hr className="hidden-print" style={{marginTop: 0}} />
@@ -297,7 +294,7 @@ let PieceContainer = React.createClass({
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Notes')}
-                        show={!!(currentUser.username || piece.acl.acl_edit || piece.public_note)}>
+                        show={!!(isLoggedIn || piece.acl.acl_edit || piece.public_note)}>
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (private)')}
@@ -305,8 +302,7 @@ let PieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_private_piece} />
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (public)')}
@@ -315,8 +311,7 @@ let PieceContainer = React.createClass({
                             editable={!!piece.acl.acl_edit}
                             show={!!(piece.public_note || piece.acl.acl_edit)}
                             successMessage={getLangText('Public note saved')}
-                            url={ApiUrls.note_public_piece}
-                            currentUser={currentUser} />
+                            url={ApiUrls.note_public_piece} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}
@@ -344,4 +339,4 @@ let PieceContainer = React.createClass({
     }
 });
 
-export default PieceContainer;
+export default withContext(PieceContainer, 'isLoggedIn', 'router');

@@ -6,24 +6,23 @@ import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
 
 import Form from './ascribe_forms/form';
-import Property from './ascribe_forms/property';
 import InputTextAreaToggable from './ascribe_forms/input_textarea_toggable';
+import Property from './ascribe_forms/property';
 
 import AscribeSpinner from './ascribe_spinner';
+import withContext from './context/with_context';
+import { locationShape } from './prop_types';
 
 import ApiUrls from '../constants/api_urls';
+
 import { getLangText } from '../utils/lang_utils';
 import { setDocumentTitle } from '../utils/dom_utils';
 
 
 let CoaVerifyContainer = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        location: locationShape.isRequired
     },
 
     render() {
@@ -117,5 +116,4 @@ let CoaVerifyForm = React.createClass({
     }
 });
 
-
-export default CoaVerifyContainer;
+export default withContext(CoaVerifyContainer, 'location');

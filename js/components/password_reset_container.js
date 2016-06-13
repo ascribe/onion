@@ -1,27 +1,27 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
-
-import Form from './ascribe_forms/form';
-import Property from './ascribe_forms/property';
-import ApiUrls from '../constants/api_urls';
-import AscribeSpinner from './ascribe_spinner';
 
 import GlobalNotificationModel from '../models/global_notification_model';
 import GlobalNotificationActions from '../actions/global_notification_actions';
-import { getLangText } from '../utils/lang_utils';
+
+import Form from './ascribe_forms/form';
+import Property from './ascribe_forms/property';
+
+import AscribeSpinner from './ascribe_spinner';
+import withContext from './context/with_context';
+import { locationShape, routerShape } from './prop_types';
+
+import ApiUrls from '../constants/api_urls';
+
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
 
 
 let PasswordResetContainer = React.createClass({
     propTypes: {
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        location: locationShape.isRequired,
     },
 
     getInitialState() {
@@ -108,13 +108,14 @@ let PasswordRequestResetForm = React.createClass({
     }
 });
 
-let PasswordResetForm = React.createClass({
+let PasswordResetForm = withContext(React.createClass({
     propTypes: {
         email: React.PropTypes.string,
-        token: React.PropTypes.string
-    },
+        token: React.PropTypes.string,
 
-    mixins: [History],
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
+    },
 
     getFormData() {
         return {
@@ -124,7 +125,7 @@ let PasswordResetForm = React.createClass({
     },
 
     handleSuccess() {
-        this.history.push('/collection');
+        this.props.router.push('/collection');
 
         const notification = new GlobalNotificationModel(getLangText('Password successfully updated'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
@@ -175,6 +176,6 @@ let PasswordResetForm = React.createClass({
             </Form>
         );
     }
-});
+}), 'router');
 
-export default PasswordResetContainer;
+export default withContext(PasswordResetContainer, 'location');

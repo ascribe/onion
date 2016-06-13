@@ -8,14 +8,22 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import Form from './form';
 import Property from './property';
 
+import withContext from '../context/with_context';
+import { currentUserShape } from '../prop_types';
+
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
 import { getLangText } from '../../utils/lang_utils';
 
-let CopyrightAssociationForm = React.createClass({
+
+const { bool } = React.PropTypes;
+
+const CopyrightAssociationForm = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired,
+        isLoggedIn: bool.isRequired
     },
 
     handleSubmitSuccess() {
@@ -28,7 +36,7 @@ let CopyrightAssociationForm = React.createClass({
     },
 
     render() {
-        const { currentUser } = this.props;
+        const { currentUser, isLoggedIn } = this.props;
         const selectDefaultValue = ' -- ' + getLangText('select an association') + ' -- ';
 
         let selectedState = selectDefaultValue;
@@ -38,7 +46,7 @@ let CopyrightAssociationForm = React.createClass({
             }
         }
 
-        if (currentUser.email) {
+        if (isLoggedIn) {
             return (
                 <Form
                     ref='form'
@@ -77,4 +85,4 @@ let CopyrightAssociationForm = React.createClass({
     }
 });
 
-export default CopyrightAssociationForm;
+export default withContext(CopyrightAssociationForm, 'currentUser', 'isLoggedIn');

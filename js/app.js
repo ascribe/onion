@@ -1,100 +1,106 @@
-'use strict';
-
-import 'babel/polyfill';
+import 'core-js/es6';
+import 'core-js/stage/4';
 import 'classlist-polyfill';
+import 'isomorphic-fetch';
 
 import React from 'react';
-import { Router, Redirect } from 'react-router';
+import ReactDOM from 'react-dom';
+import Router from 'react-router/es6/Router';
+
+import AppResolver from './app_resolver';
 import history from './history';
 
-import fetch from 'isomorphic-fetch';
-
-import ApiUrls from './constants/api_urls';
-
 import AppConstants from './constants/application_constants';
-import getRoutes from './routes';
-import requests from './utils/requests';
 
-import { updateApiUrls } from './constants/api_urls';
 import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
 import { initLogging } from './utils/error_utils';
 import { getSubdomain } from './utils/general_utils';
+import requests from './utils/requests';
 
+
+// FIXME: rename these event actions
 import EventActions from './actions/event_actions';
 
 // You can comment out the modules you don't need
 // import DebugHandler from './third_party/debug_handler';
-import FacebookHandler from './third_party/facebook_handler';
-import GoogleAnalyticsHandler from './third_party/ga_handler';
-import IntercomHandler from './third_party/intercom_handler';
-import NotificationsHandler from './third_party/notifications_handler';
-import RavenHandler from './third_party/raven_handler';
+import './third_party/facebook_handler';
+import './third_party/ga_handler';
+import './third_party/intercom_handler';
+import './third_party/notifications_handler';
+import './third_party/raven_handler';
+
+// Import global stylesheet
+import '../sass/main.scss';
 
 
 const AppGateway = {
     start() {
-        try {
-            const subdomain = getSubdomain();
-            const settings = getSubdomainSettings(subdomain);
+        let subdomainSettings;
 
-            AppConstants.whitelabel = settings;
-            updateApiUrls(settings.type, subdomain);
-            this.load(settings);
-        } catch(err) {
-            // if there are no matching subdomains, we're routing
-            // to the default frontend
+        try {
+            subdomainSettings = getSubdomainSettings(getSubdomain());
+        } catch (err) {
+            // if there are no matching subdomains, we''ll route to the default frontend
             console.logGlobal(err);
-            this.load(getDefaultSubdomainSettings());
+            subdomainSettings = getDefaultSubdomainSettings();
         }
+
+        this.load(subdomainSettings);
     },
 
     load(settings) {
-        const { subdomain, type } = settings;
-        let redirectRoute = (<Redirect from="/" to="/collection" />);
-
-        if (subdomain) {
-            // Some whitelabels have landing pages so we should not automatically redirect from / to /collection.
-            // Only www and cc do not have a landing page.
-            if (subdomain !== 'cc') {
-                redirectRoute = null;
-            }
-
-            // Adds a client specific class to the body for whitelabel styling
-            window.document.body.classList.add('client--' + subdomain);
-        }
-
         // Send the applicationWillBoot event to the third-party stores
         EventActions.applicationWillBoot(settings);
 
-        // `history.listen` is called on every route change, which is perfect for
-        // us in that case.
-        history.listen(EventActions.routeDidChange);
+        // `history.listen` is called on every route change, which is perfect for routeDidChange
+        // events.
+        // For history <= 3.0, history.listen will synchronously invoke the callback once
+        // immediately after registration.
+        history.listen((location) => {
+            const { locationQueue } = history;
+            locationQueue.unshift(location);
 
-        React.render((
-            <Router history={history}>
-                {redirectRoute}
-                {getRoutes(type, subdomain)}
-            </Router>
-        ), document.getElementById('main'));
+            // Limit the number of locations to keep in memory to avoid too much memory usage
+            if (locationQueue.length > AppConstants.locationThreshold) {
+                locationQueue.length = AppConstants.locationThreshold;
+            }
 
-        // Send the applicationDidBoot event to the third-party stores
-        EventActions.applicationDidBoot(settings);
+            EventActions.routeDidChange(location);
+        });
+
+        // Adds a client specific class to the body for whitelabel styling
+        window.document.body.classList.add(`client--${settings.subdomain || 'ascribe'}`);
+
+        AppResolver
+            .resolve(settings)
+            .then(({ apiUrls, redirectRoute, routes }) => {
+                // Initialize api urls and defaults for outgoing requests
+                requests.defaults({
+                    urlMap: apiUrls,
+                    http: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        credentials: 'include'
+                    }
+                });
+
+                ReactDOM.render((
+                    <Router history={history}>
+                        {redirectRoute}
+                        {routes}
+                    </Router>
+                ), document.getElementById('main'));
+
+                // Send the applicationDidBoot event to the third-party stores
+                EventActions.applicationDidBoot(settings);
+            });
     }
 };
 
 // Initialize pre-start components
 initLogging();
-
-requests.defaults({
-    urlMap: ApiUrls,
-    http: {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    }
-});
 
 // And bootstrap app
 AppGateway.start();

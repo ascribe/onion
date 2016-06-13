@@ -1,6 +1,5 @@
 'use strict';
 
-const gemini = require('gemini');
 const environment = require('../../environment');
 const MAIN_USER = environment.MAIN_USER;
 const TIMEOUTS = environment.TIMEOUTS;
@@ -11,7 +10,7 @@ const TIMEOUTS = environment.TIMEOUTS;
 gemini.suite('Ikonotv', (suite) => {
     suite
         .setCaptureElements('.ascribe-body')
-        .before((actions, find) => {
+        .before((actions) => {
             // This will be called before every nested suite begins
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
         });
@@ -22,9 +21,11 @@ gemini.suite('Ikonotv', (suite) => {
             // Gemini complains if we try to capture the entire app for Ikonotv's landing page for some reason
             .setCaptureElements('.ikonotv-landing')
             .setTolerance(5)
-            .capture('landing', (actions, find) => {
+            .capture('landing', (actions) => {
                 // Stop background animation
-                actions.executeJS(function (window) {
+                // eslint-disable-next-line prefer-arrow-callback
+                actions.executeJS(function removeBackgroundAnimation(window) {
+                    /* eslint-disable no-var */
                     var landingBackground = window.document.querySelector('.client--ikonotv .route--landing');
                     landingBackground.style.animation = 'none';
                     landingBackground.style.webkitAnimation = 'none';
@@ -37,10 +38,10 @@ gemini.suite('Ikonotv', (suite) => {
 
     // Ikono needs its own set of tests for some pre-authorization pages to wait for
     // its logo to appear
-    gemini.suite('Ikonotv basic', (suite) => {
-        suite
+    gemini.suite('Ikonotv basic', (basicSuite) => {
+        basicSuite
             .setCaptureElements('.ascribe-app')
-            .before((actions, find) => {
+            .before((actions) => {
                 // This will be called before every nested suite begins unless that suite
                 // also defines a `.before()`
                 actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);

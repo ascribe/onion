@@ -1,10 +1,5 @@
-'use strict';
-
 import React from 'react';
-import { Route } from 'react-router';
-
-import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
-import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
+import Route from 'react-router/es6/Route';
 
 import AscribeApp from './components/ascribe_app';
 
@@ -32,64 +27,56 @@ import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_ha
 import { getLangText } from './utils/lang_utils';
 
 
-const COMMON_ROUTES = (
-    <Route path='/' component={AscribeApp}>
+const Routes = (
+    <Route path="/" component={AscribeApp}>
         <Route
-            path='login'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}
+            path="login"
+            component={ProxyHandler(AuthRedirect({ to: '/collection', when: 'loggedIn' }))(LoginContainer)}
             footer={Footer} />
         <Route
-            path='register_piece'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(RegisterPiece)}
+            path="register_piece"
+            component={ProxyHandler(AuthRedirect({ to: '/login', when: 'loggedOut' }))(RegisterPiece)}
             headerTitle={getLangText('+ NEW WORK')}
             footer={Footer} />
         <Route
-            path='collection'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
+            path="collection"
+            component={ProxyHandler(AuthRedirect({ to: '/login', when: 'loggedOut' }))(PieceList)}
             headerTitle={getLangText('COLLECTION')}
-            disableOn='noPieces'
+            disableOn="noPieces"
             footer={Footer} />
         <Route
-            path='signup'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
+            path="signup"
+            component={ProxyHandler(AuthRedirect({ to: '/collection', when: 'loggedIn' }))(SignupContainer)}
             footer={Footer} />
         <Route
-            path='logout'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}
+            path="logout"
+            component={ProxyHandler(AuthRedirect({ to: '/login', when: 'loggedOut' }))(LogoutContainer)}
             footer={Footer} />
-        <Route path='pieces/:pieceId' component={PieceContainer}
+        <Route path="pieces/:pieceId" component={PieceContainer}
             footer={Footer} />
-        <Route path='editions/:editionId' component={EditionContainer}
-            footer={Footer} />
-        <Route
-            path='password_reset'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
+        <Route path="editions/:editionId" component={EditionContainer}
             footer={Footer} />
         <Route
-            path='settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)}
+            path="password_reset"
+            component={ProxyHandler(AuthRedirect({ to: '/collection', when: 'loggedIn' }))(PasswordResetContainer)}
             footer={Footer} />
         <Route
-            path='contract_settings'
-            component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)}
+            path="settings"
+            component={ProxyHandler(AuthRedirect({ to: '/login', when: 'loggedOut' }))(SettingsContainer)}
             footer={Footer} />
-        <Route path='coa_verify' component={CoaVerifyContainer}
+        <Route
+            path="contract_settings"
+            component={ProxyHandler(AuthRedirect({ to: '/login', when: 'loggedOut' }))(ContractSettings)}
             footer={Footer} />
-        <Route path='*' component={ErrorNotFoundPage}
+        <Route
+            path="coa_verify"
+            component={CoaVerifyContainer}
+            footer={Footer} />
+        <Route
+            path="*"
+            component={ErrorNotFoundPage}
             footer={Footer} />
     </Route>
 );
 
-
-function getRoutes(type, subdomain) {
-    if (type === 'prize') {
-        return getPrizeRoutes(COMMON_ROUTES, subdomain);
-    } else if(type === 'wallet') {
-        return getWalletRoutes(COMMON_ROUTES, subdomain);
-    } else {
-        return COMMON_ROUTES;
-    }
-}
-
-
-export default getRoutes;
+export default Routes;

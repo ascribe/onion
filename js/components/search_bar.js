@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+// FIXME: Input is deprecated
 import Input from 'react-bootstrap/lib/Input';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 

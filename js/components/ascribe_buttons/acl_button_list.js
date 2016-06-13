@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react/addons';
+import React from 'react';
 
 import ConsignButton from './acls/consign_button';
 import EmailButton from './acls/email_button';
@@ -14,7 +14,6 @@ import { selectFromObject } from '../../utils/general_utils';
 let AclButtonList = React.createClass({
     propTypes: {
         availableAcls: React.PropTypes.object.isRequired,
-        currentUser: React.PropTypes.object.isRequired,
         handleSuccess: React.PropTypes.func.isRequired,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
@@ -52,7 +51,7 @@ let AclButtonList = React.createClass({
 
     handleResize() {
         this.setState({
-            buttonListSize: this.refs.buttonList.getDOMNode().offsetWidth
+            buttonListSize: this.refs.buttonList.offsetWidth
         });
     },
 
@@ -61,7 +60,7 @@ let AclButtonList = React.createClass({
         const { buttonListSize } = this.state;
 
         return React.Children.map(children, (child) => {
-            return React.addons.cloneWithProps(child, { buttonListSize });
+            return React.cloneElement(child, { buttonListSize });
         });
     },
 
@@ -69,13 +68,11 @@ let AclButtonList = React.createClass({
         const { availableAcls,
                 buttonsStyle,
                 className,
-                currentUser,
                 handleSuccess,
                 pieceOrEditions } = this.props;
 
         const buttonProps = selectFromObject(this.props, [
             'availableAcls',
-            'currentUser',
             'handleSuccess',
             'pieceOrEditions'
         ]);

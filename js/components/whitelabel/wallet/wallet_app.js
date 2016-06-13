@@ -1,11 +1,10 @@
-'use strict';
-
 import React from 'react';
 import classNames from 'classnames';
 
 import AppBase from '../../app_base';
-import AppRouteWrapper from '../../app_route_wrapper';
+import withContext from '../../context/with_context';
 import Header from '../../header';
+import { routerShape } from '../../prop_types';
 
 import { getSubdomain } from '../../../utils/general_utils';
 
@@ -14,31 +13,26 @@ let WalletApp = React.createClass({
     propTypes: {
         activeRoute: React.PropTypes.object.isRequired,
         children: React.PropTypes.element.isRequired,
-        history: React.PropTypes.object.isRequired,
         routes: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 
-        // Provided from AppBase
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     render() {
-        const { activeRoute, children, currentUser, history, routes, whitelabel } = this.props;
+        const { activeRoute, children, router, routes } = this.props;
         const subdomain = getSubdomain();
         const path = activeRoute && activeRoute.path;
-        const Footer = activeRoute && activeRoute.footer;
+        const RouteFooterType = activeRoute && activeRoute.footer;
 
         let header = null;
         // if the path of the current activeRoute is not defined, then this is the IndexRoute
-        if ((!path || history.isActive('/login') || history.isActive('/signup') || history.isActive('/contract_notifications'))
+        if ((!path || router.isActive('/login') || router.isActive('/signup') || router.isActive('/contract_notifications'))
             && (['cyland', 'ikonotv', 'lumenus', '23vivi', 'polline', 'artcity', 'demo', 'liquidgallery']).includes(subdomain)) {
             header = (<div className="hero"/>);
         } else {
             header = (
-                <Header
-                    currentUser={currentUser}
-                    routes={routes}
-                    whitelabel={whitelabel} />
+                <Header routes={routes} />
             );
         }
 
@@ -47,16 +41,14 @@ let WalletApp = React.createClass({
         return (
             <div className={classNames('ascribe-app', 'ascribe-wallet-app', `route--${(path ? path.split('/')[0] : 'landing')}`)}>
                 {header}
-                <AppRouteWrapper
-                    currentUser={currentUser}
-                    whitelabel={whitelabel}>
+                <div className="container ascribe-body">
                     {/* Routes are injected here */}
                     {children}
-                </AppRouteWrapper>
-                {Footer ? <Footer /> : null}
+                </div>
+                {RouteFooterType ? <RouteFooterType /> : null}
             </div>
         );
     }
 });
 
-export default AppBase(WalletApp);
+export default AppBase(withContext(WalletApp, 'router'));

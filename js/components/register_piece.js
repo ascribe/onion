@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -15,11 +12,14 @@ import GlobalNotificationActions from '../actions/global_notification_actions';
 import Property from './ascribe_forms/property';
 import RegisterPieceForm from './ascribe_forms/form_register_piece';
 
-import { getLangText } from '../utils/lang_utils';
+import withContext from './context/with_context';
+import { routerShape, whitelabelShape } from './prop_types';
+
 import { setDocumentTitle } from '../utils/dom_utils';
+import { getLangText } from '../utils/lang_utils';
 
 
-let RegisterPiece = React.createClass( {
+const RegisterPiece = React.createClass( {
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
@@ -29,15 +29,10 @@ let RegisterPiece = React.createClass( {
             React.PropTypes.string
         ]),
 
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired // eslint-disable-line react/sort-prop-types
     },
-
-    mixins: [History],
 
     getInitialState(){
         return PieceListStore.getState();
@@ -65,7 +60,7 @@ let RegisterPiece = React.createClass( {
         // the piece list up to date
         PieceListActions.fetchPieceList({ page, pageSize, search, orderBy, orderAsc, filterBy });
 
-        this.history.push(`/pieces/${response.piece.id}`);
+        this.props.router.push(`/pieces/${response.piece.id}`);
     },
 
     getSpecifyEditions() {
@@ -107,5 +102,4 @@ let RegisterPiece = React.createClass( {
     }
 });
 
-
-export default RegisterPiece;
+export default withContext(RegisterPiece, 'router', 'whitelabel');

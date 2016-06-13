@@ -5,15 +5,16 @@ import React from 'react';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import Form from './../ascribe_forms/form';
-import Property from './../ascribe_forms/property';
-import InputTextAreaToggable from './../ascribe_forms/input_textarea_toggable';
+import Form from '../ascribe_forms/form';
+import Property from '../ascribe_forms/property';
+import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
+
+import withContext from '../context/with_context';
 
 import { getLangText } from '../../utils/lang_utils';
 
 let Note = React.createClass({
     propTypes: {
-        currentUser: React.PropTypes.object.isRequired,
         id: React.PropTypes.func.isRequired,
         url: React.PropTypes.string.isRequired,
 
@@ -22,7 +23,10 @@ let Note = React.createClass({
         label: React.PropTypes.string,
         placeholder: React.PropTypes.string,
         show: React.PropTypes.bool,
-        successMessage: React.PropTypes.string
+        successMessage: React.PropTypes.string,
+
+        // Injected through HOCs
+        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
     },
 
     getDefaultProps() {
@@ -40,9 +44,18 @@ let Note = React.createClass({
     },
 
     render() {
-        const { currentUser, defaultValue, editable, id, label, placeholder, show, url } = this.props;
+        const {
+            defaultValue,
+            editable,
+            id,
+            isLoggedIn,
+            label,
+            placeholder,
+            show,
+            url
+        } = this.props;
 
-        if ((currentUser.username && editable || !editable) && show) {
+        if ((isLoggedIn && editable || !editable) && show) {
             return (
                 <Form
                     url={url}
@@ -66,4 +79,4 @@ let Note = React.createClass({
     }
 });
 
-export default Note;
+export default withContext(Note, 'isLoggedIn');

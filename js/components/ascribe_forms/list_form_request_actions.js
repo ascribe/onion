@@ -11,19 +11,17 @@ let ListRequestActions = React.createClass({
             React.PropTypes.array
         ]).isRequired,
 
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 
     render () {
-        const { currentUser, handleSuccess, notifications, pieceOrEditions } = this.props;
+        const { handleSuccess, notifications, pieceOrEditions } = this.props;
 
         if (notifications.length) {
             return (
                 <div>
                     {notifications.map((notification) =>
                         <RequestActionForm
-                            currentUser={currentUser}
                             handleSuccess={handleSuccess}
                             notifications={notification}
                             pieceOrEditions={pieceOrEditions} />

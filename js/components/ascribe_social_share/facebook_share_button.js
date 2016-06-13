@@ -50,7 +50,7 @@ let FacebookShareButton = React.createClass({
             .inject(AppConstants.facebook.sdkUrl)
             .then(() => {
                 if (this.state.loaded) {
-                    FB.XFBML.parse(this.refs.fbShareButton.getDOMNode().parent)
+                    window.FB.XFBML.parse(this.refs.fbShareButton.parent);
                 }
             });
     },

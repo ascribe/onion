@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
@@ -11,9 +10,11 @@ import UserActions from '../../actions/user_actions';
 import Form from './form';
 import Property from './property';
 
-import ApiUrls from '../../constants/api_urls';
-import AppConstants from '../../constants/application_constants';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { locationShape } from '../prop_types';
+
+import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 
@@ -22,11 +23,11 @@ let LoginForm = React.createClass({
     propTypes: {
         headerMessage: React.PropTypes.string,
         submitMessage: React.PropTypes.string,
-        location: React.PropTypes.object,
-        whitelabelName: React.PropTypes.string
-    },
+        whitelabelName: React.PropTypes.string,
 
-    mixins: [History],
+        // Injected through HOCs
+        location: locationShape.isRequired // eslint-disable-line react/sort-prop-types
+    },
 
     getDefaultProps() {
         return {
@@ -93,4 +94,4 @@ let LoginForm = React.createClass({
     }
 });
 
-export default LoginForm;
+export default withContext(LoginForm, 'location');

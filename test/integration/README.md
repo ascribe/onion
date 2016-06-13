@@ -1,10 +1,10 @@
 # TL;DR
-Copy the contents of `.env-template` to `.env` and [fill up the missing keys with
+Copy the contents of `.env_template` to `.env` and [fill up the missing keys with
 information from your SauceLabs account](#how-to-set-up-your-env-config-file).
 
 ```bash
 $ npm install
-$ npm run tunnel
+$ npm run sauce-tunnel
 $ npm test && git commit
 ```
 
@@ -99,7 +99,7 @@ On the JavaScript side, we use:
 
 
 ## How to set up your `.env` config file
-In the root of this repository there is a file called `.env-template`. Create a
+In the root of this repository there is a file called `.env_template`. Create a
 copy and call it `.env`. This file will store some values we need to connect to
 Saucelabs.
 

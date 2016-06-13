@@ -72,7 +72,7 @@ let CreateContractForm = React.createClass({
                     <InputFineUploader
                         submitFile={this.submitFile}
                         keyRoutine={{
-                            url: AppConstants.serverUrl + 's3/key/',
+                            url: `${AppConstants.serverUrl}/s3/key/`,
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{

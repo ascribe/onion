@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import ReactError from '../../mixins/react_error';
 import { ResourceNotFoundError } from '../../models/errors';
@@ -25,16 +24,11 @@ let EditionContainer = React.createClass({
         actionPanelButtonListType: React.PropTypes.func,
         furtherDetailsType: React.PropTypes.func,
 
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
 
-    mixins: [History, ReactError],
+    mixins: [ReactError],
 
     getInitialState() {
         return EditionStore.getInitialState();
@@ -77,7 +71,7 @@ let EditionContainer = React.createClass({
     },
 
     render() {
-        const { actionPanelButtonListType, currentUser, furtherDetailsType, whitelabel } = this.props;
+        const { actionPanelButtonListType, furtherDetailsType } = this.props;
         const { edition, coaMeta } = this.state;
 
         if (edition.id) {
@@ -87,11 +81,9 @@ let EditionContainer = React.createClass({
                 <Edition
                     actionPanelButtonListType={actionPanelButtonListType}
                     coaError={coaMeta.err}
-                    currentUser={currentUser}
                     edition={edition}
                     furtherDetailsType={furtherDetailsType}
-                    loadEdition={this.loadEdition}
-                    whitelabel={whitelabel} />
+                    loadEdition={this.loadEdition} />
             );
         } else {
             return (

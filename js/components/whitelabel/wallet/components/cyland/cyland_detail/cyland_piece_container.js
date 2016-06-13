@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import EditionListActions from '../../../../../../actions/edition_list_actions';
 
@@ -23,24 +20,22 @@ import WalletPieceContainer from '../../ascribe_detail/wallet_piece_container';
 import CollapsibleParagraph from '../../../../../../components/ascribe_collapsible/collapsible_paragraph';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
+import withContext from '../../../../../context/with_context';
+import { routerShape } from '../../../../../prop_types';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
 import { setDocumentTitle } from '../../../../../../utils/dom_utils';
 import { mergeOptions } from '../../../../../../utils/general_utils';
+import { getLangText } from '../../../../../../utils/lang_utils';
 
 
-let CylandPieceContainer = React.createClass({
+const CylandPieceContainer = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object,
+        // Injected through HOCs
+        router: routerShape.isRequired,
 
         // Provided from router
-        location: React.PropTypes.object,
         params: React.PropTypes.object
     },
-
-    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -90,22 +85,19 @@ let CylandPieceContainer = React.createClass({
         const notification = new GlobalNotificationModel(response.notification, 'success');
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     render() {
         const { piece } = this.state;
 
         if (piece.id) {
-            const { currentUser } = this.props;
-
             setDocumentTitle(`${piece.artist_name}, ${piece.title}`);
 
             return (
                 <WalletPieceContainer
                     {...this.props}
                     piece={this.state.piece}
-                    currentUser={currentUser}
                     loadPiece={this.loadPiece}
                     handleDeleteSuccess={this.handleDeleteSuccess}
                     submitButtonType={CylandSubmitButton}>
@@ -129,4 +121,4 @@ let CylandPieceContainer = React.createClass({
     }
 });
 
-export default CylandPieceContainer;
+export default withContext(CylandPieceContainer, 'router');

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactAddons from 'react/addons';
 
 import TableHeader from './table_header';
 import { ColumnModel } from './models/table_models';
@@ -20,8 +19,8 @@ let Table = React.createClass({
     },
 
     renderChildren() {
-        return ReactAddons.Children.map(this.props.children, (child, i) => {
-            return ReactAddons.addons.cloneWithProps(child, {
+        return React.Children.map(this.props.children, (child, i) => {
+            return React.cloneElement(child, {
                 columnList: this.props.columnList,
                 columnContent: this.props.itemList[i],
                 key: i

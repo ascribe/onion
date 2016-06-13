@@ -21,7 +21,6 @@ let ShareForm = React.createClass({
         id: React.PropTypes.object,
         message: React.PropTypes.string,
         editions: React.PropTypes.array,
-        currentUser: React.PropTypes.object,
         handleSuccess: React.PropTypes.func
     },
 

@@ -34,11 +34,13 @@ let FileDragAndDropDialog = React.createClass({
     },
 
     render() {
-        const { enableLocalHashing,
-                fileClassToUpload,
-                multipleFiles,
-                onClick,
-                uploadMethod } = this.props;
+        const {
+            enableLocalHashing,
+            fileClassToUpload,
+            multipleFiles,
+            onClick,
+            uploadMethod
+        } = this.props;
         let dialogElement;
 
         if (enableLocalHashing && !uploadMethod) {
@@ -66,10 +68,8 @@ let FileDragAndDropDialog = React.createClass({
                             {getLangText('Hash your work')}
                         </span>
                     </Link>
-
                     <span> {getLangText('or')} </span>
-
-                   <Link
+                    <Link
                         to={`/${window.location.pathname.split('/').pop()}`}
                         query={queryParamsUpload}>
                         <span className="btn btn-default btn-sm">

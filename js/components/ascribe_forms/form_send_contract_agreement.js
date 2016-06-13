@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
 
 import ContractListActions from '../../actions/contract_list_actions';
 import ContractListStore from '../../stores/contract_list_store';
@@ -13,19 +12,23 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
+import withContext from '../context/with_context';
+import { routerShape } from '../prop_types';
+
+import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang_utils';
 import { mergeOptions } from '../../utils/general_utils';
 
 
-let SendContractAgreementForm = React.createClass({
+const SendContractAgreementForm = React.createClass({
     propTypes: {
-        handleSuccess: React.PropTypes.func
-    },
+        handleSuccess: React.PropTypes.func,
 
-    mixins: [History],
+        // Injected through HOCs
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
+    },
 
     getInitialState() {
         return mergeOptions(
@@ -57,7 +60,7 @@ let SendContractAgreementForm = React.createClass({
         const notification = new GlobalNotificationModel(getLangText('Contract agreement sent'), 'success', 10000);
         GlobalNotificationActions.appendGlobalNotification(notification);
 
-        this.history.push('/collection');
+        this.props.router.push('/collection');
     },
 
     getFormData() {
@@ -151,4 +154,4 @@ let SendContractAgreementForm = React.createClass({
     }
 });
 
-export default SendContractAgreementForm;
+export default withContext(SendContractAgreementForm, 'router');

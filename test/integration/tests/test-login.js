@@ -12,12 +12,12 @@ chai.should();
 
 
 function testSuite(browserName, version, platform) {
-    describe(`[${browserName} ${version} ${platform}] Login logs users in`, function() {
+    describe(`[${browserName} ${version} ${platform}] Login logs users in`, function () {
         // Set timeout to zero so Mocha won't time out.
         this.timeout(0);
         let browser;
 
-        before(function() {
+        before(function () {
             // No need to inject `username` or `access_key`, by default the constructor
             // looks up the values in `process.env.SAUCE_USERNAME` and `process.env.SAUCE_ACCESS_KEY`
             browser = wd.promiseChainRemote('ondemand.saucelabs.com', 80);
@@ -35,14 +35,14 @@ function testSuite(browserName, version, platform) {
                 });
         });
 
-        after(function() {
+        after(function () {
             return browser.quit();
         });
 
-        it('should contain "Log in" in the title', function() {
-            return browser.
-                waitForElementByCss('.ascribe-login-wrapper', asserters.isDisplayed, 2000)
-                title().should.become('Log in');
+        it('should contain "Log in" in the title', function () {
+            return browser
+                .waitForElementByCss('.ascribe-login-wrapper', asserters.isDisplayed, 2000)
+                .title().should.become('Log in');
         });
     });
 }

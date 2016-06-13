@@ -1,6 +1,7 @@
 'use strict';
 
-import fineUploader from 'fineUploader';
+// FIXME: remove once using react-components
+import fineUploader from 'exports?qq!./vendor/s3.fine-uploader';
 import MimeTypes from '../../constants/mime_types';
 
 

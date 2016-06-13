@@ -23,22 +23,27 @@ Then, install [PhantomJS2](https://www.npmjs.com/package/phantomjs2):
 
 ```bash
 # Until phantomjs2 is updated for the new 2.1 version of PhantomJS, use the following (go to https://bitbucket.org/ariya/phantomjs/downloads to find a build for your OS)
-npm install -g phantomjs2 --phantomjs_downloadurl=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
-npm install --save-dev phantomjs2 --phantomjs_downloadurl=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
+npm install phantomjs2 --phantomjs_downloadurl=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
 
 # If using OSX, you may have to install upx and decompress the binary downloaded by npm manually:
 brew install upx
 
-# Navigate to the binary, ie. /Users/Brett/.nvm/versions/node/v5.4.0/lib/node_modules/phantomjs2/lib/phantom/bin/phantomjs
+# Navigate to the binary, ie. node_modules/phantomjs2/lib/phantom/bin/ (for the local installation)
 upx -d phantomjs
 
+# If using Linux or OSX, you may also have to convert the binary using `dos2unix`:
+brew install dos2unix
+dos2unix phantomjs
 ```
 
-Finally, [install Gemini globally and locally with npm](https://github.com/gemini-testing/gemini/blob/master/README.md#installation).
+Finally, [install Gemini locally with npm](https://github.com/gemini-testing/gemini/blob/master/README.md#installation), if it
+hasn't already been installed through `package.json`.
 
 
 Running Tests
 =============
+
+Run Spool and Onion (on localhost.com:3000).
 
 Run PhantomJS:
 
@@ -46,7 +51,13 @@ Run PhantomJS:
 npm run vi-phantom
 ```
 
-And then run Gemini tests:
+Gather your initial baseline (on the master branch, for example):
+
+```bash
+npm run vi-update
+```
+
+And then run Gemini tests (on your current branch with changes, to test for regressions):
 
 ```bash
 npm run vi-test
@@ -61,8 +72,8 @@ npm run vi-test:whitelabel
 npm run vi-test:cyland
 ```
 
-If you've made changes and want them to be the new baseline (ie. it's a correct change--**make sure** to test there are
-no regressions first!), use
+Later on, if you've made changes and want them to be the new baseline (ie. it's a correct change--**make sure** to test
+there are no regressions first!), use:
 
 ```bash
 npm run vi-update

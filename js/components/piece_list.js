@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import { History } from 'react-router';
 
 import PieceListStore from '../stores/piece_list_store';
 import PieceListActions from '../actions/piece_list_actions';
@@ -24,14 +21,16 @@ import PieceListBulkModal from './ascribe_piece_list_bulk_modal/piece_list_bulk_
 import PieceListToolbar from './ascribe_piece_list_toolbar/piece_list_toolbar';
 
 import AscribeSpinner from './ascribe_spinner';
+import withContext from './context/with_context';
+import { locationShape, routerShape } from './prop_types';
 
 import { getAvailableAcls } from '../utils/acl_utils';
+import { setDocumentTitle } from '../utils/dom_utils';
 import { mergeOptions, isShallowEqual } from '../utils/general_utils';
 import { getLangText } from '../utils/lang_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
 
 
-let PieceList = React.createClass({
+const PieceList = React.createClass({
     propTypes: {
         accordionListItemType: React.PropTypes.func,
         bulkModalButtonListType: React.PropTypes.func,
@@ -47,15 +46,10 @@ let PieceList = React.createClass({
         orderParams: React.PropTypes.array,
         orderBy: React.PropTypes.string,
 
-        // Provided from AscribeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired // eslint-disable-line react/sort-prop-types
     },
-
-    mixins: [History],
 
     getDefaultProps() {
         return {
@@ -129,18 +123,18 @@ let PieceList = React.createClass({
     },
 
     componentDidUpdate() {
-        const { location: { query }, redirectTo, shouldRedirect } = this.props;
+        const { location: { query }, redirectTo, router, shouldRedirect } = this.props;
         const { unfilteredPieceListCount } = this.state;
 
         if (redirectTo && redirectTo.pathname &&
             (typeof shouldRedirect === 'function' && shouldRedirect(unfilteredPieceListCount))) {
             // FIXME: hack to redirect out of the dispatch cycle
-            window.setTimeout(() => this.history.push({
+            window.setTimeout(() => router.push({
                 // Occasionally, the back end also sets query parameters for Onion.
                 // We need to consider this by merging all passed query parameters, as we'll
                 // otherwise end up in a 404 screen
-                query: Object.assign({}, query, redirectTo.query),
-                pathname: redirectTo.pathname
+                pathname: redirectTo.pathname,
+                query: Object.assign({}, query, redirectTo.query)
             }), 0);
         }
     },
@@ -195,14 +189,14 @@ let PieceList = React.createClass({
     },
 
     searchFor(search) {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname }, router } = this.props;
 
         this.loadPieceList({ search, page: 1 });
-        this.history.push({ pathname, query: { page: 1 } });
+        router.push({ pathname, query: { page: 1 } });
     },
 
     applyFilterBy(filterBy) {
-        const { location: { pathname } } = this.props;
+        const { location: { pathname }, router } = this.props;
 
         this.setState({
             isFilterDirty: true
@@ -228,7 +222,7 @@ let PieceList = React.createClass({
 
         // we have to redirect the user always to page one as it could be that there is no page two
         // for filtered pieces
-        this.history.push({ pathname, query: { page: 1 } });
+        router.push({ pathname, query: { page: 1 } });
     },
 
     applyOrderBy(orderBy) {
@@ -277,14 +271,14 @@ let PieceList = React.createClass({
     },
 
     render() {
-        const { accordionListItemType: AccordionListItemType,
-                bulkModalButtonListType: BulkModalButtonListType,
-                currentUser,
-                customSubmitButton,
-                customThumbnailPlaceholder,
-                filterParams,
-                orderParams,
-                whitelabel } = this.props;
+        const {
+            customSubmitButton,
+            customThumbnailPlaceholder,
+            filterParams,
+            orderParams,
+            accordionListItemType: AccordionListItemType,
+            bulkModalButtonListType: BulkModalButtonListType
+        } = this.props;
 
         const loadingElement = <AscribeSpinner color='dark-blue' size='lg'/>;
 
@@ -296,7 +290,6 @@ let PieceList = React.createClass({
         return (
             <div>
                 <PieceListToolbar
-                    className="ascribe-piece-list-toolbar"
                     searchFor={this.searchFor}
                     searchQuery={this.state.search}
                     filterParams={filterParams}
@@ -313,10 +306,8 @@ let PieceList = React.createClass({
                     className="ascribe-piece-list-bulk-modal">
                     <BulkModalButtonListType
                         availableAcls={availableAcls}
-                        currentUser={currentUser}
                         handleSuccess={this.handleAclSuccess}
                         pieceOrEditions={selectedEditions}
-                        whitelabel={whitelabel}
                         className="text-center ascribe-button-list collapse-group">
                         <DeleteButton
                             handleSuccess={this.handleAclSuccess}
@@ -344,9 +335,7 @@ let PieceList = React.createClass({
                                 key={piece.id}
                                 className="col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2 ascribe-accordion-list-item"
                                 content={piece}
-                                currentUser={currentUser}
-                                thumbnailPlaceholder={customThumbnailPlaceholder}
-                                whitelabel={whitelabel}>
+                                thumbnailPlaceholder={customThumbnailPlaceholder}>
                                     <AccordionListItemTableEditions
                                         className="ascribe-accordion-list-item-table col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2"
                                         parentId={piece.id} />
@@ -360,4 +349,4 @@ let PieceList = React.createClass({
     }
 });
 
-export default PieceList;
+export default withContext(PieceList, 'location', 'router');

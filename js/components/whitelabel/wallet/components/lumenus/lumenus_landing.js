@@ -5,18 +5,17 @@ import React from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
-import { getLangText } from '../../../../../utils/lang_utils';
+import withContext from '../../../../context/with_context';
+import { whitelabelShape } from '../../../../prop_types';
+
 import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang_utils';
 
 
 let LumenusLanding = React.createClass({
     propTypes: {
-        // Provided from PrizeApp
-        currentUser: React.PropTypes.object,
-        whitelabel: React.PropTypes.object.isRequired,
-
-        // Provided from router
-        location: React.PropTypes.object
+        // Injected through HOCs
+        whitelabel: whitelabelShape.isRequired,
     },
 
     componentWillMount() {
@@ -66,4 +65,4 @@ let LumenusLanding = React.createClass({
     }
 });
 
-export default LumenusLanding;
+export default withContext(LumenusLanding, 'whitelabel');

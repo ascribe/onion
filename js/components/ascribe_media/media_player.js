@@ -7,9 +7,14 @@ import Panel from 'react-bootstrap/lib/Panel';
 
 import AppConstants from '../../constants/application_constants';
 
+import audiojs from '../../third_party/imports/audiojs';
+import shmui from '../../third_party/imports/shmui';
+import videojs from '../../third_party/imports/videojs';
+
 import { escapeHTML } from '../../utils/general_utils';
 import { extractFileExtensionFromUrl } from '../../utils/file_utils';
 import { InjectInHeadUtils } from '../../utils/inject_utils';
+
 
 /**
  * This is the component that implements display-specific functionality.
@@ -57,12 +62,9 @@ let Image = React.createClass({
 
     componentDidMount() {
         if (this.props.url) {
-            InjectInHeadUtils.inject(AppConstants.jquery.sdkUrl)
-                .then(() =>
-                    Q.all([
-                        InjectInHeadUtils.inject(AppConstants.shmui.cssUrl),
-                        InjectInHeadUtils.inject(AppConstants.shmui.sdkUrl)
-                    ]).then(() => { window.jQuery('.shmui-ascribe').shmui(); }));
+            shmui
+                .importLib()
+                .then(() => window.jQuery('.shmui-ascribe').shmui());
         }
     },
 
@@ -89,13 +91,9 @@ let Audio = React.createClass({
     },
 
     componentDidMount() {
-        InjectInHeadUtils.inject(AppConstants.audiojs.sdkUrl).then(this.ready);
-    },
-
-    ready() {
-        window.audiojs.events.ready(function() {
-            window.audiojs.createAll();
-        });
+        audiojs
+            .importLib()
+            .then(() => window.audiojs.events.ready(() => window.audiojs.createAll()));
     },
 
     render() {
@@ -142,11 +140,10 @@ let Video = React.createClass({
     },
 
     componentDidMount() {
-        Q.all([
-            InjectInHeadUtils.inject(AppConstants.videojs.cssUrl),
-            InjectInHeadUtils.inject(AppConstants.videojs.sdkUrl)])
-        .then(() => this.setState({libraryLoaded: true}))
-        .fail(() => this.setState({libraryLoaded: false}));
+        videojs
+            .importLib()
+            .then(() => this.setState({ libraryLoaded: true }))
+            .catch(() => this.setState({ libraryLoaded: false }));
     },
 
     shouldComponentUpdate(nextProps, nextState) {

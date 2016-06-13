@@ -1,8 +1,5 @@
-'use strict';
-
 import React from 'react';
 import Moment from 'moment';
-import { History } from 'react-router';
 
 import Col from 'react-bootstrap/lib/Col';
 import Row from 'react-bootstrap/lib/Row';
@@ -24,25 +21,28 @@ import LoanForm from '../../../../ascribe_forms/form_loan';
 
 import SlidesContainer from '../../../../ascribe_slides_container/slides_container';
 
+import withContext from '../../../../context/with_context';
+import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
+
 import ApiUrls from '../../../../../constants/api_urls';
 
 import { mergeOptions } from '../../../../../utils/general_utils';
 import { getLangText } from '../../../../../utils/lang_utils';
 
 
-let IkonotvRegisterPiece = React.createClass({
+const IkonotvRegisterPiece = React.createClass({
     propTypes: {
         handleSuccess: React.PropTypes.func,
 
-        // Provided from PrizeApp
-        currentUser: React.PropTypes.object.isRequired,
-        whitelabel: React.PropTypes.object.isRequired,
+        // Injected through HOCs
+        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
+        location: locationShape.isRequired, // eslint-disable-line react/sort-prop-types
+        router: routerShape.isRequired, // eslint-disable-line react/sort-prop-types
+        whitelabel: whitelabelShape.isRequired, // eslint-disable-line react/sort-prop-types
 
         // Provided from router
-        location: React.PropTypes.object
+        route: React.PropTypes.object.isRequired // eslint-disable-line react/sort-prop-types
     },
-
-    mixins: [History],
 
     getInitialState() {
         return mergeOptions(
@@ -50,16 +50,16 @@ let IkonotvRegisterPiece = React.createClass({
             PieceStore.getInitialState(),
             {
                 step: 0,
-                pageExitWarning: getLangText("If you leave this form now, your work will not be loaned to Ikono TV.")
+                pageExitWarning: getLangText('If you leave this form now, your work will not be loaned to Ikono TV.')
             }
         );
     },
 
     componentDidMount() {
+        const { location: { query }, route, router } = this.props;
+
         PieceListStore.listen(this.onChange);
         PieceStore.listen(this.onChange);
-
-        const queryParams = this.props.location.query;
 
         // Since every step of this register process is atomic,
         // we may need to enter the process at step 1 or 2.
@@ -68,9 +68,12 @@ let IkonotvRegisterPiece = React.createClass({
         //
         // We're using 'in' here as we want to know if 'piece_id' is present in the url,
         // we don't care about the value.
-        if ('piece_id' in queryParams) {
-            PieceActions.fetchPiece(queryParams.piece_id);
+        if ('piece_id' in query) {
+            PieceActions.fetchPiece(query.piece_id);
         }
+
+        // Warn the user if they try to leave before completing registration
+        router.setRouteLeaveHook(route, () => this.state.pageExitWarning);
     },
 
     componentWillUnmount() {
@@ -92,7 +95,7 @@ let IkonotvRegisterPiece = React.createClass({
         }
 
         if (!this.canSubmit()) {
-            this.history.push('/collection');
+            this.props.router.push('/collection');
         } else {
             this.nextSlide({ piece_id: response.piece.id });
         }
@@ -117,7 +120,7 @@ let IkonotvRegisterPiece = React.createClass({
 
         this.refreshPieceList();
 
-        this.history.push(`/pieces/${this.state.piece.id}`);
+        this.props.router.push(`/pieces/${this.state.piece.id}`);
     },
 
     nextSlide(queryParams) {
@@ -210,7 +213,6 @@ let IkonotvRegisterPiece = React.createClass({
     },
 
     render() {
-        const { location } = this.props;
         const { pageExitWarning, step } = this.state;
 
         return (
@@ -221,7 +223,6 @@ let IkonotvRegisterPiece = React.createClass({
                     pending: 'glyphicon glyphicon-chevron-right',
                     completed: 'glyphicon glyphicon-lock'
                 }}
-                location={location}
                 pageExitWarning={pageExitWarning}>
                 <div data-slide-title={getLangText('Register work')}>
                     <Row className="no-margin">
@@ -245,4 +246,4 @@ let IkonotvRegisterPiece = React.createClass({
     }
 });
 
-export default IkonotvRegisterPiece;
+export default withContext(IkonotvRegisterPiece, 'currentUser', 'location', 'router', 'whitelabel');

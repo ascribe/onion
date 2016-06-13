@@ -9,50 +9,65 @@ $cyland--button-sec-color: #515151;
         box-shadow: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .navbar-nav > li > a,
-    .navbar-nav > li > .active a {
+
+    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav > li > a {
         color: $cyland--nav-fg-prim-color;
         background-color: $cyland--nav-bg-color;
+
+        &:focus,
+        &:hover {
+            color: lighten($cyland--nav-fg-prim-color, 40%);
+        }
     }
-    .navbar-nav > li > a:hover {
-        color: lighten($cyland--nav-fg-prim-color, 40%);
-    }
-    .navbar-nav > .active a,
-    .navbar-nav > .active a:hover,
-    .navbar-nav > .active a:focus {
+
+    .navbar-nav > li.active > a {
         color: $cyland--nav-fg-prim-color;
         border-bottom-color: $cyland--nav-fg-prim-color;
         background-color: $cyland--nav-bg-color;
+
+        &:focus,
+        &:hover {
+            color: $cyland--nav-fg-prim-color;
+        }
     }
-    .dropdown-menu > li > a:hover,
-    .dropdown-menu > li > a:focus {
-        color: lighten($cyland--nav-fg-prim-color, 40%);
-        background-color: $cyland--nav-bg-color;
+
+    .navbar-nav .open {
+        .dropdown-toggle.btn {
+            background-color: $cyland--nav-bg-color;
+            color: lighten($cyland--nav-fg-prim-color, 40%);
+
+            &:focus,
+            &:hover {
+                background-color: $cyland--nav-bg-color;
+                color: lighten($cyland--nav-fg-prim-color, 40%);
+            }
+        }
+
+        .dropdown-menu a {
+            color: $cc--nav-fg-prim-color;
+
+            &:focus,
+            &:hover {
+                background-color: $cyland--nav-bg-color;
+                color: lighten($cc--nav-fg-prim-color, 40%);
+            }
+        }
     }
-    .navbar-nav > .open > a,
-    .navbar-nav > .open > a:hover,
-    .navbar-nav > .open > a:focus,
-    .dropdown-menu > .active > a,
-    .dropdown-menu > .active > a:hover,
-    .dropdown-menu > .active > a:focus {
-        color: lighten($cyland--nav-fg-prim-color, 40%);
-        background-color: $cyland--nav-bg-color;
-    }
+
     .dropdown-menu {
         background-color: $cyland--nav-bg-color;
     }
 
-    .dropdown-menu > li > a {
-        color: $cyland--nav-fg-prim-color;
-    }
+    .navbar-toggle {
+        .icon-bar {
+            background-color: $cyland--nav-fg-prim-color;
+        }
 
-    .navbar-toggle .icon-bar {
-        background-color: $cyland--nav-fg-prim-color;
-    }
-
-    .navbar-toggle:hover,
-    .navbar-toggle:focus {
-        background-color: $cyland--nav-bg-color;
+        &:focus,
+        &:hover {
+            background-color: $cyland--nav-bg-color;
+        }
     }
 }
 
@@ -64,7 +79,7 @@ $cyland--button-sec-color: #515151;
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 .client--cyland {
-    .ascribe-piece-list-toolbar-widget button {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
         color: $cyland--button-color !important;
         background-color: transparent !important;
         border-color: transparent !important;
