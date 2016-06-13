@@ -8,7 +8,7 @@ import InputCheckbox from './input_checkbox';
 import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
 import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
-import { mergeOptions } from '../../utils/general';
+import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
 import { isEmail } from '../../utils/regex';
 
@@ -37,7 +37,7 @@ const InputContractAgreementCheckbox = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             ContractAgreementListStore.getState(),
             {
                 value: {
@@ -73,7 +73,7 @@ const InputContractAgreementCheckbox = React.createClass({
         // If there is no contract available, hide this `Property` from the user
         this.props.setExpanded(!!contractAgreement);
 
-        state = mergeOptions(state, {
+        state = Object.assign(state, {
             value: {
                 // If `email` is defined in this component, `getContractAgreementsOrCreatePublic`
                 // is either:

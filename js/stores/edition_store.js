@@ -7,7 +7,7 @@ import EditionActions from '../actions/edition_actions';
 import EditionSource from '../sources/edition_source';
 import CoaSource from '../sources/coa_source';
 
-import { mergeOptions } from '../utils/general';
+import { safeMerge } from '../utils/general';
 
 
 class EditionStore {
@@ -15,7 +15,7 @@ class EditionStore {
         this.getInitialState();
 
         this.bindActions(EditionActions);
-        this.registerAsync(mergeOptions(EditionSource, CoaSource));
+        this.registerAsync(safeMerge(EditionSource, CoaSource));
         this.exportPublicMethods({
             getInitialState: this.getInitialState.bind(this)
         });

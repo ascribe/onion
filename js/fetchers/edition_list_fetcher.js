@@ -2,7 +2,7 @@
 
 import requests from '../utils/requests';
 
-import { mergeOptions } from '../utils/general';
+import { safeMerge } from '../utils/general';
 import { generateOrderingQueryParams } from '../utils/url';
 
 let EditionListFetcher = {
@@ -12,7 +12,7 @@ let EditionListFetcher = {
     fetch({ pieceId, page, pageSize, orderBy, orderAsc, filterBy }) {
         const ordering = generateOrderingQueryParams(orderBy, orderAsc);
 
-        const queryParams = mergeOptions(
+        const queryParams = safeMerge(
             {
                 page,
                 pageSize,

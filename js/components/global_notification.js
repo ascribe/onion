@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/lib/Col';
 
 import GlobalNotificationStore from '../stores/global_notification_store';
 
-import { mergeOptions } from '../utils/general';
+import { safeMerge } from '../utils/general';
 
 const MAX_NOTIFICATION_BUBBLE_CONTAINER_WIDTH = 768;
 
@@ -17,7 +17,7 @@ let GlobalNotification = React.createClass({
     getInitialState() {
         const notificationStore = GlobalNotificationStore.getState();
 
-        return mergeOptions(
+        return safeMerge(
             {
                 containerWidth: 0
             },

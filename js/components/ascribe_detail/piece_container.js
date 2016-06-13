@@ -42,7 +42,7 @@ import { routerShape } from '../prop_types';
 import ApiUrls from '../../constants/api_urls';
 
 import { setDocumentTitle } from '../../utils/dom';
-import { mergeOptions } from '../../utils/general';
+import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
 
 /**
@@ -69,7 +69,7 @@ const PieceContainer = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {
@@ -121,7 +121,7 @@ const PieceContainer = React.createClass({
 
          */
         if (state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
-            let pieceState = mergeOptions({}, state.piece);
+            const pieceState = Object.assign({}, state.piece);
             pieceState.acl.acl_loan = false;
             this.setState({
                 piece: pieceState

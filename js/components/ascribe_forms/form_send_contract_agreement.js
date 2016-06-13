@@ -18,7 +18,7 @@ import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { mergeOptions } from '../../utils/general';
+import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
 
 
@@ -31,7 +31,7 @@ const SendContractAgreementForm = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             ContractListStore.getState(),
             {
                 selectedContract: 0

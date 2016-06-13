@@ -11,7 +11,7 @@ import PieceListStore from '../../stores/piece_list_store';
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { mergeOptions } from '../../utils/general';
+import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
 
 
@@ -25,7 +25,7 @@ let AccordionListItemEditionWidget = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             EditionListStore.getState(),
             PieceListStore.getState()
         );

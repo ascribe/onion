@@ -8,6 +8,7 @@ export { default as isShallowEqual } from 'shallow-equals';
 
 // Re-export general utilities from js-utility-belt for easier access
 export {
+    safeMerge,
     sanitize
 } from 'js-utility-belt/es6';
 
@@ -38,48 +39,6 @@ export function sumNumList(l) {
 }
 
 */
-
-/**
- * Checks a list of objects for key duplicates and returns a boolean
- */
-function _doesObjectListHaveDuplicates(l) {
-    let mergedList = [];
-
-    l = l.map((obj) => {
-        if(!obj) {
-            throw new Error('The object you are trying to merge is null instead of an empty object');
-        }
-
-        return Object.keys(obj);
-    });
-
-    // Taken from: http://stackoverflow.com/a/10865042
-    // How to flatten an array of arrays in javascript.
-    // If two objects contain the same key, then these two keys
-    // will actually be represented in the merged array
-    mergedList = mergedList.concat.apply(mergedList, l);
-
-    // Taken from: http://stackoverflow.com/a/7376645/1263876
-    // By casting the array to a set, and then checking if the size of the array
-    // shrunk in the process of casting, we can check if there were any duplicates
-    return new Set(mergedList).size !== mergedList.length;
-}
-
-/**
- * Takes a list of object and merges their keys to one object.
- * Uses mergeOptions for two objects.
- * @param  {[type]} l [description]
- * @return {[type]}   [description]
- */
-export function mergeOptions(...l) {
-    // If the objects submitted in the list have duplicates,in their key names,
-    // abort the merge and tell the function's user to check his objects.
-    if (_doesObjectListHaveDuplicates(l)) {
-        throw new Error('The objects you submitted for merging have duplicates. Merge aborted.');
-    }
-
-    return Object.assign({}, ...l);
-}
 
 /**
  * In place update of a dictionary

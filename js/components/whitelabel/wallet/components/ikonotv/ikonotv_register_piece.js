@@ -26,7 +26,7 @@ import { currentUserShape, locationShape, routerShape, whitelabelShape } from '.
 
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { mergeOptions } from '../../../../../utils/general';
+import { safeMerge } from '../../../../../utils/general';
 import { getLangText } from '../../../../../utils/lang';
 
 
@@ -45,7 +45,7 @@ const IkonotvRegisterPiece = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {

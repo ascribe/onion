@@ -8,12 +8,12 @@ import LicenseActions from '../../../../../actions/license_actions';
 import LicenseStore from '../../../../../stores/license_store';
 
 import { setDocumentTitle } from '../../../../../utils/dom';
-import { mergeOptions } from '../../../../../utils/general';
+import { safeMerge } from '../../../../../utils/general';
 import { getLangText } from '../../../../../utils/lang';
 
 let CCRegisterPiece = React.createClass({
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             LicenseStore.getState(),
             {
                 selectedLicense: 0

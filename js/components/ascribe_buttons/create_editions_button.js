@@ -46,9 +46,9 @@ let CreateEditionsButton = React.createClass({
     startPolling() {
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
-
-            // requests, will try to merge the filterBy parameter with other parameters (mergeOptions).
-            // Therefore it can't but null but instead has to be an empty object
+            // TODO: re-evaluate whether this is necessary:
+            // requests, will try to merge the filterBy parameter with other parameters (safeMerge).
+            // Therefore it can't be null but instead has to be an empty object
             EditionListActions
                 .fetchEditionList({
                     pieceId: this.props.piece.id,

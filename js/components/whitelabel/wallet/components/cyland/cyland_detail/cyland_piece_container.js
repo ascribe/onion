@@ -24,7 +24,7 @@ import withContext from '../../../../../context/with_context';
 import { routerShape } from '../../../../../prop_types';
 
 import { setDocumentTitle } from '../../../../../../utils/dom';
-import { mergeOptions } from '../../../../../../utils/general';
+import { safeMerge } from '../../../../../../utils/general';
 import { getLangText } from '../../../../../../utils/lang';
 
 
@@ -38,7 +38,7 @@ const CylandPieceContainer = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceStore.getInitialState(),
             PieceListStore.getState()
         );

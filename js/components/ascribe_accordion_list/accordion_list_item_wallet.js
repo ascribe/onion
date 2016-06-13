@@ -23,7 +23,7 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { whitelabelShape } from '../prop_types';
 
-import { mergeOptions } from '../../utils/general';
+import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
 
 
@@ -43,7 +43,7 @@ let AccordionListItemWallet = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             {
                 showCreateEditionsDialog: false

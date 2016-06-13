@@ -2,7 +2,7 @@
 
 import requests from '../utils/requests';
 
-import { mergeOptions } from '../utils/general';
+import { safeMerge } from '../utils/general';
 import { generateOrderingQueryParams } from '../utils/url';
 
 let PieceListFetcher = {
@@ -15,7 +15,7 @@ let PieceListFetcher = {
 
         // filterBy is an object of acl key-value pairs.
         // The values are booleans
-        const queryParams = mergeOptions(
+        const queryParams = safeMerge(
             {
                 page,
                 pageSize,

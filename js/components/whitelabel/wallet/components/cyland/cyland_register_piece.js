@@ -30,7 +30,7 @@ import ApiUrls from '../../../../../constants/api_urls';
 
 import { setDocumentTitle } from '../../../../../utils/dom';
 import { getAclFormMessage } from '../../../../../utils/form';
-import { mergeOptions } from '../../../../../utils/general';
+import { safeMerge } from '../../../../../utils/general';
 import { getLangText } from '../../../../../utils/lang';
 
 
@@ -44,7 +44,7 @@ const CylandRegisterPiece = React.createClass({
     },
 
     getInitialState(){
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {
