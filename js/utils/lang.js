@@ -1,16 +1,10 @@
 'use strict';
+import { getBrowserLang } from 'js-utility-belt/es6/lang';
 
 import languages from '../constants/languages';
 
 import { formatText } from './general';
 
-
-export function getLang() {
-    // this is just for testing, as changing the navigator.language wasn't possible
-    // return 'fr';
-    return navigator.languages ? navigator.languages[0] :
-                                 (navigator.language || navigator.userLanguage);
-}
 
 /**
  * Is used to translate strings to another language. Basically can be used with C's string format method.
@@ -19,7 +13,7 @@ export function getLang() {
  * @return {string}             The formated string
  */
 export function getLangText(s, ...args) {
-    let lang = getLang();
+    const lang = getBrowserLang();
     try {
         if(lang in languages) {
             return formatText(languages[lang][s], ...args);
