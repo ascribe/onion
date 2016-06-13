@@ -6,11 +6,5 @@ export { getCurrentQueryParams, stringifyAsQueryParam, parseQueryParamStr } from
  * an API call.
  */
 export function generateOrderingQueryParams(orderBy, orderAsc) {
-    let interpolation = '';
-
-    if(!orderAsc) {
-        interpolation += '-';
-    }
-
-    return interpolation + orderBy;
+    return orderAsc ? orderBy : `-${orderBy}`;
 }
