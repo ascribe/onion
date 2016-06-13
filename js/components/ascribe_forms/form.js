@@ -370,7 +370,7 @@ let Form = React.createClass({
                 const validatedRef = this._hasRefErrors(refToValidate);
                 validatedFormInputs[refName] = validatedRef;
             });
-        const errorMessagesForRefs = sanitize(validatedFormInputs, (val) => !val);
+        const errorMessagesForRefs = sanitize(validatedFormInputs);
         this.handleError({ json: { errors: errorMessagesForRefs } });
         return !Object.keys(errorMessagesForRefs).length;
     },

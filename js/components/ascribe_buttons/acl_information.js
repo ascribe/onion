@@ -90,7 +90,7 @@ let AclInformation = React.createClass({
             verbsToDisplay = verbsToDisplay.concat(verbs);
         } else if(aim === 'button' && this.props.aclObject) {
             const { aclObject } = this.props;
-            const sanitizedAclObject = sanitize(aclObject, (val) => !val);
+            const sanitizedAclObject = sanitize(aclObject);
             verbsToDisplay = verbsToDisplay.concat(intersectLists(verbs, Object.keys(sanitizedAclObject)));
         }
 

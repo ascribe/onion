@@ -20,7 +20,7 @@ export function getAvailableAcls(editions, filterFn) {
         edition.acl.edition = false;
         edition.acl.piece = false;
 
-        edition.acl = sanitize(edition.acl, (val) => !val);
+        edition.acl = sanitize(edition.acl);
         edition.acl = Object.keys(edition.acl);
 
         // additionally, the user can specify a filter function for
