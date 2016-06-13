@@ -8,8 +8,8 @@ import audiojs from '../../third_party/imports/audiojs';
 import shmui from '../../third_party/imports/shmui';
 import videojs from '../../third_party/imports/videojs';
 
+import { escapeHTML } from '../../utils/dom';
 import { extractFileExtensionFromUrl } from '../../utils/file';
-import { escapeHTML } from '../../utils/general';
 
 
 /**
