@@ -3,7 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { dragAndDropAvailable } from '../../../utils/feature_detection';
+import { dragAndDropAvailable } from 'js-utility-belt/es6/feature_detection';
+
 import { getLangText } from '../../../utils/lang';
 import { getCurrentQueryParams } from '../../../utils/url';
 
