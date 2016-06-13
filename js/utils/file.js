@@ -1,5 +1,3 @@
-'use strict';
-
 import Q from 'q';
 import SparkMD5 from 'spark-md5';
 import Moment from 'moment';
@@ -17,43 +15,42 @@ export { extractFileExtensionFromString, extractFileExtensionFromUrl } from 'js-
  */
 export function computeHashOfFile(file) {
     return Q.Promise((resolve, reject, notify) => {
-        let blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
-        let chunkSize = 2097152; // Read in chunks of 2MB
-        let chunks = Math.ceil(file.size / chunkSize);
+        const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+        const chunkSize = 2097152; // Read in chunks of 2MB
+        const chunks = Math.ceil(file.size / chunkSize);
+        const spark = new SparkMD5.ArrayBuffer();
+        const fileReader = new FileReader();
+        const startTime = new Moment();
         let currentChunk = 0;
-        let spark = new SparkMD5.ArrayBuffer();
-        let fileReader = new FileReader();
-
-        let startTime = new Moment();
 
         // comment: We should convert this to es6 at some point, however if so please consider that
         // an arrow function will get rid of the function's scope...
-        fileReader.onload = function(e) {
-            //console.log('read chunk nr', currentChunk + 1, 'of', chunks);
+        fileReader.onload = (e) => {
+            // console.log('read chunk nr', currentChunk + 1, 'of', chunks);
             spark.append(e.target.result); // Append array buffer
             currentChunk++;
 
             if (currentChunk < chunks) {
                 loadNext();
             } else {
-                let fileHash = spark.end();
+                const fileHash = spark.end();
 
                 console.info('computed hash %s (took %d s)',
                     fileHash,
                     Math.round(((new Moment() - startTime) / 1000) % 60)); // Compute hash
 
-                let blobTextFile = makeTextFile(fileHash, file);
-                resolve(blobTextFile);
+                resolve(makeTextFile(fileHash, file));
             }
-        }.bind(this);
+        };
 
-        fileReader.onerror = function () {
-            reject(new Error(getLangText('We weren\'t able to hash your file locally. Try to upload it manually or consider contact us.')));
+        fileReader.onerror = () => {
+            reject(new Error(getLangText("We weren't able to hash your file locally. Try to " +
+                                         'upload it manually or consider contact us.')));
         };
 
         function loadNext() {
-            var start = currentChunk * chunkSize,
-                end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+            const start = currentChunk * chunkSize;
+            const end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
 
             // send progress
             // Due to the fact that progressHandler and notify are going to be removed in v2
