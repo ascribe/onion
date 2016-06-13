@@ -6,7 +6,7 @@ import AppConstants from '../constants/application_constants';
 
 import { getCookie } from '../utils/fetch_api';
 import { omitFromObject } from '../utils/general';
-import { argsToQueryParams } from '../utils/url';
+import { stringifyAsQueryParam } from '../utils/url';
 
 
 class Requests {
@@ -108,7 +108,7 @@ class Requests {
         });
 
         if (attachParamsToQuery && params && Object.keys(params).length > 0) {
-            newUrl += argsToQueryParams(params);
+            newUrl += stringifyAsQueryParam(params);
         }
 
         return newUrl;
