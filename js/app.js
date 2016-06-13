@@ -14,8 +14,8 @@ import AppConstants from './constants/application_constants';
 
 import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants';
 import { initLogging } from './utils/error';
-import { getSubdomain } from './utils/general';
 import requests from './utils/requests';
+import { getCurrentSubdomain } from './utils/url';
 
 
 // FIXME: rename these event actions
@@ -38,7 +38,7 @@ const AppGateway = {
         let subdomainSettings;
 
         try {
-            subdomainSettings = getSubdomainSettings(getSubdomain());
+            subdomainSettings = getSubdomainSettings(getCurrentSubdomain());
         } catch (err) {
             // if there are no matching subdomains, we''ll route to the default frontend
             console.logGlobal(err);

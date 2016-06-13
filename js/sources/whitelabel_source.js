@@ -3,13 +3,13 @@
 import requests from '../utils/requests';
 import WhitelabelActions from '../actions/whitelabel_actions';
 
-import { getSubdomain } from '../utils/general';
+import { getCurrentSubdomain } from '../utils/url';
 
 
 const WhitelabelSource = {
     lookupWhitelabel: {
         remote() {
-            return requests.get('whitelabel_settings', { 'subdomain': getSubdomain() });
+            return requests.get('whitelabel_settings', { 'subdomain': getCurrentSubdomain() });
         },
 
         local(state) {

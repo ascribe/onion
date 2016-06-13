@@ -3,7 +3,7 @@
 import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
-import { getSubdomain } from '../utils/general';
+import { getCurrentSubdomain } from '../utils/url';
 
 
 class IntercomHandler {
@@ -20,7 +20,7 @@ class IntercomHandler {
         window.Intercom('boot', {
             app_id: 'oboxh5w1',
             email: user.email,
-            subdomain: getSubdomain(),
+            subdomain: getCurrentSubdomain(),
             widget: {
                 activator: '#IntercomDefaultWidget'
             }

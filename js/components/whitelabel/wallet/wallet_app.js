@@ -6,7 +6,7 @@ import withContext from '../../context/with_context';
 import Header from '../../header';
 import { routerShape } from '../../prop_types';
 
-import { getSubdomain } from '../../../utils/general';
+import { getCurrentSubdomain } from '../../../utils/url';
 
 
 let WalletApp = React.createClass({
@@ -21,7 +21,7 @@ let WalletApp = React.createClass({
 
     render() {
         const { activeRoute, children, router, routes } = this.props;
-        const subdomain = getSubdomain();
+        const subdomain = getCurrentSubdomain();
         const path = activeRoute && activeRoute.path;
         const RouteFooterType = activeRoute && activeRoute.footer;
 

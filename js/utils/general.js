@@ -26,14 +26,3 @@ export {
 export function escapeHTML(s) {
     return document.createElement('div').appendChild(document.createTextNode(s)).parentNode.innerHTML;
 }
-
-/**
- * Extracts the user's subdomain from the browser's window.
- * If no subdomain is found (for example on a naked domain), the default "www" is just assumed.
- * @return {string} subdomain as a string
- */
-export function getSubdomain() {
-    let { host } = window.location;
-    let tokens = host.split('.');
-    return tokens.length > 2 ? tokens[0] : 'www';
-}

@@ -7,7 +7,7 @@ import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
 
-import { getSubdomain } from '../utils/general';
+import { getCurrentSubdomain } from '../utils/url';
 
 
 class NotificationsHandler {
@@ -21,7 +21,7 @@ class NotificationsHandler {
             return;
         }
 
-        const subdomain = getSubdomain();
+        const subdomain = getCurrentSubdomain();
         if (subdomain === 'ikonotv') {
             NotificationActions.fetchContractAgreementListNotifications().then(
                 (res) => {
