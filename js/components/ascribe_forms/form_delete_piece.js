@@ -6,10 +6,11 @@ import Form from '../ascribe_forms/form';
 
 import AclInformation from '../ascribe_buttons/acl_information';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import ApiUrls from '../../constants/api_urls';
+
+import { getLangText } from '../../utils/lang';
 
 
 let PieceDeleteForm = React.createClass({

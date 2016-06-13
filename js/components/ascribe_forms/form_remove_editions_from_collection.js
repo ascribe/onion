@@ -4,10 +4,11 @@ import React from 'react';
 
 import Form from './form';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import ApiUrls from '../../constants/api_urls';
+
+import { getLangText } from '../../utils/lang';
 
 let EditionRemoveFromCollectionForm = React.createClass({
     propTypes: {

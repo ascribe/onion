@@ -13,8 +13,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import requests from '../../utils/requests';
 
-import { getLangText } from '../../utils/lang_utils';
-import { sanitize } from '../../utils/general_utils';
+import { sanitize } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let Form = React.createClass({

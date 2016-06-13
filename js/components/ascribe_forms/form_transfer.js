@@ -13,7 +13,7 @@ import AclInformation from '../ascribe_buttons/acl_information';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang.js';
 
 
 let TransferForm = React.createClass({

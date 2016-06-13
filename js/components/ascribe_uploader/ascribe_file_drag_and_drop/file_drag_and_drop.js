@@ -9,7 +9,7 @@ import FileDragAndDropErrorDialog from './file_drag_and_drop_error_dialog';
 import FileDragAndDropPreviewIterator from './file_drag_and_drop_preview_iterator';
 
 import { FileStatus } from '../react_s3_fine_uploader_utils';
-import { getLangText } from '../../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang';
 
 
 // Taken from: https://github.com/fedosejev/react-file-drag-and-drop

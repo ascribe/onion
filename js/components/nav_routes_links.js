@@ -4,11 +4,10 @@ import React from 'react';
 
 import Nav from 'react-bootstrap/lib/Nav';
 
+import AclProxy from './acl_proxy';
 import NavRoutesLinksLink from './nav_routes_links_link';
 
-import AclProxy from './acl_proxy';
-
-import { sanitizeList } from '../utils/general_utils';
+import { sanitizeList } from '../utils/general';
 
 
 const DISABLE_ENUM = ['hasPieces', 'noPieces'];

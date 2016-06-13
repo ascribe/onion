@@ -28,10 +28,10 @@ import { currentUserShape, locationShape, routerShape, whitelabelShape } from '.
 
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getAclFormMessage } from '../../../../../utils/form_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getAclFormMessage } from '../../../../../utils/form';
+import { mergeOptions } from '../../../../../utils/general';
+import { getLangText } from '../../../../../utils/lang';
 
 
 const CylandRegisterPiece = React.createClass({

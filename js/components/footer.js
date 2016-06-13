@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { getLangText } from '../utils/lang_utils';
+import { getLangText } from '../utils/lang';
 
 
 const Footer = React.createClass({

@@ -19,8 +19,8 @@ import { currentUserShape, routerShape, whitelabelShape } from '../../../../prop
 
 import AppConstants from '../../../../../constants/application_constants';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getLangText } from '../../../../../utils/lang';
 
 
 const IkonotvContractNotifications = React.createClass({

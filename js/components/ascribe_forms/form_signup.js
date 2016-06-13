@@ -17,7 +17,7 @@ import { locationShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 
 let SignupForm = React.createClass({

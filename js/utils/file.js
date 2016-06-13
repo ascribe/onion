@@ -4,7 +4,7 @@ import Q from 'q';
 import SparkMD5 from 'spark-md5';
 import Moment from 'moment';
 
-import { getLangText } from './lang_utils';
+import { getLangText } from './lang';
 
 /**
  * Takes a string, creates a text file and returns the URL

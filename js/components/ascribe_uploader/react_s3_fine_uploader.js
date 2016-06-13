@@ -20,9 +20,9 @@ import { ErrorClasses, testErrorAgainstAll } from '../../constants/error_constan
 import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, ENDPOINTS } from '../../constants/uploader_constants';
 
 import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
-import { getCookie } from '../../utils/fetch_api_utils';
-import { computeHashOfFile, extractFileExtensionFromString } from '../../utils/file_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { getCookie } from '../../utils/fetch_api';
+import { computeHashOfFile, extractFileExtensionFromString } from '../../utils/file';
+import { getLangText } from '../../utils/lang';
 
 
 const { shape,

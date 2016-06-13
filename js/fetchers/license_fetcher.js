@@ -2,7 +2,7 @@
 
 import requests from '../utils/requests';
 
-import { getSubdomain } from '../utils/general_utils';
+import { getSubdomain } from '../utils/general';
 
 
 let LicenseFetcher = {

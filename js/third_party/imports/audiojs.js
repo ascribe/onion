@@ -1,6 +1,6 @@
 import AppConstants from '../../constants/application_constants';
 
-import { InjectInHeadUtils } from '../../utils/inject_utils';
+import { InjectInHeadUtils } from '../../utils/inject';
 
 
 /**

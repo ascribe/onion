@@ -23,8 +23,8 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { whitelabelShape } from '../prop_types';
 
-import { mergeOptions } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let AccordionListItemWallet = React.createClass({

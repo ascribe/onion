@@ -4,7 +4,7 @@ import camelCase from 'camelcase';
 import decamelize from 'decamelize';
 import queryString from 'query-string';
 
-import { sanitize } from './general_utils';
+import { sanitize } from './general';
 
 // TODO: Create Unittests that test all functions
 

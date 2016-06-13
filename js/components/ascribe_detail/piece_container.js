@@ -41,9 +41,9 @@ import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { setDocumentTitle } from '../../utils/dom_utils';
-import { mergeOptions } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom';
+import { mergeOptions } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 /**
  * This is the component that implements resource/data specific functionality

@@ -1,15 +1,15 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
-import classNames from 'classnames';
 
 let CreateEditionsButton = React.createClass({
     propTypes: {

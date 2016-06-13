@@ -2,8 +2,8 @@
 
 import requests from '../utils/requests';
 
-import { mergeOptions } from '../utils/general_utils';
-import { generateOrderingQueryParams } from '../utils/url_utils';
+import { mergeOptions } from '../utils/general';
+import { generateOrderingQueryParams } from '../utils/url';
 
 let PieceListFetcher = {
     /**

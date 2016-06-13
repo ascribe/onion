@@ -3,14 +3,10 @@
 import React from 'react';
 import Moment from 'moment';
 
-import LoanForm from './form_loan';
-
 import OwnershipActions from '../../actions/ownership_actions';
 import OwnershipStore from '../../stores/ownership_store';
 
-import AppConstants from '../../constants/application_constants';
-
-import { getLangText } from '../../utils/lang_utils';
+import LoanForm from './form_loan';
 
 
 let LoanRequestAnswerForm = React.createClass({

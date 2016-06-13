@@ -19,9 +19,9 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
-import { setDocumentTitle } from '../../utils/dom_utils';
-import { truncateTextAtCharIndex } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom';
+import { truncateTextAtCharIndex } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let ContractSettings = React.createClass({

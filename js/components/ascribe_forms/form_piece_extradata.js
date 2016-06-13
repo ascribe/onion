@@ -2,14 +2,15 @@
 
 import React from 'react';
 
-import requests from '../../utils/requests';
-import { getLangText } from '../../utils/lang_utils.js';
-
-import ApiUrls from '../../constants/api_urls';
-
 import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
+
+import ApiUrls from '../../constants/api_urls';
+
+import requests from '../../utils/requests';
+import { getLangText } from '../../utils/lang.js';
+
 
 let PieceExtraDataForm = React.createClass({
     propTypes: {

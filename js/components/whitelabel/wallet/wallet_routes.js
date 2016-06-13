@@ -49,7 +49,7 @@ import ArtcityLanding from './components/artcity/artcity_landing';
 
 import WalletApp from './wallet_app';
 
-import { getLangText } from '../../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang';
 
 
 const ROUTES = {

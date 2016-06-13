@@ -1,9 +1,7 @@
-'use strict'
-
 import { validationParts } from './uploader_constants';
 
-import { deepMatchObject } from '../utils/general_utils';
-import { getLangText } from '../utils/lang_utils';
+import { deepMatchObject } from '../utils/general';
+import { getLangText } from '../utils/lang';
 
 /**
  * ErrorClasses

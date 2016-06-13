@@ -4,8 +4,8 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { AclInformationText } from '../../constants/acl_information_text';
-import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let AclInformation = React.createClass({

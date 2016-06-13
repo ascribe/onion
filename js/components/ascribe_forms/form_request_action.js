@@ -16,8 +16,8 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getAclFormDataId } from '../../utils/form_utils';
-import { getLangText } from '../../utils/lang_utils.js';
+import { getAclFormDataId } from '../../utils/form';
+import { getLangText } from '../../utils/lang.js';
 
 let RequestActionForm = React.createClass({
     propTypes: {

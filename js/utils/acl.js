@@ -1,6 +1,6 @@
 'use strict';
 
-import { sanitize, intersectLists } from './general_utils';
+import { sanitize, intersectLists } from './general';
 
 export function getAvailableAcls(editions, filterFn) {
     let availableAcls = [];

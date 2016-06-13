@@ -28,7 +28,7 @@ import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 /*
     A component that handles all the actions inside of the edition detail

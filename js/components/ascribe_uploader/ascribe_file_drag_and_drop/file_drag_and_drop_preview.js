@@ -6,9 +6,9 @@ import FileDragAndDropPreviewImage from './file_drag_and_drop_preview_image';
 import FileDragAndDropPreviewOther from './file_drag_and_drop_preview_other';
 
 import { FileStatus } from '../react_s3_fine_uploader_utils';
-import { getLangText } from '../../../utils/lang_utils';
-import { truncateTextAtCharIndex } from '../../../utils/general_utils';
-import { extractFileExtensionFromString } from '../../../utils/file_utils';
+import { getLangText } from '../../../utils/lang';
+import { truncateTextAtCharIndex } from '../../../utils/general';
+import { extractFileExtensionFromString } from '../../../utils/file';
 
 
 const { shape, string, number, func, bool } = React.PropTypes;

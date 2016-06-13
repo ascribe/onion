@@ -19,8 +19,7 @@ import { validationParts, validationTypes } from '../../../../../../constants/up
 import requests from '../../../../../../utils/requests';
 
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
 
 
 let MarketAdditionalDataForm = React.createClass({

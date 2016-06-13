@@ -9,7 +9,7 @@ import WhitelabelStore from '../stores/whitelabel_store';
 import GlobalNotification from './global_notification';
 import { currentUserShape, locationShape, whitelabelShape } from './prop_types';
 
-import { mergeOptions } from '../utils/general_utils';
+import { mergeOptions } from '../utils/general';
 
 
 export default function AppBase(App) {

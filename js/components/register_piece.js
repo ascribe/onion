@@ -15,8 +15,8 @@ import RegisterPieceForm from './ascribe_forms/form_register_piece';
 import withContext from './context/with_context';
 import { routerShape, whitelabelShape } from './prop_types';
 
-import { setDocumentTitle } from '../utils/dom_utils';
-import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 const RegisterPiece = React.createClass( {

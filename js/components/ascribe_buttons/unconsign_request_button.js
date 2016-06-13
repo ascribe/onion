@@ -10,7 +10,7 @@ import UnConsignRequestForm from '../ascribe_forms/form_unconsign_request';
 import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 import ApiUrls from '../../constants/api_urls';
 
 

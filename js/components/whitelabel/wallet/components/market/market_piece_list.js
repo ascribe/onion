@@ -8,8 +8,9 @@ import withContext from '../../../../context/with_context';
 import PieceList from '../../../../piece_list';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getLangText } from '../../../../../utils/lang';
+
 
 let MarketPieceList = React.createClass({
     propTypes: {

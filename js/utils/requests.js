@@ -4,9 +4,9 @@ import Q from 'q';
 
 import AppConstants from '../constants/application_constants';
 
-import { getCookie } from '../utils/fetch_api_utils';
-import { omitFromObject } from '../utils/general_utils';
-import { argsToQueryParams } from '../utils/url_utils';
+import { getCookie } from '../utils/fetch_api';
+import { omitFromObject } from '../utils/general';
+import { argsToQueryParams } from '../utils/url';
 
 
 class Requests {

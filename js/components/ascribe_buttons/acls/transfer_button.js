@@ -1,10 +1,8 @@
 'use strict';
 
-import React from 'react';
-
 import AclButton from './acl_button';
 
-import { getLangText } from '../../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang';
 
 export default AclButton({
     action: 'acl_transfer',

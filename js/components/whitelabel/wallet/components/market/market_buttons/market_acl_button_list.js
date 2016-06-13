@@ -4,12 +4,11 @@ import React from 'react';
 
 import MarketSubmitButton from './market_submit_button';
 
-import DeleteButton from '../../../../../ascribe_buttons/delete_button';
 import EmailButton from '../../../../../ascribe_buttons/acls/email_button';
 import TransferButton from '../../../../../ascribe_buttons/acls/transfer_button';
 import UnconsignButton from '../../../../../ascribe_buttons/acls/unconsign_button';
 
-import { selectFromObject } from '../../../../../../utils/general_utils';
+import { selectFromObject } from '../../../../../../utils/general';
 
 let MarketAclButtonList = React.createClass({
     propTypes: {

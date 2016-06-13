@@ -19,9 +19,10 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import withContext from '../../../../context/with_context';
 import { locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { mergeOptions } from '../../../../../utils/general';
+import { getLangText } from '../../../../../utils/lang';
+
 
 let MarketRegisterPiece = React.createClass({
     propTypes: {

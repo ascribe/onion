@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-import S3Fetcher from '../../fetchers/s3_fetcher';
-
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+
+import S3Fetcher from '../../fetchers/s3_fetcher';
 
 import AppConstants from '../../constants/application_constants';
 
-import { getLangText } from '../../utils/lang_utils';
-import { queryParamsToArgs } from '../../utils/url_utils';
+import { getLangText } from '../../utils/lang';
+import { queryParamsToArgs } from '../../utils/url';
 
 
 const { string } = React.PropTypes;

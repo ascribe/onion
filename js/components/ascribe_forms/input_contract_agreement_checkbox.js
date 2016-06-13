@@ -8,9 +8,9 @@ import InputCheckbox from './input_checkbox';
 import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
 import ContractAgreementListActions from '../../actions/contract_agreement_list_actions';
 
-import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
-import { isEmail } from '../../utils/regex_utils';
+import { mergeOptions } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
+import { isEmail } from '../../utils/regex';
 
 
 const InputContractAgreementCheckbox = React.createClass({

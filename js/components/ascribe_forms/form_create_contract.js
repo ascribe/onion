@@ -16,7 +16,7 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 

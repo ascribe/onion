@@ -26,8 +26,8 @@ import { currentUserShape, locationShape, routerShape, whitelabelShape } from '.
 
 import ApiUrls from '../../../../../constants/api_urls';
 
-import { mergeOptions } from '../../../../../utils/general_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { mergeOptions } from '../../../../../utils/general';
+import { getLangText } from '../../../../../utils/lang';
 
 
 const IkonotvRegisterPiece = React.createClass({

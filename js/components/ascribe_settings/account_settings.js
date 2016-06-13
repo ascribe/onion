@@ -19,7 +19,7 @@ import { currentUserShape, whitelabelShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 let AccountSettings = React.createClass({
     propTypes: {

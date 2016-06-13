@@ -5,11 +5,10 @@ import React from 'react';
 import ConsignButton from './acls/consign_button';
 import EmailButton from './acls/email_button';
 import LoanButton from './acls/loan_button';
-import LoanRequestButton from './acls/loan_request_button';
 import TransferButton from './acls/transfer_button';
 import UnconsignButton from './acls/unconsign_button';
 
-import { selectFromObject } from '../../utils/general_utils';
+import { selectFromObject } from '../../utils/general';
 
 let AclButtonList = React.createClass({
     propTypes: {

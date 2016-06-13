@@ -10,8 +10,8 @@ import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
-import { getCookie } from '../../utils/fetch_api_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { getCookie } from '../../utils/fetch_api';
+import { getLangText } from '../../utils/lang';
 
 
 const { func, bool, number, object, string, arrayOf } = React.PropTypes;

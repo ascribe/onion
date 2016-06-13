@@ -1,14 +1,13 @@
 'use strict';
 
-import history from '../history';
 import { altThirdParty } from '../alt';
-
+import history from '../history';
 
 import EventActions from '../actions/event_actions';
 
 import NotificationActions from '../actions/notification_actions';
 
-import { getSubdomain } from '../utils/general_utils';
+import { getSubdomain } from '../utils/general';
 
 
 class NotificationsHandler {

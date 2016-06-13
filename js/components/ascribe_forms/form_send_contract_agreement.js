@@ -18,8 +18,8 @@ import { routerShape } from '../prop_types';
 
 import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
+import { mergeOptions } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 const SendContractAgreementForm = React.createClass({

@@ -3,7 +3,7 @@
 import { altThirdParty } from '../alt';
 import EventActions from '../actions/event_actions';
 
-import { getSubdomain } from '../utils/general_utils';
+import { getSubdomain } from '../utils/general';
 
 
 class IntercomHandler {

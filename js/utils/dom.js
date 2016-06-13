@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { getLinkRegex, isEmail } from './regex_utils';
+import { getLinkRegex, isEmail } from './regex';
 
 /**
  * Set the title in the browser window.

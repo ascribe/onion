@@ -1,6 +1,6 @@
 'use strict';
 
-import { getLangText } from './lang_utils';
+import { getLangText } from './lang';
 
 import GlobalNotificationActions from '../actions/global_notification_actions';
 import GlobalNotificationModel from '../models/global_notification_model';

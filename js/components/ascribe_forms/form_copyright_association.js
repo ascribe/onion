@@ -14,7 +14,7 @@ import { currentUserShape } from '../prop_types';
 import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 
 const { bool } = React.PropTypes;

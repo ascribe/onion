@@ -8,8 +8,8 @@ import CylandAccordionListItem from './cyland_accordion_list/cyland_accordion_li
 import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getLangText } from '../../../../../utils/lang';
 
 let CylandPieceList = React.createClass({
     propTypes: {

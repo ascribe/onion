@@ -2,7 +2,7 @@
 
 import languages from '../constants/languages';
 
-import { formatText } from './general_utils';
+import { formatText } from './general';
 
 
 export function getLang() {

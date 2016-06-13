@@ -2,7 +2,7 @@ import React from 'react';
 
 import history from '../history';
 
-import { getLangText } from '../utils/lang_utils';
+import { getLangText } from '../utils/lang';
 
 
 const ErrorNotFoundPage = React.createClass({

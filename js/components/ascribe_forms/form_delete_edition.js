@@ -4,11 +4,14 @@ import React from 'react';
 
 import Form from './form';
 
-import ApiUrls from '../../constants/api_urls';
+import AclInformation from '../ascribe_buttons/acl_information';
+
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
-import AclInformation from '../ascribe_buttons/acl_information';
+import ApiUrls from '../../constants/api_urls';
+
+import { getLangText } from '../../utils/lang';
+
 
 let EditionDeleteForm = React.createClass({
 

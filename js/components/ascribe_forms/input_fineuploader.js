@@ -7,10 +7,10 @@ import FileDragAndDrop from '../ascribe_uploader/ascribe_file_drag_and_drop/file
 
 import AppConstants from '../../constants/application_constants';
 
-import { getCookie } from '../../utils/fetch_api_utils';
+import { getCookie } from '../../utils/fetch_api';
 
 
-const { func, bool, shape, string, number, element, oneOf, oneOfType, arrayOf } = React.PropTypes;
+const { func, bool, oneOf } = React.PropTypes;
 
 const InputFineUploader = React.createClass({
     propTypes: {

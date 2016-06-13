@@ -17,7 +17,7 @@ import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 
 let APISettings = React.createClass({

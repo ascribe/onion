@@ -22,8 +22,8 @@ import { currentUserShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
 
-import { extractFileExtensionFromUrl } from '../../utils/file_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { extractFileExtensionFromUrl } from '../../utils/file';
+import { getLangText } from '../../utils/lang';
 
 
 const EMBED_IFRAME_HEIGHT = {

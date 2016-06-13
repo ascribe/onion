@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-import AscribeSpinner from './ascribe_spinner';
-
 import UserActions from '../actions/user_actions';
 
-import { getLangText } from '../utils/lang_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
+import AscribeSpinner from './ascribe_spinner';
+
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 let LogoutContainer = React.createClass({

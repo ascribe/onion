@@ -5,7 +5,7 @@ import React from 'react';
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
-import { replaceSubstringAtIndex } from '../../utils/general_utils';
+import { replaceSubstringAtIndex } from '../../utils/general';
 
 
 let HistoryIterator = React.createClass({

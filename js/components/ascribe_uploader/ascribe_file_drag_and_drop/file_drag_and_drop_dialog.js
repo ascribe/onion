@@ -3,9 +3,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { dragAndDropAvailable } from '../../../utils/feature_detection_utils';
-import { getLangText } from '../../../utils/lang_utils';
-import { getCurrentQueryParams } from '../../../utils/url_utils';
+import { dragAndDropAvailable } from '../../../utils/feature_detection';
+import { getLangText } from '../../../utils/lang';
+import { getCurrentQueryParams } from '../../../utils/url';
 
 let FileDragAndDropDialog = React.createClass({
     propTypes: {

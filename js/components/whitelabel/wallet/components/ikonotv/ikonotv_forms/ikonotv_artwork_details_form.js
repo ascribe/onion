@@ -15,7 +15,7 @@ import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import requests from '../../../../../../utils/requests';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
 
 
 let IkonotvArtworkDetailsForm = React.createClass({

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { ErrorClasses } from '../../../constants/error_constants';
 
-import { getLangText } from '../../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang';
 
 let FileDragAndDropErrorDialog = React.createClass({
     propTypes: {

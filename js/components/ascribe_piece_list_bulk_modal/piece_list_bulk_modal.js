@@ -2,13 +2,12 @@
 
 import React from 'react';
 
-import { mergeOptions } from '../../utils/general_utils';
-
 import EditionListActions from '../../actions/edition_list_actions';
 
 import PieceListBulkModalSelectedEditionsWidget from './piece_list_bulk_modal_selected_editions_widget';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang.js';
+
 
 let PieceListBulkModal = React.createClass({
     propTypes: {

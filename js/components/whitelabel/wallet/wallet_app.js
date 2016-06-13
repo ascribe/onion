@@ -6,7 +6,7 @@ import withContext from '../../context/with_context';
 import Header from '../../header';
 import { routerShape } from '../../prop_types';
 
-import { getSubdomain } from '../../../utils/general_utils';
+import { getSubdomain } from '../../../utils/general';
 
 
 let WalletApp = React.createClass({

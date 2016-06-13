@@ -4,8 +4,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { displayValidProgressFilesFilter, FileStatus } from '../react_s3_fine_uploader_utils';
-import { getLangText } from '../../../utils/lang_utils';
-import { truncateTextAtCharIndex } from '../../../utils/general_utils';
+import { truncateTextAtCharIndex } from '../../../utils/general';
+import { getLangText } from '../../../utils/lang';
 
 const { func, array, bool, shape, string } = React.PropTypes;
 

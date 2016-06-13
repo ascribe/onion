@@ -10,7 +10,7 @@ import AclProxy from '../../../../acl_proxy';
 import withContext from '../../../../context/with_context';
 import { currentUserShape } from '../../../../prop_types';
 
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { mergeOptions } from '../../../../../utils/general';
 
 
 let WalletActionPanel = React.createClass({

@@ -11,7 +11,7 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import AscribeSpinner from '../ascribe_spinner';
 import ApiUrls from '../../constants/api_urls';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 let CreateEditionsForm = React.createClass({
     propTypes: {

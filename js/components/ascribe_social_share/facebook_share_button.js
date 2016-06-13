@@ -6,7 +6,7 @@ import FacebookHandler from '../../third_party/facebook_handler';
 
 import AppConstants from '../../constants/application_constants';
 
-import { InjectInHeadUtils } from '../../utils/inject_utils';
+import { InjectInHeadUtils } from '../../utils/inject';
 
 let FacebookShareButton = React.createClass({
     propTypes: {

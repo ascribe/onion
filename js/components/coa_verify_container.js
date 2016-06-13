@@ -15,8 +15,8 @@ import { locationShape } from './prop_types';
 
 import ApiUrls from '../constants/api_urls';
 
-import { getLangText } from '../utils/lang_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 let CoaVerifyContainer = React.createClass({

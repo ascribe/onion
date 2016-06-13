@@ -5,7 +5,7 @@ import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import AclProxy from '../../acl_proxy';
 import AscribeSpinner from '../../ascribe_spinner';
-import { getLangText } from '../../../utils/lang_utils';
+import { getLangText } from '../../../utils/lang';
 
 
 const { number, string, func, bool } = React.PropTypes;

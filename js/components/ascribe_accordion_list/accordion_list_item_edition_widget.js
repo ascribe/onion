@@ -8,13 +8,11 @@ import EditionListStore from '../../stores/edition_list_store';
 
 import PieceListStore from '../../stores/piece_list_store';
 
-import Button from 'react-bootstrap/lib/Button';
-
 import CreateEditionsButton from '../ascribe_buttons/create_editions_button';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { mergeOptions } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { mergeOptions } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let AccordionListItemEditionWidget = React.createClass({

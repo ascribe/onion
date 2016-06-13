@@ -18,7 +18,7 @@ import { currentUserShape } from '../prop_types';
 import AppConstants from '../../constants/application_constants';
 import ApiUrls from '../../constants/api_urls';
 
-import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
+import { getAclFormMessage, getAclFormDataId } from '../../utils/form';
 
 let AclFormFactory = React.createClass({
     propTypes: {

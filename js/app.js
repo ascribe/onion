@@ -12,9 +12,9 @@ import history from './history';
 
 import AppConstants from './constants/application_constants';
 
-import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
-import { initLogging } from './utils/error_utils';
-import { getSubdomain } from './utils/general_utils';
+import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants';
+import { initLogging } from './utils/error';
+import { getSubdomain } from './utils/general';
 import requests from './utils/requests';
 
 

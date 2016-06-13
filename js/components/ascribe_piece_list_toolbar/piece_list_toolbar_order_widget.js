@@ -4,7 +4,7 @@ import React from 'react';
 
 import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang.js';
 
 let PieceListToolbarOrderWidget = React.createClass({
     propTypes: {
