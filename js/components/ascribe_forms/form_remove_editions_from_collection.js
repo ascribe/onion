@@ -7,6 +7,7 @@ import Form from './form';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang';
+import { formatText } from '../../utils/text';
 import { resolveUrl } from '../../utils/url_resolver';
 
 let EditionRemoveFromCollectionForm = React.createClass({
@@ -18,25 +19,22 @@ let EditionRemoveFromCollectionForm = React.createClass({
     },
 
     getBitcoinIds() {
-        return this.props.editions.map(function(edition){
-            return edition.bitcoin_id;
-        });
+        return this.props.editions.map((edition) => edition.bitcoin_id);
     },
 
-    // Since this form can be used for either removing a single edition or multiple
-    // we need to call getBitcoinIds to get the value of edition_id
-    getFormData() {
-        return {
-            edition_id: this.getBitcoinIds().join(',')
-        };
+    getUrl() {
+        return formatText(resolveUrl('edition_remove_from_collection'), {
+            // Since this form can be used for either deleting a single edition or multiple we need
+            // to call getBitcoinIds to get the value of edition_id
+            editionId: this.getBitcoinIds().join(',')
+        });
     },
 
     render() {
         return (
             <Form
                 ref='form'
-                url={resolveUrl('edition_remove_from_collection')}
-                getFormData={this.getFormData}
+                url={this.getUrl()}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={

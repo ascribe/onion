@@ -18,18 +18,17 @@ let PieceRemoveFromCollectionForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    getFormData() {
-        return {
-            piece_id: this.props.pieceId
-        };
+    getUrl() {
+        return formatText(resolveUrl('piece_remove_from_collection'), {
+            pieceId: this.props.pieceId
+        });
     },
 
     render () {
         return (
             <Form
                 ref='form'
-                url={resolveUrl('piece_remove_from_collection')}
-                getFormData={this.getFormData}
+                url={this.getUrl()}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={

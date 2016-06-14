@@ -9,6 +9,7 @@ import AclInformation from '../ascribe_buttons/acl_information';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang';
+import { formatText } from '../../utils/text';
 import { resolveUrl } from '../../utils/url_resolver';
 
 
@@ -20,18 +21,17 @@ let PieceDeleteForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    getFormData() {
-        return {
-            piece_id: this.props.pieceId
-        };
+    getUrl() {
+        return formatText(resolveUrl('piece'), {
+            pieceId: this.props.pieceId
+        });
     },
 
     render() {
         return (
             <Form
                 ref='form'
-                url={resolveUrl('piece')}
-                getFormData={this.getFormData}
+                url={this.getUrl()}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={

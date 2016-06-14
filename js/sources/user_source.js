@@ -2,13 +2,13 @@
 
 import UserActions from '../actions/user_actions';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 
 const UserSource = {
     lookupCurrentUser: {
         remote() {
-            return requests.get('user');
+            return request('user');
         },
 
         local(state) {
@@ -25,7 +25,7 @@ const UserSource = {
 
     performLogoutCurrentUser: {
         remote() {
-            return requests.get('users_logout');
+            return request('users_logout');
         },
 
         success: UserActions.successLogoutCurrentUser,

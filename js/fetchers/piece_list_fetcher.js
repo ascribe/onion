@@ -1,6 +1,6 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 import { safeMerge } from '../utils/general';
 import { generateOrderingQueryParams } from '../utils/url';
@@ -15,7 +15,7 @@ let PieceListFetcher = {
 
         // filterBy is an object of acl key-value pairs.
         // The values are booleans
-        const queryParams = safeMerge(
+        const query = safeMerge(
             {
                 page,
                 pageSize,
@@ -25,11 +25,11 @@ let PieceListFetcher = {
             filterBy
         );
 
-        return requests.get('pieces_list', queryParams);
+        return request('pieces_list', { query });
     },
 
     fetchRequestActions() {
-        return requests.get('pieces_list_request_actions');
+        return request('pieces_list_request_actions');
     }
 };
 

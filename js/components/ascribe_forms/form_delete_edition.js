@@ -9,6 +9,7 @@ import AclInformation from '../ascribe_buttons/acl_information';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang';
+import { formatText } from '../../utils/text';
 import { resolveUrl } from '../../utils/url_resolver';
 
 
@@ -22,25 +23,22 @@ let EditionDeleteForm = React.createClass({
     },
 
     getBitcoinIds() {
-        return this.props.editions.map(function(edition){
-            return edition.bitcoin_id;
+        return this.props.editions.map((edition) => edition.bitcoin_id);
+    },
+
+    getUrl() {
+        return formatText(resolveUrl('edition_delete'), {
+            // Since this form can be used for either deleting a single edition or multiple we need
+            // to call getBitcoinIds to get the value of edition_id
+            editionId: this.getBitcoinIds().join(',')
         });
     },
 
-    // Since this form can be used for either deleting a single edition or multiple
-    // we need to call getBitcoinIds to get the value of edition_id
-    getFormData() {
-        return {
-            edition_id: this.getBitcoinIds().join(',')
-        };
-    },
-
-    render () {
+    render() {
         return (
             <Form
                 ref='form'
-                url={resolveUrl('edition_delete')}
-                getFormData={this.getFormData}
+                url={this.getUrl()}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={

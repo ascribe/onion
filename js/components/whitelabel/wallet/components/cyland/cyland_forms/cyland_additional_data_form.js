@@ -16,7 +16,7 @@ import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../../utils/lang';
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
-import requests from '../../../../../../utils/requests';
+import { formatText } from '../../../../../../utils/text';
 import { resolveUrl } from '../../../../../../utils/url_resolver';
 
 
@@ -58,10 +58,15 @@ let CylandAdditionalDataForm = React.createClass({
             });
 
         return {
-            extradata: extradata,
+            extradata,
             piece_id: this.props.piece.id
         };
+    },
 
+    getUrl() {
+        return formatText(resolveUrl('piece_extradata'), {
+            pieceId: this.props.piece.id
+        });
     },
 
     setIsUploadReady(isReady) {
@@ -112,7 +117,7 @@ let CylandAdditionalDataForm = React.createClass({
                     disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(resolveUrl('piece_extradata'), { piece_id: piece.id })}
+                    url={this.getUrl()}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}

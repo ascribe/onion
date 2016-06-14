@@ -1,11 +1,11 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 
 let WalletSettingsFetcher = {
     fetchOne() {
-        return requests.get('wallet_settings');
+        return request('wallet_settings');
     }
 };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 import WhitelabelActions from '../actions/whitelabel_actions';
 
 import { getCurrentSubdomain } from '../utils/url';
@@ -9,7 +9,11 @@ import { getCurrentSubdomain } from '../utils/url';
 const WhitelabelSource = {
     lookupWhitelabel: {
         remote() {
-            return requests.get('whitelabel_settings', { 'subdomain': getCurrentSubdomain() });
+            return request('whitelabel_settings', {
+                urlTemplateSpec: {
+                    subdomain: getCurrentSubdomain()
+                }
+            });
         },
 
         local(state) {
