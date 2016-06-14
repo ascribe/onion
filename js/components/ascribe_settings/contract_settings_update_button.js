@@ -14,7 +14,7 @@ import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
-import { getCookie } from '../../utils/fetch_api';
+import { makeCsrfHeader } from '../../utils/csrf';
 import { getLangText } from '../../utils/lang';
 import { resolveUrl } from '../../utils/url_resolver';
 
@@ -76,17 +76,13 @@ let ContractSettingsUpdateButton = React.createClass({
                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}
                signature={{
                    endpoint: `${AppConstants.serverUrl}/s3/signature/`,
-                   customHeaders: {
-                      'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                   }
+                   customHeaders: makeCsrfHeader()
                }}
                deleteFile={{
                    enabled: true,
                    method: 'DELETE',
                    endpoint: `${AppConstants.serverUrl}/s3/delete`,
-                   customHeaders: {
-                      'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                   }
+                   customHeaders: makeCsrfHeader()
                }}
                fileClassToUpload={{
                    singular: getLangText('UPDATE'),

@@ -15,12 +15,11 @@ import ErrorQueueStore from '../../stores/error_queue_store';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import AppConstants from '../../constants/application_constants';
 import { ErrorClasses, testErrorAgainstAll } from '../../constants/error_constants';
 import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, ENDPOINTS } from '../../constants/uploader_constants';
 
 import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
-import { getCookie } from '../../utils/fetch_api';
+import { getCsrfToken, makeCsrfHeader } from '../../utils/csrf';
 import { computeHashOfFile, extractFileExtensionFromString } from '../../utils/file';
 import { getLangText } from '../../utils/lang';
 
@@ -215,7 +214,7 @@ const ReactS3FineUploader = React.createClass({
         return {
             filesToUpload: [],
             uploader: this.createNewFineUploader(),
-            csrfToken: getCookie(AppConstants.csrftoken),
+            csrfToken: getCsrfToken(),
             errorState: {
                 manualRetryAttempt: 0,
                 errorClass: null
@@ -235,7 +234,7 @@ const ReactS3FineUploader = React.createClass({
         // since the csrf header is defined in this component's props,
         // everytime the csrf cookie is changed we'll need to reinitalize
         // fineuploader and update the actual csrf token
-        let potentiallyNewCSRFToken = getCookie(AppConstants.csrftoken);
+        let potentiallyNewCSRFToken = getCsrfToken();
         if(this.state.csrfToken !== potentiallyNewCSRFToken) {
             this.setState({
                 uploader: this.createNewFineUploader(),
@@ -318,7 +317,7 @@ const ReactS3FineUploader = React.createClass({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                    ...makeCsrfHeader()
                 },
                 credentials: 'include',
                 body: JSON.stringify({
@@ -361,7 +360,7 @@ const ReactS3FineUploader = React.createClass({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie(AppConstants.csrftoken)
+                    ...makeCsrfHeader()
                 },
                 credentials: 'include',
                 body: JSON.stringify({

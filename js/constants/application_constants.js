@@ -13,7 +13,6 @@ const constants = {
                 'acl_withdraw_transfer', 'acl_wallet_submit'],
 
     'version': 0.1,
-    'csrftoken': 'csrftoken2',
     'subdomains': [
         {
             'subdomain': 'cc',

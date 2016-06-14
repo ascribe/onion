@@ -9,7 +9,7 @@ import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
-import { getCookie } from '../../utils/fetch_api';
+import { makeCsrfHeader } from '../../utils/csrf';
 import { getLangText } from '../../utils/lang';
 import { resolveUrl } from '../../utils/url_resolver';
 
@@ -82,9 +82,7 @@ let FurtherDetailsFileuploader = React.createClass({
                         enabled: true,
                         method: 'DELETE',
                         endpoint: `${AppConstants.serverUrl}/s3/delete`,
-                        customHeaders: {
-                           'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                        }
+                        customHeaders: makeCsrfHeader()
                     }}
                     isReadyForFormSubmission={isReadyForFormSubmission}
                     keyRoutine={{
@@ -97,9 +95,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     setIsUploadReady={setIsUploadReady}
                     session={{
                         endpoint: `${AppConstants.serverUrl}/api/blob/otherdatas/fineuploader_session/`,
-                        customHeaders: {
-                            'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                        },
+                        customHeaders: makeCsrfHeader(),
                         params: {
                             'pk': otherDataIds
                         },
@@ -110,9 +106,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     }}
                     signature={{
                         endpoint: `${AppConstants.serverUrl}/s3/signature/`,
-                        customHeaders: {
-                           'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                        }
+                        customHeaders: makeCsrfHeader()
                     }}
                     submitFile={submitFile}
                     showErrorPrompt={showErrorPrompt}
