@@ -127,7 +127,7 @@ const constants = {
         'cssUrl': '//vjs.zencdn.net/4.12/video-js.css'
     },
     'raven': {
-        'url': 'https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351'
+        'url': 'https://836bfb71c9c7418a967351d39ce547f0@app.getsentry.com/48351'
     },
     'facebook': {
         'appId': '420813844732240',
