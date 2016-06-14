@@ -8,9 +8,8 @@ import AclInformation from '../ascribe_buttons/acl_information';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import ApiUrls from '../../constants/api_urls';
-
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let PieceDeleteForm = React.createClass({
@@ -31,7 +30,7 @@ let PieceDeleteForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={ApiUrls.piece}
+                url={resolveUrl('piece')}
                 getFormData={this.getFormData}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}

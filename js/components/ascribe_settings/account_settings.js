@@ -17,9 +17,8 @@ import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
-
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 let AccountSettings = React.createClass({
     propTypes: {
@@ -49,7 +48,7 @@ let AccountSettings = React.createClass({
         if (currentUser.username) {
             content = (
                 <Form
-                    url={ApiUrls.users_username}
+                    url={resolveUrl('users_username')}
                     handleSuccess={this.handleSuccess}>
                     <Property
                         name='username'
@@ -79,7 +78,7 @@ let AccountSettings = React.createClass({
                     aclObject={whitelabel}
                     aclName="acl_view_settings_account_hash">
                     <Form
-                        url={ApiUrls.users_profile}
+                        url={resolveUrl('users_profile')}
                         handleSuccess={this.handleSuccess}
                         getFormData={this.getFormDataProfile}>
                         <Property

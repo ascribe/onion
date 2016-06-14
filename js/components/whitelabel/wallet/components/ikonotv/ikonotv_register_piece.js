@@ -24,10 +24,9 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import withContext from '../../../../context/with_context';
 import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
-import ApiUrls from '../../../../../constants/api_urls';
-
 import { safeMerge } from '../../../../../utils/general';
 import { getLangText } from '../../../../../utils/lang';
+import { resolveUrl } from '../../../../../utils/url_resolver';
 
 
 const IkonotvRegisterPiece = React.createClass({
@@ -193,7 +192,7 @@ const IkonotvRegisterPiece = React.createClass({
                             <LoanForm
                                 loanHeading={getLangText('Loan to IkonoTV archive')}
                                 id={{piece_id: piece.id}}
-                                url={ApiUrls.ownership_loans_pieces}
+                                url={resolveUrl('ownership_loans_pieces')}
                                 email={whitelabel.user}
                                 startDate={today}
                                 endDate={endDate}

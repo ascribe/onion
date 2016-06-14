@@ -6,12 +6,12 @@ import Property from './../ascribe_forms/property';
 
 import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
-import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
 import { getCookie } from '../../utils/fetch_api';
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 const { func, bool, number, object, string, arrayOf } = React.PropTypes;
@@ -75,7 +75,7 @@ let FurtherDetailsFileuploader = React.createClass({
                     areAssetsDownloadable
                     areAssetsEditable={editable}
                     createBlobRoutine={{
-                        url: ApiUrls.blob_otherdatas,
+                        url: resolveUrl('blob_otherdatas'),
                         pieceId: pieceId
                     }}
                     deleteFile={{

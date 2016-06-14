@@ -14,12 +14,12 @@ import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
 import { currentUserShape, locationShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationParts, validationTypes } from '../../constants/uploader_constants';
 
 import { FileStatus, formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let RegisterPieceForm = React.createClass({
@@ -138,7 +138,7 @@ let RegisterPieceForm = React.createClass({
                 disabled={disabled}
                 className="ascribe-form-bordered"
                 ref='form'
-                url={ApiUrls.pieces_list}
+                url={resolveUrl('pieces_list')}
                 handleSuccess={handleSuccess}
                 buttons={
                     <FormSubmitButton
@@ -168,7 +168,7 @@ let RegisterPieceForm = React.createClass({
                             fileClass: 'digitalwork'
                         }}
                         createBlobRoutine={{
-                            url: ApiUrls.blob_digitalworks
+                            url: resolveUrl('blob_digitalworks')
                         }}
                         validation={validationTypes.registerWork}
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
@@ -187,7 +187,7 @@ let RegisterPieceForm = React.createClass({
                         ref={ref => this.refs.thumbnailFineUploader = ref}
                         fileInputElement={UploadButton({ className: 'btn btn-secondary btn-sm' })}
                         createBlobRoutine={{
-                            url: ApiUrls.blob_thumbnails
+                            url: resolveUrl('blob_thumbnails')
                         }}
                         handleChangedFile={this.handleChangedThumbnail}
                         onValidationFailed={this.handleThumbnailValidationFailed}

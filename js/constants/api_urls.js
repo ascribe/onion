@@ -72,9 +72,8 @@ const ApiUrls = {
     'sign_url_s3': AppConstants.serverUrl + '/s3/sign_url/'
 };
 
-
-export function updateApiUrls(updatedApiUrls) {
-    return Object.assign(ApiUrls, updatedApiUrls);
+export function mergeWithBaseApiUrls(updatedApiUrls) {
+    return Object.assign({}, ApiUrls, updatedApiUrls);
 }
 
 export default ApiUrls;

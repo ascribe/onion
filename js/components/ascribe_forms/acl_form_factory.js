@@ -16,9 +16,9 @@ import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
-import ApiUrls from '../../constants/api_urls';
 
 import { getAclFormMessage, getAclFormDataId } from '../../utils/form';
+import { resolveUrl } from '../../utils/url_resolver';
 
 let AclFormFactory = React.createClass({
     propTypes: {
@@ -86,7 +86,7 @@ let AclFormFactory = React.createClass({
                     message={formMessage}
                     labels={labels}
                     id={this.getFormDataId()}
-                    url={ApiUrls.ownership_consigns}
+                    url={resolveUrl('ownership_consigns')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_unconsign') {
@@ -94,7 +94,7 @@ let AclFormFactory = React.createClass({
                 <UnConsignForm
                     message={formMessage}
                     id={this.getFormDataId()}
-                    url={ApiUrls.ownership_unconsigns}
+                    url={resolveUrl('ownership_unconsigns')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_transfer') {
@@ -102,7 +102,7 @@ let AclFormFactory = React.createClass({
                 <TransferForm
                     message={formMessage}
                     id={this.getFormDataId()}
-                    url={ApiUrls.ownership_transfers}
+                    url={resolveUrl('ownership_transfers')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_loan') {
@@ -111,8 +111,8 @@ let AclFormFactory = React.createClass({
                     email={email}
                     message={formMessage}
                     id={this.getFormDataId()}
-                    url={this.isPiece() ? ApiUrls.ownership_loans_pieces
-                                        : ApiUrls.ownership_loans_editions}
+                    url={resolveUrl(this.isPiece() ? 'ownership_loans_pieces'
+                                                   : 'ownership_loans_editions')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_loan_request') {
@@ -120,7 +120,7 @@ let AclFormFactory = React.createClass({
                 <LoanRequestAnswerForm
                     message={formMessage}
                     id={this.getFormDataId()}
-                    url={ApiUrls.ownership_loans_pieces_request_confirm}
+                    url={resolveUrl('ownership_loans_pieces_request_confirm')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else if (action === 'acl_share') {
@@ -128,8 +128,8 @@ let AclFormFactory = React.createClass({
                 <ShareForm
                     message={formMessage}
                     id={this.getFormDataId()}
-                    url={this.isPiece() ? ApiUrls.ownership_shares_pieces
-                                        : ApiUrls.ownership_shares_editions}
+                    url={resolveUrl(this.isPiece() ? 'ownership_shares_pieces'
+                                                   : 'ownership_shares_editions')}
                     handleSuccess={showNotification ? this.showSuccessNotification : handleSuccess} />
             );
         } else {

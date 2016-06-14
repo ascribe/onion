@@ -12,12 +12,12 @@ import InputFineUploader from './input_fineuploader';
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
-import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let CreateContractForm = React.createClass({
@@ -64,7 +64,7 @@ let CreateContractForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={ApiUrls.ownership_contract_list}
+                url={resolveUrl('ownership_contract_list')}
                 handleSuccess={this.handleCreateSuccess}>
                 <Property
                     name="blob"
@@ -76,7 +76,7 @@ let CreateContractForm = React.createClass({
                             fileClass: 'contract'
                         }}
                         createBlobRoutine={{
-                            url: ApiUrls.blob_contracts
+                            url: resolveUrl('blob_contracts')
                         }}
                         validation={{
                             itemLimit: validationTypes.additionalData.itemLimit,

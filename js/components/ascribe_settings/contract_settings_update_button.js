@@ -10,13 +10,13 @@ import GlobalNotificationActions from '../../actions/global_notification_actions
 import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
-import ApiUrls from '../../constants/api_urls';
 import AppConstants from '../../constants/application_constants';
 import { validationTypes } from '../../constants/uploader_constants';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getCookie } from '../../utils/fetch_api';
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let ContractSettingsUpdateButton = React.createClass({
@@ -66,7 +66,7 @@ let ContractSettingsUpdateButton = React.createClass({
                    fileClass: 'contract'
                }}
                createBlobRoutine={{
-                   url: ApiUrls.blob_contracts
+                   url: resolveUrl('blob_contracts')
                }}
                validation={{
                    itemLimit: validationTypes.registerWork.itemLimit,

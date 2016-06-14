@@ -16,10 +16,10 @@ import AclProxy from '../acl_proxy';
 import ActionPanel from '../ascribe_panel/action_panel';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let WebhookSettings = React.createClass({
@@ -143,7 +143,7 @@ let WebhookSettings = React.createClass({
                 <AclProxy show={this.state.webhookEvents && this.state.webhookEvents.length > 0}>
                     <Form
                         ref="webhookCreateForm"
-                        url={ApiUrls.webhooks}
+                        url={resolveUrl('webhooks')}
                         handleSuccess={this.handleCreateSuccess}>
                         {this.getEvents()}
                         <Property

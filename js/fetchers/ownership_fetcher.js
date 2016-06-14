@@ -2,14 +2,14 @@
 
 import requests from '../utils/requests';
 
-import ApiUrls from '../constants/api_urls';
 
+// FIXME: fix query string usage
 let OwnershipFetcher = {
     /**
      * Fetch the default, public contract of a user from the API.
      */
-    fetchContract(email) {
-        return requests.get(ApiUrls.blob_contracts + '?loanee=' + email);
+    fetchContract(loanee) {
+        return requests.get('blob_contracts', { loanee });
     },
 
     /**
@@ -21,7 +21,7 @@ let OwnershipFetcher = {
             isPublic,
             issuer
         };
-        return requests.get(ApiUrls.ownership_contract_list, queryParams);
+        return requests.get('ownership_contract_list', queryParams);
     },
 
 
@@ -29,7 +29,7 @@ let OwnershipFetcher = {
      * Create a contractagreement between the logged-in user and the email from the API with contract.
      */
     createContractAgreement(signee, contractObj) {
-        return requests.post(ApiUrls.ownership_contract_agreements, { body: {signee: signee, contract: contractObj.id }});
+        return requests.post('ownership_contract_agreements', { body: {signee: signee, contract: contractObj.id }});
     },
 
     /**
@@ -41,27 +41,27 @@ let OwnershipFetcher = {
                 accepted,
                 pending
             };
-        return requests.get(ApiUrls.ownership_contract_agreements, queryParams);
+        return requests.get('ownership_contract_agreements', queryParams);
     },
 
     confirmContractAgreement(contractAgreement) {
-        return requests.put(ApiUrls.ownership_contract_agreements_confirm, {contract_agreement_id: contractAgreement.id});
+        return requests.put('ownership_contract_agreements_confirm', {contract_agreement_id: contractAgreement.id});
     },
 
     denyContractAgreement(contractAgreement) {
-        return requests.put(ApiUrls.ownership_contract_agreements_deny, {contract_agreement_id: contractAgreement.id});
+        return requests.put('ownership_contract_agreements_deny', {contract_agreement_id: contractAgreement.id});
     },
 
     fetchLoanPieceRequestList() {
-        return requests.get(ApiUrls.ownership_loans_pieces_request);
+        return requests.get('ownership_loans_pieces_request');
     },
 
     changeContract(contractObj) {
-        return requests.put(ApiUrls.ownership_contract, { body: contractObj, contract_id: contractObj.id });
+        return requests.put('ownership_contract', { body: contractObj, contract_id: contractObj.id });
     },
 
     deleteContract(contractObjId) {
-        return requests.delete(ApiUrls.ownership_contract, {contract_id: contractObjId});
+        return requests.delete('ownership_contract', {contract_id: contractObjId});
     }
 };
 

@@ -14,10 +14,10 @@ import Property from '../ascribe_forms/property';
 import ActionPanel from '../ascribe_panel/action_panel';
 import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let APISettings = React.createClass({
@@ -99,7 +99,7 @@ let APISettings = React.createClass({
                 title={getLangText('API Integration')}
                 defaultExpanded={this.props.defaultExpanded}>
                 <Form
-                    url={ApiUrls.applications}
+                    url={resolveUrl('applications')}
                     handleSuccess={this.handleCreateSuccess}>
                     <Property
                         name='name'

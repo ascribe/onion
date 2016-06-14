@@ -16,10 +16,9 @@ import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
 import { routerShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
-
 import { safeMerge } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 const SendContractAgreementForm = React.createClass({
@@ -103,7 +102,7 @@ const SendContractAgreementForm = React.createClass({
                 <Form
                     className="ascribe-form-bordered ascribe-form-wrapper"
                     ref='form'
-                    url={ApiUrls.ownership_contract_agreements}
+                    url={resolveUrl('ownership_contract_agreements')}
                     getFormData={this.getFormData}
                     handleSuccess={this.handleSubmitSuccess}
                     buttons={<button

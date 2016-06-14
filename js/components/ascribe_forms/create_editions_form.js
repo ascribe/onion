@@ -9,9 +9,9 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import AscribeSpinner from '../ascribe_spinner';
-import ApiUrls from '../../constants/api_urls';
 
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 let CreateEditionsForm = React.createClass({
     propTypes: {
@@ -40,7 +40,7 @@ let CreateEditionsForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={ApiUrls.editions}
+                url={resolveUrl('editions')}
                 getFormData={this.getFormData}
                 handleSuccess={this.handleSuccess}
                 buttons={

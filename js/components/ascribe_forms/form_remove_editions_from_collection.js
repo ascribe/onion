@@ -6,9 +6,8 @@ import Form from './form';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import ApiUrls from '../../constants/api_urls';
-
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 let EditionRemoveFromCollectionForm = React.createClass({
     propTypes: {
@@ -36,7 +35,7 @@ let EditionRemoveFromCollectionForm = React.createClass({
         return (
             <Form
                 ref='form'
-                url={ApiUrls.edition_remove_from_collection}
+                url={resolveUrl('edition_remove_from_collection')}
                 getFormData={this.getFormData}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}

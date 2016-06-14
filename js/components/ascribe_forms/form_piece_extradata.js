@@ -6,10 +6,9 @@ import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
-import ApiUrls from '../../constants/api_urls';
-
 import requests from '../../utils/requests';
 import { getLangText } from '../../utils/lang.js';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let PieceExtraDataForm = React.createClass({
@@ -47,7 +46,7 @@ let PieceExtraDataForm = React.createClass({
                 disabled={!editable}
                 getFormData={this.getFormData}
                 handleSuccess={handleSuccess}
-                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}>
+                url={requests.prepareUrl(resolveUrl('piece_extradata'), { piece_id: pieceId })}>
                 <Property
                     name={name}
                     label={title}>

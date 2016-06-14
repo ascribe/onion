@@ -1,9 +1,8 @@
 'use strict';
 
-import requests from '../utils/requests';
-import ApiUrls from '../constants/api_urls';
-
 import UserActions from '../actions/user_actions';
+
+import requests from '../utils/requests';
 
 
 const UserSource = {
@@ -26,7 +25,7 @@ const UserSource = {
 
     performLogoutCurrentUser: {
         remote() {
-            return requests.get(ApiUrls.users_logout);
+            return requests.get('users_logout');
         },
 
         success: UserActions.successLogoutCurrentUser,

@@ -14,8 +14,8 @@ import AppConstants from './constants/application_constants';
 
 import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants';
 import { initLogging } from './utils/error';
-import requests from './utils/requests';
 import { getCurrentSubdomain } from './utils/url';
+import UrlResolver from './utils/url_resolver';
 
 
 // FIXME: rename these event actions
@@ -74,17 +74,8 @@ const AppGateway = {
         AppResolver
             .resolve(settings)
             .then(({ apiUrls, redirectRoute, routes }) => {
-                // Initialize api urls and defaults for outgoing requests
-                requests.defaults({
-                    urlMap: apiUrls,
-                    http: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        credentials: 'include'
-                    }
-                });
+                // Set url mapping for outgoing api requests
+                UrlResolver.setUrlMapping(apiUrls);
 
                 ReactDOM.render((
                     <Router history={history}>

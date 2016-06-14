@@ -14,10 +14,9 @@ import NotificationActions from '../../actions/notification_actions';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import ApiUrls from '../../constants/api_urls';
-
 import { getAclFormDataId } from '../../utils/form';
 import { getLangText } from '../../utils/lang.js';
+import { resolveUrl } from '../../utils/url_resolver';
 
 let RequestActionForm = React.createClass({
     propTypes: {
@@ -35,24 +34,29 @@ let RequestActionForm = React.createClass({
     },
 
     getUrls() {
-        let urls = {};
+        const urls = {};
 
         if (this.props.notifications.action === 'consign') {
-            urls.accept = ApiUrls.ownership_consigns_confirm;
-            urls.deny = ApiUrls.ownership_consigns_deny;
+            urls.accept = 'ownership_consigns_confirm';
+            urls.deny = 'ownership_consigns_deny';
         } else if (this.props.notifications.action === 'unconsign') {
-            urls.accept = ApiUrls.ownership_unconsigns;
-            urls.deny = ApiUrls.ownership_unconsigns_deny;
+            urls.accept = 'ownership_unconsigns';
+            urls.deny = 'ownership_unconsigns_deny';
         } else if (this.props.notifications.action === 'loan' && !this.isPiece()) {
-            urls.accept = ApiUrls.ownership_loans_confirm;
-            urls.deny = ApiUrls.ownership_loans_deny;
+            urls.accept = 'ownership_loans_confirm';
+            urls.deny = 'ownership_loans_deny';
         } else if (this.props.notifications.action === 'loan' && this.isPiece()) {
-            urls.accept = ApiUrls.ownership_loans_pieces_confirm;
-            urls.deny = ApiUrls.ownership_loans_pieces_deny;
+            urls.accept = 'ownership_loans_pieces_confirm';
+            urls.deny = 'ownership_loans_pieces_deny';
         } else if (this.props.notifications.action === 'loan_request' && this.isPiece()) {
-            urls.accept = ApiUrls.ownership_loans_pieces_request_confirm;
-            urls.deny = ApiUrls.ownership_loans_pieces_request_deny;
+            urls.accept = 'ownership_loans_pieces_request_confirm';
+            urls.deny = 'ownership_loans_pieces_request_deny';
         }
+
+        // Resolve the urls
+        Object.entries(urls).forEach(([key, val]) => {
+            urls[key] = resolveUrl(val);
+        });
 
         return urls;
     },

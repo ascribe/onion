@@ -24,9 +24,9 @@ import Property from '../ascribe_forms/property';
 import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
+import { resolveUrl } from '../../utils/url_resolver';
 import { getLangText } from '../../utils/lang';
 
 
@@ -120,7 +120,7 @@ const Edition = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_edition} />
+                            url={resolveUrl('note_private_edition')} />
                         <Note
                             id={() => {return {'bitcoin_id': edition.bitcoin_id}; }}
                             label={getLangText('Personal note (public)')}
@@ -129,7 +129,7 @@ const Edition = React.createClass({
                             editable={!!edition.acl.acl_edit}
                             show={!!(edition.public_note || edition.acl.acl_edit)}
                             successMessage={getLangText('Public edition note saved')}
-                            url={ApiUrls.note_public_edition} />
+                            url={resolveUrl('note_public_edition')} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}

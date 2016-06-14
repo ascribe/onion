@@ -13,13 +13,12 @@ import Property from '../../../../../ascribe_forms/property';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import ApiUrls from '../../../../../../constants/api_urls';
 import { validationParts, validationTypes } from '../../../../../../constants/uploader_constants';
-
-import requests from '../../../../../../utils/requests';
 
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../../../../../utils/lang';
+import requests from '../../../../../../utils/requests';
+import { resolveUrl } from '../../../../../../utils/url_resolver';
 
 
 let MarketAdditionalDataForm = React.createClass({
@@ -153,7 +152,7 @@ let MarketAdditionalDataForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref='form'
                     key={this.state.forceUpdateKey}
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}
+                    url={requests.prepareUrl(resolveUrl('piece_extradata'), { piece_id: pieceId })}
                     handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}
