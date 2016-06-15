@@ -32,12 +32,15 @@ export default function request(url, config) {
         .then((apiUrl) => (
             baseRequest(apiUrl, requestConfig)
                 // Catch any errors resulting from baseRequest first
-                .catch((res) => {
-                    if (res == null) {
+                .catch((err) => {
+                    if (err == null) {
                         throw new Error(`For: ${apiUrl} - Server did not respond to the request. ` +
                                         '(Not even displayed a 500)');
-                    } else {
-                        let err = new Error(`${res.status} - ${res.statusText} - on URL: ${res.url}`);
+                    } else if (err instanceof Response) {
+                        const res = err;
+                        let responseErr = new Error(
+                            `${res.status} - ${res.statusText} - on URL: ${res.url}`
+                        );
 
                         // Try to parse the response body to see if we added more descriptive errors
                         // before rejecting with the error above.
@@ -45,15 +48,19 @@ export default function request(url, config) {
                             .json()
                             .then((body) => {
                                 if (body && Array.isArray(body.errors) && body.errors.length) {
-                                    err = new Error(body.errors.pop());
+                                    responseErr = new Error(body.errors.pop());
                                 }
 
                                 // ES6 promises don't have a .finally() clause so we fake that here
                                 // by forcing the .catch() clause to run
                                 return Promise.reject();
                             })
-                            // If parsing the response body throws, just rethrow the original error
-                            .catch(() => { throw err; });
+                            // If parsing the response body throws, just rethrow the original
+                            // response error
+                            .catch(() => { throw responseErr; });
+                    } else {
+                        // Just rethrow the error since it's not a Response
+                        throw err;
                     }
                 })
                 // Handle successful requests
