@@ -83,31 +83,6 @@ let Header = React.createClass({
         );
     },
 
-    onMenuItemClick() {
-        /*
-        This is a hack to make the dropdown close after clicking on an item
-        The function just need to be defined
-
-        from https://github.com/react-bootstrap/react-bootstrap/issues/368:
-
-        @jvillasante - Have you tried to use onSelect with the DropdownButton?
-        I don't have a working example that is exactly like yours,
-        but I just noticed that the Dropdown closes when I've attached an event handler to OnSelect:
-
-        <DropdownButton eventKey={3} title="Admin" onSelect={ this.OnSelected } >
-
-        onSelected: function(e) {
-            // doesn't need to have functionality (necessarily) ... just wired up
-        }
-        Internally, a call to DropdownButton.setDropDownState(false) is made which will hide the dropdown menu.
-        So, you should be able to call that directly on the DropdownButton instance as well if needed.
-
-        NOW, THAT DIDN'T WORK - the onSelect routine isnt triggered in all cases
-        Hence, we do this manually
-        */
-        this.refs.dropdownbutton.setDropdownState(false);
-    },
-
     render() {
         const { currentUser, isLoggedIn, routes, whitelabel } = this.props;
         const { unfilteredPieceListCount } = this.state;
@@ -122,19 +97,15 @@ let Header = React.createClass({
                     ref='dropdownbutton'
                     id="nav-route-user-dropdown"
                     title={currentUser.username}>
-                    <LinkContainer
-                        to="/settings"
-                        onClick={this.onMenuItemClick}>
+                    <LinkContainer to="/settings">
                         <MenuItem>
                             {getLangText('Account Settings')}
                         </MenuItem>
                     </LinkContainer>
                     <AclProxy
-                        aclObject={currentUser.acl}
-                        aclName="acl_view_settings_contract">
-                        <LinkContainer
-                            to="/contract_settings"
-                            onClick={this.onMenuItemClick}>
+                        aclName="acl_view_settings_contract"
+                        aclObject={currentUser.acl}>
+                        <LinkContainer to="/contract_settings">
                             <MenuItem>
                                 {getLangText('Contract Settings')}
                             </MenuItem>
