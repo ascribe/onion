@@ -55,18 +55,15 @@ $polline--highlight-color: #2882fa;
 
         .navbar-brand {
             padding: 0 5px 0 15px;
+        }
 
-            .img-brand {
-                height: 100%;
-            }
+        .navbar-header .ascribe-powered-by,
+        .navbar-brand .icon-ascribe-logo {
+            color: $polline--nav-fg-prim-color;
 
-            .icon-ascribe-logo {
-                color: $polline--nav-fg-prim-color;
-
-                &:focus,
-                &:hover {
-                    color: darken($polline--nav-fg-prim-color, 20%);
-                }
+            &:focus,
+            &:hover {
+                color: darken($polline--nav-fg-prim-color, 20%);
             }
         }
     }

@@ -67,21 +67,19 @@ let Header = React.createClass({
             );
         } else {
             return (
-                <span>
-                    <Link className="icon-ascribe-logo" to="/collection"/>
-                </span>
+                <Link to="/collection">
+                    <span className="icon-ascribe-logo" />
+                </Link>
             );
         }
     },
 
     getPoweredBy() {
         return (
-            <li>
-                <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
-                    <span id="powered">{getLangText('powered by')} </span>
-                    <span className="icon-ascribe-logo"></span>
-                </a>
-            </li>
+            <a className="pull-left ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
+                <span>{getLangText('powered by')} </span>
+                <span className="icon-ascribe-logo"></span>
+            </a>
         );
     },
 
@@ -192,17 +190,15 @@ let Header = React.createClass({
                         <Navbar.Brand>
                             {this.getLogo()}
                         </Navbar.Brand>
+                        <AclProxy
+                            aclName="acl_view_powered_by"
+                            aclObject={whitelabel}>
+                            {this.getPoweredBy()}
+                        </AclProxy>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse
                         eventKey={0}>
-                        <Nav navbar pullLeft>
-                            <AclProxy
-                                aclObject={whitelabel}
-                                aclName="acl_view_powered_by">
-                                {this.getPoweredBy()}
-                            </AclProxy>
-                        </Nav>
                         <Nav navbar pullRight>
                             <HeaderNotificationDebug show={false}/>
                             {account}

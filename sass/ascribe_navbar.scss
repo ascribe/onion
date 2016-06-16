@@ -76,9 +76,26 @@
         }
     }
 
+    .navbar-header {
+        .ascribe-powered-by {
+            color: $ascribe--nav-fg-prim-color;
+            line-height: 20px;
+            padding: 15px;
+
+            &:focus,
+            &:hover {
+                color: $ascribe--nav-fg-sec-color;
+            }
+        }
+    }
+
     .navbar-brand {
         font-size: 23px;
         padding: 12px 15px;
+
+        .img-brand {
+            height: 100%;
+        }
 
         .icon-ascribe-logo {
             color: $ascribe--nav-fg-prim-color;
@@ -88,13 +105,6 @@
                 color: $ascribe--nav-fg-sec-color;
                 text-decoration: none;
             }
-            &:focus {
-                text-decoration: none;
-            }
-        }
-
-        .img-brand {
-            height: 100%;
         }
     }
 
