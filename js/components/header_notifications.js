@@ -6,6 +6,7 @@ import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 import Nav from 'react-bootstrap/lib/Nav';
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
@@ -67,14 +68,13 @@ let HeaderNotifications = React.createClass({
                                              : `/editions/${pieceOrEdition.bitcoin_id}`;
 
                         return (
-                            <MenuItem
-                                key={href}
-                                eventKey={i + 2}
-                                href={href}>
-                                <NotificationListItem
-                                    notification={notification.notification}
-                                    pieceOrEdition={pieceOrEdition} />
-                            </MenuItem>
+                            <LinkContainer key={href} to={href}>
+                                <MenuItem>
+                                    <NotificationListItem
+                                        notification={notification.notification}
+                                        pieceOrEdition={pieceOrEdition} />
+                                </MenuItem>
+                            </LinkContainer>
                         );
                     })}
                 </div>
