@@ -59,10 +59,10 @@ let Header = React.createClass({
             constructHead(whitelabel.head);
         }
 
-        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
+        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo) {
             return (
                 <Link to="/collection">
-                    <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
+                    <img alt="Whitelabel brand" className="img-brand" src={whitelabel.logo} />
                 </Link>
             );
         } else {
@@ -120,8 +120,8 @@ let Header = React.createClass({
                 </DropdownButton>
             );
 
-            // Let's assume that if the piece list hasn't loaded yet (ie. when unfilteredPieceListCount === -1)
-            // then the user has pieces
+            // Let's assume that if the piece list hasn't loaded yet (ie. when
+            // unfilteredPieceListCount === -1) then the user has pieces.
             // FIXME: this doesn't work that well as the user may not load their piece list
             // until much later, so we would show the 'Collection' header as available until
             // they actually click on it and get redirected to piece registration.
@@ -154,7 +154,7 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     ref="navbar"
-                    fixedTop={true}
+                    fixedTop
                     className="hidden-print">
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -169,7 +169,7 @@ let Header = React.createClass({
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav navbar pullRight>
-                            <HeaderNotificationDebug show={false}/>
+                            <HeaderNotificationDebug show={false} />
                             {account}
                             {signup}
                         </Nav>

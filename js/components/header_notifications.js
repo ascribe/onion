@@ -62,7 +62,7 @@ let HeaderNotifications = React.createClass({
                     <div className="notification-header">
                         {`${(isPiece ? 'Artworks' : 'Editions')} (${notifications.length})`}
                     </div>
-                    {notifications.map((notification, i) => {
+                    {notifications.map((notification) => {
                         const pieceOrEdition = isPiece ? notification.piece : notification.edition;
                         const href = isPiece ? `/pieces/${pieceOrEdition.id}`
                                              : `/editions/${pieceOrEdition.bitcoin_id}`;
@@ -101,10 +101,9 @@ let HeaderNotifications = React.createClass({
                     <DropdownButton
                         ref='dropdownButton'
                         id="header-notification-dropdown"
-                        eventKey="1"
                         title={
                             <span>
-                                <Glyphicon glyph='envelope' color="green"/>
+                                <Glyphicon color="green" glyph="envelope" />
                                 <span className="notification-amount">({numNotifications})</span>
                             </span>
                         }>
@@ -124,10 +123,14 @@ let NotificationListItem = React.createClass({
         pieceOrEdition: React.PropTypes.object,
     },
 
-    getNotificationText(){
+    getNotificationText() {
         let numNotifications = null;
-        if (this.props.notification.length > 1){
-            numNotifications = <div>+ {this.props.notification.length - 1} {getLangText('more...')}</div>;
+        if (this.props.notification.length > 1) {
+            numNotifications = (
+                <div>
+                    + {this.props.notification.length - 1} {getLangText('more...')}
+                </div>
+            );
         }
         return (
             <div className="notification-action">
@@ -137,17 +140,19 @@ let NotificationListItem = React.createClass({
     },
 
     render() {
-        if (this.props.pieceOrEdition) {
+        const { pieceOrEdition } = this.props;
+
+        if (pieceOrEdition) {
             return (
                 <div className="row notification-wrapper">
                     <div className="col-xs-4 clear-paddings">
                         <div className="thumbnail-wrapper">
-                            <img src={this.props.pieceOrEdition.thumbnail.url_safe}/>
+                            <img role="presentation" src={pieceOrEdition.thumbnail.url_safe} />
                         </div>
                     </div>
                     <div className="col-xs-8 notification-list-item-header">
-                        <h1>{this.props.pieceOrEdition.title}</h1>
-                        <div className="sub-header">by {this.props.pieceOrEdition.artist_name}</div>
+                        <h1>{pieceOrEdition.title}</h1>
+                        <div className="sub-header">by {pieceOrEdition.artist_name}</div>
                         {this.getNotificationText()}
                     </div>
                 </div>
