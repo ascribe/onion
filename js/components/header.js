@@ -121,12 +121,11 @@ let Header = React.createClass({
                 <DropdownButton
                     ref='dropdownbutton'
                     id="nav-route-user-dropdown"
-                    eventKey="1"
                     title={currentUser.username}>
                     <LinkContainer
                         to="/settings"
                         onClick={this.onMenuItemClick}>
-                        <MenuItem eventKey="2">
+                        <MenuItem>
                             {getLangText('Account Settings')}
                         </MenuItem>
                     </LinkContainer>
@@ -136,14 +135,14 @@ let Header = React.createClass({
                         <LinkContainer
                             to="/contract_settings"
                             onClick={this.onMenuItemClick}>
-                            <MenuItem eventKey="2">
+                            <MenuItem>
                                 {getLangText('Contract Settings')}
                             </MenuItem>
                         </LinkContainer>
                     </AclProxy>
                     <MenuItem divider />
                     <LinkContainer to="/logout">
-                        <MenuItem eventKey="3">
+                        <MenuItem>
                             {getLangText('Log out')}
                         </MenuItem>
                     </LinkContainer>
@@ -197,8 +196,7 @@ let Header = React.createClass({
                         </AclProxy>
                         <Navbar.Toggle />
                     </Navbar.Header>
-                    <Navbar.Collapse
-                        eventKey={0}>
+                    <Navbar.Collapse>
                         <Nav navbar pullRight>
                             <HeaderNotificationDebug show={false}/>
                             {account}
