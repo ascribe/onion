@@ -170,7 +170,7 @@ let AccordionListItemTableEditions = React.createClass({
                 displayElement: getLangText('ID'),
                 displayType: TableItemText,
                 rowWidth: 5,
-                className: 'hidden-xs visible-sm visible-md visible-lg'
+                className: 'hidden-xs'
             }),
             new ColumnModel({
                 transition,
