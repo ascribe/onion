@@ -77,7 +77,8 @@ $vivi23--highlight-color: #de2600;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle,
+        .dropdown-menu a {
             background-color: $vivi23--nav-bg-color;
             color: $vivi23--nav-fg-prim-color;
 
@@ -133,6 +134,7 @@ $vivi23--highlight-color: #de2600;
         .navbar-nav > li > a {
             color: $vivi23--nav-fg-prim-color;
 
+            &:focus,
             &:hover {
                 background-color: $vivi23--nav-highlight-color;
                 color: lighten($vivi23--nav-fg-prim-color, 20%);
