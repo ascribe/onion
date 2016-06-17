@@ -1,6 +1,7 @@
-'use strict';
-
 import React from 'react';
+
+import { omitFromObject } from '../utils/general';
+
 
 /**
  * This component can easily be used to present another component conditionally
@@ -9,47 +10,48 @@ import React from 'react';
  * In order to do that, just wrap AclProxy around the component, add aclObject and
  * the acl name you're looking for.
  */
-let AclProxy = React.createClass({
+const AclProxy = React.createClass({
     propTypes: {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ]).isRequired,
-        aclObject: React.PropTypes.object,
+        children: React.PropTypes.node.isRequired,
+
         aclName: React.PropTypes.string,
+        aclObject: React.PropTypes.object,
         show: React.PropTypes.bool
     },
 
     getChildren() {
-        if (React.Children.count(this.props.children) > 1){
-            /*
-            This might ruin styles for header items in the navbar etc
-             */
-            return (
-                <span>
-                    {this.props.children}
-                </span>
-            );
+        const childProps = omitFromObject(this.props, ['aclName', 'aclObject', 'children', 'show']);
+        const children = React.Children.map(
+            this.props.children,
+            (child) => React.cloneElement(child, childProps)
+        );
+
+        if (children.length > 1) {
+            // This has the potential to ruin some styling, but React doesn't let us just return an
+            // array of components.
+            return (<span>{children}</span>);
+        } else {
+            return children[0];
         }
-        /* can only do this when there is only 1 child, but will preserve styles */
-        return this.props.children;
     },
 
     render() {
-        if(this.props.show) {
+        const { aclName, aclObject, show } = this.props;
+
+        if (show) {
             return this.getChildren();
-        } else {
-            if(this.props.aclObject) {
-                if(this.props.aclObject[this.props.aclName]) {
-                    return this.getChildren();
-                } else {
-                    /* if(typeof this.props.aclObject[this.props.aclName] === 'undefined') {
-                        console.warn('The aclName you\'re filtering for was not present (or undefined) in the aclObject.');
-                    } */
-                    return null;
-                }
+        } else if (aclObject) {
+            if (aclObject[aclName]) {
+                return this.getChildren();
+            } else if (false && process.env.NODE_ENV !== 'production') {
+                // Warning currently disabled because the main app's acls don't include whitelabel
+                // specific acls, causing a lot of warnings
+                // eslint-disable-next-line no-console
+                console.warn(`The aclName (${aclName}) you're filtering for was not present (or  ` +
+                             'undefined) in the aclObject.');
             }
         }
+
         return null;
     }
 });
