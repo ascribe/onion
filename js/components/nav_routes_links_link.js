@@ -1,46 +1,45 @@
-'use strict';
-
 import React from 'react';
 
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
 import NavItem from 'react-bootstrap/lib/NavItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 
-let NavRoutesLinksLink = React.createClass({
+const NavRoutesLinksLink = React.createClass({
     propTypes: {
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.arrayOf(React.PropTypes.element),
-            React.PropTypes.element
-        ]),
-        disabled: React.PropTypes.bool,
+        children: React.PropTypes.node,
         depth: React.PropTypes.number,
+        disabled: React.PropTypes.bool,
         headerTitle: React.PropTypes.string,
         routePath: React.PropTypes.string
+
+        // All other props are passed through to the backing NavItem, or NavDropdown
     },
 
     render() {
-        const { children, headerTitle, depth, disabled, routePath } = this.props;
+        const { children, headerTitle, depth, disabled, routePath, ...props } = this.props;
 
         // if the route has children, we're returning a DropdownButton that will get filled
         // with MenuItems
         if (children) {
             return (
-                <DropdownButton
+                <NavDropdown
+                    {...props}
                     disabled={disabled}
                     id={`nav-route-${headerTitle.toLowerCase()}-dropdown`}
                     title={headerTitle}>
                     {children}
-                </DropdownButton>
+                </NavDropdown>
             );
         } else {
             if (depth === 1) {
                 // if the node's child is actually a node of level one (a child of a node), we're
-                // returning a DropdownButton matching MenuItem
+                // returning a MenuItem for the containing NavDropdown
                 return (
                     <LinkContainer
+                        {...props}
                         disabled={disabled}
                         to={routePath}>
                         <MenuItem>{headerTitle}</MenuItem>
@@ -49,6 +48,7 @@ let NavRoutesLinksLink = React.createClass({
             } else if (depth === 0) {
                 return (
                     <LinkContainer
+                        {...props}
                         disabled={disabled}
                         to={routePath}>
                         <NavItem>{headerTitle}</NavItem>

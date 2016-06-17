@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import Nav from 'react-bootstrap/lib/Nav';
@@ -12,26 +10,30 @@ import { sanitizeList } from '../utils/general';
 
 const DISABLE_ENUM = ['hasPieces', 'noPieces'];
 
-let NavRoutesLinks = React.createClass({
+const NavRoutesLinks = React.createClass({
     propTypes: {
         hasPieces: React.PropTypes.bool,
         routes: React.PropTypes.arrayOf(React.PropTypes.object),
         userAcl: React.PropTypes.object
+
+        // All other props are passed to the backing Nav
     },
 
     isRouteDisabled(disableOn) {
         const { hasPieces } = this.props;
 
-        if (disableOn) {
-            if (!DISABLE_ENUM.includes(disableOn)) {
-                throw new Error(`"disableOn" must be one of: [${DISABLE_ENUM.join(', ')}] got "${disableOn}" instead`);
-            }
+        if (disableOn && !DISABLE_ENUM.includes(disableOn)) {
+            throw new Error(
+                `"disableOn" must be one of: [${DISABLE_ENUM.join(', ')}] got "${disableOn}" instead`
+            );
+        }
 
-            if (disableOn === 'hasPieces') {
-                return hasPieces;
-            } else if (disableOn === 'noPieces') {
-                return !hasPieces;
-            }
+        if (disableOn === 'hasPieces') {
+            return hasPieces;
+        } else if (disableOn === 'noPieces') {
+            return !hasPieces;
+        } else {
+            return false;
         }
     },
 
@@ -48,11 +50,11 @@ let NavRoutesLinks = React.createClass({
      */
     extractLinksFromRoutes(node, userAcl, i) {
         if (!node) {
-            return;
+            return null;
         }
 
         const links = node.childRoutes.map((child, j) => {
-            const { aclName, disableOn, headerTitle, path, childRoutes } = child;
+            const { aclName, disableOn, headerTitle, path } = child;
 
             // We validate if the user has set the title correctly,
             // otherwise we're not going to render his route
@@ -88,15 +90,12 @@ let NavRoutesLinks = React.createClass({
                     );
                 } else {
                     return (
-                        <NavRoutesLinksLink
-                            key={j}
-                            {...navLinkProps} />
+                        <NavRoutesLinksLink key={j} {...navLinkProps} />
                     );
                 }
             } else {
                 return null;
             }
-
         });
 
         // remove all nulls from the list of generated links
@@ -104,10 +103,15 @@ let NavRoutesLinks = React.createClass({
     },
 
     render() {
-        const {routes, userAcl} = this.props;
+        const {
+            routes,
+            userAcl,
+            hasPieces: ignoredHasPieces,
+            ...props
+        } = this.props;
 
         return (
-            <Nav {...this.props}>
+            <Nav {...props}>
                 {this.extractLinksFromRoutes(routes[0], userAcl, 0)}
             </Nav>
         );

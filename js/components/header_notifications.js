@@ -12,6 +12,7 @@ import NotificationStore from '../stores/notification_store';
 import withContext from './context/with_context';
 import { currentUserShape } from './prop_types';
 
+import { omitFromObject } from '../utils/general';
 import { getLangText } from '../utils/lang';
 
 
@@ -98,6 +99,8 @@ const HeaderNotifications = React.createClass({
         // Injected through HOCs
         currentUser: currentUserShape.isRequired,
         isLoggedIn: bool.isRequired
+
+        // All other props are passed down to the backing NavDropdown
     },
 
     getInitialState() {
@@ -133,6 +136,8 @@ const HeaderNotifications = React.createClass({
 
     render() {
         const { editionListNotifications, pieceListNotifications } = this.state;
+        const dropdownProps = omitFromObject(this.props, ['currentUser'], ['isLoggedIn']);
+
         if (pieceListNotifications.length || editionListNotifications.length) {
             let numNotifications = 0;
 
@@ -145,6 +150,7 @@ const HeaderNotifications = React.createClass({
 
             return (
                 <NavDropdown
+                    {...dropdownProps}
                     ref="dropdownButton"
                     className="notification-menu"
                     id="header-notification-dropdown"

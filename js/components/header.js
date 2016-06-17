@@ -21,6 +21,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { currentUserShape, whitelabelShape } from './prop_types';
 
 import { constructHead } from '../utils/dom';
+import { safeMerge } from '../utils/general';
 import { getLangText } from '../utils/lang';
 
 
@@ -35,7 +36,12 @@ let Header = React.createClass({
     },
 
     getInitialState() {
-        return PieceListStore.getState();
+        return safeMerge(
+            PieceListStore.getState(),
+            {
+                expandedCollapse: false
+            }
+        );
     },
 
     componentDidMount() {
@@ -52,7 +58,17 @@ let Header = React.createClass({
         this.setState(state);
     },
 
-    getLogo() {
+    collapseNav() {
+        if (this.state.expandedCollapse) {
+            this.onToggleCollapse(false);
+        }
+    },
+
+    onToggleCollapse(expandedCollapse) {
+        this.setState({ expandedCollapse });
+    },
+
+    renderLogo() {
         const { whitelabel } = this.props;
 
         if (whitelabel.head) {
@@ -74,7 +90,7 @@ let Header = React.createClass({
         }
     },
 
-    getPoweredBy() {
+    renderPoweredBy() {
         return (
             <a className="pull-left ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
                 <span>{getLangText('powered by')} </span>
@@ -129,6 +145,7 @@ let Header = React.createClass({
                     navbar
                     pullRight
                     hasPieces={!!unfilteredPieceListCount}
+                    onSelect={this.collapseNav}
                     routes={routes}
                     userAcl={currentUser.acl} />
             );
@@ -154,20 +171,22 @@ let Header = React.createClass({
                 <Navbar
                     ref="navbar"
                     fixedTop
-                    className="hidden-print">
+                    className="hidden-print"
+                    expanded={this.state.expandedCollapse}
+                    onToggle={this.onToggleCollapse}>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            {this.getLogo()}
+                            {this.renderLogo()}
                         </Navbar.Brand>
                         <AclProxy
                             aclName="acl_view_powered_by"
                             aclObject={whitelabel}>
-                            {this.getPoweredBy()}
+                            {this.renderPoweredBy()}
                         </AclProxy>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
-                        <Nav navbar pullRight>
+                        <Nav navbar pullRight onSelect={this.collapseNav}>
                             <HeaderNotificationDebug show={false} />
                             <HeaderNotifications />
                             {account}
