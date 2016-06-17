@@ -67,7 +67,7 @@ $market--highlight-color: #2882fa;
         }
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $market--nav-fg-prim-color;
 
@@ -89,7 +89,7 @@ $market--highlight-color: #2882fa;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn,
+        .dropdown-toggle,
         .dropdown-menu a {
             background-color: $market--nav-bg-color;
             color: $market--nav-fg-prim-color;
@@ -142,7 +142,7 @@ $market--highlight-color: #2882fa;
             background-color: $market--nav-bg-color;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             color: $market--nav-fg-prim-color;
 
@@ -288,7 +288,7 @@ $market--highlight-color: #2882fa;
     }
 
     // filter widget
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         background-color: transparent !important;
         border-color: transparent !important;
         color: $market--button-default-color !important;

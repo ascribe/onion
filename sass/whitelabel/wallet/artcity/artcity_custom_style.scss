@@ -70,7 +70,7 @@ $artcity--ter-highlight-color: #EDEDF0;
         }
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $artcity--nav-fg-prim-color;
 
@@ -92,7 +92,7 @@ $artcity--ter-highlight-color: #EDEDF0;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn,
+        .dropdown-toggle,
         .dropdown-menu a {
             color: $artcity--nav-fg-prim-color;
             background-color: $artcity--nav-bg-color;
@@ -145,7 +145,7 @@ $artcity--ter-highlight-color: #EDEDF0;
             background-color: $artcity--nav-bg-color;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             color: $artcity--nav-fg-prim-color;
 

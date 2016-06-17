@@ -55,7 +55,7 @@ $vivi23--highlight-color: #de2600;
         background-color: $vivi23--nav-fg-prim-color;
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $vivi23--nav-bg-color;
 
@@ -130,7 +130,7 @@ $vivi23--highlight-color: #de2600;
             background-color: $vivi23--nav-bg-color;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             color: $vivi23--nav-fg-prim-color;
 
@@ -268,7 +268,7 @@ $vivi23--highlight-color: #de2600;
     }
 
     // filter widget
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         background-color: transparent !important;
         border-color: transparent !important;
         color: $vivi23--button-default-color !important;

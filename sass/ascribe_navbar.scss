@@ -11,7 +11,7 @@
     margin-bottom: 1.5em;
 
     // All Navbar buttons
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         background-color: transparent;
         border: none;
@@ -44,7 +44,7 @@
 
     // Open dropdowns
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle {
             &:focus,
             &:hover {
                 background-color: rgba($ascribe--button-default-color, .05);
@@ -70,8 +70,8 @@
     }
 
     .notification-menu {
-        .dropdown-toggle.btn:focus,
-        .dropdown-toggle.btn:hover {
+        .dropdown-toggle:focus,
+        .dropdown-toggle:hover {
             box-shadow: none;
         }
     }
@@ -130,7 +130,7 @@
             margin-left: 0;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             display: block;
             padding-bottom: 10px;

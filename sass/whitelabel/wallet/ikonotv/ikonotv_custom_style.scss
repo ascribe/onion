@@ -23,7 +23,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
     background-color: $ikono--bg-color;
     box-shadow: none;
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         border-bottom-color: transparent;
         color: white;
@@ -41,7 +41,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle {
             background-color: $ikono--bg-color;
             color: white;
 
@@ -353,7 +353,7 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 .client--ikonotv {
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         color: $ikono--button-color !important;
         background-color: transparent !important;
         border-color: transparent !important;

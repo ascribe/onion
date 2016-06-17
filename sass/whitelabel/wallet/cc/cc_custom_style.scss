@@ -9,7 +9,7 @@ $cc--button-color: $cc--nav-fg-prim-color;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $cc--nav-fg-prim-color;
         background-color: $cc--nav-bg-color;
@@ -32,7 +32,7 @@ $cc--button-color: $cc--nav-fg-prim-color;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle {
             background-color: $cc--nav-bg-color;
             color: lighten($cc--nav-fg-prim-color, 40%);
 
@@ -125,7 +125,7 @@ $cc--button-color: $cc--nav-fg-prim-color;
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 .client--cc {
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         color: $cc--button-color !important;
         background-color: transparent !important;
         border-color: transparent !important;
