@@ -67,7 +67,7 @@ export function getAclFormMessage({ aclName, additionalMessage, entities, isPiec
     const entityTitles = isPiece ? getTitlesStringOfPiece(entities)
                                  : getTitlesStringOfEditions(entities);
 
-    let message = `${getLangText('Hi')}\n\n`;
+    let message = `${getLangText('Hi')},\n\n`;
 
     if (aclName === 'acl_transfer') {
         message += getLangText('I transfer ownership of');
