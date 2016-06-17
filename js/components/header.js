@@ -187,10 +187,12 @@ let Header = React.createClass({
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav navbar pullRight onSelect={this.collapseNav}>
-                            <HeaderNotificationDebug show={false} />
-                            <HeaderNotifications />
                             {account}
                             {signup}
+                        </Nav>
+                        <Nav navbar pullRight onSelect={this.collapseNav}>
+                            <HeaderNotificationDebug show={false} />
+                            <HeaderNotifications />
                         </Nav>
                         {navRoutesLinks}
                     </Navbar.Collapse>
