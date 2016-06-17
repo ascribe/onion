@@ -1,11 +1,12 @@
 'use strict';
 
 import React from 'react';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
+
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
-
 import Nav from 'react-bootstrap/lib/Nav';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import NotificationActions from '../actions/notification_actions';
@@ -97,20 +98,25 @@ let HeaderNotifications = React.createClass({
             }
 
             return (
-                <Nav navbar pullRight className="notification-menu">
-                    <DropdownButton
-                        ref='dropdownButton'
-                        id="header-notification-dropdown"
-                        title={
-                            <span>
-                                <Glyphicon color="green" glyph="envelope" />
-                                <span className="notification-amount">({numNotifications})</span>
-                            </span>
-                        }>
-                        {this.renderNotifications({ notifications: pieceListNotifications, isPiece: true })}
-                        {this.renderNotifications({ notifications: editionListNotifications, isPiece: false })}
-                    </DropdownButton>
-                </Nav>
+                <NavDropdown
+                    ref="dropdownButton"
+                    className="notification-menu"
+                    id="header-notification-dropdown"
+                    title={
+                        <span>
+                            <Glyphicon color="green" glyph="envelope" />
+                            <span className="notification-amount">({numNotifications})</span>
+                        </span>
+                    }>
+                    {this.renderNotifications({
+                        notifications: pieceListNotifications,
+                        isPiece: true
+                    })}
+                    {this.renderNotifications({
+                        notifications: editionListNotifications,
+                        isPiece: false
+                    })}
+                </NavDropdown>
             );
         }
         return null;

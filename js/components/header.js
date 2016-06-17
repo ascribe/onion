@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import NavItem from 'react-bootstrap/lib/NavItem';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
@@ -93,8 +93,7 @@ let Header = React.createClass({
 
         if (isLoggedIn) {
             account = (
-                <DropdownButton
-                    ref='dropdownbutton'
+                <NavDropdown
                     id="nav-route-user-dropdown"
                     title={currentUser.username}>
                     <LinkContainer to="/settings">
@@ -117,7 +116,7 @@ let Header = React.createClass({
                             {getLangText('Log out')}
                         </MenuItem>
                     </LinkContainer>
-                </DropdownButton>
+                </NavDropdown>
             );
 
             // Let's assume that if the piece list hasn't loaded yet (ie. when
@@ -170,10 +169,10 @@ let Header = React.createClass({
                     <Navbar.Collapse>
                         <Nav navbar pullRight>
                             <HeaderNotificationDebug show={false} />
+                            <HeaderNotifications />
                             {account}
                             {signup}
                         </Nav>
-                        <HeaderNotifications />
                         {navRoutesLinks}
                     </Navbar.Collapse>
                 </Navbar>
