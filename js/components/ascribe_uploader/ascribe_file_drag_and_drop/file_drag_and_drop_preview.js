@@ -76,7 +76,7 @@ const FileDragAndDropPreview = React.createClass({
         if (numberOfDisplayedFiles === 1) {
             return (
                 <span className="file-name">
-                    {truncateText(file.name, 30, '(...).' + extractFileExtensionFromString(file.name))}
+                    {truncateText(file.name, 30, `(...).${extractFileExtensionFromString(file.name)}`)}
                 </span>
             );
         } else {

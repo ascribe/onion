@@ -127,7 +127,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
                 if (uploadingFiles.length) {
                     return (
                         <span>
-                            {' ' + truncateText(uploadingFiles[0].name, 40) + ' '}
+                            {` ${truncateText(uploadingFiles[0].name, 40)} `}
                             [<a onClick={this.onClickRemove}>{getLangText('cancel upload')}</a>]
                         </span>
                     );
@@ -135,7 +135,7 @@ export default function UploadButton({ className = 'btn btn-default btn-sm', sho
                     return (
                         <span>
                             <span className='ascribe-icon icon-ascribe-ok'/>
-                            {' ' + truncateText(uploadedFile.name, 40) + ' '}
+                            {` ${truncateText(uploadedFile.name, 40)} `}
                             [<a onClick={this.onClickRemove}>{getLangText('remove')}</a>]
                         </span>
                     );

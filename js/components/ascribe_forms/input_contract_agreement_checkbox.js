@@ -73,7 +73,7 @@ const InputContractAgreementCheckbox = React.createClass({
         // If there is no contract available, hide this `Property` from the user
         this.props.setExpanded(!!contractAgreement);
 
-        state = Object.assign(state, {
+        this.setState({
             value: {
                 // If `email` is defined in this component, `getContractAgreementsOrCreatePublic`
                 // is either:
@@ -93,8 +93,6 @@ const InputContractAgreementCheckbox = React.createClass({
                 terms: !contractAgreement || !!contractAgreement.datetime_accepted
             }
         });
-
-        this.setState(state);
     },
 
     onChange(event) {
