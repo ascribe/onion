@@ -166,6 +166,16 @@ $artcity--ter-highlight-color: #EDEDF0;
             }
         }
 
+        .navbar-nav .open .dropdown-menu .active a {
+            background-color: transparent;
+
+            &:focus,
+            &:hover {
+                background-color: $artcity--nav-highlight-color;
+                color: lighten($artcity--nav-fg-prim-color, 20%);
+            }
+        }
+
         .navbar-nav > li.active > a,
         .navbar-nav > li.active > a:hover,
         .navbar-nav > li.active > a:focus, {

@@ -42,6 +42,16 @@
         }
     }
 
+    // Currently active route (if in dropdown)
+    .navbar-nav .dropdown-menu .active a {
+        background-color: transparent;
+
+        &:focus,
+        &:hover {
+            background-color: rgba($ascribe--button-default-color, .05);
+        }
+    }
+
     // Open dropdowns
     .navbar-nav .open {
         .dropdown-toggle {
@@ -140,6 +150,15 @@
 
         .navbar-nav .open .dropdown-menu > li > a {
             padding: 5px 15px 5px 25px;
+        }
+
+        .navbar-nav .open .dropdown-menu .active a {
+            background-color: transparent;
+
+            &:focus,
+            &:hover {
+                background-color: transparent;
+            }
         }
 
         .navbar-nav .dropdown {

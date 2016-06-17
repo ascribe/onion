@@ -163,6 +163,16 @@ $market--highlight-color: #2882fa;
             }
         }
 
+        .navbar-nav .open .dropdown-menu .active a {
+            background-color: transparent;
+
+            &:focus,
+            &:hover {
+                background-color: $market--nav-highlight-color;
+                color: lighten($market--nav-fg-prim-color, 20%);
+            }
+        }
+
         .navbar-nav > li.active > a,
         .navbar-nav > li.active > a:hover,
         .navbar-nav > li.active > a:focus, {
