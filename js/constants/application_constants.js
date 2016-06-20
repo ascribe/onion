@@ -1,12 +1,10 @@
-'use strict';
-
 const apiEndpoint = process.env.API_URL;
 const serverUrl = process.env.SERVER_URL;
-const baseUrl = process.env.APP_BASE_PATH;
+const appBasePath = process.env.APP_BASE_PATH;
 
 const constants = {
     apiEndpoint,
-    baseUrl,
+    appBasePath,
     serverUrl,
     'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
                 'acl_loan', 'acl_loan_request', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
@@ -98,7 +96,7 @@ const constants = {
         'sdkUrl': 'https://code.jquery.com/jquery-2.1.4.min.js'
     },
     'audiojs': {
-        'sdkUrl': baseUrl + '/static/third_party/audiojs/audio.min.js'
+        'sdkUrl': `${appBasePath}/static/third_party/audiojs/audio.min.js`
     },
     'videojs': {
         'sdkUrl': '//vjs.zencdn.net/4.12/video.js',

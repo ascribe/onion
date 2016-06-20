@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import UserStore from '../../stores/user_store';
@@ -10,7 +8,7 @@ import { currentUserShape, locationShape, routerShape, whitelabelShape } from '.
 import AppConstants from '../../constants/application_constants';
 
 
-const { bool, object } = React.PropTypes;
+const { bool } = React.PropTypes;
 const WHEN_ENUM = ['loggedIn', 'loggedOut'];
 
 /**
@@ -50,17 +48,17 @@ export function AuthRedirect({ to, when }) {
             return true;
 
         } else if (!exprToValidate && when === 'loggedOut' && redirectAuthenticated) {
-            /*
+            /**
              * redirectAuthenticated contains an arbitrary path
              * eg pieces/<id>, editions/<bitcoin_id>, collection, settings, ...
              * hence transitionTo cannot be used directly.
              *
              * While we're getting rid of `query.redirect` explicitly in the
              * above `else if` statement, here it's sufficient to just set the
-             * location to `${baseUrl}/${redirectAuthenticated}`, as this will
+             * location to `${appBasePath}/${redirectAuthenticated}`, as this will
              * get rid of queries as well.
              */
-            window.location = `${AppConstants.baseUrl}/${redirectAuthenticated}`;
+            window.location = `${AppConstants.appBasePath}/${redirectAuthenticated}`;
             return true;
         }
 
