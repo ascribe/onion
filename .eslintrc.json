@@ -1,5 +1,5 @@
 {
-    "extends": "ascribe",
+    "extends": "ascribe-react",
     "rules": {
         "no-console": [1, { "allow": ["error", "logGlobal"] }]
     }
