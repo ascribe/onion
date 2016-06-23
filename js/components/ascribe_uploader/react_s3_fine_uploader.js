@@ -20,7 +20,7 @@ import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, ENDPOINTS } from '../../constants/upl
 
 import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCsrfToken, makeCsrfHeader } from '../../utils/csrf';
-import { computeHashOfFile, extractFileExtensionFromString } from '../../utils/file';
+import { computeFileHash, createTextFile, extractFileExtensionFromString } from '../../utils/file';
 import { getLangText } from '../../utils/lang';
 
 
@@ -899,7 +899,7 @@ const ReactS3FineUploader = React.createClass({
 
             // "files" is not a classical Javascript array but a Javascript FileList, therefore
             // we can not use map to convert values
-            for(let i = 0; i < files.length; i++) {
+            for (let i = 0; i < files.length; i++) {
                 // for calculating the overall progress of all submitted files
                 // we'll need to calculate the overall sum of all files' sizes
                 overallFileSize += files[i].size;
@@ -909,7 +909,9 @@ const ReactS3FineUploader = React.createClass({
 
                 // since the actual computation of a file's hash is an async task ,
                 // we're using promises to handle that
-                let hashedFilePromise = computeHashOfFile(files[i]);
+                const hashedFilePromise = computeFileHash(files[i])
+                    .then((hash) => createTextFile(hash, `hash-of-${files[i].name}`, files[i]));
+
                 convertedFilePromises.push(hashedFilePromise);
             }
 
