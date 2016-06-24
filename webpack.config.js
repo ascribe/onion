@@ -209,6 +209,16 @@ const config = {
     devtool: PRODUCTION ? '#source-map' : '#inline-source-map',
 
     resolve: {
+        // Dedupe any dependencies' polyfill, react, or react-css-modules dependencies when
+        // developing with npm link
+        alias: {
+            'babel-runtime': path.resolve(PATHS.NODE_MODULES, 'babel-runtime'),
+            'core-js': path.resolve(PATHS.NODE_MODULES, 'core-js'),
+            'js-utility-belt': path.resolve(PATHS.NODE_MODULES, 'js-utility-belt'),
+            'react': path.resolve(PATHS.NODE_MODULES, 'react'),
+            'react-dom': path.resolve(PATHS.NODE_MODULES, 'react-dom'),
+            'react-css-modules': path.resolve(PATHS.NODE_MODULES, 'react-css-modules'),
+        },
         extensions: ['', '.js', '.jsx'],
         modules: ['node_modules'], // Don't use absolute path here to allow recursive matching
     },
