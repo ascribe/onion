@@ -1,16 +1,17 @@
 const apiEndpoint = process.env.API_URL;
 const serverUrl = process.env.SERVER_URL;
 const appBasePath = process.env.APP_BASE_PATH;
+const appVersion = process.env.APP_VERSION;
 
 const constants = {
     apiEndpoint,
     appBasePath,
     serverUrl,
+    version: appVersion,
     'aclList': ['acl_coa', 'acl_consign', 'acl_delete', 'acl_download', 'acl_edit', 'acl_create_editions', 'acl_view_editions',
                 'acl_loan', 'acl_loan_request', 'acl_share', 'acl_transfer', 'acl_unconsign', 'acl_unshare', 'acl_view',
                 'acl_withdraw_transfer', 'acl_wallet_submit'],
 
-    'version': 0.1,
     'subdomains': [
         {
             'subdomain': 'cc',
