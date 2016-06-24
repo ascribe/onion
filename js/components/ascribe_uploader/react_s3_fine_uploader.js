@@ -16,12 +16,13 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { ErrorClasses, testErrorAgainstAll } from '../../constants/error_constants';
-import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, ENDPOINTS } from '../../constants/uploader_constants';
+import { RETRY_ATTEMPT_TO_SHOW_CONTACT_US, S3_ACCESS_KEY, S3_ACL, S3_BUCKET } from '../../constants/uploader_constants';
 
 import { displayValidFilesFilter, FileStatus, transformAllowedExtensionsToInputAcceptProp } from './react_s3_fine_uploader_utils';
 import { getCsrfToken, makeCsrfHeader } from '../../utils/csrf';
 import { computeFileHash, createTextFile, extractFileExtensionFromString } from '../../utils/file';
 import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 const { shape,
@@ -167,12 +168,12 @@ const ReactS3FineUploader = React.createClass({
             debug: false,
             multiple: false,
             objectProperties: {
-                acl: 'public-read',
-                bucket: 'ascribe0'
+                acl: S3_ACL,
+                bucket: S3_BUCKET
             },
             request: {
-                endpoint: ENDPOINTS.accelerate,
-                accessKey: 'AKIAIVCZJ33WSCBQ3QDA'
+                endpoint: resolveUrl('s3_accelerate'),
+                accessKey: S3_ACCESS_KEY
             },
             uploadSuccess: {
                 params: {

@@ -68,8 +68,12 @@ const ApiUrls = {
     'webhooks': AppConstants.apiEndpoint + '/webhooks/',
     'webhooks_events': AppConstants.apiEndpoint + '/webhooks/events/',
     'whitelabel_settings': AppConstants.apiEndpoint + '/whitelabel/settings/${subdomain}/',
-    'delete_s3_file': AppConstants.serverUrl + '/s3/delete/',
-    'sign_url_s3': AppConstants.serverUrl + '/s3/sign_url/'
+
+    // S3 endpoints
+    's3': 'https://ascribe0.s3.amazonaws.com',
+    's3_accelerate': 'https://ascribe0.s3-accelerate.amazonaws.com',
+    's3_delete_file': `${AppConstants.serverUrl}/s3/delete/`,
+    's3_sign_url': `${AppConstants.serverUrl}/s3/sign_url/`
 };
 
 export function mergeWithBaseApiUrls(updatedApiUrls) {

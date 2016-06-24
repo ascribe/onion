@@ -45,6 +45,8 @@ const DEFINITIONS = {
         RAVEN_DSN_URL: JSON.stringify(process.env.RAVEN_DSN_URL || ''),
 
         S3_ACCESS_KEY: JSON.stringify(process.env.S3_ACCESS_KEY || ''),
+        S3_ACL: JSON.stringify(process.env.S3_ACL || 'public-read'),
+        S3_BUCKET: JSON.stringify(process.env.S3_BUCKET || 'ascribe0'),
     },
 };
 

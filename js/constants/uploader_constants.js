@@ -1,5 +1,4 @@
-'use strict';
-
+// Validation types
 export const validationParts = {
     allowedExtensions: {
         images: ['png', 'jpg', 'jpeg', 'gif']
@@ -14,7 +13,7 @@ export const validationParts = {
     }
 };
 
-const { allowedExtensions, itemLimit, sizeLimit } = validationParts;
+const { itemLimit, sizeLimit } = validationParts;
 
 export const validationTypes = {
     additionalData: {
@@ -34,7 +33,16 @@ export const validationTypes = {
 // Number of manual retries before showing a contact us screen on the uploader.
 export const RETRY_ATTEMPT_TO_SHOW_CONTACT_US = 5;
 
-export const ENDPOINTS = {
-    s3: 'https://ascribe0.s3.amazonaws.com',
-    accelerate: 'https://ascribe0.s3-accelerate.amazonaws.com'
+// S3 settings
+export const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY;
+export const S3_ACL = process.env.S3_ACL;
+export const S3_BUCKET = process.env.S3_BUCKET;
+
+export default {
+    validationParts,
+    validationTypes,
+    RETRY_ATTEMPT_TO_SHOW_CONTACT_US,
+    S3_ACCESS_KEY,
+    S3_ACL,
+    S3_BUCKET
 };
