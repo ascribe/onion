@@ -103,7 +103,11 @@ const constants = {
         'cssUrl': '//vjs.zencdn.net/4.12/video-js.css'
     },
     'raven': {
-        'url': 'https://0955da3388c64ab29bd32c2a429f9ef4@app.getsentry.com/48351'
+        ignoreErrors: [
+            'Authentication credentials were not provided.',
+            'Informations d\'authentification non fournies.'
+        ],
+        url: process.env.RAVEN_DSL_URL
     },
     'facebook': {
         'appId': '420813844732240',
@@ -112,11 +116,7 @@ const constants = {
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
     },
-    'cloudfrontDomain': 'd1qjsxua1o9x03.cloudfront.net',
-    'errorMessagesToIgnore': [
-        'Authentication credentials were not provided.',
-        'Informations d\'authentification non fournies.'
-    ]
+    'cloudfrontDomain': 'd1qjsxua1o9x03.cloudfront.net'
 };
 
 export default constants;

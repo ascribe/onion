@@ -1,5 +1,3 @@
-'use strict';
-
 import Raven from 'raven-js';
 
 import AppConstants from '../constants/application_constants';
@@ -16,10 +14,7 @@ function logGlobal(error, comment, ignoreSentry) {
     console.error(error);
 
     if (error.hasOwnProperty('json')) {
-        comment = {
-            ...comment,
-            json: error.json
-        };
+        comment.json = error.json;
     }
 
     if (!ignoreSentry) {
@@ -28,10 +23,12 @@ function logGlobal(error, comment, ignoreSentry) {
 }
 
 export function initLogging() {
+    const { raven: { ignoreErrors, url: ravenUrl }, version } = AppConstants;
+
     // Initialize Raven for logging on Sentry
-    Raven.config(AppConstants.raven.url, {
-        release: AppConstants.version,
-        ignoreErrors: AppConstants.errorMessagesToIgnore
+    Raven.config(ravenUrl, {
+        ignoreErrors,
+        release: version,
     }).install();
 
     window.onerror = Raven.process;
@@ -49,9 +46,7 @@ export function getJsonErrorsAsArray(error) {
 
     const errorArrays = Object
         .keys(errors)
-        .map((errorKey) => {
-            return errors[errorKey];
-        });
+        .map((errorKey) => errors[errorKey]);
 
     // Collapse each errorKey's errors into a flat array
     return [].concat(...errorArrays);
