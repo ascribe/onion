@@ -10,7 +10,7 @@ $cyland--button-sec-color: #515151;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $cyland--nav-fg-prim-color;
         background-color: $cyland--nav-bg-color;
@@ -33,7 +33,7 @@ $cyland--button-sec-color: #515151;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle {
             background-color: $cyland--nav-bg-color;
             color: lighten($cyland--nav-fg-prim-color, 40%);
 
@@ -79,7 +79,7 @@ $cyland--button-sec-color: #515151;
 // thought of the day:
 // "every great atrocity is the result of people just following orders"
 .client--cyland {
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         color: $cyland--button-color !important;
         background-color: transparent !important;
         border-color: transparent !important;

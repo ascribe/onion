@@ -106,7 +106,9 @@ let PieceListFilterDisplay = React.createClass({
             return (
                 <div className="row">
                     <div className="ascribe-piece-list-filter-display col-xs-12 col-sm-10 col-md-8 col-lg-8 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
-                        {this.getFilterText(filtersWithLabel)}
+                        <span>
+                            {this.getFilterText(filtersWithLabel)}
+                        </span>
                         <hr />
                     </div>
                 </div>

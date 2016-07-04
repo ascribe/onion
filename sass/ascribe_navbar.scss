@@ -11,7 +11,7 @@
     margin-bottom: 1.5em;
 
     // All Navbar buttons
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         background-color: transparent;
         border: none;
@@ -24,7 +24,6 @@
         padding: 15px;
         text-transform: uppercase;
 
-        &:focus,
         &:hover {
             background-color: transparent;
             color: $ascribe--nav-fg-sec-color;
@@ -43,9 +42,19 @@
         }
     }
 
+    // Currently active route (if in dropdown)
+    .navbar-nav .dropdown-menu .active a {
+        background-color: transparent;
+
+        &:focus,
+        &:hover {
+            background-color: rgba($ascribe--button-default-color, .05);
+        }
+    }
+
     // Open dropdowns
     .navbar-nav .open {
-        .dropdown-toggle.btn {
+        .dropdown-toggle {
             &:focus,
             &:hover {
                 background-color: rgba($ascribe--button-default-color, .05);
@@ -71,15 +80,32 @@
     }
 
     .notification-menu {
-        .dropdown-toggle.btn:focus,
-        .dropdown-toggle.btn:hover {
+        .dropdown-toggle:focus,
+        .dropdown-toggle:hover {
             box-shadow: none;
+        }
+    }
+
+    .navbar-header {
+        .ascribe-powered-by {
+            color: $ascribe--nav-fg-prim-color;
+            line-height: 20px;
+            padding: 15px;
+
+            &:focus,
+            &:hover {
+                color: $ascribe--nav-fg-sec-color;
+            }
         }
     }
 
     .navbar-brand {
         font-size: 23px;
         padding: 12px 15px;
+
+        .img-brand {
+            height: 100%;
+        }
 
         .icon-ascribe-logo {
             color: $ascribe--nav-fg-prim-color;
@@ -89,13 +115,6 @@
                 color: $ascribe--nav-fg-sec-color;
                 text-decoration: none;
             }
-            &:focus {
-                text-decoration: none;
-            }
-        }
-
-        .img-brand {
-            height: 100%;
         }
     }
 
@@ -121,7 +140,7 @@
             margin-left: 0;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             display: block;
             padding-bottom: 10px;
@@ -131,6 +150,15 @@
 
         .navbar-nav .open .dropdown-menu > li > a {
             padding: 5px 15px 5px 25px;
+        }
+
+        .navbar-nav .open .dropdown-menu .active a {
+            background-color: transparent;
+
+            &:focus,
+            &:hover {
+                background-color: transparent;
+            }
         }
 
         .navbar-nav .dropdown {

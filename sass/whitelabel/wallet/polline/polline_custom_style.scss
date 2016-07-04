@@ -55,23 +55,20 @@ $polline--highlight-color: #2882fa;
 
         .navbar-brand {
             padding: 0 5px 0 15px;
+        }
 
-            .img-brand {
-                height: 100%;
-            }
+        .ascribe-powered-by,
+        .navbar-brand .icon-ascribe-logo {
+            color: $polline--nav-fg-prim-color;
 
-            .icon-ascribe-logo {
-                color: $polline--nav-fg-prim-color;
-
-                &:focus,
-                &:hover {
-                    color: darken($polline--nav-fg-prim-color, 20%);
-                }
+            &:focus,
+            &:hover {
+                color: darken($polline--nav-fg-prim-color, 20%);
             }
         }
     }
 
-    .navbar-nav .dropdown .dropdown-toggle.btn,
+    .navbar-nav .dropdown .dropdown-toggle,
     .navbar-nav > li > a {
         color: $polline--nav-fg-prim-color;
 
@@ -93,7 +90,7 @@ $polline--highlight-color: #2882fa;
     }
 
     .navbar-nav .open {
-        .dropdown-toggle.btn,
+        .dropdown-toggle,
         .dropdown-menu a {
             color: $polline--nav-fg-prim-color;
 
@@ -145,7 +142,7 @@ $polline--highlight-color: #2882fa;
             background-color: $polline--nav-bg-color;
         }
 
-        .navbar-nav .dropdown .dropdown-toggle.btn,
+        .navbar-nav .dropdown .dropdown-toggle,
         .navbar-nav > li > a {
             color: $polline--nav-fg-prim-color;
 
@@ -163,6 +160,16 @@ $polline--highlight-color: #2882fa;
             &:hover {
                 background-color: $polline--nav-highlight-color;
                 color: $polline--nav-fg-prim-color;
+            }
+        }
+
+        .navbar-nav .open .dropdown-menu .active a {
+            background-color: transparent;
+
+            &:focus,
+            &:hover {
+                background-color: $polline--nav-highlight-color;
+                color: lighten($polline--nav-fg-prim-color, 20%);
             }
         }
 
@@ -291,7 +298,7 @@ $polline--highlight-color: #2882fa;
     }
 
     // filter widget
-    .ascribe-piece-list-toolbar-widget.dropdown-toggle.btn {
+    .ascribe-piece-list-toolbar-widget.dropdown-toggle {
         background-color: transparent !important;
         border-color: transparent !important;
         color: $polline--button-default-color !important;

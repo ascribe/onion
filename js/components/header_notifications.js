@@ -1,11 +1,10 @@
-'use strict';
-
 import React from 'react';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
+
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 
-import Nav from 'react-bootstrap/lib/Nav';
+import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 
 import NotificationActions from '../actions/notification_actions';
 import NotificationStore from '../stores/notification_store';
@@ -13,14 +12,95 @@ import NotificationStore from '../stores/notification_store';
 import withContext from './context/with_context';
 import { currentUserShape } from './prop_types';
 
+import { omitFromObject } from '../utils/general';
 import { getLangText } from '../utils/lang';
 
 
-let HeaderNotifications = React.createClass({
+const { array, bool, object } = React.PropTypes;
+
+const NotificationList = ({ isPiece, notifications, ...props }) => {
+    if (notifications.length) {
+        return (
+            <div>
+                <div className="notification-header">
+                    {`${(isPiece ? 'Artworks' : 'Editions')} (${notifications.length})`}
+                </div>
+                {notifications.map((notification) => {
+                    const pieceOrEdition = isPiece ? notification.piece : notification.edition;
+                    const href = isPiece ? `/pieces/${pieceOrEdition.id}`
+                                         : `/editions/${pieceOrEdition.bitcoin_id}`;
+
+                    if (pieceOrEdition && notification.notification) {
+                        return (
+                            <LinkContainer {...props} key={href} to={href}>
+                                <MenuItem>
+                                    <NotificationListItem
+                                        notifications={notification.notification}
+                                        pieceOrEdition={pieceOrEdition} />
+                                </MenuItem>
+                            </LinkContainer>
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
+            </div>
+        );
+    } else {
+        return null;
+    }
+};
+
+NotificationList.propTypes = {
+    notifications: array.isRequired,
+    isPiece: bool
+};
+
+const NotificationListItem = ({ notifications, pieceOrEdition }) => (
+    <div className="row notification-wrapper">
+        <div className="col-xs-4 clear-paddings thumbnail-wrapper">
+            <img role="presentation" src={pieceOrEdition.thumbnail.url_safe} />
+        </div>
+        <div className="col-xs-8 notification-list-item-header">
+            <h1>{pieceOrEdition.title}</h1>
+            <div className="sub-header">by {pieceOrEdition.artist_name}</div>
+            <NotificationAction notifications={notifications} />
+        </div>
+    </div>
+);
+
+NotificationListItem.propTypes = {
+    notifications: array.isRequired,
+    pieceOrEdition: object.isRequired
+};
+
+const NotificationAction = ({ notifications }) => {
+    const additionalNotifications = notifications.length > 1 ? (
+        <div>
+            + {notifications.length - 1} {getLangText('more...')}
+        </div>
+    ) : null;
+
+    return (
+        <div className="notification-action">
+            {notifications[0].action_str}
+            {additionalNotifications}
+        </div>
+    );
+};
+
+NotificationAction.propTypes = {
+    notifications: array.isRequired,
+};
+
+
+const HeaderNotifications = React.createClass({
     propTypes: {
         // Injected through HOCs
-        currentUser: currentUserShape.isRequired, // eslint-disable-line react/sort-prop-types
-        isLoggedIn: React.PropTypes.bool.isRequired // eslint-disable-line react/sort-prop-types
+        currentUser: currentUserShape.isRequired,
+        isLoggedIn: bool.isRequired
+
+        // All other props are passed down to the backing NavDropdown
     },
 
     getInitialState() {
@@ -54,38 +134,10 @@ let HeaderNotifications = React.createClass({
         NotificationActions.fetchEditionListNotifications();
     },
 
-    renderNotifications({ notifications, isPiece }) {
-        if (notifications.length) {
-            return (
-                <div>
-                    <div className="notification-header">
-                        {`${(isPiece ? 'Artworks' : 'Editions')} (${notifications.length})`}
-                    </div>
-                    {notifications.map((notification, i) => {
-                        const pieceOrEdition = isPiece ? notification.piece : notification.edition;
-                        const href = isPiece ? `/pieces/${pieceOrEdition.id}`
-                                             : `/editions/${pieceOrEdition.bitcoin_id}`;
-
-                        return (
-                            <MenuItem
-                                key={href}
-                                eventKey={i + 2}
-                                href={href}>
-                                <NotificationListItem
-                                    notification={notification.notification}
-                                    pieceOrEdition={pieceOrEdition} />
-                            </MenuItem>
-                        );
-                    })}
-                </div>
-            );
-        } else {
-            return null;
-        }
-    },
-
     render() {
         const { editionListNotifications, pieceListNotifications } = this.state;
+        const dropdownProps = omitFromObject(this.props, ['currentUser'], ['isLoggedIn']);
+
         if (pieceListNotifications.length || editionListNotifications.length) {
             let numNotifications = 0;
 
@@ -97,60 +149,20 @@ let HeaderNotifications = React.createClass({
             }
 
             return (
-                <Nav navbar pullRight className="notification-menu">
-                    <DropdownButton
-                        ref='dropdownButton'
-                        id="header-notification-dropdown"
-                        eventKey="1"
-                        title={
-                            <span>
-                                <Glyphicon glyph='envelope' color="green"/>
-                                <span className="notification-amount">({numNotifications})</span>
-                            </span>
-                        }>
-                        {this.renderNotifications({ notifications: pieceListNotifications, isPiece: true })}
-                        {this.renderNotifications({ notifications: editionListNotifications, isPiece: false })}
-                    </DropdownButton>
-                </Nav>
-            );
-        }
-        return null;
-    }
-});
-
-let NotificationListItem = React.createClass({
-    propTypes: {
-        notification: React.PropTypes.array,
-        pieceOrEdition: React.PropTypes.object,
-    },
-
-    getNotificationText(){
-        let numNotifications = null;
-        if (this.props.notification.length > 1){
-            numNotifications = <div>+ {this.props.notification.length - 1} {getLangText('more...')}</div>;
-        }
-        return (
-            <div className="notification-action">
-                {this.props.notification[0].action_str}
-                {numNotifications}
-            </div>);
-    },
-
-    render() {
-        if (this.props.pieceOrEdition) {
-            return (
-                <div className="row notification-wrapper">
-                    <div className="col-xs-4 clear-paddings">
-                        <div className="thumbnail-wrapper">
-                            <img src={this.props.pieceOrEdition.thumbnail.url_safe}/>
-                        </div>
-                    </div>
-                    <div className="col-xs-8 notification-list-item-header">
-                        <h1>{this.props.pieceOrEdition.title}</h1>
-                        <div className="sub-header">by {this.props.pieceOrEdition.artist_name}</div>
-                        {this.getNotificationText()}
-                    </div>
-                </div>
+                <NavDropdown
+                    {...dropdownProps}
+                    ref="dropdownButton"
+                    className="notification-menu"
+                    id="header-notification-dropdown"
+                    title={
+                        <span>
+                            <Glyphicon color="green" glyph="envelope" />
+                            <span className="notification-amount">({numNotifications})</span>
+                        </span>
+                    }>
+                    <NotificationList isPiece notifications={pieceListNotifications} />
+                    <NotificationList notifications={editionListNotifications} />
+                </NavDropdown>
             );
         }
         return null;

@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 
 import Nav from 'react-bootstrap/lib/Nav';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import DropdownButton from 'react-bootstrap/lib/DropdownButton';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import NavItem from 'react-bootstrap/lib/NavItem';
 
 import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
@@ -21,6 +21,7 @@ import NavRoutesLinks from './nav_routes_links';
 import { currentUserShape, whitelabelShape } from './prop_types';
 
 import { constructHead } from '../utils/dom';
+import { safeMerge } from '../utils/general';
 import { getLangText } from '../utils/lang';
 
 
@@ -35,7 +36,12 @@ let Header = React.createClass({
     },
 
     getInitialState() {
-        return PieceListStore.getState();
+        return safeMerge(
+            PieceListStore.getState(),
+            {
+                expandedCollapse: false
+            }
+        );
     },
 
     componentDidMount() {
@@ -52,62 +58,45 @@ let Header = React.createClass({
         this.setState(state);
     },
 
-    getLogo() {
+    collapseNav() {
+        if (this.state.expandedCollapse) {
+            this.onToggleCollapse(false);
+        }
+    },
+
+    onToggleCollapse(expandedCollapse) {
+        this.setState({ expandedCollapse });
+    },
+
+    renderLogo() {
         const { whitelabel } = this.props;
 
         if (whitelabel.head) {
             constructHead(whitelabel.head);
         }
 
-        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo){
+        if (whitelabel.subdomain && whitelabel.subdomain !== 'www' && whitelabel.logo) {
             return (
                 <Link to="/collection">
-                    <img className="img-brand" src={whitelabel.logo} alt="Whitelabel brand"/>
+                    <img alt="Whitelabel brand" className="img-brand" src={whitelabel.logo} />
                 </Link>
             );
         } else {
             return (
-                <span>
-                    <Link className="icon-ascribe-logo" to="/collection"/>
-                </span>
+                <Link to="/collection">
+                    <span className="icon-ascribe-logo" />
+                </Link>
             );
         }
     },
 
-    getPoweredBy() {
+    renderPoweredBy() {
         return (
-            <li>
-                <a className="pull-right ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
-                    <span id="powered">{getLangText('powered by')} </span>
-                    <span className="icon-ascribe-logo"></span>
-                </a>
-            </li>
+            <a className="pull-left ascribe-powered-by" href="https://www.ascribe.io/" target="_blank">
+                <span>{getLangText('powered by')} </span>
+                <span className="icon-ascribe-logo"></span>
+            </a>
         );
-    },
-
-    onMenuItemClick() {
-        /*
-        This is a hack to make the dropdown close after clicking on an item
-        The function just need to be defined
-
-        from https://github.com/react-bootstrap/react-bootstrap/issues/368:
-
-        @jvillasante - Have you tried to use onSelect with the DropdownButton?
-        I don't have a working example that is exactly like yours,
-        but I just noticed that the Dropdown closes when I've attached an event handler to OnSelect:
-
-        <DropdownButton eventKey={3} title="Admin" onSelect={ this.OnSelected } >
-
-        onSelected: function(e) {
-            // doesn't need to have functionality (necessarily) ... just wired up
-        }
-        Internally, a call to DropdownButton.setDropDownState(false) is made which will hide the dropdown menu.
-        So, you should be able to call that directly on the DropdownButton instance as well if needed.
-
-        NOW, THAT DIDN'T WORK - the onSelect routine isnt triggered in all cases
-        Hence, we do this manually
-        */
-        this.refs.dropdownbutton.setDropdownState(false);
     },
 
     render() {
@@ -120,40 +109,34 @@ let Header = React.createClass({
 
         if (isLoggedIn) {
             account = (
-                <DropdownButton
-                    ref='dropdownbutton'
+                <NavDropdown
                     id="nav-route-user-dropdown"
-                    eventKey="1"
                     title={currentUser.username}>
-                    <LinkContainer
-                        to="/settings"
-                        onClick={this.onMenuItemClick}>
-                        <MenuItem eventKey="2">
+                    <LinkContainer to="/settings">
+                        <MenuItem>
                             {getLangText('Account Settings')}
                         </MenuItem>
                     </LinkContainer>
                     <AclProxy
-                        aclObject={currentUser.acl}
-                        aclName="acl_view_settings_contract">
-                        <LinkContainer
-                            to="/contract_settings"
-                            onClick={this.onMenuItemClick}>
-                            <MenuItem eventKey="2">
+                        aclName="acl_view_settings_contract"
+                        aclObject={currentUser.acl}>
+                        <LinkContainer to="/contract_settings">
+                            <MenuItem>
                                 {getLangText('Contract Settings')}
                             </MenuItem>
                         </LinkContainer>
                     </AclProxy>
                     <MenuItem divider />
                     <LinkContainer to="/logout">
-                        <MenuItem eventKey="3">
+                        <MenuItem>
                             {getLangText('Log out')}
                         </MenuItem>
                     </LinkContainer>
-                </DropdownButton>
+                </NavDropdown>
             );
 
-            // Let's assume that if the piece list hasn't loaded yet (ie. when unfilteredPieceListCount === -1)
-            // then the user has pieces
+            // Let's assume that if the piece list hasn't loaded yet (ie. when
+            // unfilteredPieceListCount === -1) then the user has pieces.
             // FIXME: this doesn't work that well as the user may not load their piece list
             // until much later, so we would show the 'Collection' header as available until
             // they actually click on it and get redirected to piece registration.
@@ -162,6 +145,7 @@ let Header = React.createClass({
                     navbar
                     pullRight
                     hasPieces={!!unfilteredPieceListCount}
+                    onSelect={this.collapseNav}
                     routes={routes}
                     userAcl={currentUser.acl} />
             );
@@ -186,29 +170,30 @@ let Header = React.createClass({
             <div>
                 <Navbar
                     ref="navbar"
-                    fixedTop={true}
-                    className="hidden-print">
+                    fixedTop
+                    className="hidden-print"
+                    expanded={this.state.expandedCollapse}
+                    onToggle={this.onToggleCollapse}>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            {this.getLogo()}
+                            {this.renderLogo()}
                         </Navbar.Brand>
+                        <AclProxy
+                            aclName="acl_view_powered_by"
+                            aclObject={whitelabel}>
+                            {this.renderPoweredBy()}
+                        </AclProxy>
                         <Navbar.Toggle />
                     </Navbar.Header>
-                    <Navbar.Collapse
-                        eventKey={0}>
-                        <Nav navbar pullLeft>
-                            <AclProxy
-                                aclObject={whitelabel}
-                                aclName="acl_view_powered_by">
-                                {this.getPoweredBy()}
-                            </AclProxy>
-                        </Nav>
-                        <Nav navbar pullRight>
-                            <HeaderNotificationDebug show={false}/>
+                    <Navbar.Collapse>
+                        <Nav navbar pullRight onSelect={this.collapseNav}>
                             {account}
                             {signup}
                         </Nav>
-                        <HeaderNotifications />
+                        <Nav navbar pullRight onSelect={this.collapseNav}>
+                            <HeaderNotificationDebug show={false} />
+                            <HeaderNotifications />
+                        </Nav>
                         {navRoutesLinks}
                     </Navbar.Collapse>
                 </Navbar>
