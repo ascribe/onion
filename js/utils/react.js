@@ -1,7 +1,3 @@
-/**
- * Taken from react-router (https://github.com/reactjs/react-router/blob/master/modules/withRouter.js)
- * FIXME: should be put into react-component's utils
- */
-export function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName || WrappedComponent.name || 'Component';
-}
+// Ignore error as we may have more exports in the future
+// eslint-disable-next-line import/prefer-default-export
+export { getDisplayName } from 'react-utility-belt/es6/utils/react';
