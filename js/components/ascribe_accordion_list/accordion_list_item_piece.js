@@ -5,7 +5,7 @@ import React from 'react';
 import AccordionListItem from './accordion_list_item';
 import AccordionListItemThumbnailPlacholder from './accordion_list_item_thumbnail_placeholder';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 
 let AccordionListItemPiece = React.createClass({

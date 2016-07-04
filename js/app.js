@@ -12,10 +12,10 @@ import history from './history';
 
 import AppConstants from './constants/application_constants';
 
-import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants_utils';
-import { initLogging } from './utils/error_utils';
-import { getSubdomain } from './utils/general_utils';
-import requests from './utils/requests';
+import { getDefaultSubdomainSettings, getSubdomainSettings } from './utils/constants';
+import { initLogging } from './utils/error';
+import { getCurrentSubdomain } from './utils/url';
+import UrlResolver from './utils/url_resolver';
 
 
 // FIXME: rename these event actions
@@ -38,7 +38,7 @@ const AppGateway = {
         let subdomainSettings;
 
         try {
-            subdomainSettings = getSubdomainSettings(getSubdomain());
+            subdomainSettings = getSubdomainSettings(getCurrentSubdomain());
         } catch (err) {
             // if there are no matching subdomains, we''ll route to the default frontend
             console.logGlobal(err);
@@ -74,17 +74,8 @@ const AppGateway = {
         AppResolver
             .resolve(settings)
             .then(({ apiUrls, redirectRoute, routes }) => {
-                // Initialize api urls and defaults for outgoing requests
-                requests.defaults({
-                    urlMap: apiUrls,
-                    http: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        credentials: 'include'
-                    }
-                });
+                // Set url mapping for outgoing api requests
+                UrlResolver.setUrlMapping(apiUrls);
 
                 ReactDOM.render((
                     <Router history={history}>

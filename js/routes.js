@@ -24,7 +24,7 @@ import Footer from './components/footer';
 
 import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
-import { getLangText } from './utils/lang_utils';
+import { getLangText } from './utils/lang';
 
 
 const Routes = (

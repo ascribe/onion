@@ -4,11 +4,10 @@ import React from 'react';
 
 // FIXME: Input is deprecated
 import Input from 'react-bootstrap/lib/Input';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 import AscribeSpinner from './ascribe_spinner';
 
-import { getLangText } from '../utils/lang_utils';
+import { getLangText } from '../utils/lang';
 
 
 const { func, string, number } = React.PropTypes;

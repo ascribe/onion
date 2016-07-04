@@ -26,12 +26,11 @@ import SlidesContainer from '../../../../ascribe_slides_container/slides_contain
 import withContext from '../../../../context/with_context';
 import { currentUserShape, locationShape, routerShape, whitelabelShape } from '../../../../prop_types';
 
-import ApiUrls from '../../../../../constants/api_urls';
-
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getAclFormMessage } from '../../../../../utils/form_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getAclFormMessage } from '../../../../../utils/form';
+import { safeMerge } from '../../../../../utils/general';
+import { getLangText } from '../../../../../utils/lang';
+import { resolveUrl } from '../../../../../utils/url_resolver';
 
 
 const CylandRegisterPiece = React.createClass({
@@ -44,7 +43,7 @@ const CylandRegisterPiece = React.createClass({
     },
 
     getInitialState(){
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {
@@ -199,7 +198,7 @@ const CylandRegisterPiece = React.createClass({
                                     senderName: currentUser.username
                                 })}
                                 id={{piece_id: piece.id}}
-                                url={ApiUrls.ownership_loans_pieces}
+                                url={resolveUrl('ownership_loans_pieces')}
                                 email={whitelabel.user}
                                 gallery="Cyland Archive"
                                 startDate={today}

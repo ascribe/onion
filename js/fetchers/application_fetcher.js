@@ -1,16 +1,20 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 let ApplicationFetcher = {
     /**
      * Fetch the registered applications of a user from the API.
      */
     fetch() {
-        return requests.get('applications');
+        return request('applications');
     },
+
     refreshToken(applicationName) {
-        return requests.post('application_token_refresh', { body: {'name': applicationName}});
+        return request('application_token_refresh', {
+            method: 'POST',
+            jsonBody: { name: applicationName }
+        });
     }
 };
 

@@ -12,8 +12,8 @@ import PieceRemoveFromCollectionForm from '../ascribe_forms/form_remove_piece_fr
 
 import ModalWrapper from '../ascribe_modal/modal_wrapper';
 
-import { getAvailableAcls } from '../../utils/acl_utils';
-import { getLangText } from '../../utils/lang_utils.js';
+import { getAvailableAcls } from '../../utils/acl';
+import { getLangText } from '../../utils/lang.js';
 
 
 let DeleteButton = React.createClass({
@@ -46,9 +46,9 @@ let DeleteButton = React.createClass({
             }
 
             btnDelete = <button className="btn btn-sm btn-tertiary">{getLangText('DELETE')}</button>;
-        
+
         } else if(availableAcls.acl_unshare){
-            
+
             if(this.props.editions) {
                 content = <EditionRemoveFromCollectionForm editions={this.props.editions}/>;
                 title = getLangText('Remove Edition from Collection');
@@ -58,7 +58,7 @@ let DeleteButton = React.createClass({
             }
 
             btnDelete = <Button bsStyle="default" bsSize="small">{getLangText('REMOVE FROM COLLECTION')}</Button>;
-        
+
         } else {
             return null;
         }

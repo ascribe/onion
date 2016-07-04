@@ -13,8 +13,8 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { whitelabelShape } from '../prop_types';
 
-import { setDocumentTitle } from '../../utils/dom_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom';
+import { getLangText } from '../../utils/lang';
 
 
 let SettingsContainer = React.createClass({

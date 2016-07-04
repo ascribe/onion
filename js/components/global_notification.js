@@ -3,13 +3,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import GlobalNotificationActions from '../actions/global_notification_actions';
-import GlobalNotificationStore from '../stores/global_notification_store';
-
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import { mergeOptions } from '../utils/general_utils';
+import GlobalNotificationStore from '../stores/global_notification_store';
+
+import { safeMerge } from '../utils/general';
 
 const MAX_NOTIFICATION_BUBBLE_CONTAINER_WIDTH = 768;
 
@@ -18,7 +17,7 @@ let GlobalNotification = React.createClass({
     getInitialState() {
         const notificationStore = GlobalNotificationStore.getState();
 
-        return mergeOptions(
+        return safeMerge(
             {
                 containerWidth: 0
             },
@@ -60,7 +59,7 @@ let GlobalNotification = React.createClass({
 
         const notificationClasses = [];
 
-        if (this.state.containerWidth > 768) {
+        if (this.state.containerWidth > MAX_NOTIFICATION_BUBBLE_CONTAINER_WIDTH) {
             notificationClasses.push('ascribe-global-notification-bubble');
             notificationClasses.push(notificationStatus === 'show' ? 'ascribe-global-notification-bubble-on'
                                                                    : 'ascribe-global-notification-bubble-off');

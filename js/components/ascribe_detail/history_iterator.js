@@ -5,8 +5,6 @@ import React from 'react';
 import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
-import { replaceSubstringAtIndex } from '../../utils/general_utils';
-
 
 let HistoryIterator = React.createClass({
     propTypes: {
@@ -18,7 +16,7 @@ let HistoryIterator = React.createClass({
             // We want to get the capturing group without the quotes,
             // which is why we access the match list at index 1 and not 0
             const contractName = historicalEvent[1].match(/\"(.*)\"/)[1];
-            const historicalEventDescription = replaceSubstringAtIndex(historicalEvent[1], `"${contractName}"`, '');
+            const historicalEventDescription = historicalEvent[1].replace(`"${contractName}"`, '');
             return (
                 <span>
                     {historicalEventDescription}

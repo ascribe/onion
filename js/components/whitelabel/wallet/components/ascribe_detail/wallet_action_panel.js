@@ -10,8 +10,6 @@ import AclProxy from '../../../../acl_proxy';
 import withContext from '../../../../context/with_context';
 import { currentUserShape } from '../../../../prop_types';
 
-import { mergeOptions } from '../../../../../utils/general_utils';
-
 
 let WalletActionPanel = React.createClass({
     propTypes: {
@@ -40,7 +38,7 @@ let WalletActionPanel = React.createClass({
 
             if (piece && piece.acl && typeof piece.acl.acl_loan !== 'undefined') {
                 // make a copy to not have side effects
-                availableAcls = mergeOptions({}, piece.acl);
+                availableAcls = Object.assign({}, piece.acl);
                 availableAcls.acl_loan = false;
             }
             let SubmitButtonType = submitButtonType;

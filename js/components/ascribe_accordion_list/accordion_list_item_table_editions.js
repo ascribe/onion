@@ -16,8 +16,8 @@ import TableItemCheckbox from '../ascribe_table/table_item_checkbox';
 import TableItemAclFiltered from '../ascribe_table/table_item_acl_filtered';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
+import { getLangText } from '../../utils/lang';
+import { safeMerge } from '../../utils/general';
 
 
 let AccordionListItemTableEditions = React.createClass({
@@ -28,7 +28,7 @@ let AccordionListItemTableEditions = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             EditionListStore.getState(),
             {
                 showMoreLoading: false

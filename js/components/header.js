@@ -20,8 +20,8 @@ import HeaderNotificationDebug from './header_notification_debug';
 import NavRoutesLinks from './nav_routes_links';
 import { currentUserShape, whitelabelShape } from './prop_types';
 
-import { constructHead } from '../utils/dom_utils';
-import { getLangText } from '../utils/lang_utils';
+import { constructHead } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 let Header = React.createClass({

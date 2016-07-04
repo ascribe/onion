@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-import S3Fetcher from '../../fetchers/s3_fetcher';
-
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+
+import S3Fetcher from '../../fetchers/s3_fetcher';
 
 import AppConstants from '../../constants/application_constants';
 
-import { getLangText } from '../../utils/lang_utils';
-import { queryParamsToArgs } from '../../utils/url_utils';
+import { getLangText } from '../../utils/lang';
+import { parseQueryParamStr } from '../../utils/url';
 
 
 const { string } = React.PropTypes;
@@ -52,7 +52,7 @@ const S3DownloadButton = React.createClass({
 
                 // The signed url, however can expire, which is why we need to set up a timer to
                 // renew it when it expires.
-                const expires = parseInt(queryParamsToArgs(downloadUrl.split('?')[1]).expires, 10);
+                const expires = parseInt(parseQueryParamStr(downloadUrl).expires, 10);
                 const now = new Date().getTime() / 1000;
 
                 // Amazon uses seconds as their signature unix timestamp while `setTimeout` uses

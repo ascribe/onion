@@ -12,7 +12,7 @@ import CollapsibleParagraph from '../ascribe_collapsible/collapsible_paragraph';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 
 let BitcoinWalletSettings = React.createClass({

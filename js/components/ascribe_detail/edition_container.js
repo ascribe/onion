@@ -12,8 +12,8 @@ import Edition from './edition';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
-import { setDocumentTitle } from '../../utils/dom_utils';
+import { getLangText } from '../../utils/lang';
+import { setDocumentTitle } from '../../utils/dom';
 
 
 /**

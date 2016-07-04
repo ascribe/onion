@@ -15,9 +15,8 @@ import Piece from '../../../../../components/ascribe_detail/piece';
 import AscribeSpinner from '../../../../ascribe_spinner';
 import withContext from '../../../../context/with_context';
 
-import ApiUrls from '../../../../../constants/api_urls';
-
-import { getLangText } from '../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../utils/lang';
+import { resolveUrl } from '../../../../../utils/url_resolver';
 
 
 let WalletPieceContainer = React.createClass({
@@ -85,7 +84,7 @@ let WalletPieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece} />
+                            url={resolveUrl('note_private_piece')} />
                     </CollapsibleParagraph>
                     {children}
                 </Piece>

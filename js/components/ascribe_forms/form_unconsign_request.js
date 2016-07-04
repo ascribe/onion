@@ -9,7 +9,8 @@ import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
 
 import AscribeSpinner from '../ascribe_spinner';
-import { getLangText } from '../../utils/lang_utils.js';
+
+import { getLangText } from '../../utils/lang.js';
 
 
 let UnConsignRequestForm = React.createClass({

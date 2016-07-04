@@ -1,15 +1,15 @@
 'use strict';
 
 import React from 'react';
+import classNames from 'classnames';
 
 import EditionListActions from '../../actions/edition_list_actions';
 import EditionListStore from '../../stores/edition_list_store';
 
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
-import classNames from 'classnames';
 
 let CreateEditionsButton = React.createClass({
     propTypes: {
@@ -46,9 +46,9 @@ let CreateEditionsButton = React.createClass({
     startPolling() {
         // start polling until editions are defined
         let pollingIntervalIndex = setInterval(() => {
-
-            // requests, will try to merge the filterBy parameter with other parameters (mergeOptions).
-            // Therefore it can't but null but instead has to be an empty object
+            // TODO: re-evaluate whether this is necessary:
+            // requests, will try to merge the filterBy parameter with other parameters (safeMerge).
+            // Therefore it can't be null but instead has to be an empty object
             EditionListActions
                 .fetchEditionList({
                     pieceId: this.props.piece.id,

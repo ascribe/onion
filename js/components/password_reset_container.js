@@ -12,10 +12,9 @@ import AscribeSpinner from './ascribe_spinner';
 import withContext from './context/with_context';
 import { locationShape, routerShape } from './prop_types';
 
-import ApiUrls from '../constants/api_urls';
-
-import { setDocumentTitle } from '../utils/dom_utils';
-import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
+import { resolveUrl } from '../utils/url_resolver';
 
 
 let PasswordResetContainer = React.createClass({
@@ -76,7 +75,7 @@ let PasswordRequestResetForm = React.createClass({
             <Form
                 ref="form"
                 className='ascribe-form-wrapper'
-                url={ApiUrls.users_password_reset_request}
+                url={resolveUrl('users_password_reset_request')}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button
@@ -136,7 +135,7 @@ let PasswordResetForm = withContext(React.createClass({
             <Form
                 ref="form"
                 className='ascribe-form-wrapper'
-                url={ApiUrls.users_password_reset}
+                url={resolveUrl('users_password_reset')}
                 handleSuccess={this.handleSuccess}
                 getFormData={this.getFormData}
                 buttons={

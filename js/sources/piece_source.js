@@ -1,6 +1,6 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 import PieceActions from '../actions/piece_actions';
 
@@ -8,7 +8,9 @@ import PieceActions from '../actions/piece_actions';
 const PieceSource = {
     lookupPiece: {
         remote(state, pieceId) {
-            return requests.get('piece', { piece_id: pieceId });
+            return request('piece', {
+                urlTemplateSpec: { pieceId }
+            });
         },
 
         success: PieceActions.successFetchPiece,

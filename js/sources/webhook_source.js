@@ -1,6 +1,6 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 import WebhookActions from '../actions/webhook_actions';
 
@@ -8,7 +8,7 @@ import WebhookActions from '../actions/webhook_actions';
 const WebhookSource = {
     lookupWebhooks: {
         remote() {
-            return requests.get('webhooks');
+            return request('webhooks');
         },
 
         local(state) {
@@ -25,7 +25,7 @@ const WebhookSource = {
 
     lookupWebhookEvents: {
         remote() {
-            return requests.get('webhooks_events');
+            return request('webhooks_events');
         },
 
         local(state) {
@@ -42,7 +42,10 @@ const WebhookSource = {
 
     performRemoveWebhook: {
         remote(state, webhookId) {
-            return requests.delete('webhook', { 'webhook_id': webhookId });
+            return request('webhook', {
+                method: 'DELETE',
+                urlTemplateSpec: { webhookId }
+            });
         },
 
         success: WebhookActions.successRemoveWebhook,

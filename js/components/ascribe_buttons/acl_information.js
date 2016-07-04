@@ -4,8 +4,8 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { AclInformationText } from '../../constants/acl_information_text';
-import { replaceSubstringAtIndex, sanitize, intersectLists } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { intersectLists, sanitize } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
 
 
 let AclInformation = React.createClass({
@@ -45,7 +45,7 @@ let AclInformation = React.createClass({
                 return (
                     <p key={title}>
                         <span className="info">
-                            {replaceSubstringAtIndex(info.slice(2), 's ', ' ')}
+                            {info.slice(2).replace('s', '')}
                         </span>
                         <span className="example">
                             {' ' + example}
@@ -90,7 +90,7 @@ let AclInformation = React.createClass({
             verbsToDisplay = verbsToDisplay.concat(verbs);
         } else if(aim === 'button' && this.props.aclObject) {
             const { aclObject } = this.props;
-            const sanitizedAclObject = sanitize(aclObject, (val) => !val);
+            const sanitizedAclObject = sanitize(aclObject);
             verbsToDisplay = verbsToDisplay.concat(intersectLists(verbs, Object.keys(sanitizedAclObject)));
         }
 

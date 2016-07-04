@@ -26,9 +26,8 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { routerShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
-
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 /*
     A component that handles all the actions inside of the edition detail
@@ -121,7 +120,7 @@ const EditionActionPanel = React.createClass({
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_transfer">
                                 <Form
-                                    url={ApiUrls.ownership_transfers_withdraw}
+                                    url={resolveUrl('ownership_transfers_withdraw')}
                                     handleSuccess={this.handleSuccess}
                                     className='inline'
                                     isInline={true}>
@@ -142,7 +141,7 @@ const EditionActionPanel = React.createClass({
                                 aclObject={edition.acl}
                                 aclName="acl_withdraw_consign">
                                 <Form
-                                    url={ApiUrls.ownership_consigns_withdraw}
+                                    url={resolveUrl('ownership_consigns_withdraw')}
                                     handleSuccess={this.handleSuccess}
                                     className='inline'
                                     isInline={true}>

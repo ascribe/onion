@@ -6,8 +6,8 @@ import SignupForm from './ascribe_forms/form_signup';
 import withContext from './context/with_context';
 import { whitelabelShape } from './prop_types';
 
-import { setDocumentTitle } from '../utils/dom_utils';
-import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 let SignupContainer = React.createClass({

@@ -1,19 +1,15 @@
 'use strict';
 
 import React from 'react';
-import Q from 'q';
 
 import Panel from 'react-bootstrap/lib/Panel';
-
-import AppConstants from '../../constants/application_constants';
 
 import audiojs from '../../third_party/imports/audiojs';
 import shmui from '../../third_party/imports/shmui';
 import videojs from '../../third_party/imports/videojs';
 
-import { escapeHTML } from '../../utils/general_utils';
-import { extractFileExtensionFromUrl } from '../../utils/file_utils';
-import { InjectInHeadUtils } from '../../utils/inject_utils';
+import { escapeHTML } from '../../utils/dom';
+import { extractFileExtensionFromUrl } from '../../utils/file';
 
 
 /**

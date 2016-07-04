@@ -17,8 +17,8 @@ import AclProxy from '../../../../../acl_proxy';
 import withContext from '../../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../../prop_types';
 
-import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form_utils';
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getAclFormMessage, getAclFormDataId } from '../../../../../../utils/form';
+import { getLangText } from '../../../../../../utils/lang';
 
 let MarketSubmitButton = React.createClass({
     propTypes: {

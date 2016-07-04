@@ -13,7 +13,7 @@ import NotificationStore from '../stores/notification_store';
 import withContext from './context/with_context';
 import { currentUserShape } from './prop_types';
 
-import { getLangText } from '../utils/lang_utils';
+import { getLangText } from '../utils/lang';
 
 
 let HeaderNotifications = React.createClass({

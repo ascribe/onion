@@ -8,8 +8,8 @@ import LoginForm from './ascribe_forms/form_login';
 import withContext from './context/with_context';
 import { whitelabelShape } from './prop_types';
 
-import { setDocumentTitle } from '../utils/dom_utils';
-import { getLangText } from '../utils/lang_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
 
 
 let LoginContainer = React.createClass({

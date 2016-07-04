@@ -13,14 +13,12 @@ import Property from '../../../../../ascribe_forms/property';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import ApiUrls from '../../../../../../constants/api_urls';
 import { validationParts, validationTypes } from '../../../../../../constants/uploader_constants';
 
-import requests from '../../../../../../utils/requests';
-
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
+import { formatText } from '../../../../../../utils/text';
+import { resolveUrl } from '../../../../../../utils/url_resolver';
 
 
 let MarketAdditionalDataForm = React.createClass({
@@ -82,9 +80,15 @@ let MarketAdditionalDataForm = React.createClass({
             });
 
         return {
-            extradata: extradata,
+            extradata,
             piece_id: this.props.pieceId
         };
+    },
+
+    getUrl() {
+        return formatText(resolveUrl('piece_extradata'), {
+            pieceId: this.props.pieceId
+        });
     },
 
     isUploadReadyOnChange() {
@@ -154,7 +158,7 @@ let MarketAdditionalDataForm = React.createClass({
                     className="ascribe-form-bordered"
                     ref='form'
                     key={this.state.forceUpdateKey}
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}
+                    url={this.getUrl()}
                     handleSuccess={showNotification ? this.handleSuccessWithNotification : handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}

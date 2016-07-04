@@ -17,7 +17,7 @@ import AclProxy from '../../../../../acl_proxy';
 import withContext from '../../../../../context/with_context';
 import { currentUserShape } from '../../../../../prop_types';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
 
 
 let IkonotvAccordionListItem = React.createClass({

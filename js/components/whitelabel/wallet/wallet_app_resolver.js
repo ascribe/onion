@@ -4,7 +4,7 @@ import Redirect from 'react-router/es6/Redirect';
 import getWalletApiUrls from './constants/wallet_api_urls';
 import getWalletRoutes from './wallet_routes';
 
-import { updateApiUrls } from '../../../constants/api_urls';
+import { mergeWithBaseApiUrls } from '../../../constants/api_urls';
 
 
 function resolve(subdomain) {
@@ -14,7 +14,7 @@ function resolve(subdomain) {
 
     return {
         redirectRoute,
-        apiUrls: updateApiUrls(getWalletApiUrls(subdomain)),
+        apiUrls: mergeWithBaseApiUrls(getWalletApiUrls(subdomain)),
         routes: getWalletRoutes(subdomain)
     };
 }

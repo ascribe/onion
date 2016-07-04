@@ -7,13 +7,13 @@ import Property from '../../../../ascribe_forms/property';
 import LicenseActions from '../../../../../actions/license_actions';
 import LicenseStore from '../../../../../stores/license_store';
 
-import { getLangText } from '../../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../utils/general_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { safeMerge } from '../../../../../utils/general';
+import { getLangText } from '../../../../../utils/lang';
 
 let CCRegisterPiece = React.createClass({
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             LicenseStore.getState(),
             {
                 selectedLicense: 0

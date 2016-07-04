@@ -11,10 +11,10 @@ import AlertDismissable from './alert';
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import requests from '../../utils/requests';
+import { sanitize } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
+import request from '../../utils/request';
 
-import { getLangText } from '../../utils/lang_utils';
-import { sanitize } from '../../utils/general_utils';
 
 
 let Form = React.createClass({
@@ -95,32 +95,29 @@ let Form = React.createClass({
         }
     },
 
-    post() {
-        requests
-            .post(this.props.url, { body: this.getFormData() })
+    request(method) {
+        request(this.props.url, {
+            method,
+            jsonBody: this.getFormData()
+        })
             .then(this.handleSuccess)
             .catch(this.handleError);
+    },
+
+    post() {
+        this.request('POST');
     },
 
     put() {
-        requests
-            .put(this.props.url, { body: this.getFormData() })
-            .then(this.handleSuccess)
-            .catch(this.handleError);
+        this.request('PUT');
     },
 
     patch() {
-        requests
-            .patch(this.props.url, { body: this.getFormData() })
-            .then(this.handleSuccess)
-            .catch(this.handleError);
+        this.request('PATCH');
     },
 
     delete() {
-        requests
-            .delete(this.props.url, this.getFormData())
-            .then(this.handleSuccess)
-            .catch(this.handleError);
+        this.request('DELETE');
     },
 
     getFormData() {
@@ -370,7 +367,7 @@ let Form = React.createClass({
                 const validatedRef = this._hasRefErrors(refToValidate);
                 validatedFormInputs[refName] = validatedRef;
             });
-        const errorMessagesForRefs = sanitize(validatedFormInputs, (val) => !val);
+        const errorMessagesForRefs = sanitize(validatedFormInputs);
         this.handleError({ json: { errors: errorMessagesForRefs } });
         return !Object.keys(errorMessagesForRefs).length;
     },

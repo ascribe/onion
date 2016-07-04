@@ -10,8 +10,8 @@ import UnConsignRequestForm from '../ascribe_forms/form_unconsign_request';
 import withContext from '../context/with_context';
 import { currentUserShape } from '../prop_types';
 
-import { getLangText } from '../../utils/lang_utils';
-import ApiUrls from '../../constants/api_urls';
+import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 const UnConsignRequestButton = React.createClass({
@@ -36,7 +36,7 @@ const UnConsignRequestButton = React.createClass({
                 handleSuccess={handleSuccess}
                 title={getLangText('Request to Un-Consign')}>
                 <UnConsignRequestForm
-                    url={ApiUrls.ownership_unconsigns_request}
+                    url={resolveUrl('ownership_unconsigns_request')}
                     id={{'bitcoin_id': edition.bitcoin_id}}
                     message={`${getLangText('Hi')},
 

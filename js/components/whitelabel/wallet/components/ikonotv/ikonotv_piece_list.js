@@ -11,8 +11,8 @@ import IkonotvAccordionListItem from './ikonotv_accordion_list/ikonotv_accordion
 import withContext from '../../../../context/with_context';
 import { currentUserShape, whitelabelShape } from '../../../../prop_types';
 
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
-import { getLangText } from '../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../utils/dom';
+import { getLangText } from '../../../../../utils/lang';
 
 
 let IkonotvPieceList = React.createClass({

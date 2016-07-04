@@ -1,28 +1,31 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 
 let NotificationFetcher = {
-
     fetchPieceListNotifications() {
-        return requests.get('notification_piecelist');
+        return request('notification_piecelist');
     },
 
     fetchPieceNotifications(pieceId) {
-        return requests.get('notification_piece', {'piece_id': pieceId});
+        return request('notification_piece', {
+            urlTemplateSpec: { pieceId }
+        });
     },
 
     fetchEditionListNotifications() {
-        return requests.get('notification_editionlist');
+        return request('notification_editionlist');
     },
 
     fetchEditionNotifications(editionId) {
-        return requests.get('notification_edition', {'edition_id': editionId});
+        return request('notification_edition', {
+            urlTemplateSpec: { editionId }
+        });
     },
 
     fetchContractAgreementListNotifications() {
-        return requests.get('notification_contractagreementlist');
+        return request('notification_contract_agreement_list');
     }
 };
 

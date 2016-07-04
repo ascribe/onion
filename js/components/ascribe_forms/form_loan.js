@@ -5,21 +5,17 @@ import classnames from 'classnames';
 
 import Button from 'react-bootstrap/lib/Button';
 
-import ContractAgreementListStore from '../../stores/contract_agreement_list_store';
-
 import Form from './form';
 import Property from './property';
-
 import InputDate from './input_date';
 import InputTextAreaToggable from './input_textarea_toggable';
 import InputContractAgreementCheckbox from './input_contract_agreement_checkbox';
 
-import AscribeSpinner from '../ascribe_spinner';
-
 import AclInformation from '../ascribe_buttons/acl_information';
 
-import { getLangText } from '../../utils/lang_utils';
-import { mergeOptions } from '../../utils/general_utils';
+import AscribeSpinner from '../ascribe_spinner';
+
+import { getLangText } from '../../utils/lang';
 
 
 let LoanForm = React.createClass({

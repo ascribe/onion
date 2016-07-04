@@ -39,11 +39,10 @@ import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
 import { routerShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
-
-import { setDocumentTitle } from '../../utils/dom_utils';
-import { mergeOptions } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom';
+import { safeMerge } from '../../utils/general';
+import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 /**
  * This is the component that implements resource/data specific functionality
@@ -69,7 +68,7 @@ const PieceContainer = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceListStore.getState(),
             PieceStore.getInitialState(),
             {
@@ -121,7 +120,7 @@ const PieceContainer = React.createClass({
 
          */
         if (state && state.piece && state.piece.acl && typeof state.piece.acl.acl_loan !== 'undefined') {
-            let pieceState = mergeOptions({}, state.piece);
+            const pieceState = Object.assign({}, state.piece);
             pieceState.acl.acl_loan = false;
             this.setState({
                 piece: pieceState
@@ -302,7 +301,7 @@ const PieceContainer = React.createClass({
                             placeholder={getLangText('Enter your comments ...')}
                             editable={true}
                             successMessage={getLangText('Private note saved')}
-                            url={ApiUrls.note_private_piece} />
+                            url={resolveUrl('note_private_piece')} />
                         <Note
                             id={this.getId}
                             label={getLangText('Personal note (public)')}
@@ -311,7 +310,7 @@ const PieceContainer = React.createClass({
                             editable={!!piece.acl.acl_edit}
                             show={!!(piece.public_note || piece.acl.acl_edit)}
                             successMessage={getLangText('Public note saved')}
-                            url={ApiUrls.note_public_piece} />
+                            url={resolveUrl('note_public_piece')} />
                     </CollapsibleParagraph>
                     <CollapsibleParagraph
                         title={getLangText('Further Details')}

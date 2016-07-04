@@ -1,14 +1,16 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 import EditionActions from '../actions/edition_actions';
 
 
 const EditionSource = {
     lookupEdition: {
-        remote(state, editionId) {
-            return requests.get('edition', { bitcoin_id: editionId });
+        remote(state, bitcoinId) {
+            return request('edition', {
+                urlTemplateSpec: { bitcoinId }
+            });
         },
 
         success: EditionActions.successFetchEdition,

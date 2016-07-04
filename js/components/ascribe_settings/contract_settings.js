@@ -19,9 +19,9 @@ import AclProxy from '../acl_proxy';
 import withContext from '../context/with_context';
 import { currentUserShape, whitelabelShape } from '../prop_types';
 
-import { setDocumentTitle } from '../../utils/dom_utils';
-import { truncateTextAtCharIndex } from '../../utils/general_utils';
-import { getLangText } from '../../utils/lang_utils';
+import { setDocumentTitle } from '../../utils/dom';
+import { getLangText } from '../../utils/lang';
+import { truncateText } from '../../utils/text';
 
 
 let ContractSettings = React.createClass({
@@ -105,7 +105,7 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={contract.id}
                                         title={contract.name}
-                                        content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
+                                        content={truncateText(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
                                                 <AclProxy
@@ -147,7 +147,7 @@ let ContractSettings = React.createClass({
                                     <ActionPanel
                                         key={contract.id}
                                         title={contract.name}
-                                        content={truncateTextAtCharIndex(contract.name, 120, '(...).pdf')}
+                                        content={truncateText(contract.name, 120, '(...).pdf')}
                                         buttons={
                                             <div className="pull-right">
                                                <AclProxy

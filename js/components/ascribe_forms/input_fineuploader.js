@@ -7,10 +7,10 @@ import FileDragAndDrop from '../ascribe_uploader/ascribe_file_drag_and_drop/file
 
 import AppConstants from '../../constants/application_constants';
 
-import { getCookie } from '../../utils/fetch_api_utils';
+import { makeCsrfHeader } from '../../utils/csrf';
 
 
-const { func, bool, shape, string, number, element, oneOf, oneOfType, arrayOf } = React.PropTypes;
+const { func, bool, oneOf } = React.PropTypes;
 
 const InputFineUploader = React.createClass({
     propTypes: {
@@ -122,17 +122,13 @@ const InputFineUploader = React.createClass({
                 showErrorPrompt={showErrorPrompt}
                 signature={{
                     endpoint: `${AppConstants.serverUrl}/s3/signature/`,
-                    customHeaders: {
-                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                    }
+                    customHeaders: makeCsrfHeader()
                 }}
                 deleteFile={{
                     enabled: true,
                     method: 'DELETE',
                     endpoint: `${AppConstants.serverUrl}/s3/delete`,
-                    customHeaders: {
-                       'X-CSRFToken': getCookie(AppConstants.csrftoken)
-                    }
+                    customHeaders: makeCsrfHeader()
                 }}
                 enableLocalHashing={enableLocalHashing}
                 uploadMethod={uploadMethod}

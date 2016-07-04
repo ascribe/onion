@@ -14,9 +14,8 @@ import AscribeSpinner from '../ascribe_spinner';
 import withContext from '../context/with_context';
 import { locationShape } from '../prop_types';
 
-import ApiUrls from '../../constants/api_urls';
-
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let LoginForm = React.createClass({
@@ -55,7 +54,7 @@ let LoginForm = React.createClass({
             <Form
                 className="ascribe-form-bordered"
                 ref="loginForm"
-                url={ApiUrls.users_login}
+                url={resolveUrl('users_login')}
                 handleSuccess={this.handleSuccess}
                 autoComplete="on"
                 buttons={

@@ -4,10 +4,10 @@ import React from 'react';
 
 import Form from './form';
 
-import ApiUrls from '../../constants/api_urls';
 import AscribeSpinner from '../ascribe_spinner';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
+import { resolveUrl } from '../../utils/url_resolver';
 
 
 let PieceRemoveFromCollectionForm = React.createClass({
@@ -18,18 +18,17 @@ let PieceRemoveFromCollectionForm = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    getFormData() {
-        return {
-            piece_id: this.props.pieceId
-        };
+    getUrl() {
+        return formatText(resolveUrl('piece_remove_from_collection'), {
+            pieceId: this.props.pieceId
+        });
     },
 
     render () {
         return (
             <Form
                 ref='form'
-                url={ApiUrls.piece_remove_from_collection}
-                getFormData={this.getFormData}
+                url={this.getUrl()}
                 method="delete"
                 handleSuccess={this.props.handleSuccess}
                 buttons={

@@ -10,12 +10,11 @@ import InputTextAreaToggable from '../../../../../ascribe_forms/input_textarea_t
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
-import ApiUrls from '../../../../../../constants/api_urls';
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import requests from '../../../../../../utils/requests';
-
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
+import { formatText } from '../../../../../../utils/text';
+import { resolveUrl } from '../../../../../../utils/url_resolver';
 
 
 let IkonotvArtistDetailsForm = React.createClass({
@@ -45,10 +44,15 @@ let IkonotvArtistDetailsForm = React.createClass({
             });
 
         return {
-            extradata: extradata,
+            extradata,
             piece_id: this.props.piece.id
         };
+    },
 
+    getUrl() {
+        return formatText(resolveUrl('piece_extradata'), {
+            pieceId: this.props.piece.id
+        });
     },
 
     handleSuccess() {
@@ -98,7 +102,7 @@ let IkonotvArtistDetailsForm = React.createClass({
                     disabled={disabled}
                     className="ascribe-form-bordered"
                     ref='form'
-                    url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: piece.id })}
+                    url={this.getUrl()}
                     handleSuccess={handleSuccess || this.handleSuccess}
                     getFormData={this.getFormData}
                     buttons={buttons}

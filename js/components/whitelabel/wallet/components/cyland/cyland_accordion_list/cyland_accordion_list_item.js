@@ -15,7 +15,7 @@ import AccordionListItemPiece from '../../../../../ascribe_accordion_list/accord
 
 import AclProxy from '../../../../../acl_proxy';
 
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { getLangText } from '../../../../../../utils/lang';
 
 
 let CylandAccordionListItem = React.createClass({

@@ -1,15 +1,14 @@
 'use strict';
 
-import requests from '../utils/requests';
-import ApiUrls from '../constants/api_urls';
-
 import UserActions from '../actions/user_actions';
+
+import request from '../utils/request';
 
 
 const UserSource = {
     lookupCurrentUser: {
         remote() {
-            return requests.get('user');
+            return request('user');
         },
 
         local(state) {
@@ -26,7 +25,7 @@ const UserSource = {
 
     performLogoutCurrentUser: {
         remote() {
-            return requests.get(ApiUrls.users_logout);
+            return request('users_logout');
         },
 
         success: UserActions.successLogoutCurrentUser,

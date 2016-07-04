@@ -9,7 +9,7 @@ import WhitelabelStore from '../stores/whitelabel_store';
 import GlobalNotification from './global_notification';
 import { currentUserShape, locationShape, whitelabelShape } from './prop_types';
 
-import { mergeOptions } from '../utils/general_utils';
+import { safeMerge } from '../utils/general';
 
 
 export default function AppBase(App) {
@@ -29,7 +29,7 @@ export default function AppBase(App) {
         },
 
         getInitialState() {
-            return mergeOptions(
+            return safeMerge(
                 UserStore.getState(),
                 WhitelabelStore.getState()
             );

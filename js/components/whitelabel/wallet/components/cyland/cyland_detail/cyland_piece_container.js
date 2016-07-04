@@ -23,9 +23,9 @@ import AscribeSpinner from '../../../../../ascribe_spinner';
 import withContext from '../../../../../context/with_context';
 import { routerShape } from '../../../../../prop_types';
 
-import { setDocumentTitle } from '../../../../../../utils/dom_utils';
-import { mergeOptions } from '../../../../../../utils/general_utils';
-import { getLangText } from '../../../../../../utils/lang_utils';
+import { setDocumentTitle } from '../../../../../../utils/dom';
+import { safeMerge } from '../../../../../../utils/general';
+import { getLangText } from '../../../../../../utils/lang';
 
 
 const CylandPieceContainer = React.createClass({
@@ -38,7 +38,7 @@ const CylandPieceContainer = React.createClass({
     },
 
     getInitialState() {
-        return mergeOptions(
+        return safeMerge(
             PieceStore.getInitialState(),
             PieceListStore.getState()
         );

@@ -13,10 +13,9 @@ import AscribeSpinner from './ascribe_spinner';
 import withContext from './context/with_context';
 import { locationShape } from './prop_types';
 
-import ApiUrls from '../constants/api_urls';
-
-import { getLangText } from '../utils/lang_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
+import { setDocumentTitle } from '../utils/dom';
+import { getLangText } from '../utils/lang';
+import { resolveUrl } from '../utils/url_resolver';
 
 
 let CoaVerifyContainer = React.createClass({
@@ -75,7 +74,7 @@ let CoaVerifyForm = React.createClass({
 
         return (
             <Form
-                url={ApiUrls.coa_verify}
+                url={resolveUrl('coa_verify')}
                 handleSuccess={this.handleSuccess}
                 buttons={
                     <button

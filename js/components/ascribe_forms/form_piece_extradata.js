@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-import requests from '../../utils/requests';
-import { getLangText } from '../../utils/lang_utils.js';
-
-import ApiUrls from '../../constants/api_urls';
-
 import Form from './form';
 import Property from './property';
 import InputTextAreaToggable from './input_textarea_toggable';
+
+import { getLangText } from '../../utils/lang.js';
+import { formatText } from '../../utils/text';
+import { resolveUrl } from '../../utils/url_resolver';
+
 
 let PieceExtraDataForm = React.createClass({
     propTypes: {
@@ -24,16 +24,24 @@ let PieceExtraDataForm = React.createClass({
     },
 
     getFormData() {
+        const { name, pieceId } = this.props;
+
         return {
             extradata: {
-                [this.props.name]: this.refs.form.refs[this.props.name].state.value
+                [name]: this.refs.form.refs[name].state.value
             },
-            piece_id: this.props.pieceId
+            piece_id: pieceId
         };
     },
 
+    getUrl() {
+        return formatText(resolveUrl('piece_extradata'), {
+            pieceId: this.props.pieceId
+        });
+    },
+
     render() {
-        const { convertLinks, editable, extraData, handleSuccess, name, pieceId, title } = this.props;
+        const { convertLinks, editable, extraData, handleSuccess, name, title } = this.props;
         const defaultValue = (extraData && extraData[name]) || null;
 
         if (!defaultValue && !editable) {
@@ -46,7 +54,7 @@ let PieceExtraDataForm = React.createClass({
                 disabled={!editable}
                 getFormData={this.getFormData}
                 handleSuccess={handleSuccess}
-                url={requests.prepareUrl(ApiUrls.piece_extradata, { piece_id: pieceId })}>
+                url={this.getUrl()}>
                 <Property
                     name={name}
                     label={title}>

@@ -1,22 +1,21 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
 let S3Fetcher = {
     /**
      * Fetch the registered applications of a user from the API.
      */
     deleteFile(key, bucket) {
-        return requests.delete('delete_s3_file', {
-            key,
-            bucket
+        return request('delete_s3_file', {
+            method: 'DELETE',
+            query: { bucket, key }
         });
     },
+
     signUrl(key, title, artistName) {
-        return requests.get('sign_url_s3', {
-            key,
-            title,
-            'artist_name': artistName
+        return request('sign_url_s3', {
+            query: { artistName, key, title }
         });
     }
 };

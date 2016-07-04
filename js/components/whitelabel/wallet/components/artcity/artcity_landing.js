@@ -8,8 +8,8 @@ import LinkContainer from 'react-router-bootstrap/lib/LinkContainer';
 import withContext from '../../../../context/with_context';
 import { whitelabelShape } from '../../../../prop_types';
 
-import { getLangText } from '../../../../../utils/lang_utils';
-import { setDocumentTitle } from '../../../../../utils/dom_utils';
+import { getLangText } from '../../../../../utils/lang';
+import { setDocumentTitle } from '../../../../../utils/dom';
 
 
 let ArtcityLanding = React.createClass({

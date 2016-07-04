@@ -15,7 +15,7 @@ import AscribeSpinner from '../ascribe_spinner';
 
 import AclInformation from '../ascribe_buttons/acl_information';
 
-import { getLangText } from '../../utils/lang_utils.js';
+import { getLangText } from '../../utils/lang';
 
 let ConsignForm = React.createClass({
     propTypes: {

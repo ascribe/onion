@@ -1,9 +1,9 @@
 'use strict';
 
-import requests from '../utils/requests';
+import request from '../utils/request';
 
-import { mergeOptions } from '../utils/general_utils';
-import { generateOrderingQueryParams } from '../utils/url_utils';
+import { safeMerge } from '../utils/general';
+import { generateOrderingQueryParams } from '../utils/url';
 
 let EditionListFetcher = {
     /**
@@ -11,18 +11,19 @@ let EditionListFetcher = {
      */
     fetch({ pieceId, page, pageSize, orderBy, orderAsc, filterBy }) {
         const ordering = generateOrderingQueryParams(orderBy, orderAsc);
-
-        const queryParams = mergeOptions(
+        const query = safeMerge(
             {
                 page,
                 pageSize,
-                ordering,
-                piece_id: pieceId
+                ordering
             },
             filterBy
         );
 
-        return requests.get('editions_list', queryParams);
+        return request('editions_list', {
+            query,
+            urlTemplateSpec: { pieceId }
+        });
     }
 };
 

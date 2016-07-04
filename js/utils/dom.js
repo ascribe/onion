@@ -2,7 +2,20 @@
 
 import React from 'react';
 
-import { getLinkRegex, isEmail } from './regex_utils';
+import { getLinkRegex, isEmail } from './regex';
+
+
+/**
+ * Escape HTML in a string so it can be injected safely using React's `dangerouslySetInnerHTML`
+ *
+ * @param  {string} s String to be sanitized
+ * @return {string}   Sanitized string
+ *
+ * Taken from: http://stackoverflow.com/a/17546215/597097
+ */
+export function escapeHTML(s) {
+    return document.createElement('div').appendChild(document.createTextNode(s)).parentNode.innerHTML;
+}
 
 /**
  * Set the title in the browser window.

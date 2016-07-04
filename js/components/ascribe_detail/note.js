@@ -11,7 +11,7 @@ import InputTextAreaToggable from '../ascribe_forms/input_textarea_toggable';
 
 import withContext from '../context/with_context';
 
-import { getLangText } from '../../utils/lang_utils';
+import { getLangText } from '../../utils/lang';
 
 let Note = React.createClass({
     propTypes: {

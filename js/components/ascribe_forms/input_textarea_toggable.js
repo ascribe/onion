@@ -4,7 +4,7 @@ import React from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { anchorize } from '../../utils/dom_utils';
+import { anchorize } from '../../utils/dom';
 
 
 let InputTextAreaToggable = React.createClass({

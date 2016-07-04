@@ -24,10 +24,10 @@ import AscribeSpinner from './ascribe_spinner';
 import withContext from './context/with_context';
 import { locationShape, routerShape } from './prop_types';
 
-import { getAvailableAcls } from '../utils/acl_utils';
-import { setDocumentTitle } from '../utils/dom_utils';
-import { mergeOptions, isShallowEqual } from '../utils/general_utils';
-import { getLangText } from '../utils/lang_utils';
+import { getAvailableAcls } from '../utils/acl';
+import { setDocumentTitle } from '../utils/dom';
+import { safeMerge, isShallowEqual } from '../utils/general';
+import { getLangText } from '../utils/lang';
 
 
 const PieceList = React.createClass({
@@ -75,7 +75,7 @@ const PieceList = React.createClass({
 
     getInitialState() {
         const pieceListStore = PieceListStore.getState();
-        const stores = mergeOptions(
+        const stores = safeMerge(
             pieceListStore,
             EditionListStore.getState(),
             {
