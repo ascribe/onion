@@ -13,7 +13,7 @@ import Property from '../../../../../ascribe_forms/property';
 
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
-import { validationParts, validationTypes } from '../../../../../../constants/uploader_constants';
+import { ValidationParts, ValidationTypes } from '../../../../../../constants/uploader_constants';
 
 import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../../../../../utils/lang';
@@ -175,9 +175,9 @@ let MarketAdditionalDataForm = React.createClass({
                         setIsUploadReady={this.setIsUploadReady}
                         submitFile={function () {}}
                         validation={{
-                            itemLimit: validationTypes.workThumbnail.itemLimit,
-                            sizeLimit: validationTypes.workThumbnail.sizeLimit,
-                            allowedExtensions: validationParts.allowedExtensions.images
+                            itemLimit: ValidationTypes.workThumbnail.itemLimit,
+                            sizeLimit: ValidationTypes.workThumbnail.sizeLimit,
+                            allowedExtensions: ValidationParts.allowedExtensions.images
                         }} />
                     <Property
                         name='artist_bio'

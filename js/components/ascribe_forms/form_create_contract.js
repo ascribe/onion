@@ -13,7 +13,7 @@ import Form from '../ascribe_forms/form';
 import Property from '../ascribe_forms/property';
 
 import AppConstants from '../../constants/application_constants';
-import { validationTypes } from '../../constants/uploader_constants';
+import { ValidationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang';
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
@@ -79,8 +79,8 @@ let CreateContractForm = React.createClass({
                             url: resolveUrl('blob_contracts')
                         }}
                         validation={{
-                            itemLimit: validationTypes.additionalData.itemLimit,
-                            sizeLimit: validationTypes.additionalData.sizeLimit,
+                            itemLimit: ValidationTypes.additionalData.itemLimit,
+                            sizeLimit: ValidationTypes.additionalData.sizeLimit,
                             allowedExtensions: ['pdf']
                         }}
                         areAssetsDownloadable={true}

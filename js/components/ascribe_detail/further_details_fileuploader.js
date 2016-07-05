@@ -7,7 +7,7 @@ import Property from './../ascribe_forms/property';
 import ReactS3FineUploader from './../ascribe_uploader/react_s3_fine_uploader';
 
 import AppConstants from '../../constants/application_constants';
-import { validationTypes } from '../../constants/uploader_constants';
+import { ValidationTypes } from '../../constants/uploader_constants';
 
 import { makeCsrfHeader } from '../../utils/csrf';
 import { getLangText } from '../../utils/lang';
@@ -40,7 +40,7 @@ let FurtherDetailsFileuploader = React.createClass({
             areAssetsDownloadable: true,
             label: getLangText('Additional files'),
             multiple: false,
-            validation: validationTypes.additionalData
+            validation: ValidationTypes.additionalData
         };
     },
 

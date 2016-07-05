@@ -11,7 +11,7 @@ import ReactS3FineUploader from '../ascribe_uploader/react_s3_fine_uploader';
 import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_button';
 
 import AppConstants from '../../constants/application_constants';
-import { validationTypes } from '../../constants/uploader_constants';
+import { ValidationTypes } from '../../constants/uploader_constants';
 
 import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { makeCsrfHeader } from '../../utils/csrf';
@@ -69,8 +69,8 @@ let ContractSettingsUpdateButton = React.createClass({
                    url: resolveUrl('blob_contracts')
                }}
                validation={{
-                   itemLimit: validationTypes.registerWork.itemLimit,
-                   sizeLimit: validationTypes.additionalData.sizeLimit,
+                   itemLimit: ValidationTypes.registerWork.itemLimit,
+                   sizeLimit: ValidationTypes.additionalData.sizeLimit,
                    allowedExtensions: ['pdf']
                }}
                setIsUploadReady={() =>{/* So that ReactS3FineUploader is not complaining */}}

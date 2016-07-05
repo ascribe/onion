@@ -15,7 +15,7 @@ import withContext from '../context/with_context';
 import { currentUserShape, locationShape } from '../prop_types';
 
 import AppConstants from '../../constants/application_constants';
-import { validationParts, validationTypes } from '../../constants/uploader_constants';
+import { ValidationParts, ValidationTypes } from '../../constants/uploader_constants';
 
 import { FileStatus, formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../utils/lang';
@@ -170,7 +170,7 @@ let RegisterPieceForm = React.createClass({
                         createBlobRoutine={{
                             url: resolveUrl('blob_digitalworks')
                         }}
-                        validation={validationTypes.registerWork}
+                        validation={ValidationTypes.registerWork}
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
                         isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                         isFineUploaderActive={isFineUploaderActive}
@@ -197,9 +197,9 @@ let RegisterPieceForm = React.createClass({
                             fileClass: 'thumbnail'
                         }}
                         validation={{
-                            itemLimit: validationTypes.workThumbnail.itemLimit,
-                            sizeLimit: validationTypes.workThumbnail.sizeLimit,
-                            allowedExtensions: validationParts.allowedExtensions.images
+                            itemLimit: ValidationTypes.workThumbnail.itemLimit,
+                            sizeLimit: ValidationTypes.workThumbnail.sizeLimit,
+                            allowedExtensions: ValidationParts.allowedExtensions.images
                         }}
                         setIsUploadReady={this.setIsUploadReady('thumbnailKeyReady')}
                         fileClassToUpload={{

@@ -1,5 +1,5 @@
 // Validation types
-export const validationParts = {
+export const ValidationParts = {
     allowedExtensions: {
         images: ['png', 'jpg', 'jpeg', 'gif']
     },
@@ -13,9 +13,9 @@ export const validationParts = {
     }
 };
 
-const { itemLimit, sizeLimit } = validationParts;
+const { itemLimit, sizeLimit } = ValidationParts;
 
-export const validationTypes = {
+export const ValidationTypes = {
     additionalData: {
         itemLimit: itemLimit.multiple,
         sizeLimit: sizeLimit.default
@@ -39,8 +39,8 @@ export const S3_ACL = process.env.S3_ACL;
 export const S3_BUCKET = process.env.S3_BUCKET;
 
 export default {
-    validationParts,
-    validationTypes,
+    ValidationParts,
+    ValidationTypes,
     RETRY_ATTEMPT_TO_SHOW_CONTACT_US,
     S3_ACCESS_KEY,
     S3_ACL,
