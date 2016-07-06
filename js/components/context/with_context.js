@@ -76,10 +76,16 @@ export default function withContext(WrappedComponent, ...contextProps) {
     const wrappedComponentName = getDisplayName(WrappedComponent);
 
     if (!contextProps.length) {
+        console.logGlobal(
+            new Error('Used `withContext` without supplying any items to inject from the ' +
+                      "component's context"),
+            { wrappedComponentName }
+        );
+
         if (process.env.NODE_ENV !== 'production') {
             // eslint-disable-next-line no-console
-            console.warn(`Used withContext on ${wrappedComponentName} without supplying any ` +
-                         "items to inject from the component's context. Ignoring...");
+            console.warn(`Either add context types to ${wrappedComponentName} or remove ` +
+                         '`withContext` from it');
         }
 
         return WrappedComponent;
@@ -90,11 +96,17 @@ export default function withContext(WrappedComponent, ...contextProps) {
 
         if (contextDef) {
             Object.assign(types, contextDef.contextTypes);
-        } else if (process.env.NODE_ENV !== 'production') {
-            // eslint-disable-next-line no-console
-            console.warn(`No context types were found for '${contextProp}' when adding context ` +
-                         `to ${wrappedComponentName}. Make sure to add the context information ` +
-                         'with_context.js.');
+        } else {
+            console.logGlobal(
+                new Error('No context type was matched when adding context through `withContext`'),
+                { contextProp, wrappedComponentName }
+            );
+
+            if (process.env.NODE_ENV !== 'production') {
+                // eslint-disable-next-line no-console
+                console.warn(`Make sure to add the context type information for ${contextProp} ` +
+                             "to 'with_context.js.");
+            }
         }
 
         return types;
@@ -105,9 +117,16 @@ export default function withContext(WrappedComponent, ...contextProps) {
             // Check if the expected context was available
             Object.keys(contextTypes).forEach((contextType) => {
                 if (!context[contextType]) {
-                    // eslint-disable-next-line no-console
-                    console.warn(`Expected '${contextType}' did not exist in ` +
-                                 `${wrappedComponentName}'s context during mounting`);
+                    console.logGlobal(
+                        new Error('Expected context type did not exist in context when mounting ' +
+                                  'component through `withContext`'),
+                        { contextType, wrappedComponentName }
+                    );
+
+                    if (process.env.NODE_ENV !== 'production') {
+                        // eslint-disable-next-line no-console
+                        console.warn(`Missing ${contextType} from context in ${wrappedComponentName}`);
+                    }
                 }
             });
         }
