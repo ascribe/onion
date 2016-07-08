@@ -73,7 +73,8 @@ const ApiUrls = {
     's3': 'https://ascribe0.s3.amazonaws.com',
     's3_accelerate': 'https://ascribe0.s3-accelerate.amazonaws.com',
     's3_delete_file': `${AppConstants.serverUrl}/s3/delete/`,
-    's3_sign_url': `${AppConstants.serverUrl}/s3/sign_url/`
+    's3_sign_url': `${AppConstants.serverUrl}/s3/sign_url/`,
+    's3_signature': `${AppConstants.serverUrl}/s3/signature/`
 };
 
 export function mergeWithBaseApiUrls(updatedApiUrls) {
