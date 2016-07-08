@@ -1,11 +1,6 @@
-'use strict';
-
 import request from '../utils/request';
 
-let S3Fetcher = {
-    /**
-     * Fetch the registered applications of a user from the API.
-     */
+const S3Fetcher = {
     deleteFile(key, bucket) {
         return request('s3_delete_file', {
             method: 'DELETE',
