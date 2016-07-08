@@ -319,40 +319,8 @@
     }
 }
 
-.ascribe-progress-bar {
-    margin-bottom: 0;
-    > .progress-bar {
-        background-color: $ascribe-dark-blue;
+
     }
 
-    span {
-        font-size: 1.2em;
-        color: white;
-        text-shadow: -1px 0 $ascribe--button-default-color,
-                      0 1px $ascribe--button-default-color,
-                      1px 0 $ascribe--button-default-color,
-                      0 -1px $ascribe--button-default-color;
-    }
-}
-
-.ascribe-progress-bar-xs {
-    height: 12px;
-}
-
-.ascribe-upload-button {
-    display: inline-block;
-    text-align: left;
-
-    &.ascribe-upload-button-has-label {
-        display: block;
-
-        .btn {
-            font-size: 1em;
-            margin-right: 1em;
-        }
-
-        span + .btn {
-            margin-left: 1em;
-        }
     }
 }
