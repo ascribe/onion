@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { fileOptional } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
+
 import Form from '../../../../../ascribe_forms/form';
 import Property from '../../../../../ascribe_forms/property';
 
@@ -15,7 +17,6 @@ import GlobalNotificationActions from '../../../../../../actions/global_notifica
 import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import { getLangText } from '../../../../../../utils/lang';
-import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 import { formatText } from '../../../../../../utils/text';
 import { resolveUrl } from '../../../../../../utils/url_resolver';
 
@@ -191,7 +192,7 @@ let CylandAdditionalDataForm = React.createClass({
                         label={getLangText('Additional files (e.g. still images, pdf)')}
                         submitFile={function () {}}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
+                        isReadyForFormSubmission={fileOptional}
                         pieceId={piece.id}
                         otherData={piece.other_data}
                         multiple={true} />

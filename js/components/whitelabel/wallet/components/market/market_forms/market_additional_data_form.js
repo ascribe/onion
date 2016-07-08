@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { atLeastOneCreatedBlobFile } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
+
 import GlobalNotificationModel from '../../../../../../models/global_notification_model';
 import GlobalNotificationActions from '../../../../../../actions/global_notification_actions';
 
@@ -15,7 +17,6 @@ import AscribeSpinner from '../../../../../ascribe_spinner';
 
 import { ValidationParts, ValidationTypes } from '../../../../../../constants/uploader_constants';
 
-import { formSubmissionValidation } from '../../../../../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../../../../../utils/lang';
 import { formatText } from '../../../../../../utils/text';
 import { resolveUrl } from '../../../../../../utils/url_resolver';
@@ -168,7 +169,7 @@ let MarketAdditionalDataForm = React.createClass({
                     <FurtherDetailsFileuploader
                         areAssetsDownloadable={!!isInline}
                         editable={editable}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        isReadyForFormSubmission={atLeastOneCreatedBlobFile}
                         label={getLangText('Marketplace Thumbnail Image')}
                         otherData={otherData}
                         pieceId={pieceId}

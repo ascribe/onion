@@ -3,6 +3,8 @@ import React from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
+import { atLeastOneCreatedBlobFile } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
+
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
@@ -10,8 +12,6 @@ import FurtherDetailsFileuploader from './further_details_fileuploader';
 
 import Form from './../ascribe_forms/form';
 import PieceExtraDataForm from './../ascribe_forms/form_piece_extradata';
-
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 
 import { getLangText } from '../../utils/lang';
 
@@ -77,7 +77,7 @@ const FurtherDetails = React.createClass({
                             multiple
                             overrideForm
                             editable={editable}
-                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            isReadyForFormSubmission={atLeastOneCreatedBlobFile}
                             otherData={otherData}
                             pieceId={pieceId} />
                     </Form>

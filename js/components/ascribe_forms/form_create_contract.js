@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { atLeastOneCreatedBlobFile } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
+
 import ContractListActions from '../../actions/contract_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -16,7 +18,6 @@ import AppConstants from '../../constants/application_constants';
 import { ValidationTypes } from '../../constants/uploader_constants';
 
 import { getLangText } from '../../utils/lang';
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { resolveUrl } from '../../utils/url_resolver';
 
 
@@ -86,7 +87,7 @@ let CreateContractForm = React.createClass({
                         areAssetsDownloadable={true}
                         areAssetsEditable={true}
                         setIsUploadReady={this.setIsUploadReady}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        isReadyForFormSubmission={atLeastOneCreatedBlobFile}
                         fileClassToUpload={this.props.fileClassToUpload} />
                 </Property>
                 <Property

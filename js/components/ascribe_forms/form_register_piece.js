@@ -1,6 +1,7 @@
-'use strict';
-
 import React from 'react';
+
+import { removedFilesFilter, validFilesFilter } from 'react-utility-belt/es6/uploader/utils/file_filters';
+import { atLeastOneCreatedBlobFile, fileOptional } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
 
 import Form from './form';
 import Property from './property';
@@ -17,7 +18,6 @@ import { currentUserShape, locationShape } from '../prop_types';
 import AppConstants from '../../constants/application_constants';
 import { ValidationParts, ValidationTypes } from '../../constants/uploader_constants';
 
-import { FileStatus, formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { getLangText } from '../../utils/lang';
 import { resolveUrl } from '../../utils/url_resolver';
 
@@ -74,8 +74,7 @@ let RegisterPieceForm = React.createClass({
     },
 
     handleChangedDigitalWork(digitalWorkFile) {
-        if (digitalWorkFile &&
-            (digitalWorkFile.status === FileStatus.DELETED || digitalWorkFile.status === FileStatus.CANCELED)) {
+        if (digitalWorkFile && removedFilesFilter(digitalWorkFile)) {
             this.refs.form.refs.thumbnail_file.reset();
 
             // Manually we need to set the ready state for `thumbnailKeyReady` back
@@ -94,8 +93,8 @@ let RegisterPieceForm = React.createClass({
 
         fineuploader.setThumbnailForFileId(
             digitalWorkFile.id,
-            // if thumbnail was deleted, we delete it from the display as well
-            thumbnailFile.status !== FileStatus.DELETED ? thumbnailFile.url : null
+            // Only keep the thumbnail in the display if it's still valid
+            validFilesFilter(thumbnailFile) ? thumbnailFile.url : null
         );
     },
 
@@ -172,7 +171,7 @@ let RegisterPieceForm = React.createClass({
                         }}
                         validation={ValidationTypes.registerWork}
                         setIsUploadReady={this.setIsUploadReady('digitalWorkKeyReady')}
-                        isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                        isReadyForFormSubmission={atLeastOneCreatedBlobFile}
                         isFineUploaderActive={isFineUploaderActive}
                         disabled={!isFineUploaderEditable}
                         enableLocalHashing={hashLocally}
@@ -191,7 +190,7 @@ let RegisterPieceForm = React.createClass({
                         }}
                         handleChangedFile={this.handleChangedThumbnail}
                         onValidationFailed={this.handleThumbnailValidationFailed}
-                        isReadyForFormSubmission={formSubmissionValidation.fileOptional}
+                        isReadyForFormSubmission={fileOptional}
                         keyRoutine={{
                             url: `${AppConstants.serverUrl}/s3/key/`,
                             fileClass: 'thumbnail'

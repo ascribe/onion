@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { atLeastOneCreatedBlobFile } from 'react-utility-belt/es6/uploader/utils/file_validation_utils';
+
 import ContractListActions from '../../actions/contract_list_actions';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
@@ -13,7 +15,6 @@ import UploadButton from '../ascribe_uploader/ascribe_upload_button/upload_butto
 import AppConstants from '../../constants/application_constants';
 import { ValidationTypes } from '../../constants/uploader_constants';
 
-import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uploader_utils';
 import { makeCsrfHeader } from '../../utils/csrf';
 import { getLangText } from '../../utils/lang';
 import { resolveUrl } from '../../utils/url_resolver';
@@ -60,7 +61,7 @@ let ContractSettingsUpdateButton = React.createClass({
         return (
            <ReactS3FineUploader
                ref='fineuploader'
-               fileInputElement={UploadButton({ showLabel: false })}
+               fileInputElement={UploadButton({ showFileLabel: false })}
                keyRoutine={{
                    url: `${AppConstants.serverUrl}/s3/key/`,
                    fileClass: 'contract'
@@ -88,7 +89,7 @@ let ContractSettingsUpdateButton = React.createClass({
                    singular: getLangText('UPDATE'),
                    plural: getLangText('UPDATE')
                }}
-               isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+               isReadyForFormSubmission={atLeastOneCreatedBlobFile}
                submitFile={this.submitFile} />
         );
     }
