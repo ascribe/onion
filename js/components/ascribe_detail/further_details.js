@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import Row from 'react-bootstrap/lib/Row';
@@ -18,7 +16,7 @@ import { formSubmissionValidation } from '../ascribe_uploader/react_s3_fine_uplo
 import { getLangText } from '../../utils/lang';
 
 
-let FurtherDetails = React.createClass({
+const FurtherDetails = React.createClass({
     propTypes: {
         pieceId: React.PropTypes.number.isRequired,
 
@@ -34,6 +32,7 @@ let FurtherDetails = React.createClass({
         };
     },
 
+    // FIXME: add this to the uploader too
     showNotification() {
         const { handleSuccess } = this.props;
 
@@ -45,63 +44,48 @@ let FurtherDetails = React.createClass({
         GlobalNotificationActions.appendGlobalNotification(notification);
     },
 
-    submitFile(file) {
-        this.setState({
-            otherDataKey: file.key
-        });
-    },
-
-    setIsUploadReady(isReady) {
-        this.setState({
-            isUploadReady: isReady
-        });
-    },
-
     render() {
         const { editable, extraData, otherData, pieceId } = this.props;
 
         return (
             <Row>
-                <Col md={12} className="ascribe-edition-personal-note">
+                <Col className="ascribe-edition-personal-note" md={12}>
                     <PieceExtraDataForm
-                        name='artist_contact_info'
-                        title={getLangText('Artist Contact Info')}
                         convertLinks
                         editable={editable}
                         extraData={extraData}
                         handleSuccess={this.showNotification}
-                        pieceId={pieceId} />
+                        name='artist_contact_info'
+                        pieceId={pieceId}
+                        title={getLangText('Artist Contact Info')} />
                     <PieceExtraDataForm
+                        editable={editable}
+                        extraData={extraData}
+                        handleSuccess={this.showNotification}
                         name='display_instructions'
-                        title={getLangText('Display Instructions')}
-                        editable={editable}
-                        extraData={extraData}
-                        handleSuccess={this.showNotification}
-                        pieceId={pieceId} />
+                        pieceId={pieceId}
+                        title={getLangText('Display Instructions')} />
                     <PieceExtraDataForm
-                        name='technology_details'
-                        title={getLangText('Technology Details')}
                         editable={editable}
                         extraData={extraData}
                         handleSuccess={this.showNotification}
-                        pieceId={pieceId} />
+                        name='technology_details'
+                        pieceId={pieceId}
+                        title={getLangText('Technology Details')} />
                     <Form>
                         <FurtherDetailsFileuploader
-                            submitFile={this.submitFile}
-                            setIsUploadReady={this.setIsUploadReady}
-                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
+                            multiple
+                            overrideForm
                             editable={editable}
-                            overrideForm={true}
-                            pieceId={pieceId}
+                            isReadyForFormSubmission={formSubmissionValidation.atLeastOneUploadedFile}
                             otherData={otherData}
-                            multiple={true} />
+                            pieceId={pieceId} />
                     </Form>
                 </Col>
             </Row>
         );
     }
 });
-
 
 
 export default FurtherDetails;
