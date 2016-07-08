@@ -92,8 +92,9 @@ let MediaContainer = React.createClass({
                         <em>We successfully received your video and it is now being encoded.
                         <br />You can leave this page and check back on the status later.</em>
                     </p>
-                    <ProgressBar now={digitalWork.isEncoding}
-                        label="%(percent)s%"
+                    <ProgressBar
+                        now={digitalWork.isEncoding}
+                        label={`${digitalWork.isEncoding}%`}
                         className="ascribe-progress-bar" />
                 </div>
             );
