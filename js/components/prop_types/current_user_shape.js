@@ -4,11 +4,11 @@ import React from 'react';
 const { number, object, shape, string } = React.PropTypes;
 
 const currentUserShapeSpec = {
-    acl: object,
-    email: string,
-    id: number,
-    profile: object,
-    username: string
+    acl: object.isRequired,
+    email: string.isRequired,
+    id: number.isRequired,
+    profile: object.isRequired,
+    username: string.isRequired
 };
 
 export default shape(currentUserShapeSpec);

@@ -9,32 +9,26 @@
     text-align: center;
     vertical-align: middle;
     padding-top: 1.5em;
-
-    @media screen and (max-width: 625px) {
-        .file-name {
-            display: block;
-        }
-    }
 }
 
 .inactive-dropzone {
-    background-color: rgba(0, 0, 0, 0) !important;
+    background-color: transparent !important;
     cursor: default !important;
     outline: 0;
 }
 
-.present-options {
-    > p {
-        margin-bottom: .75em !important;
-    }
-
-    .btn {
-        margin: 0 1em;
-    }
-}
-
 .file-drag-and-drop-dialog {
     margin: 0 0 1.5em 0;
+
+    .present-options {
+        > p {
+            margin-bottom: .75em !important;
+        }
+
+        .btn {
+            margin: 0 1em;
+        }
+    }
 
     .file-drag-and-drop-dialog-title {
         font-size: 1.5em !important;
@@ -46,6 +40,10 @@
     > .btn {
         margin-bottom: 2em;
     }
+
+    .file-drag-and-drop-overall-progress-bar {
+        margin-top: 1.3em;
+    }
 }
 
 .file-drag-and-drop-hashing-dialog {
@@ -53,43 +51,66 @@
     margin: 1.5em 0 0 0;
 }
 
-.file-drag-and-drop-position {
+.remove-file-btn {
+    background-color: black;
+    border-width: 0;
+    border-radius: 1em;
+    cursor: pointer;
+    display: block;
+    height: 20px;
+    padding: 0;
+    width: 20px;
+
+    .glyphicon-remove {
+        color: white;
+        font-size: .8em;
+        left: 0;
+        top: 1px;
+    }
+
+    &:hover .glyphicon-remove {
+        color: $brand-danger;
+    }
+}
+
+.upload-file-preview-container {
     display: inline-block;
     margin-left: .7em;
     margin-right: .7em;
     position: relative;
 
-    .delete-file {
-        background-color: black;
-        border-radius: 1em;
-        cursor: pointer;
-        display: block;
-        height: 20px;
-        position: absolute;
-        right: -7px;
-        text-align: center;
-        top: -7px;
-        width: 20px;
+    &:not(:only-of-type) {
+        .upload-file-preview {
+            vertical-align: middle;
+        }
 
-        span {
-            color: white;
-            font-size: .8em;
-            left: 0;
-            top: 1px;
-
-            &:hover {
-                color: $brand-danger;
-            }
+        .upload-file-preview--label {
+            padding-top: 5px;
+            display: block;
         }
     }
 }
 
-.file-drag-and-drop-preview {
+.upload-file-preview {
     background-color: #eeeeee;
     border: 1px solid #616161;
     cursor: default;
     overflow: hidden;
+
+    .remove-file-btn {
+        position: absolute;
+        right: -7px;
+        top: -7px;
+    }
 }
+
+.upload-file-preview--label {
+    @media screen and (max-width: 625px) {
+        padding-top: 5px;
+        display: block;
+    }
+}
+
 
 .action-file {
     color: white;
@@ -146,7 +167,7 @@
     text-align: center;
     width: 104px;
 
-    p {
+    .file-drag-and-drop-preview-other--label {
         margin-top: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -319,8 +340,14 @@
     }
 }
 
+.upload-button .upload-button--label {
+    margin-left: 1em;
 
+    .btn {
+        font-size: 1em;
     }
 
+    .upload-button--label-icon {
+        margin-right: 0.5em;
     }
 }

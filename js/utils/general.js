@@ -9,6 +9,7 @@ export {
     deepMatchObject,
     intersectLists,
     omitFromObject,
+    safeInvoke,
     safeMerge,
     sanitize,
     sanitizeList,

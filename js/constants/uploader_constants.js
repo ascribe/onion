@@ -1,3 +1,13 @@
+// Upload types:
+//   * HASH: Hash the file before uploading
+//   * NORMAL: Upload the file as-is
+//   * USE_URL_PARAM: Determine the type to use through the current url's `upload_method` parameter
+export const UploadMethods = {
+    HASH: 'hash',
+    NORMAL: 'normal',
+    USE_URL_PARAM: 'use_url_param'
+};
+
 // Validation types
 export const ValidationParts = {
     allowedExtensions: {
@@ -39,6 +49,7 @@ export const S3_ACL = process.env.S3_ACL;
 export const S3_BUCKET = process.env.S3_BUCKET;
 
 export default {
+    UploadMethods,
     ValidationParts,
     ValidationTypes,
     RETRY_ATTEMPT_TO_SHOW_CONTACT_US,
