@@ -1,398 +1,219 @@
-'use strict';
-
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import classNames from 'classnames';
 
-import Button from 'react-bootstrap/lib/Button';
-import AlertDismissable from './alert';
+import Button from 'ascribe-react-components/es6/buttons/button';
+
+import ApiForm from 'ascribe-react-components/es6/form/api_form';
+import CollapsibleCheckboxProperty from 'ascribe-react-components/es6/form/properties/collapsible_checkbox_property';
+
+import { createFormForPropertyTypes } from 'react-utility-belt/es6/form/form';
+import formSpecExtender from 'react-utility-belt/es6/form/utils/form_spec_extender';
+import Property from 'react-utility-belt/es6/form/properties/property';
+import { objectOnlyArrayValue } from 'react-utility-belt/es6/prop_types';
 
 import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
-import { sanitize } from '../../utils/general';
+import AlertDismissable from '../alert_dismissable';
+import AscribeSpinner from '../ascribe_spinner';
+
+import { safeInvoke, sanitize } from '../../utils/general';
 import { getLangText } from '../../utils/lang';
-import request from '../../utils/request';
 
 
+const { bool, func, string } = React.PropTypes;
 
-let Form = React.createClass({
+const BaseForm = createFormForPropertyTypes([Property, CollapsibleCheckboxProperty]);
+const ApifiedForm = ApiForm(BaseForm);
+
+const Form = React.createClass(formSpecExtender({
     propTypes: {
-        url: React.PropTypes.string,
-        method: React.PropTypes.string,
-        buttonSubmitText: React.PropTypes.string,
-        handleSuccess: React.PropTypes.func,
-        getFormData: React.PropTypes.func,
-        children: React.PropTypes.oneOfType([
-            React.PropTypes.object,
-            React.PropTypes.array
-        ]),
-        className: React.PropTypes.string,
-        spinner: React.PropTypes.element,
-        buttons: React.PropTypes.oneOfType([
-            React.PropTypes.element,
-            React.PropTypes.arrayOf(React.PropTypes.element)
-        ]),
+        url: string.isRequired, // Required for ApiForm
 
-        // Can be used to freeze the whole form
-        disabled: React.PropTypes.bool,
+        buttonText: string,
+        className: string,
 
-        // You can use the form for inline requests, like the submit click on a button.
-        // For the form to then not display the error on top, you need to enable this option.
-        // It will make use of the GlobalNotification
-        isInline: React.PropTypes.bool,
+        /**
+         * Errors to display.
+         *
+         * Must be an object whose keys contain only arrays of errors. See react-utility-belt's Form
+         * for how it should be structured.
+         */
+        errors: objectOnlyArrayValue,
 
-        autoComplete: React.PropTypes.string,
+        // For ApiForm
+        onSubmitError: func,
+        onValidationError: func,
 
-        onReset: React.PropTypes.func
+        /**
+         * If enabled, show respective errors as a global notification instead of passing them down
+         * to the backing Form or child Properties
+         */
+        showFormErrorsAsNotification: bool,
+        showPropertyErrorsAsNotification: bool
+
+        // All other props are passed to the backing Form
     },
 
-    getDefaultProps() {
+    getDefaultProp() {
         return {
-            method: 'post',
-            buttonSubmitText: 'SAVE',
-            autoComplete: 'off'
+            buttonText: getLangText('SAVE'),
+            // By default, display all validation errors on their properties
+            onValidationError: this.defaultOnValidationError,
+
+            renderFormErrors: this.defaultRenderFormErrors
         };
     },
 
     getInitialState() {
         return {
-            edited: false,
-            submitted: false,
-            errors: []
+            errors: {}
         };
     },
 
-    reset() {
-        // If onReset prop is defined from outside,
-        // notify component that a form reset is happening.
-        if(typeof this.props.onReset === 'function') {
-            this.props.onReset();
-        }
-
-        for(let ref in this.refs) {
-            if(typeof this.refs[ref].reset === 'function') {
-                this.refs[ref].reset();
-            }
-        }
-        this.setState(this.getInitialState());
-    },
-
-    submit(event){
-        if(event) {
-            event.preventDefault();
-        }
-
-        this.setState({submitted: true});
-        this.clearErrors();
-
-        // selecting http method based on props
-        if(this[this.props.method] && typeof this[this.props.method] === 'function') {
-            window.setTimeout(() => this[this.props.method](), 100);
-        } else {
-            throw new Error('This HTTP method is not supported by form.js (' + this.props.method + ')');
+    createErrorMessage: (errorProp) => {
+        switch (errorProp) {
+            case 'min' || 'max':
+                return getLangText('The value you defined is not in the valid range');
+            case 'pattern':
+                return getLangText('The value you defined is not matching the valid pattern');
+            case 'required':
+                return getLangText('This field is required');
+            default:
+                return null;
         }
     },
 
-    request(method) {
-        request(this.props.url, {
-            method,
-            jsonBody: this.getFormData()
-        })
-            .then(this.handleSuccess)
-            .catch(this.handleError);
-    },
-
-    post() {
-        this.request('POST');
-    },
-
-    put() {
-        this.request('PUT');
-    },
-
-    patch() {
-        this.request('PATCH');
-    },
-
-    delete() {
-        this.request('DELETE');
-    },
-
-    getFormData() {
-        let data = {};
-
-        for (let refName in this.refs) {
-            const ref = this.refs[refName];
-
-            if (ref.state && 'value' in ref.state) {
-                // An input can also provide an `Object` as a value
-                // which we're going to merge with `data` (overwrites)
-                if(ref.state.value && ref.state.value.constructor === Object) {
-                    Object.assign(data, ref.state.value);
-                } else {
-                    data[ref.props.name] = ref.state.value;
+    defaultOnValidationError(validationErrors) {
+        // Create useful messages based on the validation prop that failed for each error
+        const errors = Object.entries(validationErrors)
+            .reduce((propertyErrors, [name, validationProp]) => {
+                const errorMsg = this.createErrorMessage(validationProp);
+                if (errorMsg) {
+                    propertyErrors[name] = [errorMsg];
                 }
-            }
-        }
 
-        if (typeof this.props.getFormData === 'function') {
-            data = Object.assign(data, this.props.getFormData());
-        }
+                return propertyErrors;
+            }, {});
 
-        return data;
+        this.setState({ errors });
     },
 
-    handleChangeChild(){
-        this.setState({ edited: true });
-    },
+    onSubmitError(err, ...args) {
+        const {
+            onSubmitError,
+            showFormErrorsAsNotification,
+            showPropertyErrorsAsNotification
+        } = this.props;
 
-    handleSuccess(response){
-        if(typeof this.props.handleSuccess === 'function') {
-            this.props.handleSuccess(response);
-        }
+        // Strip out any fields that are password related before logging
+        const formData = sanitize(
+            this.refs.form.getData(),
+            (value, name) => !name.includes('password')
+        );
+        console.logGlobal(err, formData);
 
-        for(let ref in this.refs) {
-            if(this.refs[ref] && typeof this.refs[ref].handleSuccess === 'function'){
-                this.refs[ref].handleSuccess(response);
-            }
-        }
-        this.setState({
-            edited: false,
-            submitted: false
-        });
-    },
+        if (err.json && err.json.errors) {
+            // Form validation failed server-side
+            if (showPropertyErrorsAsNotification) {
+                // This could be made better, ie. it could delegate to a callback to construct the
+                // message so the error is more descriptive.
+                Object.values(err.json.errors).forEach((error) => {
+                    // Only use the first error if there's multiple for the Property
+                    const errorMsg = Array.isArray(error) ? error[0] : error;
 
-    handleError(err) {
-        if (err.json) {
-            for (let input in err.json.errors){
-                if (this.refs && this.refs[input] && this.refs[input].state) {
-                    this.refs[input].setErrors(err.json.errors[input]);
-                } else {
-                    this.setState({errors: this.state.errors.concat(err.json.errors[input])});
-                }
+                    const notification = new GlobalNotificationModel(errorMsg, 'danger');
+                    GlobalNotificationActions.appendGlobalNotification(notification);
+                });
+            } else {
+                // Make sure all error entries arrays before passing them down
+                const errors = Object.entries(err.json.errors)
+                    .reduce((arrayifiedErrors, [name, errorVal]) => {
+                        if (errorVal) {
+                            arrayifiedErrors[name] = Array.isArray(errorVal) ? errorVal
+                                                                             : [errorVal];
+                        }
+
+                        return arrayifiedErrors;
+                    }, {});
+
+                this.setState({ errors });
             }
         } else {
-            let formData = this.getFormData();
+            // Something else happened
+            const errMsg = getLangText('Oops, something went wrong on our side. Please try again or ' +
+                                       'contact us if the problem persists.');
 
-            // sentry shouldn't post the user's password
-            if (formData.password) {
-                delete formData.password;
-                delete formData.password_confirm;
-            }
-
-            console.logGlobal(err, formData);
-
-            if (this.props.isInline) {
-                let notification = new GlobalNotificationModel(getLangText('Something went wrong, please try again later'), 'danger');
+            if (showFormErrorsAsNotification) {
+                const notification = new GlobalNotificationModel(errMsg, 'danger');
                 GlobalNotificationActions.appendGlobalNotification(notification);
             } else {
-                this.setState({errors: [getLangText('Something went wrong, please try again later')]});
-            }
-        }
-
-        this.setState({submitted: false});
-    },
-
-    clearErrors() {
-        for(let ref in this.refs){
-            if (this.refs[ref] && typeof this.refs[ref].clearErrors === 'function'){
-                this.refs[ref].clearErrors();
-            }
-        }
-        this.setState({errors: []});
-    },
-
-    getButtons() {
-        const { buttons, disabled, buttonSubmitText, spinner } = this.props;
-        const { submitted, edited } = this.state;
-
-        if (submitted || buttons !== undefined) {
-            return (
-                <div>
-                    <div className={classNames({ 'hide': !submitted })}>
-                        {spinner}
-                    </div>
-                    <div className={classNames({ 'hide': submitted })}>
-                        {buttons}
-                    </div>
-                </div>
-            );
-        }
-
-        if (edited && !disabled) {
-            return (
-                <div className="row" style={{margin: 0}}>
-                    <p className="pull-right">
-                        <Button
-                            className="btn btn-default btn-sm ascribe-margin-1px"
-                            type="submit">
-                            {buttonSubmitText}
-                        </Button>
-                        <Button
-                            className="btn btn-danger btn-delete btn-sm ascribe-margin-1px"
-                            type="reset">
-                            {getLangText('CANCEL')}
-                        </Button>
-                    </p>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    },
-
-    getErrors() {
-        let errors = null;
-        if (this.state.errors.length > 0){
-            errors = this.state.errors.map((error) => {
-                return <AlertDismissable error={error} key={error}/>;
-            });
-        }
-        return errors;
-    },
-
-    renderChildren() {
-        return React.Children.map(this.props.children, (child, i) => {
-            if (child) {
-                // Since refs will be overwritten by this functions return statement,
-                // we still want to be able to define refs for nested `Form` or `Property`
-                // children, which is why we're upfront simply invoking the callback-ref-
-                // function before overwriting it.
-                if(typeof child.ref === 'function' && this.refs[child.props.name]) {
-                    child.ref(this.refs[child.props.name]);
-                }
-
-                return React.cloneElement(child, {
-                    handleChange: this.handleChangeChild,
-                    ref: child.props.name,
-                    key: i,
-                    // We need this in order to make editable be overridable when setting it directly
-                    // on Property
-                    editable: child.props.overrideForm ? child.props.editable : !this.props.disabled
+                this.setState({
+                    errors: {
+                        form: [errMsg]
+                    }
                 });
             }
+        }
+
+        const { invoked, result } = safeInvoke(onSubmitError, err, ...args);
+        return invoked ? result : err;
+    },
+
+    onSubmitRequest() {
+        // Reset any old errors if we passed validation and are about to submit
+        this.setState({
+            errors: {}
         });
     },
 
-    /**
-     * All webkit-based browsers are ignoring the attribute autoComplete="off",
-     * as stated here: http://stackoverflow.com/questions/15738259/disabling-chrome-autofill/15917221#15917221
-     * So what we actually have to do is depended on whether or not this.props.autoComplete is set to "on" or "off"
-     * insert two fake hidden inputs that mock password and username so that chrome/safari is filling those
-     */
-    getFakeAutocompletableInputs() {
-        if(this.props.autoComplete === 'off') {
-            return (
-                <span>
-                    <input style={{display: 'none'}} type="text" name="fakeusernameremembered"/>
-                    <input style={{display: 'none'}} type="password" name="fakepasswordremembered"/>
-                </span>
-            );
-        } else {
-            return null;
-        }
-    },
-
-    /**
-     * Validates a single ref and returns a human-readable error message
-     * @param  {object} refToValidate A customly constructed object to check
-     * @return {oneOfType([arrayOf(string), bool])} Either an error message or false, saying that
-     * everything is valid
-     */
-    _hasRefErrors(refToValidate) {
-        let errors = Object
-            .keys(refToValidate)
-            .reduce((a, constraintKey) => {
-                const contraintValue = refToValidate[constraintKey];
-
-                if(!contraintValue) {
-                    switch(constraintKey) {
-                        case 'min' || 'max':
-                            a.push(getLangText('The field you defined is not in the valid range'));
-                            break;
-                        case 'pattern':
-                            a.push(getLangText('The value you defined is not matching the valid pattern'));
-                            break;
-                        case 'required':
-                            a.push(getLangText('This field is required'));
-                            break;
-                    }
-                }
-
-                return a;
-            }, []);
-
-        return errors.length ? errors : false;
-    },
-
-    /**
-     * This method validates all child inputs of the form.
-     *
-     * As of now, it only considers
-     * - `max`
-     * - `min`
-     * - `pattern`
-     * - `required`
-     *
-     * The idea is to enhance this method everytime we need more thorough validation.
-     * So feel free to add props that additionally should be checked, if they're present
-     * in the input's props.
-     *
-     * @return {[type]} [description]
-     */
-    validate() {
-        this.clearErrors();
-        const validatedFormInputs = {};
-
-        Object
-            .keys(this.refs)
-            .forEach((refName) => {
-                let refToValidate = {};
-                const property = this.refs[refName];
-                const input = property.refs.input;
-                const value = ReactDOM.findDOMNode(input).value || input.state.value;
-                const { max,
-                        min,
-                        pattern,
-                        required,
-                        type } = input.props;
-
-                refToValidate.required = required ? value : true;
-                refToValidate.pattern = pattern && typeof value === 'string' ? value.match(pattern) : true;
-                refToValidate.max = type === 'number' ? parseInt(value, 10) <= max : true;
-                refToValidate.min = type === 'number' ? parseInt(value, 10) >= min : true;
-
-                const validatedRef = this._hasRefErrors(refToValidate);
-                validatedFormInputs[refName] = validatedRef;
-            });
-        const errorMessagesForRefs = sanitize(validatedFormInputs);
-        this.handleError({ json: { errors: errorMessagesForRefs } });
-        return !Object.keys(errorMessagesForRefs).length;
+    defaultRenderFormErrors(errors) {
+        return errors.map((error) => (
+            <AlertDismissable error={error} key={error} />
+        ));
     },
 
     render() {
-        let className = 'ascribe-form';
+        const {
+            buttonText,
+            className,
+            errors: propErrors,
+            showFormErrorsAsNotification: ignoredShowFormErrorsAsNotification, // ignored
+            showPropertyErrorsAsNotification: ignoredShowPropertyErrorsAsNotification, // ignored
+            ...props
+        } = this.props;
+        const { errors: stateErrors } = this.state;
 
-        if(this.props.className) {
-            className += ' ' + this.props.className;
-        }
+        // FIXME: Use deep-merge instead, making sure to factor in that if a key's value is not an
+        // array, it should be merged as an array
+        const errors = Object.assign({}, propErrors, stateErrors);
+
+        const buttonDefault = (
+            <Button wide type="submit">
+                {buttonText}
+            </Button>
+        );
+
+        const buttonSubmitting = (
+            <Button disabled wide type="button">
+                <AscribeSpinner color="dark-blue" size="md" />
+            </Button>
+        );
 
         return (
-            <form
-                role="form"
-                className={className}
-                onSubmit={this.submit}
-                onReset={this.reset}
-                autoComplete={this.props.autoComplete}>
-                {this.getFakeAutocompletableInputs()}
-                {this.getErrors()}
-                {this.renderChildren()}
-                {this.getButtons()}
-            </form>
+            <ApifiedForm
+                ref="form"
+                {...props}
+                buttonDefault={buttonDefault}
+                buttonSubmitting={buttonSubmitting}
+                className={classNames('ascribe-form', className)}
+                errors={errors}
+                errorType={AlertDismissable}
+                onSubmitError={this.onSubmitError}
+                onSubmitRequest={this.onSubmitRequest}
+                onValidationError={this.onValidationError} />
         );
     }
-});
+}));
 
 export default Form;
