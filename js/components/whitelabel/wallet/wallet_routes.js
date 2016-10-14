@@ -20,6 +20,7 @@ import ErrorNotFoundPage from '../../../components/error_not_found_page';
 import Footer from '../../../components/footer.js';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
+import BokkRegisterPiece from './components/bokk/bokk_register_piece';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
@@ -448,7 +449,50 @@ let ROUTES = {
             <Route path='verify' component={CoaVerifyContainer} />
             <Route path='*' component={ErrorNotFoundPage} />
         </Route>
-    )
+    ),
+    'bokk': (
+        <Route path='/' component={WalletApp}>
+            <Route
+                path='login'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)} />
+            <Route
+                path='logout'
+                component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
+            <Route
+                path='signup'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route
+                path='password_reset'
+                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
+            <Route
+                path='settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(SettingsContainer)} />
+            <Route
+                path='contract_settings'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(ContractSettings)} />
+            <Route
+                path='register_piece'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(BokkRegisterPiece)}
+                headerTitle={getLangText('+ NEW WORK')} />
+            <Route
+                path='collection'
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
+                headerTitle={getLangText('COLLECTION')}
+                disableOn='noPieces' />
+            <Route
+                path='pieces/:pieceId'
+                component={PieceContainer} />
+            <Route
+                path='editions/:editionId'
+                component={EditionContainer} />
+            <Route
+                path='coa_verify'
+                component={CoaVerifyContainer} />
+            <Route
+                path='*'
+                component={ErrorNotFoundPage} />
+        </Route>
+    ),
 };
 
 function getRoutes(commonRoutes, subdomain) {
