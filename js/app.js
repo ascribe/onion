@@ -55,7 +55,7 @@ const AppGateway = {
         if (subdomain) {
             // Some whitelabels have landing pages so we should not automatically redirect from / to /collection.
             // Only www and cc do not have a landing page.
-            if (subdomain !== 'cc' || subdomain === 'bokk') {
+            if (subdomain !== 'cc' && subdomain !== 'bokk') {
                 redirectRoute = null;
             }
 
