@@ -77,7 +77,12 @@ const constants = {
             'subdomain': 'portfolioreview',
             'name': 'Portfolio Review',
             'type': 'prize'
-        }
+        },
+        {
+            'subdomain': 'bokk',
+            'name': 'bokk Creative Commons France',
+            'type': 'wallet'
+        },
     ],
     'defaultDomain': {
         'type': 'default',
