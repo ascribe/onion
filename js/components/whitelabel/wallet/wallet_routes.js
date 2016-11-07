@@ -20,7 +20,9 @@ import ErrorNotFoundPage from '../../../components/error_not_found_page';
 import Footer from '../../../components/footer.js';
 
 import CCRegisterPiece from './components/cc/cc_register_piece';
+
 import BokkRegisterPiece from './components/bokk/bokk_register_piece';
+import BokkPieceList from './components/bokk/bokk_piece_list';
 
 import CylandLanding from './components/cyland/cyland_landing';
 import CylandPieceContainer from './components/cyland/cyland_detail/cyland_piece_container';
@@ -476,7 +478,7 @@ let ROUTES = {
                 headerTitle={getLangText('+ NEW WORK')} />
             <Route
                 path='collection'
-                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(PieceList)}
+                component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(BokkPieceList)}
                 headerTitle={getLangText('COLLECTION')}
                 disableOn='noPieces' />
             <Route
