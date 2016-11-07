@@ -105,7 +105,6 @@ let ConsignForm = React.createClass({
                         type="email"
                         value={email}
                         placeholder={getLangText('Email of the consignee')}
-						value={getLangText('Admin email')}
                         required/>
                 </Property>
                 <Property
