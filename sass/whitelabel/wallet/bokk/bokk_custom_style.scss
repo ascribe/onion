@@ -2,6 +2,7 @@ $bokk--nav-bg-color: #4d2e80;
 $bokk--nav-fg-prim-color: #1E1E1E;
 $bokk--button-color: #ab52bd;
 $bokk--hover-color: ;
+$bokk--nav-bt:#FFFFFF;
 
 .client--bokk {
     .navbar-default {
@@ -14,17 +15,19 @@ $bokk--hover-color: ;
 	}
     .navbar-nav > li > a,
     .navbar-nav > li > .active a {
-        color: $bokk--nav-fg-prim-color;
+        color: $bokk--nav-bt;
         background-color: $bokk--nav-bg-color;
     }
     .navbar-nav > li > a:hover {
         color: lighten($bokk--nav-fg-prim-color, 40%);
+		padding-bottom:5px;
+		border-bottom: 1px solid $bokk--button-color;
     }
     .navbar-nav > .active a,
     .navbar-nav > .active a:hover,
     .navbar-nav > .active a:focus {
-        color: $bokk--nav-fg-prim-color;
-        border-bottom-color: $bokk--nav-fg-prim-color;
+        color: $bokk--nav-bt;
+        border-bottom-color: $bokk--button-color;
         background-color: $bokk--nav-bg-color;
     }
     .dropdown-menu > li > a:hover,
@@ -46,7 +49,7 @@ $bokk--hover-color: ;
     }
 
     .dropdown-menu > li > a {
-        color: $bokk--nav-fg-prim-color;
+        color: $bokk--nav-bt;
     }
 
     .navbar-toggle .icon-bar {
@@ -93,7 +96,7 @@ $bokk--hover-color: ;
     .btn-secondary {
         background-color: $bokk--nav-bg-color;
         border-color: $bokk--nav-fg-prim-color;
-        color: $bokk--nav-fg-prim-color;
+        color: $bokk--nav-bt;
 
         &:hover,
         &:active,
@@ -104,8 +107,8 @@ $bokk--hover-color: ;
         &.active:hover,
         &.active:focus,
         &.active.focus {
-            background-color: $bokk--nav-fg-prim-color;
-            border-color: $bokk--nav-fg-prim-color;
+            background-color: $bokk--nav-bt;
+            border-color: $bokk--nav-bg-color;
             color: $bokk--nav-bg-color;
         }
     }
