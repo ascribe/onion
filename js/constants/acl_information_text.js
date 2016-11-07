@@ -3,8 +3,8 @@
 export const AclInformationText = {
     'titles': {
         'acl_consign': 'CONSIGN',
-        'acl_loan': 'LOAN',
-        'acl_loan_request': 'LOAN',
+        'acl_loan': 'PARTAGER AVEC BOKK',
+        'acl_loan_request': 'PARTAGER AVEC BOKK',
         'acl_share': 'EMAIL',
         'acl_transfer': 'TRANSFER',
         'acl_delete': 'DELETE',
