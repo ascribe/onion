@@ -230,7 +230,9 @@ const languages = {
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
         'Remove Piece': 'Remove Piece',
-		'Admin email': 'admin@bokk.io'
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     },
     'de': {
         'ID': 'ID',
@@ -461,7 +463,9 @@ const languages = {
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
         'Remove Piece': 'Remove Piece',
-		'Admin email': 'admin@bokk.io'
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     },
     'fr': {
         'ID': 'ID',
@@ -692,7 +696,9 @@ const languages = {
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
         'Remove Piece': 'Remove Piece',
-		'Admin email': 'admin@bokk.io'
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     }
 };
 

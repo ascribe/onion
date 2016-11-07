@@ -8,8 +8,38 @@ import { formatText } from './general_utils';
 export function getLang() {
     // this is just for testing, as changing the navigator.language wasn't possible
     // return 'fr';
-    return navigator.languages ? navigator.languages[0] :
-                                 (navigator.language || navigator.userLanguage);
+    //return navigator.languages ? navigator.languages[0] :
+                                // (navigator.language || navigator.userLanguage);
+	var siteLang=getCookie("sitelang");
+    if (siteLang != "") {
+       return siteLang;
+    } else {
+       return 'fr';
+    }
+}
+
+export function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+export function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	location.reload();
 }
 
 /**
