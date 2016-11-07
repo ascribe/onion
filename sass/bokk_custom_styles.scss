@@ -4,6 +4,21 @@ $bokk--button-color: #ab52bd;
 $bokk--hover-color: ;
 $bokk--nav-bt:#FFFFFF;
 
+.btn-lang{
+	width: 16px;
+	height: 11px;
+	background-repeat: no-repeat;
+} 
+
+.btn-lang-fr{
+    background-image: url("http://www.bokk.io/wp-content/themes/eduma-child/assets/images/fr.png");
+  
+}
+
+.btn-lang-en{
+    background-image: url("http://www.bokk.io/wp-content/themes/eduma-child/assets/images/en.png");
+}
+
 .client--bokk {
     .navbar-default {
         background-color: $bokk--nav-bg-color;

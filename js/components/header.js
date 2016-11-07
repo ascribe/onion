@@ -94,8 +94,8 @@ let Header = React.createClass({
     getLangSelector() {
         return (
             <li>
-                <button className="btn btn-sm btn-default" onClick={setCookie("sitelang", "fr", 30)}>{getLangText('Lang Label FR')}</button>
-				<button className="btn btn-sm btn-default" onClick={setCookie("sitelang", "en-US", 30)}>{getLangText('Lang Label EN')}</button>
+                <button className="btn-lang btn-lang-fr" onClick={setCookie("sitelang", "fr", 30)}></button>
+				<button className="btn-lang btn-lang-en" onClick={setCookie("sitelang", "en-US", 30)}></button>
             </li>
         );
     },
