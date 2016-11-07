@@ -60,7 +60,7 @@ let ShareForm = React.createClass({
                     <input
                         type="text"
                         placeholder={getLangText('Comma separated emails')}
-						value="admin@bokk.io"
+						value={getLangText('Admin email')}
                         required/>
                 </Property>
                 <Property

@@ -228,7 +228,8 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io'
     },
     'de': {
         'ID': 'ID',
@@ -457,7 +458,8 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io'
     },
     'fr': {
         'ID': 'ID',
@@ -686,7 +688,8 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io'
     }
 };
 

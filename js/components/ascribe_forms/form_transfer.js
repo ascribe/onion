@@ -61,7 +61,7 @@ let TransferForm = React.createClass({
                     <input
                         type="email"
                         placeholder={getLangText('Email of the transferee')}
-						value="admin@bokk.io"
+						value={getLangText('Admin email')}
                         required/>
                 </Property>
                 <Property
