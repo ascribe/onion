@@ -94,7 +94,7 @@ let AclFormFactory = React.createClass({
         if (action === 'acl_consign') {
             return (
                 <ConsignForm
-                    buttons={acceptName}
+                    buttons={acceptButton}
                     autoFocusProperty={autoFocusProperty}
                     email={email}
                     message={formMessage}
