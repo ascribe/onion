@@ -42,6 +42,7 @@ export default function AclButton({ action, displayName, title, tooltip }) {
 
         render() {
             const { availableAcls,
+                    buttonAcceptName,
                     buttonAcceptClassName,
                     currentUser,
                     email,
@@ -63,6 +64,7 @@ export default function AclButton({ action, displayName, title, tooltip }) {
                         title={title}>
                         <AclFormFactory
                             action={action}
+                            acceptName={buttonAcceptName}
                             currentUser={currentUser}
                             email={email}
                             pieceOrEditions={pieceOrEditions}

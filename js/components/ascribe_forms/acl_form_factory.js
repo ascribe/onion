@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Button from 'react-bootstrap/lib/Button';
+
 import ConsignForm from '../ascribe_forms/form_consign';
 import UnConsignForm from '../ascribe_forms/form_unconsign';
 import TransferForm from '../ascribe_forms/form_transfer';
@@ -16,10 +18,13 @@ import GlobalNotificationModel from '../../models/global_notification_model';
 import GlobalNotificationActions from '../../actions/global_notification_actions';
 
 import { getAclFormMessage, getAclFormDataId } from '../../utils/form_utils';
+import { getLangText } from '../../utils/lang_utils';
+
 
 let AclFormFactory = React.createClass({
     propTypes: {
         action: React.PropTypes.oneOf(AppConstants.aclList).isRequired,
+        acceptName: React.PropTypes.string,
         pieceOrEditions: React.PropTypes.oneOfType([
             React.PropTypes.object,
             React.PropTypes.array
@@ -63,6 +68,7 @@ let AclFormFactory = React.createClass({
                 labels,
                 handleSuccess,
                 showNotification } = this.props;
+        let acceptButton;
 
         const formMessage = message || getAclFormMessage({
             aclName: action,
@@ -71,9 +77,24 @@ let AclFormFactory = React.createClass({
             senderName: currentUser && currentUser.username
         });
 
+        if (this.props.acceptName) {
+            acceptButton = (
+                <div className="modal-footer">
+                    <p className="pull-right">
+                        <Button
+                            className="btn btn-default btn-sm ascribe-margin-1px"
+                            type="submit">
+                            {getLangText(this.props.acceptName)}
+                        </Button>
+                    </p>
+                </div>
+            );
+        }
+
         if (action === 'acl_consign') {
             return (
                 <ConsignForm
+                    buttons={acceptButton}
                     autoFocusProperty={autoFocusProperty}
                     email={email}
                     message={formMessage}
@@ -85,6 +106,7 @@ let AclFormFactory = React.createClass({
         } else if (action === 'acl_unconsign') {
             return (
                 <UnConsignForm
+                    buttons={acceptButton}
                     message={formMessage}
                     id={this.getFormDataId()}
                     url={ApiUrls.ownership_unconsigns}
@@ -93,6 +115,7 @@ let AclFormFactory = React.createClass({
         } else if (action === 'acl_transfer') {
             return (
                 <TransferForm
+                    buttons={acceptButton}
                     message={formMessage}
                     id={this.getFormDataId()}
                     url={ApiUrls.ownership_transfers}
@@ -101,6 +124,7 @@ let AclFormFactory = React.createClass({
         } else if (action === 'acl_loan') {
             return (
                 <LoanForm
+                    buttons={acceptButton}
                     email={email}
                     message={formMessage}
                     id={this.getFormDataId()}
@@ -119,6 +143,7 @@ let AclFormFactory = React.createClass({
         } else if (action === 'acl_share') {
             return (
                 <ShareForm
+                    buttons={acceptButton}
                     message={formMessage}
                     id={this.getFormDataId()}
                     url={this.isPiece() ? ApiUrls.ownership_shares_pieces
