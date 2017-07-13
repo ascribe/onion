@@ -4,7 +4,7 @@
   "description": "Das neue web client for Ascribe. Onions make you cry",
   "main": "js/app.js",
   "engines": {
-    "node": "6.2.x"
+    "node": "6.11.x"
   },
   "scripts": {
     "lint": "eslint ./js",
