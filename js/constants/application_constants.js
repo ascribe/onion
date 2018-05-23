@@ -24,14 +24,12 @@ const constants = {
         {
             'subdomain': 'cc',
             'name': 'Creative Commons France',
-            'type': 'wallet',
-            'ga': 'UA-60614729-4'
+            'type': 'wallet'
         },
         {
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
-            'type': 'prize',
-            'ga': 'UA-60614729-5'
+            'type': 'prize'
         },
         {
             'subdomain': 'cyland',
@@ -85,8 +83,7 @@ const constants = {
         },
     ],
     'defaultDomain': {
-        'type': 'default',
-        'ga': 'UA-60614729-2'
+        'type': 'default'
     },
 
     // These are all possible types that are currently supported in HTML5 for the input element
