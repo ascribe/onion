@@ -33,7 +33,6 @@
         "react/wrap-multilines": 1
     },
     "globals": {
-        "Intercom": true,
         "fetch": true,
         "require": true,
         "File": true

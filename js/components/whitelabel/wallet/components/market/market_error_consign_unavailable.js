@@ -13,10 +13,6 @@ const MarketErrorConsignUnavailable = React.createClass({
         handleSuccess: React.PropTypes.func
     },
 
-    contactOnIntercom() {
-        window.Intercom('showNewMessage', getLangText("Hi, I'm having problems consigning to %s", this.props.whitelabelName));
-    },
-
     render() {
         const { editions, handleSuccess, whitelabelName } = this.props;
         const multipleEditions = editions.length > 1;
@@ -39,7 +35,7 @@ const MarketErrorConsignUnavailable = React.createClass({
                     {getLangText('If this seems incorrect, or if you would still like to consign %s to %s, please ',
                                  multipleEditions ? 'these Editions' : 'this Edition',
                                  whitelabelName)}
-                    <strong><a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a></strong>.
+                    <strong><a style={{ cursor: 'pointer' }} href="mailto:support@ascribe.io">{getLangText('contact us')}</a></strong>.
                 </p>
                 <button className='btn btn-default btn-wide' onClick={handleSuccess}>
                     {getLangText('OK')}

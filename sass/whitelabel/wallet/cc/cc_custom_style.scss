@@ -178,14 +178,6 @@ $cc--button-color: $cc--nav-fg-prim-color;
     }
 }
 
-// intercom stuff
-.client--cc {
-    #intercom-container .intercom-launcher-button {
-        background-color: $cc--button-color !important;;
-        border-color: $cc--button-color !important;;
-    }
-}
-
 // notifications
 .client--cc .ascribe-global-notification-success {
     background-color: lighten($cc--button-color, 50%);

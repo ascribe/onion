@@ -17,18 +17,12 @@ let FileDragAndDropErrorDialog = React.createClass({
         handleRetryFiles: React.PropTypes.func.isRequired
     },
 
-    getRetryButton(text, openIntercom) {
+    getRetryButton(text) {
         return (
             <button
                 type="button"
                 className='btn btn-default'
-                onClick={() => {
-                    if (openIntercom) {
-                        window.Intercom('showNewMessage', getLangText("I'm having trouble uploading my file."));
-                    }
-
-                    this.retryAllFiles()
-                }}>
+                onClick={() => this.retryAllFiles()}>
                 {getLangText(text)}
             </button>
         );
