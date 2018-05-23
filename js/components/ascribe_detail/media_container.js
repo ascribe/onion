@@ -7,7 +7,6 @@ import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
-import FacebookShareButton from '../ascribe_social_share/facebook_share_button';
 import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
 
 import S3DownloadButton from '../ascribe_buttons/s3_download_button';
@@ -160,7 +159,6 @@ let MediaContainer = React.createClass({
                     encodingMessage={this.getEncodingMessage()} />
                 <p className="text-center hidden-print">
                     <span className="ascribe-social-button-list">
-                        <FacebookShareButton />
                         <TwitterShareButton
                             text={getLangText('Check out %s ascribed piece', didUserRegisterContent ? 'my latest' : 'this' )} />
                     </span>

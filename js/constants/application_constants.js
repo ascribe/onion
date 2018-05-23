@@ -131,10 +131,6 @@ const constants = {
     'raven': {
         'url': 'https://836bfb71c9c7418a967351d39ce547f0@app.getsentry.com/48351'
     },
-    'facebook': {
-        'appId': '420813844732240',
-        'sdkUrl': '//connect.facebook.net/en_US/sdk.js'
-    },
     'twitter': {
         'sdkUrl': 'https://platform.twitter.com/widgets.js'
     },

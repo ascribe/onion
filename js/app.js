@@ -24,7 +24,6 @@ import EventActions from './actions/event_actions';
 
 // You can comment out the modules you don't need
 // import DebugHandler from './third_party/debug_handler';
-import FacebookHandler from './third_party/facebook_handler';
 import NotificationsHandler from './third_party/notifications_handler';
 import RavenHandler from './third_party/raven_handler';
 
