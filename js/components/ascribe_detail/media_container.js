@@ -7,8 +7,6 @@ import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 
 import MediaPlayer from './../ascribe_media/media_player';
 
-import TwitterShareButton from '../ascribe_social_share/twitter_share_button';
-
 import S3DownloadButton from '../ascribe_buttons/s3_download_button';
 
 import CollapsibleButton from './../ascribe_collapsible/collapsible_button';
@@ -158,10 +156,6 @@ let MediaContainer = React.createClass({
                     extraData={extraData}
                     encodingMessage={this.getEncodingMessage()} />
                 <p className="text-center hidden-print">
-                    <span className="ascribe-social-button-list">
-                        <TwitterShareButton
-                            text={getLangText('Check out %s ascribed piece', didUserRegisterContent ? 'my latest' : 'this' )} />
-                    </span>
                     <AclProxy
                         show={['video', 'audio', 'image'].indexOf(mimetype) === -1 || content.acl.acl_download}
                         aclObject={content.acl}
