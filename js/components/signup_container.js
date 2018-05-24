@@ -57,7 +57,10 @@ let SignupContainer = React.createClass({
                     whitelabelName={whitelabelName}
                     location={location}/>
                 <div className="ascribe-login-text">
-                    {getLangText(`Already a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/>
+                    {getLangText(`Already a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/login">{getLangText('Log in')}...</Link><br/><br/>
+                    
+                    We don't collect or use any data about you. The only thing we record are your artwork registrations and transactions with other users. We will only use your email to send you important updates and you can change your mind at anytime by clicking the unsubscribe link of any email you receive from us, or by requesting your data to be deleted via <a href="mailto:gdpr@ascribe.io">gdpr@ascribe.io</a>.<br /><br />
+                    For further information, visit our <a href="https://www.ascribe.io/privacy/">Privacy Policy</a>.
                 </div>
             </div>
 
