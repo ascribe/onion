@@ -155,14 +155,6 @@
     }
 }
 
-// intercom stuff
-.client--sluice {
-    #intercom-container .intercom-launcher-button {
-        background-color: $simple-prize--button-color !important;;
-        border-color: $simple-prize--button-color !important;;
-    }
-}
-
 // notifications
 .client--sluice .ascribe-global-notification-success {
     background-color: lighten($simple-prize--button-color, 50%);

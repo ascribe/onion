@@ -230,13 +230,6 @@ let CoaDetails = React.createClass({
         coaError: React.PropTypes.object
     },
 
-    contactOnIntercom() {
-        const { coaError, editionId } = this.props;
-
-        window.Intercom('showNewMessage', getLangText("Hi, I'm having problems generating a Certificate of Authenticity for Edition: %s", editionId));
-        console.logGlobal(new Error(`Coa couldn't be created for edition: ${editionId}`), coaError);
-    },
-
     render() {
         const { coa, coaError } = this.props;
         let coaDetailElement;
@@ -246,7 +239,7 @@ let CoaDetails = React.createClass({
                 <p>{getLangText('There was an error generating your Certificate of Authenticity.')}</p>,
                 <p>
                     {getLangText('Try to refresh the page. If this happens repeatedly, please ')}
-                    <a style={{ cursor: 'pointer' }} onClick={this.contactOnIntercom}>{getLangText('contact us')}</a>.
+                    <a style={{ cursor: 'pointer' }} href="mailto:support@ascribe.io">{getLangText('contact us')}</a>.
                 </p>
             ];
         } else if (coa && coa.url_safe) {

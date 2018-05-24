@@ -22,8 +22,6 @@ gemini.suite('Work detail', (suite) => {
             actions.waitForElementToShow('.ascribe-app', TIMEOUTS.NORMAL);
 
             // Wait for the social media buttons to appear
-            actions.waitForElementToShow('.ascribe-social-button-list .fb-share-button iframe', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
-            actions.waitForElementToShow('.ascribe-social-button-list .twitter-share-button', TIMEOUTS.SUPER_DUPER_EXTRA_LONG);
             actions.waitForElementToShow('.ascribe-media-player', TIMEOUTS.LONG);
         });
 

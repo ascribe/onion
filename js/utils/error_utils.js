@@ -1,18 +1,14 @@
 'use strict';
 
-import Raven from 'raven-js';
-
 import AppConstants from '../constants/application_constants';
 
 /**
- * Logs an error in to the console but also sends it to
- * Sentry.
+ * Logs an error in to the console.
  * Optionally, a comment can be defined.
  * @param  {Error} error    a Javascript error
- * @param  {boolean} ignoreSentry Defines whether or not the error should be submitted to Sentry
  * @param  {string} comment  Will also be submitted to Sentry, but will not be logged
  */
-function logGlobal(error, comment, ignoreSentry) {
+function logGlobal(error, comment) {
     console.error(error);
 
     if (error.hasOwnProperty('json')) {
@@ -21,21 +17,9 @@ function logGlobal(error, comment, ignoreSentry) {
             json: error.json
         };
     }
-
-    if (!ignoreSentry) {
-        Raven.captureException(error, comment ? { extra: { comment } } : undefined);
-    }
 }
 
 export function initLogging() {
-    // Initialize Raven for logging on Sentry
-    Raven.config(AppConstants.raven.url, {
-        release: AppConstants.version,
-        ignoreErrors: AppConstants.errorMessagesToIgnore
-    }).install();
-
-    window.onerror = Raven.process;
-
     console.logGlobal = logGlobal;
 }
 

@@ -24,14 +24,12 @@ const constants = {
         {
             'subdomain': 'cc',
             'name': 'Creative Commons France',
-            'type': 'wallet',
-            'ga': 'UA-60614729-4'
+            'type': 'wallet'
         },
         {
             'subdomain': 'sluice',
             'name': 'Sluice Art Fair',
-            'type': 'prize',
-            'ga': 'UA-60614729-5'
+            'type': 'prize'
         },
         {
             'subdomain': 'cyland',
@@ -85,8 +83,7 @@ const constants = {
         },
     ],
     'defaultDomain': {
-        'type': 'default',
-        'ga': 'UA-60614729-2'
+        'type': 'default'
     },
 
     // These are all possible types that are currently supported in HTML5 for the input element
@@ -130,16 +127,6 @@ const constants = {
     'videojs': {
         'sdkUrl': '//vjs.zencdn.net/4.12/video.js',
         'cssUrl': '//vjs.zencdn.net/4.12/video-js.css'
-    },
-    'raven': {
-        'url': 'https://836bfb71c9c7418a967351d39ce547f0@app.getsentry.com/48351'
-    },
-    'facebook': {
-        'appId': '420813844732240',
-        'sdkUrl': '//connect.facebook.net/en_US/sdk.js'
-    },
-    'twitter': {
-        'sdkUrl': 'https://platform.twitter.com/widgets.js'
     },
     'cloudfrontDomain': 'd1qjsxua1o9x03.cloudfront.net',
     'errorMessagesToIgnore': [

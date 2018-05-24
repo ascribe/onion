@@ -186,14 +186,6 @@ $bokk--nav-bt:#FFFFFF;
     }
 }
 
-// intercom stuff
-.client--bokk {
-    #intercom-container .intercom-launcher-button {
-        background-color: $bokk--button-color !important;;
-        border-color: $bokk--button-color !important;;
-    }
-}
-
 // notifications
 .client--bokk .ascribe-global-notification-success {
     background-color: lighten($bokk--button-color, 50%);

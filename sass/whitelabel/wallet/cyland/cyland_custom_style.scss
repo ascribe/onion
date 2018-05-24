@@ -197,14 +197,6 @@ $cyland--button-sec-color: #515151;
     }
 }
 
-// intercom stuff
-.client--cyland {
-    #intercom-container .intercom-launcher-button {
-        background-color: $cyland--button-color !important;;
-        border-color: $cyland--button-color !important;;
-    }
-}
-
 // notifications
 .client--cyland .ascribe-global-notification-success {
     background-color: lighten($cyland--button-color, 50%);

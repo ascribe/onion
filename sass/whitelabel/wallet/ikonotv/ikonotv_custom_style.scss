@@ -515,15 +515,6 @@ $ikono--font: 'Helvetica Neue', 'Helvetica', sans-serif !important;
 }
 
 
-// intercom stuff
-.client--ikonotv {
-    #intercom-container .intercom-launcher-button {
-        background-color: $ikono--button-color !important;;
-        border-color: $ikono--button-color !important;;
-    }
-}
-
-
 // notifications
 .client--ikonotv .ascribe-global-notification-success {
     background-color: lighten($ikono--button-color, 20%);
