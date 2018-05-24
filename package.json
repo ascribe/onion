@@ -105,7 +105,6 @@
     "opn": "^3.0.2",
     "q": "^1.4.1",
     "query-string": "^3.0.0",
-    "raven-js": "^1.1.19",
     "react": "0.13.2",
     "react-bootstrap": "0.25.1",
     "react-datepicker": "^0.12.0",

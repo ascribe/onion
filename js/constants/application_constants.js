@@ -128,9 +128,6 @@ const constants = {
         'sdkUrl': '//vjs.zencdn.net/4.12/video.js',
         'cssUrl': '//vjs.zencdn.net/4.12/video-js.css'
     },
-    'raven': {
-        'url': 'https://836bfb71c9c7418a967351d39ce547f0@app.getsentry.com/48351'
-    },
     'cloudfrontDomain': 'd1qjsxua1o9x03.cloudfront.net',
     'errorMessagesToIgnore': [
         'Authentication credentials were not provided.',
