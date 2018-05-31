@@ -130,7 +130,6 @@ let Header = React.createClass({
         const { unfilteredPieceListCount } = this.state;
 
         let account;
-        let signup;
         let navRoutesLinks;
 
         if (currentUser.username) {
@@ -188,13 +187,6 @@ let Header = React.createClass({
                     </NavItem>
                 </LinkContainer>
             );
-            signup = (
-                <LinkContainer to="/signup">
-                    <NavItem>
-                        {getLangText('SIGNUP')}
-                    </NavItem>
-                </LinkContainer>
-            );
         }
 
         return (
@@ -216,7 +208,6 @@ let Header = React.createClass({
                         <Nav navbar right>
                             <HeaderNotificationDebug show={false} />
                             {account}
-                            {signup}
                         </Nav>
                         <HeaderNotifications currentUser={currentUser} />
                         {navRoutesLinks}

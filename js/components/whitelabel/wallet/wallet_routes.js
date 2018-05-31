@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
 import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
 
@@ -9,7 +9,6 @@ import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/p
 import CoaVerifyContainer from '../../../components/coa_verify_container';
 import LoginContainer from '../../../components/login_container';
 import LogoutContainer from '../../../components/logout_container';
-import SignupContainer from '../../../components/signup_container';
 import PasswordResetContainer from '../../../components/password_reset_container';
 import PieceList from '../../../components/piece_list';
 import PieceContainer from '../../../components/ascribe_detail/piece_container';
@@ -69,9 +68,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -113,9 +112,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -158,9 +157,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -212,9 +211,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -259,10 +258,9 @@ let ROUTES = {
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)}
                 footer={MarketFooter} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
-                footer={MarketFooter} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)}
@@ -314,9 +312,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -351,9 +349,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -388,9 +386,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -425,9 +423,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -461,9 +459,9 @@ let ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)} />
+            <Route path='signup'>
+                <Redirect to="/login" />
+            </Route>
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
