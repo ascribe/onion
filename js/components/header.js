@@ -91,6 +91,15 @@ let Header = React.createClass({
         );
     },
 
+    getLangSelector() {
+        return (
+            <li>
+                <button className="btn-lang btn-lang-fr" onClick={setCookie("sitelang", "fr", 30)}></button>
+				<button className="btn-lang btn-lang-en" onClick={setCookie("sitelang", "en-US", 30)}></button>
+            </li>
+        );
+    },
+
     onMenuItemClick() {
         /*
         This is a hack to make the dropdown close after clicking on an item
@@ -217,6 +226,7 @@ let Header = React.createClass({
                             <HeaderNotificationDebug show={false} />
                             {account}
                             {signup}
+							{this.getLangSelector()}
                         </Nav>
                         <HeaderNotifications currentUser={currentUser} />
                         {navRoutesLinks}

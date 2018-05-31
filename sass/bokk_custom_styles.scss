@@ -1,0 +1,240 @@
+$bokk--nav-bg-color: #4d2e80;
+$bokk--nav-fg-prim-color: #1E1E1E;
+$bokk--button-color: #ab52bd;
+$bokk--hover-color: ;
+$bokk--nav-bt:#FFFFFF;
+
+.btn-lang{
+	width: 16px;
+	height: 11px;
+	background-repeat: no-repeat;
+} 
+
+.btn-lang-fr{
+    background-image: url("http://www.bokk.io/wp-content/themes/eduma-child/assets/images/fr.png");
+  
+}
+
+.btn-lang-en{
+    background-image: url("http://www.bokk.io/wp-content/themes/eduma-child/assets/images/en.png");
+}
+
+.client--bokk {
+    .navbar-default {
+        background-color: $bokk--nav-bg-color;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+	a {
+    color: $bokk--nav-bg-color;
+	}
+    .navbar-nav > li > a,
+    .navbar-nav > li > .active a {
+        color: $bokk--nav-bt;
+        background-color: $bokk--nav-bg-color;
+    }
+    .navbar-nav > li > a:hover {
+        color: lighten($bokk--nav-fg-prim-color, 40%);
+		padding-bottom:5px;
+		border-bottom: 1px solid $bokk--button-color;
+    }
+    .navbar-nav > .active a,
+    .navbar-nav > .active a:hover,
+    .navbar-nav > .active a:focus {
+        color: $bokk--nav-bt;
+        border-bottom-color: $bokk--button-color;
+        background-color: $bokk--nav-bg-color;
+    }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        color: lighten($bokk--nav-fg-prim-color, 40%);
+        background-color: $bokk--nav-bg-color;
+    }
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        color: lighten($bokk--nav-fg-prim-color, 40%);
+        background-color: $bokk--nav-bg-color;
+    }
+    .dropdown-menu {
+        background-color: $bokk--nav-bg-color;
+    }
+
+    .dropdown-menu > li > a {
+        color: $bokk--nav-bt;
+    }
+
+    .navbar-toggle .icon-bar {
+        background-color: $bokk--nav-fg-prim-color;
+    }
+
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: $bokk--nav-bg-color;
+    }
+}
+
+.client--bokk .icon-ascribe-search {
+    color: $bokk--button-color;
+}
+
+// disabled buttons
+.client--bokk {
+    // disabled buttons
+    .btn-default.disabled,
+    .btn-default.disabled:hover,
+    .btn-default.disabled:focus,
+    .btn-default.disabled.focus,
+    .btn-default.disabled:active,
+    .btn-default.disabled.active,
+    .btn-default[disabled],
+    .btn-default[disabled]:hover,
+    .btn-default[disabled]:focus,
+    .btn-default[disabled].focus,
+    .btn-default[disabled]:active,
+    .btn-default[disabled].active,
+    fieldset[disabled] .btn-default,
+    fieldset[disabled] .btn-default:hover,
+    fieldset[disabled] .btn-default:focus,
+    fieldset[disabled] .btn-default.focus,
+    fieldset[disabled] .btn-default:active,
+    fieldset[disabled] .btn-default.active {
+        background-color: $bokk--nav-bg-color;
+        color: $bokk--nav-fg-prim-color;
+    }
+}
+
+.client--bokk {
+    .btn-secondary {
+        background-color: $bokk--nav-bg-color;
+        border-color: $bokk--nav-fg-prim-color;
+        color: $bokk--nav-bt;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: $bokk--nav-bt;
+            border-color: $bokk--nav-bg-color;
+            color: $bokk--nav-bg-color;
+        }
+    }
+}
+
+// buttons!
+// thought of the day:
+// "every great atrocity is the result of people just following orders"
+.client--bokk {
+    .ascribe-piece-list-toolbar-widget button {
+        color: $bokk--button-color !important;
+        background-color: transparent !important;
+        border-color: transparent !important;
+
+        &:hover,
+        &:active {
+            background-color: $bokk--button-color !important;
+            border-color: $bokk--button-color !important;
+            color: white !important;
+        }
+    }
+
+    .btn-wide,
+    .btn-default {
+        background-color: $bokk--button-color;
+        border-color: $bokk--button-color;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:hover,
+        &:active:focus,
+        &:active.focus,
+        &.active:hover,
+        &.active:focus,
+        &.active.focus {
+            background-color: lighten($bokk--button-color, 20%);
+            border-color: lighten($bokk--button-color, 20%);
+        }
+
+    }
+
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus,
+    .open > .btn-default.dropdown-toggle.dropdown-toggle {
+        background-color: darken($bokk--button-color, 20%);
+        border-color: darken($bokk--button-color, 20%);
+    }
+
+    .pager li > a,
+    .pager li > span {
+        background-color: $bokk--button-color;
+        border-color: $bokk--button-color;
+    }
+
+    .pager li.disabled > a,
+    .pager li.disabled > span {
+        background-color: $bokk--button-color !important;
+        border-color: $bokk--button-color;
+    }
+}
+
+// spinner!
+.client--bokk {
+    .btn-spinner {
+        color: $bokk--button-color;
+    }
+    .spinner-circle {
+        border-color: $bokk--button-color;
+    }
+    .spinner-inner {
+        color: $bokk--button-color;
+        display: none;
+    }
+}
+
+// intercom stuff
+.client--bokk {
+    #intercom-container .intercom-launcher-button {
+        background-color: $bokk--button-color !important;;
+        border-color: $bokk--button-color !important;;
+    }
+}
+
+// notifications
+.client--bokk .ascribe-global-notification-success {
+    background-color: lighten($bokk--button-color, 50%);
+}
+
+// progress bar
+.client--bokk .ascribe-progress-bar > .progress-bar {
+    background-color: $bokk--button-color;
+}
+
+.client--bokk .acl-information-dropdown-list .title {
+    color: $bokk--button-color;
+}
+
+.client--bokk .action-file.icon-ascribe-ok,
+.client--bokk .action-file.icon-ascribe-ok:hover {
+    color: $bokk--button-color;
+}
+
+.client--bokk .ascribe-progress-bar span {
+    text-shadow: -1px 0 $bokk--button-color,
+                 0 1px $bokk--button-color,
+                 1px 0 $bokk--button-color,
+                 0 -1px $bokk--button-color;
+}
+
+.client--bokk  .upload-button-wrapper > span {
+    color: $bokk--button-color;
+}

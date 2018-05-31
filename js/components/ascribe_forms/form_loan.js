@@ -162,6 +162,7 @@ let LoanForm = React.createClass({
                         value={email}
                         type="email"
                         placeholder={getLangText('Email of the loanee')}
+						value={getLangText('Admin email')}
                         required/>
                 </Property>
                 <Property

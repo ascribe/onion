@@ -160,6 +160,7 @@ const languages = {
         'Loan start date': 'Loan start date',
         'Loan end date': 'Loan end date',
         'LOAN': 'LOAN',
+		'PARTAGER AVEC BOKK': 'PARTAGER AVEC BOKK',
         'I transfer ownership of': 'I transfer ownership of',
         'Transferee email': 'Transferee email',
         'TRANSFER': 'TRANSFER',
@@ -228,7 +229,10 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     },
     'de': {
         'ID': 'ID',
@@ -389,6 +393,7 @@ const languages = {
         'Loan start date': 'Loan start date',
         'Loan end date': 'Loan end date',
         'LOAN': 'LOAN',
+		'PARTAGER AVEC BOKK': 'PARTAGER AVEC BOKK',
         'I transfer ownership of': 'I transfer ownership of',
         'Transferee email': 'Transferee email',
         'TRANSFER': 'TRANSFER',
@@ -457,7 +462,10 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     },
     'fr': {
         'ID': 'ID',
@@ -618,6 +626,7 @@ const languages = {
         'Loan start date': 'Date du commencement du prêt',
         'Loan end date': 'Date de la fin de prêt',
         'LOAN': 'PRÊT',
+		'PARTAGER AVEC BOKK': 'PARTAGER AVEC BOKK',
         'I transfer ownership of': 'Je transfère la propriété de',
         'Transferee email': 'Courriel du cessionnaire',
         'TRANSFER': 'TRANSFÉRER',
@@ -686,7 +695,10 @@ const languages = {
         'Submitted to prize': 'Submitted to prize',
         'Welcome to ascribe': 'Welcome to ascribe',
         'CREATE EDITIONS': 'CREATE EDITIONS',
-        'Remove Piece': 'Remove Piece'
+        'Remove Piece': 'Remove Piece',
+		'Admin email': 'admin@bokk.io',
+		'Lang Label FR': 'FR',
+		'Lang Label EN': 'EN'
     }
 };
 
