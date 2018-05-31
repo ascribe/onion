@@ -37,9 +37,6 @@ gemini.suite('Whitelabel basic', (suite) => {
             .capture('hover on login submit', (actions, find) => {
                 actions.mouseMove(find('.ascribe-form button[type=submit]'));
             })
-            .capture('hover on sign up link', (actions, find) => {
-                actions.mouseMove(find('.ascribe-login-text a[href="/signup"]'));
-            })
             .capture('login form filled with focus', (actions, find) => {
                 const emailInput = find('.ascribe-form input[name=email]');
 
@@ -51,26 +48,6 @@ gemini.suite('Whitelabel basic', (suite) => {
             })
             .capture('login form filled', (actions, find) => {
                 actions.click(find('.ascribe-form-header'));
-            });
-    });
-
-    gemini.suite('Sign up', (signUpSuite) => {
-        signUpSuite
-            .setUrl('/signup')
-            // See Ikono
-            .skip(/Ikono/)
-            .capture('sign up', (actions, find) => {
-                actions.waitForElementToShow('.ascribe-form', TIMEOUTS.NORMAL);
-                // Wait in case the form reloads due to other assets loading
-                actions.wait(500);
-            })
-            .capture('sign up form filled with focus', (actions, find) => {
-                actions.sendKeys(find('.ascribe-form input[name=email]'), MAIN_USER.email);
-                actions.sendKeys(find('.ascribe-form input[name=password]'), MAIN_USER.password);
-                actions.sendKeys(find('.ascribe-form input[name=password_confirm]'), MAIN_USER.password);
-            })
-            .capture('sign up form filled with check', (actions, find) => {
-                actions.click(find('.ascribe-form input[type="checkbox"] ~ .checkbox'));
             });
     });
 

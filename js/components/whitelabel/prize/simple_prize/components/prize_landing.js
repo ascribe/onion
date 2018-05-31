@@ -44,15 +44,6 @@ let Landing = React.createClass({
         if (this.state.prize && this.state.prize.active) {
             return (
                 <ButtonGroup className="enter" bsSize="large" vertical>
-                    <LinkContainer to="/signup">
-                        <Button>
-                            {getLangText('Sign up to submit')}
-                        </Button>
-                    </LinkContainer>
-
-                    <p>
-                        {getLangText('or, already an ascribe user?')}
-                    </p>
                     <LinkContainer to="/login">
                         <Button>
                             {getLangText('Log in to submit')}
@@ -63,13 +54,6 @@ let Landing = React.createClass({
         } else {
             return (
                 <ButtonGroup className="enter" bsSize="large" vertical>
-                    <a className="btn btn-default" href="https://www.ascribe.io/app/signup">
-                        {getLangText('Sign up to ascribe')}
-                    </a>
-
-                    <p>
-                        {getLangText('or, already an ascribe user?')}
-                    </p>
                     <LinkContainer to="/login">
                         <Button>
                             {getLangText('Log in')}

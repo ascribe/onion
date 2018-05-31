@@ -31,7 +31,6 @@ let LoginContainer = React.createClass({
                     location={location}
                     whitelabelName={whitelabelName} />
                 <div className="ascribe-login-text">
-                    {getLangText(`Not a ${whitelabelName || 'ascribe'} user`)}&#63; <Link to="/signup">{getLangText('Sign up')}...</Link><br/>
                     {getLangText('Forgot my password')}&#63; <Link to="/password_reset">{getLangText('Rescue me')}...</Link>
                 </div>
             </div>
