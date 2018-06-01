@@ -73,8 +73,8 @@ gulp.task('js:build', function() {
 gulp.task('serve', ['browser-sync', 'run-server', 'sass:build', 'sass:watch', 'copy'], function() {
     bundle(true);
 
-    // opens the browser window with the correct url, which is localhost.com
-    opn('http://www.localhost.com:3000');
+    // opens the browser window with the correct url, which is localhost:300
+    opn('http://localhost:3000');
 });
 
 gulp.task('jest', function(done) {
