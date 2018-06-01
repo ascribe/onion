@@ -43,16 +43,6 @@ let ArtcityLanding = React.createClass({
                                     </Button>
                                 </LinkContainer>
                             </div>
-                            <div className="col-xs-6">
-                                <p>
-                                    {getLangText('Do you need an account?')}
-                                </p>
-                                <LinkContainer to="/signup">
-                                    <Button>
-                                        {getLangText('Sign up')}
-                                    </Button>
-                                </LinkContainer>
-                            </div>
                         </div>
                     </div>
                 </div>

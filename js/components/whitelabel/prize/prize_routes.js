@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, Redirect } from 'react-router';
 
 import { ProxyHandler, AuthRedirect } from '../../../components/ascribe_routes/proxy_handler';
 import { AuthPrizeRoleRedirect } from './portfolioreview/components/pr_routes/pr_proxy_handler';
@@ -16,7 +16,6 @@ import ErrorNotFoundPage from '../../error_not_found_page';
 import SPApp from './simple_prize/prize_app';
 import SPLanding from './simple_prize/components/prize_landing';
 import SPLoginContainer from './simple_prize/components/prize_login_container';
-import SPSignupContainer from './simple_prize/components/prize_signup_container';
 import SPRegisterPiece from './simple_prize/components/prize_register_piece';
 import SPPieceList from './simple_prize/components/prize_piece_list';
 import SPPieceContainer from './simple_prize/components/ascribe_detail/prize_piece_container';
@@ -42,9 +41,8 @@ const ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SPSignupContainer)} />
+            <Redirect from='signup' to='login' />
+            <Route path='signup' />
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -93,12 +91,8 @@ const ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(
-                    AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }),
-                    AuthRedirect({to: '/register_piece', when: 'loggedIn'})
-                )(SPSignupContainer)} />
+            <Redirect from='signup' to='login' />
+            <Route path='signup' />
             <Route
                 path='password_reset'
                 component={ProxyHandler(

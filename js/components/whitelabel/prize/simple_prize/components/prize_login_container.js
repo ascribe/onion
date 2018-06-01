@@ -28,10 +28,6 @@ let LoginContainer = React.createClass({
                     headerMessage={getLangText('Log in with ascribe')}
                     location={this.props.location} />
                 <div className="ascribe-login-text">
-                    {getLangText('I\'m not a user') + ' '}
-                    <Link to="/signup">{getLangText('Sign up...')}</Link>
-                    <br />
-
                     {getLangText('I forgot my password') + ' '}
                     <Link to="/password_reset">{getLangText('Rescue me...')}</Link>
                 </div>

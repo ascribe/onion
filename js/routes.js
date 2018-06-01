@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 import getPrizeRoutes from './components/whitelabel/prize/prize_routes';
 import getWalletRoutes from './components/whitelabel/wallet/wallet_routes';
@@ -14,7 +14,6 @@ import EditionContainer from './components/ascribe_detail/edition_container';
 
 import LoginContainer from './components/login_container';
 import LogoutContainer from './components/logout_container';
-import SignupContainer from './components/signup_container';
 import PasswordResetContainer from './components/password_reset_container';
 
 import ContractSettings from './components/ascribe_settings/contract_settings';
@@ -49,10 +48,8 @@ const COMMON_ROUTES = (
             headerTitle={getLangText('COLLECTION')}
             disableOn='noPieces'
             footer={Footer} />
-        <Route
-            path='signup'
-            component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(SignupContainer)}
-            footer={Footer} />
+        <Redirect from="signup" to="login" />
+        <Route path='signup' />
         <Route
             path='logout'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}
