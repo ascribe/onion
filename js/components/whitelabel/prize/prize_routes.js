@@ -41,9 +41,8 @@ const ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route path='signup'>
-                <Redirect to="/login" />
-            </Route>
+            <Redirect from='signup' to='login' />
+            <Route path='signup' />
             <Route
                 path='password_reset'
                 component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(PasswordResetContainer)} />
@@ -92,12 +91,8 @@ const ROUTES = {
             <Route
                 path='logout'
                 component={ProxyHandler(AuthRedirect({to: '/', when: 'loggedOut'}))(LogoutContainer)} />
-            <Route
-                path='signup'
-                component={ProxyHandler(
-                    AuthPrizeRoleRedirect({ to: '/collection', when: ['is_admin', 'is_judge', 'is_jury'] }),
-                    AuthRedirect({to: '/register_piece', when: 'loggedIn'})
-                )(SPSignupContainer)} />
+            <Redirect from='signup' to='login' />
+            <Route path='signup' />
             <Route
                 path='password_reset'
                 component={ProxyHandler(

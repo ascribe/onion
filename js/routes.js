@@ -48,9 +48,8 @@ const COMMON_ROUTES = (
             headerTitle={getLangText('COLLECTION')}
             disableOn='noPieces'
             footer={Footer} />
-        <Route path='signup'>
-            <Redirect to="/login" />
-        </Route>
+        <Redirect from="signup" to="login" />
+        <Route path='signup' />
         <Route
             path='logout'
             component={ProxyHandler(AuthRedirect({to: '/login', when: 'loggedOut'}))(LogoutContainer)}
