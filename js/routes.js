@@ -25,6 +25,7 @@ import ErrorNotFoundPage from './components/error_not_found_page';
 import RegisterPiece from './components/register_piece';
 
 import Footer from './components/footer';
+import Eol from './components/eol';
 
 import { ProxyHandler, AuthRedirect } from './components/ascribe_routes/proxy_handler';
 
@@ -33,6 +34,10 @@ import { getLangText } from './utils/lang_utils';
 
 const COMMON_ROUTES = (
     <Route path='/' component={AscribeApp}>
+        <Route
+            path='eol'
+            component={Eol}
+            footer={Footer} />
         <Route
             path='login'
             component={ProxyHandler(AuthRedirect({to: '/collection', when: 'loggedIn'}))(LoginContainer)}

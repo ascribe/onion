@@ -2,6 +2,9 @@
 
 const languages = {
     'en-US': {
+        'EOL Title': 'End Of Life',
+        'EOL Text': 'As of September 8 2018, ascribe has been shut down.',
+        'EOL Action': 'Learn more',
         'ID': 'ID',
         'Actions': 'Actions',
         'Hide': 'Hide',
