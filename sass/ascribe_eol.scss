@@ -1,0 +1,13 @@
+$break-small: 764px;
+
+.ascribe-eol-wrapper {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 80%;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+
+    @media screen and (max-width: $break-small) {
+        width: 100%;
+    }
+}
